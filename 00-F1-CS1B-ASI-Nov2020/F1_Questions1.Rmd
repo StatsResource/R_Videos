@@ -1,0 +1,89 @@
+Use the ‘MotorClaims’
+(MotorClaims.csv)
+i)
+to
+answer
+the
+following
+questions:
+
+provided
+Fit Gamma distribution on the dataset provided by determining its scale and shape
+parameters. State clearly the distribution with the parameters.
+(8)
+Simulate 1000 values from the distribution obtained in question (i) and print the first
+six values. (Set seed to 100) (5)
+iii) Calculate the mean and variance of simulated values. (2)
+iv) Obtain a QQ plot for the simulations of 1000 values and a normal distribution. (4)
+v) Add a line to the above plot to show the true position of normal distribution. (2)
+vi) Comment on the shape of the distribution and how close it is to a normal distribution.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Solution 1:
+i)
+> claims <- read.csv("MotorClaims.csv")
+> mean = mean(claims$Claims)
+> mean
+[1] 18672.76
+> stddev = sd(claims$Claims)
+> variance = stddev ^ 2
+> variance
+[1] 161323921
+> lambda <- mean/variance
+> lambda
+[1] 0.000115747
+> alpha <- mean * lambda
+> alpha
+[1] 2.161316
+[1]
+[1]
+[2]
+[2]
+X ~ Gamma (2.16, 0.0001)
+[2]
+
+Exercise 2
+=========================================================================
+ii)
+
+```{r}
+> set.seed(100)
+> samples <- rgamma(1000,alpha,lambda)
+> head(samples,6)
+
+```
+[1] 9305.461 2125.292 25926.442 15685.099 18120.436
+8605.442
+[2]
+[1]
+[2]
+[5]
+iii)
+> mean(samples)
+[1] 18423.47
+> variance <- sd(samples) ^ 2
+> variance
+[1] 153958637
+
+
+
+Exercise 4
+=========================================================================
+iv)
+> qqnorm(samples)
+[4]
+
+
+Exercise 5
+=========================================================================
+v)
+> qqline(samples,col="red")
+[2]
+vi)
+Close to normal... (1 mark) in the middle values... (1 mark) .
+‘Banana-shaped’ indicates positively skewed... (1 mark) .
+[3]
+[24 Marks]
+

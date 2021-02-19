@@ -1,0 +1,43 @@
+
+An employee at a café has been trained to set the coffee machine so that an espresso
+coffee portion results in 2.0 grams of coffee being placed into a cup. Knowing that
+variations are expected, the employee pours eight portions and measures the amounts
+to be 1.95, 1.80, 2.10, 1.82, 1.75, 2.01, 1.83 and 1.90.
+The data can be entered into R using the following code:
+
+```{r}
+amounts=c(1.95,1.80,2.10,1.82,1.75,2.01,1.83,1.90)
+```
+
+(i) Calculate an 80% confidence interval for the mean size of espresso coffee
+portions.
+
+
+================================
+
+
+Part 1
+==============================================
+amounts = c(1.95, 1.80, 2.10, 1.82, 1.75, 2.01, 1.83, 1.90)
+(i) Use t.test():
+
+Part 1
+==============================================
+t.test(amounts,conf.level=0.80)
+From output:
+80 percent confidence interval: (1.836, 1.954)
+
+
+Part 2
+==============================================
+(ii) Comment on whether the mean portion of coffee is equal to 2.0 grams.
+
+
+Part 2
+==============================================
+(ii) The employee sees that value 2.0 is not in the interval and therefore a hypothesis of a 2
+gram portion would be rejected at the 20% level.
+
+[Total 6]
+Part (i) was well answered. In part (ii) most candidates correctly rejected the hypothesis,
+but many failed to state the level of the test.

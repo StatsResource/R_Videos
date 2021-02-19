@@ -1,0 +1,66 @@
+
+[Total 11]3
+A machine in a sweet factory fills bags of sweets to weigh 500 grams. The actual
+weight of the sweet bags is known to follow a Normal distribution. The sweet
+manufacturer believes that the machine is under-filling the sweet bags. A sample of
+10 sweet bags is taken and weighed, as summarised below.
+Bag
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Weight (grams) 474.11 512.01 493.64 495.03 518.13 486.03 494.48 501.76 498.83 503.02
+The data can be entered into R using the following code:
+weight=c(474.11,512.01,493.64,495.03,518.13,486.03,
+494.48,501.76,498.83,503.02)
+(i) Perform a suitable t-test to determine whether the sweet bags are being
+consistently under-filled, stating the hypotheses and the level of significance
+used in the test.
+
+(ii) Propose an interpretation of your conclusion in part (i).
+CS1B S2020–3
+Q3
+(i)
+# input the data
+weight =
+c(474.11,512.01,493.64,495.03,518.13,486.03,494.48,501.76,498.
+83,503.02)
+# run a one-sided t-test (as we are concerned with the one
+sided scenario of ‘under-filling’)
+The test has the null hypothesis that the mean sweet bag weight is equal to 500 grams, and
+the alternative hypothesis that the mean sweet bag weight is less than 500 grams.
+
+
+t.test(weight,mu=500,alternative="less")
+One Sample t-test
+data: weight
+t = -0.58321, df = 9, p-value = 0.287
+alternative hypothesis: true mean is less than 500
+95 percent confidence interval:
+-Inf 504.9207
+------------------------------------
+
+sample estimates:
+mean of x
+497.704
+
+The test has been performed at the 5% significance level. Since the p-value of 0.287 is not
+less than the significance level of 0.05, we cannot reject the null hypothesis.
+
+(ii)
+Since we cannot reject the null hypothesis that the mean sweet bag weight is 500 grams, in
+favour of the alternative that the mean sweet bag weight is less than 500 grams,
+
+there is insufficient evidence that the sweet bags are being under-filled.
+
+[Total 10]
+Part (i) was generally adequately answered, with common errors including an incorrect
+alternative hypothesis (i.e. not identifying mu < 500) and the t test often being inconsistent with
+stated alternative hypothesis. Answers in part (ii) were mixed. Candidates that gave part of the
+answer to (ii) in part (i), were given credit as appropriate.

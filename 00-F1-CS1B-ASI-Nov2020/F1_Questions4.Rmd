@@ -1,0 +1,153 @@
+Q. 4)
+If obese is defined to be BMI above 30, use binom.test to calculate 99% confidence
+interval for proportion of obese people and comment on the likelihood if more than
+20 pc are obese.
+Claim frequency can be calculated as claim count divided by number of policyholders.
+Test whether claim frequency is different between obese and others.
+(6)
+(6)
+[24]
+The CDC and EISS detect influenza activity through clinical data including Influenza-like
+Illness (ILI) physician visits on weekly basis. The objective of this question is to estimate
+influenza-like illness (ILI) activity using Google web search logs.
+The csv file FluTrain.csv aggregates this data from January 1, 2004 until December 31, 2011
+as follows:
+"Week" - The range of dates represented by this observation, in year/month/day format.
+"ILI" - This column lists the percentage of ILI-related physician visits for the corresponding
+week.
+"Queries" - This column lists the fraction of queries that are ILI-related for the corresponding
+week, adjusted to be between 0 and 1 (higher values correspond to more ILI-related search
+queries).
+i)
+Plot a histogram of the dependent variable, ILI. Comment on the shape of the
+distribution. (3)
+ii) Plot the natural logarithm of ILI versus Queries. What does the plot suggest? (4)
+iii) Fit a linear regression model for dependent variable log(ILI). Summarize it. (6)
+iv) State the formula of the model fitted in part (iii), explaining all the terms used. (3)
+v) Calculate R-squared and the correlation between the independent and dependent
+variable. What is the relationship between the two values? (5)
+Looking at the time period 2004-2011, which week corresponds to the highest
+percentage of ILI-related physician visits? (4)
+Based on the linear regression model fitted in question (iii), what is the estimate for
+the percentage of ILI-related physician visits for the week computed in question (vi)? (4)
+What is the relative error between the estimate (prediction calculated in question (vii))
+and the actual observed value for the week computed in question (vi)? (4)
+vi)
+vii)
+viii)
+[33]
+Page 3 of 3IAI
+CS1B–1120
+CS1B_BMIClaims
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS1B_BMIClaims.csv
+CS1B_FluTrain
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS1B_FluTrain.csv
+CS1B_MotorClaims
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS1B_MotorClaims.csv
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+
+[24 Marks]
+Page 5 of 8IAI
+Solution 4:
+CS1B-1120
+i)
+setwd("C:/Users/shrey/Downloads")
+FluTrain <- read.csv("FluTrain.csv")
+> str(FluTrain)
+'data.frame': 417 obs. of 3 variables:
+$ Week
+: Factor w/ 417 levels "2004-01-04 - 2004-01-10",..: 1 2 3 4 5 6 7 8 9 10 ..
+.
+$ ILI
+: num 2.42 1.81 1.71 1.54 1.44 ...
+$ Queries: num 0.238 0.22 0.226 0.238 0.224 ...
+hist(FluTrain$ILI)
+The data is positively skewed. Most of the ILI values are small, with a relatively small number of much larger values.
+[3]
+ii)
+plot(FluTrain$Queries,log(FluTrain$ILI))
+There is a positive linear relationship between log(ILI) and Queries.
+i.e. more the number of the Google search queries, higher the number of ILI-related physician visits.
+[4]
+Page 6 of 8IAI
+CS1B-1120
+iii)
+FluTrend1 = lm(log(ILI) ~ Queries, data = FluTrain)
+> summary (FluTrend1)
+[3]
+[1]
+Call:
+lm(formula = log(ILI) ~ Queries, data = FluTrain)
+Residuals:
+Min
+1Q
+Median
+-0.76003 -0.19696 -0.01657
+3Q
+0.18685
+Max
+1.06450
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.49934
+0.03041 -16.42
+<2e-16 ***
+Queries
+2.96129
+0.09312
+31.80
+<2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 0.2995 on 415 degrees of freedom
+Multiple R-squared: 0.709,
+Adjusted R-squared: 0.7083
+F-statistic: 1011 on 1 and 415 DF, p-value: < 2.2e-16
+[2]
+[6]
+iv)
+ln y = -0.49934 +2.96129x [2]
+where x is the google search queries and y is the percentage of ILI related physician visits. [1]
+[3]
+v)
+From the R output, R-squared value is 0.709. [1]
+correlation <- cor(FluTrain$Queries,log(FluTrain$ILI))
+> correlation
+[1] 0.8420333
+> correlation ^ 2
+[1] 0.7090201 [1]
+Hence, R-squared = Correlation ^ 2
+[1]
+[2]
+[5]
+vi)
+which.max(FluTrain$ILI)
+[1] 303
+> FluTrain$Week[303]
+[1] 2009-10-18 - 2009-10-24
+417 Levels: 2004-01-04 - 2004-01-10 2004-01-11 - 2004-01-17 ... 2011-12-25 - 2011-12-3
+1
+Week of 18 th October 2009 to 24 th October 2009 corresponds to the highest percentage of ILI-related physician visits.
+[4]
+vii)
+PredTest1 = exp(predict(FluTrend1,newdata = FluTrain))
+> PredTest1[303]
+303
+11.72765
+[2]
+[2]
+[4]
+Page 7 of 8IAI
+CS1B-1120
+viii)
+FluTrain$ILI[303]
+[1] 7.618892
+(7.618892-11.72765)/7.618892
+[1] -0.5392855
+[2]
+[2]
+[4]
+[33 Marks]
+***********************
+Page 8 of 8

@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+
+\large 
+\noindent
+
+5 A waiting time random variable X follows an Exponential distribution with rate l
+parameterised as f (x) = le–lx (x > 0, l > 0).
+The rate l has a Gamma prior distribution with parameters a and s. A Bayesian
+credibility model provides that the posterior mean of 1/l can be expressed as
+Z3x + (1– Z)3
+s
+α – 1
+, where Z = n
+α + n – 1
+with n being the number of past waiting times observed.
+Assume that the parameters of the prior Gamma distribution are a = 5 and s = 1.
+(i) Determine an estimate of the posterior mean of 1/l assuming n = 10 by
+implementing M = 3,000 Monte Carlo repetitions. [14]
+(ii) Determine an estimate of the posterior mean of 1/l and the value of x when
+n = 1,000, by implementing M = 3,000 Monte Carlo repetitions. [15]
+(iii) Plot the histograms of the samples of the posterior mean of 1/l and of x
+obtained in part (ii). [4]
+(iv) Compare, by visual inspection of the graphs in part (iii), the distributions
+of the posterior mean of 1/l and the distribution of x when n = 1,000. [2]
+(v) Comment on the behaviour of the credibility model as n increases, relating
+your answer to your findings in part (iv). [4]
+[Total 39]
+END OF PAPER

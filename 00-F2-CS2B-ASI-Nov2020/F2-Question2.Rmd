@@ -1,0 +1,152 @@
+Exercise 1
+==================================================================================
+i)
+Simulate a time series of length 200 observations in a line chart using the following R
+function and comment on stationarity. (Set a seed value of 100)
+arima.sim(list(order = c(1,1,1), ar = 0.7, ma = 0.3), n = 200)
+
+
+
+
+
+Exercise 1
+==================================================================================
+Solution 2:
+i)
+set.seed(100)
+observations<-arima.sim(list(order = c(1,1,1), ar = 0.7, ma = 0.3), n = 200)
+plot(observations, main = "Line chart of the time series observations")
+
+# The data is not stationary as we observe that the values are changing with time
+# Upward Trend is observed in the data, which indicates the data being non
+stationary
+# Mean and Standard Deviation are different at different points in time
+
+
+
+Exercise 2
+==================================================================================
+ii) Plot the auto correlation function and partial auto correlation function of the data if (i)
+is stationarity, otherwise take the first difference of the observations and plot the above
+graphs. Comment on the possible ARMA model based on the graphs. (5)
+
+
+Exercise 2
+==================================================================================
+ii)
+# As the data is not stationary, we take the first difference of the observations
+diff_obs<-diff(observations)
+acf(diff_obs)
+
+Page 3 of 11IAI
+CS2B-1120
+
+pacf(diff_obs)
+
+As both ACF and PACF are seen to have spikes only for the first two lags and they appear to tail off after that,
+ARMA(2,2) model appears to be the most appropriate model based on the ACF and PACF plots.
+
+
+
+Exercise 3
+==================================================================================
+
+iii) Fit AR(1), AR(2), MA(1) and ARMA(1,1) models to the observations from (ii) and
+comment on the best fitting model using AIC or any other metric. (7)
+
+
+
+Exercise 3
+==================================================================================
+arima(diff_obs,order = c(1,0,0))
+[2]
+Call:
+arima(x = diff_obs, order = c(1, 0, 0))
+Coefficients:
+ar1 intercept
+0.7070
+-0.0570
+s.e. 0.0498
+0.2284
+sigma^2 estimated as 0.9177:
+arima(diff_obs,order = c(2,0,0))
+log likelihood = -275.55,
+aic = 557.09
+
+Page 4 of 11IAI
+CS2B-1120
+Call:
+arima(x = diff_obs, order = c(2, 0, 0))
+Coefficients:
+ar1
+ar2
+0.8631 -0.2218
+s.e. 0.0688
+0.0693
+intercept
+-0.0593
+0.1831
+sigma^2 estimated as 0.8725:
+log likelihood = -270.55,
+aic = 549.1
+arima(diff_obs,order = c(0,0,1))
+
+Call:
+arima(x = diff_obs, order = c(0, 0, 1))
+Coefficients:
+ma1 intercept
+0.6436
+-0.0655
+s.e. 0.0434
+0.1194
+sigma^2 estimated as 1.06:
+log likelihood = -289.89,
+aic = 585.79
+arima(diff_obs,order = c(1,0,1))
+
+Call:
+arima(x = diff_obs, order = c(1, 0, 1))
+Coefficients:
+ar1
+ma1
+0.5877 0.2533
+s.e. 0.0754 0.0865
+intercept
+-0.0578
+0.2002
+sigma^2 estimated as 0.881:
+log likelihood = -271.5,
+aic = 550.99
+# AIC is appearing the least for AR(2) model. The same is being by PACF graph
+also.
+
+Exercise 4
+==================================================================================
+
+iv) Using the best fitted model from (iii) create a forecast of the observations for the next
+3 periods.
+
+
+
+Exercise 4
+==================================================================================
+
+
+```{r}
+model<-arima(diff_obs,order = c(2,0,0))
+predict(model,n.ahead = 3)
+```
+$`pred`
+Time Series:
+Start = 202
+End = 204
+Frequency = 1
+ -0.22671820 -0.05765193 -0.02073163
+$se
+Time Series:
+Start = 202
+End = 204
+Frequency = 1
+ 0.9340953 1.2338975 1.3271154
+[4]
+[22 Marks]

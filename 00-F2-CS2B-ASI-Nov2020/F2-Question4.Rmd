@@ -1,0 +1,175 @@
+Q. 4)
+(4)
+[30]
+Consider the data set ‘Covid_2019.csv’ (name it covid19) where the first row of the csv file
+contains the headings for the columns.
+
+
+Exercises
+===================================================================================================
+i)
+Print the number of missing values in each of the columns and create a new data set
+‘covid19_1’ by removing all the missing values.
+(4)
+From covid19_1, use the columns from Population Density (8th column) to Life Expectancy
+(17th column) to answer the following questions.
+ii) Create a new data frame “Covid_Cluster” containing only the above mentioned
+columns. Normalize all the columns of the data frame using the scale function. (3)
+iii) Classify the countries into five groups by using the values obtained from (ii) applying
+K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
+executing the algorithm. Print the number of countries in each cluster. 
+
+Exercises
+===================================================================================================
+iv) What proportion of total countries in each cluster are severe with respect to COVID-
+19? You can use the “Severe” column from the original dataset. (5)
+v) Print the total number of cases and total number of deaths for each cluster.
+
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_COVID_2019.csv
+CS2B_Mortality_Investigation
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
+
+===================================================================================================
+Solution 4:
+i)
+covid19 <- read.csv("/Covid_2019.csv")
+missingvalues<-sapply(covid19,FUN = function(x)sum(is.na(x)))
+missingvalues
+[2]
+> missingvalues
+Continent Country
+total_case
+0 0 total_deaths total_cases_per_million 0 0 population population_density median_ag
+0 11 2
+aged_65_older gdp_per_capita cardiovasc_death_rat
+27 27 2
+diabetes_prevalence female_smokers male_smoker
+17
+1
+hospital_beds_per_thousand
+e
+45
+0 69 7
+life_expectancy Sever
+s
+0
+total_deaths_per_millio
+n
+0
+e
+4
+e
+4
+s
+3
+covid19_1<-na.omit(covid19)
+
+
+Part 2
+====================================================================================
+ii)
+Covid_Cluster<-covid19_1[,c("population_density","median_age","aged_65_older","gdp_per_capita",
+"cardiovasc_death_rate","diabetes_prevalence","female_smokers",
+"male_smokers","hospital_beds_per_thousand","life_expectancy")]
+Covid_Cluster<-scale(Covid_Cluster)
+
+
+
+Part 3
+====================================================================================
+iii)
+Page 10 of 11IAI
+CS2B-1120
+set.seed(100)
+cluster1<-kmeans(Covid_Cluster,centers = 5)
+cluster1$size
+> cluster1$size
+ 21 28 26 21 30
+
+
+Part 4
+====================================================================================
+iv)
+
+```{r}
+covid19_1$cluster<-cluster1$cluster
+table(covid19_1$cluster,covid19_1$Severe)
+prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
+```
+> table(covid19_1$cluster,covid19_1$Severe)
+No Yes
+1 16
+5
+2 27
+1
+3 10 16
+4 15
+6
+5 15 15
+> prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
+1
+2
+3
+4
+5
+No
+0.76190476
+0.96428571
+0.38461538
+0.71428571
+0.50000000
+Yes
+0.23809524
+0.03571429
+0.61538462
+0.28571429
+0.50000000
+
+
+
+
+
+
+Part 5
+====================================================================================
+v)
+aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
+aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+> aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
+cluster total_cases
+1
+1
+1467904
+2
+2
+658083
+3
+3
+6589530
+4
+4
+1205188
+5
+5
+6799810
+> aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+cluster total_deaths
+1
+1
+34662
+2
+2
+10849
+3
+3
+317888
+4
+4
+30973
+5
+5
+228663
+
+[21 Marks]
+*****************************
+Page 11 of 11

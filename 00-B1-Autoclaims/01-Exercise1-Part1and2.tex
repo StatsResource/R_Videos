@@ -1,0 +1,234 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+\large
+# sessionInfo()
+### AutoClaims
+​
+library(readr)
+AutoClaims <- read_csv("AutoClaims.csv")
+​
+Parsed with column specification:
+cols(
+  STATE = col_character(),
+  CLASS = col_character(),
+  GENDER = col_character(),
+  AGE = col_double(),
+  PAID = col_double()
+)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+Exercise 1
+Prepare a table with mean, standard deviation and coefficient of variance (CV) of the claims paid
+
+for each STATE and identify the one with the least and the highest CV
+for each CLASS and sort the table in the ascending order of the CV
+
+Hint: Coefficient of Variance (CV) can be computed as the ratio of standard deviation to the mean.
+
+\medskip 
+Implementation using Base R:
+\begin{verbatim}
+state_mean<-aggregate(PAID~STATE,data = AutoClaims,FUN = mean)
+names(state_mean)<-c("State","Mean")
+\end{verbatim}
+
+​
+state_mean 
+A data.frame: 11 x 2
+State	Mean
+<chr>	<dbl>
+STATE 01	10235.800
+STATE 02	7055.078
+STATE 03	8714.932
+STATE 04	8152.759
+STATE 06	8786.739
+STATE 07	4960.479
+STATE 10	12340.643
+STATE 12	6893.705
+STATE 14	10399.313
+STATE 15	3321.449
+STATE 17	7886.282
+state_sd<-aggregate(PAID~STATE,data = AutoClaims,FUN = sd)
+names(state_sd)<-c("State","SD")
+​
+state_sd
+A data.frame: 11 x 2
+State	SD
+<chr>	<dbl>
+STATE 01	10932.877
+STATE 02	6327.473
+STATE 03	6494.346
+STATE 04	6985.210
+STATE 06	10749.517
+STATE 07	3065.092
+STATE 10	14599.291
+STATE 12	8634.955
+STATE 14	8406.388
+STATE 15	3364.269
+STATE 17	7831.913
+​
+state_summary<-merge(state_mean,state_sd)
+​
+state_summary
+state_summary$CV <- state_summary$SD / state_summary$Mean
+​
+#Mean, Standard Deviation and Coefficient of Variance for each state
+​
+state_summary
+​
+​
+The State with minimum coefficient of variance is
+​
+\begin{framed} \begin{verbatim}
+state_summary$State[state_summary$CV==min(state_summary$CV)]
+\end{verbatim} \end{framed}
+​
+​
+​
+The State with maximum coefficient of variance is
+​
+\begin{framed} \begin{verbatim}
+state_summary$State[state_summary$CV==max(state_summary$CV)]
+\end{verbatim} \end{framed}
+​
+The State with minimum coefficient of variance is
+​
+\begin{framed} \begin{verbatim}
+state_summary$State[state_summary$CV==min(state_summary$CV)]
+\end{verbatim} \end{framed}
+​
+​
+The State with maximum coefficient of variance is
+​
+\begin{framed} \begin{verbatim}
+state_summary$State[state_summary$CV==max(state_summary$CV)]
+\end{verbatim} \end{framed}
+​
+#### State Summarys (Tidyverse)
+​
+\begin{framed} \begin{verbatim}
+library(dplyr)
+library(magrittr)
+​
+state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
+                         summarize(Mean = mean(PAID),
+                                   SD   = sd(PAID))
+​
+\end{verbatim} \end{framed}
+\begin{framed} \begin{verbatim}
+head(state_summary_tidy)
+\end{verbatim} \end{framed}
+​
+\begin{framed} \begin{verbatim}
+state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
+                         summarize(Mean = mean(PAID),
+                                   SD   = sd(PAID)) %>%
+                         mutate(CV = Mean/SD) %>%
+                         arrange(CV)
+​
+\end{verbatim} \end{framed}  
+​
+​
+### Claims (Base R)
+​
+\begin{framed} \begin{verbatim}
+Class_mean<-aggregate(PAID~CLASS,data = AutoClaims,FUN = mean)
+names(Class_mean)<-c("Class","Mean")
+Class_sd<-aggregate(PAID~CLASS,data = AutoClaims,FUN = sd)
+names(Class_sd)<-c("Class","SD")
+Class_summary<-merge(Class_mean,Class_sd)
+Class_summary$CV<-Class_summary$SD/Class_summary$Mean
+#Mean, Standard Deviation and Coefficient of variance for each rating class
+Class_summary
+\end{verbatim} \end{framed}
+​
+​
+\begin{framed} \begin{verbatim}
+Class_summary[order(Class_summary$CV),]
+\end{verbatim} \end{framed}
+​
+\begin{framed} \begin{verbatim}
+Class_summary_tidy <- AutoClaims %>% group_by(CLASS) %>%
+                         summarize(Mean = mean(PAID),
+                                   SD   = sd(PAID)) %>%
+                         mutate(CV = Mean/SD) %>%
+                         arrange(CV)
+​
+\end{verbatim} \end{framed}  
+​
+\begin{framed} \begin{verbatim}
+Class_summary_tidy
+\end{verbatim} \end{framed}
+​
+​
+​
+Class_mean<-aggregate(PAID~CLASS,data = AutoClaims,FUN = mean)
+names(Class_mean)<-c("Class","Mean")
+Class_sd<-aggregate(PAID~CLASS,data = AutoClaims,FUN = sd)
+names(Class_sd)<-c("Class","SD")
+Class_summary<-merge(Class_mean,Class_sd)
+Class_summary$CV<-Class_summary$SD/Class_summary$Mean
+#Mean, Standard Deviation and Coefficient of variance for each rating class
+Class_summary
+​
+\begin{framed} \begin{verbatim}
+Class_summary[order(Class_summary$CV),]
+\end{verbatim} \end{framed}
+​
+​
+Exercise 2
+By using a box plot, identify the STATE(s) and CLASS(es) which have no outlier values in terms of the claims paid.
+
+options(repr.plot.width=12, repr.plot.height=8)
+​
+boxplot(PAID~STATE,data = AutoClaims)
+​
+
+States with no outliers are State 14.
+
+boxplot(PAID~CLASS,data = AutoClaims)
+​
+
+Class with no outlier is C11.
+
+​
+library(ggplot2)
+​
+p <- ggplot(data=AutoClaims,aes(x=STATE,y=PAID)) + geom_boxplot()
+​
+p
+​
+
+​
+p <- ggplot(data=AutoClaims,aes(x=CLASS,y=PAID)) + geom_boxplot() 
+​
+p + theme_bw()
+​
+​
+
+​

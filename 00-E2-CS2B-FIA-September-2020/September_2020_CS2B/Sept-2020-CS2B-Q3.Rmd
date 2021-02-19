@@ -1,0 +1,217 @@
+3
+An analyst is investigating a life insurance portfolio data set that comprises two
+variables, x1 and x2, for 200 policyholders. The analyst is exploring whether the 200
+policyholders can be divided into two clusters (labelled A and B) based on the two
+variables, x1 and x2.
+Before answering this question, generate the data set, portfolio, in R using the
+following code:
+```{r}
+set.seed(2019);
+portfolio = data.frame(x1=rnorm(200,3,1),
+x2=scale(c(rnorm(70,4,1), rnorm(130,10,1))))
+```
+
+In the first stage of the investigation, the analyst decides to assign the first 100
+policyholders in the data set to cluster A, and the remaining policyholders to cluster B.
+
+(i) Construct a new column in the data set, portfolio, called group_label_stage1,
+containing the policyholder cluster labels, defined above.
+
+(ii) Determine the coordinates (x1 A , x2 A ) of the centre of cluster A and the
+coordinates (x1 B , x2 B ) of the centre of cluster B.
+
+(iii) Construct a new column in the data set, portfolio, called dist_A containing the
+Euclidean distances between the policyholders and the centre of cluster A. 
+
+(iv) Construct a new column in the data set, portfolio, called dist_B containing the
+Euclidean distances between the policyholders and the centre of cluster B. 
+
+
+==============================================================================
+
+3
+(i) portfolio$group_label_stage1 <- c(rep("A", length=100),
+rep("B", length=100))
+
+(ii) x1_A <- mean(portfolio$x1[portfolio$group_label_stage1
+"A"]); x1_A
+ 2.926666
+x2_A <- mean(portfolio$x2[portfolio$group_label_stage1
+"A"]); x2_A
+ -0.7054048
+x1_B <- mean(portfolio$x1[portfolio$group_label_stage1
+"B"]); x1_B
+ 2.829781
+x2_B <- mean(portfolio$x2[portfolio$group_label_stage1
+"B"]); x2_B
+ 0.7054048
+==
+==
+==
+==
+OR:
+model1 = kmeans(portfolio[1:100,1:2],1)
+model1$centers
+x1
+x2
+1 2.926666 -0.7054048
+x1_A <- model1$centers[1,1]; x1_A
+ 2.926666
+x2_A <- model1$centers[1,2]; x2_A
+ -0.7054048
+model2 = kmeans(portfolio[101:200,1:2],1)
+model2$centers
+x1
+x2
+1 2.829781 0.7054048
+x1_B <- model2$centers[1,1]; x1_B
+ 2.829781
+x2_B <- model2$centers[1,2]; x2_B
+ 0.7054048
+
+Therefore:
+the coordinates of the centre of cluster “A”, (x1_A, x2_A) = (2.926666, -0.7054048)
+
+and:
+the coordinates of the centre of cluster “B”, (x1_B, x2_B) = (2.829781, 0.7054048)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The analyst decides to update the cluster labels by assigning to each policyholder the
+label of the cluster whose centre is nearest, according to the distances calculated in
+parts (iii) and (iv).
+(v) Construct a new column in the data set, portfolio, called group_label_stage2,
+containing the updated policyholder cluster labels, defined above.
+
+(vi) Generate a 2x2 matrix showing the number of policyholders with each
+possible combination of values of group_label_stage1 and
+group_label_stage2.
+(vii)
+
+Comment on the matrix generated in part (vi) with reference to how the cluster
+labels have changed between group_label_stage1 and group_label_stage2. 
+(viii) Plot the column, x1, of data set, portfolio, against column, x2, (with x1 on the
+x-axis and x2 on the y-axis), using two distinct colours to identify clusters A
+and B according to the label, group_label_stage2.
+
+The analyst decides to stop at this stage and to report group_label_stage2 as the final
+set of cluster labels.
+(ix)
+Comment on this decision.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(iii)
+(iv)
+(v)
+(vi)
+portfolio$dist_A <- sqrt((portfolio$x1 - x1_A)^2 +
+(portfolio$x2 - x2_A)^2) 
+portfolio$dist_B <- sqrt((portfolio$x1 - x1_B)^2 +
+(portfolio$x2 - x2_B)^2) 
+portfolio$group_label_stage2 <- rep("A", 200)
+portfolio$group_label_stage2[portfolio$dist_B <
+portfolio$dist_A] <- "B" 
+table(portfolio$group_label_stage1,
+portfolio$group_label_stage2)
+A B
+A 70 30
+B 3 97
+(vii)
+
+There are 70 policyholders whose cluster labels were originally assigned to “A” in the
+first stage of the investigation which remained unchanged after the update.
+
+There are 97 policyholders whose cluster labels were originally assigned to “B” in the
+first stage of the investigation which remained unchanged after the update.
+
+However, the labels of 30 policyholders were updated from “A” to “B”... 
+...whereas, the labels of 3 policyholders were updated from “B” to “A”. 
+(viii) col_vec <- rep("blue", 200)
+col_vec[portfolio$group_label_stage2=="B"] <- "red"
+
+
+
+portfolio$x1,
+
+portfolio$x2,
+
+main="Plot of x1 against x2 with group_label_stage2
+policyholder cluster labels",
+
+col=col_vec)
+
+plot(
+legend("topright", legend=c("group A", "group B"),
+col=c("blue", "red"), pch=1)
+
+
+
+(ix)
+The graph in part (viii) shows that the analyst was able to reasonably identify two sets
+of clusters.
+
+However, the analyst did not check the convergence of the clustering algorithm... 
+... although, inspection of the table might suggest that the clusters are unlikely to
+change much.
+
+The top three group A policyholders might possibly be better assigned to group B. 
+The analyst could potentially improve the results by updating the centres of the
+clusters, re-calculating the distances, updating the labels and repeating this process
+until convergence (i.e. until the labels remain constant).
+OR:
+The analyst could implement the full kmeans algorithm to ensure convergence of the
+final clusters.
+
+The analyst may want to apply feature scaling / data normalisation to the values of
+x_1 and x_2 so that each of them contributes approximately proportionately to the
+Euclidean distances and then re-run the analysis.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+Part (i) was well answered. Candidates used a variety of different methods to populate
+the new group_label_stage1 column and all valid methods received full marks. Some
+candidates lost marks for not using the correct dataframe name or column name and also
+for not using A and B as cluster labels. Candidates are reminded of the need to read the
+question carefully.
+Part (ii) was poorly answered with many candidates losing marks for using the kmeans
+function on all 200 policyholders together to derive the coordinates of the centres of the
+converged set of clusters A and B. Additionally, some candidates lost marks for not
+including the R output and/or not separately stating the cluster centre coordinates in their
+answer scripts.
+Answers to parts (iii) and (iv) were mixed. A common mistake for candidates who had
+used the kmeans function in part (ii) to derive the converged set of clusters was to
+misinterpret the kmeans output and populate the coordinates of the cluster centres
+incorrectly. Additionally, some candidates lost marks for not using the correct column
+names specified in the question.
+Part (v) was poorly answered with many candidates getting stuck here and not proceeding
+with later parts of the question. Some candidates lost marks for not using the correct
+column name and also for not using A and B as cluster labels. In many cases, candidates
+lost marks for using the value of the shortest Euclidean distance to populate the
+group_label_stage2 column.
+Part (vi) was very poorly answered. This was mainly due to many candidates getting
+stuck in part (v). Candidates are reminded that, in such circumstances, the best approach
+is to provide a “dummy” answer and carry on with the remaining parts of the question to
+receive carry forward credit. Candidates did not lose marks for not including the R output
+as the command verb in this question was “Generate”. Candidates also did not lose
+marks for generating the transpose of the table. Additionally, candidates who generated a
+matrix object with the correct entries did not lose marks.
+Again part (vii) was extremely poorly answered. Some candidates lost marks for
+misinterpreting the table generated in part (vi).
+Part (viii) was also very poorly answered. Candidates lost marks for not adding an
+appropriate title to the graph. The minimum requirement for an appropriate title was that
+it needed to refer to the stage 2 cluster labels. The default axes labels were deemed
+appropriate in this case. Candidates also lost marks for not adding an appropriate legend
+to the graph although candidates who manually added an appropriate legend next to the
+graph did not lose marks. Additionally, some candidates lost marks for not including
+either the R code or the graph in their answer scripts.
+Again part (ix) was extremely poorly answered. Candidates who commented on exploring
+an alternative number of clusters did not receive credit as the question is specifically
+about dividing the policyholders into two clusters. Candidates who used the kmeans
+function to derive the converged set of clusters in part (ii) and who stated that the
+analyst’s decision is reasonable because the use of the kmeans algorithm has resulted in a
+converged set of clusters, were awarded significant credit.
+
+
+END OF EXAMINERS’ REPORT
+
+©

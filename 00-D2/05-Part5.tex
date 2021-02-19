@@ -1,0 +1,123 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+
+```R
+Q. 5)
+(5)
+(7)
+[12]
+Signals are mathematically represented by a function that takes into account the magnitude
+and frequency.
+x t = A cos(2πωt + φ) + w t , where ω is equal to 1/50 and w t is the white noise with mean
+zero and SD of 5. A and φ need to be estimated.
+In this case the parameters appear in a nonlinear way, so we use a trigonometric identity
+and write
+A cos(2πωt + φ) = A cos(φ) cos(2πωt) - A sin(φ) sin(2πωt),
+= β 1 cos(2πωt) + β 2 sin(2πωt),
+= β 1 *z1 + β 2 *z2
+If we can estimate β 1 and β 2 , then A and φ can be estimated.
+Therefore, x t = β 1 cos(2πωt) + β 2 sin(2πωt) + w t
+i)
+Simulate and plot a series x t , using A=2, φ = 0.6π and SD of white noise as 5 (for t= 1
+to 1000).
+ii) Generate two series z1 and z2 (for t= 1 to 1000). (3)
+iii) Fit a Linear model to between x t , z1 and z2 and estimate parameters β1, β2 , A and φ. (7)
+iv) Plot x, fitted line.
+```
+
+
+```R
+
+
+
+Solution 5:
+i)
+set.seed(90210) # so you can reproduce these results
+x = 2*cos(2*pi*1:1000/50 + .6*pi) + rnorm(1000,0,5)
+plot.ts(x)
+
+ii)
+z1 = cos(2*pi*1:1000/50)
+z2 = sin(2*pi*1:1000/50)
+
+```
+
+
+```R
+
+
+
+iii)
+summary(fit <- lm(x~0+z1+z2)) # zero to exclude the intercept
+> summary(fit <- lm(x~0+z1+z2)) # zero to exclude the intercept
+Call:
+lm(formula = x ~ 0 + z1 + z2)
+Residuals:
+Min
+1Q
+-16.0671 -3.9817
+Median
+-0.4643
+3Q
+3.0976
+Max
+15.7080
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)
+z1 -0.6784
+0.2278 -2.978 0.00297 **
+z2 -2.2071
+0.2278 -9.690 < 2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 5.093 on 998 degrees of freedom
+Page 7 of 11IAI
+Multiple R-squared: 0.09336, Adjusted R-squared: 0.09154
+F-statistic: 51.38 on 2 and 998 DF, p-value: < 2.2e-16
+```
+
+
+```R
+
+
+[4]
+beta1 = -0.6784
+beta2 = -2.2071
+phi = atan(-beta2/beta1)
+phi
+A = beta1/cos(phi)
+A
+> phi
+ -1.27259
+> A
+ -2.309008
+iv)
+plot.ts(x, col=8, ylab=expression(hat(x)))
+lines(fitted(fit), col=2)
+
+```

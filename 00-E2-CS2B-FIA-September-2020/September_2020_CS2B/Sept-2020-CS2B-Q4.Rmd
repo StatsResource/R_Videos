@@ -1,0 +1,207 @@
+
+[Total 10]4
+Data were collected on average alcohol and cigarette consumption per adult per year
+for a number of countries. The data are given in the file smoking_data.RData
+and contain the following information:
+country: the country concerned;
+alcohol: alcohol consumption per adult per year (litres/year);
+cigarettes: number of cigarettes consumed per adult per year.
+(i)
+(a)
+(b)
+(ii)
+Construct a scatterplot of the data with alcohol consumption on the
+x axis.
+Comment on the relationship between the data on alcohol and cigarette
+consumption based on your plot in part (i)(a).
+
+Calculate Pearson’s correlation coefficient between the data on alcohol and
+cigarette consumption.
+
+An analyst suggests using the following R code to modify the data:
+```{r}
+alcohol.2 = alcohol[-c(6,16)]
+cigarettes.2 = cigarettes[-c(6,16)]
+```
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+(i) (a)
+
+```{r}
+load("smoking_data.RData")
+plot(alcohol, cigarettes, pch = 19, main="Alcohol versus
+Cigarettes",
+xlab = "Alcohol per adult (litres/year)",
+ylab = "Cigarettes per adult per year")
+```
+
+
+(b) There is a moderate positive association between average alcohol consumption
+and average cigarette consumption.
+
+The overall shape of the scatterplot is roughly linear
+
+with the exception of two points that indicate higher average cigarette consumption
+relative to alcohol consumption than the other countries in this sample.
+
+(ii) r1 = cor(alcohol, cigarettes, method="pearson")
+Pearson’s sample correlation coefficient is equal to 0.485.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+(iii)
+Explain what the above code does and give a justification for its use.
+
+For the remainder of the question, use the modified data
+(alcohol.2, cigarettes.2), as produced by applying the R
+code above.
+(iv)
+(a)
+Construct a scatterplot with alcohol consumption on the x axis.
+(b)
+Calculate Pearson’s correlation coefficient between the new data on
+alcohol and cigarette consumption.
+(c)
+Comment on your answers in parts (ii) and (iv)(b).
+[6]
+(v)
+Perform a hypothesis test for the null hypothesis that Pearson’s population
+correlation coefficient is equal to zero, against the alternative that it is positive.
+You should report the p-value of the test and a clear conclusion.
+
+A media bulletin has reported that ‘ ‘' h‘igher alcohol consumption causes higher
+cigarette consumption ’ .
+(vi)
+Comment on whether this report is justified based on your analysis in parts (iv)
+and (v).
+
+CS1B S2020–4(vii)
+(viii)
+(ix)
+(x)
+
+
+Perform a simple linear regression analysis on the new data using a
+model of the form y = α + βx + ε (cigarette consumption, y, on alcohol
+consumption, x), where the error terms ε independently follow a
+N(0, s 2 ) distribution.
+		Your answer should show the fitted line plotted on the data scatterplot
+and report the estimate of parameter s. 
+State the proportion of the total variability of the responses explained
+by the model, based on your output in part (vii). 
+Plot a graph of the residuals of the model fitted in part (vii)
+against the explanatory variable. 
+Comment on the validity of the model, based on your output in
+part (ix) .
+
+
+
+Q4
+
+
+(iii)
+alcohol.2 = alcohol[-c(6,16)]
+cigarettes.2 = cigarettes[-c(6,16)]
+The code removes the data in the 6 th and 16 th element of the data vectors.
+
+These correspond to the two countries that produce the largest deviations from the overall
+pattern of the plot (outliers): Greece (10.4, 8.3) and USA (4.7, 4.9).
+
+(iv) (a)
+plot(alcohol.2, cigarettes.2, pch = 19, main="Alcohol
+versus Cigarettes
+(GR,
+USA omitted)", xlab = "Alcohol per adult
+(litres/year)", ylab =
+------------------------------------
+
+"Cigarettes per adult per year")
+
+(b) r2 = cor(alcohol.2, cigarettes.2, method="pearson")
+Pearson’s sample correlation coefficient is now equal to 0.862.
+
+
+(c) The correlation coefficient increases when we remove the two countries producing
+large deviations
+
+because the remaining observations follow a fairly strong linear pattern.
+
+(v) The R code is
+cor.test(alcohol.2, cigarettes.2, method = "pearson",
+alternative = "greater")
+
+The p-value is equal to 3.738 × 10 −5 , showing very strong evidence against the null
+hypothesis. We reject that Pearson’s correlation coefficient is equal to zero, in favour of
+the alternative that it is positive.
+
+(vi) Although the analysis suggests statistical association, we have not shown causation here.
+So the report is not accurate.
+
+(vii)
+(a) The R code is
+m1 = lm(cigarettes.2 ~ alcohol.2)
+summary(m1)
+------------------------------------
+
+
+R Output:
+Call:
+lm(formula = cigarettes.2 ~ alcohol.2)
+Residuals:
+Min
+1Q
+Median
+-1.04695 -0.41333 -0.01515
+3Q
+0.48439
+Max
+0.91801
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.29845
+0.75715 -0.394
+0.7
+alcohol.2
+0.42207
+0.07178
+5.880 7.48e-05 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 0.6288 on 12 degrees of freedom
+Multiple R-squared: 0.7424,
+Adjusted R-squared: 0.7209
+F-statistic: 34.58 on 1 and 12 DF, p-value: 7.476e-05
+Draw the fitted line:
+abline(m1)
+
+
+From the R output the estimate of parameter σσ is 0.6288.
+
+(viii) From the R output the proportion of the total variability of the responses explained by
+the model is 0.7424.
+
+(ix) R code:
+------------------------------------
+
+plot(alcohol.2,residuals(m1), main="Residuals plot (GR,
+USA omitted)", xlab = "Alcohol per adult (litres/year)",
+ylab = "Residuals")
+
+(x) The mean of the errors seems to be close to zero,
+but their variance increases with x.
+This suggests that the assumed model may not be appropriate.
+
+
+
+[Total 34]
+Part (i) was well answered. A number of candidates did not provide appropriate or adequate
+comments on the linearity of the plot. Parts (ii), (iii) and (iv) were generally well answered. In
+part (v) many candidates did not mention the strength of the evidence against the null
+hypothesis, while a few performed a 2-sided test. In part (vi) a number of candidates
+erroneously indicated that correlation implies causation. Part (vii) was reasonably well
+answered, while in part (viii) some candidates quoted the adjusted R-squared. Parts (ix) and
+(x) were poorly answered with several incorrect plots given and a number of candidates not
+attempting these parts.
+------------------------------------

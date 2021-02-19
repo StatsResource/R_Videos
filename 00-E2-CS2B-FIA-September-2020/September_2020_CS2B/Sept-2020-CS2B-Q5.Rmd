@@ -1,0 +1,125 @@
+
+
+
+A waiting time random variable X follows an Exponential distribution with rate l
+parameterised as f (x) = le –lx (x > 0, l > 0).
+The rate l has a Gamma prior distribution with parameters a and s. A Bayesian
+credibility model provides that the posterior mean of 1/l can be expressed as
+Z 3 x + (1– Z )3
+s
+n
+, where Z =
+α – 1
+α + n – 1
+with n being the number of past waiting times observed.
+Assume that the parameters of the prior Gamma distribution are a = 5 and s = 1.
+
+Exercises
+=======================================================================================
+(i)
+Determine an estimate of the posterior mean of 1/l assuming n = 10 by
+implementing M = 3,000 Monte Carlo repetitions.
+[14]
+(ii) Determine an estimate of the posterior mean of 1/l and the value of x when
+n = 1,000, by implementing M = 3,000 Monte Carlo repetitions.
+
+(iii) Plot the histograms of the samples of the posterior mean of 1/l and of x
+obtained in part (ii). 
+Compare, by visual inspection of the graphs in part (iii), the distributions
+of the posterior mean of 1/l and the distribution of x when n = 1,000. 
+(iv)
+(v)
+Comment on the behaviour of the credibility model as n increases, relating
+your answer to your findings in part (iv).
+
+Exercise 1
+=================================================================================
+
+Q5
+(i)
+#
+#
+#
+#
+#
+#
+M = 3000
+n = 10
+alpha = 5
+s = 1
+pml = numeric(M)
+OR # rep(0,M)
+
+
+
+
+
+
+# Z = n/(alpha + n - 1)
+# for (i in 1:M){
+#
+lam = rgamma(1, alpha, s)
+#
+x = rexp(n, lam)
+#
+pml[i] = Z*sum(x)/n + (1-Z)*s/(alpha-1)
+# }
+A point estimate is given as the mean of the produced estimates, i.e.
+#mean(pml) 
+which gives 0.248. 
+
+Exercise 2
+=================================================================================
+(ii)
+This time we use the same code as in (i) but we are recording the mean of xx for the case nn =
+1000.
+M = 3000
+n = 1000
+alpha = 5
+s = 1
+pml = numeric(M)
+mx = numeric(M)
+Z = n/(alpha + n - 1)
+for (i in 1:M){
+lam = rgamma(1, alpha, s)
+x = rexp(n, lam)
+mx[i] = mean(x)
+pml[i] = Z*sum(x)/n + (1-Z)*s/(alpha-1)
+------------------------------------
+
+}
+mean(pml)
+mean(mx)
+With this new run, both estimates are equal to 0.245.
+[15]
+(iii)
+hist(pml, main = "Histogram of posterior means",
+xlab = "Posterior means")
+hist(mx, main ="Histogram of the distribution of the means of x",
+xlab = "mean of x")
+
+
+Exercise 4
+=================================================================================
+(iv)
+The distributions look identical.
+
+
+
+Exercise 5
+=================================================================================
+(v)
+We should expect that the distributions are the same,
+
+since the credibility factor ZZ tends to 1 as nn increases and therefore the posterior mean of 1 ⁄ λλ
+becomes xx̅ .
+
+------------------------------------
+
+Parts (i) and (ii) were reasonably well answered. Typical errors included credibility premium
+formula errors, sampling from wrong distributions and use of incorrect parameters. Part (iii)
+was generally well answered. Answers in parts (iv) and (v) were mixed, with some comments
+not being very clear.
+END OF EXAMINERS’ REPORT
+------------------------------------
+©

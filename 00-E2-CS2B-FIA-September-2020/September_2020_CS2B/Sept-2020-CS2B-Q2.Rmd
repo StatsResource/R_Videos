@@ -1,0 +1,120 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Before answering this question, generate the vector, X, in R using the following code:
+
+```{r}
+set.seed(1027); X = rexp(n=1000, rate=0.01)
+```
+
+The vector X represents the gross claim sizes of 1,000 claims. The payments are to be
+split between an insurance company and its reinsurer under an Excess of Loss
+reinsurance arrangement with a retention level M = 400.
+
+(i) Determine the proportion of the claims that are fully covered by the insurer.
+
+(ii) Generate an additional vector, Y, which is of the same length as X, such that Y
+represents the amounts to be paid by the insurer for each component of X. 
+
+(iii) Generate an additional vector, Z, which is of the same length as X, such that Z
+represents the amounts to be paid by the reinsurer for each component of X.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+2
+(i)
+length(X[X<=400])/1000
+ 0.987
+OR:
+sum(X<=400)/1000
+ 0.987
+
+Therefore, the proportion of claims that are fully covered by the insurer = 98.7% 
+(ii)
+(iii)
+M = 400
+Y = pmin(X, M)
+
+Z = pmax(0, X-M)
+OR:
+
+Z = X-Y
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+An actuary assumes that the underlying gross claims distribution follows an
+exponential distribution of some unknown rate λ. The actuary needs to estimate λ
+using only the claim amounts recorded in vector Y.
+(iv) Construct R code that calculates the log-likelihood, as a function of the
+parameter λ, given the claim amounts data in vector Y.
+(v) Determine the value of λ at which the log-likelihood function reaches its
+maximum.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+(iv)
+S = sum(X[X<=400])
+logLik = function(lambda){
+-5200 * lambda
++ 987 * log(lambda)
+- lambda * S
+}
+OR:
+S = sum(Y)
+logLik = function(lambda){
+987 * log(lambda)
+- lambda * S
+}
+OR:
+nz = length(Y[Y==M])
+Y_exc_M = Y[Y<M]
+flnL = function(parameter){
+nz*pexp(M, rate=parameter, lower.tail=FALSE,
+log.p=TRUE)+
+sum(dexp(Y_exc_M, rate=parameter, log=TRUE))
+}
+
+
+(v)
+987 / (5200 + sum(X[X<=400]))
+ 0.01023176
+[51⁄2]
+Hence, the maximum likelihood estimate of lambda = 0.01023176.
+
+OR:
+nlm(f = function(x) - logLik(x), p = 0.01)$estimate
+ 0.01023209
+[51⁄2]
+Hence, the maximum likelihood estimate of lambda = 0.01023209.
+
+OR:
+nlm(f = function(x) - flnL(x), p = 0.01)$estimate
+ 0.01023209
+Hence, the maximum likelihood estimate of lambda = 0.01023209.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Part (i) was well-answered. However, some candidates lost marks because they either
+calculated the number of claims that were covered by the insurer or because they
+calculated the proportion of claims covered by the reinsurer instead. Additionally, some
+candidates lost marks for not including the R output and/or not separately stating the
+proportion of claims covered in their answer scripts.
+Parts (ii) and (iii) were very well-answered. However some candidates lost marks
+because they did not define M in the R code that they provided in their answer scripts.
+Answers to part (iv) were mixed. Candidates who constructed a negative log-likelihood
+function did not lose marks provided that they allowed for the correct treatment of this
+function in part (v). A very common mistake was for candidates to construct the
+uncensored likelihood function rather than the censored likelihood function e.g.
+candidates used Y in the dexp function in the third alternative solution rather than
+Y_exc_M and omitted the first term in the flnL function.
+Part (v) was well-answered. Candidates did not lose marks for using different starting
+estimates of p in the second and third alternative solutions provided that the estimate was
+reasonable. Candidates who constructed a negative log-likelihood function in part (iv)
+did not lose marks provided that they treated this correctly here. Some candidates lost
+marks for not including the R output and/or not separately stating the maximum likelihood
+estimate in their answer scripts.
+

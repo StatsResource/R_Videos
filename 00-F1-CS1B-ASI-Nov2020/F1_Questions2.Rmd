@@ -1,0 +1,277 @@
+[24]
+The dataset ‘mtcars’ (built into R) consists of data on various models of car, taken from an American motoring magazine (1974 Motor Trend magazine). 
+For each car, there are certain features expressed in varying units.
+
+Exercises
+===============================================
+Q. 2)
+dataset
+Load the ‘mtcars’ dataset which is built into R. How many observations and variables
+are there in this dataset? Your answer should include the R output. (4)
+Identify the categorical variables from the dataset ‘mtcars’ and create a dataset
+excluding the categorical variables. (5)
+How many observations and variables are there in the new dataset? Your answer
+should include the R output. (2)
+Carry out a principal component analysis on the new dataset of mtcars by passing two
+arguments, ‘center’ and ‘scale’ to be TRUE. Your answer should include a summary
+of the principal component analysis. (5)
+How many components of the reduced data should be retained using the output
+derived in question (iv)? Also state the reason for the same.
+
+
+
+Solution 2:
+i)
+data("mtcars")
+> str(mtcars)
+'data.frame': 32 obs. of 11 variables:
+$ mpg : num 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+$ cyl : num 6 6 4 6 8 6 8 4 4 6 ...
+$ disp: num 160 160 108 258 360 ...
+$ hp : num 110 110 93 110 175 105 245 62 95 123 ...
+$ drat: num 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+$ wt : num 2.62 2.88 2.32 3.21 3.44 ...
+$ qsec: num 16.5 17 18.6 19.4 17 ...
+$ vs : num 0 0 1 1 0 1 0 1 1 1 ...
+$ am : num 1 1 1 0 0 0 0 0 0 0 ...
+$ gear: num 4 4 4 3 3 3 3 4 4 4 ...
+$ carb: num 4 4 1 1 2 1 4 2 2 4 ...
+There are 32 observations (car models) and 11 variables (car features) in the dataset.
+[4]
+ii)
+summary(mtcars)
+mpg
+Min.
+:10.40
+1st Qu.:15.43
+Median :19.20
+Mean
+:20.09
+3rd Qu.:22.80
+Max.
+:33.90
+wt
+Min.
+:1.513
+1st Qu.:2.581
+Median :3.325
+Mean
+:3.217
+3rd Qu.:3.610
+cyl
+Min.
+:4.000
+1st Qu.:4.000
+Median :6.000
+Mean
+:6.188
+3rd Qu.:8.000
+Max.
+:8.000
+qsec
+Min.
+:14.50
+1st Qu.:16.89
+Median :17.71
+Mean
+:17.85
+3rd Qu.:18.90
+disp
+Min.
+: 71.1
+1st Qu.:120.8
+Median :196.3
+Mean
+:230.7
+3rd Qu.:326.0
+Max.
+:472.0
+vs
+Min.
+:0.0000
+1st Qu.:0.0000
+Median :0.0000
+Mean
+:0.4375
+3rd Qu.:1.0000
+hp
+Min.
+: 52.0
+1st Qu.: 96.5
+Median :123.0
+Mean
+:146.7
+3rd Qu.:180.0
+Max.
+:335.0
+am
+Min.
+:0.0000
+1st Qu.:0.0000
+Median :0.0000
+Mean
+:0.4062
+3rd Qu.:1.0000
+drat
+Min.
+:2.760
+1st Qu.:3.080
+Median :3.695
+Mean
+:3.597
+3rd Qu.:3.920
+Max.
+:4.930
+gear
+Min.
+:3.000
+1st Qu.:3.000
+Median :4.000
+Mean
+:3.688
+3rd Qu.:4.000
+Page 3 of 8IAI
+Max.
+:5.424
+carb
+Min.
+:1.000
+1st Qu.:2.000
+Median :2.000
+Mean
+:2.812
+3rd Qu.:4.000
+Max.
+:8.000
+Max.
+:22.90
+Max.
+:1.0000
+Max.
+:1.0000
+Max.
+CS1B-1120
+:5.000
+The two variables ‘vs’ and ‘am’ are categorical variables. (This can be identified using str or summary function)
+mtcars1 <- mtcars[,c(1:7,10,11)]
+[5]
+iii)
+> str(mtcars1)
+'data.frame': 32 obs. of 9 variables:
+$ mpg : num 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+$ cyl : num 6 6 4 6 8 6 8 4 4 6 ...
+$ disp: num 160 160 108 258 360 ...
+$ hp : num 110 110 93 110 175 105 245 62 95 123 ...
+$ drat: num 3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+$ wt : num 2.62 2.88 2.32 3.21 3.44 ...
+$ qsec: num 16.5 17 18.6 19.4 17 ...
+$ gear: num 4 4 4 3 3 3 3 4 4 4 ...
+$ carb: num 4 4 1 1 2 1 4 2 2 4 ...
+There are 32 observations (car models) and 9 variables (car features) in the dataset.
+iv)
+mtcars1.pca <- prcomp(mtcars1,center = TRUE,scale=TRUE)
+> summary(mtcars1.pca)
+Importance of components:
+PC1 PC2
+Standard deviation
+PC3
+PC4
+PC5
+PC6
+PC7 PC8
+[2]
+[2]
+[1]
+PC9
+2.3782 1.4429 0.71008 0.51481 0.42797 0.35184 0.32413 0.2419 0.14896
+Proportion of Variance 0.6284 0.2313 0.05602 0.02945 0.02035 0.01375 0.01167 0.0065 0.00247
+Cumulative Proportion 0.6284 0.8598 0.91581 0.94525 0.96560 0.97936 0.99103 0.9975 1.00000
+[2]
+[5]
+v)
+The R analysis shows that the proportion of variance explained by first three principal components is 91.5% and by
+first four variables is 94.5%.
+Thus, it will be appropriate to retain the first three (or four) principal components.
+[3]
+[19 Marks]
+Solution 3:
+i)
+> BMI <- read.csv("BMIClaims.csv")
+> n <- length(BMI$BMI)
+> alpha <- 0.05
+...
+[2]
+> sqrt(c((n-1)*var(BMI$BMI)/qchisq(1-alpha/2,df=n-1),(n-1)*var(BMI$BMI)/qchisq(alpha/2
+,df=n-1)))
+[2]
+[1] 5.920028 7.434763
+[2]
+[6]
+Page 4 of 8IAI
+CS1B-1120
+ii)
+> sigma <- 4
+> statistic <- (n-1)*var(BMI$BMI)/sigma^2
+> statistic
+[1] 404.5421
+> qchisq(alpha/2,n-1)
+[1] 117.098
+> qchisq(alpha/2,n-1,lower=FALSE)
+[1] 184.687
+> 2*(pchisq((n-1)*var(BMI$BMI)/sigma^2,df=n-1,lower.tail=FALSE))
+[1] 3.564503e-25
+[1]
+[2]
+[1]
+Since p-value is less than 5%, there is sufficient evidence to reject the hypothesis,
+i.e. the standard deviation of BMI is not equal to 4.
+[2]
+[6]
+iii)
+> x <- nrow(BMI[BMI$BMI>30,])
+> binom.test(x,n,conf.level = 0.99)
+[1]
+[2]
+Exact binomial test
+data: x and n
+number of successes = 10, number of trials = 150, p-value < 2.2e-16
+alternative hypothesis: true probability of success is not equal to 0.5
+99 percent confidence interval:
+0.02522882 0.13728337
+sample estimates:
+probability of success
+0.06666667
+Since 99% CI for p doesn’t contain p=0.2
+it is unlikely that the proportion of obese policyholders is more than 20%.. ..
+[1]
+[1]
+[1]
+[6]
+iv)
+> table(BMI$BMI>30,BMI$ClaimCount)
+0
+FALSE 133
+TRUE
+7
+1
+7
+3
+> y <- c(3,7)
+> m <- c(10,140)
+> poisson.test(y,m)
+[2]
+[1]
+Comparison of Poisson rates
+data: y time base: m
+count1 = 3, expected count1 = 0.66667, p-value = 0.02493
+alternative hypothesis: true rate ratio is not equal to 1
+95 percent confidence interval:
+1.001171 26.282304
+sample estimates:
+rate ratio
+6
+Since p-value is less than 5% i.e. 2.5%, there is sufficient evidence to reject the hy
+pothesis, i.e. Claim frequency is different between obese and others.
+(Alternatively, can use prop.test)
+[2]
+[6]

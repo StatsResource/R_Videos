@@ -1,0 +1,211 @@
+
+An actuary is investigating the asymptotic behaviour of the sample autocorrelation
+function for two time series models.
+(i) Generate, using a random number generator seed of 967, a simulated sequence
+of n = 200 observations for a first-order moving average process with
+parameter β 1 = 0.4, assigning the simulated values to a vector called YMA. 
+(ii) Generate, using a random number generator seed of 967, a simulated sequence
+of n = 200 observations for a first-order autoregressive model with parameter
+α 1 = 0.45, assigning the simulated values to a vector called YAR.
+
+(iii) Plot, on four separate graphs, the sample autocorrelation function (sample
+ACF) and sample partial autocorrelation function (sample PACF) for each of
+the two time series models, YMA and YAR, generated in parts (i) and (ii). 
+(iv) Comment on the general features of the plots in part (iii) with reference to
+whether they are consistent with the theoretical behaviour of the
+corresponding functions for the true models.
+
+The `acf()` function in R can also provide a vector output of the sample ACF values,
+with component i giving the sample ACF at lag i – 1, provided that the plot argument
+of the function is set to ‘FALSE’.
+(v) Determine the numerical values for the sample ACF at lag 2, for each of the
+two time series models, YMA and YAR, generated in parts (i) and (ii).
+
+(vi) Construct R code that
+ first sets a random number generator seed of 967; and then
+ generates 1,000 random vectors (of length n = 200) for each of the two
+models in parts (i) and (ii); and
+ assigns the values of the sample ACF at lag 2 for each random vector to
+two vectors ACF2MA and ACF2AR (each of length 1,000).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+1
+(i) set.seed(967)
+YMA = arima.sim(n=200, model=list(ma=c(0.4))) 
+
+(ii) set.seed(967)
+YAR = arima.sim(n=200, model=list(ar=c(0.45))) 
+
+(iii) acf(YMA, main ="Sample ACF of 200 Simulated Values from a
+MA(1) model")
+
+
+
+pacf(YMA, main ="Sample PACF of 200 Simulated Va
+lues from a MA(1) model")
+
+acf(YAR, main ="Sample ACF of 200 Simulated Values from
+an AR(1) model")
+
+
+
+pacf(YAR, main ="Sample PACF of 200 Simulated Values from
+an AR(1) model")
+
+(iv)
+For a MA(1) model we would expect...
+...the PACF to decrease exponentially to 0...
+
+... and the ACF to have clear spikes up to lag 1 with insignificant spikes for all lags >
+1.
+
+For an AR(1) model we would expect...
+... the ACF to decrease exponentially to 0
+
+... and the PACF to have one clear spike at lag 1 with insignificant spikes for all lags
+> 1.
+
+These features are broadly in line with the graphs above.
+
+There appear to be non-zero values at lag 22/23 in the graphs which may need to be
+investigated...
+
+... however, this may not be an issue as we would expect some random spikes as the
+sample ACFs won’t conform perfectly with the theoretical behaviour.
+
+[Marks available 5, maximum 4]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+(vii)
+
+Determine the mean and variance of the two vectors, ACF2MA and ACF2AR,
+generated in part (vi).
+
+(viii) Plot, on two separate graphs, the histograms of the two vectors, ACF2MA and
+ACF2AR, generated in part (vi).
+
+(ix)
+Comment on the results in parts (vii) and (viii), including whether they agree
+with the expected asymptotic behaviour.
+
+=========================================================================================
+
+
+
+(v)
+(vi)
+(vii)
+ACF2MA = acf(YMA,plot = FALSE)$acf;ACF2MA
+ -0.1146628 
+ACF2AR = acf(YAR,plot = FALSE)$acf;ACF2AR
+ 0.06402174 
+The value of the sample ACF at lag 2 for YMA is -0.1146628. 
+The value of the sample ACF at lag 2 for YAR is 0.06402174. 
+set.seed(967)
+ACF2MA=1:1000
+ACF2AR=1:1000 
+
+
+for (i in 1:1000){
+YMA= arima.sim(n=200, model=list(ma=c(0.4)))
+YAR= arima.sim(n=200, model=list(ar=c(0.45)))
+ACF2MA[i]=acf(YMA,plot = FALSE)$acf
+ACF2AR[i]=acf(YAR,plot = FALSE)$acf
+} 
+
+
+
+
+mean(ACF2MA)
+ -0.0108415 
+mean(ACF2AR)
+ 0.188152 
+var(ACF2MA)
+ 0.006459321 
+var(ACF2AR)
+ 0.006076729 
+The mean of ACF2MA is -0.0108415.
+The mean of ACF2AR is 0.188152.
+
+The variance of ACF2MA is 0.006459321.
+The variance of ACF2AR is 0.006076729.
+
+
+
+(viii) hist(ACF2MA, xlab = "Values of Sample ACF at Lag 2", main
+= "Histogram of the values of the Sample ACF at lag 2 for
+1,000 Simulations of a MA(1) model")
+
+hist(ACF2AR, xlab = "Values of Sample ACF at Lag 2", main
+= "Histogram of the values of the Sample ACF at lag 2 for
+1,000 Simulations of an AR(1) model")
+
+
+
+(ix)
+The theoretical mean of ACF2MA = 0... 
+...and the theoretical mean of ACF2AR = 0.45^2 = 0.2025. 
+The asymptotic variance of ACF2MA
+= (1 + [(0.4)/(1+0.4^2)]^2) / 200 = 0.005595
+(1)
+OR:
+= (1 + 2 * ([(0.4)/(1+0.4^2)]^2)) / 200 = 0.006189
+(2)
+
+The histograms in part (viii) confirm the asymptotic normal behaviour of the
+estimates as they indicate normal distributions...
+
+... and the values of the mean and variance of ACF2MA calculated in part (vii) are
+similar to the theoretical asymptotic values...
+
+... and the value of the mean of ACF2AR calculated in part (vii) is similar to the
+theoretical asymptotic value...
+
+
+Part (iii) was very well-answered but some candidates lost marks for not including
+appropriate titles in the graphs. The minimum requirements for an appropriate title
+were that it must include the appropriate series name and also indicate whether the
+function plotted was a sample ACF or a sample PACF. The default axes labels were
+deemed appropriate in this case. Additionally, some candidates lost marks for not
+including either the R code or the graphs in their answer scripts.
+Part (iv) was reasonably well-answered but some candidates either mixed up the
+expected behaviour of MA(1) and AR(1) processes or mixed up the expected behaviour
+of the ACF and PACF within each process.
+Answers to part (v) were mixed with a number of candidates losing marks because they
+included the output of the ACF for a number of lags without making any attempt to pick
+out lag 2. Some candidates also lost marks because they picked out the value of the
+wrong lag. Additionally, some candidates lost marks for not including the R output
+and/or not separately stating the lag 2 values in their answer scripts.
+Answers to part (vi) were also mixed with many candidates getting stuck here and not
+proceeding with later parts of the question.
+
+
+Part (vii) was surprisingly poorly answered. This was mainly due to many candidates
+getting stuck in part (vi). Candidates are reminded that, in such circumstances, the best
+approach is to provide a “dummy” answer and carry on with the remaining parts of the
+question to receive carry forward credit. Additionally, some candidates lost marks for
+not including the R output and/or not separately stating the calculated values in their
+answer scripts.
+Part (viii) was again poorly answered. Many candidates lost marks for not
+appropriately labelling the graphs. The minimum requirements for appropriate
+labelling were that either the x-axis and/or the title needed to clearly indicate which
+vector is being plotted and also needed to reference lag 2. The default y-axis labels
+were deemed appropriate in this case. Additionally, some candidates lost marks for not
+including either the R code or the graphs in their answer scripts.
+Candidates are reminded to take careful note of all instructions that are provided with
+the exam in order to maximise their performance in future CS2B exams.
+Part (ix) was extremely poorly answered. Very few candidates demonstrated an
+understanding of the expected asymptotic behaviour of these processes. Note that the
+formula in the Core Reading for the asymptotic variance of ACF2MA, denoted by
+equation (1), is incorrect. The correct formula for the asymptotic variance is given by
+equation (2).
+
+
