@@ -1,0 +1,151 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+\large
+
+\noindent In a small empirical study, data are recorded on the number of waves per hour and the
+average wave height per hour at a location just off the coast of Scotland. 
+
+The data are
+given in the file named CS1waves.Rdata. 
+
+Loading the data into R will create two
+vectors in your R workspace, called \textbf{\textit{Wn}} (number of waves per hour) and \textbf{\textit{Wheight}}
+(average wave height in cm during the hour).
+
+1. Generate an appropriate plot to visually inspect the relationship between wave
+height and number of waves per hour.
+
+
+
+
+Q3
+\begin{framed}\begin{verbatim}
+# load data
+load("CS1waves.Rdata")
+(i)
+#plot data
+plot(Wn, Wheight)
+\end{verbatim}\end{framed}
+
+\subsection*{Part 2}
+2. Comment on the plot in part (i).
+
+(ii)
+There seems to be a linear relationship between wave height and number of waves.
+The more waves per hour, the smaller the waves (negative association).
+
+
+\subsection*{ Part 3}
+
+Calculate Pearson’s correlation coefficient between the number of waves per
+hour and the average wave height.
+
+
+\begin{framed}\begin{verbatim}
+cor(Wn, Wheight,method = "pearson")
+-0.8055382 
+\end{verbatim}\end{framed}
+
+\subsection*{ Part 4.}
+
+Calculate Spearman’s rank correlation coefficient between the number of
+waves per hour and the average wave height.
+Comment on your findings in parts (iii) and (iv).
+
+\begin{framed}\begin{verbatim}
+cor(Wn, Wheight, method = "spearman")
+-0.7688486 
+\end{verbatim}\end{framed}
+
+
+
+
+\subsection*{Part 5}
+5. We now model the number of waves per hour, X, as a random variable with a Poisson
+distribution with unknown parameter l. The log likelihood function for estimating l
+is given by l(l) = log(l)
+n
+x i ) – ln where n is the number of observations.
+( Â i=1
+
+(v)
+
+
+\begin{itemize}
+    \item Both correlation coefficients confirm the negative relationship that is
+already obvious in the plot.
+    \item The rank correlation is lower than the Pearson correlation, indicating that the relationship is stronger when we take the magnitude of observations into account rather than just their relative rank.
+    \item In other words, for observations with similar magnitude, the ranks are not always ordered.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\newpage
+
+\subsection*{Part 6}
+6. Plot the log likelihood function for values of $l = 220, 221, ..., 280$.
+
+\begin{framed}\begin{verbatim}
+l = 220:280
+ll = log(l)*sum(Wn)-168*l
+plot(l,ll) [1]
+\end{verbatim}\end{framed}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\newpage
+
+\subsection*{ Part 7}
+7. Determine an approximate maximum likelihood estimate for l using the plot
+in part (vi).
+
+(vii)
+
+
+By inspection, the maximum of $ll(\hat{\lambda})$ is at about 250.
+The maximum likelihood estimate is $\hat{\lambda} \approx 250$ waves per hour. [1]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection*{ pART 8}
+
+8. Calculate the exact maximum likelihood estimate of l.
+(vi)
+
+(viii) The exact MLE is the mean, that is, \hat{\lambda}̂ = 168 ∑ 168
+ii=1 XX ii
+mean(Wn)
+
+$\hat{\lambda}̂ =248.8579$
+
+A common error in part (vii) was to provide the value of the log likelihood
+instead of lambda.
+
+
+\end{document}

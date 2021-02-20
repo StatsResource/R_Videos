@@ -1,0 +1,121 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+Q. 2) ABC General Insurance Company Limited has sold total of 1000 insurance policies under 3
+type of insurance, where each type of insurance gives rise to a maximum of one claim per year.
+The insurer hold the following portfolio:
+Number of
+Policies
+300
+500
+200
+Portfolio
+Fire Insurance
+Marine Cargo Insurance
+Marine Hull Insurance
+Claim
+distribution
+Exp (0.006)
+Exp (0.007)
+Exp (0.006)
+Probability of
+claim
+0.002
+0.001
+0.003
+All policies and claims are independent.
+i)
+ii)
+Simulate a set of 5,000 observations from the insurer’s aggregate claims size
+distribution. Use seed corresponding to your birth year.
+Summarize the output, draw plot histogram of the simulated results, and comment on
+the results.
+(12)
+(5)
+
+
+Solution 2:
+i) set.seed(2000)
+rate1 <- 0.006
+q1 <- 0.002
+n1 <- 300
+rate2 <- 0.007
+q2 <- 0.001
+n2 <- 500
+rate3 <- 0.006
+q3 <- 0.003
+n3 <- 200
+Sumofclaims_sim <- numeric(5000)
+Total_policies = n1+n2+n3
+for (j in 1:5000){
+x<-numeric(Total_policies)
+for (i in 1:Total_policies)
+{if (i<= n1){rate=rate1} else{if(i<=n1+n2){rate=rate2}else{rate=rate3}}
+x[i] <- rexp(1,rate=rate)}
+death<-numeric(1000)
+for (i in 1:Total_policies)
+{if (i<= n1){prob=q1} else{if(i<=n1+n2){prob=q2}else{prob=q3}}
+death[i] <- rbinom(1,size=1,prob)}
+sim_claim <- x*death
+sim_claim<-sum(sim_claim)
+Sumofclaims_sim[j] <- sim_claim
+}
+Sumofclaims_sim
+[4981]
+[4987]
+[4993]
+[4999]
+48.0509705 180.6917655 387.8498483 158.5486544 79.6699608 718.4442927
+260.0237473 58.7869147 0.0000000 824.1810537 121.5688946 393.4891939
+34.2667969 0.0000000 0.0000000 323.9416166 0.0000000 47.5719195
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+400.2364413 155.3775077
+ii) summary(Sumofclaims_sim)
+hist(Sumofclaims_sim)
+
+%---------------------------%
+> summary(Sumofclaims_sim)
+Min. 1st Qu. Median
+Mean 3rd Qu.
+Max.
+0.00
+29.03 175.60 260.88 393.86 2664.99
+[Note the numbers will change with change in seed]
+The claims seem to be highly skewed with Q1 equal to 29.03, Q2 equal to 260.88 and Q3 equal to
+393.86. The highest value is 2664.99.
+
+The distribution seems to follow exponential distribution, which is consistent with underlying
+distribution of claims.
+
+
+\end{document}
+

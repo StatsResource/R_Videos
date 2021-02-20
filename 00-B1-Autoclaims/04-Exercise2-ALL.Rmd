@@ -1,0 +1,245 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+\large
+
+\begin{framed} \begin{verbatim}
+## AutoClaims
+
+library(readr)
+library(magrittr)
+
+AutoClaims <- read_csv("AutoClaims.csv")
+
+
+\end{verbatim}\end{framed}
+
+    Parsed with column specification:
+    cols(
+      STATE = [31mcol_character()[39m,
+      CLASS = [31mcol_character()[39m,
+      GENDER = [31mcol_character()[39m,
+      AGE = [32mcol_double()[39m,
+      PAID = [32mcol_double()[39m
+    )
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage 
+
+\subsection*{Exercise 5}
+
+You were asked to fit an appropriate distribution to the “PAID” data. 
+You decided to fit Normal distribution, Lognormal distribution, Exponential distribution and Gamma Distribution based on the method of moments.
+
+
+Estimate the parameters of each of these distributions.
+
+
+
+\begin{framed} \begin{verbatim}
+sampleMean<-mean(AutoClaims$PAID)
+sampleVariance<-var(AutoClaims$PAID)
+
+#Method of Moments Estimates - Normal distribution
+
+Normalmu <- sampleMean
+Normalsigma <- sqrt(sampleVariance)
+
+
+options(digits=4)
+
+Normalmu %>% round(3)
+
+Normalsigma %>% round(3)
+
+\end{verbatim}\end{framed}
+
+
+6127.222
+
+
+
+7027.434
+
+
+\subsection*{Method of Moments Estimates - Log Normal distribution}
+
+
+
+\begin{framed} \begin{verbatim}
+LNsigma<- sqrt(log(1+sampleVariance/sampleMean^2))
+LNmu<-log(sampleMean)-LNsigma^2/2
+
+LNsigma %>% round(4)
+
+LNmu %>% round(4)
+
+
+\end{verbatim}\end{framed}
+
+
+0.9163
+
+
+
+8.3007
+
+
+### Method of Moments Estimates - Exponential distribution
+
+
+\begin{framed} \begin{verbatim}
+Exprate <- 1/sampleMean
+
+Exprate
+
+
+\end{verbatim}\end{framed}
+
+
+0.000163206087396775
+
+
+### Method of Moments Estimates - Gamma distribution
+
+
+\begin{framed} \begin{verbatim}
+GammaBeta<-sampleMean/sampleVariance
+GammaAlpha<-GammaBeta*sampleMean
+
+GammaBeta
+GammaAlpha
+
+
+\end{verbatim}\end{framed}
+
+
+0.000124070942794373
+
+
+
+0.760210264049406
+
+
+### Histogram of Paid Claims Data
+
+
+\begin{framed} \begin{verbatim}
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+\end{verbatim}\end{framed}
+
+
+![png](output_10_0.png)
+
+
+
+\begin{framed} \begin{verbatim}
+#Superimposing a Normal distribution over the histogram
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+curve(dnorm(x,mean = Normalmu,sd = Normalsigma),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "red")
+
+\end{verbatim}\end{framed}
+
+
+![png](output_11_0.png)
+
+
+
+\begin{framed} \begin{verbatim}
+#Superimposing a Log Normal distribution over the histogram
+
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+curve(dlnorm(x,meanlog = LNmu,sdlog = LNsigma),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "green")
+
+\end{verbatim}\end{framed}
+
+
+![png](output_12_0.png)
+
+
+
+\begin{framed} \begin{verbatim}
+#Superimposing a Exponential distribution over the histogram
+
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+curve(dexp(x,rate = Exprate),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), add = TRUE, col= "blue")
+
+
+
+\end{verbatim}\end{framed}
+
+
+![png](output_13_0.png)
+
+
+### Gamma Distribution
+
+
+\begin{framed} \begin{verbatim}
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+#Superimposing a Gamma distribution over the histogram
+curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "brown")
+
+
+\end{verbatim}\end{framed}
+
+
+![png](output_15_0.png)
+
+
+
+\begin{framed} 
+\begin{verbatim}
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+#Superimposing a Gamma distribution over the histogram
+curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),from = min(AutoClaims$PAID), t
+o = max(AutoClaims$PAID), add = TRUE, col= "brown")
+
+
+legend("topright",
+       legend = c("Normal", "Lognormal", "Exponential", "Gamma"),
+       lty = 1, 
+       col = c("red","green","blue","brown"))
+
+\end{verbatim}
+\end{framed}
+\end{document}

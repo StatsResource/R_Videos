@@ -1,0 +1,229 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+
+
+
+#### AutoClaims
+
+Description of the given data sets
+
+AutoClaims.csv
+
+An insurance company is trying to analyse the paid and closed claims data of the past quarter.
+
+The columns carry the following explanation
+
+* *STATE*: The state of registration of the vehicle
+* *CLASS*: Rating class of the insured based on marital status, use of vehicle and other attributes
+* *GENDER*: Gender of the Insured (Same as the Driver)
+* *AGE*: Age of the Insured (Same as the Driver)
+* *PAID*: Amount paid to settle and close a claim
+
+
+
+```R
+getwd()
+```
+
+
+'/home/nbuser/library'
+
+
+
+```R
+list.files()
+```
+
+
+<ol class="list-inline">
+	<li>'AutoClaims - 1 - Inspecting the Data.ipynb'</li>
+	<li>'AutoClaims.csv'</li>
+	<li>'README.md'</li>
+</ol>
+
+
+
+
+```R
+AutoClaims <- read.csv("AutoClaims.csv")
+```
+
+
+```R
+summary(AutoClaims)
+```
+
+
+          STATE     CLASS     GENDER       AGE             PAID      
+     STATE 15:586   C1 :108   F:588   Min.   :43.00   Min.   : 1096  
+     STATE 02:219   C11:464   M:829   1st Qu.:46.00   1st Qu.: 1611  
+     STATE 04:126   C6 :708           Median :49.00   Median : 3395  
+     STATE 17:116   F6 :137           Mean   :49.62   Mean   : 6127  
+     STATE 06: 79                     3rd Qu.:53.00   3rd Qu.: 7774  
+     STATE 03: 75                     Max.   :60.00   Max.   :59096  
+     (Other) :216                                                    
+
+
+
+```R
+library(readr)
+AutoClaims <- read_csv("AutoClaims.csv")
+
+```
+
+    Parsed with column specification:
+    cols(
+      STATE = [31mcol_character()[39m,
+      CLASS = [31mcol_character()[39m,
+      GENDER = [31mcol_character()[39m,
+      AGE = [32mcol_double()[39m,
+      PAID = [32mcol_double()[39m
+    )
+
+
+
+```R
+head(AutoClaims)
+```
+
+
+<table>
+<caption>A tibble: 6 x 5</caption>
+<thead>
+	<tr><th>STATE</th><th>CLASS</th><th>GENDER</th><th>AGE</th><th>PAID</th></tr>
+	<tr><th>&lt;chr&gt;</th><th>&lt;chr&gt;</th><th>&lt;chr&gt;</th><th>&lt;dbl&gt;</th><th>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>STATE 01</td><td>C6 </td><td>M</td><td>43</td><td> 2364.696</td></tr>
+	<tr><td>STATE 01</td><td>F6 </td><td>M</td><td>43</td><td>18787.967</td></tr>
+	<tr><td>STATE 01</td><td>F6 </td><td>M</td><td>43</td><td>27115.745</td></tr>
+	<tr><td>STATE 02</td><td>C1 </td><td>M</td><td>43</td><td>15288.492</td></tr>
+	<tr><td>STATE 02</td><td>C11</td><td>M</td><td>43</td><td> 2265.707</td></tr>
+	<tr><td>STATE 02</td><td>C11</td><td>M</td><td>43</td><td> 6344.641</td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+dim(AutoClaims)
+```
+
+
+<ol class="list-inline">
+	<li>1417</li>
+	<li>5</li>
+</ol>
+
+
+
+
+```R
+summary(AutoClaims)
+```
+
+
+        STATE              CLASS              GENDER               AGE       
+     Length:1417        Length:1417        Length:1417        Min.   :43.00  
+     Class :character   Class :character   Class :character   1st Qu.:46.00  
+     Mode  :character   Mode  :character   Mode  :character   Median :49.00  
+                                                              Mean   :49.62  
+                                                              3rd Qu.:53.00  
+                                                              Max.   :60.00  
+          PAID      
+     Min.   : 1096  
+     1st Qu.: 1611  
+     Median : 3395  
+     Mean   : 6127  
+     3rd Qu.: 7774  
+     Max.   :59096  
+
+
+
+```R
+AutoClaims$GENDER[1:20]
+```
+
+
+<ol class="list-inline">
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'F'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'F'</li>
+	<li>'F'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+	<li>'M'</li>
+</ol>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+```R
+install.packages("rlang")
+install.packages("magrittr")
+install.packages("janitor")
+library(janitor)
+library(magrittr)
+
+```
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+```R
+AutoClaims %>% tabyl(STATE)
+
+```
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+```R
+AutoClaims %>% tabyl(GENDER)
+```
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+```R
+AutoClaims %>% tabyl(CLASS,GENDER)
+```
+
+
+
+\end{document}

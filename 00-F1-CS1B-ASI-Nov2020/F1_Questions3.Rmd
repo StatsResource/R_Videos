@@ -9,6 +9,16 @@ CS1B–1120
 iii)
 iii)
 iv)
+
+
+If obese is defined to be BMI above 30, use binom.test to calculate 99% confidence
+interval for proportion of obese people and comment on the likelihood if more than
+20 pc are obese.
+Claim frequency can be calculated as claim count divided by number of policyholders.
+Test whether claim frequency is different between obese and others.
+(6)
+(6)
+[24]
 Q. 4)
 If obese is defined to be BMI above 30, use binom.test to calculate 99% confidence
 interval for proportion of obese people and comment on the likelihood if more than

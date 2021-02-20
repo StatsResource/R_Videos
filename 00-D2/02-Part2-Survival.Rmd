@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+
+```R
+library(magrittr)
+
+options(repr.plot.width=8, repr.plot.height=5)
+```
+
+For the graphs, the value of x varies from 0 to 10.
+
+## Part (a)
+
+Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 0.75$ and $\lambda  = 0.5$.
+
+
+The hazard function $h(x)$ for a distribution is defined as the ratio between its probability density function and its survival function.
+
+Survival functions are most often used in reliability and related fields. The survival function is the probability that the variate takes a value greater than x.
+
+$$S(x)=Pr[X&gt;x]=1−F(x)$$
+
+#### Probaility Density Function
+
+
+```R
+pdf <-function(x) {dgamma(x,0.75,0.3)}
+
+plot.function(pdf,0,10)
+```
+
+
+![png](output_5_0.png)
+
+
+#### Survival Function
+
+
+```R
+sf <-function(x){ 1-pgamma(x,0.75,0.3) }
+
+plot.function(sf,0,10)
+title("Survival Function")
+
+```
+
+
+![png](output_7_0.png)
+
+
+#### Hazard Function
+
+
+```R
+h1<-function(x) {dgamma(x,0.75,0.3)/(1-pgamma(x,0.75,0.3))}
+
+plot.function(h1,0,10)
+title("Hazard Function 1")
+
+
+```
+
+
+![png](output_9_0.png)
+
+
+## Part (b)
+
+Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 1$ and $\lambda  = 0.3$. 
+
+
+```R
+h2<-function(x) {dgamma(x,1,0.3)/(1-pgamma(x,1,0.3))}
+
+plot.function(h2,0,10)
+```
+
+
+![png](output_11_0.png)
+
+
+## Part (c)
+
+Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 1.5$ and $\lambda  = 0.3$. 
+
+
+```R
+h3<-function(x) {dgamma(x,1.5,0.3)/(1-pgamma(x,1.5,0.3))}
+
+plot.function(h3,0,10)
+```
+
+
+![png](output_13_0.png)
+
+
+## Part (d)
+
+Comment on the thickness of the tails of the distribution of ***Part (b)*** with the tails of ***Part (a)*** and
+***Part (c)***.
+
+
+* If $\alpha  &lt; 1$, it is a decreasing function of x and thus indicating a heavier tail than the exponential
+distribution. 
+
+
+* If $\alpha  &gt; 1$, it is a increasing function of x and thus indicating a lighter tail than the exponential
+distribution. 
+
+
+* If $\alpha  = 1$ then the function is relatively constant in most part of the projection.
+
+
+
+```R
+
+```

@@ -1,0 +1,425 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+
+\begin{document}
+
+### Question 1
+Data is available for the movement of taxis in Dublin. 
+
+The city is divided into three zones “North”, “South” and “West”. (*The “East” is Dublin Bay*)
+
+The movement of a taxi from one zone to another will depend only on its current position. 
+
+The following probabilities have been determined for taxi movements:
+
+
+* Of all taxis in the North zone, 30% will remain in North and 30% will move to South, with the remaining 40% moving to West.
+
+* In the South zone, taxis have a 40% chance of moving to North, 40% chance of staying in South and 20% chance of moving to West.
+
+* Of all the drivers in the West zone, 50% will move to North and 30% to South with the remaining 20% staying in West.
+
+The movement of taxis in Dublin will be modelled in R using a Markov Chain.
+
+
+
+
+#### Driver Movement
+A 3 - dimensional discrete Markov Chain defined by the following states:
+North, South, West
+
+The transition matrix (by rows) is defined as follows:
+\begin{array}{cccc}
+&amp; North &amp; South &amp; West\\
+North &amp; 0.3 &amp; 0.3 &amp; 0.4\\
+South &amp; 0.4 &amp; 0.4 &amp; 0.2\\
+West &amp; 0.5 &amp; 0.3 &amp; 0.2\\
+\end{array}
+
+## Exercise 1
+
+Create a vector with the state space of the Markov Chain, using R code. You should print this to the screen and paste into your answer.
+
+
+```R
+
+DriverZone <- c("North", "South", "West")
+DriverZone
+
+```
+
+
+<ol class="list-inline">
+	<li>'North'</li>
+	<li>'South'</li>
+	<li>'West'</li>
+</ol>
+
+
+
+## Exercise 2
+
+Construct a transition matrix of the zone movement probabilities. 
+You should print this to the screen and paste into your answer.
+
+
+```R
+ZoneTransition <- matrix(c(0.3, 0.3, 0.4, 0.4, 0.4, 0.2,0.5, 0.3, 0.2), 
+                         nrow = 3, 
+                         byrow = TRUE)
+
+ZoneTransition
+```
+
+
+<table>
+<caption>A matrix: 3 x 3 of type dbl</caption>
+<tbody>
+	<tr><td>0.3</td><td>0.3</td><td>0.4</td></tr>
+	<tr><td>0.4</td><td>0.4</td><td>0.2</td></tr>
+	<tr><td>0.5</td><td>0.3</td><td>0.2</td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+ZoneTransition <- matrix(c(0.3, 0.3, 0.4, 0.4, 0.4, 0.2,0.5, 0.3, 0.2), 
+                         nrow = 3, 
+                         byrow = TRUE, 
+                         dimname = list(DriverZone, DriverZone))
+
+ZoneTransition
+```
+
+
+<table>
+<caption>A matrix: 3 x 3 of type dbl</caption>
+<thead>
+	<tr><th></th><th>North</th><th>South</th><th>West</th></tr>
+</thead>
+<tbody>
+	<tr><th>North</th><td>0.3</td><td>0.3</td><td>0.4</td></tr>
+	<tr><th>South</th><td>0.4</td><td>0.4</td><td>0.2</td></tr>
+	<tr><th>West</th><td>0.5</td><td>0.3</td><td>0.2</td></tr>
+</tbody>
+</table>
+
+
+
+## Exercise 3
+
+Load the R package for Markov Chains: {``markovchain``}. 
+
+N.B. ``R`` is case sensitive .
+
+
+
+```R
+sessionInfo()
+```
+
+
+    R version 3.5.3 (2019-03-11)
+    Platform: x86_64-pc-linux-gnu (64-bit)
+    Running under: Ubuntu 16.04.6 LTS
+    
+    Matrix products: default
+    BLAS: /opt/microsoft/ropen/3.5.3/lib64/R/lib/libRblas.so
+    LAPACK: /opt/microsoft/ropen/3.5.3/lib64/R/lib/libRlapack.so
+    
+    locale:
+     [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+     [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+     [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+     [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+     [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+    [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+    
+    attached base packages:
+    [1] stats     graphics  grDevices utils     datasets  methods   base     
+    
+    loaded via a namespace (and not attached):
+     [1] Rcpp_1.0.2      digest_0.6.22   zeallot_0.1.0   crayon_1.3.4   
+     [5] IRdisplay_0.7.0 repr_1.0.1      backports_1.1.5 jsonlite_1.6   
+     [9] evaluate_0.14   pillar_1.4.2    rlang_0.4.1     uuid_0.1-2     
+    [13] vctrs_0.2.0     IRkernel_1.0.2  tools_3.5.3     compiler_3.5.3 
+    [17] pkgconfig_2.0.3 base64enc_0.1-3 htmltools_0.4.0 pbdZMQ_0.3-3   
+    [21] tibble_2.1.3   
+
+
+### Installing the {markovchain} R package
+
+<pre><code>
+install.packages("markovchain") 
+
+library(markovchain)
+</code></pre>
+
+
+
+Requires R Version 3.6 
+
+## Exercise 4
+
+Create a Markov Chain object with state space equal to your vector in ***Exercise 1*** and transition matrix from ***Exercise 2***. 
+
+``
+MCZone &lt;- new("markovchain", states = DriverZone, 
+              byrow = TRUE, 
+              transitionMatrix = ZoneTransition, 
+              name = "DriverMovement")``
+
+``
+MCZone
+``
+
+## Exercise  5. 
+
+Calculate the probability that a driver currently in the North zone will be in the
+North zone after:
+
+1. two trips
+
+2. three trips.
+
+
+
+```R
+DriverZone <- c("North", "South", "West")
+ZoneTransition <- matrix(c(0.3, 0.3, 0.4, 
+                           0.4, 0.4, 0.2,
+                           0.5, 0.3, 0.2), 
+                         nrow = 3, 
+                         byrow = T, 
+                         dimname = list(DriverZone, DriverZone))
+
+
+```
+
+WRONG
+
+
+```R
+# Wrong
+ZoneTransition^2
+```
+
+CORRECT
+
+
+```R
+ZoneTransition %*% ZoneTransition
+```
+
+
+```R
+ZoneTransition %*% ZoneTransition %*% ZoneTransition
+```
+
+
+```R
+
+MCZone^2
+
+MCZone^3
+
+```
+
+* The required probability in 2 trips is 41% or 0.41
+
+* The required probability in 3 trips is 38.5% or 0.385
+
+
+## Exercise 6
+
+Determine the stationary state of the Markov Chain.
+
+
+
+
+```R
+steadyStates(MCZone)
+
+```
+
+### Linear Algebra
+
+* $\pi$ is the $1\times n$ steady-state equilibrium row vector
+* $P$ is the $n \times n$ transition matrix
+* $I$ is the $n \times n$ Identity matrix
+
+
+$$\begin{eqnarray*}
+        \pi P &amp;=&amp; \pi   \qquad (  \pi \mbox{ is unchanged by  P }.) \\
+              &amp;=&amp; \pi I \\
+              &amp; &amp; \\
+\pi ( P − I ) &amp;=&amp; \boldsymbol{0}  \\
+\end{eqnarray*}$$
+
+Use transposition to re-arrange as a standard system of linear equations in form $Ax=b$
+
+$$ ( P − I )^{T} \times \pi^{T} \;=\; \boldsymbol{0} $$
+
+* $( P − I )^{T}$ is an $n \times n$ matrix
+* $\pi^{T}$ is an $n \times 1$ column vector
+* $\boldsymbol{0}$ is an $n \times 1$ column vector of 0s
+
+
+```R
+#diag(3)
+```
+
+
+```R
+t(ZoneTransition - diag(3))
+```
+
+
+<table>
+<caption>A matrix: 3 x 3 of type dbl</caption>
+<tbody>
+	<tr><td>-0.7</td><td> 0.4</td><td> 0.5</td></tr>
+	<tr><td> 0.3</td><td>-0.6</td><td> 0.3</td></tr>
+	<tr><td> 0.4</td><td> 0.2</td><td>-0.8</td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+det( t(ZoneTransition - diag(3)) )
+```
+
+
+1.71291552370738e-17
+
+
+Solve a system of linear equations: ``solve(A,b)``
+
+
+```R
+A <- t(ZoneTransition) - diag(3)
+b <- c(0,0,0)
+
+cbind( A, b )
+```
+
+
+<table>
+<caption>A matrix: 3 x 4 of type dbl</caption>
+<thead>
+	<tr><th></th><th></th><th></th><th>b</th></tr>
+</thead>
+<tbody>
+	<tr><td>-0.7</td><td> 0.4</td><td> 0.5</td><td>0</td></tr>
+	<tr><td> 0.3</td><td>-0.6</td><td> 0.3</td><td>0</td></tr>
+	<tr><td> 0.4</td><td> 0.2</td><td>-0.8</td><td>0</td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+det(A)
+```
+
+
+1.71291552370738e-17
+
+
+
+```R
+#solve( A, b )
+```
+
+We also can use the $\sum \pi = 1$
+
+$$ \pi_1 + \pi_2 + \ldots +  \pi_n = 1$$
+
+
+```R
+A <- rbind( t(ZoneTransition - diag(3)), c(1,1,1) )
+A
+```
+
+
+<table>
+<caption>A matrix: 4 x 3 of type dbl</caption>
+<tbody>
+	<tr><td>-0.7</td><td> 0.4</td><td> 0.5</td></tr>
+	<tr><td> 0.3</td><td>-0.6</td><td> 0.3</td></tr>
+	<tr><td> 0.4</td><td> 0.2</td><td>-0.8</td></tr>
+	<tr><td> 1.0</td><td> 1.0</td><td> 1.0</td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+b <- c(0,0,0,1)
+cbind(A,b)
+```
+
+
+<table>
+<caption>A matrix: 4 x 4 of type dbl</caption>
+<thead>
+	<tr><th></th><th></th><th></th><th>b</th></tr>
+</thead>
+<tbody>
+	<tr><td>-0.7</td><td> 0.4</td><td> 0.5</td><td>0</td></tr>
+	<tr><td> 0.3</td><td>-0.6</td><td> 0.3</td><td>0</td></tr>
+	<tr><td> 0.4</td><td> 0.2</td><td>-0.8</td><td>0</td></tr>
+	<tr><td> 1.0</td><td> 1.0</td><td> 1.0</td><td>1</td></tr>
+</tbody>
+</table>
+
+
+
+
+```R
+qr.solve( A, b )
+
+```
+
+
+<ol class="list-inline">
+	<li>0.388888888888889</li>
+	<li>0.333333333333333</li>
+	<li>0.277777777777778</li>
+</ol>
+
+
+
+
+```R
+
+```
