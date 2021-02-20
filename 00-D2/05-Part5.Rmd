@@ -1,36 +1,10 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
 
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
-
-```R
+```{r}
 Q. 5)
 (5)
 (7)
-[12]
+
 Signals are mathematically represented by a function that takes into account the magnitude
 and frequency.
 x t = A cos(2πωt + φ) + w t , where ω is equal to 1/50 and w t is the white noise with mean
@@ -38,10 +12,14 @@ zero and SD of 5. A and φ need to be estimated.
 In this case the parameters appear in a nonlinear way, so we use a trigonometric identity
 and write
 A cos(2πωt + φ) = A cos(φ) cos(2πωt) - A sin(φ) sin(2πωt),
-= β 1 cos(2πωt) + β 2 sin(2πωt),
-= β 1 *z1 + β 2 *z2
-If we can estimate β 1 and β 2 , then A and φ can be estimated.
-Therefore, x t = β 1 cos(2πωt) + β 2 sin(2πωt) + w t
+= \beta_1 cos(2πωt) + β 2 sin(2πωt),
+= \beta_1 *z1 + β 2 *z2
+If we can estimate \beta_1 and β 2 , then A and φ can be estimated.
+Therefore, x t = \beta_1 cos(2πωt) + β 2 sin(2πωt) + w t
+
+
+Exercise
+=======================================
 i)
 Simulate and plot a series x t , using A=2, φ = 0.6π and SD of white noise as 5 (for t= 1
 to 1000).
@@ -51,7 +29,7 @@ iv) Plot x, fitted line.
 ```
 
 
-```R
+```{r}
 
 
 
@@ -68,7 +46,7 @@ z2 = sin(2*pi*1:1000/50)
 ```
 
 
-```R
+```{r}
 
 
 
@@ -102,7 +80,7 @@ F-statistic: 51.38 on 2 and 998 DF, p-value: < 2.2e-16
 ```
 
 
-```R
+```{r}
 
 
 [4]

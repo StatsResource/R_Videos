@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+====================================================================================================================================================
 \usepackage{eurosym}
 \usepackage{vmargin}
 \usepackage{amsmath}
@@ -32,52 +32,52 @@
 Data
 Before answering this question, the data file must be generated in R using the following code:
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 set.seed(12345); 
 y = arima.sim( list(order = c(1,1,0), ar = 0.7), n = 300)
 
 set.seed(12345); 
 y = arima.sim( list(order = c(1,1,0), ar = 0.7), n = 300)
-\end{verbatim}
-\end{framed}
+```
+
 
 Plot the time series giving appropriate labels for each axis and paste the chart into your answer.
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 ts.plot( y, 
-        
-        xlab = "Time", 
+* * 
+* * xlab = "Time", 
   
-        ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
+* * ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
 
 plot( y, 
   
-      xlab = "Time", 
+*   xlab = "Time", 
   
-      ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
+*   ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
 ​
 
 x <- 1:301
 ​
 plot(x, y, 
-     
-     type="l", 
-     
-     xlab = "Time", 
+*  
+*  type="l", 
+*  
+*  xlab = "Time", 
   
-     ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
-\end{verbatim}
-\end{framed}
+*  ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
+```
 
-\newpage 
+
+
 
 (b) Comment on the general features of your chart.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 2}
+%
+
+Exercise 2}
 (a) Determine the best least squares linear fit, adding it to your chart.
 
 (b) Explain whether this least squares linear trend can be removed such that a zero mean stationary distribution is appropriate for the residuals.
@@ -99,7 +99,7 @@ lines(leastsquaresfit$fitted.values) [11⁄2]
 Error in parse(text = x, srcfile = src): <text>:4:22: unexpected input
 3: Intercept: 16.4405647
 4: Slope: -0.2436929 [11<e2>
-                        ^
+  ^
 Traceback:
 
 
@@ -119,16 +119,16 @@ the ACF values are very slowly decaying.
 ​
 Error in parse(text = x, srcfile = src): <text>:7:4: unexpected symbol
 
-\newpage 
-\subsection*{Exercise 3}
+
+Exercise 3}
 Plot the sample Autocorrelation function (ACF) and sample Partial Autocorrelation function (PACF) of the original data, giving appropriate labels for each axis and paste the charts into your answer.
 
-\begin{verbatim}
+```{r}
 acf(y, xlab = "Lag", ylab = "ACF of Simulated Values
 from an ARIMA(1,1,0) Time Series", main = "ACF")
 pacf(y, xlab = "Lag", ylab = "Partial ACF of Simulated
 Values from an ARIMA(1,1,0) Time Series", main = "PACF")   
-\end{verbatim}
+```
 
 
 (iv)
@@ -167,26 +167,26 @@ There is a slow decay in the ACF values suggesting a unit root process
 ​
 So we need to perform differencing.
 
-\newpage 
-\subsection*{Exercise 4}
+
+Exercise 4}
 
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 library(forecast)
 tsdisplay(diff(y))  
-\end{verbatim}
-\end{framed}
+```
 
-\begin{framed}
-\begin{verbatim}
+
+
+```{r}
 layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
 ts.plot(diff(y), main = "diff(y)")
 points(diff(y),cex=0.4)
 acf(diff(y))
 pacf(diff(y))
-\end{verbatim}
-\end{framed}
+```
+
 
 
 ​
@@ -199,17 +199,17 @@ PACF seem to decay fast towards zero.
  
 The plots do not indicate any seasonality.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%55
 (v)(a)
 The chosen model for the transformed data is ARIMA(1,0,0) since the differenced
 data looks stationary, and PACF is close to zero from lag 2.
 ​
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 fit10=arima(diff(y),order = c(1,0,0));fit10
-\end{verbatim}
-\end{framed}
+```
+
 
 Call:
 arima(x = diff(y), order = c(1,0,0))
@@ -227,22 +227,22 @@ The proposed model parameters for the transformed data are:
 α = 0.714, intercept = -0.2324
 
 
-\newpage 
+
 (a) Propose an appropriate model for the transformed data.
 ​
 (b) Justify the choice of model in part (v)(a) by performing an appropriate
 diagnostics procedure and comparisons with alternative models.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+5
 
 (v)(b)
 By inspecting the ACF and PACF plots of differenced data, alternative models can be
 considered by changing the values of p and q. In the following we fit 6 models:
 ​
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 fit11=arima(diff(y),order= c(1,0,1));fit11$aic
 # 844.452
 fit10=arima(diff(y),order= c(1,0,0));fit10$aic
@@ -255,16 +255,15 @@ fit12=arima(diff(y),order= c(1,0,2));fit12$aic
 # 846.3837
 fit22=arima(diff(y),order= c(2,0,2));fit22$aic
 # 847.6294
-\end{verbatim}
-\end{framed}
+```
 
-\begin{itemize}
-    \item This confirms that the ARIMA(1,0,0) model is a good fit compared with
+
+
+* *  This confirms that the ARIMA(1,0,0) model is a good fit compared with
 these alternatives.
 
-\item To check we can use a diagnostic testing procedure of:
+*  To check we can use a diagnostic testing procedure of:
 tsdiag(fit10)
-\end{itemize}
 
 ​
  
@@ -282,23 +281,22 @@ line in part (ii)(a), few commented satisfactorily in part (ii)(b) with many can
 suggesting that the least squares linear trend could be removed such that the residuals
 were stationary.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+=====================================%
+
  
  
- \begin{itemize}
-     \item Part (iii) was very well answered. Appropriate alternative comments received credit in part (iii)(b). To be appropriate, the comments had to relate to the ACF and PACF plots
+ 
+*  *  Part (iii) was very well answered. Appropriate alternative comments received credit in part (iii)(b). To be appropriate, the comments had to relate to the ACF and PACF plots
 produced in part (iii)(a) and not to any other charts.
 ​
-\item Answers to part (iv) were mixed. Partial credit was awarded to candidates who differenced the time series more than once and compared the variance of each differenced data set. Only partial credit was awarded to candidates who stated that the differenced data
+*  Answers to part (iv) were mixed. Partial credit was awarded to candidates who differenced the time series more than once and compared the variance of each differenced data set. Only partial credit was awarded to candidates who stated that the differenced data
 “was stationary” rather than “could be stationary”.
 ​
-\item Part (v) was poorly answered. Many candidates did not fit the correct model in part (v)(a) with most not stating the model parameters for their proposed model. 
-\item The proposed model
+*  Part (v) was poorly answered. Many candidates did not fit the correct model in part (v)(a) with most not stating the model parameters for their proposed model. 
+*  The proposed model
 had to be compared to at least two alternative models to score the full credit in the first part of (v)(b). Few candidates correctly interpreted the diagnositics procedures in the
 second part of (v)(b).
- \end{itemize}
-
+ 
 ​
 
 \end{document}

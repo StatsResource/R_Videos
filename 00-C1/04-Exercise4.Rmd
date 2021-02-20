@@ -1,6 +1,6 @@
 
 
-```R
+```{r}
 library(magrittr)
 ```
 
@@ -30,11 +30,11 @@ y &lt;- c(202,186,187,180,156,169,174,172,153,199,193,174, 198,183,178)
 
 ## Exercise 1
 
-Plot the fitted line for the regression of Max Rate on Age. 
+Plot the fitted line for the regression of Max Rate on Age.
 
 
 
-```R
+```{r}
 x <- c(18,23,25,35,65,54,34,56,72,19,23,42,18,39,37)
 
 y <- c(202,186,187,180,156,169,174,172,153,199,193,174,198,183,178)
@@ -47,7 +47,7 @@ plot(x,y)
 
 
 
-```R
+```{r}
 plot(x,y,pch=18)
 ```
 
@@ -56,30 +56,30 @@ plot(x,y,pch=18)
 
 
 
-```R
+```{r}
 lm.result = lm(y ~ x)
 ```
 
 
-```R
+```{r}
 # Obtain the basic values of the regression analysis
 
 lm.result
 ```
 
 
-    
-    Call:
-    lm(formula = y ~ x)
-    
-    Coefficients:
-    (Intercept)            x  
-       210.0485      -0.7977  
+* 
+* Call:
+* lm(formula = y ~ x)
+* 
+* Coefficients:
+* (Intercept) x  
+*    210.0485*   -0.7977  
 
 
 
 
-```R
+```{r}
 # make a plot
 plot(x,y,pch=18)
 
@@ -94,29 +94,29 @@ abline(lm(y ~ x))
 
 
 
-```R
+```{r}
 summary(lm.result)
 ```
 
 
-    
-    Call:
-    lm(formula = y ~ x)
-    
-    Residuals:
-        Min      1Q  Median      3Q     Max 
-    -8.9258 -2.5383  0.3879  3.1867  6.6242 
-    
-    Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-    (Intercept) 210.04846    2.86694   73.27  < 2e-16 ***
-    x            -0.79773    0.06996  -11.40 3.85e-08 ***
-    ---
-    Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-    
-    Residual standard error: 4.578 on 13 degrees of freedom
-    Multiple R-squared:  0.9091,	Adjusted R-squared:  0.9021 
-    F-statistic:   130 on 1 and 13 DF,  p-value: 3.848e-08
+* 
+* Call:
+* lm(formula = y ~ x)
+* 
+* Residuals:
+* * Min*   1Q  Median*   3Q*  Max 
+* -8.9258 -2.5383  0.3879  3.1867  6.6242 
+* 
+* Coefficients:
+ *  Estimate Std. Error t value Pr(>|t|)* 
+* (Intercept) 210.04846* 2.86694   73.27  < 2e-16 ***
+* x -0.79773* 0.06996  -11.40 3.85e-08 ***
+* ---
+* Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+* 
+* Residual standard error: 4.578 on 13 degrees of freedom
+* Multiple R-squared:  0.9091,	Adjusted R-squared:  0.9021 
+* F-statistic:   130 on 1 and 13 DF,  p-value: 3.848e-08
 
 
 
@@ -129,7 +129,7 @@ Comment on the results.
 A researcher reviews the plot in ***Exercise 1*** and suggests the slope should be equal to –1.
 
 
-```R
+```{r}
 confint(lm.result) %>% round(2)
 ```
 
@@ -162,7 +162,7 @@ Calculate the p-value of a hypothesis test for this suggestion, by creating a su
 
 
 
-```R
+```{r}
 es <- resid(lm.result)
 # the residuals lm.result
 
@@ -206,7 +206,7 @@ es %>% round(3)
 
 
 
-```R
+```{r}
 b1 <- (coef(lm.result))[['x']] #the x part of the coefficients
 n  <-  15
 
@@ -224,13 +224,13 @@ n
 
 
 
-```R
+```{r}
 s  <-  sqrt( sum( es^2 ) / (n-2) )
 SE <-  s/sqrt(sum((x-mean(x))^2))
 ```
 
 
-```R
+```{r}
 t  <-  (b1 - (-1) )/SE
 t
 ```
@@ -238,7 +238,7 @@ t
 * find the right tail for this value of t with 15-2 d.f.
 
 
-```R
+```{r}
 pt(t,13,lower.tail=FALSE)
 ```
 
@@ -247,7 +247,7 @@ pt(t,13,lower.tail=FALSE)
 
 
 
-```R
+```{r}
 
 The p-value is twice this as the problem is two-sided,
 
@@ -256,14 +256,14 @@ The p-value is twice this as the problem is two-sided,
 ```
 
 
-```R
+```{r}
 2 * pt(t,13,lower.tail=FALSE)
 ```
 
 
-```R
+```{r}
 ## Exercise 4
-Comment on the researcher’s suggestion, using your answer to part (iii). 
+Comment on the researcher’s suggestion, using your answer to part (iii).
 
 
 

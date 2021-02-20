@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+====================================================================================================================================================
 \usepackage{eurosym}
 \usepackage{vmargin}
 \usepackage{amsmath}
@@ -29,10 +29,10 @@
 
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 library(readr)
 AutoClaims <- read_csv("AutoClaims.csv")
-\end{verbatim} \end{framed}
+``` 
 
 Your actuarial friend has suggested you to use natural logarithm of “PAID” claims instead of the actual “PAID” Claim amount because the log e (PAID) is more closer to
 normal distribution than “PAID” Claims. Verify the statement made by your friend by comparing the Skewness and Excess Kurtosis of both the PAID claims as well as
@@ -42,37 +42,37 @@ Repeat the model in (i) above by considering the suggestion in (iii). Identify a
 Your Manager has suggested that the model can be improved by adding interaction effects between STATE and CLASS, STATE and GENDER, CLASS and GENDER
 as additional variables to the set of independent variables taken in (i). Evaluate the worthiness of this suggestion.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 iii)
 
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 #Reason for better model
 #Checking for the normality of Auto Claims Paid vs. Logairthm of Auto Claims Paid
 #Writing Functions for Skewness and Kurtosis
 skew<-function(x)mean((x-mean(x))^3)/sd(x)^3
 kurt<-function(x)(mean((x-mean(x))^4)/sd(x)^4)-3
 skew(AutoClaims$PAID)
-\end{verbatim} 
-\end{framed}
+``` 
 
-\begin{framed}
-\begin{verbatim}
+
+
+```{r}
 ##  2.619422
 kurt(AutoClaims$PAID)
-\end{verbatim} 
-\end{framed}
+``` 
 
-\begin{framed}\begin{verbatim}
+
+```{r}
 ##  9.20876
 skew(log(AutoClaims$PAID))
-\end{verbatim} \end{framed}
+``` 
 
-\begin{framed}\begin{verbatim}
+```{r}
 ##  0.4528057
 kurt(log(AutoClaims$PAID))
-\end{verbatim} \end{framed}
+``` 
 
 
 
@@ -324,8 +324,8 @@ this question was very poorly done. Part (iv) was attempted well, code was writt
 but a few ended up in writing correct interpretations. Part (v) was attempted by a few
 students only and many of them failed to provide appropriate interpretation.
 
-%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+%
+
 
 Performance of students in CS1B varied drastically. Only a few questions were
 answered successfully by majority of the participants

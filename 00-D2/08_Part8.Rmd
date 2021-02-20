@@ -1,5 +1,5 @@
 \documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+==========================================================================================================================================================================================================================================================================%%%%%
 \usepackage{eurosym}
 \usepackage{vmargin}
 \usepackage{amsmath}
@@ -34,11 +34,11 @@ moderate sample size (n = 100) and lastly with large sample size (n = 1000).
 
 
 ## Exercise 1
-i) Plot the series for all three cases.
+1.  Plot the series for all three cases.
 
 
 
-```R
+```{r}
 
 set.seed(101010)
 x1 = 2*rbinom(11, 1, .5) - 1 # simulated sequence of coin tosses
@@ -47,7 +47,7 @@ x3 = 2*rbinom(1001, 1, .5) - 1
 ```
 
 
-```R
+```{r}
 y1 = 2 + filter(x1, sides=1, filter=c(1.5,-.5))[-1]
 y2 = 2 + filter(x2, sides=1, filter=c(1.5,-.5))[-1]
 y3 = 2 + filter(x3, sides=1, filter=c(1.5,-.5))[-1]
@@ -80,7 +80,7 @@ Find the mean and variance and comment on results.
 
 
 
-```R
+```{r}
 
 
 

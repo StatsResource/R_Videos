@@ -1,30 +1,4 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
-
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
 \large
 # sessionInfo()
 ### AutoClaims
@@ -40,8 +14,8 @@ cols(
   AGE = col_double(),
   PAID = col_double()
 )
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+
+
 Exercise 1
 Prepare a table with mean, standard deviation and coefficient of variance (CV) of the claims paid
 
@@ -50,12 +24,12 @@ for each CLASS and sort the table in the ascending order of the CV
 
 Hint: Coefficient of Variance (CV) can be computed as the ratio of standard deviation to the mean.
 
-\medskip 
+
 Implementation using Base R:
-\begin{verbatim}
+```{r}
 state_mean<-aggregate(PAID~STATE,data = AutoClaims,FUN = mean)
 names(state_mean)<-c("State","Mean")
-\end{verbatim}
+```
 
 ​
 state_mean 
@@ -104,59 +78,59 @@ state_summary
 ​
 The State with minimum coefficient of variance is
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 state_summary$State[state_summary$CV==min(state_summary$CV)]
-\end{verbatim} \end{framed}
+``` 
 ​
 ​
 ​
 The State with maximum coefficient of variance is
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 state_summary$State[state_summary$CV==max(state_summary$CV)]
-\end{verbatim} \end{framed}
+``` 
 ​
 The State with minimum coefficient of variance is
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 state_summary$State[state_summary$CV==min(state_summary$CV)]
-\end{verbatim} \end{framed}
+``` 
 ​
 ​
 The State with maximum coefficient of variance is
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 state_summary$State[state_summary$CV==max(state_summary$CV)]
-\end{verbatim} \end{framed}
+``` 
 ​
 #### State Summarys (Tidyverse)
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 library(dplyr)
 library(magrittr)
 ​
 state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
-                         summarize(Mean = mean(PAID),
-                                   SD   = sd(PAID))
+   summarize(Mean = mean(PAID),
+  * *    SD   = sd(PAID))
 ​
-\end{verbatim} \end{framed}
-\begin{framed} \begin{verbatim}
+``` 
+```{r}
 head(state_summary_tidy)
-\end{verbatim} \end{framed}
+``` 
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
-                         summarize(Mean = mean(PAID),
-                                   SD   = sd(PAID)) %>%
-                         mutate(CV = Mean/SD) %>%
-                         arrange(CV)
+   summarize(Mean = mean(PAID),
+  * *    SD   = sd(PAID)) %>%
+   mutate(CV = Mean/SD) %>%
+   arrange(CV)
 ​
-\end{verbatim} \end{framed}  
+```   
 ​
 ​
 ### Claims (Base R)
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 Class_mean<-aggregate(PAID~CLASS,data = AutoClaims,FUN = mean)
 names(Class_mean)<-c("Class","Mean")
 Class_sd<-aggregate(PAID~CLASS,data = AutoClaims,FUN = sd)
@@ -165,25 +139,25 @@ Class_summary<-merge(Class_mean,Class_sd)
 Class_summary$CV<-Class_summary$SD/Class_summary$Mean
 #Mean, Standard Deviation and Coefficient of variance for each rating class
 Class_summary
-\end{verbatim} \end{framed}
+``` 
 ​
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 Class_summary[order(Class_summary$CV),]
-\end{verbatim} \end{framed}
+``` 
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 Class_summary_tidy <- AutoClaims %>% group_by(CLASS) %>%
-                         summarize(Mean = mean(PAID),
-                                   SD   = sd(PAID)) %>%
-                         mutate(CV = Mean/SD) %>%
-                         arrange(CV)
+   summarize(Mean = mean(PAID),
+  * *    SD   = sd(PAID)) %>%
+   mutate(CV = Mean/SD) %>%
+   arrange(CV)
 ​
-\end{verbatim} \end{framed}  
+```   
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 Class_summary_tidy
-\end{verbatim} \end{framed}
+``` 
 ​
 ​
 ​
@@ -196,9 +170,9 @@ Class_summary$CV<-Class_summary$SD/Class_summary$Mean
 #Mean, Standard Deviation and Coefficient of variance for each rating class
 Class_summary
 ​
-\begin{framed} \begin{verbatim}
+```{r}
 Class_summary[order(Class_summary$CV),]
-\end{verbatim} \end{framed}
+``` 
 ​
 ​
 Exercise 2

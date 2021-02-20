@@ -1,30 +1,3 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
-
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
-
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
 
 
 
@@ -38,14 +11,14 @@ In R console run the following code: ``set.seed(123)``
 and then use R to simulate 10,000 claims and plot a histogram of the simulated data. 
 
 
-\begin{verbatim}
+```{r}
 set.seed(123)
 
 claims <- rexp(10000, 0.0001)
 
 hist(claims, main = "Histogram of 10,000 Simulated Claims Values from the Exponential Distribution")
 
-\end{verbatim}
+```
 
 
 ## Exercise 2
@@ -66,7 +39,7 @@ mean(claims) %>% round(3)
 
 var(claims)   %>% round(3)
 
-library(scales)    # Comma
+library(scales)* # Comma
 
 
 
@@ -80,20 +53,19 @@ var(claims)  %>% comma()
 Compare your answers to part (ii)(a) with the theoretical values expected from the exponential distribution with parameter 0.0001.
 
 
-\begin{itemize}
-    \item The theoretical value of the mean should be 1/0.0001 = 10,000.
 
-    \item The theoretical value of the variance should be (1/0.0001^2 ) = 100,000,000 
+* *  The theoretical value of the mean should be 1/0.0001 = 10,000.
 
-    \item The simulated values are very close to the theoretical values. 
+* *  The theoretical value of the variance should be (1/0.0001^2 ) = 100,000,000 
 
-    \item The difference is due to sampling error 
-\end{itemize}
+* *  The simulated values are very close to the theoretical values. 
+
+* *  The difference is due to sampling error 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\subsection*{Exercise 3}
+%
+
+Exercise 3}
 
 The insurer decides to take out an individual excess of loss reinsurance arrangement with a retention level of $20,000.
 
@@ -118,7 +90,7 @@ under each of the following six retention levels:
 
 (iii)(a)
 For the insurer:
-\begin{framed} \begin{verbatim}
+```{r}
 InsClaims3 <- pmin(claims, 20000)
 mean(InsClaims3)
  8671.328
@@ -141,7 +113,7 @@ mean(ReClaims3_alt)
 var(ReClaims3_alt)
  96978902
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 
 (iv)(a)
 InsClaims1
@@ -224,11 +196,11 @@ VarRe_alt
 98212292
 
 
-\end{verbatim}
-\end{framed}
+```
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+
+%
+
 
 
 [8]
@@ -239,8 +211,8 @@ retention level.
 (v)
 92486321 106717925
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 x <- c(5000, 10000, 20000, 30000, 40000, 50000)
 plot(x, MeanIns, xlab = "Retention Limit", ylab = "Mean
 amount paid by Insurer", main = "Mean Claim Amount for
@@ -257,25 +229,25 @@ plot(x, VarRe, xlab = "Retention Limit", ylab =
 of Claim Amount for Reinsurer by Retention Limit", type
 = "l")
 
-\end{verbatim}
-\end{framed}
+```
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+
+%
+
 
 OR: Alternative accepted graph for the reinsurer based on conditional distribution.
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 x <- c(5000, 10000, 20000, 30000, 40000, 50000)
 plot(x, MeanRe_alt, xlab = "Retention Limit", ylab = "Mean
 amount paid by Reinsurer",main = "Mean Claim Amount for
 Reinsurer by Retention Limit", type = "l")
 plot(x, VarRe_alt, xlab = "Retention Limit", ylab = "Variance
 of amount paid by Reinsurer", main = "Variance of Claim Amount
-for Reinsurer by Retention Limit", type = "l")    
-\end{verbatim}
-\end{framed}
+for Reinsurer by Retention Limit", type = "l")* 
+```
+
 
 
 
@@ -284,7 +256,7 @@ for Reinsurer by Retention Limit", type = "l")
 
 
 (vi)
- Comment, with reference to the total variance, on your results in part (v). [6]
+Comment, with reference to the total variance, on your results in part (v).[6]
 %----------------------------------------%
 –4
 
@@ -325,8 +297,8 @@ TotalVar_alt
 191582658
 
 This suggests that this retention limit might be the most appropriate in practice. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-\newpage 
+5
+
 
 Parts (i) to (iv) were very well answered.
 

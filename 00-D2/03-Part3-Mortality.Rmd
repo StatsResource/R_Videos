@@ -1,38 +1,12 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
 
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
-
-```R
+```{r}
 Q. 3)
 Mortality of a group of lives follows Gompertz’s law. 
 
 The value of the parameters is known as c = 1.128 & B = 7.29 x 10 -6 .
 1
-Use the approximation q x = 1 − e −μ(x+ 2 ) , calculate an approximate of the curtate value
+Use the approximation q x = 1 − e −\mu(x+ 2 ) , calculate an approximate of the curtate value
 for age 55 or e55. Assuming 100 is the maximum age.
 
 Solution 3:
@@ -41,7 +15,7 @@ Solution 3:
 ```
 
 
-```R
+```{r}
 i)
 B=0.00000729
 C=1.128
@@ -58,7 +32,7 @@ qx<-function(x){
 ```
 
 
-```R
+```{r}
 x<-55
 Page 5 of 11IAI
 

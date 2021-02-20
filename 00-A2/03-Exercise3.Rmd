@@ -1,34 +1,8 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
 
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
-
-\begin{framed} \begin{verbatim}
+```{r}
 library(magrittr)
-\end{verbatim}\end{framed}
+```
 
 
 You have been asked to analyse the percentage changes in quarterly personal
@@ -40,15 +14,15 @@ The data can be loaded into R using the command:
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 #install.packages("fpp")
 #library(fpp)
-\end{verbatim}\end{framed}
+```
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 usconsumption %>% head()
-\end{verbatim}\end{framed}
+```
 
 
 <table>
@@ -69,13 +43,13 @@ usconsumption %>% head()
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 consumption <- usconsumption[,1]
-\end{verbatim}\end{framed}
+```
 
-%%%%%%%%%%%%%%%%%%%%%%5
-\newpage 
-\subsection*{Exercise 1}
+===================5
+
+Exercise 1}
 
 Plot this time series giving appropriate labels for each axis and paste the R
 code and the chart into your answer.
@@ -83,7 +57,7 @@ code and the chart into your answer.
 
 
 
-\newpage 
+
 * (ii) (a) Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF), giving appropriate labels for each axis and paste the
 R code and the charts into your answer.
 
@@ -96,16 +70,16 @@ stating the equation of the model and justifying your choice.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%5
-\newpage 
+===================5
+
 The dataset usconsumption also includes the quarterly personal disposable income from 1970 to 2010. 
 The data can be loaded into R using the command:
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 income <- usconsumption[,2]
-\end{verbatim}\end{framed}
+```
 
 
 Compare the performance of the ARIMA model you have chosen in part (iii) with a linear regression model of consumption on income, by computing the root mean square error (RMSE) for the fitted values of
@@ -116,9 +90,9 @@ Explain why the RMSE is not the ideal measure to compare these models, including
 
 An analyst has suggested that neither model in part (iv) is a good fit to the data and has asked you to propose an alternative model.
 
-%%%%%%%%%%%%%%%%%%%%%%5
-\newpage 
-\subsection*{Part 5}
+===================5
+
+Part 5}
 (v)
 (a)
 (b)
@@ -127,4 +101,4 @@ equation used.
 (c)
 Compare the results of this model to the models fitted in part (iv).
 
-\end{document}
+
