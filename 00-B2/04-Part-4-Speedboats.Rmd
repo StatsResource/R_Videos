@@ -1,5 +1,13 @@
-\documentclass[a4paper,12pt]{article}
-=============================================================================================
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 ABC Tech, a Speedboat manufacturing company, was established a few decades back. The
 company has shown a consistent growth in its revenue from Speedboat sales since its inception.
@@ -15,16 +23,17 @@ a data science and predictive analytics consultant.
 Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
 
 
-\noindent
+---
+
 Additionally, They have  also suggested you to investigate the impact of marketing program on
 sales by using an exogenous variable ARIMA model. You agreed on the steps to be followed
 and agree on the following steps.
 
 **Note: You will require “Forecast” package for this assignment.**
 
+---
 
 Data provided in \texttt{Speedboat\_Sales.csv} in the local file directory.
-===============================================================================================
 
 
 
@@ -43,7 +52,7 @@ library(Forecast)
 ```
 
 
-
+---
 
 
 Exercise 1}
@@ -60,13 +69,11 @@ plot(data, xlab="Years", ylab = "Speedboat Sales")
 ```
 
 
-\includegraphics[]{00-B2/images/Speedboat_1.png}
 
 Clearly the above chart has an upward trend for speedboat sales and there is also a seasonal
 component.
 
-===============================================================================================
-%% PART 2
+---
 
 
 Exercise 2}
@@ -81,11 +88,8 @@ pacf(ts(data),main="PACF Speedboat Sales")
 ```
 
 
-\includegraphics[]{00-B2/images/Speedboat_2.png}
+---
 
-
-===============================================================================================
-%% PART 3
 
 
 Exercise 3}
@@ -102,7 +106,7 @@ diff_data = diff(data)
 plot(diff_data,ylab="Differenced Speedboat Sales")
 ```
 
-
+---
 
 * The above series ($d=1$) is not stationary on variance i.e. variation in the plot is increasing as we move towards the right of the chart. 
 * We need to make the series stationary on variance to produce reliable
@@ -118,14 +122,7 @@ plot(diff_data_2,ylab="Differenced Speedboat Sales")
 ```
 
 
-
-
-
-
-
-===============================================================================================
-
-
+---
 
 Exercise 4}
 Looking at the plots of difference series, you decide to apply log transformation to the
@@ -138,12 +135,7 @@ Log_data = log10(data)
 plot(Log_data,ylab="Log Speedboat Sales")
 ```
 
-\includegraphics[]{00-B2/images/Speedboat_5.png}
-
-
-===============================================================================================
-%% PART 5
-
+---
 
 Exercise 5}
  Obtain the first order difference series of the transformed series and plot the same. 
@@ -157,11 +149,7 @@ plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
 
 
 
-
-===============================================================================================
-%% PART 6
-
-
+---
 
 Exercise 6}
 Plot ACF and PACF to identify potential AR and MA model for this series and

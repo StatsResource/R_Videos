@@ -1,30 +1,13 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
-
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
-
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 
 Let ${\displaystyle Z}$ be a standard normal variable, and let ${\displaystyle \mu }$ and ${\displaystyle \sigma &gt;0}$ be two real numbers. Then, the distribution of the random variable
@@ -52,6 +35,8 @@ exp(2 +((0.5)^2/2 ))
 
 
 Comment on the appropriateness of the central limit theorem by implementing the following steps:
+
+---
 
 \subsection*{Exercise 1}
 
@@ -81,8 +66,8 @@ head(data1)
 mean(data1)    
 \end{verbatim}
 
+---
 
-\newpage 
 \subsection*{Exercise 2}
 \large 
 \noindent Compute the sample mean, median and variance from the generated sample and compare the values with those of a population following a lognormal distribution with the given
@@ -101,6 +86,7 @@ var(data1)
 \end{verbatim}
 \end{framed}
 
+---
 
 \begin{framed}
 \begin{verbatim}
@@ -125,8 +111,8 @@ Mean, Median and Variance of the generated sample and those computed based on th
 Generating a much larger sample will bridge those smaller differences existing between them as well
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-\newpage 
+---
+
 \subsection*{Exercise 3}
 
 \noindent  Treat the data generated in (i) as the population. Generate 500 different random samples
@@ -165,11 +151,8 @@ for (i in 1:500){
 \end{framed}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
 
-
-
-\newpage 
 \subsection*{Exercise 4}
 \noindent Plot the histogram of sample means generated from part (iii) and interpret the distribution
 of sample means.
@@ -188,4 +171,3 @@ exercise that sample means tend to follow a normal distribution as the sample si
 Increase in Sample size from 200 to much higher can ensure better normality of the sample
 means
 
-\end{document}

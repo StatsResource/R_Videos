@@ -1,30 +1,14 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
-
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
 
 Q. 3) The following graph shows the relationship between the first premium paid and the ratio of
 Maturity/Death SA to the first premium of several policies whose term is 20 years.
@@ -55,9 +39,7 @@ Premium paid and the Death/Maturity SA (assuming that Death and Maturity SA are
 the same) and the policy term is 20 years. (4)
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newpage
+---
 
 Solution 3:
 i) For the same sum assured, the single premium will be much higher than regular premium, therefore
@@ -77,9 +59,7 @@ Regular Payment
 Regular Limited
 Payment
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newpage
+---
 
 Explain the reason behind the scales in the above graph. (2)
 
@@ -90,18 +70,16 @@ and 1000s respectively, then SA/Premium ratio provides a numerically similar sca
 of policies.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
 
-\newpage
-
-
-Page 2 of 5IAI
 CS2B - 0619
 iii)
 Also, write the R code for finding the nature of policy based on Binary decision tree
 method.
 
-iii) The following R code explain the binary decision tree:
+ The following R code explain the binary decision tree:
+ 
+```{r} 
 SA<-5000000
 > FP<-250000
 > Ratio<-(SA/100)/(FP/1000)
@@ -109,5 +87,5 @@ SA<-5000000
 Premium"))
 > guess
 > guess
-[1] "Regular Premium”
-[10 Marks]
+
+```
