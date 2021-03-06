@@ -1,12 +1,34 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-CS2B S2020–3 2Before answering this question, generate the vector, X, in R using the following code:set.seed(1027); X = rexp(n=1000, rate=0.01)The vector X represents the gross claim sizes of 1,000 claims. 
 
+CS2B S2020–3 2Before answering this question, generate the vector, X, in R using the following code:
+set.seed(1027); 
+X = rexp(n=1000, rate=0.01)
+
+The vector X represents the gross claim sizes of 1,000 claims. 
+
+---
 The payments are to be split between an insurance company and its reinsurer under an Excess of Loss reinsurance arrangement with a retention level M = 400. (1. 
 Determine the proportion of the claims that are fully covered by the insurer. 
-(2. Generate an additional vector, Y, which is of the same length as X, such that Yrepresents the amounts to be paid by the insurer for each component of X.  [1] 
+
+---
+(2. Generate an additional vector, Y, which is of the same length as X, such that Y represents the amounts to be paid by the insurer for each component of X.  
+
+---
+
 3.  Generate an additional vector, ��, which is of the same length as X, such that ��represents the amounts to be paid by the reinsurer for each component of X. 
 
 An actuary assumes that the underlying gross claims distribution follows an exponential distribution of some unknown rate λ. 
+---
 
 The actuary needs to estimate λ using only the claim amounts recorded in vector Y.  (iv)Construct R code that calculates the log-likelihood, as a function of the parameter λ, given the claim amounts
  data in vector Y. [10] (v)Determine the value of λ at which the log-likelihood function reaches its maximum.  

@@ -1,36 +1,64 @@
-Use the ‘MotorClaims’
-(MotorClaims.csv)
-i)
-to
-answer
-the
-following
-questions:
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-provided
 
-Exercises
-===================================================
+Use the ‘MotorClaims’ data set (MotorClaims.csv) to answer the following questions:
+
+```{r}
+claims <- read.csv("MotorClaims.csv")
+
+head(claims)
+```
+
+
+---
+
+
+```{r}
+summary(claims)
+```
+
+
+```{r}
+dim(claims)
+```
+
+---
+
+## Exercises
+
 
 1. Fit Gamma distribution on the dataset provided by determining its scale and shape
 parameters. State clearly the distribution with the parameters.
 
 2. Simulate 1000 values from the distribution obtained in question (i) and print the first
-six values. (Set seed to 100) (
+six values. (Set seed to 100) 
 
 3. Calculate the mean and variance of simulated values. 
+
 4. Obtain a QQ plot for the simulations of 1000 values and a normal distribution. 
+
 5. Add a line to the above plot to show the true position of normal distribution. 
+
 6. Comment on the shape of the distribution and how close it is to a normal distribution.
 
 
 
+---
 
-Solution 1:
-==========================================
+## Solution 1:
+
 
 ```{r}
-claims <- read.csv("MotorClaims.csv")
+
 
 xbar = mean(claims$Claims)
 xbar
@@ -42,6 +70,10 @@ variance = stddev ^ 2
 variance
 ```
 
+
+---
+
+
 ```{r}
 lambda <- xbar/variance
 lambda
@@ -52,11 +84,15 @@ alpha <-xbar * lambda
 alpha
 ```
 
+
+--- 
+
 $$X ~ Gamma (2.16, 0.0001)$$
 
-Exercise 2
-=========================================================================
-ii)
+---
+
+### Exercise 2
+
 
 ```{r}
 set.seed(100)
@@ -64,34 +100,60 @@ samples <- rgamma(1000,alpha,lambda)
 head(samples,6)
 
 ```
-[1] 9305.461 2125.292 25926.442 15685.099 18120.436
-8605.442
-[2]
-[1]
-[2]
-[5]
-iii)
+
+
+
+---
+
+
+### Exercise 3
+
+```{r}
 mean(samples)
-[1] 18423.47
+```
+
+```{r}
 variance <- sd(samples) ^ 2
 variance
-[1] 153958637
+```
 
+---
 
+### Exercise 4
 
-Exercise 4
-=========================================================================
-iv)
+Normal Probability Plot (a.k.a QQ plots)
+
 ```{r}
 qqnorm(samples)
 
 ```
 
-Exercise 5
-=========================================================================
-v)
+
+---
+
+```{r}
+qqnorm(samples,
+       pch = 16,
+       col = "blue")
+
+```
+
+
+---
+
+### Exercise 5
+
+```{r}
+qqnorm(samples,
+       pch = 16,
+       col = "blue")
+
 qqline(samples,col="red")
-[2]
+
+```
+
+---
+
 vi)
 Close to normal... (1 mark) in the middle values... (1 mark) .
 ‘Banana-shaped’ indicates positively skewed... (1 mark) .

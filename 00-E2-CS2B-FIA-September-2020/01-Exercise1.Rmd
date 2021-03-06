@@ -1,17 +1,47 @@
 
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 
 An actuary is investigating the asymptotic behaviour of the sample autocorrelation function for two time series models. 
 
 
-(1. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order moving average process with parameter β1=0.4, assigning the 
-simulated values to a vector called YMA.  [2] (2. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order autoregressive model 
-with parameter α1=0.45, assigning the simulated values to a vector called YAR. [2] 
+(1. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order moving average process with parameter $beta_1=0.4$, assigning the 
+simulated values to a vector called ***YMA***.  
+
+---
+
+(2. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order autoregressive model 
+with parameter α1=0.45, assigning the simulated values to a vector called ***YAR***. 
+
+---
 3.  Plot, on four separate graphs, the sample autocorrelation function (sample ACF) and sample partial autocorrelation function (sample PACF) for each of the two time series models, YMA and YAR, generated 
-in parts (1.  and (2. .   [6] (iv)Comment on the general features of the plots in part 3.  
+in parts (1.  and (2. .   
+
+---
+
+(iv)Comment on the general features of the plots in part 3.  
 
  with reference to whether they are consistent with the theoretical behaviour of the corresponding functions for the true models. 
  
  he acf() function in R can also provide a vector output of the sample ACF values, with component i giving the sample ACF at lag i – 1, provided that the plot argument of the function is set to ‘FALSE’. 
+ 
+---
   (v)Determine the numerical values for the sample ACF at lag 2, for each of the two time series models, YMA and YAR, generated in parts (1.  and (2. . [2] (
-  v1. Construct R code that  first sets a random number generator seed of 967; and thengenerates 1,000 random vectors (of length n = 200) for each of the twomodels in parts (1.  and (2. ; andassigns the values of the sample ACF at lag 2 for each random vector totwo vectors ACF2MA and ACF2AR (each of length 1,000).[8](v2. Determine the mean and variance of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [3] (vi2. Plot, on two separate graphs, the histograms of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [4] 
+  
+---  
+  
+  v1. Construct R code that  first sets a random number generator seed of 967; and thengenerates 1,000 random vectors (of length n = 200) for each of the twomodels in parts (1.  and (2. ; andassigns the values of the sample ACF at lag 2 for each random vector totwo vectors ACF2MA and ACF2AR (each of length 1,000).
+  
+  (v2. Determine the mean and variance of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [3] (vi2. Plot, on two separate graphs, the histograms of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [4] 
 (ix)Comment on the results in parts (v2.  and (vi2. , including whether they agree with the expected asymptotic behaviour. [9] [Total 40] 

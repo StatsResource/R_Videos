@@ -1,3 +1,15 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 
 ```{r}
@@ -13,11 +25,15 @@ For the graphs, the value of x varies from 0 to 10.
 Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 0.75$ and $\lambda  = 0.5$.
 
 
+---
+
 The hazard function $h(x)$ for a distribution is defined as the ratio between its probability density function and its survival function.
 
 Survival functions are most often used in reliability and related fields. The survival function is the probability that the variate takes a value greater than x.
 
-$$S(x)=Pr[X&gt;x]=1−F(x)$$
+$$ S(x) = Pr[X gt x ] = 1 − F(x) $$
+
+---
 
 #### Probaility Density Function
 
@@ -29,7 +45,7 @@ plot.function(pdf,0,10)
 ```
 
 
-![png](output_5_0.png)
+--- 
 
 
 #### Survival Function
@@ -44,7 +60,7 @@ title("Survival Function")
 ```
 
 
-![png](output_7_0.png)
+---
 
 
 #### Hazard Function
@@ -60,7 +76,7 @@ title("Hazard Function 1")
 ```
 
 
-![png](output_9_0.png)
+---
 
 
 ## Part (b)
@@ -75,7 +91,7 @@ plot.function(h2,0,10)
 ```
 
 
-![png](output_11_0.png)
+---
 
 
 ## Part (c)
@@ -90,7 +106,7 @@ plot.function(h3,0,10)
 ```
 
 
-![png](output_13_0.png)
+---
 
 
 ## Part (d)
@@ -111,6 +127,4 @@ distribution.
 
 
 
-```{r}
 
-```
