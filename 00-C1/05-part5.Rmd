@@ -1,5 +1,16 @@
-[Total 16]
-CS1B S2019–45
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+---
+
 The data given in the file policies_data.RData show the numbers of policies
 (n.policies) by sex of policyholder (sex.code; 1 for male, 2 for female)
 and class of business (class.code; 5 different classes) from a certain insurance
@@ -18,11 +29,15 @@ policyholders respectively:
 (ii)
 Comment on the relationship in the data based on this plot.
 
+---
+
 For the remainder of the question you will need to ensure that the sex and class
 variables are treated as categorical variables (factors). You can use the following R
 code:
 class.code = as.factor(class.code)
 sex.code = as.factor(sex.code)
+
+---
 
 (iii) Fit a generalised linear model analysis to the data, using a Poisson distribution,
 with the numbers of policies as the response variable and the class of business
@@ -31,10 +46,10 @@ corresponding p-values and a brief interpretation of their effect.
 
 
 
+---
 
-END OF PAPER
-CS1B S2019–6
-
+Exercise 1
+===========
 
 Q5
 (i)
@@ -51,15 +66,31 @@ S 2019
 with lower numbers for classes 4 and 5.
 The relationship is not clear though.
 
+---
+
+Exercise 2
+===========
 
 (ii) It now seems that the number of claims also depends on the gender of policyholders.
 
 The numbers are generally higher for males.
 
+
+---
+
+Exercise 3
+===========
+
 (iii) R code:
 class.code = as.factor(class.code)
 sex.code = as.factor(sex.code)
 glm1 = glm(n.policies ~ class.code, family = "poisson")
+
+
+---
+
+Exercise 3
+===========
 
 summary(glm1)
 
@@ -92,10 +123,7 @@ from that of class 1, and there is some (weak) evidence that classes 3 and 4 als
 a different effect.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-```R
+---
 
 (iv) Fit a second Poisson generalised linear model analysis to the data, using the
 numbers of policies as the response variable and both the class of business and
@@ -103,7 +131,7 @@ the sex of the policyholders as factors. Your answer should include estimates
 of the parameters, corresponding p-values and a brief interpretation of their
 effect.
 
-CS1B S2019–5
+---
 
 (v) Determine, using the deviance, which of the two models used in parts (iii)
 and (iv) provides a better fit to the data. Your answer should include the null
@@ -112,13 +140,10 @@ hypothesis, the p-value of the relevant test and a clear conclusion.
 (vi) Calculate the predicted number of policies for male policyholders when the
 class of business is 2, based on the model chosen in part (v).
 
-[Total 32]
+---
 
 
-```
-
-
-```R
+```{r}
 
 (iv)
 R code:
@@ -154,6 +179,9 @@ Pr(>|z|)
 0.00386 **
 Numbers of policies depend on both business class and gender of policyholder.
 
+---
+
+
 Business class 5 has the strongest effect on number of policies when compared to
 class 1, and this effect is negative (reducing number of policies). Male policyholders
 give the baseline here, so being female has a significant negative effect on number of
@@ -162,6 +190,8 @@ policies.
 (v)
 The null hypothesis is that the second model (including both factors) is not an
 improvement over the first model.
+
+---
 
 R code:
 anova(glm1,glm2,test = "Chisq") 
@@ -179,6 +209,8 @@ The p-value is 0.003671.
 Therefore we have strong evidence against the null hypothesis. We conclude that the
 second model gives significant improvement.
 
+---
+
 (vi)
 R code:
 predict(glm2, data.frame(class.code="2", sex.code="1"),
@@ -193,7 +225,3 @@ varying validity. In parts (iii) and (iv) many candidates fitted the GLM success
 produced weak comments. Note that part (iv) can alternatively be answered using the
 update() command. Parts (v) and (vi) were not well answered, with a number of
 candidates failing to use the deviance as requested and instead opting for the AIC.
-END OF EXAMINERS’ REPORT
-S 2019
-
-```

@@ -1,5 +1,15 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-\begin{document}
+---
 
 ### Question 1
 Data is available for the movement of taxis in Dublin. 
@@ -20,7 +30,7 @@ The following probabilities have been determined for taxi movements:
 The movement of taxis in Dublin will be modelled in R using a Markov Chain.
 
 
-
+---
 
 #### Driver Movement
 A 3 - dimensional discrete Markov Chain defined by the following states:
@@ -33,6 +43,8 @@ North | 0.3 | 0.3 | 0.4\\
 South | 0.4 | 0.4 | 0.2\\
 West | 0.5 | 0.3 | 0.2\\
 
+
+---
 
 ## Exercise 1
 
@@ -54,6 +66,7 @@ DriverZone
 </ol>
 
 
+---
 
 ## Exercise 2
 

@@ -1,3 +1,15 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
 
 The dataset “\texttt{Interest\_rates.csv}” contains a series of returns on bonds of maturities 
 1 year, 5 years, 10 years, 15 years, 20 years and 30 years (i.e. bonds that provide a

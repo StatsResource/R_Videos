@@ -1,36 +1,19 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
-
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
-\large 
 \noindent A statistician is carrying out an exercise to analyse a dataset that describes the failure
 times of outdoor telephone cables, with respect to the cable material quality (graded
 1 to 4) and level of rainfall in centimetres that the cable is exposed to.
 
-\medskip
+
 \noindent The data given in the file “\texttt{CablesDataset.csv}” show failure times in years for 20
 different cables.
 
@@ -44,10 +27,11 @@ head(cables_data)
 
 \includegraphics[scale=1.5]{00-A1/images/CablesData_1_head.JPG}
 
-\newpage 
+---
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Exercise 1}
+
+## Exercise 1
+
 \noindent  Fit a linear model to the data with the failure time as the response, including
 both cable material quality and level of rainfall as the two covariates. Your
 answer should include a summary of the fitted model.\\
@@ -66,7 +50,8 @@ cables_data)
 summary(linear_model)
 \end{verbatim} \end{framed}
 
-\newpage 
+---
+
 \begin{verbatim}
    Call:
     lm(formula = Failure.Time ~ Material.Type +
@@ -91,8 +76,8 @@ summary(linear_model)
 \end{verbatim}    
  
 
-\newpage 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
+
 \subsection*{Exercise 2}
 
 State the formula of the model fitted in Exercise 1, clearly explaining the
@@ -119,8 +104,8 @@ indicated by the t-tests shown in the fourth column of the R output.
 \end{itemize}
 
 
-\newpage 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
+
 \subsection*{Exercise 3}
 
 \noindent Plot the residuals of the model. Comment on the plot.
@@ -141,7 +126,7 @@ residuals(linear_model)
 \includegraphics[scale=1.1]{00-A1/images/CablesData_3_residuals.JPG}
 
 
-\newpage 
+---
 
 \begin{framed}\begin{verbatim}
 # plot the residuals
@@ -161,9 +146,8 @@ abline(h=0)
 \noindent The residuals exhibit a fairly random scatter around zero
 apart from the 6th point.
 
+---
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
 \subsection*{Exercise 4}
 
 \noindent An analyst suggests that the 6th row of the original data should be removed. Construct a new data set from the original data \textbf{\textit{CablesDataset.csv}}
@@ -178,8 +162,10 @@ cables_data2 <- cables_data[-6,]
 
 
 \noindent The residuals plot indicates that data point 6 is an outlier.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
-\newpage 
+
+
+---
+
 \subsection*{Exercise 5}
 
 \noindent Fit a linear model to the new data set constructed in Exercise 4. Comment on the fit of the new model compared to the model fitted previously, by comparing suitable statistics from the R
@@ -194,7 +180,9 @@ linear_model2 <- lm(Failure.Time~Material.Type + Rainfall,
 summary(linear_model2)
 \end{verbatim} \end{framed}
 
-\newpage 
+
+---
+
 \begin{verbatim}
  
     Call:
@@ -226,9 +214,8 @@ removed is 0.7475.
 \end{itemize}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
 
-\newpage 
 \subsection*{Exercise 6}
 \noindent Fit a generalised linear model (GLM) to the data set constructed in
 Exercise 4 using a Gamma distribution.
@@ -244,7 +231,8 @@ gfit<-glm(Failure.Time~Material.Type+Rainfall,
         data = cables_data2)
 \end{verbatim} \end{framed}
 
-\newpage
+---
+
 \begin{verbatim}
 
 Call:
@@ -273,7 +261,7 @@ AIC: -125.54
 Number of Fisher Scoring iterations: 4
 
 \end{verbatim}
-\newpage 
+---
 
 
 \begin{framed}\begin{verbatim}
@@ -297,7 +285,7 @@ coef(gfit)
 
 where $x_1$ is the ‘material type’ variable, and $x_2$ is the ‘rainfall’ variable.
 
-\newpage 
+---
 
 \begin{framed}\begin{verbatim}
 # review the model fit
@@ -328,8 +316,9 @@ summary(gfit)
     
     Number of Fisher Scoring iterations: 4
 \end{verbatim}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+
+---
+
 Reviewing the model fit output from R, the ‘rainfall’ parameter is not
 significantly different to zero, whereas the ‘material type’ parameter is
 significant at the 0.1\% level.

@@ -1,4 +1,13 @@
-
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 ```{r}
 library(magrittr)
@@ -15,8 +24,8 @@ The data can be loaded into R using the command:
 
 
 ```{r}
-#install.packages("fpp")
-#library(fpp)
+install.packages("fpp")
+library(fpp)
 ```
 
 
@@ -47,7 +56,7 @@ usconsumption %>% head()
 consumption <- usconsumption[,1]
 ```
 
-===================5
+---
 
 Exercise 1}
 
@@ -69,8 +78,7 @@ Fit the most appropriate ARIMA model based on the results in part (ii)(a),
 stating the equation of the model and justifying your choice.
 
 
-
-===================5
+---
 
 The dataset usconsumption also includes the quarterly personal disposable income from 1970 to 2010. 
 The data can be loaded into R using the command:
@@ -90,7 +98,7 @@ Explain why the RMSE is not the ideal measure to compare these models, including
 
 An analyst has suggested that neither model in part (iv) is a good fit to the data and has asked you to propose an alternative model.
 
-===================5
+---
 
 Part 5}
 (v)

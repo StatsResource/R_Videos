@@ -1,4 +1,13 @@
-
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 A particle is moving on the graph below by starting on a randomly chosen vertex (each with
 the same probability) and at each time step moving along one of the adjacent edges to a
@@ -9,8 +18,7 @@ previous movements.
 
 
 
-===================%%%%
-
+---
 Create a matrix with the transition matrix with probabilities using the state names as
 {A,B,C,D,E,F,G} and plot the transition matrix graph. 
 ```{r}
@@ -43,8 +51,7 @@ sum(Matrix2[7,])
 
 
 
-
-1
+---
 
 
 
@@ -85,11 +92,8 @@ transitionMatrix=Matrix2)
 [1] "A" "B" "C" "D" "E" "F" "G"
 #Create the transition matrix
 
-======================================
+---
 
-
-transitionmat1
-CS2B-0619
 markovchain::plot(transitionmat1)
 > transitionmat1
 Unnamed Markov chain
