@@ -1,3 +1,15 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
 Q. 3)
 (7)
 [27]
@@ -10,8 +22,9 @@ i)
 Simulate claims for 10,000 policies and create a frequency distribution of the number
 of claims made on a policy per year.
 (4)
-Page 2 of 3IAI
-CS2B-1120
+
+---
+
 ii) Simulate the claim amounts for each claim and compute the aggregate claim amounts
 for each policy. Create a histogram of the aggregated claim amounts with proper
 labelling and legends. (6)
@@ -27,6 +40,8 @@ retention limit based on the computations of (iv) and the proportion of total cl
 be handled by the reinsurer. (5)
 vi) Based on that limit, compute the standard deviation and coefficient of skewness of the
 costs to the reinsurer.
+
+---
 
 ===========================================================================================================
 
@@ -48,7 +63,9 @@ freq
 70
 5
 15
-[4]
+
+---
+
 # There was a typo in the question. It should have been rate parameter is
 1/20000 or scale parameter should have been 20000
 # In case the students follow either one of the approaches, full marks will be
@@ -62,7 +79,10 @@ AggclaimAmount<-c(AggclaimAmount,claimAmount)
 }
 hist(AggclaimAmount, breaks =30, main = "Histogram of Aggregate Claim Amount", xlab = "Aggregate
 Claim Amount", ylab = "Frequencies")
-[6]
+
+
+---
+
 iii)
 mean_poisson<-0.75
 mean_gamma<-2/(20000)
@@ -75,10 +95,9 @@ mean_aggregate
 var_aggregate<-mean_poisson*var_gamma+var_poisson*mean_gamma^2
 var_aggregate
  1.125e-08
-[2]
 
-Page 6 of 11IAI
-CS2B-1120
+---
+
 iv)
 mean_claims_I<-c()
 mean_claims_R<-c()
@@ -94,7 +113,10 @@ mean_claims_I
 # Mean Costs to the Reinsurer
 mean_claims_R
  0 0 0 0 0 0 0 0 0 0 0
-[6]
+
+
+---
+
 v)
 mean_agg_cost<-mean(AggclaimAmount)
 # 75% of the Aggregate claims cost
@@ -124,8 +146,8 @@ Reinsurer_Claims<-pmax(AggclaimAmount-Retention_Limit,0)
 sum(Reinsurer_Claims>0)/10000
  0.1929
 
-Page 7 of 11IAI
-CS2B-1120
+---
+
 vi)
 # If for the part (v), the student identifies that no values from the range are applicable and stops here, full
 marks should be awarded
@@ -164,20 +186,25 @@ mean_aggregate
 var_aggregate<-mean_poisson*var_gamma+var_poisson*mean_gamma^2
 var_aggregate
  1.8e+09
-[2]
+
+---
 
 iv)
+```{r}
 mean_claims_I<-c()
 mean_claims_R<-c()
 for (i in seq(50000,100000,5000)) {
 mean_claims_R<-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
 mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
 }
+```
+
+```{r}
 # Mean Costs to the Insurers
 mean_claims_I
- 19450.96 20582.04 21600.00 22511.81 23319.69 24043.04 24680.81 25247.09 257
+`` 19450.96 20582.04 21600.00 22511.81 23319.69 24043.04 24680.81 25247.09 257
 58.25
-[10] 26210.38 26608.72
+[10] 26210.38 26608.72``````
 # Mean Costs to the Reinsurer
 mean_claims_R
  10133.006 9001.921 7983.967 7072.158
@@ -187,25 +214,35 @@ mean_claims_R
 5540.923
 4903.159
 4336
-[6]
+
+---
+
 v)
+
+```{r}
 mean_agg_cost<-mean(AggclaimAmount)
 # 75% of the Aggregate claims cost
 mean_Cost_Insurer<-mean_agg_cost*0.75
 mean_Cost_Insurer
+```
+
+```{r}
 # 75% of the Aggregate claims cost = 22187.97
 # Retention limit accordingly is 60000
 Retention_Limit<-60000
 Reinsurer_Claims<-pmax(AggclaimAmount-Retention_Limit,0)
 #Proportion of Claims to be taken up by the reinsurer
 sum(Reinsurer_Claims>0)/10000
- 0.1929
 
-vi)
+```
+
+---
+
+```{r}
 SD_Retention<-sd(Reinsurer_Claims)
 SD_Retention
-Page 9 of 11IAI
-CS2B-1120
+```
+
 > SD_Retention
  23967.9
 [2]
@@ -213,5 +250,4 @@ Skew_Retention<-mean((Reinsurer_Claims-mean(Reinsurer_Claims))^3)/(sd(Reinsurer_
 Skew_Retention
 > Skew_Retention
  4.305918
-[2]
-[4]
+

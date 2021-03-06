@@ -1,3 +1,15 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
 Q. 4)
 (4)
 [30]
@@ -32,10 +44,14 @@ http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
 ===================================================================================================
 Solution 4:
 i)
-covid19 <- read.csv("/Covid_2019.csv")
+
+```{r}
+covid19 <- read.csv("Covid_2019.csv")
 missingvalues<-sapply(covid19,FUN = function(x)sum(is.na(x)))
 missingvalues
-[2]
+
+```
+
 > missingvalues
 Continent Country
 total_case
@@ -61,39 +77,60 @@ e
 e
 4
 s
-3
-covid19_1<-na.omit(covid19)
 
+```{r}
+covid19_1<-na.omit(covid19)
+```
+
+---
 
 Part 2
 ====================================================================================
 ii)
+
+```{r}
 Covid_Cluster<-covid19_1[,c("population_density","median_age","aged_65_older","gdp_per_capita",
 "cardiovasc_death_rate","diabetes_prevalence","female_smokers",
 "male_smokers","hospital_beds_per_thousand","life_expectancy")]
 Covid_Cluster<-scale(Covid_Cluster)
+```
 
-
+---
 
 Part 3
 ====================================================================================
 iii)
 Page 10 of 11IAI
-CS2B-1120
+
+```{r}
 set.seed(100)
 cluster1<-kmeans(Covid_Cluster,centers = 5)
 cluster1$size
-> cluster1$size
- 21 28 26 21 30
 
+```
+
+---
 
 Part 4
 ====================================================================================
-iv)
+
 
 ```{r}
 covid19_1$cluster<-cluster1$cluster
+```
+
+```{r}
 table(covid19_1$cluster,covid19_1$Severe)
+
+```
+
+---
+
+Part 4
+====================================================================================
+
+
+```{r}
 prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
 ```
 > table(covid19_1$cluster,covid19_1$Severe)
@@ -127,14 +164,18 @@ Yes
 
 
 
-
+---
 
 
 Part 5
 ====================================================================================
 v)
+
+```{r}
 aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
 aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+
+```
 > aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
 cluster total_cases
 1
@@ -144,32 +185,8 @@ cluster total_cases
 2
 658083
 3
-3
-6589530
-4
-4
-1205188
-5
-5
-6799810
-> aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
-cluster total_deaths
-1
-1
-34662
-2
-2
-10849
-3
-3
-317888
-4
-4
-30973
-5
-5
-228663
 
-[21 Marks]
-*****************************
-Page 11 of 11
+```{r}
+aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+
+```

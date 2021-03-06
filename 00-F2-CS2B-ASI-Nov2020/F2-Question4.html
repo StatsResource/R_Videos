@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+Q. 4)
+(4)
+[30]
+Consider the data set ‘Covid_2019.csv’ (name it covid19) where the first row of the csv file
+contains the headings for the columns.
+
+
+Exercises
+===================================================================================================
+i)
+Print the number of missing values in each of the columns and create a new data set
+‘covid19_1’ by removing all the missing values.
+(4)
+From covid19_1, use the columns from Population Density (8th column) to Life Expectancy
+(17th column) to answer the following questions.
+ii) Create a new data frame “Covid_Cluster” containing only the above mentioned
+columns. Normalize all the columns of the data frame using the scale function. (3)
+iii) Classify the countries into five groups by using the values obtained from (ii) applying
+K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
+executing the algorithm. Print the number of countries in each cluster. 
+
+Exercises
+===================================================================================================
+iv) What proportion of total countries in each cluster are severe with respect to COVID-
+19? You can use the “Severe” column from the original dataset. (5)
+v) Print the total number of cases and total number of deaths for each cluster.
+
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_COVID_2019.csv
+CS2B_Mortality_Investigation
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
+
+===================================================================================================
+Solution 4:
+i)
+
+
+```r
+covid19 &lt;- read.csv("Covid_2019.csv")
+missingvalues&lt;-sapply(covid19,FUN = function(x)sum(is.na(x)))
+missingvalues
+```
+
+```
+##                  Continent                    Country 
+##                          0                          0 
+##                total_cases               total_deaths 
+##                          0                          0 
+##    total_cases_per_million   total_deaths_per_million 
+##                          0                          0 
+##                 population         population_density 
+##                          0                         11 
+##                 median_age              aged_65_older 
+##                         24                         27 
+##             gdp_per_capita      cardiovasc_death_rate 
+##                         27                         24 
+##        diabetes_prevalence             female_smokers 
+##                         17                         69 
+##               male_smokers hospital_beds_per_thousand 
+##                         71                         45 
+##            life_expectancy                     Severe 
+##                          3                          0
+```
+
+&gt; missingvalues
+Continent Country
+total_case
+0 0 total_deaths total_cases_per_million 0 0 population population_density median_ag
+0 11 2
+aged_65_older gdp_per_capita cardiovasc_death_rat
+27 27 2
+diabetes_prevalence female_smokers male_smoker
+17
+1
+hospital_beds_per_thousand
+e
+45
+0 69 7
+life_expectancy Sever
+s
+0
+total_deaths_per_millio
+n
+0
+e
+4
+e
+4
+s
+
+
+```r
+covid19_1&lt;-na.omit(covid19)
+```
+
+---
+
+Part 2
+====================================================================================
+ii)
+
+
+```r
+Covid_Cluster&lt;-covid19_1[,c("population_density","median_age","aged_65_older","gdp_per_capita",
+"cardiovasc_death_rate","diabetes_prevalence","female_smokers",
+"male_smokers","hospital_beds_per_thousand","life_expectancy")]
+Covid_Cluster&lt;-scale(Covid_Cluster)
+```
+
+---
+
+Part 3
+====================================================================================
+iii)
+Page 10 of 11IAI
+
+
+```r
+set.seed(100)
+cluster1&lt;-kmeans(Covid_Cluster,centers = 5)
+cluster1$size
+```
+
+```
+## [1] 24 26 20 23 33
+```
+
+---
+
+Part 4
+====================================================================================
+
+
+
+```r
+covid19_1$cluster&lt;-cluster1$cluster
+```
+
+
+```r
+table(covid19_1$cluster,covid19_1$Severe)
+```
+
+```
+##    
+##     No Yes
+##   1 11  13
+##   2 11  15
+##   3 15   5
+##   4 17   6
+##   5 29   4
+```
+
+---
+
+Part 4
+====================================================================================
+
+
+
+```r
+prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
+```
+
+```
+##    
+##            No       Yes
+##   1 0.4583333 0.5416667
+##   2 0.4230769 0.5769231
+##   3 0.7500000 0.2500000
+##   4 0.7391304 0.2608696
+##   5 0.8787879 0.1212121
+```
+&gt; table(covid19_1$cluster,covid19_1$Severe)
+No Yes
+1 16
+5
+2 27
+1
+3 10 16
+4 15
+6
+5 15 15
+&gt; prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
+1
+2
+3
+4
+5
+No
+0.76190476
+0.96428571
+0.38461538
+0.71428571
+0.50000000
+Yes
+0.23809524
+0.03571429
+0.61538462
+0.28571429
+0.50000000
+
+
+
+---
+
+
+Part 5
+====================================================================================
+v)
+
+
+```r
+aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
+```
+
+```
+##   cluster total_cases
+## 1       1     4833767
+## 2       2     6558014
+## 3       3     1446595
+## 4       4     1238502
+## 5       5     2643637
+```
+
+```r
+aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+```
+
+```
+##   cluster total_deaths
+## 1       1       181850
+## 2       2       318579
+## 3       3        33944
+## 4       4        32231
+## 5       5        56431
+```
+&gt; aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
+cluster total_cases
+1
+1
+1467904
+2
+2
+658083
+3
+
+
+```r
+aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+```
+
+```
+##   cluster total_deaths
+## 1       1       181850
+## 2       2       318579
+## 3       3        33944
+## 4       4        32231
+## 5       5        56431
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
