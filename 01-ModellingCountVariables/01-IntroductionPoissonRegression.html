@@ -3,7 +3,6 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dragonfly Stats" />
     <script src="libs/header-attrs-2.7/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -13,46 +12,109 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Modelling Data with R
-### Dragonfly Stats
-### 2016/12/12
+## R for Actuarial Students
 
 ---
 
 
 
-An actuary is investigating the asymptotic behaviour of the sample autocorrelation function for two time series models. 
 
 
-(1. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order moving average process with parameter `\(beta_1=0.4\)`, assigning the 
-simulated values to a vector called ***YMA***.  
+```r
+library(magrittr)
+```
 
----
 
-(2. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order autoregressive model 
-with parameter α1=0.45, assigning the simulated values to a vector called ***YAR***. 
 
----
-3.  Plot, on four separate graphs, the sample autocorrelation function (sample ACF) and sample partial autocorrelation function (sample PACF) for each of the two time series models, YMA and YAR, generated 
-in parts (1.  and (2. .   
+```r
+Cavalry &lt;- rpois(200,lambda=0.61)
+```
 
----
 
-(iv)Comment on the general features of the plots in part 3.  
 
- with reference to whether they are consistent with the theoretical behaviour of the corresponding functions for the true models. 
- 
- he acf() function in R can also provide a vector output of the sample ACF values, with component i giving the sample ACF at lag i – 1, provided that the plot argument of the function is set to ‘FALSE’. 
- 
----
-  (v)Determine the numerical values for the sample ACF at lag 2, for each of the two time series models, YMA and YAR, generated in parts (1.  and (2. . [2] (
-  
----  
-  
-  v1. Construct R code that  first sets a random number generator seed of 967; and thengenerates 1,000 random vectors (of length n = 200) for each of the twomodels in parts (1.  and (2. ; andassigns the values of the sample ACF at lag 2 for each random vector totwo vectors ACF2MA and ACF2AR (each of length 1,000).
-  
-  (v2. Determine the mean and variance of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [3] (vi2. Plot, on two separate graphs, the histograms of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [4] 
-(ix)Comment on the results in parts (v2.  and (vi2. , including whether they agree with the expected asymptotic behaviour. [9] [Total 40] 
+```r
+Cavalry
+```
+
+```
+##   [1] 1 0 1 1 0 1 0 0 0 0 1 1 1 2 0 0 1 1 1 2 1 1 1 1 2 1 1 2 1 0 1 0 2 0 2 1 1
+##  [38] 0 1 1 2 0 3 0 1 1 2 0 0 1 1 0 0 2 0 0 0 0 0 1 1 1 1 0 1 2 1 0 0 0 0 0 0 2
+##  [75] 2 1 0 1 1 1 0 1 0 0 0 1 0 0 0 1 0 2 1 1 0 0 0 1 1 0 1 2 1 0 1 1 1 2 2 0 0
+## [112] 0 0 1 1 1 0 0 0 0 3 1 0 0 2 1 1 0 2 0 1 0 1 1 2 1 1 1 1 1 0 1 0 1 0 1 2 0
+## [149] 1 0 1 0 1 1 0 1 1 0 0 1 0 0 1 1 0 0 1 0 0 0 1 0 1 0 1 0 3 1 0 2 0 0 0 0 0
+## [186] 0 1 2 0 1 0 0 2 0 0 0 2 0 1 0
+```
+
+
+
+
+
+```r
+mean(Cavalry);var(Cavalry)
+```
+
+```
+## [1] 0.695
+```
+
+```
+## [1] 0.5446985
+```
+
+
+
+
+
+
+
+```r
+Cavalry &lt;- rpois(2000,lambda=0.61)
+```
+
+### Dispersion Parameter
+
+
+$$ \theta = \frac{Var(X)}{E(X)} \approx 1$$
+
+
+
+```r
+Theta &lt;-  var(Cavalry)/mean(Cavalry)
+
+Theta %&gt;% round(3)
+```
+
+```
+## [1] 1.028
+```
+
+
+0.955
+
+
+### Simulation Exercise
+
+
+
+```r
+Theta = numeric()
+M = 100000
+
+for ( i in 1:M){
+   X=rpois(200,lambda=5);
+   Theta[i] = var(X)/mean(X)
+}
+
+quantile(Theta, c(0.025,0.975))  %&gt;% round(3)
+```
+
+```
+##  2.5% 97.5% 
+## 0.814 1.207
+```
+
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

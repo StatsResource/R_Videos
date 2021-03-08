@@ -1,0 +1,76 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+
+```{r}
+library(magrittr)
+```
+
+
+```{r}
+Cavalry <- rpois(200,lambda=0.61)
+```
+
+
+```{r}
+Cavalry
+```
+
+
+
+
+```{r}
+mean(Cavalry);var(Cavalry)
+```
+
+
+
+
+
+
+```{r}
+Cavalry <- rpois(2000,lambda=0.61)
+```
+
+### Dispersion Parameter
+
+
+$$ \theta = \frac{Var(X)}{E(X)} \approx 1$$
+
+
+```{r}
+Theta <-  var(Cavalry)/mean(Cavalry)
+
+Theta %>% round(3)
+```
+
+
+0.955
+
+
+### Simulation Exercise
+
+
+```{r}
+Theta = numeric()
+M = 100000
+
+for ( i in 1:M){
+   X=rpois(200,lambda=5);
+   Theta[i] = var(X)/mean(X)
+}
+
+quantile(Theta, c(0.025,0.975))  %>% round(3)
+```
+
+
+

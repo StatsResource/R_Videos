@@ -28,6 +28,7 @@ A cos(2πωt + φ) = A cos(φ) cos(2πωt) - A sin(φ) sin(2πωt),
 If we can estimate \beta_1 and β 2 , then A and φ can be estimated.
 Therefore, x t = \beta_1 cos(2πωt) + β 2 sin(2πωt) + w t
 
+---
 
 Exercise
 =======================================
@@ -39,6 +40,7 @@ iii) Fit a Linear model to between x t , z1 and z2 and estimate parameters β1, 
 iv) Plot x, fitted line.
 ```
 
+---
 
 ```{r}
 
@@ -94,18 +96,29 @@ F-statistic: 51.38 on 2 and 998 DF, p-value: < 2.2e-16
 ```{r}
 
 
-[4]
 beta1 = -0.6784
 beta2 = -2.2071
 phi = atan(-beta2/beta1)
 phi
 A = beta1/cos(phi)
 A
+
+```
+
+
+```{r}
+
 > phi
  -1.27259
 > A
  -2.309008
-iv)
+
+
+```
+
+---
+
+```{r}
 plot.ts(x, col=8, ylab=expression(hat(x)))
 lines(fitted(fit), col=2)
 

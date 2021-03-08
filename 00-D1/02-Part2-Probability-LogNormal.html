@@ -3,7 +3,6 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dragonfly Stats" />
     <script src="libs/header-attrs-2.7/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -13,46 +12,248 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Modelling Data with R
-### Dragonfly Stats
-### 2016/12/12
+## R for Actuarial Students
 
 ---
 
 
 
-An actuary is investigating the asymptotic behaviour of the sample autocorrelation function for two time series models. 
+```r
+library(xaringan)
+```
+
+Let `\({\displaystyle Z}\)` be a standard normal variable, and let `\({\displaystyle \mu }\)` and `\({\displaystyle \sigma &amp;gt;0}\)` be two real numbers. Then, the distribution of the random variable
+
+$${\displaystyle X=e^{\mu +\sigma Z}} $$
+is called the log-normal distribution with parameters `\({\displaystyle \mu }\)`  and `\({\displaystyle \sigma }\)`. 
+
+`\begin{center}
+\begin{tabular}{cc}
+***Mean***	&amp; ${\displaystyle \exp \left(\mu +{\frac {\sigma ^{2}}{2}}\right)} $\\
+***Variance***	&amp; ${\displaystyle [\exp(\sigma ^{2})-1]\exp(2\mu +\sigma ^{2})} $\\
+\end{tabular}`
+\end{center}`
 
 
-(1. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order moving average process with parameter `\(beta_1=0.4\)`, assigning the 
-simulated values to a vector called ***YMA***.  
+
+```r
+exp(0.5)
+```
+
+```
+## [1] 1.648721
+```
+
+```r
+exp(2 +((0.5)^2/2 ))
+```
+
+```
+## [1] 8.372897
+```
+
+
+
+
+Comment on the appropriateness of the central limit theorem by implementing the following steps:
 
 ---
 
-(2. Generate, using a random number generator seed of 967, a simulated sequence of n = 200 observations for a first-order autoregressive model 
-with parameter α1=0.45, assigning the simulated values to a vector called ***YAR***. 
+\subsection*{Exercise 1}
+
+Generate a sample of 10000 random observations following Lognormal distribution with parameters μ = 2 and σ 2 = 0.25 
+
+Display the first few simulated observations using the head (...) function. 
+
+[Use a seed value of 100 to generate random numbers] 
+
+
+```r
+# Generate a random sample from a Lognormal distribution
+
+set.seed(100)
+
+data1&lt;-rlnorm(10000,meanlog = 2,sdlog = 0.5)
+
+# First 6 observations are shown below
+
+head(data1)
+```
+
+```
+## [1]  5.748298  7.891337  7.103172 11.512028  7.834097  8.665200
+```
+
+```r
+##  5.748298 7.891337 7.103172 11.512028 7.834097
+```
+
+
+
+```r
+mean(data1)    
+```
+
+```
+## [1] 8.375649
+```
 
 ---
-3.  Plot, on four separate graphs, the sample autocorrelation function (sample ACF) and sample partial autocorrelation function (sample PACF) for each of the two time series models, YMA and YAR, generated 
-in parts (1.  and (2. .   
+
+
+### Exercise 2
+
+Compute the sample mean, median and variance from the generated sample and compare the values with those of a population following a lognormal distribution with the given
+parameters. 
+
+
+
+
+```r
+# Compute the mean, median and variance of the sample
+mean(data1)
+```
+
+```
+## [1] 8.375649
+```
+
+```r
+##  8.375649
+median(data1)
+```
+
+```
+## [1] 7.398463
+```
+
+```r
+##  7.398463
+var(data1)
+```
+
+```
+## [1] 19.51361
+```
+
+```r
+##  19.51361
+```
+
 
 ---
 
-(iv)Comment on the general features of the plots in part 3.  
 
- with reference to whether they are consistent with the theoretical behaviour of the corresponding functions for the true models. 
- 
- he acf() function in R can also provide a vector output of the sample ACF values, with component i giving the sample ACF at lag i – 1, provided that the plot argument of the function is set to ‘FALSE’. 
- 
+
+```r
+# Formula based mean values
+thismean&lt;-exp(2+0.25/2)
+thismedian&lt;-exp(2)
+var&lt;-(exp(0.25)-1)*exp(2*2+0.25)
+```
+
+
+```r
+thismean
+```
+
+```
+## [1] 8.372897
+```
+
+```r
+##  8.372897 
+thismedian 
+```
+
+```
+## [1] 7.389056
+```
+
+```r
+##  7.389056
+var
+```
+
+```
+## [1] 19.91172
+```
+
+```r
+##  19.91172
+```
+
+
+Interpretation: 
+
+Mean, Median and Variance of the generated sample and those computed based on the parameters are almost equal because the sample size is 10,000 which is pretty large. 
+
+Generating a much larger sample will bridge those smaller differences existing between them as well
+
+
 ---
-  (v)Determine the numerical values for the sample ACF at lag 2, for each of the two time series models, YMA and YAR, generated in parts (1.  and (2. . [2] (
-  
----  
-  
-  v1. Construct R code that  first sets a random number generator seed of 967; and thengenerates 1,000 random vectors (of length n = 200) for each of the twomodels in parts (1.  and (2. ; andassigns the values of the sample ACF at lag 2 for each random vector totwo vectors ACF2MA and ACF2AR (each of length 1,000).
-  
-  (v2. Determine the mean and variance of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [3] (vi2. Plot, on two separate graphs, the histograms of the two vectors, ACF2MA and ACF2AR, generated in part (v1. . [4] 
-(ix)Comment on the results in parts (v2.  and (vi2. , including whether they agree with the expected asymptotic behaviour. [9] [Total 40] 
+
+### Exercise 3
+
+\noindent  Treat the data generated in (i) as the population. Generate 500 different random samples
+of size 200 from the above population and compute the sample mean for each sample.
+[Use a seed value of 100 to generate random numbers] (5)
+
+
+
+
+```r
+set.seed(100);
+data1&lt;-rlnorm(10000,meanlog = 2,sdlog = 0.5)
+
+means &lt;- replicate(5000,
+    mean(sample(data1,200,replace=FALSE)))
+```
+
+
+
+
+
+```r
+#Generating 500 different samples of size 200
+#Then computing their sample means
+
+means&lt;-c()
+
+set.seed(100)
+for (i in 1:500){
+    selected_rows&lt;-sample(1:10000,200,FALSE)
+    selected_data&lt;-data1[selected_rows]
+    sample_mean&lt;-mean(selected_data)
+    means&lt;-c(means,sample_mean)
+} 
+```
+
+
+
+---
+
+\subsection*{Exercise 4}
+\noindent Plot the histogram of sample means generated from part (iii) and interpret the distribution
+of sample means.
+
+
+
+
+```r
+#Histogram of Sample Means
+hist(means,breaks = 30) 
+```
+
+![](02-Part2-Probability-LogNormal_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+
+Interpretation: The sample means tend to follow a normal distribution though the actual data
+comes from lognormal distribution. Central limit theorem can be verified through this
+exercise that sample means tend to follow a normal distribution as the sample size increases.
+Increase in Sample size from 200 to much higher can ensure better normality of the sample
+means
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

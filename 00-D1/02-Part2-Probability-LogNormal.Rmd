@@ -9,6 +9,10 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r}
+
+library(xaringan)
+```
 
 Let ${\displaystyle Z}$ be a standard normal variable, and let ${\displaystyle \mu }$ and ${\displaystyle \sigma &gt;0}$ be two real numbers. Then, the distribution of the random variable
 
@@ -23,13 +27,13 @@ is called the log-normal distribution with parameters ${\displaystyle \mu }$  an
 \end{center}
 
 
-\begin{verbatim}
+```{r}
 
 exp(0.5)
 
 
 exp(2 +((0.5)^2/2 ))
-\end{verbatim}
+```
 
 
 
@@ -46,7 +50,7 @@ Display the first few simulated observations using the head (...) function.
 
 [Use a seed value of 100 to generate random numbers] 
 
-\begin{verbatim}
+```{r}
 
 # Generate a random sample from a Lognormal distribution
 
@@ -59,23 +63,24 @@ data1<-rlnorm(10000,meanlog = 2,sdlog = 0.5)
 head(data1)
 ##  5.748298 7.891337 7.103172 11.512028 7.834097
 
-\end{verbatim}
+```
 
 
-\begin{verbatim}
+```{r}
 mean(data1)    
-\end{verbatim}
+```
 
 ---
 
-\subsection*{Exercise 2}
-\large 
-\noindent Compute the sample mean, median and variance from the generated sample and compare the values with those of a population following a lognormal distribution with the given
+
+### Exercise 2
+
+Compute the sample mean, median and variance from the generated sample and compare the values with those of a population following a lognormal distribution with the given
 parameters. 
 
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 # Compute the mean, median and variance of the sample
 mean(data1)
 ##  8.375649
@@ -83,26 +88,29 @@ median(data1)
 ##  7.398463
 var(data1)
 ##  19.51361
-\end{verbatim}
-\end{framed}
+```
+
 
 ---
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 # Formula based mean values
-mean<-exp(2+0.25/2)
-median<-exp(2)
+thismean<-exp(2+0.25/2)
+thismedian<-exp(2)
 var<-(exp(0.25)-1)*exp(2*2+0.25)
-mean
+```
+
+```{r}
+thismean
 ##  8.372897 
-Median 
+thismedian 
 ##  7.389056
 var
 
 ##  19.91172
-\end{verbatim}
-\end{framed}
+```
+
 
 Interpretation: 
 
@@ -113,27 +121,27 @@ Generating a much larger sample will bridge those smaller differences existing b
 
 ---
 
-\subsection*{Exercise 3}
+### Exercise 3
 
 \noindent  Treat the data generated in (i) as the population. Generate 500 different random samples
 of size 200 from the above population and compute the sample mean for each sample.
 [Use a seed value of 100 to generate random numbers] (5)
 
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
     
 set.seed(100);
 data1<-rlnorm(10000,meanlog = 2,sdlog = 0.5)
 
 means <- replicate(5000,
     mean(sample(data1,200,replace=FALSE)))
-\end{verbatim}
-\end{framed}
+```
 
 
-\begin{framed}
-\begin{verbatim}
+
+
+```{r}
 #Generating 500 different samples of size 200
 #Then computing their sample means
 
@@ -147,8 +155,8 @@ for (i in 1:500){
     means<-c(means,sample_mean)
 } 
 
-\end{verbatim}
-\end{framed}
+```
+
 
 
 ---
@@ -158,12 +166,12 @@ for (i in 1:500){
 of sample means.
 
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 #Histogram of Sample Means
 hist(means,breaks = 30) 
-\end{verbatim}
-\end{framed}
+```
+
 
 Interpretation: The sample means tend to follow a normal distribution though the actual data
 comes from lognormal distribution. Central limit theorem can be verified through this
