@@ -1,33 +1,5 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
 
-\setcounter{MaxMatrixCols}{10}
-\begin{document}
-© RSS 2002
-Higher Certificate, Paper III, 2002. Question 1
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{framed}
 1. The following data are from Altman (1991), Practical Statistics for Medical Research, and represent measurements of 
 foetal head circumference (cm) made by four observers.  
 
@@ -42,16 +14,16 @@ Foetus Observer       1 2 3 4
  
  
 The analysis of variance (ANOVA) table is 
-\begin{center}
+
 \begin{tabular}{ccccc} 
-Source	&	DF	&	SS	&	MS	&	F	\\ \hline 
-Foetuses	&	2	&	$\ldots$	&	$\ldots$	&	$\ldots$	\\ \hline 
-Observers	&	$\ldots$	&	$\ldots$	&	$\ldots$	&	$\ldots$	\\ \hline 
-Foetuses × Observers	&	$\ldots$	&	0.562	&		&		\\ \hline 
-Error	&	$\ldots$	&	$\ldots$	&	0.0767	&		\\ \hline 
-Total	&	35	&	327.61	&		&		\\ \hline   
+Source	&	DF	&	SS	&	MS	&	F	\\
+Foetuses	&	2	&	$\ldots$	&	$\ldots$	&	$\ldots$	\\
+Observers	&	$\ldots$	&	$\ldots$	&	$\ldots$	&	$\ldots$	\\
+Foetuses × Observers	&	$\ldots$	&	0.562	&		&		\\
+Error	&	$\ldots$	&	$\ldots$	&	0.0767	&		\\
+Total	&	35	&	327.61	&		&		\\  
 \end{tabular}
-\end{center} 
+ 
  
 (i) Complete the ANOVA table and use it to assess what evidence the experiment provides regarding the main effects 
 and the interaction between the factors foetus and observer. (10) 
@@ -60,10 +32,10 @@ and the interaction between the factors foetus and observer. (10)
  
 (iii) Summarise your conclusions in non-technical language which the experimenter would understand. (5) 
  
-\end{framed}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{enumerate} 
-\item  The main effect terms need to be calculated; the remaining information then follows
+
+%%%%%%% 
+ 
+*  The main effect terms need to be calculated; the remaining information then follows
 using what is given, once the degrees of freedom have been completed.
 TOTALS: Foetus 1 167.9 Observer 1 141.0 N = 36
 2 236.3 2 137.6 Grand total G = 558.1
@@ -94,7 +66,7 @@ Error (Residual) 24 1.840 0.0767
 Total 35 327.610
 
 The interaction term is not significant. Each main effect is highly significant.
-\item  The means are:
+*  The means are:
 Observer
 1 2 3 4
 1 14.37 13.67 13.80 14.13
@@ -118,11 +90,11 @@ Circumference
 Foetus 2
 Foetus 1
 Foetus 3
-\item  The four observers did not produce exactly the same results on each foetus, but the
+*  The four observers did not produce exactly the same results on each foetus, but the
 differences among observers were small by comparison with those between foetuses. There
 was no evidence that different observers were measuring the different foetuses inconsistently
 (i.e. there was no "interaction" between O and F).
 
-\end{enumerate}
 
-\end{document}
+
+

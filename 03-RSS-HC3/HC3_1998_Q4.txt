@@ -1,33 +1,33 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
+---
 
-\setcounter{MaxMatrixCols}{10}
-\begin{document}
-\begin{table}[ht!]
- \centering
- \begin{tabular}{|p{15cm}|}
- \hline  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+ 
+ 
 
 Time ( t ) Water uptake ( y )
 w ( = t/y )
@@ -41,21 +41,21 @@ ct dt
 +
 .
 
-\begin{enumerate}
-\item 
+
+* 
 (i) Show that if the hyperbolic law does hold then there is a linear relationship between the transformed variable  w  and  t, where w =  t/y.
-\item 
+* 
 (ii) Plot the values of  w  (which are given in the third column of the table), against t.
-\item 
+* 
 (iii) Use the method of least squares to determine estimates \alpha\beta  and of the parameters \alpha\beta  and of the best fitting straight line: wt =+ \alpha\beta  .
  [Note that 39073 .76=∑ w and wt ∑ = 119046022. .]
-\end{enumerate}
+
 
 %%-- Turn over
-\\ \hline
-  \end{tabular}
 
-\end{table}
+
+
+---
 
 
 
@@ -78,35 +78,35 @@ This can be written as $\omega  = \alpha+\beta t$, where $\alpha = \frac{d}{c}; 
 
 Hence \hat{\alpha} = 76.39073 12 − \hat{ \beta} ×13 = 1.87997.
 
-\begin{table}[ht!]
+
  
 \centering
  
-\begin{tabular}{|p{15cm}|}
+
  
 \hline  
 
-\begin{enumerate}
-\item (iv) Hence, obtain estimates $\hat{ c}d$ and of the parameters c and d in the hyperbolic law.
-\item 
-(v) What value of water uptake does the fitted hyperbolic law predict at 16 hours?
-\item 
-(vi) Indicate briefly any technical difficulties which arise in obtaining standard errors of $\hat{ c}$ and $\hat{ d}$ when you are given the standard errors of $\alpha$ and $\beta$ .
-\end{enumerate}
 
-\\ \hline
+* (iv) Hence, obtain estimates $\hat{ c}d$ and of the parameters c and d in the hyperbolic law.
+* 
+(v) What value of water uptake does the fitted hyperbolic law predict at 16 hours?
+* 
+(vi) Indicate briefly any technical difficulties which arise in obtaining standard errors of $\hat{ c}$ and $\hat{ d}$ when you are given the standard errors of $\alpha$ and $\beta$ .
+
+
+
  
 \end{tabular}
 
-\end{table}
+---
 
 \newpage
 
-\begin{itemize}
-\item (iv) $ \displaystyle{  \hat{ c} = \frac{1} { \hat{ \beta} }  = 0.898 }$ and $\hat{ d} = ˆ c \hat{\alpha} = 5.448$.
-\item (v)Using $ \displaystyle{ y = \frac{2.898t}{5.448+t} }$, when $t=16$, gives $y=2.16$.
-\item 
-(vi)The parameters $\hat{ c}$ and $\hat{ d}$ are non-linear functions of $\hat{\alpha}$ and $\hat{\beta}$ so there are no simple formula for the relations between standard errors.
-\end{itemize}
 
-\end{document}
+* (iv) $ \displaystyle{  \hat{ c} = \frac{1} { \hat{ \beta} }  = 0.898 }$ and $\hat{ d} = ˆ c \hat{\alpha} = 5.448$.
+* (v)Using $ \displaystyle{ y = \frac{2.898t}{5.448+t} }$, when $t=16$, gives $y=2.16$.
+* 
+(vi)The parameters $\hat{ c}$ and $\hat{ d}$ are non-linear functions of $\hat{\alpha}$ and $\hat{\beta}$ so there are no simple formula for the relations between standard errors.
+
+
+
