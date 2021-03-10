@@ -1,0 +1,125 @@
+\documentclass[a4paper,12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{eurosym}
+\usepackage{vmargin}
+\usepackage{amsmath}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{subfigure}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{chngpage}
+%\usepackage{bigints}
+
+\usepackage{vmargin}
+% left top textwidth textheight headheight
+% headsep footheight footskip
+\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
+\renewcommand{\baselinestretch}{1.3}
+
+\setcounter{MaxMatrixCols}{10}
+\begin{document}
+
+\begin{table}[ht!]
+ \centering
+ \begin{tabular}{|p{15cm}|}
+ \hline  
+2. A group of astronomers carried out  a study of the relationship between light intensity and surface temperature. Data  gathered on 23 stars in the cluster CYG OB1 are given in the table below and are plotted in the scatter plot.
+Log surface temperature (x)
+Log light intensity (y)
+Log surface temperature (x)
+Log light intensity (y) 4.38 5.02 4.53 5.10 4.42 4.66 4.45 5.22 4.29 4.66 4.53 5.18 4.38 4.90 4.43 5.57 4.22 4.39 4.38 4.62 3.48 6.05 4.45 5.06 4.38 4.42 4.50 5.34 4.56 5.10 4.45 5.34 4.45 5.22 4.55 5.54 3.49 6.29 4.45 4.98 4.23 4.34 4.42 4.50 4.62 5.62
+4.54.03.5
+6.5
+5.5
+4.5
+Log surface temperature
+Log light intensity
+Scatter plot of stars in cluster CYG OB1
+(i) A regression analysis of the full data set was performed using a statistical package and produced the following output:
+The regression equation is   Log light intensity = 8.41 - 0.763 Log surface temperature
+Predictor       Coef       Stdev        t-ratio        p
+Constant       8.410       1.512         5.56     0.000
+slope           -0.7628      0.3469      -2.20     0.039                   s = 0.4712     R
+2
+= 18.7%
+Explain why the slope of the line is negative.
+(Question continued on next page)
+2
+
+\\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[ht!]
+ \centering
+ \begin{tabular}{|p{15cm}|}
+ \hline  
+(ii) After removing two of the data points a further regression analysis produced the following output:
+The regression equation is   Log light intensity  = - 8.48 +  *** Log surface temperature
+Predictor       Coef       Stdev    t-ratio        p
+Constant      -8.475       2.484      -3.41    0.003
+slope            ***          0.5604      ***      0.000            s = 0.2557      R
+2
+ = 60.7%
+The value of the slope, which is positive, has been deleted from the output.
+Which points were removed? Calculate the value of the slope which is missing from this output.
+Note: for the full set of 23 stars
+xyx
+y xy
+= = =
+== ∑ ∑∑ ∑∑ 10004 11712 4369760 6021320 5080134 2 2 . , . , . , . , . .
+Explain why the removal of two points from the data set causes such a marked change in the results of the analysis.
+(iii) How would you advise someone who wanted to use either of the equations as a summary of the relation between light intensity and surface temperature for the stars in the cluster CYG OB1?\\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{enumerate}
+    \item The calculations of sums of squares and products are heavily influenced by
+the two point (3:48; 6:05) and (3:49; 6:29). These lead to
+P
+(x ¡ ¯x)(y ¡ ¯y)
+being negative, and hence the slope is negative.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Removing these two points gives completely different summary line for the
+remainder. The new values of sums etc. are:
+P
+x = 100:04 ¡ 3:48 ¡ 3:49 =
+93:07;
+P
+y = 117:12 ¡ 6:05 ¡ 6:29 = 104:78;
+P
+x2 = 436:9760 ¡ 3:482 ¡
+3:492 = 412:6855;
+P
+xy = 508:0134¡(3:48£6:05)¡(3:49£6:29) = 465:0073.
+P
+(x ¡ ¯x)(y ¡ ¯y) = 465:0073 ¡ 1
+21(104:78 £ 93:07) = 0:63232.
+P
+(x ¡ ¯x)2 =
+412:6855 ¡ 93:072=21 = 0:20812. ˆb = 3:038.
+\item A regression line has to go through the mean (¯x; ¯y) of all the data. If there
+are two (or more) parts to the population or set of data, as here, then it
+18
+does not explain the data well. 
+\begin{itemize}
+    \item The sub-populations have to be separated.
+\item In this case there are only two points that are well away from the rest. All
+the remaining 21 have their x values (log surface temperature) between 4.2
+and 4.6 approximately.
+\item For temperatures in this range therefore we can use
+the regression line with slope +3:038 as a summary of the relationship. 
+\item We
+do not have enough information to propose relationships outside this range
+of x-values (which correspond to y
+0s between about 4.3 and 5.6).
+\end{itemize}
+
+\end{enumerate}
+\end{document}
