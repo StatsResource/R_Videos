@@ -1,28 +1,3 @@
-
----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ---
 
  
@@ -32,10 +7,6 @@
 \end{tabular}
 ---
 
-
-
- 
- \hline
 The Journal of Applied Ecology for 1997 reports the results of a study of the feeding behaviour of goats, red deer and South American camelids on three different mixtures of Scottish plants.
 
     *  A group of fifteen  of each type of animal was randomly divided into groups of five.

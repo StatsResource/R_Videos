@@ -11,7 +11,7 @@ output:
 
 ```{r}
 
-library(xaringan)
+#library(xaringan)
 ```
 
 Let ${\displaystyle Z}$ be a standard normal variable, and let ${\displaystyle \mu }$ and ${\displaystyle \sigma &gt;0}$ be two real numbers. Then, the distribution of the random variable

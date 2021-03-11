@@ -1,31 +1,6 @@
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
  
  
 6. A drug intended to reduce blood pressure was tested in the early stages of a clinical trial on 15 patients who had high blood pressure.  For each patient both the systolic blood pressure and the diastolic blood pressure were measured before they were given the drug.  They were then given the drug and both systolic and diastolic blood pressure were measured one hour later.  Systolic blood pressure is measured as the heart contracts to pump blood around the body.  Diastolic blood pressure is measured as the heart relaxes to allow blood to flow into it before the next contraction.  Systolic blood pressure is always higher than diastolic blood pressure and the two are positively correlated. 

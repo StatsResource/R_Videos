@@ -1,6 +1,4 @@
 
-
-
  
  
 4. Silicon chip manufacture involves a complex process in which layers are deposited on a wafer of silicon by vapour deposition at high temperatures. An electronics engineering team investigated the effect of deposition time and deposition temperature on the thickness of a particular layer. They particularly wanted to find out whether either factor alone could be used to control the thickness of the layer. They used two settings of deposition time  (Low and High relative to currently used time) and two temperatures (1210°C and 1240°C). Measurements of the thickness of the layer were made on each of five silicon wafers produced under each set of conditions. The measurements are given in the table below.
@@ -16,10 +14,7 @@ The sum of the 20 measurements is 285.09 and the corresponding sum of squares is
 (i) Perform an analysis of variance, including tests for the effects of time and temperature and the interaction between time and temperature.
 
 
-
 ---
-
-
  
  
 (ii) Produce a diagram of means and their standard errors which makes clear the nature of any interaction that there may be between time and temperature.

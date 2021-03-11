@@ -1,32 +1,8 @@
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
 Higher Certificate, Paper III, 2002. Question 3
-%%%%%%% 
+
 
 3. The table below shows the UK Gross Domestic Product (GDP, y) for the years 1989 − 1999, with years also coded as t = year − 1994.  
 The figures are given in units of £bn, and are expressed in 1995 prices. 
@@ -36,6 +12,8 @@ Year 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 t -5 -4 -3 -2 -1 0 1
  Source:  United Kingdom National Accounts, 2000 edn, table 1.1. 
  Note:    Σy = 7751.2,    Σy2 = 5491108.76,    Σt = 0,    Σt2 = 110,    Σty = 1706.3. 
  
+
+---
  
  
 (i) A model $y = \alpha + \beta t + \varepsilon$ , where ε is a random error term with the usual properties, is proposed for the data. 
@@ -49,9 +27,8 @@ Year 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 t -5 -4 -3 -2 -1 0 1
  
 (v) Use your estimated model to predict GDP in 2000 and 2010, and comment on your predictions in the light of your graph. (4) 
  
- 
 
-%%%%%%% 
+---
 
 n =11, 0 i Σt = , 2 110 i Σt = , 7751.2 i Σy = , 2 5491108.76 i Σy = , 1706.3 i i Σt y = .
  
