@@ -1,3 +1,20 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r}
+
+#library(xaringan)
+```
+
+
 
 8.
 The table below shows, for graduate entrants to an organisation during the last five
