@@ -51,6 +51,9 @@ tested. The recorded strengths are shown below.
 11
 15
 11
+
+---
+
 Complete the analysis of variance table below and state your conclusion about
 the effect of the percentage of cotton on the strength of the material.
 One-way ANOVA:
@@ -72,7 +75,9 @@ MS
 *
 F
 *
-(6)
+
+---
+
 (ii)
 A standardised residual can be defined as a residual divided by its standard error. Using this definition, the standardised residuals are as shown in the table below. Construct a plot of the standardised residuals versus fitted values, and comment on the assumptions underlying the analysis of variance.
 
@@ -89,6 +94,7 @@ A standardised residual can be defined as a residual divided by its standard err
 
 
 ---
+
 [(a)]
 * The analysis of variance table is as follows. Entries in italics are given in the question. The others need to be calculated.
 
@@ -132,8 +138,8 @@ what you would do.
 ()
 
 
-\item
-\begin{itemize]
+--- 
+
 * A 95\% confidence interval for an individual mean is given by ˆ2.0865/xσ± where 2.086 is the double-tailed 5\% point of t20.
 * Further, , the residual mean square in the above analysis of variance. 
 * Thus the interval for 20\% cotton is given by 2ˆ7.10σ=16.62.0867.105/±, i.e. it is (14.1, 19.1).
@@ -146,7 +152,7 @@ what you would do.
 12.0
 Strength
 
-%====================================================%
+---
 
 On this evidence, 25% cotton should be used.
 (iv) It is worth exploring just below 25%, and perhaps just above. Depending on how much work can be done, it may be possible to search for a maximum in this region.

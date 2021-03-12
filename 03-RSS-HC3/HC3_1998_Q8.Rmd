@@ -15,9 +15,11 @@ output:
 ```
 
  
-8. (i) Explain what is meant by a factorial experimental design and state what advantages such a design has over a number of separate single factor experiments.
+#### Part 1
 
-\end{tabular}
+Explain what is meant by a factorial experimental design and state what advantages such a design has over a number of separate single factor experiments.
+
+
 ---
 
 The Journal of Applied Ecology for 1997 reports the results of a study of the feeding behaviour of goats, red deer and South American camelids on three different mixtures of Scottish plants.
@@ -26,6 +28,7 @@ The Journal of Applied Ecology for 1997 reports the results of a study of the fe
     * One group of each type of animal was then allocated to feed on  a plot of land where one of the three plant mixtures was growing. 
     * The three plant mixtures were:sown grasses, natural grasses, heathers. 
 
+---
  
  The mean organic matter intake of each group of animals (kg per day) is given in the table below.
 
@@ -39,13 +42,15 @@ Natural grasses & 1.348 & 2.437 & 1.973\\
 Heathers & 0.646 & 1.888& 0.970\\
 \end{tabular}
 
+---
 
 The total of the intake measurements  for all 45 animals was 66.689 and the sum of the squares of the intake values for all 45 animals was 114.85.
 (ii) Carry out an analysis of variance table to analyse the effects of animal types, plant mixtures and any interaction between these factors.
 (iii) Construct a suitable graphical display to illustrate the presence or absence of interaction.
 
-\end{tabular}
+
 ---
+
 8.(i)
 
 
@@ -74,13 +79,17 @@ Heathers&3.230&9.440&4.850\\
 
 
 Grand total G=66.695.%% [MISPRINT ON PAPER]
-%-------------------------------%
+
+---
+
 (ii)Correction term
 
 \[ \frac{G^2}{N} = \frac{66.695^2}{45} = 98.8494.\]
 
 \[Total S.S.= 114.85 - \frac{G^2}{N} = 16.0006.\]
-%-------------------------------%
+
+--- 
+
 Total for Animals are 14.505, 31.790, 20.400; for plants 20.385, 28.790, 17.520.
 
 
@@ -95,6 +104,7 @@ Total for Animals are 14.505, 31.790, 20.400; for plants 20.385, 28.790, 17.520.
 \[= \frac{1}{5}(4.535^2 + \ldots + 4.850^2) - \frac{G^2}{N} = 15.2509.
 \]
 
+---
 
 Hence the Analysis of Variance.
 
@@ -110,8 +120,9 @@ TOTAL        &44 &16.0006 & & &
 \end{tabular}
 
 
+---
 
-    * There is strong evidence of interaction between Animals and Plants. Graphs of the means for
+* There is strong evidence of interaction between Animals and Plants. Graphs of the means for
 the nine combinations are required.
 * In the presence of interaction, the main effects of the factors have little meaning. We may
 note that levels for Red Deer are consistently above those for Camelids, which are also above those
@@ -120,7 +131,4 @@ for Goats.
 Camelids show a different pattern from Goats and Red Deer, in that their intake from natural
 grasses is relatively higher than from sown grass or heathers; the figure 1.973 is the odd one out
 in the table of means.
-
-
-17
 

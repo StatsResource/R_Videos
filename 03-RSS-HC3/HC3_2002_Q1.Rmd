@@ -48,8 +48,7 @@ and the interaction between the factors foetus and observer. (10)
  
 (iii) Summarise your conclusions in non-technical language which the experimenter would understand. (5) 
  
-
-%%%%%%% 
+---
  
 *  The main effect terms need to be calculated; the remaining information then follows
 using what is given, once the degrees of freedom have been completed.
@@ -74,6 +73,9 @@ G
 N
 = + + + − = .
 
+
+---
+
 Source df Sum of Squares Mean Square F value
 Foetuses (F) 2 324.009 162.004 2112 (very highly sig)
 Observers (O) 3 1.199 0.400 5.22 (highly sig)
@@ -88,6 +90,9 @@ Observer
 1 14.37 13.67 13.80 14.13
 Foetus 2 19.80 19.63 19.60 19.73
 3 12.83 12.57 12.67 13.23
+
+---
+
 The diagram shows the very large difference between foetuses, the small difference between
 observers by comparison (even though it is significant at 1%) and the negligible interaction
 (as the three lines are roughly parallel).
@@ -106,6 +111,9 @@ Circumference
 Foetus 2
 Foetus 1
 Foetus 3
+
+---
+
 *  The four observers did not produce exactly the same results on each foetus, but the
 differences among observers were small by comparison with those between foetuses. There
 was no evidence that different observers were measuring the different foetuses inconsistently

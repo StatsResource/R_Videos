@@ -43,12 +43,17 @@ drainage, the same thickness of wall so that temperature is likely to be the sam
 choice of 16 bags for each of the four nutrient solutions. 
 
 ---
+
 * This could be achieved by using a random number table, reading digits in pairs, discarding
 pairs 00, 65 - 99, taking the first 16 positions for treatment A, the next 16 for B, the next 16 for C and the others for D, 01 - 64 represent the two rows with 32 bags in each.
 
 * If the answers to (i) indicate likely differences in the positions, make up 16
-blocks each of which is as homogeneous as possible. Number the bags 1,2,3,4 in each block and permute these numbers at random to determine the order
+blocks each of which is as homogeneous as possible. 
+
+Number the bags 1,2,3,4 in each block and permute these numbers at random to determine the order
 in which the 4 nutrients will be allocated to bags.
+
+---
 
 * For the completely randomized design, the analysis is:
 Source of Variation D.F.

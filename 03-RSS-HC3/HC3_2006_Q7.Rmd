@@ -15,7 +15,6 @@ output:
 ```
 
 ---
-\noindent
 For a study into the density of population around a large city, a random sample of 10
 residential areas was selected, and for each area the distance from the city centre and
 the population density in hundreds per square kilometre were recorded. The following
@@ -64,6 +63,9 @@ log y
 .708
 1.946
 1.609
+
+---
+
 By plotting three separate graphs, decide which of the following regressions is
 best represented by a straight line.
 (a)
@@ -88,7 +90,7 @@ consider regressing log y on log x? If not, why not?
 (c) appeared (marginally) the best plot.
 It does not seem sensible to regress log y on log x; it looks as if this would increase the curvature.
 
-\newpage
+---
 
 (iii) For the model you consider to be best in (ii), obtain an expression for y in
 terms of x.
@@ -101,13 +103,17 @@ density.
 ()
 The regression results for this question are on the next page
 
+---
 
 * Using (c), we have log y = 5.41 – 0.322x, so
 ()5.410.3220.322exp5.410.322223.63xxyxee−−=−== .
 *  From the expression in part (iii), inserting x = 5, 1.61223.63ye−= = 44.7. This is in hundreds per square kilometre. So the estimate is 4470 per square kilometre.
+
+
+---
+
 * Prediction within the range of the data may be adequate, except perhaps near the upper end because of the tendency for curvature there. Extrapolation to values of x outside the data will, for similar reasons, be unreliable, and the linear model is likely to underestimate density. Where is the next city or town centre? Interaction with that is very likely unless it is a long distance away. There may also be directional effects, i.e. densities changing more or less slowly according to the direction from the centre.
  
----
  
 
 ---
@@ -133,7 +139,8 @@ P
 0.000
 R-Sq(adj) = 88.5%
 
-\begin{verbatim}
+---
+
 Observation 10 has an unusually large positive residual
 Regression Analysis: y versus logx
 The regression equation is y = 17 - 48.0logx
@@ -157,6 +164,9 @@ P
 R-Sq(adj) = 90.0%
 Observation 1 has an unusually large negative residual
 Regression Analysis: logy versus x
+
+---
+
 The regression equation is logy = 5.41 - 0.x
 Predictor
 Constant
@@ -176,7 +186,6 @@ P
 0.000
 0.000
 R-Sq(adj) = 95.1%
----
 
 ---
  

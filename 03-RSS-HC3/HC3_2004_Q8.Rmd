@@ -88,7 +88,7 @@ Pass	&	0.36	&	0.56	&
 \end{tabular}
  
  
- 
+---
  
 %18 17   21.26 13.74   0.4999 0.7735 90 50   85.03 54.97   0.2905 0.4494 12 18   18.22 11.78   2.1234 3.2842 61 32   56.49 36.51   0.3601 0.5571 
 *  The test statistic is () 2 2 OEX E − =∑ = 8.34.  
@@ -124,7 +124,7 @@ The proportions of males and females with first class degrees are likely to be d
  
 ---
 
-\noindent \textbf{Part (c)}
+#### Part (c)
  
  
 *  For this organisation, ˆ ˆ 90/181 0.497, 50/117 0.427 MF pp = = = =.  The estimated variance of ˆˆ MFp p− is given by 

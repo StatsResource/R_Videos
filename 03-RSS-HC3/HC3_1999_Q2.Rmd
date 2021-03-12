@@ -1,8 +1,27 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r}
+
+#library(xaringan)
+```
 
  
 2. The results of two surveys of public opinion relating to genetically engineered food were published in a popular science magazine.  The magazine article began by claiming that opposition to genetically engineered food was growing in Britain and it also contained a quote from the director of Genewatch who was reported to have said "Opinion has hardened against genetic engineering quite significantly". 
  
+--- 
+ 
 The article contained a table which summarised the results of two opinion polls, the first conducted in 1996 and the second in 1998.  Both polls were carried out by a reputable market research organisation which asked 1000 adults the same question on both occasions.  You may assume that the polls were properly conducted and the people questioned on each occasion were randomly sampled from the population.  Note that the people questioned in 1996 were not the same as those questioned in 1998. 
+ 
+--- 
  
 The table contained in the article is given below. 
  
@@ -28,12 +47,12 @@ Category & 1 & 2 & 3 & 4 & 5 & 6 \\
 \end{tabular}
 
 
-\begin{eqnarray*}
-\chi^2_{(5)} &=& 0 +  \frac{(250-205)^2}{205}  + \frac{(160-155)^2}{155} + \frac{(160-155)^2}{155}  +\frac{(270-320)^2}{320} + \frac{(20-35)^2}{35} + \\
+
+$$\chi^2_{(5)} &=& 0 +  \frac{(250-205)^2}{205}  + \frac{(160-155)^2}{155} + \frac{(160-155)^2}{155}  +\frac{(270-320)^2}{320} + \frac{(20-35)^2}{35} + \\
 & & 0 + \frac{(160-205)^2}{205} + \frac{(150-155)^2}{155}  + \frac{(160-155)^2}{155}+  \frac{(370-320)^2}{320} +
  \frac{(50-35)2}{35} \\
 &=& 48.56\\
-\end{eqnarray*}
+$$
 
 There is very strong evidence against the NH.
 
@@ -62,8 +81,7 @@ V [p2 - p1] =
 *  Standard Error: $SE = 0:0222$
 
 
-%%%%
-  
+
 
  
  
@@ -72,8 +90,7 @@ Given the above information carry out a chi-squared test to determine whether th
 
 
 ---
-%%5
-  
+
 
  
  
