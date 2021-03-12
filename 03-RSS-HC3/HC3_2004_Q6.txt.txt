@@ -1,39 +1,27 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
+```{r}
 
-%%%%
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#library(xaringan)
+```
 
 
 
 
 
 
+---
 
-
-
-
-
-
-
-
-
-
-
----Higher Certificate, Paper III, 2004.  Question 6 
+Higher Certificate, Paper III, 2004.  Question 6 
 
 
 
