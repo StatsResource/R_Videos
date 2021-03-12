@@ -1,3 +1,18 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r}
+
+#library(xaringan)
+```
 
 
 3. The infant mortality rate per 1000 live births and the percentage adult female literacy rate for a sample of countries are given in the table below. 
