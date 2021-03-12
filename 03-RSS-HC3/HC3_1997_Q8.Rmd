@@ -1,13 +1,19 @@
-
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
 ---
 
+```{r}
 
+#library(xaringan)
+```
 
-
----
-
-
- 
  
 In a pilot study of anaesthesia in cardiac surgery twenty two patients were randomly assigned to three treatment groups. The table shows the red cell folate levels in the three groups after 24 hours of treatment.
 Group A (n = 8)
