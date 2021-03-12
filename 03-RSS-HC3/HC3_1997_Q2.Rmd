@@ -1,3 +1,18 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r}
+
+#library(xaringan)
+```
 
  
 2. A group of astronomers carried out  a study of the relationship between light intensity and surface temperature. Data  gathered on 23 stars in the cluster CYG OB1 are given in the table below and are plotted in the scatter plot.
