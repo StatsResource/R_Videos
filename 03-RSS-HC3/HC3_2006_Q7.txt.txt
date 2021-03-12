@@ -1,12 +1,19 @@
-
-
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
 ---
 
+```{r}
 
+#library(xaringan)
+```
 
-
---
-%%%Higher Certificate, Paper III, 2006. Question 7
 ---
 \noindent
 For a study into the density of population around a large city, a random sample of 10
