@@ -56,6 +56,9 @@ yij is the number of weeds on the jth plot that received treatment i, ti is the 
 variation) term, Normally distributed with mean 0 and variance σ
 2 which is constant
 for all observations.
+
+---
+
 The variances in the four treatments do not appear constant in the untransformed data.
 We assume that the model is additive (a sum of terms) but cannot check this without
 computing the values of the residuals.
@@ -69,6 +72,9 @@ of variances in y is largest/smallest ≈ 8.7 whereas for ( ) 10 log y it is ≈
 we should choose ( ) 10 log y . However, a ratio 4:1 among variances is still rather
 high, though not unusual with small samples of data. A better transformation could
 probably be found, provided it made physical sense.
+
+---
+
 *  The herbicide totals using ( ) 10 log y are 19.857, 18.943, 21.260, 22.502, each
 based on 10 observations; these add to 82.562. Herbicides SS is therefore
 1 (19.8572 ... 22.5022 ) 1 (82.5622 ) 171.1465302 170.4120961 0.7344341
@@ -79,8 +85,14 @@ Source df Sum of Squares Mean Square F value
 Herbicides 3 0.73443 0.2448 19.45 (very highly sig)
 Residual 36 0.45300 0.01258
 Total 39 1.18743
+
+---
+
 * There is strong evidence of the presence of differences among the herbicide means,
 since the value 19.45 is very highly significant when referred to F3,36.
+
+---
+
 *  A residual is the difference between an observed yij and its fitted value using
 the linear model. In a completely randomised design, fitted values for each treatment
 are the treatment mean for that treatment. If residuals are plotted against fitted values,
