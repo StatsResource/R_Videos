@@ -42,6 +42,7 @@ drainage, the same thickness of wall so that temperature is likely to be the sam
 *  If there is no known or suspected systematic variation revealed in the answers to (i), a completely randomized design may be used, with a fully random
 choice of 16 bags for each of the four nutrient solutions. 
 
+---
 * This could be achieved by using a random number table, reading digits in pairs, discarding
 pairs 00, 65 - 99, taking the first 16 positions for treatment A, the next 16 for B, the next 16 for C and the others for D, 01 - 64 represent the two rows with 32 bags in each.
 
