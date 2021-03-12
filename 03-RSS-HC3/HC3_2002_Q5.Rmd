@@ -1,6 +1,18 @@
-
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
 ---
 
+```{r}
+
+#library(xaringan)
+```
 
 
 5. Data were collected from the Financial Times of 11 October 2001 on the dividend yields of 36 Bank shares (Banks), 46 Electronic and Electrical Equipment company shares (E&EEq) and 88 Support Services company shares (SS).  (Support Services companies provide services such as catering and security to manufacturing and other companies.)  These observations were read into a computer using the Minitab package and arranged in ascending order as shown in the edited output on this page and the next. 
