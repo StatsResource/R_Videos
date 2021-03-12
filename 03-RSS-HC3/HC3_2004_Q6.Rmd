@@ -56,10 +56,11 @@ S = 0.05700     R-Sq = 99.8%
 (ii) Calculate the missing estimated coefficients in the first regression, and find the coefficient of determination R2. (5) 
  
 (iii) Which regression do you think is better, and why? 
-(4) 
+
+---
  (iv) For your preferred regression, interpret its estimated coefficients and its R2.  Explain the meanings of the values of "SE Coef", "T" and "P" given above for it.  Why are these values useful? (7) 
  
-
+---
  
 (i) 
  
@@ -75,10 +76,10 @@ Without the last point, there is an almost linear relation (perhaps a very sligh
 2
 22 147 86.581842.03 23.85 7 0.919 28 22.1065147 86.58 3115 1092.9774 77 ×  −  == ×    −−       (or 91.9%). 
  
- 
+---
+
 (iii) The regression omitting the last point gives a much better fit to the remaining points.  This is reflected in the smaller residual mean square ((0.05700)2 instead of (0.5986)2) and hence the smaller standard errors of the coefficients, both of which give highly significant t statistics.  R2 is also greater for this regression.  If, however, the last point is considered to be genuine and important, it is obviously not taken into account at all by the regression omitting it.  The first regression does include it, but arguably a more complicated model than simple linear regression should be used anyway. 
  
-Continued on next page 
 18 21 24 
 10
 13
@@ -86,7 +87,7 @@ Continued on next page
 Volume v (cc)
 Temperature t (degrees Celsius) 
 
- 
+---
  
 (iv) As given by the second regression, volume increases by 0.657 cc for each 1 degree increase in temperature.  
  
@@ -95,6 +96,8 @@ Temperature t (degrees Celsius)
 
     * "SE Coef" is the standard error of each regression coefficient.  "T" is the value of each coefficient divided by its standard error (i.e. it is the value of the t test statistic for testing the hypothesis that the true value of the coefficient is zero).  "P" is the probability of obtaining the calculated value of T or a more extreme value, on the null hypothesis that the true value of the coefficient is zero. 
  
+---
+
 * These values indicate the precision with which the line is fitted and allow the null hypothesis for each coefficient to be tested.  Since P < 0.05 for each coefficient, we would reject each null hypothesis at the 5\% level (indeed, the results are very highly significant, beyond the 5\% level) and conclude that temperature does appear to (help to) explain volume. 
 
 
