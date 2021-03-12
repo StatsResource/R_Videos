@@ -16,9 +16,14 @@ output:
 
  
 2. An investigation was carried out into the levels of chlordanes in wild polar bears. The levels of chlordanes in 25 sub-adult polar bears, 23 adult females and 20 adult males are given in the table below, together with the corresponding transformed values obtained by taking logarithms to the base 10 to two places of decimals. The bears were those which the investigators were able to locate and anaesthetise for long enough to collect tissue samples which could be assayed for chlordanes and other organo-chlorine compounds. It is safe to assume that the bears located were a random sample of those in the areas covered by the investigation.
+
+---
+
 Chlordane levels in tissue (nano-grams/gram) Sub-adults Adult females Adult males Original Data Log transformed Original data Log transformed Original Data Log transformed 1081 3.03 813 2.91 475 2.68 1188 3.07 881 2.95 610 2.79 1449 3.16 1170 3.07 675 2.83 1657 3.22 1219 3.09 788 2.90 1805 3.26 1350 3.13 916 2.96 1846 3.27 1409 3.15 1089 3.04 1960 3.29 1521 3.18 1321 3.12 2069 3.32 1932 3.29 1330 3.12 2089 3.32 2049 3.31 1357 3.13 2272 3.36 2201 3.34 1584 3.20 2664 3.43 2771 3.44 1802 3.26 2971 3.47 2859 3.46 1877 3.27 3329 3.52 2985 3.47 2045 3.31 3900 3.59 3094 3.49 2282 3.36 4349 3.64 3855 3.59 2520 3.40 4539 3.66 3876 3.59 2888 3.46 4746 3.68 4142 3.62 3060 3.49 4819 3.68 4397 3.64 4994 3.70 5597 3.75 4832 3.68 6238 3.80 5607 3.75 5473 3.74 6241 3.80 6013 3.78 5825 3.77 6291 3.80 6414 3.81 7908 3.90 7511 3.88 8219 3.91 8505 3.93
 Note that the observed values have been ordered.
-(Question continued on next page)
+
+---
+
 3
 (i) Make box-plots of the raw data and also of the logarithms to the base 10 of the observed chlordane levels.
 (ii) Describe how the shapes of the distributions of the raw data and the log transformed data differ.
@@ -58,6 +63,9 @@ Upper quartiles: QS = 5602 or 3:75; QF = 4397 or 3:64; QM = 1
 
 
 (iii) There is evidence from studies of other animals that chlordanes tend to accumulate most in fatty tissue and can be passed from female mammals to their offspring through the mother's milk during the nursing period. Females tend to have considerably more fatty tissue than males. The investigators are interested in comparing average levels of chlordanes between sub-adults and male and female adults. A partially completed analysis of variance table for the log transformed data is given below. Complete this analysis and explain in non-technical terms what can be concluded from the analysis.
+
+---
+
 Analysis of Variance of Chlordane levels in polar bears.
 Source of Variation
 Sum of squares
@@ -79,9 +87,8 @@ Total 67 6:3774
 F(2;65) = 5:29¤¤
 ---
 There are substantial differences between the three groups of animals.
-%%%%%5
-\newpage
 
+---
 
  
  
@@ -105,12 +112,17 @@ q
 0:0844
 20 or 3:23 § 0:13; i:e: 3:10 to 3:36
 
+---
+
     * To answer the questions the investigators had in mind, the sub-adults could be compared
 with adults of each sex in significant tests. 
 * The confidence intervals in this particular experiment
 indicate what the results of these comparisons would be: sub-adults and adult females show no
 real difference(intervals overlap considerably) but adult males and sub-adults do show significant
 difference(no overlap of intervals).
+
+---
+
 * [NOTE that males and females differ at the 5% significance level; but it not clear that we need
 to make this comparison, and the confidence intervals alone do not tell us this. ]
 * (v)Anti-logs to base 10 give the intervals as follows:
