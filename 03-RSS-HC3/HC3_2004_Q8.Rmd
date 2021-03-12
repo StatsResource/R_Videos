@@ -21,6 +21,7 @@ The table below shows, for graduate entrants to an organisation during the last 
 years, the numbers of males and the numbers of females with each class of degree.
 You may treat the data as if they were a random sample from a large population.
 
+---
 
 \begin{tabular}{|c|c|c|}
 Class of degree	&	Male	&	Female	
@@ -42,7 +43,7 @@ proportion of graduates with first class degrees recruited by this organisation 
 this period is more than the average. Why might the assumption of a binomial
 distribution not be strictly valid?
 
-%------------------------------%
+---
 
 (iii) Use the summary data from the last five years to investigate whether the
 population proportion of graduate entrants to this organisation who have
@@ -75,7 +76,7 @@ Pass	&	56.49	&	36.51	&	93
 	&	181	&	117	&	298	
 \end{tabular}
 
-
+---
 
 \begin{tabular}{|c|c|c|c|} 							
 Class of degree	&	Male	&	Female	&	Sum	
@@ -96,13 +97,14 @@ Pass	&	0.36	&	0.56	&
 Therefore we refer the test statistic to $\chi^2_{3}$ . 
 
 
-
+---
 
 * The upper 5\% point is 7.815, so the result is significant at the 5\% level.  
 * We have evidence to reject the null hypothesis  –  it seems there is a relation. 
  * The individual contributions to $\chi^2$ show that the main contributions come from the cells for the 3rd class degree (the third row of the table), where we find fewer males and more females than would be expected.  
  * This is also the case for 1st class degrees, balanced by the opposite being true for 2nd class and Pass degrees, but these cells do not make such a marked contribution.  These comments would be the substance of the report. 
  
+--- 
  
 *  We have $\displaystyle \hat{p} = \frac{35}{298} = 0.117 }$for this organisation.  
 
@@ -120,10 +122,8 @@ which is referred to $N(0, 1)$ in a one-sided interpretation.
  
 The proportions of males and females with first class degrees are likely to be different, so to pool all the data into a single binomial distribution and test is not strictly correct. 
  
- 
-  
-%%%%%
-\newpage
+---
+
 \noindent \textbf{Part (c)}
  
  
@@ -135,7 +135,7 @@ The proportions of males and females with first class degrees are likely to be d
  
 * Referring this to N(0, 1), the result is not significant  –  there is no evidence to suggest that pM and pF are not equal. 
  
- 
+---
  
 * An alternative method for this part is a $2 × 2$ contingency table.  The observed frequencies are 
  
