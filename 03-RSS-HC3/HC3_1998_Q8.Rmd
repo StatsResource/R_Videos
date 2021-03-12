@@ -1,6 +1,19 @@
 ---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
- 
+```{r}
+
+#library(xaringan)
+```
+
  
 8. (i) Explain what is meant by a factorial experimental design and state what advantages such a design has over a number of separate single factor experiments.
 
