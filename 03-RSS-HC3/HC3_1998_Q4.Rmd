@@ -38,7 +38,7 @@ ct dt
  [Note that 39073 .76=∑ w and wt ∑ = 119046022. .]
 
 
-%%-- Turn over
+---
 
 
 
@@ -67,12 +67,7 @@ Hence \hat{\alpha} = 76.39073 12 − \hat{ \beta} ×13 = 1.87997.
 
 
  
-\centering
- 
-
- 
-\hline  
-
+---
 
 * (iv) Hence, obtain estimates $\hat{ c}d$ and of the parameters c and d in the hyperbolic law.
 * 
@@ -82,13 +77,7 @@ Hence \hat{\alpha} = 76.39073 12 − \hat{ \beta} ×13 = 1.87997.
 
 
 
- 
-\end{tabular}
-
 ---
-
-\newpage
-
 
 * (iv) $ \displaystyle{  \hat{ c} = \frac{1} { \hat{ \beta} }  = 0.898 }$ and $\hat{ d} = ˆ c \hat{\alpha} = 5.448$.
 * (v)Using $ \displaystyle{ y = \frac{2.898t}{5.448+t} }$, when $t=16$, gives $y=2.16$.
