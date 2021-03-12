@@ -1,4 +1,18 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
+```{r}
+
+#library(xaringan)
+```
 
  
  
@@ -12,6 +26,9 @@ Temperature
 1240 14.49,  14.33,  13.94, 14.31,  14.18.
 14.27,  14.37,  14.16, 14.03,  14.20.
 The sum of the 20 measurements is 285.09 and the corresponding sum of squares is 4067.00.
+
+---
+
 (i) Perform an analysis of variance, including tests for the effects of time and temperature and the interaction between time and temperature.
 
 
