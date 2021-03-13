@@ -17,8 +17,39 @@ output:
  
  
 6. A health questionnaire was administered to people in five areas of a country, the selection being made randomly within areas. One question asked the respondent to rate their own health as "good", "fair" or "poor". The results are summarised in the table below.
-Area Good Fair Poor Total Ruthven  459  178  43  680 Mossmont  926  506 103 1535 Windgyle  954  442  78 1474 Dundonan  985  507  85 1577 
-Ainster  365  176  35  576 Total 3689 1809 344 5842
+
+
+---
+Area	Good Fair Poor Total
+Ruthven  459  178  43  680
+Mossmont  926  506 103 1535
+Windgyle  954  442  78 1474
+Dundonan  985  507  85 1 577
+Ainster  365  176  35  576
+Total 3689 1809 344 5842
+
+Area	|Good | Fair | Poor | Total
+Ruthven  |  459  |  178  |  43  |  680
+Mossmont  |  926  |  506 | 103 | 1535
+Windgyle  |  954  |  442  |  78 | 1474
+Dundonan  |  985  |  507  |  85 | 1 | 577
+Ainster  |  365  |  176  |  35  |  576
+Total | 3689 | 1809 | 344 | 5842
+
+
+c("Area", "Ruthven", "Mossmont", "Windgyle", "Dundonan", "Ainster", 
+"Total")
+
+c("Good", "459", "926", "954", "985", "365", "3689")
+
+c("Fair", "178", "506", "442", "507", "176", "1809")
+
+c("Poor", "43", "103", "78", "85", "35", "344")
+
+c("Total", "680", "1535", "1474", "1577", "576", "5842")
+
+---
+
 (i) Carry out an appropriate statistical test of whether there are differences between perception of health in different areas and investigate the nature of these differences.
 
 
@@ -57,6 +88,8 @@ P (0¡E)2
 +1:98027 + 0:45620 + 0:71458 + 0:03123 + 0:21882 + 1:75918
 +0:89024 + 0:66530 + 0:03439 = 16:46¤:\]
 
+---
+
 This indicates that there are departures from a constant ratio in some areas.
 Comparing observed and corresponding expected frequencies shows that
 
@@ -64,6 +97,8 @@ Comparing observed and corresponding expected frequencies shows that
 * Mossmont has less ‘Good’ and more ‘Fair’ or ‘Poor’; 
 * Windgyle has more ‘Good’ and less ‘Fair’ or ‘Poor’; 
 * Dundonan has more ‘Fair’ and less ‘Good’ or ‘Poor’.
+
+---
 
 *  Since respondents rate their own health this is very subjective and unlikely
 to produce the same ratings for the same condition in different people or
