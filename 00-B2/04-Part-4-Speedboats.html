@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+ABC Tech, a Speedboat manufacturing company, was established a few decades back. The
+company has shown a consistent growth in its revenue from Speedboat sales since its inception.
+
+However, over the years the company has struggled to keep it’s inventory and production cost
+down because of variability in sales and Speedboat demand. The management at ABC Tech is
+under enormous pressure from the shareholders and board to reduce the production cost.
+Additionally, they are also interested in understanding the impact of their marketing and
+customer connect efforts towards overall sales. In the same effort, they have your employer as
+a data science and predictive analytics consultant.
+
+---
+
+Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
+
+
+
+Additionally, They have  also suggested you to investigate the impact of marketing program on
+sales by using an exogenous variable ARIMA model. You agreed on the steps to be followed
+and agree on the following steps.
+
+**Note: You will require “Forecast” package for this assignment.**
+
+---
+
+Data provided in ***Speedboat_Sales.csv*** in a subfolder called ***datasets*** in the local file directory.
+
+
+
+
+```r
+sb_data &lt;- read.csv("datasets/Speedboat_Sales.csv")
+```
+
+---
+
+
+
+```r
+head(sb_data)
+```
+
+```
+##   Month.Year Number.of.Speedboat.Sold
+## 1     Jan-05                      144
+## 2     Feb-05                      161
+## 3     Mar-05                      188
+## 4     Apr-05                      201
+## 5     May-05                      205
+## 6     Jun-05                      192
+```
+
+
+---
+
+
+
+```r
+#install.packages("Forecast")
+
+library(forecast)
+```
+
+```
+## Warning: package 'forecast' was built under R version 4.0.5
+```
+
+```
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+```
+
+
+---
+
+
+Exercise 1
+===========================
+
+Plot a time series chart with year as `\(X\)` axis and sales as `\(Y\)` axis with suitable labelling. 
+
+Basis the plot thus obtain, comment on the type of time series.
+
+
+
+```r
+data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
+
+plot(data, xlab="Years", ylab = "Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
+
+plot(data, xlab="Years", ylab = "Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+Clearly the above chart has an upward trend for speedboat sales and there is also a seasonal
+component.
+
+---
+
+
+Exercise 2
+============================
+
+Plot ACF and PACF to identify potential AR and MA model for this series and
+comment on the results.
+
+
+```r
+par(mfrow = c(1,2))
+
+acf(ts(sb_data),main="ACF Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+```r
+pacf(ts(sb_data),main="PACF Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-6-2.png)&lt;!-- --&gt;
+
+
+---
+
+
+
+Exercise 3
+======================
+
+You believe that differencing series is one of the ways to remove trend. 
+
+Obtain the first order and second order difference series and plot the same. Also provide comment on
+variance of the `\(d(1)\)` series.
+
+
+
+```r
+#par(mfrow = c(1,1))
+
+diff_data = diff(  ts(sb_data)  )
+#plot(diff_data,ylab="Differenced Speedboat Sales")
+```
+
+---
+
+* The above series ($d=1$) is not stationary on variance i.e. variation in the plot is increasing as we move towards the right of the chart. 
+* We need to make the series stationary on variance to produce reliable
+forecasts through ARIMA models.
+
+
+
+
+
+
+```r
+diff_data_2 = diff(diff_data)
+plot(diff_data_2,ylab="Differenced Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+---
+
+Exercise 4
+============================
+Looking at the plots of difference series, you decide to apply log transformation to the
+original series to smoothen the variance. Obtain the log-transformed (base 10) series
+and plot the same. 
+
+
+```r
+Log_data = log10(  ts(sb_data)  )
+
+plot(Log_data,ylab="Log Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+Exercise 5
+=================
+Obtain the first order difference series of the transformed series and plot the same. 
+
+
+
+```r
+Diff_log_data = diff(Log_data)
+
+plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+
+
+---
+
+Exercise 6
+=========================
+Plot ACF and PACF to identify potential AR and MA model for this series and
+comment on the results. 
+
+
+
+```r
+par(mfrow = c(1,2))
+
+acf(ts(Diff_log_data),main="ACF Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+```r
+pacf(ts(Diff_log_data),main="PACF Speedboat Sales")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-11-2.png)&lt;!-- --&gt;
+
+
+----
+
+
+* Since, there are enough spikes in the plots outside the insignificant zone (dotted horizontal lines) we
+can conclude that the residuals are not random. 
+* This implies that there is juice or information available
+in residuals to be extracted by AR and MA models.
+* Also, there is a seasonal component available in
+the residuals at the lag 12 (represented by spikes at lag 12).
+* This makes sense since we are analyzing
+monthly data that tends to have seasonality of 12 months because of patterns in tractor sales.
+
+
+
+---
+
+PART 7
+===========================================================================
+
+Use Auto arima function in forecast package in R helps us identify the best fit ARIMA
+model on the fly. Comment on the summary results of fitting this series and on Akaike
+Information Criterion (AIC) and Bayesian Information Criterion (BIC) values. 
+
+
+
+
+```r
+ARIMAfit = auto.arima (  Log_data[,2] ,approximation=FALSE,
+    trace=FALSE)
+
+summary(ARIMAfit)
+```
+
+```
+## Series: Log_data[, 2] 
+## ARIMA(3,1,2) with drift 
+## 
+## Coefficients:
+##          ar1      ar2      ar3      ma1     ma2   drift
+##       1.4309  -0.5020  -0.2662  -1.8162  0.9537  0.0043
+## s.e.  0.0827   0.1417   0.0838   0.0265  0.0359  0.0014
+## 
+## sigma^2 estimated as 0.001782:  log likelihood=249.88
+## AIC=-485.77   AICc=-484.94   BIC=-465.03
+## 
+## Training set error measures:
+##                        ME       RMSE        MAE        MPE     MAPE      MASE
+## Training set 0.0007905177 0.04117848 0.03459759 0.01502853 1.358851 0.7394419
+##                    ACF1
+## Training set -0.0978577
+```
+
+---
+
+
+* The best fit model is selected based on Akaike Information Criterion (AIC), and Bayesian Information
+Criterion (BIC) values. 
+* The idea model to choose who has minimum AIC and BIC values.
+* As expected, our model has I (or integrated) component equal to 1. 
+* This represents differencing of order 1. 
+
+There is additional differencing of lag 12 in the above best fit model. 
+*  Moreover, the best fit
+model has MA value of order 1. Also, there is seasonal MA with lag 12 of order 1.
+
+---
+
+PART 8
+
+===============================================================================================
+
+Predict speedboat sales for next 3 years i.e. for 2015, 2016, and 2017 through the above
+model and plot the results along-with one times the range of standard error from
+predicted value. 
+
+
+
+
+
+```r
+pred = forecast(ARIMAfit, n.ahead = 36)
+```
+
+```
+## Warning in forecast.forecast_ARIMA(ARIMAfit, n.ahead = 36): The non-existent
+## n.ahead arguments will be ignored.
+```
+
+```r
+pred
+```
+
+```
+##     Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
+## 145       2.788853 2.734746 2.842959 2.706104 2.871601
+## 146       2.833251 2.769736 2.896765 2.736113 2.930388
+## 147       2.878288 2.808922 2.947653 2.772202 2.984373
+## 148       2.920771 2.849530 2.992011 2.811818 3.029724
+## 149       2.948589 2.876920 3.020258 2.838981 3.058197
+## 150       2.956535 2.884801 3.028269 2.846827 3.066243
+## 151       2.944087 2.872264 3.015909 2.834243 3.053930
+## 152       2.916333 2.843957 2.988709 2.805644 3.027022
+## 153       2.882207 2.807719 2.956694 2.768288 2.996126
+## 154       2.852071 2.772770 2.931371 2.730791 2.973351
+```
+
+---
+
+
+
+```r
+plot(data,type="l",xlim=c(2006,2020),ylim=c(1,1600),xlab = "Year",ylab = "Speedboat Sales")
+lines(10^(pred$pred),col="blue")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+```r
+#lines(10^(pred$pred+2*pred$se),col="orange")
+#lines(10^(pred$pred-2*pred$se),col="Brown")
+```
+
+
+---
+
+
+
+Exercise 9
+===========================================
+Plot ACF and PACF plot of the residuals of the best fit ARIMA model and comment
+on the results.
+
+
+
+```r
+par(mfrow=c(1,2))
+acf(ts(ARIMAfit$residuals),main="ACF Residual")
+
+pacf(ts(ARIMAfit$residuals),main="PACF Residual")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+
+---
+
+Since there are no spikes outside the insignificant zone for both ACF and PACF plots we can conclude
+that residuals are random with no information or juice in them. Hence our ARIMA model is working
+fine.
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

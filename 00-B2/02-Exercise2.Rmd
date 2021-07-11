@@ -42,13 +42,15 @@ Simulate a set of 5,000 observations from the insurer’s aggregate claims size
 distribution. Use seed corresponding to your birth year.
 Summarize the output, draw plot histogram of the simulated results, and comment on
 the results.
-(12)
-(5)
+
+---
 
 
 Solution 2:
 ===================================================
-i) set.seed(2000)
+
+```{r}
+set.seed(2000)
 rate1 <- 0.006
 q1 <- 0.002
 n1 <- 300
@@ -58,6 +60,13 @@ n2 <- 500
 rate3 <- 0.006
 q3 <- 0.003
 n3 <- 200
+
+```
+
+---
+
+
+```{r}
 Sumofclaims_sim <- numeric(5000)
 Total_policies = n1+n2+n3
 for (j in 1:5000){
@@ -73,6 +82,9 @@ sim_claim <- x*death
 sim_claim<-sum(sim_claim)
 Sumofclaims_sim[j] <- sim_claim
 }
+```
+---
+
 Sumofclaims_sim
 [4981]
 [4987]
@@ -84,8 +96,16 @@ Sumofclaims_sim
 
 ---
 400.2364413 155.3775077
-ii) summary(Sumofclaims_sim)
+ii) 
+
+
+```{r}
+summary(Sumofclaims_sim)
+```
+
+```{r}
 hist(Sumofclaims_sim)
+````
 
 ---
 > summary(Sumofclaims_sim)
@@ -95,7 +115,9 @@ Max.
 0.00
 29.03 175.60 260.88 393.86 2664.99
 [Note the numbers will change with change in seed]
+
 ---
+
 The claims seem to be highly skewed with Q1 equal to 29.03, Q2 equal to 260.88 and Q3 equal to
 393.86. The highest value is 2664.99.
 

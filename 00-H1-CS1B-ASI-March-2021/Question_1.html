@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+Part 1
+===========================
+The following amounts are the sizes of claims (in £) on house insurance policies for a 
+certain type of repair. 
+
+1990, 2400, 2150, 2090, 2300, 
+2100, 2180, 2150, 2030, 2100, 
+2180, 2010, 2060, 2160, 2120 
+
+
+
+
+---
+
+Part 1
+==============
+
+Enter data in R. 
+
+
+```r
+mydata = c(1990,2400,2150,2090,2300,2100,2180,
+                2150,2030,2100,2180,2010,2060,2160,2120)
+```
+
+---
+
+Part 1
+==============
+
+ Calculate Q1, Q2, Q3 and Inter-quartile range. (4)
+
+
+```r
+quantile(mydata) 
+```
+
+```
+##   0%  25%  50%  75% 100% 
+## 1990 2075 2120 2170 2400
+```
+
+
+```r
+fivenum(mydata)
+```
+
+```
+## [1] 1990 2075 2120 2170 2400
+```
+
+
+
+```r
+IQR(mydata) 
+```
+
+```
+## [1] 95
+```
+
+
+```r
+# Q3 - Q1
+2170 - 2075
+```
+
+```
+## [1] 95
+```
+
+
+
+
+
+---
+
+iii) Determine the sample mean and variance of the data. (2)
+
+
+```r
+mean(mydata) 
+```
+
+```
+## [1] 2134.667
+```
+
+```r
+var(mydata) 
+```
+
+```
+## [1] 11469.52
+```
+
+```r
+sd(mydata)
+```
+
+```
+## [1] 107.0959
+```
+
+*** Save For Later ***
+
+
+```r
+xbar &lt;- mean(mydata) 
+Ssquare &lt;- var(mydata)
+```
+
+---
+
+
+Test the hypothesis whether the mean claim amount is equal to £2000 and comment 
+on the results. 
+
+&lt;h4&gt;Hypotheses&lt;/h4&gt;
+
+Ho: The mean claim amount is £ 2000 
+H1: Mean claim amount is not equal to £ 2000 
+
+
+```r
+t.test(mydata,mean=2000) 
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  mydata
+## t = 77.197, df = 14, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  2075.359 2193.974
+## sample estimates:
+## mean of x 
+##  2134.667
+```
+
+Since the p-value is `\(2.2\times 10^{-16}\)` is less than 5%, there is sufficient evidence to reject `\(H_o\)` of mean equal to £ 2000. 
+
+---
+
+Part 5
+===============================
+
+Assuming the data to be normally distributed, calculate the probability of a claim amount 
+exceeding £2300. 
+ 
+
+ 
+ 
+
+```r
+pnorm(2300,mean = xbar , sd = sqrt(Ssquare) ,lower.tail = FALSE) 
+```
+
+```
+## [1] 0.06131982
+```
+
+---
+
+Part 6
+========================
+
+Calculate the revised mean and median after removing the largest two values from the 
+dataset. Comment on the result.
+ 
+
+```r
+max(mydata)
+```
+
+```
+## [1] 2400
+```
+
+```r
+sort(mydata)
+```
+
+```
+##  [1] 1990 2010 2030 2060 2090 2100 2100 2120 2150 2150 2160 2180 2180 2300 2400
+```
+
+
+```r
+rev(sort(mydata))
+```
+
+```
+##  [1] 2400 2300 2180 2180 2160 2150 2150 2120 2100 2100 2090 2060 2030 2010 1990
+```
+
+
+
+```r
+rev(sort(mydata))[1:2]
+```
+
+```
+## [1] 2400 2300
+```
+
+
+```r
+mydata1 = mydata[mydata &lt; max(mydata)] 
+```
+
+
+
+
+```r
+mydata1 = mydata[mydata &lt; max(mydata)] 
+mydata1 
+```
+
+```
+##  [1] 1990 2150 2090 2300 2100 2180 2150 2030 2100 2180 2010 2060 2160 2120
+```
+
+
+
+```r
+mydata2 = mydata1[mydata1 &lt; max(mydata1)] 
+mydata2
+```
+
+```
+##  [1] 1990 2150 2090 2100 2180 2150 2030 2100 2180 2010 2060 2160 2120
+```
+
+
+```r
+mean(mydata2) 
+```
+
+```
+## [1] 2101.538
+```
+
+```r
+median(mydata2) 
+```
+
+```
+## [1] 2100
+```
+
+
+Impact of removing outliers from the data has led to the mean and median being almost equal. Earlier the 
+mean was higher than median, which shows that the mean is more likely to be affected by outliers. 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

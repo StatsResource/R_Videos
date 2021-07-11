@@ -1,0 +1,258 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Probability Distributions
+* Fundamentals of Statistical Analysis
+
+* Question 4
+
+---
+
+Datasets
+=================
+
+* Five years of marketing expenditure and company sales by month 
+
+```{r}
+budget = read.csv("marketingbudget.csv")
+```
+
+
+---
+
+```{r}
+head(budget)
+```
+
+---
+
+Part 1
+=================
+
+Five years of marketing expenditure and company sales by month 
+
+
+Construct a scatterplot of the data. Comment on the relationship between the Sales & 
+Spend based on the plot. 
+
+<pre><code>
+plot(budget$Spend,budget$Sales)
+</code></pre>
+
+---
+
+```{r, echo =FALSE} 
+plot(budget$Spend,budget$Sales)
+```
+
+The above scatter plot shows a positive linear relationship between marketing Spend and Sales data. 
+
+
+---
+
+```{r} 
+plot(budget$Spend,budget$Sales, pch=18, col="blue")
+```
+
+---
+
+Part 2
+=================
+
+Calculate Pearson’s correlation coefficient between Sales and Spend of the company. 
+
+
+```{r} 
+cor(budget$Sales,budget$Spend) 
+
+```
+
+---
+
+Part 3
+=====================================
+
+Perform a hypothesis test for the null hypothesis that Pearson’s population correlation 
+coefficient is equal to zero, against the alternative that it is positive. You should report the 
+p-value of the test and a clear conclusion. 
+
+
+<pre><code>
+cor.test(budget$Spend,budget$Sales,
+         method="pearson",
+         alternative = "greater")
+</code></pre>
+
+---
+
+```{r}
+cor.test(budget$Spend,budget$Sales,
+         method="pearson",
+         alternative = "greater")
+```
+
+* The p-value is $2.2 \times 10^{-16}$, showing very strong evidence against the null hypothesis. 
+
+* Thus, we reject that the Pearson’s correlation coefficient is equal to 0 and conclude that it is positive. 
+
+---
+
+Part 4
+=====================================
+
+Perform a simple linear regression analysis on the data. 
+
+Your answer should report the estimate of parameter sigma - The Residual standard error. 
+
+```{r include = FALSE}
+reg = lm(Sales ~ Spend, data = budget) 
+summary(reg) 
+```
+
+---
+
+```{r}
+reg = lm(Sales ~ Spend, data = budget) 
+summary(reg) 
+```
+
+From the output, the estimate of parameter sigma is 10,650. 
+
+---
+
+Part 5
+====================================
+
+Plot the fitted line on the data scatterplot. 
+
+<pre><code>
+plot(budget$Spend,budget$Sales)
+abline(reg) 
+</code></pre>
+
+
+
+---
+
+```{r}
+plot(budget$Spend,budget$Sales)
+abline(reg) 
+```
+
+
+---
+
+Part 6
+====================================
+State the proportion of the total variability of the responses explained by the model based on your output in Part 4. 
+
+From the R output, the proportion of total variability of the responses explained by the model is 94.12%. 
+
+---
+
+Part 7
+====================================
+Plot a graph of the residuals of the model fitted in Part 6 against the explanatory variable. 
+
+
+```{r} 
+plot(budget$Spend,residuals(reg))
+```
+
+---
+
+Part 8
+====================================
+
+Obtain a 99% confidence interval for parameter sigma. (4)
+
+```{r}
+es = resid(reg)
+```
+
+
+From the above, the confidence interval for parameter sigma is (-3630.15, 3630.15) 
+
+---
+
+Part 9
+============================
+Comment on the validity of the model based on results in part (vii) and part (viii). 
+
+
+ix)
+Based on the results in both part (vii) and part (viii), the errors seem to be close to zero and the 
+confidence interval of residuals also contains 0. Hence the model seems to be a good fit. 
+
+---
+
+
+Part 10
+============================
+
+Calculate the p-value of a hypothesis test for this suggestion (slope equal to 10), by 
+creating a suitable test statistic. 
+
+Let Ho: Beta = 10 and H1: Beta not equal to 10 
+
+```{r}
+b1 = (coef(reg))[['Spend']]
+n = 60 
+s = sqrt(sum(es^2)/(n-2))
+```
+
+---
+
+```{r}
+SE = s/sqrt(sum((budget$Spend-mean(budget$Spend))^2))
+t = (b1-10)/SE 
+
+#p-value
+pt(t,58,lower.tail = FALSE)
+```
+
+```{r}
+pvalue = 2*pt(t,58,lower.tail = FALSE)
+pvalue 
+```
+
+---
+
+Part 11
+==================================
+
+Comment on the suggestion in Part 11. 
+
+* There is insufficient evidence to reject the null hypothesis at 5% level of significance. 
+* The slope can be assumed to be equal to 10 for this data. 
+
+---
+
+
+Part 12
+==================================
+Calculate the predicted amount of sales when the marketing spend is £4500. 
+
+
+```{r} 
+y = 3431.5592 + (b1*4500) 
+y 
+
+```
+
+With a marketing spend of $4,500, the Sales would be $50,821. 
+
+---

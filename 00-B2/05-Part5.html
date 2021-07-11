@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis, Stochastic Processes
+
+---
+
+
+***{markovchain} R package***
+
+
+```r
+#install.packages("markovchain")
+
+library(markovchain)
+```
+
+```
+## Warning: package 'markovchain' was built under R version 4.0.5
+```
+
+```
+## Package:  markovchain
+## Version:  0.8.6
+## Date:     2021-05-17
+## BugReport: https://github.com/spedygiorgio/markovchain/issues
+```
+
+---
+
+Markov Chain
+========================
+
+A particle is moving on the graph below by starting on a randomly chosen vertex (each with
+the same probability) and at each time step moving along one of the adjacent edges to a
+neighbouring vertex, choosing the edge with equal probability and independently of all
+previous movements.
+
+
+&lt;p align="center"&gt;
+  &lt;img src="images/B2-Q5-Graph.JPG" /&gt;
+&lt;/p&gt;
+
+---
+
+Dgree Sequence
+=================
+
+  .pull-left[ ![](images/B2-Q5-Graph.JPG)]
+
+.pull-left[  |Vertex  | Degree |
+ |------- |--------- |
+ |A | 2 |
+ |B | 4 |
+ |C | 4 |
+ |D | 3 |
+ |E | 3|
+ |F | 3|
+ |G | 2|
+]
+
+---
+
+
+Part 1
+======================
+
+Create a matrix with the transition matrix with probabilities using the state names as
+{A,B,C,D,E,F,G} and plot the transition matrix graph. 
+
+```r
+ #Create a matrix with the transition probabilities.
+
+Matrix2&lt;- matrix(c(
+  0,1/2,1/2,0,0,0,0,
+  1/4,0,1/4,0,1/4,0,1/4,
+  1/4,1/4,0,1/4,0,1/4,0,
+  0,0,1/2,0,1/2,0,0,
+  0,1/3,0,1/3,0,1/3,0,
+  0,0,1/3,0,1/3,0,1/3,
+  0,1/2,0,0,0,1/2,0),
+byrow=TRUE,nrow=7)
+```
+
+---
+
+
+```r
+Matrix2
+```
+
+```
+##      [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## [1,] 0.00 0.5000000 0.5000000 0.0000000 0.0000000 0.0000000 0.0000000
+## [2,] 0.25 0.0000000 0.2500000 0.0000000 0.2500000 0.0000000 0.2500000
+## [3,] 0.25 0.2500000 0.0000000 0.2500000 0.0000000 0.2500000 0.0000000
+## [4,] 0.00 0.0000000 0.5000000 0.0000000 0.5000000 0.0000000 0.0000000
+## [5,] 0.00 0.3333333 0.0000000 0.3333333 0.0000000 0.3333333 0.0000000
+## [6,] 0.00 0.0000000 0.3333333 0.0000000 0.3333333 0.0000000 0.3333333
+## [7,] 0.00 0.5000000 0.0000000 0.0000000 0.0000000 0.5000000 0.0000000
+```
+
+
+
+---
+
+***Check Row Totals***
+
+
+
+```r
+sum(Matrix2[1,])
+```
+
+```
+## [1] 1
+```
+
+```r
+sum(Matrix2[2,])
+```
+
+```
+## [1] 1
+```
+
+```r
+sum(Matrix2[3,])
+```
+
+```
+## [1] 1
+```
+
+
+
+```r
+rowSums(Matrix2)
+```
+
+```
+## [1] 1 1 1 1 1 1 1
+```
+
+---
+
+Part 1
+===================
+
+
+
+
+
+```r
+#Create a vector with state names
+statesmatrix1 &lt;- c("A","B","C","D","E","F","G")
+statesmatrix1
+```
+
+```
+## [1] "A" "B" "C" "D" "E" "F" "G"
+```
+
+
+
+
+
+
+```r
+transitionmat1 &lt;- new("markovchain",
+    states=statesmatrix1,
+    transitionMatrix=Matrix2)
+```
+
+
+
+
+```r
+statesmatrix1
+```
+
+```
+## [1] "A" "B" "C" "D" "E" "F" "G"
+```
+
+---
+
+
+
+```r
+markovchain::plot(transitionmat1)
+```
+
+![](05-Part5_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+
+
+```r
+transitionmat1
+```
+
+```
+## Unnamed Markov chain 
+##  A  7 - dimensional discrete Markov Chain defined by the following states: 
+##  A, B, C, D, E, F, G 
+##  The transition matrix  (by rows)  is defined as follows: 
+##      A         B         C         D         E         F         G
+## A 0.00 0.5000000 0.5000000 0.0000000 0.0000000 0.0000000 0.0000000
+## B 0.25 0.0000000 0.2500000 0.0000000 0.2500000 0.0000000 0.2500000
+## C 0.25 0.2500000 0.0000000 0.2500000 0.0000000 0.2500000 0.0000000
+## D 0.00 0.0000000 0.5000000 0.0000000 0.5000000 0.0000000 0.0000000
+## E 0.00 0.3333333 0.0000000 0.3333333 0.0000000 0.3333333 0.0000000
+## F 0.00 0.0000000 0.3333333 0.0000000 0.3333333 0.0000000 0.3333333
+## G 0.00 0.5000000 0.0000000 0.0000000 0.0000000 0.5000000 0.0000000
+```
+
+
+
+---
+
+Part 2
+===================
+What is the absorbing state in the transition matrix? Find the steady state or stationary
+distribution.
+
+
+
+
+
+
+```r
+# What are the absorbing states?
+
+markovchain::absorbingStates(transitionmat1)
+```
+
+```
+## character(0)
+```
+
+
+```r
+# Find the steady state or stationary distribution.
+markovchain::steadyStates(transitionmat1)
+```
+
+```
+##        A   B   C   D    E    F   G
+## [1,] 0.1 0.2 0.2 0.1 0.15 0.15 0.1
+```
+
+
+
+---
+
+Exercise 3
+========================
+
+How much time it will take to reach the steady state if the particle is starting from state
+A, B and C?
+
+---
+
+&lt;h5&gt; Matrix Multiplication &lt;/h5&gt;
+
+
+
+
+```r
+class(Matrix2)
+```
+
+```
+## [1] "matrix" "array"
+```
+
+```r
+dim(Matrix2)
+```
+
+```
+## [1] 7 7
+```
+
+---
+
+
+```r
+# Time to reach steady state if particle starts from A
+
+starting &lt;- c(1,0,0,0,0,0,0)
+
+starting &lt;- matrix(starting,byrow=TRUE, nrow=1)
+
+starting
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]    1    0    0    0    0    0    0
+```
+
+---
+
+
+
+&lt;h4&gt; Check for compatbile dimensions&lt;/h4&gt;
+
+
+```r
+dim(starting)
+```
+
+```
+## [1] 1 7
+```
+
+```r
+dim(Matrix2)
+```
+
+```
+## [1] 7 7
+```
+
+&lt;h4&gt;Matrix Multiplication&lt;/h4&gt;
+
+
+```r
+starting %*% Matrix2
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]    0  0.5  0.5    0    0    0    0
+```
+
+---
+
+
+```r
+A &lt;- starting
+B &lt;- starting
+C &lt;- starting %*% Matrix2
+  
+all(A==B)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+all(A==C)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+all(A==C)==FALSE
+```
+
+```
+## [1] TRUE
+```
+
+---
+
+
+
+```r
+n=0
+
+while(  all(starting%*%Matrix2 == starting)==FALSE  ){
+  starting=starting%*%Matrix2
+  print(starting)
+  n=n+1
+  print(n)
+}    
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]    0  0.5  0.5    0    0    0    0
+## [1] 1
+##      [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]
+## [1,] 0.25 0.125 0.125 0.125 0.125 0.125 0.125
+## [1] 2
+##        [,1]      [,2]      [,3]       [,4]      [,5]      [,6]       [,7]
+## [1,] 0.0625 0.2604167 0.2604167 0.07291667 0.1354167 0.1354167 0.07291667
+## [1] 3
+##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## [1,] 0.1302083 0.1779514 0.1779514 0.1102431 0.1467014 0.1467014 0.1102431
+## [1] 4
+##            [,1]     [,2]     [,3]       [,4]      [,5]      [,6]       [,7]
+## [1,] 0.08897569 0.213614 0.213614 0.09338831 0.1485098 0.1485098 0.09338831
+## [1] 5
+##          [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## [1,] 0.106807 0.1940888 0.1940888 0.1029068 0.1496009 0.1496009 0.1029068
+## [1] 6
+##            [,1]      [,2]      [,3]       [,4]      [,5]      [,6]       [,7]
+## [1,] 0.09704439 0.2032461 0.2032461 0.09838917 0.1498426 0.1498426 0.09838917
+## [1] 7
+##          [,1]      [,2]      [,3]     [,4]      [,5]      [,6]     [,7]
+## [1,] 0.101623 0.1984758 0.1984758 0.100759 0.1499536 0.1499536 0.100759
+## [1] 8
+##            [,1]      [,2]      [,3]      [,4]     [,5]     [,6]      [,7]
+## [1,] 0.09923791 0.2007945 0.2007945 0.0996035 0.149983 0.149983 0.0996035
+## [1] 9
+##           [,1]      [,2]      [,3]     [,4]      [,5]      [,6]     [,7]
+## [1,] 0.1003973 0.1996137 0.1996137 0.100193 0.1499947 0.1499947 0.100193
+## [1] 10
+##            [,1]      [,2]      [,3]       [,4]      [,5]      [,6]       [,7]
+## [1,] 0.09980684 0.2001968 0.2001968 0.09990166 0.1499981 0.1499981 0.09990166
+## [1] 11
+##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## [1,] 0.1000984 0.1999028 0.1999028 0.1000486 0.1499994 0.1499994 0.1000486
+## [1] 12
+##            [,1]     [,2]     [,3]       [,4]      [,5]      [,6]       [,7]
+## [1,] 0.09995141 0.200049 0.200049 0.09997551 0.1499998 0.1499998 0.09997551
+## [1] 13
+##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## [1,] 0.1000245 0.1999756 0.1999756 0.1000122 0.1499999 0.1499999 0.1000122
+## [1] 14
+##            [,1]      [,2]      [,3]       [,4] [,5] [,6]       [,7]
+## [1,] 0.09998782 0.2000122 0.2000122 0.09999389 0.15 0.15 0.09999389
+## [1] 15
+##           [,1]      [,2]      [,3]     [,4] [,5] [,6]     [,7]
+## [1,] 0.1000061 0.1999939 0.1999939 0.100003 0.15 0.15 0.100003
+## [1] 16
+##            [,1]      [,2]      [,3]       [,4] [,5] [,6]       [,7]
+## [1,] 0.09999695 0.2000031 0.2000031 0.09999847 0.15 0.15 0.09999847
+## [1] 17
+##           [,1]      [,2]      [,3]      [,4] [,5] [,6]      [,7]
+## [1,] 0.1000015 0.1999985 0.1999985 0.1000008 0.15 0.15 0.1000008
+## [1] 18
+##            [,1]      [,2]      [,3]       [,4] [,5] [,6]       [,7]
+## [1,] 0.09999924 0.2000008 0.2000008 0.09999962 0.15 0.15 0.09999962
+## [1] 19
+##           [,1]      [,2]      [,3]      [,4] [,5] [,6]      [,7]
+## [1,] 0.1000004 0.1999996 0.1999996 0.1000002 0.15 0.15 0.1000002
+## [1] 20
+##            [,1]      [,2]      [,3]      [,4] [,5] [,6]      [,7]
+## [1,] 0.09999981 0.2000002 0.2000002 0.0999999 0.15 0.15 0.0999999
+## [1] 21
+##           [,1]      [,2]      [,3] [,4] [,5] [,6] [,7]
+## [1,] 0.1000001 0.1999999 0.1999999  0.1 0.15 0.15  0.1
+## [1] 22
+##            [,1] [,2] [,3]       [,4] [,5] [,6]       [,7]
+## [1,] 0.09999995  0.2  0.2 0.09999998 0.15 0.15 0.09999998
+## [1] 23
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 24
+##            [,1] [,2] [,3]       [,4] [,5] [,6]       [,7]
+## [1,] 0.09999999  0.2  0.2 0.09999999 0.15 0.15 0.09999999
+## [1] 25
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 26
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 27
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 28
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 29
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 30
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 31
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 32
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 33
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 34
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 35
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 36
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 37
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 38
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 39
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 40
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 41
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 42
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 43
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 44
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 45
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 46
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 47
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 48
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 49
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 50
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 51
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 52
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 53
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 54
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 55
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 56
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+## [1,]  0.1  0.2  0.2  0.1 0.15 0.15  0.1
+## [1] 57
+```
+
+[1] 54
+[,1] [,2] [,3] [,4] [,5] [,6] [,7]
+[1,] 0.1 0.2 0.2 0.1 0.15 0.15 0.1
+[1] 55
+There were 50 or more warnings (use warnings() to see the first 50)
+
+---
+
+Time to reach steady state if particle starts from B
+
+
+```r
+m=0
+
+while(  all(starting%*%Matrix2 == starting)==FALSE  ){
+  starting=starting%*%Matrix2
+  #print(starting)
+  m=m+1
+  #print(m)
+} 
+
+m
+```
+
+```
+## [1] 0
+```
+
+---
+
+Time to reach steady state if particle starts from C
+
+
+
+```r
+p=0
+starting=c(0,0,1,0,0,0,0)
+
+while(starting%*%Matrix2!=starting){
+    starting=starting%*%Matrix2
+    #print(starting)
+    p=p+1
+    #print(p)
+}
+```
+
+```
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+
+## Warning in while (starting %*% Matrix2 != starting) {: the condition has length
+## &gt; 1 and only the first element will be used
+```
+
+```r
+p
+```
+
+```
+## [1] 56
+```
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

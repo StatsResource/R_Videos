@@ -1,0 +1,141 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Probability Distributions
+* Fundamentals of Statistical Analysis
+
+* Question 2
+
+---
+
+* The prior and posterior distribution for values of systolic blood pressure follows Normal 
+distribution. 
+
+* Prior distribution of systolic blood pressure (x) has a mean of 120 and standard 
+deviation of 10. 
+
+```{r}
+priormean <- 120 
+priorsd <- 10 
+```
+
+
+---
+
+Part 1
+========================================
+
+Generate range of values of x in the interval [80,160] and using `len = 100`. 
+
+
+```{r}
+x <- seq(80,160,len = 100) 
+```
+
+
+<h4> Inspecting the data </h4>
+
+```{r}
+head(x)
+
+max(x)
+```
+
+
+---
+
+Part 2
+====================================
+
+Plot the posterior probability density function of x using answer from Part 1. 
+
+
+<pre><code>
+y<-dnorm(x,mean = priormean,sd=priorsd)
+plot(x,y,type = "l")
+</code></pre>
+
+---
+
+```{r}
+y<-dnorm(x,mean = priormean,sd=priorsd)
+plot(x,y,type = "l")
+```
+
+---
+
+Part 3
+====================================
+
+Perform a simulation of 1000 posterior samples for the parameter x.      
+
+
+
+```{r}
+z <- rnorm(1000,priormean,priorsd)
+
+head(z)
+```
+
+---
+
+Part 4
+====================================
+
+Plot a histogram of the posterior distribution of x. 
+
+
+<pre><code>
+hist(z,main = "Posterior distribution of x")
+</code></pre>
+
+---
+
+
+```{r} 
+hist(z,main = "Posterior distribution of x")
+```
+
+---
+
+Part 5
+====================================
+
+What is the mean and standard deviation of posterior distribution of x?      
+
+
+```{r}
+mean(z) 
+
+sd(z) 
+
+```
+
+---
+
+Part 6
+====================================
+
+Calculate the 95% confidence interval for systolic blood pressure using the posterior 
+distribution. 
+
+
+```{r}
+sbp <- mean(z) + qnorm(c(0.025,0.975)) * sd(z) 
+sbp
+```
+
+ 

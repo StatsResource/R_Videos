@@ -19,11 +19,11 @@ Additionally, they are also interested in understanding the impact of their mark
 customer connect efforts towards overall sales. In the same effort, they have your employer as
 a data science and predictive analytics consultant.
 
+---
 
 Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
 
 
----
 
 Additionally, They have  also suggested you to investigate the impact of marketing program on
 sales by using an exogenous variable ARIMA model. You agreed on the steps to be followed
@@ -33,21 +33,35 @@ and agree on the following steps.
 
 ---
 
-Data provided in \texttt{Speedboat\_Sales.csv} in the local file directory.
+Data provided in ***Speedboat_Sales.csv*** in a subfolder called ***datasets*** in the local file directory.
 
 
 
 ```{r}
-getwd()
 
-data <- read.csv("Speedboat_Sales.csv")
 
-list.files()
+sb_data <- read.csv("datasets/Speedboat_Sales.csv")
 
-head(data)
 
-install.packages("Forecast")
-library(Forecast)
+
+```
+
+---
+
+
+```{r}
+head(sb_data)
+```
+
+
+---
+
+
+```{r}
+
+#install.packages("Forecast")
+
+library(forecast)
 
 ```
 
@@ -55,20 +69,27 @@ library(Forecast)
 ---
 
 
-Exercise 1}
-Plot a time series chart
-with year as $X$ axis and sales as $Y$
-axis with suitable labelling. Basis the plot thus obtain,
-comment on the type of time series.
+Exercise 1
+===========================
+
+Plot a time series chart with year as $X$ axis and sales as $Y$ axis with suitable labelling. 
+
+Basis the plot thus obtain, comment on the type of time series.
 
 
 ```{r}
-data = ts(data[,2],start = c(2005,1),frequency = 12)
+data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
 
 plot(data, xlab="Years", ylab = "Speedboat Sales")
 ```
 
+---
 
+```{r}
+data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
+
+plot(data, xlab="Years", ylab = "Speedboat Sales")
+```
 
 Clearly the above chart has an upward trend for speedboat sales and there is also a seasonal
 component.
@@ -76,15 +97,17 @@ component.
 ---
 
 
-Exercise 2}
+Exercise 2
+============================
+
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results.
 
 ```{r}
 par(mfrow = c(1,2))
 
-acf(ts(data),main="ACF Speedboat Sales")
-pacf(ts(data),main="PACF Speedboat Sales")
+acf(ts(sb_data),main="ACF Speedboat Sales")
+pacf(ts(sb_data),main="PACF Speedboat Sales")
 ```
 
 
@@ -92,18 +115,20 @@ pacf(ts(data),main="PACF Speedboat Sales")
 
 
 
-Exercise 3}
+Exercise 3
+======================
 
-You believe that differencing series is one of the ways to remove trend. Obtain the first
-order and second order difference series and plot the same. Also provide comment on
+You believe that differencing series is one of the ways to remove trend. 
+
+Obtain the first order and second order difference series and plot the same. Also provide comment on
 variance of the $d(1)$ series.
 
 
 ```{r}
-par(mfrow = c(1,1))
+#par(mfrow = c(1,1))
 
-diff_data = diff(data)
-plot(diff_data,ylab="Differenced Speedboat Sales")
+diff_data = diff(  ts(sb_data)  )
+#plot(diff_data,ylab="Differenced Speedboat Sales")
 ```
 
 ---
@@ -124,21 +149,23 @@ plot(diff_data_2,ylab="Differenced Speedboat Sales")
 
 ---
 
-Exercise 4}
+Exercise 4
+============================
 Looking at the plots of difference series, you decide to apply log transformation to the
 original series to smoothen the variance. Obtain the log-transformed (base 10) series
 and plot the same. 
 
 ```{r}
-Log_data = log10(data)
+Log_data = log10(  ts(sb_data)  )
 
 plot(Log_data,ylab="Log Speedboat Sales")
 ```
 
 ---
 
-Exercise 5}
- Obtain the first order difference series of the transformed series and plot the same. 
+Exercise 5
+=================
+Obtain the first order difference series of the transformed series and plot the same. 
 
 
 ```{r}
@@ -151,7 +178,8 @@ plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
 
 ---
 
-Exercise 6}
+Exercise 6
+=========================
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results. 
 
@@ -164,6 +192,7 @@ pacf(ts(Diff_log_data),main="PACF Speedboat Sales")
 ```
 
 
+----
 
 
 * Since, there are enough spikes in the plots outside the insignificant zone (dotted horizontal lines) we
@@ -176,11 +205,12 @@ the residuals at the lag 12 (represented by spikes at lag 12).
 monthly data that tends to have seasonality of 12 months because of patterns in tractor sales.
 
 
-===============================================================================================
-%% PART 7
 
+---
 
-Exercise 7}
+PART 7
+===========================================================================
+
 Use Auto arima function in forecast package in R helps us identify the best fit ARIMA
 model on the fly. Comment on the summary results of fitting this series and on Akaike
 Information Criterion (AIC) and Bayesian Information Criterion (BIC) values. 
@@ -188,33 +218,31 @@ Information Criterion (AIC) and Bayesian Information Criterion (BIC) values.
 
 
 ```{r}
-ARIMAfit = auto.arima(Log_data,approximation=FALSE,
+ARIMAfit = auto.arima (  Log_data[,2] ,approximation=FALSE,
     trace=FALSE)
 
 summary(ARIMAfit)
 ```
 
-
-===========================================
+---
 
 
 * The best fit model is selected based on Akaike Information Criterion (AIC), and Bayesian Information
 Criterion (BIC) values. 
 * The idea model to choose who has minimum AIC and BIC values.
-As expected, our model has I (or integrated) component equal to 1. 
-* This represents differencing of
-order 1. There is additional differencing of lag 12 in the above best fit model. 
+* As expected, our model has I (or integrated) component equal to 1. 
+* This represents differencing of order 1. 
+
+There is additional differencing of lag 12 in the above best fit model. 
 *  Moreover, the best fit
 model has MA value of order 1. Also, there is seasonal MA with lag 12 of order 1.
 
+---
 
+PART 8
 
 ===============================================================================================
-%% PART 8
 
-
-
-Exercise 8}
 Predict speedboat sales for next 3 years i.e. for 2015, 2016, and 2017 through the above
 model and plot the results along-with one times the range of standard error from
 predicted value. 
@@ -223,24 +251,24 @@ predicted value.
 
 
 ```{r}
-par(mfrow = c(1,1))
-pred = predict(ARIMAfit, n.ahead = 36)
+
+pred = forecast(ARIMAfit, n.ahead = 36)
 pred
 ```
 
-
+---
 
 
 ```{r}
 plot(data,type="l",xlim=c(2006,2020),ylim=c(1,1600),xlab = "Year",ylab = "Speedboat Sales")
 lines(10^(pred$pred),col="blue")
-lines(10^(pred$pred+2*pred$se),col="orange")
-lines(10^(pred$pred-2*pred$se),col="Brown")
+#lines(10^(pred$pred+2*pred$se),col="orange")
+#lines(10^(pred$pred-2*pred$se),col="Brown")
 
 ```
 
-\includegraphics[]{00-B2/images/Speedboat_Sales_forecast.png}
 
+---
 
 
 
@@ -257,11 +285,13 @@ acf(ts(ARIMAfit$residuals),main="ACF Residual")
 pacf(ts(ARIMAfit$residuals),main="PACF Residual")
 ```
 
-\includegraphics[]{00-B2/images/Speedboat_Sales_8.png}
+---
 
 Since there are no spikes outside the insignificant zone for both ACF and PACF plots we can conclude
 that residuals are random with no information or juice in them. Hence our ARIMA model is working
 fine.
 
-BLANK
+
+
+
 

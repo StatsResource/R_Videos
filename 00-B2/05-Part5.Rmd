@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,49 +9,109 @@ output:
       countIncrementalSlides: false
 ---
 
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis, Stochastic Processes
+
+---
+
+
+***{markovchain} R package***
+
+```{r}
+
+#install.packages("markovchain")
+
+library(markovchain)
+```
+
+---
+
+Markov Chain
+========================
+
 A particle is moving on the graph below by starting on a randomly chosen vertex (each with
 the same probability) and at each time step moving along one of the adjacent edges to a
 neighbouring vertex, choosing the edge with equal probability and independently of all
 previous movements.
-\includegraphics[]{00-B2/images/B2-Q5-Graph.JPG}
 
 
-
+<p align="center">
+  <img src="images/B2-Q5-Graph.JPG" />
+</p>
 
 ---
+
+Dgree Sequence
+=================
+
+  .pull-left[ ![](images/B2-Q5-Graph.JPG)]
+
+.pull-left[  |Vertex  | Degree |
+ |------- |--------- |
+ |A | 2 |
+ |B | 4 |
+ |C | 4 |
+ |D | 3 |
+ |E | 3|
+ |F | 3|
+ |G | 2|
+]
+
+---
+
+
+Part 1
+======================
+
 Create a matrix with the transition matrix with probabilities using the state names as
 {A,B,C,D,E,F,G} and plot the transition matrix graph. 
 ```{r}
  #Create a matrix with the transition probabilities.
 
 Matrix2<- matrix(c(
-0,1/2,1/2,0,0,0,0,
-1/4,0,1/4,0,1/4,0,1/4,
-1/4,1/4,0,1/4,0,1/4,0,
-0,0,1/2,0,1/2,0,0,
-0,1/3,0,1/3,0,1/3,0,
-0,0,1/3,0,1/3,0,1/3,
-0,1/2,0,0,0,1/2,0),
+  0,1/2,1/2,0,0,0,0,
+  1/4,0,1/4,0,1/4,0,1/4,
+  1/4,1/4,0,1/4,0,1/4,0,
+  0,0,1/2,0,1/2,0,0,
+  0,1/3,0,1/3,0,1/3,0,
+  0,0,1/3,0,1/3,0,1/3,
+  0,1/2,0,0,0,1/2,0),
 byrow=TRUE,nrow=7)
+```
 
+---
+
+```{r}
 Matrix2
 
 ```
 
 
 
+---
 
+***Check Row Totals***
+
+
+```{r}
 sum(Matrix2[1,])
 sum(Matrix2[2,])
 sum(Matrix2[3,])
-sum(Matrix2[4,])
-sum(Matrix2[5,])
-sum(Matrix2[6,])
-sum(Matrix2[7,])
+```
 
 
+```{r}
+rowSums(Matrix2)
+```
 
 ---
+
+Part 1
+===================
 
 
 
@@ -63,81 +123,67 @@ statesmatrix1
 ```
 
 
-<ol class="list-inline">
-	<li>'A'</li>
-	<li>'B'</li>
-	<li>'C'</li>
-	<li>'D'</li>
-	<li>'E'</li>
-	<li>'F'</li>
-	<li>'G'</li>
-</ol>
-
 
 
 
 ```{r}
-transitionmat1<-
-new("markovchain",
-states=statesmatrix1,
-transitionMatrix=Matrix2)
+transitionmat1 <- new("markovchain",
+    states=statesmatrix1,
+    transitionMatrix=Matrix2)
 ```
 
 
 
+```{r}
+statesmatrix1
 
-
-
-> statesmatrix1
-[1] "A" "B" "C" "D" "E" "F" "G"
-#Create the transition matrix
+```
 
 ---
 
+
+```{r}
 markovchain::plot(transitionmat1)
-> transitionmat1
-Unnamed Markov chain
-A 7 - dimensional discrete Markov Chain defined by the following states:
-A, B, C, D, E, F, G
-The transition matrix (by rows) is defined as follows:
-A
-B
-C
-D
-E
-F
-G
 
 
-A 0.00 0.5000000 0.5000000 0.0000000 0.0000000 0.0000000 0.0000000
-B 0.25 0.0000000 0.2500000 0.0000000 0.2500000 0.0000000 0.2500000
-C 0.25 0.2500000 0.0000000 0.2500000 0.0000000 0.2500000 0.0000000
-D 0.00 0.0000000 0.5000000 0.0000000 0.5000000 0.0000000 0.0000000
-E 0.00 0.3333333 0.0000000 0.3333333 0.0000000 0.3333333 0.0000000
-F 0.00 0.0000000 0.3333333 0.0000000 0.3333333 0.0000000 0.3333333
-G 0.00 0.5000000 0.0000000 0.0000000 0.0000000 0.5000000 0.0000000
+```
+
+---
 
 
-===================%
+```{r}
+transitionmat1
 
-Exercise 2}
+```
+
+
+
+---
+
+Part 2
+===================
 What is the absorbing state in the transition matrix? Find the steady state or stationary
 distribution.
 
 
 
-ii) # What are the absorbing states?
+
+
+```{r}
+
+# What are the absorbing states?
+
 markovchain::absorbingStates(transitionmat1)
+```
+
+```{r}
 # Find the steady state or stationary distribution.
 markovchain::steadyStates(transitionmat1)
-> markovchain::steadyStates(transitionmat1)
-A B C D E F G
-[1,] 0.1 0.2 0.2 0.1 0.15 0.15 0.1
+```
 
 
 
-
-
+---
 
 Exercise 3
 ========================
@@ -145,18 +191,81 @@ Exercise 3
 How much time it will take to reach the steady state if the particle is starting from state
 A, B and C?
 
+---
+
+<h5> Matrix Multiplication </h5>
 
 
-iii) # Time to reach steady state if particle starts from A
+
+```{r}
+class(Matrix2)
+
+dim(Matrix2)
+
+```
+
+---
+
+```{r}
+
+# Time to reach steady state if particle starts from A
+
+starting <- c(1,0,0,0,0,0,0)
+
+starting <- matrix(starting,byrow=TRUE, nrow=1)
+
+starting
+
+
+```
+
+---
+
+
+
+<h4> Check for compatbile dimensions</h4>
+
+```{r}
+dim(starting)
+
+dim(Matrix2)
+
+```
+
+<h4>Matrix Multiplication</h4>
+
+```{r}
+starting %*% Matrix2
+
+```
+
+---
+
+```{r}
+
+A <- starting
+B <- starting
+C <- starting %*% Matrix2
+  
+all(A==B)
+
+all(A==C)
+
+all(A==C)==FALSE
+  
+```
+
+---
+
 
 ```{r}
 n=0
-starting=c(1,0,0,0,0,0,0)
-while(starting%*%Matrix2!=starting){
-starting=starting%*%Matrix2
-print(starting)
-n=n+1
-print(n)
+
+while(  all(starting%*%Matrix2 == starting)==FALSE  ){
+  starting=starting%*%Matrix2
+  print(starting)
+  n=n+1
+  print(n)
 }    
 ```
 
@@ -166,25 +275,26 @@ print(n)
 [1] 55
 There were 50 or more warnings (use warnings() to see the first 50)
 
+---
 
-============================
-# Time to reach steady state if particle starts from B
+Time to reach steady state if particle starts from B
 
 ```{r}
 m=0
-starting=c(0,1,0,0,0,0,0)
-while(starting%*%Matrix2!=starting){
-starting=starting%*%Matrix2
-print(starting)
-m=m+1
-print(m)
-}    
+
+while(  all(starting%*%Matrix2 == starting)==FALSE  ){
+  starting=starting%*%Matrix2
+  #print(starting)
+  m=m+1
+  #print(m)
+} 
+
+m
 ```
 
-[1,] 0.1 0.2007407 0.1992593 0.1004772 0.1492593 0.1507407 0.09952283
-[1] 54
-There were 50 or more warnings (use warnings() to see the first 50)
-# Time to reach steady state if particle starts from C
+---
+
+Time to reach steady state if particle starts from C
 
 
 ```{r}
@@ -193,13 +303,10 @@ starting=c(0,0,1,0,0,0,0)
 
 while(starting%*%Matrix2!=starting){
     starting=starting%*%Matrix2
-    print(starting)
+    #print(starting)
     p=p+1
-    print(p))
-}    
+    #print(p)
+}
+p
 ```
-
-[1,] 0.1 0.1993928 0.2006072 0.09960879 0.1506072 0.1493928 0.1003912
-[1] 56
-There were 50 or more warnings (use warnings() to see the first 50)
 

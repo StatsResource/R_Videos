@@ -1,0 +1,58 @@
+[25]
+Q. 4) The force of mortality ‘mu(x)’ for a particular group of life can be calculated using the 
+formula as A*B^x; where A=0.00002; B=exp(c); c=0.09; x denotes the age of the life. 
+i) Write down a formula for mu(x) in R and calculate the value of mu(50). (5)
+ii) If survival probability px can be approximated as [exp(-mu(x+0.5))], calculate the 
+probability that a life aged 50, will remain alive after 10 years. (6)
+iii) Create a table of mortality rate qx for ages between 40 to 50. (6)
+
+
+ [6] 
+ [25 Marks] IAI CS2B-0321 
+Page 8 of 9
+Solution 4: 
+i)
+A=0.00002 
+C=0.09 
+B=exp(C) 
+mu<-function(x) { 
+ A * B^x 
+} 
+mu(50) 
+> mu(50) 
+[1] 0.001800343 
+ [5] 
+ii)
+px<-function(x) { 
+ exp(-mu(x+0.5)) 
+} 
+x=50 
+npx=1 
+for(t in 1:10) 
+{alive=px(x+t-1); npx=npx*alive} 
+npx 
+> npx 
+[1] 0.9712341 
+ [6] 
+iii)
+xlist=seq(40,50) 
+qx<-function(x) { 
+ 1-px(x) 
+} 
+qlist=sapply(xlist,qx) 
+cbind(xlist,qlist) 
+> cbind(xlist,qlist) 
+ xlist qlist 
+ [1,] 40 0.0007653624 
+ [2,] 41 0.0008374097 
+ [3,] 42 0.0009162360 
+ [4,] 43 0.0010024786 
+ [5,] 44 0.0010968345 
+ [6,] 45 0.0012000661 
+ [7,] 46 0.0013130073 
+ [8,] 47 0.0014365699 
+ [9,] 48 0.0015717515 
+[10,] 49 0.0017196427 
+[11,] 50 0.0018814364 
+ [6] 
+ [17 Marks] 

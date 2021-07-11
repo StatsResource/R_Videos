@@ -14,30 +14,16 @@ Q. 1)
 Use the data file “Mortality_Investigation.csv” to answer the below questions. This table
 contains the details of mortality investigation performed on 100 different male lives
 between 1-Jan-2016 and 31-Dec-2018.
-i)
+
+---
+
+Part 1
+===========
 Print first 6 rows of the data ensuring correct data formats for all the columns and
 calculate the proportion of the total sample died, survived and withdrew from the
-observation period. (4)
-ii) Compute two new columns ‘Age_At_Entry’ and ‘Age_At_Exit’ for each person (you
-can assume a completed year as 365.25 days and you can compute the age as difference
-between the dates in decimals like 35.234 years) and print the last 6 rows of the newly
-formed table. (5)
-iii) Compute the average age at entry and the average age at exit of the people for whom
-“Death” was the reason of Exit. (3)
-If the age label used is “Age last Birthday”, then calculate
-iv) Number of lives out of total 100 lives who have contributed the full year towards the
-c
-central exposed to risk E 37
-. (4)
-c
-v) Number of lives who did not contribute at all towards the central exposed to risk E 37
-. (4)
-c
-vi) Total number of years of contribution to E 37
-by all the lives together (Round your
-answer to 2 digits after the decimal).
+observation period.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
 
 Solution 1:
 i)
@@ -48,8 +34,14 @@ Mort_Inv$DoJ<-as.Date(Mort_Inv$DoJ)
 Mort_Inv$DoE<-as.Date(Mort_Inv$DoE)
 
 ```
+---
+
+
+```{r}
 head(Mort_Inv) [2]
-prop.table(table(Mort_Inv$Exit_Reason)) [2]
+prop.table(table(Mort_Inv$Exit_Reason)) 
+
+```
 > head(Mort_Inv)
 Life
 DoB
@@ -78,7 +70,23 @@ Death
 Survived Withdrawal
 0.40
 0.29
-[4]
+
+
+
+
+---
+
+Part 2
+=====================
+
+
+ii) Compute two new columns ‘Age_At_Entry’ and ‘Age_At_Exit’ for each person (you
+can assume a completed year as 365.25 days and you can compute the age as difference
+between the dates in decimals like 35.234 years) and print the last 6 rows of the newly
+formed table.
+
+---
+
 ii)
 Mort_Inv$Age_At_Entry<-round((Mort_Inv$DoJ-Mort_Inv$DoB)/365.25,4)
 Mort_Inv$Age_At_Exit<-round((Mort_Inv$DoE-Mort_Inv$DoB)/365.25,4)
@@ -117,6 +125,15 @@ Survived 39.2334 days 41.4538 days
 2019-10-04
 Survived 37.7413 days 39.2635 days
 
+---
+
+Part 3
+=====================
+iii) Compute the average age at entry and the average age at exit of the people for whom
+“Death” was the reason of Exit. (3)
+If the age label used is “Age last Birthday”, then calculate
+---
+
 iii)
 mean(Mort_Inv$Age_At_Entry[Mort_Inv$Exit_Reason == "Death"])
 mean(Mort_Inv$Age_At_Exit[Mort_Inv$Exit_Reason == "Death"])
@@ -125,21 +142,57 @@ Time difference of 37.01715 days
 > mean(Mort_Inv$Age_At_Exit[Mort_Inv$Exit_Reason == "Death"])
 Time difference of 37.89168 days
 
+
+---
+
+
+Part 4
+=====================
+
+iv) Number of lives out of total 100 lives who have contributed the full year towards the
+c
+central exposed to risk E 37
+. (4)
+c
+
+---
+
 iv)
 sum((Mort_Inv$Age_At_Entry)<37&Mort_Inv$Age_At_Exit>38)
  14
 [4]
-Page 2 of 11IAI
-CS2B-1120
+
+---
+
+
+Part 5
+=====================
+
+v) Number of lives who did not contribute at all towards the central exposed to risk E 37
+. (4)
+
+---
+
+
 v)
 sum((Mort_Inv$Age_At_Entry)>38|Mort_Inv$Age_At_Exit<37)
  49
-[4]
-vi)
+
+
+---
+
+Part 6
+=====================
+c
+vi) Total number of years of contribution to E 37
+by all the lives together (Round your
+answer to 2 digits after the decimal).
+
+```{r}
 Mort_Inv$Contribution37<-ifelse((Mort_Inv$Age_At_Exit<37 |Mort_Inv$Age_At_Entry> 38),"No","Yes" )
 Mort_Inv$contribution37_Period<-ifelse(Mort_Inv$Contribution37 == "Yes",
 (pmin(38,Mort_Inv$Age_At_Exit)- pmax(37,Mort_Inv$Age_At_Entry)),0)
 sum(Mort_Inv$contribution37_Period)
- 27.4224
-[7]
-[27 Marks]
+```
+
+---

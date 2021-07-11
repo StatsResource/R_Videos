@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,46 +9,141 @@ output:
       countIncrementalSlides: false
 ---
 
-
-\noindent A general insurance company has sold 5000 Accident Benefit Policies to independent lives.\\\\
-\medskip
-\noindent The number of claims follows a Poisson distribution with parameter 500. The amount of claim
-from individual policy is following a Gamma distribution with parameters $\alpha = 250$ and $\lambda = 0.5$.\\
-\medskip
-
-\noindent Calculate the aggregate claim amount paid by the insurer by simulating 5000 values if the
-insurer retains only 350 (assume the aggregate claim amount follows a compound Poisson
-distribution). 
-%%Use seed corresponding to your birth year.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Solution}
+***CS2B – Risk Modelling and Survival Analysis ***
 
 
-\includegraphics[scale=1.3]{00-B2/images/B2_Agg_Claim_CompoundPoisson.JPG}
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+A general insurance company has sold 5000 Accident Benefit Policies to independent lives.
+
+* The number of claims follows a Poisson distribution with parameter 500. 
+
+* The amount of claim from individual policy is following a Gamma distribution with parameters $\alpha = 250$ and $\lambda = 0.5$.
+
+* Calculate the aggregate claim amount paid by the insurer by simulating 5000 values if the insurer retains only 500 (assume the aggregate claim amount follows a compound Poisson distribution). 
+
+*Use seed number 4321.*
 
 
 ---
 
-\begin{verbatim}
+***Poisson Distribution***
+
+* Simulating the number of claims
+* Poisson Random Variable with mean $\lambda = 500$
+
+```{r}
 set.seed(1234)
-n <- rpois(5000,500)
+
+rpois(10,lambda=500)
+
+```
+
+
+```{r}
+set.seed(4321)
+
+num_claims <- rpois(1,lambda=500)
+
+num_claims
+```
+
+---
+
+
+***Individual claim amounts***
+
+Gamma Distribution
+
+* Shape Parameter $\alpha = 250$
+* Rate Parameter $\lambda = 0.5$
+* Scale Parameter $\beta = \frac{1}{\lambda} = 2$
+
+```{r}
+
+rgamma(1,shape = 250, scale = 2)
+
+```
+
+
+```{r}
+
+claims <- rgamma(num_claims,shape = 250, scale= 2)
+
+head(claims)
+```
+
+
+---
+
+
+***Parallel Maxima and Minima***
+
+```{r}
+
+claims <- c( 530, 480, 490, 505, 515, 525, 475)
+
+pmax(claims,500)
+```
+
+
+```{r}
+pmin(claims,500)
+
+```
+
+
+---
+
+
+***Simulation of 5000 observations***
+
+
+````{r}
+set.seed(1234)
+n <- rpois(5000,lambda = 500)
 
 Agg_Claim <- rep(0,5000)
 
 for(j in 1:5000){
-    y<-rgamma(n[j],250,0.5)
-    z<-pmin(y,350)
+    y<-rgamma(n[j], shape = 250,  scale = 0.5)
+    
+    z<-pmin(y,500)
+    
     Agg_Claim[j] <-sum(z)
     }
+
+```
+
+---
+
+
+```{r}
+
+head(Agg_Claim,20)
+
+```
 
 
 ---
 
-\includegraphics[scale=1.5]{00-B2/images/B2_Agg_Claim_1.JPG}
+```{r}
+
+summary(Agg_Claim)
+
+```
+
+---
 
 
-\medskip
-\includegraphics[scale=1.5]{00-B2/images/B2_Agg_Claim_2.JPG}
+```{r}
+
+hist(Agg_Claim,breaks=100)
+
+```
 
 ---

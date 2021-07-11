@@ -1,0 +1,182 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+Part 1
+===========================
+The following amounts are the sizes of claims (in £) on house insurance policies for a 
+certain type of repair. 
+
+1990, 2400, 2150, 2090, 2300, 
+2100, 2180, 2150, 2030, 2100, 
+2180, 2010, 2060, 2160, 2120 
+
+
+
+
+---
+
+Part 1
+==============
+
+Enter data in R. 
+
+```{r} 
+mydata <- c(1990,2400,2150,2090,2300,
+           2100,2180,2150,2030,2100,
+           2180,2010,2060,2160,2120)
+```
+
+---
+
+Part 1
+==============
+
+ Calculate Q1, Q2, Q3 and Inter-quartile range. (4)
+
+```{r}
+quantile(mydata) 
+
+```
+
+```{r}
+fivenum(mydata)
+```
+
+
+```{r}
+IQR(mydata) 
+```
+
+```{r}
+# Q3 - Q1
+2170 - 2075
+```
+
+
+
+
+
+---
+
+Part 3
+=======================
+
+Determine the sample mean and variance of the data. 
+
+```{r}
+mean(mydata) 
+
+var(mydata) 
+
+sd(mydata)
+
+```
+
+*** Save For Later ***
+
+```{r}
+xbar <- mean(mydata) 
+Ssquare <- var(mydata)
+```
+
+---
+
+
+Test the hypothesis whether the mean claim amount is equal to £2000 and comment 
+on the results. 
+
+<h4>Hypotheses</h4>
+
+Ho: The mean claim amount is £ 2000 
+H1: Mean claim amount is not equal to £ 2000 
+
+```{r}
+t.test(mydata,mean=2000) 
+```
+
+Since the p-value is $2.2\times 10^{-16}$ is less than 5%, there is sufficient evidence to reject $H_o$ of mean equal to £ 2000. 
+
+---
+
+Part 5
+===============================
+
+Assuming the data to be normally distributed, calculate the probability of a claim amount 
+exceeding £2300. 
+ 
+
+ 
+ 
+```{r}
+pnorm(2300,mean = xbar , sd = sqrt(Ssquare) ,lower.tail = FALSE) 
+```
+
+---
+
+Part 6
+========================
+
+Calculate the revised mean and median after removing the largest two values from the 
+dataset. Comment on the result.
+ 
+```{r}
+max(mydata)
+
+sort(mydata)
+```
+
+```{r}
+rev(sort(mydata))
+
+```
+
+
+```{r}
+rev(sort(mydata))[1:2]
+
+```
+
+```{r}
+mydata1 = mydata[mydata < max(mydata)] 
+```
+
+
+
+```{r}
+mydata1 = mydata[mydata < max(mydata)] 
+mydata1 
+```
+
+
+```{r}
+mydata2 = mydata1[mydata1 < max(mydata1)] 
+mydata2
+```
+
+```{r}
+mean(mydata2) 
+median(mydata2) 
+```
+
+
+Impact of removing outliers from the data has led to the mean and median being almost equal. Earlier the 
+mean was higher than median, which shows that the mean is more likely to be affected by outliers. 

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+
+```r
+library(magrittr)
+```
+
+A recent study suggests that the maximum heart rate of a person, related to age in
+years, is given by the equation:
+
+$$ \mbox{Max Rate} = 220 – \mbox{Age}$$
+
+Suppose this is to be empirically proven and 15 people of varying ages are tested for
+their maximum heart rate. 
+
+
+
+The following data are collected:
+
+| | | | | | | | | | | | |
+|:-------------:|------|------|------|------|------|------|------|------|------|------|
+|***Age (years)***| 18| 23| 25| 35| 65| 54| 34| 56| 72| 19| 23| 42| 18| 39| 37|
+|***Max Rate ***| 202| 186| 187| 180| 156| 169| 174| 172| 153| 199| 193| 174| 198| 183| 178|
+
+The data can be entered into R using the following commands:
+
+&lt;pre&gt;&lt;code&gt;
+x &amp;lt;- c(18,23,25,35,65,54,34,56,72,19,23,42,18,39,37)
+y &amp;lt;- c(202,186,187,180,156,169,174,172,153,199,193,174, 198,183,178)
+&lt;/code&gt;&lt;/pre&gt;
+
+## Exercise 1
+
+Plot the fitted line for the regression of Max Rate on Age.
+
+
+
+
+```r
+x &lt;- c(18,23,25,35,65,54,34,56,72,19,23,42,18,39,37)
+
+y &lt;- c(202,186,187,180,156,169,174,172,153,199,193,174,198,183,178)
+
+plot(x,y)
+```
+
+![](04-Exercise4_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+
+![png](output_4_0.png)
+
+
+
+
+```r
+plot(x,y,pch=18)
+```
+
+![](04-Exercise4_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+
+![png](output_5_0.png)
+
+
+
+
+```r
+lm.result = lm(y ~ x)
+```
+
+
+
+```r
+# Obtain the basic values of the regression analysis
+
+lm.result
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Coefficients:
+## (Intercept)            x  
+##    210.0485      -0.7977
+```
+
+
+* 
+* Call:
+* lm(formula = y ~ x)
+* 
+* Coefficients:
+* (Intercept) x  
+*    210.0485*   -0.7977  
+
+
+
+
+
+```r
+# make a plot
+plot(x,y,pch=18)
+
+# plot the regression line
+abline(lm(y ~ x)) 
+```
+
+![](04-Exercise4_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+
+![png](output_8_0.png)
+
+
+
+
+```r
+summary(lm.result)
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.9258 -2.5383  0.3879  3.1867  6.6242 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 210.04846    2.86694   73.27  &lt; 2e-16 ***
+## x            -0.79773    0.06996  -11.40 3.85e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.578 on 13 degrees of freedom
+## Multiple R-squared:  0.9091,	Adjusted R-squared:  0.9021 
+## F-statistic:   130 on 1 and 13 DF,  p-value: 3.848e-08
+```
+
+
+* 
+* Call:
+* lm(formula = y ~ x)
+* 
+* Residuals:
+* * Min*   1Q  Median*   3Q*  Max 
+* -8.9258 -2.5383  0.3879  3.1867  6.6242 
+* 
+* Coefficients:
+ *  Estimate Std. Error t value Pr(&gt;|t|)* 
+* (Intercept) 210.04846* 2.86694   73.27  &lt; 2e-16 ***
+* x -0.79773* 0.06996  -11.40 3.85e-08 ***
+* ---
+* Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+* 
+* Residual standard error: 4.578 on 13 degrees of freedom
+* Multiple R-squared:  0.9091,	Adjusted R-squared:  0.9021 
+* F-statistic:   130 on 1 and 13 DF,  p-value: 3.848e-08
+
+
+
+Max heart rate reduces as age increases. The fit of the model seems good.
+
+## Exercise 2
+
+Comment on the results.
+
+A researcher reviews the plot in ***Exercise 1*** and suggests the slope should be equal to –1.
+
+
+
+```r
+confint(lm.result) %&gt;% round(2)
+```
+
+```
+##              2.5 % 97.5 %
+## (Intercept) 203.85 216.24
+## x            -0.95  -0.65
+```
+
+
+
+
+---
+
+## Exercise 3
+
+Calculate the p-value of a hypothesis test for this suggestion, by creating a suitable test statistic.
+
+
+* Can do a test to see if the slope of -1 is correct. 
+
+
+* Let `\(H_0\)` be that `\(\beta = -1\)`, and `\(H_A\)` be that $\beta \neq -1 $. 
+
+
+* Then we can create the test statistic and the p-value as follows:
+
+---
+
+
+```r
+es &lt;- resid(lm.result)
+# the residuals lm.result
+
+es %&gt;% round(3)
+```
+
+```
+##      1      2      3      4      5      6      7      8      9     10     11 
+##  6.311 -5.701 -3.105 -2.128 -2.196  2.029 -8.926  6.624  0.388  4.108  1.299 
+##     12     13     14     15 
+## -2.544  2.311  4.063 -2.533
+```
+
+
+&lt;dl class="dl-horizontal"&gt;
+	&lt;dt&gt;1&lt;/dt&gt;
+		&lt;dd&gt;6.311&lt;/dd&gt;
+	&lt;dt&gt;2&lt;/dt&gt;
+		&lt;dd&gt;-5.701&lt;/dd&gt;
+	&lt;dt&gt;3&lt;/dt&gt;
+		&lt;dd&gt;-3.105&lt;/dd&gt;
+	&lt;dt&gt;4&lt;/dt&gt;
+		&lt;dd&gt;-2.128&lt;/dd&gt;
+	&lt;dt&gt;5&lt;/dt&gt;
+		&lt;dd&gt;-2.196&lt;/dd&gt;
+	&lt;dt&gt;6&lt;/dt&gt;
+		&lt;dd&gt;2.029&lt;/dd&gt;
+	&lt;dt&gt;7&lt;/dt&gt;
+		&lt;dd&gt;-8.926&lt;/dd&gt;
+	&lt;dt&gt;8&lt;/dt&gt;
+		&lt;dd&gt;6.624&lt;/dd&gt;
+	&lt;dt&gt;9&lt;/dt&gt;
+		&lt;dd&gt;0.388&lt;/dd&gt;
+	&lt;dt&gt;10&lt;/dt&gt;
+		&lt;dd&gt;4.108&lt;/dd&gt;
+	&lt;dt&gt;11&lt;/dt&gt;
+		&lt;dd&gt;1.299&lt;/dd&gt;
+	&lt;dt&gt;12&lt;/dt&gt;
+		&lt;dd&gt;-2.544&lt;/dd&gt;
+	&lt;dt&gt;13&lt;/dt&gt;
+		&lt;dd&gt;2.311&lt;/dd&gt;
+	&lt;dt&gt;14&lt;/dt&gt;
+		&lt;dd&gt;4.063&lt;/dd&gt;
+	&lt;dt&gt;15&lt;/dt&gt;
+		&lt;dd&gt;-2.533&lt;/dd&gt;
+&lt;/dl&gt;
+
+
+
+
+
+```r
+b1 &lt;- (coef(lm.result))[['x']] #the x part of the coefficients
+n  &lt;-  15
+
+b1 %&gt;% round(3)
+```
+
+```
+## [1] -0.798
+```
+
+```r
+n
+```
+
+```
+## [1] 15
+```
+
+
+-0.798
+
+
+
+15
+
+
+
+
+```r
+s  &lt;-  sqrt( sum( es^2 ) / (n-2) )
+SE &lt;-  s/sqrt(sum((x-mean(x))^2))
+```
+
+
+
+```r
+t  &lt;-  (b1 - (-1) )/SE
+t
+```
+
+```
+## [1] 2.891157
+```
+
+
+---
+
+* find the right tail for this value of t with 15-2 d.f.
+
+
+
+```r
+pt(t,13,lower.tail=FALSE)
+```
+
+```
+## [1] 0.006310157
+```
+
+
+0.00631015669476853
+
+---
+
+
+
+The p-value is twice this as the problem is two-sided,
+
+
+
+
+
+```r
+2 * pt(t,13,lower.tail=FALSE)
+```
+
+```
+## [1] 0.01262031
+```
+
+---
+
+## Exercise 4
+Comment on the researcher’s suggestion, using your answer to part (iii).
+
+
+
+
+The null hypothesis is rejected at the 5% level of significance. The slope may not be
+equal to -1 for these data. (Which is the slope predicted by the original formula 220 -
+Age.)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

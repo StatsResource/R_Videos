@@ -1,0 +1,22 @@
+
+1 Before answering this question, the R package for Markov chains should be loaded 
+into R using the following code: 
+install.packages("markovchain") 
+library(markovchain)
+Xt is a Markov chain on the state space {1,2,3} with the following transition matrix: 
+൭
+p 1 – p 0
+q 0 1 – q
+0 r 1 – r
+൱
+where 0 < p, q, r < 1. 
+(i) Construct an R function, with arguments p, q and r, that generates a Markov 
+chain object for Xt. [5] 
+ Assume that p = 0.75 and r = 0.25. 
+(ii) Construct R code that calculates the stationary distribution of Xt for values of 
+q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your 
+answer script. [7] 
+(iii) Plot a graph showing the stationary distributions of Xt calculated in part (ii) as 
+a function of q. You should include three separately coloured lines on your 
+graph, each line representing the stationary probabilities of each state. [8] 
+ [Total 20] CS2B A2021–3 

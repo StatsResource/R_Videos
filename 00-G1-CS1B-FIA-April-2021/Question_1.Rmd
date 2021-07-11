@@ -1,0 +1,40 @@
+
+1 A researcher records the levels of caffeine present in their bloodstream at various time 
+intervals after drinking a cup of coffee. 
+T: Time elapsed 
+(30-minute 
+intervals) 
+1 2 3 4 5 6 7 8 9 10 
+C: Caffeine in 
+blood 
+(milligrams) 
+52.2 39.3 28.3 19.03 13.96 11.46 8.78 6.55 5.43 5.03 
+ 
+You can enter the values, for T (time) and C (caffeine), into R using: 
+```{r}
+time = c(1,2,3,4,5,6,7,8,9,10) 
+caffeine = c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
+```
+
+Part 1
+============================
+(i) Plot a scatterplot of the data. 
+
+Part 2
+============================
+(ii) Comment on the relationship between C and T based on the plot in part 1.  
+
+Part 3
+============================
+(iii) Justify why a logarithmic transformation of C is appropriate. 
+
+Part 4
+============================
+(iv) Perform the transformation suggested in part 3.  
+
+Part 5
+============================
+(a) Plot a scatterplot of the transformed data. 
+(b) Calculate the Pearson correlation coefficient for the transformed data. 
+(c) Comment on the scatterplot and Pearson correlation coefficient 
+produced in parts (v)(a) and (v)(b). 

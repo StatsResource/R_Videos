@@ -144,18 +144,9 @@ confint(lm.result) %>% round(2)
 ```
 
 
-<table>
-<caption>A matrix: 2 x 2 of type dbl</caption>
-<thead>
-	<tr><th></th><th>2.5 %</th><th>97.5 %</th></tr>
-</thead>
-<tbody>
-	<tr><th>(Intercept)</th><td>203.85</td><td>216.24</td></tr>
-	<tr><th>x</th><td> -0.95</td><td> -0.65</td></tr>
-</tbody>
-</table>
 
 
+---
 
 ## Exercise 3
 
@@ -170,7 +161,7 @@ Calculate the p-value of a hypothesis test for this suggestion, by creating a su
 
 * Then we can create the test statistic and the p-value as follows:
 
-
+---
 
 ```{r}
 es <- resid(lm.result)
@@ -245,6 +236,9 @@ t  <-  (b1 - (-1) )/SE
 t
 ```
 
+
+---
+
 * find the right tail for this value of t with 15-2 d.f.
 
 
@@ -255,23 +249,21 @@ pt(t,13,lower.tail=FALSE)
 
 0.00631015669476853
 
+---
 
 
-```{r}
 
 The p-value is twice this as the problem is two-sided,
 
 
-
-```
 
 
 ```{r}
 2 * pt(t,13,lower.tail=FALSE)
 ```
 
+---
 
-```{r}
 ## Exercise 4
 Comment on the researcher’s suggestion, using your answer to part (iii).
 
@@ -281,12 +273,3 @@ Comment on the researcher’s suggestion, using your answer to part (iii).
 The null hypothesis is rejected at the 5% level of significance. The slope may not be
 equal to -1 for these data. (Which is the slope predicted by the original formula 220 -
 Age.)
-
-[Total 16]
-Well answered overall. In part (i) a number of candidates did not show the fitted line on
-the graph as required. In part (ii) many candidates failed to comment on the relationship
-between the two variables. Part (iii) was answered well only by well prepared candidates.
-In part (iv) answers using a different level of significance and consistent conclusion were
-given credit as appropriate.
-
-```

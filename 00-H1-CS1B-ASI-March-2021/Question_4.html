@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Probability Distributions
+* Fundamentals of Statistical Analysis
+
+* Question 4
+
+---
+
+Datasets
+=================
+
+* Five years of marketing expenditure and company sales by month 
+
+
+```r
+budget = read.csv("marketingbudget.csv")
+```
+
+
+---
+
+
+```r
+head(budget)
+```
+
+```
+##   Month Spend Sales
+## 1     1  1000  9914
+## 2     2  4000 40487
+## 3     3  5000 54324
+## 4     4  4500 50044
+## 5     5  3000 34719
+## 6     6  4000 42551
+```
+
+---
+
+Part 1
+=================
+
+Five years of marketing expenditure and company sales by month 
+
+
+Construct a scatterplot of the data. Comment on the relationship between the Sales &amp; 
+Spend based on the plot. 
+
+&lt;pre&gt;&lt;code&gt;
+plot(budget$Spend,budget$Sales)
+&lt;/code&gt;&lt;/pre&gt;
+
+---
+
+![](Question_4_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+The above scatter plot shows a positive linear relationship between marketing Spend and Sales data. 
+
+
+---
+
+
+```r
+plot(budget$Spend,budget$Sales, pch=18, col="blue")
+```
+
+![](Question_4_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+Part 2
+=================
+
+Calculate Pearson’s correlation coefficient between Sales and Spend of the company. 
+
+
+
+```r
+cor(budget$Sales,budget$Spend) 
+```
+
+```
+## [1] 0.9701669
+```
+
+---
+
+Part 3
+=====================================
+
+Perform a hypothesis test for the null hypothesis that Pearson’s population correlation 
+coefficient is equal to zero, against the alternative that it is positive. You should report the 
+p-value of the test and a clear conclusion. 
+
+
+&lt;pre&gt;&lt;code&gt;
+cor.test(budget$Spend,budget$Sales,
+         method="pearson",
+         alternative = "greater")
+&lt;/code&gt;&lt;/pre&gt;
+
+---
+
+
+```r
+cor.test(budget$Spend,budget$Sales,
+         method="pearson",
+         alternative = "greater")
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  budget$Spend and budget$Sales
+## t = 30.476, df = 58, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is greater than 0
+## 95 percent confidence interval:
+##  0.9542479 1.0000000
+## sample estimates:
+##       cor 
+## 0.9701669
+```
+
+* The p-value is `\(2.2 \times 10^{-16}\)`, showing very strong evidence against the null hypothesis. 
+
+* Thus, we reject that the Pearson’s correlation coefficient is equal to 0 and conclude that it is positive. 
+
+---
+
+Part 4
+=====================================
+
+Perform a simple linear regression analysis on the data. 
+
+Your answer should report the estimate of parameter sigma - The Residual standard error. 
+
+
+
+---
+
+
+```r
+reg = lm(Sales ~ Spend, data = budget) 
+summary(reg) 
+```
+
+```
+## 
+## Call:
+## lm(formula = Sales ~ Spend, data = budget)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -25331.9  -6783.1   -844.5   7965.9  25320.1 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 3431.5592  3245.9169   1.057    0.295    
+## Spend         10.5310     0.3455  30.476   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 10650 on 58 degrees of freedom
+## Multiple R-squared:  0.9412,	Adjusted R-squared:  0.9402 
+## F-statistic: 928.8 on 1 and 58 DF,  p-value: &lt; 2.2e-16
+```
+
+From the output, the estimate of parameter sigma is 10,650. 
+
+---
+
+Part 5
+====================================
+
+Plot the fitted line on the data scatterplot. 
+
+
+```r
+plot(budget$Spend,budget$Sales)
+abline(reg) 
+```
+
+![](Question_4_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+---
+
+Part 6
+====================================
+State the proportion of the total variability of the responses explained by the model based 
+on your output in Part 4. 
+
+From the R output, the proportion of total variability of the responses explained by the model is 94.12%. 
+
+---
+
+Part 7
+====================================
+Plot a graph of the residuals of the model fitted in Part 6 against the explanatory variable. 
+
+
+
+```r
+plot(budget$Spend,residuals(reg))
+```
+
+![](Question_4_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+---
+
+Part 8
+====================================
+
+Obtain a 99% confidence interval for parameter sigma. (4)
+
+
+```r
+es = resid(reg)
+```
+
+
+From the above, the confidence interval for parameter sigma is (-3630.15, 3630.15) 
+
+---
+
+Part 9
+============================
+Comment on the validity of the model based on results in part (vii) and part (viii). 
+
+
+ix)
+Based on the results in both part (vii) and part (viii), the errors seem to be close to zero and the 
+confidence interval of residuals also contains 0. Hence the model seems to be a good fit. 
+
+---
+
+
+Part 10
+============================
+
+Calculate the p-value of a hypothesis test for this suggestion (slope equal to 10), by 
+creating a suitable test statistic. (7)
+x)
+Let Ho: Beta = 10 and H1: Beta not equal to 10 
+
+
+```r
+b1 = (coef(reg))[['Spend']]
+n = 60 
+s = sqrt(sum(es^2)/(n-2))
+```
+
+---
+
+
+```r
+SE = s/sqrt(sum((budget$Spend-mean(budget$Spend))^2))
+t = (b1-10)/SE 
+pt(t,58,lower.tail = FALSE)
+```
+
+```
+## [1] 0.06489565
+```
+
+
+```r
+pvalue = 2*pt(t,58,lower.tail = FALSE)
+pvalue 
+```
+
+```
+## [1] 0.1297913
+```
+
+---
+
+Part 11
+==================================
+
+Comment on the suggestion in Part 11. 
+
+* There is insufficient evidence to reject the null hypothesis at 5% level of significance. 
+* The slope is equal to 10 for this data. 
+
+---
+
+
+Part 12
+==================================
+Calculate the predicted amount of sales when the marketing spend is INR 4500. 
+
+
+```r
+y = 3431.5592 + (b1*4500) 
+y 
+```
+
+```
+## [1] 50821.17
+```
+
+With a marketing spend of INR 4,500, the Sales would be INR 50,821. 
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
