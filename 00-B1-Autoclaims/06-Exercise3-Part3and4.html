@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+
+
+```r
+library(readr)
+AutoClaims &lt;- read_csv("Data/AutoClaims.csv")
+```
+
+```
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   STATE = col_character(),
+##   CLASS = col_character(),
+##   GENDER = col_character(),
+##   AGE = col_double(),
+##   PAID = col_double()
+## )
+```
+
+Your actuarial friend has suggested you to use natural logarithm of “PAID” claims instead of the actual “PAID” Claim amount because the log e (PAID) is more closer to
+normal distribution than “PAID” Claims. Verify the statement made by your friend by comparing the Skewness and Excess Kurtosis of both the PAID claims as well as
+log e (PAID). Write appropriate custom functions to compute both of them. (7)
+
+
+---
+
+Repeat the model in (i) above by considering the suggestion in (iii). Identify and comment on the key differences between both the models. (6)
+Your Manager has suggested that the model can be improved by adding interaction effects between STATE and CLASS, STATE and GENDER, CLASS and GENDER
+as additional variables to the set of independent variables taken in (i). Evaluate the worthiness of this suggestion.
+
+%
+iii)
+
+---
+
+
+
+```r
+#Reason for better model
+#Checking for the normality of Auto Claims Paid vs. Logairthm of Auto Claims Paid
+#Writing Functions for Skewness and Kurtosis
+skew&lt;-function(x)mean((x-mean(x))^3)/sd(x)^3
+kurt&lt;-function(x)(mean((x-mean(x))^4)/sd(x)^4)-3
+skew(AutoClaims$PAID)
+```
+
+```
+## [1] 2.619422
+```
+
+
+---
+
+
+```r
+##  2.619422
+kurt(AutoClaims$PAID)
+```
+
+```
+## [1] 9.20876
+```
+
+
+
+```r
+##  9.20876
+skew(log(AutoClaims$PAID))
+```
+
+```
+## [1] 0.4528057
+```
+
+
+```r
+##  0.4528057
+kurt(log(AutoClaims$PAID))
+```
+
+```
+## [1] -0.787689
+```
+
+---
+
+
+Skewness and Kurtosis of Log (Claims) are more close to Zero compared to those of actual
+claims paid, thus indicating the possibility of using linear regression with this dependent
+variable
+
+
+---
+
+iv)
+
+
+```r
+# Using Natural Logarithm of the claims paid
+model2&lt;-lm(log(PAID)~.,data = AutoClaims)
+summary(model2)
+```
+
+```
+## 
+## Call:
+## lm(formula = log(PAID) ~ ., data = AutoClaims)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.96098 -0.34264 -0.05047  0.36828  1.08237 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    9.896308   0.168777  58.635  &lt; 2e-16 ***
+## STATESTATE 02 -0.154804   0.079889  -1.938   0.0529 .  
+## STATESTATE 03  0.110585   0.092342   1.198   0.2313    
+## STATESTATE 04  0.049554   0.085147   0.582   0.5607    
+## STATESTATE 06  0.116190   0.091239   1.273   0.2031    
+## STATESTATE 07  0.142721   0.101543   1.406   0.1601    
+## STATESTATE 10  0.098014   0.107391   0.913   0.3616    
+## STATESTATE 12  0.027982   0.103105   0.271   0.7861    
+## STATESTATE 14  0.090316   0.102231   0.883   0.3771    
+## STATESTATE 15 -0.645918   0.075628  -8.541  &lt; 2e-16 ***
+## STATESTATE 17  0.004611   0.085455   0.054   0.9570    
+## CLASSC11      -1.203098   0.052225 -23.037  &lt; 2e-16 ***
+## CLASSC6       -1.988743   0.049829 -39.911  &lt; 2e-16 ***
+## CLASSF6       -0.034909   0.062787  -0.556   0.5783    
+## GENDERM       -0.180923   0.026136  -6.922 6.75e-12 ***
+## AGE            0.002145   0.002923   0.734   0.4632    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4782 on 1401 degrees of freedom
+## Multiple R-squared:  0.7473,	Adjusted R-squared:  0.7446 
+## F-statistic: 276.2 on 15 and 1401 DF,  p-value: &lt; 2.2e-16
+```
+
+
+---
+
+
+
+```r
+anova(model2)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: log(PAID)
+##             Df Sum Sq Mean Sq   F value    Pr(&gt;F)    
+## STATE       10 246.26  24.626  107.6969 &lt; 2.2e-16 ***
+## CLASS        3 690.09 230.031 1006.0090 &lt; 2.2e-16 ***
+## GENDER       1  10.88  10.882   47.5908 7.927e-12 ***
+## AGE          1   0.12   0.123    0.5384    0.4632    
+## Residuals 1401 320.35   0.229                        
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+
+Key Differences
+1. R-Squared and Adjusted R-Squared improved
+fit compared to the initial model
+and hence the model is a better
+
+---
+
+2. While a the significance level of a few factor coefficients when compared with the
+base categories changed, the overall significant variables did not change which can
+be inferred from the ANOVA table
+[1.5]
+
+---
+
+
+v)
+
+
+```r
+# Using Interaction effects in the model
+model3&lt;-lm(PAID~.+STATE:CLASS+STATE:GENDER+CLASS:GENDER,data = AutoClaims)
+summary(model3)
+```
+
+```
+## 
+## Call:
+## lm(formula = PAID ~ . + STATE:CLASS + STATE:GENDER + CLASS:GENDER, 
+##     data = AutoClaims)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -13110.3  -1475.9   -377.5   1250.5  20442.8 
+## 
+## Coefficients: (3 not defined because of singularities)
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)             24373.09    3236.06   7.532 9.08e-14 ***
+## STATESTATE 02           -7868.94    3269.51  -2.407 0.016227 *  
+## STATESTATE 03           -3695.87    3422.76  -1.080 0.280427    
+## STATESTATE 04            6883.00    3545.51   1.941 0.052425 .  
+## STATESTATE 06            5428.58    3262.57   1.664 0.096363 .  
+## STATESTATE 07            -979.80    1184.59  -0.827 0.408314    
+## STATESTATE 10            7340.08    3546.35   2.070 0.038664 *  
+## STATESTATE 12            1048.26    3382.21   0.310 0.756659    
+## STATESTATE 14           -2796.37    3538.40  -0.790 0.429494    
+## STATESTATE 15          -14038.72    3164.04  -4.437 9.86e-06 ***
+## STATESTATE 17           -4266.43    3640.98  -1.172 0.241490    
+## CLASSC11               -15321.38    3534.31  -4.335 1.56e-05 ***
+## CLASSC6                -20741.82    3262.53  -6.358 2.79e-10 ***
+## CLASSF6                  4075.85    3386.90   1.203 0.229026    
+## GENDERM                 -5508.80    1305.95  -4.218 2.62e-05 ***
+## AGE                        23.06      19.35   1.192 0.233581    
+## STATESTATE 02:CLASSC11   4114.13    3666.38   1.122 0.262008    
+## STATESTATE 03:CLASSC11   2022.51    3802.06   0.532 0.594847    
+## STATESTATE 04:CLASSC11  -7719.04    3904.17  -1.977 0.048229 *  
+## STATESTATE 06:CLASSC11  -6209.18    3743.46  -1.659 0.097412 .  
+## STATESTATE 07:CLASSC11  -1049.15    1827.01  -0.574 0.565899    
+## STATESTATE 10:CLASSC11  -6795.03    3956.71  -1.717 0.086144 .  
+## STATESTATE 12:CLASSC11  -3756.14    3939.41  -0.953 0.340517    
+## STATESTATE 14:CLASSC11   1668.66    3927.62   0.425 0.671012    
+## STATESTATE 15:CLASSC11   7776.13    3581.01   2.171 0.030066 *  
+## STATESTATE 17:CLASSC11   2227.20    4011.07   0.555 0.578806    
+## STATESTATE 02:CLASSC6    5677.35    3416.32   1.662 0.096777 .  
+## STATESTATE 03:CLASSC6    2122.55    3605.64   0.589 0.556177    
+## STATESTATE 04:CLASSC6   -8231.17    3692.27  -2.229 0.025957 *  
+## STATESTATE 06:CLASSC6   -6151.60    3417.36  -1.800 0.072066 .  
+## STATESTATE 07:CLASSC6         NA         NA      NA       NA    
+## STATESTATE 10:CLASSC6   -8117.07    3687.43  -2.201 0.027884 *  
+## STATESTATE 12:CLASSC6   -2090.95    3561.06  -0.587 0.557187    
+## STATESTATE 14:CLASSC6    1711.83    3617.52   0.473 0.636143    
+## STATESTATE 15:CLASSC6   10891.63    3315.76   3.285 0.001046 ** 
+## STATESTATE 17:CLASSC6    2376.31    3776.77   0.629 0.529330    
+## STATESTATE 02:CLASSF6   -1213.53    3542.37  -0.343 0.731971    
+## STATESTATE 03:CLASSF6   -2272.17    3835.79  -0.592 0.553708    
+## STATESTATE 04:CLASSF6  -11888.76    3838.95  -3.097 0.001996 ** 
+## STATESTATE 06:CLASSF6  -17556.04    4687.92  -3.745 0.000188 ***
+## STATESTATE 07:CLASSF6         NA         NA      NA       NA    
+## STATESTATE 10:CLASSF6    1619.22    3953.37   0.410 0.682178    
+## STATESTATE 12:CLASSF6         NA         NA      NA       NA    
+## STATESTATE 14:CLASSF6   -2570.84    3769.07  -0.682 0.495299    
+## STATESTATE 15:CLASSF6   -3790.79    3441.11  -1.102 0.270822    
+## STATESTATE 17:CLASSF6     362.96    3914.01   0.093 0.926130    
+## STATESTATE 02:GENDERM    3404.19    1199.24   2.839 0.004598 ** 
+## STATESTATE 03:GENDERM    3061.44    1347.32   2.272 0.023227 *  
+## STATESTATE 04:GENDERM    1514.18    1279.13   1.184 0.236716    
+## STATESTATE 06:GENDERM    2052.42    1337.41   1.535 0.125108    
+## STATESTATE 07:GENDERM    3094.31    1450.30   2.134 0.033057 *  
+## STATESTATE 10:GENDERM     -73.99    1540.53  -0.048 0.961699    
+## STATESTATE 12:GENDERM    2476.44    1474.81   1.679 0.093351 .  
+## STATESTATE 14:GENDERM    2684.73    1624.58   1.653 0.098650 .  
+## STATESTATE 15:GENDERM    3280.15    1148.55   2.856 0.004357 ** 
+## STATESTATE 17:GENDERM    3033.26    1261.58   2.404 0.016335 *  
+## CLASSC11:GENDERM         1171.02     730.27   1.604 0.109047    
+## CLASSC6:GENDERM          2372.86     692.55   3.426 0.000630 ***
+## CLASSF6:GENDERM         -1786.40     905.11  -1.974 0.048620 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3111 on 1361 degrees of freedom
+## Multiple R-squared:  0.8116,	Adjusted R-squared:  0.804 
+## F-statistic: 106.6 on 55 and 1361 DF,  p-value: &lt; 2.2e-16
+```
+
+
+
+---
+
+anova(model3)
+Analysis of Variance Table
+[5]
+Response: PAID
+Df Sum Sq Mean Sq F value Pr(&gt;F)
+STATE
+10 9.8027e+09 9.8027e+08 101.2664 &lt; 2.2e-16 ***
+CLASS
+3 3.7869e+10 1.2623e+10 1304.0318 &lt; 2.2e-16 ***
+GENDER
+1 4.7271e+08 4.7271e+08 48.8334 4.350e-12 ***
+AGE
+1 6.6423e+06 6.6423e+06 0.6862 0.407612
+STATE:CLASS 27 7.8659e+09 2.9133e+08 30.0960 &lt; 2.2e-16 ***
+STATE:GENDER 10 2.7570e+08 2.7570e+07 2.8482 0.001634 **
+CLASS:GENDER 3 4.6128e+08 1.5376e+08 15.8841 3.733e-10 ***
+Residuals 1361 1.3175e+10 9.6801e+06
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+1. R-Squared and Adjusted R-Squared increased to above 80% and hence the model is a
+better fit compared to the earlier models
+
+---
+
+2. Interaction effect between a few classes and states emerged out to be very
+significant (State 6 and Class F6 came out to be significantly negative). Though State
+15 came out to be significantly negative when main effects alone were considered,
+the interaction effects compensated that negative significantly when interacted with
+class C6 and Class 11 whereas the interaction coefficient is not significant between
+State 15 and Class F6 indicating that the claims paid is significantly lesser when the
+state is 15 and class is F6 compared to other rating classes. Digging deeper into the
+relationships is possible with the interaction effect. Similarly main effect of Gender is
+significantly negative compared to females but that is offset to some extent for some
+states (2,3,7,15) and for some rating classes (C6) whereas it is further negative in
+case of F6. So the differences can be magnified by considering the interaction
+effects, improving the predictability of the model
+
+
+---
+
+3.
+ANOVA table for the model suggests that except the age all the main effects and
+their interaction effects are significant at 5% significance level
+indicating their
+contribution to the predictability of the model
+
+
+---
+
+Part (i) and Part (ii) were attempted by maximum number of students. Many of them
+were successful in writing the code to fit a linear regression model but only successful
+students were able to provide a good interpretation of the results. Likewise many
+students were able to write the code for plotting but very few of them ended up in
+writing the interpretations based on the graphs. Part (iii) was not attempted by many
+students and those who attempted also ended up in writing wrong functions. Overall,
+this question was very poorly done. Part (iv) was attempted well, code was written well
+but a few ended up in writing correct interpretations. Part (v) was attempted by a few
+students only and many of them failed to provide appropriate interpretation.
+
+%
+
+
+Performance of students in CS1B varied drastically. Only a few questions were
+answered successfully by majority of the participants
+R code was used well by majority of the participants but they failed to make
+interpretations based on the results of the code
+Topics wise, students showed a good understanding of the regression models, data
+analysis and visualizations but the topics on distributions, Hypothesis testing were not
+addressed well.
+The level of interpretation and the comments provided next to the R Code varied
+significantly among the students.
+A good number of students failed in submitting/pasting the output for a few R
+Functions which resulted in them losing a few marks.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

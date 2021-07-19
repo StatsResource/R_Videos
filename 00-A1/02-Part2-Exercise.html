@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+Consider the n = 30 independent and identically distributed observations
+`\(( y_1 , y_2 , \ldots, y_n )\)` given below from a random variable Y with probability distribution
+\[\theta y e –\theta
+function f ( y, \theta) =
+.
+y! \]
+
+
+You can enter the y values into R by using:
+
+
+---
+
+
+```r
+y = c(5,5,6,2,4,10,2,5,5,2,5,3,7,     4,4,5,4,6,7,2,8,4,6,4,3,6,
+      6,6,5,7)
+```
+
+---
+
+By assuming a prior distribution proportional to `\(e^{–a\theta}\)` , we can show that the posterior
+distribution of `\(\theta\)` is:
+\[
+\sum^{n}_{i=1}y
+f (\theta | y 1 , y 2 ,..., y n ) \propto \theta i=1 i e –(n + \alpha) \theta
+\]
+We can observe that the posterior distribution of `\(\theta\)` is Gamma with parameters
+n
+∑ i=1 y i – 1 and n + a.
+
+
+---
+
+Plot the posterior probability density function of `\(\theta\)` for values of `\(\theta\)` in
+the interval [3.2, 6.8] and assuming a = 0.01.
+		
+[Hint: the range of values of `\(\theta\)` can be obtained in R by
+seq(3.2, 6.8, by = 0.01).]
+(b)
+Carry out a simulation of N = 5,000 posterior samples for the
+parameter `\(\theta\)`.
+
+(i) (a)
+(ii) Plot the histogram of the posterior distribution of `\(\theta\)`.
+
+
+
+
+Q2
+
+
+
+```r
+y = c (5, 5, 6, 2, 4, 10, 2, 5, 5, 2, 5, 3, 7, 4, 4, 5, 4, 6,
+7, 2, 8, 4, 6, 4, 3, 6, 6, 6, 5, 7)
+
+## plot the posterior pdf of theta
+theta = seq(3.2, 6.8, by = 0.01)
+```
+
+
+---
+
+
+
+```r
+plot(theta, dgamma(theta, sum(y)-1, length(y) + 0.01), 
+     ylab = "Density", type = "l")
+```
+
+![](02-Part2-Exercise_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+### Test Image
+
+![]("/00-A1/images/Exercise_2_A.jpeg")
+
+---
+
+
+The posterior samples are
+
+```r
+x = rgamma(5000, sum(y)-1, 30 + 0.01)
+```
+
+
+---
+
+\subsection*{Exercise 2}
+
+
+We can plot the histogram using
+
+
+
+
+
+```r
+x = rgamma(5000, sum(y)-1, 30 + 0.01)
+```
+
+
+
+
+
+```r
+hist(x, main="Posterior distribution of theta",xlab="theta")
+```
+
+![](02-Part2-Exercise_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+
+---
+
+![](00-A1/images/Exercise_2_B.jpeg)
+
+
+
+
+[1]
+Posterior distribution of
+3.5
+4.0
+4.5
+5.0
+5.5
+6.0
+6.5
+theta
+
+---
+
+
+Exercise 3
+======================================
+
+\noindent Calculate the mean, median and standard deviation of the posterior distribution
+of `\(\theta\)`.
+
+
+```r
+mean(x)
+```
+
+```
+## [1] 4.887574
+```
+
+```r
+# 5.003996 
+
+median(x)
+```
+
+```
+## [1] 4.870187
+```
+
+```r
+# 4.997373
+
+sd(x)
+```
+
+```
+## [1] 0.4053744
+```
+
+```r
+# 0.4117624 
+```
+
+---
+
+* Two possible values for the true value of parameter `\(\theta\)` are `\(\theta\)` =15 and `\(\theta\)` = 5.
+
+
+* 15 is quite far away from the range of samples obtained for the posterior distribution
+of `\(\theta\)`.
+
+* On the other hand 5 is more likely to be the true value.
+
+
+---
+
+Exercise 5
+================================
+
+Comment on these two values based on the posterior distribution of `\(\theta\)` plotted
+in part (ii) and summarised in part (iii).
+
+
+
+15 is very unlikely to be the case if there is no calculation error.
+
+5 fits well within the distribution and the values of the mean and the median are very close to it.
+
+---
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

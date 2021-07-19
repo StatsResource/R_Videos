@@ -9,7 +9,7 @@ output:
       countIncrementalSlides: false
 ---
 
-\noindent Consider the n = 30 independent and identically distributed observations
+Consider the n = 30 independent and identically distributed observations
 $( y_1 , y_2 , \ldots, y_n )$ given below from a random variable Y with probability distribution
 \[\theta y e –\theta
 function f ( y, \theta) =
@@ -20,13 +20,16 @@ y! \]
 You can enter the y values into R by using:
 
 
-\begin{framed}\begin{verbatim}
+---
+
+```{r}
 
 y = c(5,5,6,2,4,10,2,5,5,2,5,3,7,     4,4,5,4,6,7,2,8,4,6,4,3,6,
       6,6,5,7)
 
-\end{verbatim}\end{framed}
+```
 
+---
 
 By assuming a prior distribution proportional to $e^{–a\theta}$ , we can show that the posterior
 distribution of $\theta$ is:
@@ -38,8 +41,9 @@ We can observe that the posterior distribution of $\theta$ is Gamma with paramet
 n
 ∑ i=1 y i – 1 and n + a.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+
+---
+
 Plot the posterior probability density function of $\theta$ for values of $\theta$ in
 the interval [3.2, 6.8] and assuming a = 0.01.
 		
@@ -58,62 +62,68 @@ parameter $\theta$.
 Q2
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 y = c (5, 5, 6, 2, 4, 10, 2, 5, 5, 2, 5, 3, 7, 4, 4, 5, 4, 6,
 7, 2, 8, 4, 6, 4, 3, 6, 6, 6, 5, 7)
 
 ## plot the posterior pdf of theta
 theta = seq(3.2, 6.8, by = 0.01)
-\end{verbatim}\end{framed}
+```
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
 
-\begin{framed}\begin{verbatim}
+---
+
+
+```{r}
 plot(theta, dgamma(theta, sum(y)-1, length(y) + 0.01), 
      ylab = "Density", type = "l")
-\end{verbatim}\end{framed}
+```
 
+---
 
-\includegraphics[]{00-A1/images/Exercise_2_A.jpeg}
+### Test Image
+
+![]("/00-A1/images/Exercise_2_A.jpeg")
+
+---
 
 
 The posterior samples are
-\end{verbatim}\end{framed}{r}
+```{r}
 x = rgamma(5000, sum(y)-1, 30 + 0.01)
-\end{verbatim}\end{framed}
+```
 
 
+---
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 2}
-
+Exercise 2
+================================================
 
 We can plot the histogram using
 
 
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 x = rgamma(5000, sum(y)-1, 30 + 0.01)
-\end{verbatim}
-\end{framed}
+```
 
 
-\begin{framed}
-\begin{verbatim}
+---
+
+```{r}
 hist(x, main="Posterior distribution of theta",xlab="theta")
-\end{verbatim}
-\end{framed}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\includegraphics[]{00-A1/images/Exercise_2_B.jpeg}
+```
 
 
+---
 
-\begin{framed}\begin{verbatim}
-\end{verbatim}\end{framed}
+![](00-A1/images/Exercise_2_B.jpeg)
+
+
+
+```{r}
+```
 [1]
 Posterior distribution of
 3.5
@@ -124,15 +134,17 @@ Posterior distribution of
 6.0
 6.5
 theta
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 3}
 
-\noindent Calculate the mean, median and standard deviation of the posterior distribution
+---
+
+
+Exercise 3
+======================================
+
+Calculate the mean, median and standard deviation of the posterior distribution
 of $\theta$.
 
-\begin{framed}
-\begin{verbatim}
+```{r}
 mean(x)
 # 5.003996 
 
@@ -141,20 +153,23 @@ median(x)
 
 sd(x)
 # 0.4117624 
-\end{verbatim}
-\end{framed}
+```
 
-Two possible values for the true value of parameter $\theta$ are $\theta$ =15 and $\theta$ = 5.
+---
+
+* Two possible values for the true value of parameter $\theta$ are $\theta$ =15 and $\theta$ = 5.
 
 
-15 is quite far away from the range of samples obtained for the posterior distribution
+* 15 is quite far away from the range of samples obtained for the posterior distribution
 of $\theta$.
-On the other hand 5 is more likely to be the true value.
+
+* On the other hand 5 is more likely to be the true value.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 5}
+---
+
+Exercise 5
+================================
 
 Comment on these two values based on the posterior distribution of $\theta$ plotted
 in part (ii) and summarised in part (iii).
@@ -165,26 +180,6 @@ in part (ii) and summarised in part (iii).
 
 5 fits well within the distribution and the values of the mean and the median are very close to it.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-BLANK
-\newpage
-%%--- #### R
-Parts (i), (ii) and (iii) were generally well answered. A common error was to use sum(y-1)
-instead of sum(y)-1 in the computations. 
-
-In part (iii) a number of candidates provided the
-answers using the theoretical results based on the given posterior distribution – this was
-given full credit. Note that displaying the plots is required for full marks. 
-
-Note that the parameter of the gamma distribution given as ∑ nnii−1 yy ii − 1 in the preamble of
-the question is theoretically incorrect and should have been ∑ nnii−1 yy ii + 1 . 
+---
 
 
-The error did not
-affect the remainder of the question and the required answer, as the candidates were
-explicitly asked to work with the ∑ nnii−1 yy ii − 1 quantity as given in the question. The
-examiners did not find evidence of this error having a negative impact on candidates’
-performance.
-
-\end{document}

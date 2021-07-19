@@ -11,9 +11,9 @@ output:
 
 
 
-* *  Use the command \texttt{set.seed(2019)} to initialise the random number generator.
+*   Use the command \texttt{set.seed(2019)} to initialise the random number generator.
 
-* *  When you execute any R code, make sure you run the entire R script including the line \texttt{set.seed(2019)} .
+*   When you execute any R code, make sure you run the entire R script including the line \texttt{set.seed(2019)} .
 ```{r}
 sample(1:6,10,replace=TRUE)
 
@@ -26,9 +26,10 @@ sample(1:6,10,replace=TRUE)
 \end{center}
 
 
+---
 
-
-Exercise 1}
+Exercise 1
+===============================
 
 Consider a random sample $X_1 , \ldots , X_n$ from an Exponential distribution with parameter $\lambda$ and define 
 $$ Y = \sum^{n}_{i=1} X_i $$
@@ -36,25 +37,25 @@ $$ Y = \sum^{n}_{i=1} X_i $$
 State the distribution of $Y$, giving all the parameters of the distribution.
 
 
+---
 
-
-\large 
 Theory
 
-* *  The sum of $n$ exponential ($\lambda$) random variables is a gamma ($n, \lambda$) random variable.
-* *  The rate parameter is usually denoted as $\beta$ for the Gamma Distribution, i.e. gamma ($n, \beta$) 
+*   The sum of $n$ exponential ($\lambda$) random variables is a gamma ($n, \lambda$) random variable.
+*   The rate parameter is usually denoted as $\beta$ for the Gamma Distribution, i.e. gamma ($n, \beta$) 
 
- *  Mean for Gamma Distribution	 ${\displaystyle {\frac {\alpha }{\beta }}} $
+   Mean for Gamma Distribution	 ${\displaystyle {\frac {\alpha }{\beta }}} $
 
-*  Variance	for Gamma Distribution $ {\displaystyle {\frac {\alpha }{\beta ^{2}}}}$
+  Variance	for Gamma Distribution $ {\displaystyle {\frac {\alpha }{\beta ^{2}}}}$
 
-* *  If the exponential random variables have a common rate parameter, their sum has an Erlang distribution, a special case of the gamma distribution.
+*   If the exponential random variables have a common rate parameter, their sum has an Erlang distribution, a special case of the gamma distribution.
 
 
 The distribution of $Y$ is a Gamma distribution,
 $$Y \sim \mbox{Gamma}(n, \lambda)$$
 
 
+---
 
 
 ```{r}
@@ -71,11 +72,14 @@ var(X)
 
 ```
 
-
+---
 
 \includegraphics[scale=0.5]{00-C1/images/00-C1-Q3-2.png}
 
-Exercise 2}
+---
+
+Exercise 2
+=========================
 
 Perform simulation of a sample $x_1 , ..., x_n$ with sample size n = 15 from an
 exponential distribution with parameter $\lambda = 2$.
@@ -98,12 +102,13 @@ sum(X)
 ```
 
 
+---
 
 
 
 
-
-Exercise 3}
+Exercise 3
+===================================
 
 Calculate the value of Y for the sample in part 2.
 
@@ -112,9 +117,10 @@ Y = sum(X)
 ```
 
 
+---
 
-
-Exercise 4}
+Exercise 4
+=======================
 Perform 1,000 repetitions of parts 2 and 3 to obtain a Bootstrap sample
 $y_1 , ..., y_B$ from the random variable Y with B = 1,000.
 
@@ -136,9 +142,11 @@ Using \texttt{replicate()}
 y = replicate(1000, sum(rexp(n, lambda)))
 
 ```
-=====================================%
 
-Exercise  5}
+---
+
+Exercise  5
+=======================
 
 Plot a histogram showing the relative frequencies of the sample $y_1 , ..., y_B$  from
 part 4.
@@ -148,67 +156,68 @@ hist(y, prob=TRUE)
 ```
 
 
-\includegraphics[scale=0.55]{00-C1/images/00-C1-Q3-Hist.png}
-=====================================5
+
+---
 
 
-Exercise 6}
+Exercise 6
+=================================
 Compare graphically the histogram in part 4 to the density of a
 suitable Normal distribution. You might find the following R command
 useful:
 
-```{r}
+<pre><code>
 curve(dnorm(x,mean= ...., sd= ... , 
-* add=TRUE, 
-* lwd=2,
-* col="red"))
-```
+ add=TRUE, 
+ lwd=2,
+ col="red"))
+<code></pre>
 
 
 ```{r}
 hist(y,prob=TRUE,
-*  xlim=c(0,20),
-*  ylim=c(0,0.25))
+  xlim=c(0,20),
+  ylim=c(0,0.25))
 
 curve(dnorm(x,
  mean=n/lambda,
  sd=sqrt(n/(lambda^2))), 
-*   add=TRUE, lwd=2, col="red")
+   add=TRUE, lwd=2, col="red")
 
 ```
 
 \includegraphics[scale=0.6]{00-C1/images/00-C1-Q3-Curve.png}
 
 
+--- 
+
 
 ```{r}
 hist(y,prob=TRUE,
-*  xlim=c(0,20),
-*  ylim=c(0,0.225),
-*  col=c("pink","lightblue"))
+  xlim=c(0,20),
+  ylim=c(0,0.225),
+  col=c("pink","lightblue"))
 
 curve(dnorm(x,
  mean=n/lambda,
  sd=sqrt(n/(lambda^2))), 
-*   add=TRUE, lwd=2.75, 
-*   col="red")
+  add=TRUE, lwd=2.75, 
+   col="red")
 
 
 ```
 
 \includegraphics[scale=0.6]{00-C1/images/00-C1-Q3-Curve-2.png}
 
-
-555
-
+---
 
 Comment on your findings in the context of the Central
 Limit Theorem.
 
 
-* *  In contrast to a normal distribution, the histogram is clearly not symmetrical.
+*   In contrast to a normal distribution, the histogram is clearly not symmetrical.
 
-*  This comes from the fact that $Y$ can take only positive values.
+  This comes from the fact that $Y$ can take only positive values.
 For a larger sample size of $n$ of $x_1 , ... , x_n$ (not a larger B) the CLT ensures that the
 distribution of $Y$ becomes approximately normal.
 
@@ -221,22 +230,22 @@ set.seed(2019)
 y = replicate(1000, sum(rexp(n, lambda)))
 
 hist(y,prob=TRUE,
-*  xlim=c(20,60),
-*  ylim=c(0,0.10),
-*  col=c("pink","lightblue"))
+  xlim=c(20,60),
+  ylim=c(0,0.10),
+  col=c("pink","lightblue"))
 
 curve(dnorm(x,
  mean=n/lambda,
  sd=sqrt(n/(lambda^2))), 
-*   add=TRUE, lwd=2.75, 
-*   col="red")
+   add=TRUE, lwd=2.75, 
+   col="red")
 
 ```
 
 
 \includegraphics[scale=0.5]{00-C1/images/00-C1-Q3-Curve-Q3.png}
 
-555
+---
 
 Parts (i)-(iii) were generally very well answered. In part (iv) there was wide variation in
 the quality of the answers with various errors in the details of the code. 
@@ -247,5 +256,3 @@ Part (vi)(a) was reasonably well attempted, while many candidates did not
 attempt part (vi)(b), with some giving incomplete comments. Part (vi)(a) can alternatively
 be answered using R code based on the lines() command.
 
-
-\end{document}

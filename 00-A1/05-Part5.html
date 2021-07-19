@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+A statistician is carrying out an exercise to analyse a dataset that describes the failure
+times of outdoor telephone cables, with respect to the cable material quality (graded
+1 to 4) and level of rainfall in centimetres that the cable is exposed to.
+
+
+The data given in the file “\texttt{CablesDataset.csv}” show failure times in years for 20
+different cables.
+
+---
+
+### Import Data 
+
+
+```r
+# read the data
+cables_data&lt;-read.csv("Data/CablesDataset.csv")
+head(cables_data)
+```
+
+```
+##   X Failure.Time Material.Type  Rainfall
+## 1 1  0.093496420             1 0.2049910
+## 2 2  0.064299790             2 0.2459758
+## 3 3  0.037432940             3 0.1037756
+## 4 4  0.036485400             4 0.3138880
+## 5 5  0.080959110             1 0.2020806
+## 6 6  0.002198732             2 0.2545738
+```
+
+\includegraphics[scale=1.5]{00-A1/images/CablesData_1_head.JPG}
+
+---
+
+
+Exercise 1
+===============================
+
+Fit a linear model to the data with the failure time as the response, including
+both cable material quality and level of rainfall as the two covariates. Your
+answer should include a summary of the fitted model.\\
+
+
+
+
+
+
+```r
+# fit the linear model
+
+linear_model&lt;-lm(Failure.Time~Material.Type + Rainfall,
+cables_data)
+```
+
+---
+
+
+```r
+# output the linear model fit summary statistics
+summary(linear_model)
+```
+
+```
+## 
+## Call:
+## lm(formula = Failure.Time ~ Material.Type + Rainfall, data = cables_data)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.051313 -0.006694  0.002246  0.008590  0.025763 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    0.081086   0.012659   6.406 6.52e-06 ***
+## Material.Type -0.014499   0.003575  -4.055 0.000822 ***
+## Rainfall       0.005591   0.046745   0.120 0.906200    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.01627 on 17 degrees of freedom
+## Multiple R-squared:  0.5326,	Adjusted R-squared:  0.4776 
+## F-statistic: 9.687 on 2 and 17 DF,  p-value: 0.001556
+```
+ 
+
+---
+
+Exercise 2
+===============================
+
+State the formula of the model fitted in Exercise 1, clearly explaining the
+notation that you use.
+Comment on the significance of the parameters of the model fitted.
+
+
+\includegraphics[scale=1.3]{00-A1/images/CablesData_2_modelsummary.JPG}
+
+* From analysing the R output, we see that the fitted linear model is:
+\[ \hat{y} = 0.081086 \;-;\ 0.014499x_1 \;+\; 0.005591x_2\]
+
+where `\(x_1\)` is the ‘material type’ variable, and `\(x_2\)` is the ‘rainfall’ variable. `\(\hat{y}\)` is the predicted failure time.
+
+
+* The R output shows that the ‘material type’ parameter is significantly
+different to zero (at the 0.1\% level).
+* The ‘rainfall’ parameter is not significantly different to zero - this is
+indicated by the t-tests shown in the fourth column of the R output.
+* The intercept is also significantly different to zero
+
+
+
+---
+
+Exercise 3
+===================================
+
+Plot the residuals of the model. Comment on the plot.
+
+
+
+
+
+
+
+```r
+# obtain the residuals
+
+residuals(linear_model)
+```
+
+```
+##             1             2             3             4             5 
+##  0.0257632538  0.0108360601 -0.0007372053  0.0116391346  0.0132422153 
+##             6             7             8             9            10 
+## -0.0513130675 -0.0104255939  0.0078414974  0.0058224133  0.0061364663 
+##            11            12            13            14            15 
+## -0.0083177117  0.0053132817  0.0040351547 -0.0070927113 -0.0065607242 
+##            16            17            18            19            20 
+##  0.0129294294 -0.0034739334 -0.0111647847 -0.0049300016  0.0004568271
+```
+
+---
+
+\includegraphics[scale=1.1]{00-A1/images/CablesData_3_residuals.JPG}
+
+
+---
+
+
+```r
+# plot the residuals
+
+plot(residuals(linear_model),
+      pch=16,col="red",cex=1.4)
+
+abline(h=0)
+```
+
+![](05-Part5_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+\includegraphics[scale=0.8]{00-A1/images/CableData_4_Residuals.png}
+
+
+
+The residuals exhibit a fairly random scatter around zero
+apart from the 6th point.
+
+---
+
+Exercise 4
+=================================
+
+An analyst suggests that the 6th row of the original data should be removed. Construct a new data set from the original data \textbf{\textit{CablesDataset.csv}}
+with the 6th row removed. Justify the removal of the 6th row from the original data.
+
+
+
+```r
+# remove data point 6 and redefine the dataset
+
+cables_data2 &lt;- cables_data[-6,]
+```
+
+The residuals plot indicates that data point 6 is an outlier.
+
+
+---
+
+  
+Exercise 5
+======================================
+
+Fit a linear model to the new data set constructed in Exercise 4. 
+Comment on the fit of the new model compared to the model fitted previously, by comparing suitable statistics from the R outputs.
+
+
+```r
+# refit the linear model
+
+linear_model2 &lt;- lm(Failure.Time~Material.Type + Rainfall,
+    data = cables_data2)
+```
+
+
+---
+
+
+```r
+summary(linear_model2)
+```
+
+```
+## 
+## Call:
+## lm(formula = Failure.Time ~ Material.Type + Rainfall, data = cables_data2)
+## 
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -0.0144060 -0.0082529 -0.0003768  0.0071557  0.0213878 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    0.086629   0.008094  10.703 1.06e-08 ***
+## Material.Type -0.015576   0.002275  -6.846 3.93e-06 ***
+## Rainfall       0.005152   0.029621   0.174    0.864    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.01031 on 16 degrees of freedom
+## Multiple R-squared:  0.7756,	Adjusted R-squared:  0.7475 
+## F-statistic: 27.64 on 2 and 16 DF,  p-value: 6.438e-06
+```
+
+---
+
+* The adjusted `\(R^2\)` statistic for the model fitted to the data with the outlier
+removed is 0.7475. 
+\item This shows an improved fit relative to the model fitted to all
+20 data points, which had an adjusted `\(R^2\)` statistic of 0.4776.
+
+
+
+---
+
+Exercise 6
+======================================
+
+Fit a generalised linear model (GLM) to the data set constructed in
+Exercise 4 using a Gamma distribution.
+State the formula of the model fitted, clearly explaining
+the notation that you use.
+Comment on the significance of the parameters of the fitted model.
+
+---
+
+
+```r
+# fit a Gamma GLM
+gfit&lt;-glm(Failure.Time~Material.Type+Rainfall,
+        family= Gamma(link=inverse), 
+        data = cables_data2)
+```
+
+---
+
+
+```r
+summary(gfit)
+```
+
+```
+## 
+## Call:
+## glm(formula = Failure.Time ~ Material.Type + Rainfall, family = Gamma(link = inverse), 
+##     data = cables_data2)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -0.26231  -0.14156  -0.03338   0.12850   0.25185  
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     6.1921     2.6184   2.365    0.031 *  
+## Material.Type   6.7286     0.8359   8.050 5.12e-07 ***
+## Rainfall        0.4814    10.6244   0.045    0.964    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Gamma family taken to be 0.03085425)
+## 
+##     Null deviance: 2.99847  on 18  degrees of freedom
+## Residual deviance: 0.48503  on 16  degrees of freedom
+## AIC: -125.54
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+---
+
+
+
+```r
+coef(gfit)
+```
+
+```
+##   (Intercept) Material.Type      Rainfall 
+##     6.1920558     6.7286452     0.4814427
+```
+
+
+
+
+
+
+\[
+\hat{\eta} = \frac{1}{\mu} 
+= 6.1920558 + 6.7286452x_1 + 0.4814427x_2
+\]
+
+where `\(x_1\)` is the ‘material type’ variable, and `\(x_2\)` is the ‘rainfall’ variable.
+
+---
+
+
+```r
+# review the model fit
+summary(gfit)
+```
+
+```
+## 
+## Call:
+## glm(formula = Failure.Time ~ Material.Type + Rainfall, family = Gamma(link = inverse), 
+##     data = cables_data2)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -0.26231  -0.14156  -0.03338   0.12850   0.25185  
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     6.1921     2.6184   2.365    0.031 *  
+## Material.Type   6.7286     0.8359   8.050 5.12e-07 ***
+## Rainfall        0.4814    10.6244   0.045    0.964    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Gamma family taken to be 0.03085425)
+## 
+##     Null deviance: 2.99847  on 18  degrees of freedom
+## Residual deviance: 0.48503  on 16  degrees of freedom
+## AIC: -125.54
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+
+
+---
+
+Reviewing the model fit output from R, the ‘rainfall’ parameter is not
+significantly different to zero, whereas the ‘material type’ parameter is
+significant at the 0.1\% level.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

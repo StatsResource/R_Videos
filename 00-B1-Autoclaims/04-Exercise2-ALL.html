@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+
+```r
+## AutoClaims
+
+library(readr)
+library(magrittr)
+
+AutoClaims &lt;- read_csv("data/AutoClaims.csv")
+```
+
+```
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   STATE = col_character(),
+##   CLASS = col_character(),
+##   GENDER = col_character(),
+##   AGE = col_double(),
+##   PAID = col_double()
+## )
+```
+
+    Parsed with column specification:
+    cols(
+      STATE = [31mcol_character()[39m,
+      CLASS = [31mcol_character()[39m,
+      GENDER = [31mcol_character()[39m,
+      AGE = [32mcol_double()[39m,
+      PAID = [32mcol_double()[39m
+    )
+
+---
+
+\subsection*{Exercise 5}
+
+You were asked to fit an appropriate distribution to the “PAID” data. 
+You decided to fit Normal distribution, Lognormal distribution, Exponential distribution and Gamma Distribution based on the method of moments.
+
+
+Estimate the parameters of each of these distributions.
+
+
+
+
+```r
+sampleMean&lt;-mean(AutoClaims$PAID)
+sampleVariance&lt;-var(AutoClaims$PAID)
+
+#Method of Moments Estimates - Normal distribution
+
+Normalmu &lt;- sampleMean
+Normalsigma &lt;- sqrt(sampleVariance)
+```
+
+
+---
+
+
+```r
+options(digits=4)
+
+Normalmu %&gt;% round(3)
+```
+
+```
+## [1] 6127
+```
+
+```r
+Normalsigma %&gt;% round(3)
+```
+
+```
+## [1] 7027
+```
+
+6127.222
+
+
+
+7027.434
+
+
+---
+
+\subsection*{Method of Moments Estimates - Log Normal distribution}
+
+
+
+
+```r
+LNsigma&lt;- sqrt(log(1+sampleVariance/sampleMean^2))
+LNmu&lt;-log(sampleMean)-LNsigma^2/2
+
+LNsigma %&gt;% round(4)
+```
+
+```
+## [1] 0.9163
+```
+
+```r
+LNmu %&gt;% round(4)
+```
+
+```
+## [1] 8.301
+```
+
+
+0.9163
+
+
+
+8.3007
+
+
+---
+
+### Method of Moments Estimates - Exponential distribution
+
+
+
+```r
+Exprate &lt;- 1/sampleMean
+
+Exprate
+```
+
+```
+## [1] 0.0001632
+```
+
+
+0.000163206087396775
+
+---
+
+### Method of Moments Estimates - Gamma distribution
+
+
+
+```r
+GammaBeta&lt;-sampleMean/sampleVariance
+GammaAlpha&lt;-GammaBeta*sampleMean
+
+GammaBeta
+```
+
+```
+## [1] 0.0001241
+```
+
+```r
+GammaAlpha
+```
+
+```
+## [1] 0.7602
+```
+
+
+0.000124070942794373
+
+
+
+0.760210264049406
+
+
+---
+
+### Histogram of Paid Claims Data
+
+
+
+```r
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+```
+
+![](04-Exercise2-ALL_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+
+![png](output_10_0.png)
+
+
+
+
+```r
+#Superimposing a Normal distribution over the histogram
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+curve(dnorm(x,mean = Normalmu,sd = Normalsigma),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "red")
+```
+
+![](04-Exercise2-ALL_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+![png](output_11_0.png)
+
+
+
+
+```r
+#Superimposing a Log Normal distribution over the histogram
+
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+curve(dlnorm(x,meanlog = LNmu,sdlog = LNsigma),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "green")
+```
+
+![](04-Exercise2-ALL_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+
+![png](output_12_0.png)
+
+
+
+
+```r
+#Superimposing a Exponential distribution over the histogram
+
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+curve(dexp(x,rate = Exprate),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), add = TRUE, col= "blue")
+```
+
+![](04-Exercise2-ALL_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+
+![png](output_13_0.png)
+
+---
+
+
+### Gamma Distribution
+
+
+
+```r
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+#Superimposing a Gamma distribution over the histogram
+curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "brown")
+```
+
+![](04-Exercise2-ALL_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+
+
+
+---
+
+
+```r
+hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
+
+#Superimposing a Gamma distribution over the histogram
+curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "brown")
+
+
+legend("topright",
+       legend = c("Normal", "Lognormal", "Exponential", "Gamma"),
+       lty = 1, 
+       col = c("red","green","blue","brown"))
+```
+
+![](04-Exercise2-ALL_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

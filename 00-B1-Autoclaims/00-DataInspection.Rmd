@@ -1,31 +1,13 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
-
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
-
-\setcounter{MaxMatrixCols}{10}
-
-\begin{document}
-
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 
 #### AutoClaims
@@ -44,9 +26,10 @@ The columns carry the following explanation
 * *AGE*: Age of the Insured (Same as the Driver)
 * *PAID*: Amount paid to settle and close a claim
 
+---
 
 
-```R
+```{r}
 getwd()
 ```
 
@@ -55,7 +38,7 @@ getwd()
 
 
 
-```R
+```{r}
 list.files()
 ```
 
@@ -69,12 +52,14 @@ list.files()
 
 
 
-```R
-AutoClaims <- read.csv("AutoClaims.csv")
+```{r}
+AutoClaims <- read.csv("Data/AutoClaims.csv")
 ```
 
 
-```R
+---
+
+```{r}
 summary(AutoClaims)
 ```
 
@@ -90,9 +75,9 @@ summary(AutoClaims)
 
 
 
-```R
+```{r}
 library(readr)
-AutoClaims <- read_csv("AutoClaims.csv")
+AutoClaims <- read_csv("Data/AutoClaims.csv")
 
 ```
 
@@ -107,7 +92,7 @@ AutoClaims <- read_csv("AutoClaims.csv")
 
 
 
-```R
+```{r}
 head(AutoClaims)
 ```
 
@@ -131,7 +116,7 @@ head(AutoClaims)
 
 
 
-```R
+```{r}
 dim(AutoClaims)
 ```
 
@@ -144,7 +129,7 @@ dim(AutoClaims)
 
 
 
-```R
+```{r}
 summary(AutoClaims)
 ```
 
@@ -166,7 +151,7 @@ summary(AutoClaims)
 
 
 
-```R
+```{r}
 AutoClaims$GENDER[1:20]
 ```
 
@@ -195,35 +180,38 @@ AutoClaims$GENDER[1:20]
 </ol>
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+--- 
 
 
-```R
-install.packages("rlang")
-install.packages("magrittr")
-install.packages("janitor")
+```{r}
+# install.packages("rlang")
+# install.packages("magrittr")
+# install.packages("janitor")
 library(janitor)
 library(magrittr)
 
 ```
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+---
 
-```R
+```{r}
 AutoClaims %>% tabyl(STATE)
 
 ```
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-```R
+
+---
+
+```{r}
 AutoClaims %>% tabyl(GENDER)
 ```
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-```R
+---
+
+```{r}
 AutoClaims %>% tabyl(CLASS,GENDER)
 ```
 
 
 
-\end{document}
+

@@ -10,7 +10,7 @@ output:
 ---
 
 
-\noindent In a small empirical study, data are recorded on the number of waves per hour and the
+In a small empirical study, data are recorded on the number of waves per hour and the
 average wave height per hour at a location just off the coast of Scotland. 
 
 The data are
@@ -24,7 +24,7 @@ vectors in your R workspace, called \textbf{\textit{Wn}} (number of waves per ho
 height and number of waves per hour.
 
 
-
+---
 
 Q3
 \begin{framed}\begin{verbatim}
@@ -42,6 +42,7 @@ plot(Wn, Wheight)
 There seems to be a linear relationship between wave height and number of waves.
 The more waves per hour, the smaller the waves (negative association).
 
+---
 
 \subsection*{ Part 3}
 
@@ -65,7 +66,7 @@ cor(Wn, Wheight, method = "spearman")
 -0.7688486 
 \end{verbatim}\end{framed}
 
-
+---
 
 
 \subsection*{Part 5}
@@ -79,18 +80,17 @@ x i ) – ln where n is the number of observations.
 (v)
 
 
-\begin{itemize}
-    \item Both correlation coefficients confirm the negative relationship that is
+* Both correlation coefficients confirm the negative relationship that is
 already obvious in the plot.
-    \item The rank correlation is lower than the Pearson correlation, indicating that the relationship is stronger when we take the magnitude of observations into account rather than just their relative rank.
-    \item In other words, for observations with similar magnitude, the ranks are not always ordered.
-\end{itemize}
+* The rank correlation is lower than the Pearson correlation, indicating that the relationship is stronger when we take the magnitude of observations into account rather than just their relative rank.
+* In other words, for observations with similar magnitude, the ranks are not always ordered.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-\newpage
 
-\subsection*{Part 6}
+---
+
+Part 6
+==================================
 6. Plot the log likelihood function for values of $l = 220, 221, ..., 280$.
 
 \begin{framed}\begin{verbatim}
@@ -100,8 +100,7 @@ plot(l,ll) [1]
 \end{verbatim}\end{framed}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-\newpage
+---
 
 \subsection*{ Part 7}
 7. Determine an approximate maximum likelihood estimate for l using the plot
@@ -114,8 +113,8 @@ By inspection, the maximum of $ll(\hat{\lambda})$ is at about 250.
 The maximum likelihood estimate is $\hat{\lambda} \approx 250$ waves per hour. [1]
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+---
+
 \subsection*{ pART 8}
 
 8. Calculate the exact maximum likelihood estimate of l.
@@ -131,4 +130,4 @@ A common error in part (vii) was to provide the value of the log likelihood
 instead of lambda.
 
 
-\end{document}
+

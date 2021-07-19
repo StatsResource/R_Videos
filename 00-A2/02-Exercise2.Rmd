@@ -9,90 +9,96 @@ output:
       countIncrementalSlides: false
 ---
 
+
 ```{r}
 library(magrittr)
 
 options(repr.plot.width=10, repr.plot.height=7)
-options(digits=6)
+options(digits=4)
 ```
 
 
-
-
-
-* An exponential distribution has a parameter of $\lambda 
-= 0.4$.
+* An exponential distribution has a parameter of $\lambda = 0.4$.
 
 * Use the in-built functions in R to perform the following tasks.
 
 
+---
 
 
+Exercise 1
+===============================
 
-Exercise 1}
-Simulate 1,000 values from this distribution, assigning this to a variable called ``\texttt{Exp\_Vector}`` and calculate the mean and variance of
+Simulate 1,000 values from this distribution, assigning this to a variable called ``Exp_Vector`` and calculate the mean and variance of
 the simulated values. Paste the results of your calculation into your answer.
 
+```{r}
+rexp(10,rate = (1/0.4))
+```
+
+---
+
+
+Exercise 1
+===============================
+
 
 ```{r}
-rexp(10,lambda = 0.4)
+options(digits=4)
+
+rexp(10,rate = (1/0.4))
 ```
 
 
-```{r}
-> 
-> options(digits=4)
-> 
-> rexp(10,lambda = 0.4)
- [1]  1.8074  1.0445  2.6367  1.2472  0.5128  1.8076
- [7]  2.0786  2.1387  4.7944 13.4485
-> 
-```
+---
 
-
-
-
-
-
+Exercise 1
+===============================
 
 
 ```{r}
 rexp(10,0.4)
 ```
 
-```{r}
-> rexp(10,0.4)
- [1] 8.28348 4.48688 0.86121 1.08772 0.01757 0.18649
- [7] 0.30688 1.50192 7.68903 1.86208
-```
-===================
 
-Using \texttt{set.seed()}\\
+```{r}
+rexp(10,0.4)
+```
+
+
+---
+
+
+Using ``set.seed()``
+
 ```{r}
 set.seed(1234)
 rexp(10,0.4)
 ```
 
+
+---
+
+
 ```{r}
-> set.seed(1234)
-> rexp(10,0.4)
- [1] 6.25440 0.61690 0.01645 4.35687 0.96796 0.22487
- [7] 2.06020 0.50654 2.09510 1.90108
-> 
-> set.seed(1234)
-> rexp(10,0.4)
- [1] 6.25440 0.61690 0.01645 4.35687 0.96796 0.22487
- [7] 2.06020 0.50654 2.09510 1.90108* 
+set.seed(1234)
+rexp(10,0.4)
+
+set.seed(1234)
+rexp(10,0.4)
+
 ```
 
 
+---
 
 
 
+Part 2
 ======================================
 
 
-Plot a histogram of ``\texttt{Exp\_Vector}`` showing the frequencies and paste the plot into your answer.
+Plot a histogram of ``Exp_Vector`` showing the frequencies and paste the plot into your answer.
 
 ```{r}
 set.seed(1234)
@@ -105,8 +111,8 @@ mean(Exp_Vector)
 ```
 
 
-2.50153343647035
 
+---
 
 
 ```{r}
@@ -135,6 +141,7 @@ var(Exp_Vector) %>% round(3)
 
 6.393
 
+---
 
 * The mean and variance will vary due to the random number generation. 
 
@@ -148,15 +155,17 @@ Variance = 6.25
 
 $$ \operatorname{Var}(X) = \frac{1}{\lambda^2} = 6.25$$
 
+---
 
-
-======================================%
+Part 3
+====================================
 
 Plot the probability density function for this distribution as:
 
 1. a scatter plot
 2. a line graph.
 
+---
 
 
 ```{r}
@@ -164,7 +173,7 @@ hist(Exp_Vector)
 ```
 
 
-\includegraphics[scale=0.400]{00-A2/images/output_13_0.jpeg}
+---
 
 
 
@@ -173,9 +182,8 @@ hist(Exp_Vector, breaks=50,col=c("lightblue","pink"))
 
 ```
 
-\includegraphics[scale=0.40]{00-A2/images/output_14_0.jpeg}
 
-===================
+---
 
 
 ```{r}
@@ -183,7 +191,7 @@ x <- seq(0,20,by=0.5)
 x
 ```
 
-\includegraphics[]{00-A2/images/Sequence.JPG}
+
 
 
 
@@ -195,7 +203,8 @@ plot(x, PDF)
 ```
 
 
-\includegraphics[scale=0.4]{00-A2/images/output_16_0.jpeg}
+---
+
 
 
 
@@ -204,12 +213,13 @@ plot(x, PDF, type="l")
 ```
 
 
-\includegraphics[scale=0.4]{00-A2/images/output_17_0.jpeg}
-
-=========================================================%
 
 
-Exercise  2}
+---
+
+
+Exercise  2
+============================================================
 
 A lognormal distribution has parameters $\mu = 0$ and $\sigma^2 = 1$.
 
@@ -243,7 +253,7 @@ Mean = 1.649\\
 Variance = 4.6708\\
 
 
-
+---
 
 Plot a histogram of ``\texttt{LNorm\_Vector}`` showing the frequencies.
 
@@ -251,9 +261,11 @@ Plot a histogram of ``\texttt{LNorm\_Vector}`` showing the frequencies.
 
 \includegraphics[scale=0.4]{00-A2/images/output_23_0.jpeg}
 
-======================================
 
-Task (c)}
+---
+
+Task (c)
+======================================
 
 Plot a second histogram in a new graph of ``\texttt{LNorm\_Vector}`` showing the probability densities, setting the y-axis range from 0 to 0.7 for this graph.
 
@@ -287,8 +299,8 @@ hist(LNorm_Vector, freq = FALSE, xlim = c(0,25), ylim = c(0,0.7))
 
 \includegraphics[scale=0.4]{00-A2/images/output_25_0.png}
 
-===================
 
+---
 
 #### Exercise  (d)
 Add the cumulative density function of \texttt{LNorm\_Vector} to the chart
@@ -303,6 +315,9 @@ appropriate labels and legend and paste the plot into your answer.
 
 
 ```{r}
+
+hist(LNorm_Vector, freq = FALSE, xlim = c(0,25), ylim = c(0,0.7))
+
 lines(grid, dlnorm(grid,0,1),type="l",xlab="x",ylab="f(x)", col="black")
 
 lines(density(LNorm_Vector), col="red")
@@ -312,7 +327,7 @@ legend("topright",c("True Density", "Estimate"),lty=1,col=c("black", "red"))
 ```
 
 
-======================================
+---
 
 
 
@@ -327,6 +342,7 @@ rp
 }
 ```
 
+---
 
 ```{r}
 
@@ -335,7 +351,7 @@ mean(LNorm_Vector)
 var(LNorm_Vector)
 ```
 
-
+---
 
 The mean and variance will vary due to the random number generation. If the sample size
 was large enough, the mean and variance should be close the underlying distribution
@@ -344,7 +360,8 @@ Mean = 0.5
 Variance = 0.75
 
 
-======================================55
+---
+
 Note: The correct R code receives full marks.
 Candidates are not required to paste theirs simulated sample.
 Note: Alternative solutions to (iii) are possible. For example,
@@ -354,15 +371,15 @@ rpareto <- function(alpha, lambda) {
 rp <- lambda*( (1-runif(1))^(-1/alpha) -1 )
 rp
 }
-LNorm_Vector = replicate( 1000, rpareto(3,1)
+
+LNorm_Vector = replicate( 1000, rpareto(3,1))
 mean(LNorm_Vector)
 var(LNorm_Vector)
-)
+
 ```
 
 
-%Note: Some candidates may use something equivalent to Pareto_Vector rather than LNorm_Vector.
-%Marks should not be deducted for this.
-%This question was answered well by most candidates.
+
+
 
 

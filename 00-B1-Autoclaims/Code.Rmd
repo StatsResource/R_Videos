@@ -5,14 +5,27 @@ IAICS1B-0619Page 1of 13
 
 
 Solution 1:i)state_mean<-aggregate(PAID~STATE,data =AutoClaims,FUN =mean)names(state_mean)<-c("State","Mean")
-state_sd<-aggregate(PAID~STATE,data =AutoClaims,FUN =sd)names(state_sd)<-c("State","SD")state_summary<-merge(state_mean,state_sd)state_summary$CV<-state_summary$SD/state_summary$Mean#Mean, Standard Deviation and Coefficient of Variance for each statestate_summary [4]##       State      Mean        SD        CV## 1  STATE 01 10235.800 10932.877 1.0681018## 2  STATE 02  7055.078  6327.473 0.8968678## 3  STATE 03  8714.932  6494.346 0.7451976## 4  STATE 04  8152.759  6985.210 0.8567910## 5  STATE 06  8786.739 10749.517 1.2233796## 6  STATE 07  4960.479  3065.092 0.6179023## 7  STATE 10 12340.643 14599.291 1.1830251## 8  STATE 12  6893.705  8634.955 1.2525856
-## 9  STATE 14 10399.313  8406.388 0.8083599## 10 STATE 15  3321.449  3364.269 1.0128920## 11 STATE 17  7886.282  7831.913 0.9931059
+state_sd<-aggregate(PAID~STATE,data =AutoClaims,FUN =sd)names(state_sd)<-c("State","SD")state_summary<-merge(state_mean,state_sd)state_summary$CV<-state_summary$SD/state_summary$Mean#Mean, Standard Deviation and Coefficient of Variance for each statestate_summary [4]##       State      Mean        SD        CV## 1  STATE 01 10235.800 10932.877 1.0681018
+## 2  STATE 02  7055.078  6327.473 0.8968678## 3  STATE 03  8714.932  6494.346 0.7451976
+## 4  STATE 04  8152.759  6985.210 0.8567910## 5  STATE 06  8786.739 10749.517 1.2233796## 6  STATE 07  4960.479  3065.092 0.6179023
+## 7  STATE 10 12340.643 14599.291 1.1830251
+## 8  STATE 12  6893.705  8634.955 1.2525856
+## 9  STATE 14 10399.313  8406.388 0.8083599
+## 10 STATE 15  3321.449  3364.269 1.0128920
+## 11 STATE 17  7886.282  7831.913 0.9931059
 Note: One mark is awarded for each correct column# a. The State with minimum coefficient of variance isstate_summary$State[state_summary$CV==min(state_summary$CV)]## [1] STATE 07[0.5]## 11 Levels: STATE 01 STATE 02 STATE 03 STATE 04 STATE 06 ... STATE 17# b. TheState with maximum coefficient of variance isstate_summary$State[state_summary$CV==max(state_summary$CV)]
 ## [1] STATE 12[0.5]## 11 Levels: STATE 01 STATE 02 STATE 03 STATE 04 STATE 06 ... STATE 17Note: Even if the code is not present for finding the state with max/min CV and the student has written the answer by observation, mark can be awardedClass_mean<-aggregate(PAID~CLASS,data =AutoClaims,FUN =mean)names(Class_mean)<-c("Class","Mean")
-Class_sd<-aggregate(PAID~CLASS,data=AutoClaims,FUN =sd)names(Class_sd)<-c("Class","SD")Class_summary<-merge(Class_mean,Class_sd)Class_summary$CV<-Class_summary$SD/Class_summary$Mean#Mean, Standard Deviation and Coefficient of variance for each rating classClass_summary[3]##   Class      Mean       SD        CV## 1   C1  17464.484 9613.323 0.5504499## 2   C11  5887.049 3434.371 0.5833774
-IAICS1B-0619Page 2of 13## 3   C6   2367.215 1533.807 0.6479373## 4   F6  17434.533 9188.423 0.5270243# Arranging the rating class in ascending order of CVClass_summary[order(Class_summary$CV),][2][10]##   Class      Mean       SD        CV## 4   F6  17434.533 9188.423 0.5270243
+Class_sd<-aggregate(PAID~CLASS,data=AutoClaims,FUN =sd)names(Class_sd)<-c("Class","SD")Class_summary<-merge(Class_mean,Class_sd)Class_summary$CV<-Class_summary$SD/Class_summary$Mean#Mean, Standard Deviation and Coefficient of variance for each rating classClass_summary[3]
+##   Class      Mean       SD        CV## 1   C1  17464.484 9613.323 0.5504499
+
+## 2   C11  5887.049 3434.371 0.5833774
+## 3   C6   2367.215 1533.807 0.6479373
+## 4   F6  17434.533 9188.423 0.5270243# Arranging the rating class in ascending order of CVClass_summary[order(Class_summary$CV),][2][10]
+
+##   Class      Mean       SD        CV## 4   F6  17434.533 9188.423 0.5270243
 ## 1   C1  17464.484 9613.323 0.5504499## 2   C11  5887.049 3434.371 0.5833774## 3   C6   2367.215 1533.807 0.6479373Note: Full marks (5) are awarded if the student directly shows the table in ascending of the CVs ii)boxplot(PAID~STATE,data =AutoClaims)[1.5]States with no outliers are State 14.[1]boxplot(PAID~CLASS,data =AutoClaims)[1.5]Class with no outlier is C11.[1][5]
-IAICS1B-0619Page 3of 13iii)#Contingency Table for the distribution of Gender across rating classesState_Class_Freq<-table(AutoClaims$GENDER,AutoClaims$CLASS)[2]#Contingency Table in terms of proportion of Rating classes for each genderState_Class_RowProp<-prop.table(State_Class_Freq,margin =1)State_Class_RowProp[2]##    ##            C1         C11        C6         F6 ##   F 0.07312925 0.30102041 0.55272109 0.07312925##   M 0.07840772 0.34620024 0.462002410.11338963#Chi-Square test for independence of two variables chisq.test(AutoClaims$GENDER,AutoClaims$CLASS)[3]
+
+iii)#Contingency Table for the distribution of Gender across rating classesState_Class_Freq<-table(AutoClaims$GENDER,AutoClaims$CLASS)[2]#Contingency Table in terms of proportion of Rating classes for each genderState_Class_RowProp<-prop.table(State_Class_Freq,margin =1)State_Class_RowProp[2]##    ##            C1         C11        C6         F6 ##   F 0.07312925 0.30102041 0.55272109 0.07312925##   M 0.07840772 0.34620024 0.462002410.11338963#Chi-Square test for independence of two variables chisq.test(AutoClaims$GENDER,AutoClaims$CLASS)[3]
 ## 
 ##  Pearson's Chi-squared test## ## data:  AutoClaims$GENDER and AutoClaims$CLASS
 ## X-squared = 13.704, df = 3, p-value = 0.003338Interpretation: Chi-Squared values is 13.704 with 3 degrees of freedom.P-Value for the chi square test is 0.0033 < 0.05. Hence the null hypothesis of independence between the gender and rating class is rejected at 95% confidence level.[2]

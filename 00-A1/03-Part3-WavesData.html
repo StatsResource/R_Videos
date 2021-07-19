@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+In a small empirical study, data are recorded on the number of waves per hour and the
+average wave height per hour at a location just off the coast of Scotland. 
+
+The data are
+given in the file named CS1waves.Rdata. 
+
+Loading the data into R will create two
+vectors in your R workspace, called \textbf{\textit{Wn}} (number of waves per hour) and \textbf{\textit{Wheight}}
+(average wave height in cm during the hour).
+
+1. Generate an appropriate plot to visually inspect the relationship between wave
+height and number of waves per hour.
+
+
+---
+
+Q3
+\begin{framed}\begin{verbatim}
+# load data
+load("CS1waves.Rdata")
+(i)
+#plot data
+plot(Wn, Wheight)
+\end{verbatim}\end{framed}
+
+\subsection*{Part 2}
+2. Comment on the plot in part (i).
+
+(ii)
+There seems to be a linear relationship between wave height and number of waves.
+The more waves per hour, the smaller the waves (negative association).
+
+---
+
+\subsection*{ Part 3}
+
+Calculate Pearson’s correlation coefficient between the number of waves per
+hour and the average wave height.
+
+
+\begin{framed}\begin{verbatim}
+cor(Wn, Wheight,method = "pearson")
+-0.8055382 
+\end{verbatim}\end{framed}
+
+\subsection*{ Part 4.}
+
+Calculate Spearman’s rank correlation coefficient between the number of
+waves per hour and the average wave height.
+Comment on your findings in parts (iii) and (iv).
+
+\begin{framed}\begin{verbatim}
+cor(Wn, Wheight, method = "spearman")
+-0.7688486 
+\end{verbatim}\end{framed}
+
+---
+
+
+\subsection*{Part 5}
+5. We now model the number of waves per hour, X, as a random variable with a Poisson
+distribution with unknown parameter l. The log likelihood function for estimating l
+is given by l(l) = log(l)
+n
+x i ) – ln where n is the number of observations.
+( Â i=1
+
+(v)
+
+
+* Both correlation coefficients confirm the negative relationship that is
+already obvious in the plot.
+* The rank correlation is lower than the Pearson correlation, indicating that the relationship is stronger when we take the magnitude of observations into account rather than just their relative rank.
+* In other words, for observations with similar magnitude, the ranks are not always ordered.
+
+
+
+---
+
+Part 6
+==================================
+6. Plot the log likelihood function for values of `\(l = 220, 221, ..., 280\)`.
+
+\begin{framed}\begin{verbatim}
+l = 220:280
+ll = log(l)*sum(Wn)-168*l
+plot(l,ll) [1]
+\end{verbatim}\end{framed}
+
+
+---
+
+\subsection*{ Part 7}
+7. Determine an approximate maximum likelihood estimate for l using the plot
+in part (vi).
+
+(vii)
+
+
+By inspection, the maximum of `\(ll(\hat{\lambda})\)` is at about 250.
+The maximum likelihood estimate is `\(\hat{\lambda} \approx 250\)` waves per hour. [1]
+
+
+---
+
+\subsection*{ pART 8}
+
+8. Calculate the exact maximum likelihood estimate of l.
+(vi)
+
+(viii) The exact MLE is the mean, that is, \hat{\lambda}̂ = 168 ∑ 168
+ii=1 XX ii
+mean(Wn)
+
+`\(\hat{\lambda}̂ =248.8579\)`
+
+A common error in part (vii) was to provide the value of the log likelihood
+instead of lambda.
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

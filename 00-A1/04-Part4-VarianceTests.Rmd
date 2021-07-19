@@ -14,22 +14,26 @@ in two different samples. The actuaries are concerned about the validity of the 
 variance assumption between the two underlying populations when carrying out a
 two-sample t-test. The two samples are given below:
 
-\begin{center}
-\begin{tabular}{|c|c|}
+\[
+\begin{array}{|c|c|}
 \hline
  Sample 1:     &  21 22 28 27 20 23 26 32 25 21 30\\ \hline
  Sample 2:    & 19 18 38 33 24 39 22 20 28 26 30 \\
  \hline 
-\end{tabular}
-\end{center}
+\end{array}
+\]
 
-\subsection*{Exercise 1}
+
+---
+
+Exercise 1
+===========================
 
 Enter the data into R.
 
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 ## Data entry
 
 sample1 <- c(21, 22, 28, 27, 20, 23, 26, 32, 25, 21, 30)
@@ -41,13 +45,17 @@ assign("sample2", c(19, 18, 38, 33, 24, 39, 22,
     20, 28, 26, 30))
 
 
-\end{verbatim}\end{framed}
-\newpage 
+```
+
+---
+
 \includegraphics[scale=1.6]{00-A1/images/A1-Q4-Samples.JPG}
 
-\newpage 
+---
 
-\subsection*{Exercise 2}
+Exercise 2
+=========================
+
 
 \noindent Perform an F-test at a 5\% significance level to compare the populationvariances. You should state your conclusion clearly.
 
@@ -60,12 +68,13 @@ $$ H_1 : \sigma^2_{1} \neq \sigma^2_{2} $$
 $$ H_0 : \frac{\sigma^2_{1}}{ \sigma^2_{2} } = 1$$
 $$ H_1 : \frac{\sigma^2_{1}}{ \sigma^2_{2} } \neq 1 $$
 
-\newpage 
+---
 
-\begin{framed}\begin{verbatim}
+
+```{r}
 var.test(x = sample1, y = sample2, conf.level = 0.95)
 
-\end{verbatim}\end{framed}
+```
 
 
 \begin{verbatim}
@@ -84,23 +93,25 @@ var.test(x = sample1, y = sample2, conf.level = 0.95)
 \end{verbatim} 
 
 
-\newpage 
-\begin{framed}\begin{verbatim}
+---
+
+```{r}
 library(broom)
 library(magrittr)
 
 var.test(x = sample1, y = sample2, 
     conf.level = 0.95) %>% tidy() 
-\end{verbatim}\end{framed}
+```
 
     \includegraphics[scale=1.15]{00-A1/images/A1-Q4-Broom.JPG}
 
-\medskip
+---
+
 \noindent The p-value is $0.06553 \geq 0.05$, so we have insufficient evidence to reject the assumption of
 equal variance.
 
 
-\newpage 
+---
 
 \subsection*{Exercise 3}
 
@@ -109,12 +120,12 @@ means are equal at a 5\% significance level.
 
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 t.test(x = sample1, 
        y = sample2, 
        var.equal = TRUE, 
        conf.level = 0.95)
-\end{verbatim}\end{framed}
+```
 
 
 \begin{verbatim}
@@ -130,35 +141,34 @@ t.test(x = sample1,
            25        27  
 \end{verbatim}   
 
-\newpage 
+
+---
 
 
-
-\begin{framed}\begin{verbatim}
+```{r}
 t.test(x = sample1, 
        y = sample2, 
        var.equal = TRUE, 
        conf.level = 0.95) %>% tidy()
 
 
-\end{verbatim}\end{framed}
+```
 
 
 \includegraphics[]{00-A1/images/A1-Q4-Broom2.JPG}
 
 
-\newpage 
+--- 
+
 \noindent Calculate a two-sided 95\% confidence interval for the difference in the
 population means.
 
 
-
-\begin{itemize}
-    \item The confidence interval can be read from the previous results or extracted using
-\end{itemize}
+* The confidence interval can be read from the previous results or extracted using
 
 
-\begin{framed}\begin{verbatim}
+
+```{r}
 
 thisTest <- t.test(x = sample1, 
        y = sample2, 
@@ -166,53 +176,57 @@ thisTest <- t.test(x = sample1,
        conf.level= 0.95)
 
 thisTest$conf.int
-\end{verbatim}\end{framed}
+```
+
+
+--- 
+
 
 \includegraphics[scale=1.4]{00-A1/images/A1-Q4-ConfInts.JPG}
-\begin{itemize}
-    \item The 95\% Confidence Interval is (-7.25, 3.25).
 
-\item The p-value of 0.4365 is much larger than the 5\% significance level, therefore we
+* The 95\% Confidence Interval is (-7.25, 3.25).
+
+* The p-value of 0.4365 is much larger than the 5\% significance level, therefore we
 have no evidence to suggest that the means are different between the two samples.
  
-\item It is clear that the confidence interval (-7.25, 3.25) contains 0, therefore 
+* It is clear that the confidence interval (-7.25, 3.25) contains 0, therefore 
 the assumption of equal means holds.
-\end{itemize}
 
 
+---
 
 
-\newpage 
+Exercise 4
+====================================
 
-\subsection*{Exercise 4}
+Calculate the two sets of absolute deviations.
 
-\noindent Calculate the two sets of absolute deviations.\\
-
-\noindent [Hint: \texttt{abs(x)} gives the absolute value of x.]
+ [Hint: \texttt{abs(x)} gives the absolute value of x.]
 		
 
 
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 
 s1 = abs(sample1 - mean(sample1))
 
 s2 = abs(sample2 - mean(sample2))
 
-\end{verbatim}\end{framed}
+```
 
 \noindent Perform a two-sample t-test on the two sets of absolute deviations at a
 5\% level, stating your conclusion.
 \newpage 
-\begin{framed}\begin{verbatim}
+```{r}
 
 t.test(x = s1, y = s2, 
     var.equal = TRUE, 
     conf.level = 0.95)
 
-\end{verbatim}\end{framed}
+```
 
+---
 
 \begin{verbatim}
     	Two Sample t-test

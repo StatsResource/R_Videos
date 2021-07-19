@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="01-Part1_files/header-attrs-2.7/header-attrs.js"></script>
+    <link href="01-Part1_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="01-Part1_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+In a very small empirical study a sample from a random variable `\(X\)` is observed. 
+The data can be entered into R using the following code:
+
+
+
+```r
+x &lt;- c(0.22, 0.38, 1.28, 0.54, 0.56, 1.36,
+   0.55, 0.37, 0.43, 0.46, 0.62, 0.54,
+   0.54, 0.51, 0.44, 0.68, 0.55, 0.30)
+```
+
+---
+
+\subsection*{Exercise 1} 
+Estimate the expected value of `\(X\)`.
+
+
+
+```r
+mean(x)
+```
+
+```
+## [1] 0.5738889
+```
+
+`\begin{verbatim}
+0.573888
+\end{verbatim}`
+
+
+---
+
+Exercise 2
+============================
+Calculate a 95\% confidence interval for the expected value of `\(X\)`, assuming that `\(X\)` is Normally distributed.
+
+
+```r
+t.test(x, conf=0.95)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  x
+## t = 8.2805, df = 17, p-value = 2.276e-07
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.4276654 0.7201123
+## sample estimates:
+## mean of x 
+## 0.5738889
+```
+`\begin{verbatim}
+	One Sample t-test
+
+data:  x
+
+t = 8.2805, df = 17, p-value = 2.276e-07
+alternative hypothesis: true mean is not equal to 0
+
+95 percent confidence interval:
+ 0.4276654 0.7201123
+
+sample estimates:
+mean of x 
+0.5738889 
+
+\end{verbatim}`
+
+---
+
+\textbf{Shapiro-Wilk normality test}
+
+
+```r
+shapiro.test(x)
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  x
+## W = 0.74528, p-value = 0.0002824
+```
+
+---
+
+
+```r
+qqnorm(x, cex=1.5, pch=18, col="black" )
+
+qqline(x ,lwd=2,col="red")
+```
+
+![](01-Part1_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+\includegraphics[scale=0.45]{00-C1/images/00-C1-Q1-qqnorm.png}
+
+---
+
+Tidyverse
+==========================
+
+
+```r
+# install.packages(c("magrittr","broom"))
+
+library(magrittr)
+library(broom)
+
+t.test(x, conf=0.95) %&gt;% tidy()
+```
+
+```
+## # A tibble: 1 x 8
+##   estimate statistic   p.value parameter conf.low conf.high method   alternative
+##      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      
+## 1    0.574      8.28   2.28e-7        17    0.428     0.720 One Sam~ two.sided
+```
+
+---
+
+Exercise 3
+============================
+
+Construct a confidence interval for the expected value of `\(X\)` using the bootstrap
+method with 10,000 bootstrap replications.
+
+
+```r
+1:4
+```
+
+```
+## [1] 1 2 3 4
+```
+
+```r
+1:5
+```
+
+```
+## [1] 1 2 3 4 5
+```
+
+```r
+1:6
+```
+
+```
+## [1] 1 2 3 4 5 6
+```
+
+---
+
+
+&gt; sample(1:4,replace =TRUE)
+[1] 1 1 4 1
+&gt;
+&gt; sample(1:5,replace =TRUE)
+[1] 5 3 1 5 4
+&gt;
+&gt; sample(1:6,replace =TRUE)
+[1] 4 2 1 2 2 4
+
+
+
+
+```r
+replicate(10, mean(sample(x,replace =TRUE)))
+```
+
+```
+##  [1] 0.5966667 0.5488889 0.5583333 0.5444444 0.4683333 0.6066667 0.5805556
+##  [8] 0.5066667 0.5733333 0.6111111
+```
+
+
+`\begin{verbatim}
+ [1] 0.5927778 0.4955556 0.5144444 0.5444444 0.6272222
+ [6] 0.5577778 0.5438889 0.4916667 0.6233333 0.6266667
+\end{verbatim}`
+
+
+
+
+
+```r
+y = replicate(10000,mean(sample(x,replace =TRUE))) 
+
+quantile(y,prob=c(0.025,0.975)) 
+```
+
+```
+##      2.5%     97.5% 
+## 0.4583333 0.7222222
+```
+
+
+`\begin{verbatim}
+ 2.5% 97.5% 
+0.4544444 0.7222222 
+\end{verbatim}`
+
+---
+
+
+Exercise  4
+=============================
+
+Comment on the differences between the confidence intervals in exercises 2 and 3.
+
+
+* The CIs are almost identical with the CI in exercise 3 being narrower. 
+* The reason might be that the distribution of `\(X\)` is not normal, and therefore the
+distribution of the mean is not normal for the small sample size we have in this
+question. 
+* 
+
+
+The bootstrap method provides a good approximation of the distribution of the mean
+independently of the type of distribution.
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

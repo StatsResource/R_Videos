@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+---
+
+{markov chain} library
+
+
+```r
+library(markovchain)
+```
+
+```
+## Warning: package 'markovchain' was built under R version 4.0.5
+```
+
+```
+## Package:  markovchain
+## Version:  0.8.6
+## Date:     2021-05-17
+## BugReport: https://github.com/spedygiorgio/markovchain/issues
+```
+
+
+---
+
+### Question 1
+Data is available for the movement of taxis in Dublin. 
+
+The city is divided into three zones “North”, “South” and “West”. (*The “East” is Dublin Bay*)
+
+The movement of a taxi from one zone to another will depend only on its current position. 
+
+The following probabilities have been determined for taxi movements:
+
+
+* Of all taxis in the North zone, 30% will remain in North and 30% will move to South, with the remaining 40% moving to West.
+
+* In the South zone, taxis have a 40% chance of moving to North, 40% chance of staying in South and 20% chance of moving to West.
+
+* Of all the drivers in the West zone, 50% will move to North and 30% to South with the remaining 20% staying in West.
+
+The movement of taxis in Dublin will be modelled in R using a Markov Chain.
+
+
+---
+
+#### Driver Movement
+A 3 - dimensional discrete Markov Chain defined by the following states:
+North, South, West
+
+The transition matrix (by rows) is defined as follows:
+
+| North | South | West\\
+North | 0.3 | 0.3 | 0.4\\
+South | 0.4 | 0.4 | 0.2\\
+West | 0.5 | 0.3 | 0.2\\
+
+
+---
+
+## Exercise 1
+
+Create a vector with the state space of the Markov Chain, using R code. You should print this to the screen and paste into your answer.
+
+
+
+```r
+DriverZone &lt;- c("North", "South", "West")
+DriverZone
+```
+
+```
+## [1] "North" "South" "West"
+```
+
+
+&lt;ol class="list-inline"&gt;
+	&lt;li&gt;'North'&lt;/li&gt;
+	&lt;li&gt;'South'&lt;/li&gt;
+	&lt;li&gt;'West'&lt;/li&gt;
+&lt;/ol&gt;
+
+
+---
+
+## Exercise 2
+
+Construct a transition matrix of the zone movement probabilities. 
+You should print this to the screen and paste into your answer.
+
+
+
+```r
+ZoneTransition &lt;- matrix(c(0.3, 0.3, 0.4, 0.4, 0.4, 0.2,0.5, 0.3, 0.2), 
+                         nrow = 3, 
+                         byrow = TRUE)
+
+ZoneTransition
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]  0.3  0.3  0.4
+## [2,]  0.4  0.4  0.2
+## [3,]  0.5  0.3  0.2
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A matrix: 3 x 3 of type dbl&lt;/caption&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;td&gt;0.3&lt;/td&gt;&lt;td&gt;0.3&lt;/td&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;td&gt;0.2&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;0.5&lt;/td&gt;&lt;td&gt;0.3&lt;/td&gt;&lt;td&gt;0.2&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+
+
+```r
+ZoneTransition &lt;- matrix(c(0.3, 0.3, 0.4, 0.4, 0.4, 0.2,0.5, 0.3, 0.2), 
+                         nrow = 3, 
+                         byrow = TRUE, 
+                         dimname = list(DriverZone, DriverZone))
+
+ZoneTransition
+```
+
+```
+##       North South West
+## North   0.3   0.3  0.4
+## South   0.4   0.4  0.2
+## West    0.5   0.3  0.2
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A matrix: 3 x 3 of type dbl&lt;/caption&gt;
+&lt;thead&gt;
+	&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;North&lt;/th&gt;&lt;th&gt;South&lt;/th&gt;&lt;th&gt;West&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;th&gt;North&lt;/th&gt;&lt;td&gt;0.3&lt;/td&gt;&lt;td&gt;0.3&lt;/td&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;th&gt;South&lt;/th&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;td&gt;0.2&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;th&gt;West&lt;/th&gt;&lt;td&gt;0.5&lt;/td&gt;&lt;td&gt;0.3&lt;/td&gt;&lt;td&gt;0.2&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+## Exercise 3
+
+Load the R package for Markov Chains: {``markovchain``}. 
+
+N.B. ``R`` is case sensitive .
+
+
+
+
+```r
+sessionInfo()
+```
+
+```
+## R version 4.0.4 (2021-02-15)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19041)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_Ireland.1252  LC_CTYPE=English_Ireland.1252   
+## [3] LC_MONETARY=English_Ireland.1252 LC_NUMERIC=C                    
+## [5] LC_TIME=English_Ireland.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] markovchain_0.8.6
+## 
+## loaded via a namespace (and not attached):
+##  [1] igraph_1.2.6       Rcpp_1.0.6         knitr_1.31         magrittr_2.0.1    
+##  [5] lattice_0.20-41    R6_2.5.0           rlang_0.4.10       matlab_1.0.2      
+##  [9] stringr_1.4.0      tools_4.0.4        parallel_4.0.4     grid_4.0.4        
+## [13] xfun_0.21          xaringan_0.20      jquerylib_0.1.4    htmltools_0.5.1.1 
+## [17] RcppParallel_5.1.4 yaml_2.2.1         digest_0.6.27      Matrix_1.3-2      
+## [21] sass_0.4.0         evaluate_0.14      rmarkdown_2.7      stringi_1.5.3     
+## [25] compiler_4.0.4     bslib_0.2.5.1      stats4_4.0.4       expm_0.999-6      
+## [29] jsonlite_1.7.2     pkgconfig_2.0.3
+```
+
+
+    R version 3.5.3 (2019-03-11)
+    Platform: x86_64-pc-linux-gnu (64-bit)
+    Running under: Ubuntu 16.04.6 LTS
+    
+    Matrix products: default
+    BLAS: /opt/microsoft/ropen/3.5.3/lib64/R/lib/libRblas.so
+    LAPACK: /opt/microsoft/ropen/3.5.3/lib64/R/lib/libRlapack.so
+    
+    locale:
+     [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+     [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+     [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+     [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+     [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+    [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+    
+    attached base packages:
+    [1] stats     graphics  grDevices utils     datasets  methods   base     
+    
+    loaded via a namespace (and not attached):
+     [1] Rcpp_1.0.2      digest_0.6.22   zeallot_0.1.0   crayon_1.3.4   
+     [5] IRdisplay_0.7.0 repr_1.0.1      backports_1.1.5 jsonlite_1.6   
+     [9] evaluate_0.14   pillar_1.4.2    rlang_0.4.1     uuid_0.1-2     
+    [13] vctrs_0.2.0     IRkernel_1.0.2  tools_3.5.3     compiler_3.5.3 
+    [17] pkgconfig_2.0.3 base64enc_0.1-3 htmltools_0.4.0 pbdZMQ_0.3-3   
+    [21] tibble_2.1.3   
+
+
+### Installing the {markovchain} R package
+
+&lt;pre&gt;&lt;code&gt;
+install.packages("markovchain") 
+
+library(markovchain)
+&lt;/code&gt;&lt;/pre&gt;
+
+
+
+Requires R Version 3.6 
+
+## Exercise 4
+
+Create a Markov Chain object with state space equal to your vector in ***Exercise 1*** and transition matrix from ***Exercise 2***. 
+
+``
+MCZone &amp;lt;- new("markovchain", states = DriverZone, 
+              byrow = TRUE, 
+              transitionMatrix = ZoneTransition, 
+              name = "DriverMovement")``
+
+``
+MCZone
+``
+
+---
+
+## Exercise  5
+
+Calculate the probability that a driver currently in the North zone will be in the
+North zone after:
+
+1. two trips
+
+2. three trips.
+
+
+
+
+```r
+DriverZone &lt;- c("North", "South", "West")
+ZoneTransition &lt;- matrix(c(0.3, 0.3, 0.4, 
+                           0.4, 0.4, 0.2,
+                           0.5, 0.3, 0.2), 
+                         nrow = 3, 
+                         byrow = T, 
+                         dimname = list(DriverZone, DriverZone))
+```
+
+---
+
+WRONG
+
+
+
+```r
+# Wrong
+ZoneTransition^2
+```
+
+```
+##       North South West
+## North  0.09  0.09 0.16
+## South  0.16  0.16 0.04
+## West   0.25  0.09 0.04
+```
+
+---
+
+CORRECT
+
+
+
+```r
+ZoneTransition %*% ZoneTransition
+```
+
+```
+##       North South West
+## North  0.41  0.33 0.26
+## South  0.38  0.34 0.28
+## West   0.37  0.33 0.30
+```
+
+---
+
+
+```r
+ZoneTransition %*% ZoneTransition %*% ZoneTransition
+```
+
+```
+##       North South  West
+## North 0.385 0.333 0.282
+## South 0.390 0.334 0.276
+## West  0.393 0.333 0.274
+```
+
+
+
+```r
+#MCZone^2
+
+#MCZone^3
+```
+
+* The required probability in 2 trips is 41% or 0.41
+
+* The required probability in 3 trips is 38.5% or 0.385
+
+
+## Exercise 6
+
+Determine the stationary state of the Markov Chain.
+
+
+
+
+
+```r
+#steadyStates(ZoneTransition)
+```
+
+### Linear Algebra
+
+* `\(\pi\)` is the `\(1\times n\)` steady-state equilibrium row vector
+* `\(P\)` is the `\(n \times n\)` transition matrix
+* `\(I\)` is the `\(n \times n\)` Identity matrix
+
+
+`$$\begin{eqnarray*}
+        \pi P |=| \pi   \qquad (  \pi \mbox{ is unchanged by  P }.) \\
+              |=| \pi I \\
+              | | \\
+\pi ( P − I ) |=| \boldsymbol{0}  \\
+\end{eqnarray*}$$`
+
+Use transposition to re-arrange as a standard system of linear equations in form `\(Ax=b\)`
+
+$$ ( P − I )^{T} \times \pi^{T} \;=\; \boldsymbol{0} $$
+
+* `\(( P − I )^{T}\)` is an `\(n \times n\)` matrix
+* `\(\pi^{T}\)` is an `\(n \times 1\)` column vector
+* `\(\boldsymbol{0}\)` is an `\(n \times 1\)` column vector of 0s
+
+
+
+```r
+#diag(3)
+```
+
+
+
+```r
+t(ZoneTransition - diag(3))
+```
+
+```
+##       North South West
+## North  -0.7   0.4  0.5
+## South   0.3  -0.6  0.3
+## West    0.4   0.2 -0.8
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A matrix: 3 x 3 of type dbl&lt;/caption&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;td&gt;-0.7&lt;/td&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.5&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;td&gt;-0.6&lt;/td&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.2&lt;/td&gt;&lt;td&gt;-0.8&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+
+
+```r
+det( t(ZoneTransition - diag(3)) )
+```
+
+```
+## [1] 3.330669e-17
+```
+
+
+1.71291552370738e-17
+
+
+Solve a system of linear equations: ``solve(A,b)``
+
+
+
+```r
+A &lt;- t(ZoneTransition) - diag(3)
+b &lt;- c(0,0,0)
+
+cbind( A, b )
+```
+
+```
+##       North South West b
+## North  -0.7   0.4  0.5 0
+## South   0.3  -0.6  0.3 0
+## West    0.4   0.2 -0.8 0
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A matrix: 3 x 4 of type dbl&lt;/caption&gt;
+&lt;thead&gt;
+	&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;b&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;td&gt;-0.7&lt;/td&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.5&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;td&gt;-0.6&lt;/td&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.2&lt;/td&gt;&lt;td&gt;-0.8&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+
+
+```r
+det(A)
+```
+
+```
+## [1] 3.330669e-17
+```
+
+
+1.71291552370738e-17
+
+
+
+
+```r
+#solve( A, b )
+```
+
+We also can use the `\(\sum \pi = 1\)`
+
+$$ \pi_1 + \pi_2 + \ldots +  \pi_n = 1$$
+
+
+
+```r
+A &lt;- rbind( t(ZoneTransition - diag(3)), c(1,1,1) )
+A
+```
+
+```
+##       North South West
+## North  -0.7   0.4  0.5
+## South   0.3  -0.6  0.3
+## West    0.4   0.2 -0.8
+##         1.0   1.0  1.0
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A matrix: 4 x 3 of type dbl&lt;/caption&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;td&gt;-0.7&lt;/td&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.5&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;td&gt;-0.6&lt;/td&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.2&lt;/td&gt;&lt;td&gt;-0.8&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 1.0&lt;/td&gt;&lt;td&gt; 1.0&lt;/td&gt;&lt;td&gt; 1.0&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+
+
+```r
+b &lt;- c(0,0,0,1)
+cbind(A,b)
+```
+
+```
+##       North South West b
+## North  -0.7   0.4  0.5 0
+## South   0.3  -0.6  0.3 0
+## West    0.4   0.2 -0.8 0
+##         1.0   1.0  1.0 1
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A matrix: 4 x 4 of type dbl&lt;/caption&gt;
+&lt;thead&gt;
+	&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;b&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;td&gt;-0.7&lt;/td&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.5&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;td&gt;-0.6&lt;/td&gt;&lt;td&gt; 0.3&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 0.4&lt;/td&gt;&lt;td&gt; 0.2&lt;/td&gt;&lt;td&gt;-0.8&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt; 1.0&lt;/td&gt;&lt;td&gt; 1.0&lt;/td&gt;&lt;td&gt; 1.0&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+
+
+```r
+qr.solve( A, b )
+```
+
+```
+##     North     South      West 
+## 0.3888889 0.3333333 0.2777778
+```
+
+
+&lt;ol class="list-inline"&gt;
+	&lt;li&gt;0.388888888888889&lt;/li&gt;
+	&lt;li&gt;0.333333333333333&lt;/li&gt;
+	&lt;li&gt;0.277777777777778&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

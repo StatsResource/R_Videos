@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+```r
+library(magrittr)
+```
+
+
+You have been asked to analyse the percentage changes in quarterly personal
+consumption expenditure and personal disposable income in the US from 1970–2010.
+
+This information is contained in a time series called “consumption” in R’s `{fpp}` library.
+The data can be loaded into R using the command:
+
+---
+
+
+
+```r
+#install.packages("fpp")
+library(fpp)
+```
+
+```
+## Warning: package 'fpp' was built under R version 4.0.5
+```
+
+```
+## Loading required package: forecast
+```
+
+```
+## Warning: package 'forecast' was built under R version 4.0.5
+```
+
+```
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+```
+
+```
+## Loading required package: fma
+```
+
+```
+## Warning: package 'fma' was built under R version 4.0.5
+```
+
+```
+## Loading required package: expsmooth
+```
+
+```
+## Warning: package 'expsmooth' was built under R version 4.0.5
+```
+
+```
+## Loading required package: lmtest
+```
+
+```
+## Warning: package 'lmtest' was built under R version 4.0.5
+```
+
+```
+## Loading required package: zoo
+```
+
+```
+## Warning: package 'zoo' was built under R version 4.0.5
+```
+
+```
+## 
+## Attaching package: 'zoo'
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric
+```
+
+```
+## Loading required package: tseries
+```
+
+```
+## Warning: package 'tseries' was built under R version 4.0.5
+```
+
+
+
+```r
+usconsumption %&gt;% head()
+```
+
+```
+##         consumption    income
+## 1970 Q1   0.6122769  0.496540
+## 1970 Q2   0.4549298  1.736460
+## 1970 Q3   0.8746730  1.344881
+## 1970 Q4  -0.2725144 -0.328146
+## 1971 Q1   1.8921870  1.965432
+## 1971 Q2   0.9133782  1.490757
+```
+
+
+---
+
+
+
+```r
+consumption &lt;- usconsumption[,1]
+```
+
+---
+
+Exercise 1
+===================================
+
+Plot this time series giving appropriate labels for each axis and paste the R
+code and the chart into your answer.
+
+
+
+
+
+* (ii) (a) Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF), giving appropriate labels for each axis and paste the
+R code and the charts into your answer.
+
+(b) Comment on your plots in part (ii)(a), making reference to the stationarity.
+
+
+---
+
+Fit the most appropriate ARIMA model based on the results in part (ii)(a),
+stating the equation of the model and justifying your choice.
+
+
+---
+
+The dataset usconsumption also includes the quarterly personal disposable income from 1970 to 2010. 
+The data can be loaded into R using the command:
+
+
+
+
+```r
+income &lt;- usconsumption[,2]
+```
+
+---
+
+Compare the performance of the ARIMA model you have chosen in part (iii) with a linear regression model of consumption on income, by computing the root mean square error (RMSE) for the fitted values of
+each model. Paste your coding and R output into your answer.
+(b)
+Explain why the RMSE is not the ideal measure to compare these models, including a recommendation of a more appropriate measure.
+
+
+An analyst has suggested that neither model in part (iv) is a good fit to the data and has asked you to propose an alternative model.
+
+---
+
+Part 5}
+(v)
+(a)
+(b)
+Suggest a suitable alternative model to fit to the data. Fit the model you have suggested in part (v)(a) to the data, stating the
+equation used.
+(c)
+Compare the results of this model to the models fitted in part (iv).
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

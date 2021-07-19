@@ -9,6 +9,16 @@ output:
       countIncrementalSlides: false
 ---
 
+
+---
+
+{markov chain} library
+
+```{r}
+library(markovchain)
+```
+
+
 ---
 
 ### Question 1
@@ -51,7 +61,7 @@ West | 0.5 | 0.3 | 0.2\\
 Create a vector with the state space of the Markov Chain, using R code. You should print this to the screen and paste into your answer.
 
 
-```R
+```{r}
 
 DriverZone <- c("North", "South", "West")
 DriverZone
@@ -74,7 +84,7 @@ Construct a transition matrix of the zone movement probabilities.
 You should print this to the screen and paste into your answer.
 
 
-```R
+```{r}
 ZoneTransition <- matrix(c(0.3, 0.3, 0.4, 0.4, 0.4, 0.2,0.5, 0.3, 0.2), 
                          nrow = 3, 
                          byrow = TRUE)
@@ -95,7 +105,7 @@ ZoneTransition
 
 
 
-```R
+```{r}
 ZoneTransition <- matrix(c(0.3, 0.3, 0.4, 0.4, 0.4, 0.2,0.5, 0.3, 0.2), 
                          nrow = 3, 
                          byrow = TRUE, 
@@ -127,7 +137,7 @@ N.B. ``R`` is case sensitive .
 
 
 
-```R
+```{r}
 sessionInfo()
 ```
 
@@ -186,7 +196,9 @@ MCZone &lt;- new("markovchain", states = DriverZone,
 MCZone
 ``
 
-## Exercise  5. 
+---
+
+## Exercise  5
 
 Calculate the probability that a driver currently in the North zone will be in the
 North zone after:
@@ -197,7 +209,7 @@ North zone after:
 
 
 
-```R
+```{r}
 DriverZone <- c("North", "South", "West")
 ZoneTransition <- matrix(c(0.3, 0.3, 0.4, 
                            0.4, 0.4, 0.2,
@@ -209,32 +221,37 @@ ZoneTransition <- matrix(c(0.3, 0.3, 0.4,
 
 ```
 
+---
+
 WRONG
 
 
-```R
+```{r}
 # Wrong
 ZoneTransition^2
 ```
 
+---
+
 CORRECT
 
 
-```R
+```{r}
 ZoneTransition %*% ZoneTransition
 ```
 
+---
 
-```R
+```{r}
 ZoneTransition %*% ZoneTransition %*% ZoneTransition
 ```
 
 
-```R
+```{r}
 
-MCZone^2
+#MCZone^2
 
-MCZone^3
+#MCZone^3
 
 ```
 
@@ -250,8 +267,8 @@ Determine the stationary state of the Markov Chain.
 
 
 
-```R
-steadyStates(MCZone)
+```{r}
+#steadyStates(ZoneTransition)
 
 ```
 
@@ -278,12 +295,12 @@ $$ ( P − I )^{T} \times \pi^{T} \;=\; \boldsymbol{0} $$
 * $\boldsymbol{0}$ is an $n \times 1$ column vector of 0s
 
 
-```R
+```{r}
 #diag(3)
 ```
 
 
-```R
+```{r}
 t(ZoneTransition - diag(3))
 ```
 
@@ -300,7 +317,7 @@ t(ZoneTransition - diag(3))
 
 
 
-```R
+```{r}
 det( t(ZoneTransition - diag(3)) )
 ```
 
@@ -311,7 +328,7 @@ det( t(ZoneTransition - diag(3)) )
 Solve a system of linear equations: ``solve(A,b)``
 
 
-```R
+```{r}
 A <- t(ZoneTransition) - diag(3)
 b <- c(0,0,0)
 
@@ -334,7 +351,7 @@ cbind( A, b )
 
 
 
-```R
+```{r}
 det(A)
 ```
 
@@ -343,7 +360,7 @@ det(A)
 
 
 
-```R
+```{r}
 #solve( A, b )
 ```
 
@@ -352,7 +369,7 @@ We also can use the $\sum \pi = 1$
 $$ \pi_1 + \pi_2 + \ldots +  \pi_n = 1$$
 
 
-```R
+```{r}
 A <- rbind( t(ZoneTransition - diag(3)), c(1,1,1) )
 A
 ```
@@ -371,7 +388,7 @@ A
 
 
 
-```R
+```{r}
 b <- c(0,0,0,1)
 cbind(A,b)
 ```
@@ -393,7 +410,7 @@ cbind(A,b)
 
 
 
-```R
+```{r}
 qr.solve( A, b )
 
 ```
@@ -408,6 +425,6 @@ qr.solve( A, b )
 
 
 
-```R
+```{r}
 
 ```

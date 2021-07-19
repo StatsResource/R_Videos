@@ -20,11 +20,11 @@ consumption expenditure and personal disposable income in the US from 1970–201
 This information is contained in a time series called “consumption” in R’s `{fpp}` library.
 The data can be loaded into R using the command:
 
-
+---
 
 
 ```{r}
-install.packages("fpp")
+#install.packages("fpp")
 library(fpp)
 ```
 
@@ -34,22 +34,7 @@ usconsumption %>% head()
 ```
 
 
-<table>
-<caption>A Time Series: 6 x 2</caption>
-<thead>
-	<tr><th></th><th>consumption</th><th>income</th></tr>
-</thead>
-<tbody>
-	<tr><th>1970 Q1</th><td> 0.6122769</td><td> 0.496540</td></tr>
-	<tr><th>1970 Q2</th><td> 0.4549298</td><td> 1.736460</td></tr>
-	<tr><th>1970 Q3</th><td> 0.8746730</td><td> 1.344881</td></tr>
-	<tr><th>1970 Q4</th><td>-0.2725144</td><td>-0.328146</td></tr>
-	<tr><th>1971 Q1</th><td> 1.8921870</td><td> 1.965432</td></tr>
-	<tr><th>1971 Q2</th><td> 0.9133782</td><td> 1.490757</td></tr>
-</tbody>
-</table>
-
-
+---
 
 
 ```{r}
@@ -58,7 +43,8 @@ consumption <- usconsumption[,1]
 
 ---
 
-Exercise 1}
+Exercise 1
+===================================
 
 Plot this time series giving appropriate labels for each axis and paste the R
 code and the chart into your answer.
@@ -73,6 +59,7 @@ R code and the charts into your answer.
 (b) Comment on your plots in part (ii)(a), making reference to the stationarity.
 
 
+---
 
 Fit the most appropriate ARIMA model based on the results in part (ii)(a),
 stating the equation of the model and justifying your choice.
@@ -89,6 +76,7 @@ The data can be loaded into R using the command:
 income <- usconsumption[,2]
 ```
 
+---
 
 Compare the performance of the ARIMA model you have chosen in part (iii) with a linear regression model of consumption on income, by computing the root mean square error (RMSE) for the fitted values of
 each model. Paste your coding and R output into your answer.
@@ -109,4 +97,4 @@ equation used.
 (c)
 Compare the results of this model to the models fitted in part (iv).
 
-
+---

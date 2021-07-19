@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+#### AutoClaims
+
+Description of the given data sets
+
+AutoClaims.csv
+
+An insurance company is trying to analyse the paid and closed claims data of the past quarter.
+
+The columns carry the following explanation
+
+* *STATE*: The state of registration of the vehicle
+* *CLASS*: Rating class of the insured based on marital status, use of vehicle and other attributes
+* *GENDER*: Gender of the Insured (Same as the Driver)
+* *AGE*: Age of the Insured (Same as the Driver)
+* *PAID*: Amount paid to settle and close a claim
+
+---
+
+
+
+```r
+getwd()
+```
+
+```
+## [1] "C:/Users/kilbi/OneDrive/Documents/GitHub/R_Videos/00-B1-Autoclaims"
+```
+
+
+'/home/nbuser/library'
+
+
+
+
+```r
+list.files()
+```
+
+```
+##  [1] "00-DataInspection.html"      "00-DataInspection.Rmd"      
+##  [3] "01-Exercise1-Part1and2.Rmd"  "01a-Exercise1-Part1and2.R"  
+##  [5] "02-Exercise1-Part3and4.html" "02-Exercise1-Part3and4.Rmd" 
+##  [7] "04-Exercise2-ALL.Rmd"        "05-Exercise3-Part1and2.Rmd" 
+##  [9] "06-Exercise3-Part3and4.html" "06-Exercise3-Part3and4.Rmd" 
+## [11] "Code.Rmd"                    "Code.tex"                   
+## [13] "data"                        "images"                     
+## [15] "libs"                        "tex"
+```
+
+
+&lt;ol class="list-inline"&gt;
+	&lt;li&gt;'AutoClaims - 1 - Inspecting the Data.ipynb'&lt;/li&gt;
+	&lt;li&gt;'AutoClaims.csv'&lt;/li&gt;
+	&lt;li&gt;'README.md'&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+```r
+AutoClaims &lt;- read.csv("Data/AutoClaims.csv")
+```
+
+
+---
+
+
+```r
+summary(AutoClaims)
+```
+
+```
+##     STATE              CLASS              GENDER               AGE       
+##  Length:1417        Length:1417        Length:1417        Min.   :43.00  
+##  Class :character   Class :character   Class :character   1st Qu.:46.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :49.00  
+##                                                           Mean   :49.62  
+##                                                           3rd Qu.:53.00  
+##                                                           Max.   :60.00  
+##       PAID      
+##  Min.   : 1096  
+##  1st Qu.: 1611  
+##  Median : 3395  
+##  Mean   : 6127  
+##  3rd Qu.: 7774  
+##  Max.   :59096
+```
+
+
+          STATE     CLASS     GENDER       AGE             PAID      
+     STATE 15:586   C1 :108   F:588   Min.   :43.00   Min.   : 1096  
+     STATE 02:219   C11:464   M:829   1st Qu.:46.00   1st Qu.: 1611  
+     STATE 04:126   C6 :708           Median :49.00   Median : 3395  
+     STATE 17:116   F6 :137           Mean   :49.62   Mean   : 6127  
+     STATE 06: 79                     3rd Qu.:53.00   3rd Qu.: 7774  
+     STATE 03: 75                     Max.   :60.00   Max.   :59096  
+     (Other) :216                                                    
+
+
+
+
+```r
+library(readr)
+AutoClaims &lt;- read_csv("Data/AutoClaims.csv")
+```
+
+```
+## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   STATE = col_character(),
+##   CLASS = col_character(),
+##   GENDER = col_character(),
+##   AGE = col_double(),
+##   PAID = col_double()
+## )
+```
+
+    Parsed with column specification:
+    cols(
+      STATE = [31mcol_character()[39m,
+      CLASS = [31mcol_character()[39m,
+      GENDER = [31mcol_character()[39m,
+      AGE = [32mcol_double()[39m,
+      PAID = [32mcol_double()[39m
+    )
+
+
+
+
+```r
+head(AutoClaims)
+```
+
+```
+## # A tibble: 6 x 5
+##   STATE    CLASS GENDER   AGE   PAID
+##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 STATE 01 C6    M         43  2365.
+## 2 STATE 01 F6    M         43 18788.
+## 3 STATE 01 F6    M         43 27116.
+## 4 STATE 02 C1    M         43 15288.
+## 5 STATE 02 C11   M         43  2266.
+## 6 STATE 02 C11   M         43  6345.
+```
+
+
+&lt;table&gt;
+&lt;caption&gt;A tibble: 6 x 5&lt;/caption&gt;
+&lt;thead&gt;
+	&lt;tr&gt;&lt;th&gt;STATE&lt;/th&gt;&lt;th&gt;CLASS&lt;/th&gt;&lt;th&gt;GENDER&lt;/th&gt;&lt;th&gt;AGE&lt;/th&gt;&lt;th&gt;PAID&lt;/th&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;th&gt;&amp;lt;chr&amp;gt;&lt;/th&gt;&lt;th&gt;&amp;lt;chr&amp;gt;&lt;/th&gt;&lt;th&gt;&amp;lt;chr&amp;gt;&lt;/th&gt;&lt;th&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+	&lt;tr&gt;&lt;td&gt;STATE 01&lt;/td&gt;&lt;td&gt;C6 &lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;43&lt;/td&gt;&lt;td&gt; 2364.696&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;STATE 01&lt;/td&gt;&lt;td&gt;F6 &lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;43&lt;/td&gt;&lt;td&gt;18787.967&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;STATE 01&lt;/td&gt;&lt;td&gt;F6 &lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;43&lt;/td&gt;&lt;td&gt;27115.745&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;STATE 02&lt;/td&gt;&lt;td&gt;C1 &lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;43&lt;/td&gt;&lt;td&gt;15288.492&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;STATE 02&lt;/td&gt;&lt;td&gt;C11&lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;43&lt;/td&gt;&lt;td&gt; 2265.707&lt;/td&gt;&lt;/tr&gt;
+	&lt;tr&gt;&lt;td&gt;STATE 02&lt;/td&gt;&lt;td&gt;C11&lt;/td&gt;&lt;td&gt;M&lt;/td&gt;&lt;td&gt;43&lt;/td&gt;&lt;td&gt; 6344.641&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+
+
+```r
+dim(AutoClaims)
+```
+
+```
+## [1] 1417    5
+```
+
+
+&lt;ol class="list-inline"&gt;
+	&lt;li&gt;1417&lt;/li&gt;
+	&lt;li&gt;5&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+```r
+summary(AutoClaims)
+```
+
+```
+##     STATE              CLASS              GENDER               AGE       
+##  Length:1417        Length:1417        Length:1417        Min.   :43.00  
+##  Class :character   Class :character   Class :character   1st Qu.:46.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :49.00  
+##                                                           Mean   :49.62  
+##                                                           3rd Qu.:53.00  
+##                                                           Max.   :60.00  
+##       PAID      
+##  Min.   : 1096  
+##  1st Qu.: 1611  
+##  Median : 3395  
+##  Mean   : 6127  
+##  3rd Qu.: 7774  
+##  Max.   :59096
+```
+
+
+        STATE              CLASS              GENDER               AGE       
+     Length:1417        Length:1417        Length:1417        Min.   :43.00  
+     Class :character   Class :character   Class :character   1st Qu.:46.00  
+     Mode  :character   Mode  :character   Mode  :character   Median :49.00  
+                                                              Mean   :49.62  
+                                                              3rd Qu.:53.00  
+                                                              Max.   :60.00  
+          PAID      
+     Min.   : 1096  
+     1st Qu.: 1611  
+     Median : 3395  
+     Mean   : 6127  
+     3rd Qu.: 7774  
+     Max.   :59096  
+
+
+
+
+```r
+AutoClaims$GENDER[1:20]
+```
+
+```
+##  [1] "M" "M" "M" "M" "M" "M" "F" "M" "M" "M" "M" "M" "F" "F" "M" "M" "M" "M" "M"
+## [20] "M"
+```
+
+
+&lt;ol class="list-inline"&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'F'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'F'&lt;/li&gt;
+	&lt;li&gt;'F'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+	&lt;li&gt;'M'&lt;/li&gt;
+&lt;/ol&gt;
+
+
+--- 
+
+
+
+```r
+# install.packages("rlang")
+# install.packages("magrittr")
+# install.packages("janitor")
+library(janitor)
+```
+
+```
+## 
+## Attaching package: 'janitor'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+```
+
+```r
+library(magrittr)
+```
+
+---
+
+
+```r
+AutoClaims %&gt;% tabyl(STATE)
+```
+
+```
+##     STATE   n    percent
+##  STATE 01  44 0.03105152
+##  STATE 02 219 0.15455187
+##  STATE 03  75 0.05292872
+##  STATE 04 126 0.08892025
+##  STATE 06  79 0.05575159
+##  STATE 07  47 0.03316867
+##  STATE 10  37 0.02611150
+##  STATE 12  44 0.03105152
+##  STATE 14  44 0.03105152
+##  STATE 15 586 0.41354975
+##  STATE 17 116 0.08186309
+```
+
+
+---
+
+
+```r
+AutoClaims %&gt;% tabyl(GENDER)
+```
+
+```
+##  GENDER   n   percent
+##       F 588 0.4149612
+##       M 829 0.5850388
+```
+
+---
+
+
+```r
+AutoClaims %&gt;% tabyl(CLASS,GENDER)
+```
+
+```
+##  CLASS   F   M
+##     C1  43  65
+##    C11 177 287
+##     C6 325 383
+##     F6  43  94
+```
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

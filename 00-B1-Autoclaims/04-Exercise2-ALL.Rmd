@@ -10,16 +10,16 @@ output:
 ---
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 ## AutoClaims
 
 library(readr)
 library(magrittr)
 
-AutoClaims <- read_csv("AutoClaims.csv")
+AutoClaims <- read_csv("data/AutoClaims.csv")
 
 
-\end{verbatim}\end{framed}
+```
 
     Parsed with column specification:
     cols(
@@ -30,8 +30,7 @@ AutoClaims <- read_csv("AutoClaims.csv")
       PAID = [32mcol_double()[39m
     )
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+---
 
 \subsection*{Exercise 5}
 
@@ -43,7 +42,7 @@ Estimate the parameters of each of these distributions.
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 sampleMean<-mean(AutoClaims$PAID)
 sampleVariance<-var(AutoClaims$PAID)
 
@@ -51,16 +50,20 @@ sampleVariance<-var(AutoClaims$PAID)
 
 Normalmu <- sampleMean
 Normalsigma <- sqrt(sampleVariance)
+```
 
 
+---
+
+```{r}
 options(digits=4)
 
 Normalmu %>% round(3)
 
 Normalsigma %>% round(3)
 
-\end{verbatim}\end{framed}
 
+```
 
 6127.222
 
@@ -69,11 +72,13 @@ Normalsigma %>% round(3)
 7027.434
 
 
+---
+
 \subsection*{Method of Moments Estimates - Log Normal distribution}
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 LNsigma<- sqrt(log(1+sampleVariance/sampleMean^2))
 LNmu<-log(sampleMean)-LNsigma^2/2
 
@@ -81,8 +86,7 @@ LNsigma %>% round(4)
 
 LNmu %>% round(4)
 
-
-\end{verbatim}\end{framed}
+```
 
 
 0.9163
@@ -92,25 +96,28 @@ LNmu %>% round(4)
 8.3007
 
 
+---
+
 ### Method of Moments Estimates - Exponential distribution
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 Exprate <- 1/sampleMean
 
 Exprate
 
 
-\end{verbatim}\end{framed}
+```
 
 
 0.000163206087396775
 
+---
 
 ### Method of Moments Estimates - Gamma distribution
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 GammaBeta<-sampleMean/sampleVariance
 GammaAlpha<-GammaBeta*sampleMean
 
@@ -118,7 +125,7 @@ GammaBeta
 GammaAlpha
 
 
-\end{verbatim}\end{framed}
+```
 
 
 0.000124070942794373
@@ -128,19 +135,21 @@ GammaAlpha
 0.760210264049406
 
 
+---
+
 ### Histogram of Paid Claims Data
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
-\end{verbatim}\end{framed}
+```
 
 
 ![png](output_10_0.png)
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 #Superimposing a Normal distribution over the histogram
 hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
 
@@ -149,14 +158,14 @@ curve(dnorm(x,mean = Normalmu,sd = Normalsigma),
       to = max(AutoClaims$PAID), 
       add = TRUE, col= "red")
 
-\end{verbatim}\end{framed}
+```
 
 
 ![png](output_11_0.png)
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 #Superimposing a Log Normal distribution over the histogram
 
 hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
@@ -165,14 +174,14 @@ curve(dlnorm(x,meanlog = LNmu,sdlog = LNsigma),
       to = max(AutoClaims$PAID), 
       add = TRUE, col= "green")
 
-\end{verbatim}\end{framed}
+```
 
 
 ![png](output_12_0.png)
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 #Superimposing a Exponential distribution over the histogram
 
 hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
@@ -183,16 +192,18 @@ curve(dexp(x,rate = Exprate),
 
 
 
-\end{verbatim}\end{framed}
+```
 
 
 ![png](output_13_0.png)
+
+---
 
 
 ### Gamma Distribution
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
 
 #Superimposing a Gamma distribution over the histogram
@@ -202,20 +213,21 @@ curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),
       add = TRUE, col= "brown")
 
 
-\end{verbatim}\end{framed}
-
-
-![png](output_15_0.png)
+```
 
 
 
-\begin{framed} 
-\begin{verbatim}
+
+---
+
+```{r}
 hist(AutoClaims$PAID,breaks = 30,freq = FALSE)
 
 #Superimposing a Gamma distribution over the histogram
-curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),from = min(AutoClaims$PAID), t
-o = max(AutoClaims$PAID), add = TRUE, col= "brown")
+curve(dgamma(x,shape = GammaAlpha,rate = GammaBeta),
+      from = min(AutoClaims$PAID), 
+      to = max(AutoClaims$PAID), 
+      add = TRUE, col= "brown")
 
 
 legend("topright",
@@ -223,6 +235,4 @@ legend("topright",
        lty = 1, 
        col = c("red","green","blue","brown"))
 
-\end{verbatim}
-\end{framed}
-\end{document}
+```

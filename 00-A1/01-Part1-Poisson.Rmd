@@ -10,8 +10,9 @@ output:
 ---
 
 
-\subsection*{Exercise 1}
-\noindent The following data represent the average total number of marks obtained for a
+Exercise 1
+==================================
+The following data represent the average total number of marks obtained for a
 particular exam, observed over seven exam sessions that had been administered by a
 professional examination body:
 
@@ -21,61 +22,61 @@ professional examination body:
 \noindent Enter these data into R and compute their sample mean and variance.
 
 
+---
 
-
-\begin{framed}\begin{verbatim}
+```{r}
 y <- c(87, 53, 72, 90, 78, 85, 83)
 
 mean(y)
 
 c(mean=mean(y), variance=var(y)) 
-\end{verbatim}\end{framed}
+```
 
 
 \includegraphics[scale=0.45]{00-A1/images/A1-Q1.png}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 2}
+--- 
 
-\noindent Investigate whether the Poisson model is appropriate for these data, by calculating the sample mean and sample variance of 10 Poisson samples
-having the same size and mean as the sample given above.\\
-\medskip
+Exercise 2
+=================================
+Investigate whether the Poisson model is appropriate for these data, by calculating the sample mean and sample variance of 10 Poisson samples
+having the same size and mean as the sample given above.
 
-\noindent \textbf{Recall:}\\
+#### Recall:
 
-\noindent For the Poisson distribution $$ E(X)  = Var(X)$$
+For the Poisson distribution $$ E(X)  = Var(X)$$
+
+---
 
 
-
-\begin{framed}\begin{verbatim}
+```{r}
 xbar = s2 = numeric(10)
 
 xbar
 s2
-\end{verbatim}\end{framed}
+```
 
 
 \includegraphics[scale=0.45]{00-A1/images/A1-Q1-ForLoop-1.png}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+---
+
 \noindent use \texttt{rpois()} to generate 7 random numbers.
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 x <- rpois(7, lambda= 78.29)
 x
-\end{verbatim}\end{framed}
+```
 
 
 \includegraphics[scale=0.45]{00-A1/images/A1-Q1-rpois.png}
 
-\newpage 
+---
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 
 set.seed(1234)
 
@@ -89,12 +90,11 @@ for (j in 1:10){
 
 }
 
-\end{verbatim}\end{framed}
+```
 
 \includegraphics[scale=0.45]{00-A1/images/A1-Q1-ForLoop.png}
 
-\newpage 
-
+---
 
 \includegraphics[scale=0.45]{00-A1/images/A1-Q1-Estimates.png}
 
@@ -102,18 +102,19 @@ for (j in 1:10){
 
 \noindent It is unusual to get as large a difference between the mean and the variance as that observed for these data, 
 making it doubtful that these data are from a Poisson distribution. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+
+---
+
 \subsection*{Exercise 3}
 
 \noindent Investigate whether the Poisson model is appropriate for these data, by calculating the sample mean and sample variance of 10,000 Poisson samples
 having the same size and mean as the sample given above.
 
 
-\newpage 
+---
 
-\begin{framed}
-\begin{verbatim}
+
+```{r}
 set.seed(1234)
 
 for (j in 1:10000){
@@ -126,35 +127,35 @@ for (j in 1:10000){
 
 }
 
-
-hist(xbar, breaks = 200,col="lightblue" )
+---
  
+```{r}    
+hist(xbar, breaks = 200,col="lightblue" )
+``` 
+
+---
+
+```{r}  
+  
 hist(s2, breaks = 200,col="pink" )
 
-\end{verbatim}
-\end{framed}
+```
 
-\newpage 
 
+--- 
 
 \includegraphics[scale=0.48]{00-A1/images/AA-Q1-Hist-Xbar.png}
 
 \includegraphics[scale=0.48]{00-A1/images/A1-Q1-Hist-S2.png}
 
 
+---
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-
-
-
-
-\begin{framed}\begin{verbatim}
+```{r}
 mean(s2>159)
-\end{verbatim}\end{framed}
+```
 
 
 
 
-\end{document}

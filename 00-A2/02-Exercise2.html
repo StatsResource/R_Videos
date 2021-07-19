@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+
+```r
+library(magrittr)
+
+options(repr.plot.width=10, repr.plot.height=7)
+options(digits=4)
+```
+
+
+* An exponential distribution has a parameter of `\(\lambda = 0.4\)`.
+
+* Use the in-built functions in R to perform the following tasks.
+
+
+---
+
+
+Exercise 1
+===============================
+
+Simulate 1,000 values from this distribution, assigning this to a variable called ``Exp_Vector`` and calculate the mean and variance of
+the simulated values. Paste the results of your calculation into your answer.
+
+
+```r
+rexp(10,rate = (1/0.4))
+```
+
+```
+##  [1] 0.56098 0.07283 0.71902 0.56465 0.59581 0.16371 0.08788 0.18434 0.36828
+## [10] 0.06004
+```
+
+---
+
+
+Exercise 1
+===============================
+
+
+
+```r
+options(digits=4)
+
+rexp(10,rate = (1/0.4))
+```
+
+```
+##  [1] 1.96991 0.19908 0.51038 0.05665 0.33043 0.25137 1.41201 0.67033 1.53279
+## [10] 0.01461
+```
+
+
+---
+
+Exercise 1
+===============================
+
+
+
+```r
+rexp(10,0.4)
+```
+
+```
+##  [1] 4.565493 5.972411 0.001655 0.408665 1.275176 1.911525 0.273536 0.039310
+##  [9] 2.556485 0.162241
+```
+
+
+
+```r
+rexp(10,0.4)
+```
+
+```
+##  [1] 3.3643 2.8068 0.6582 0.2747 0.8040 0.6507 4.3625 5.3413 1.1550 4.0261
+```
+
+
+---
+
+
+Using ``set.seed()``
+
+
+```r
+set.seed(1234)
+rexp(10,0.4)
+```
+
+```
+##  [1] 6.25440 0.61690 0.01645 4.35687 0.96796 0.22487 2.06020 0.50654 2.09510
+## [10] 1.90108
+```
+
+
+---
+
+
+
+```r
+set.seed(1234)
+rexp(10,0.4)
+```
+
+```
+##  [1] 6.25440 0.61690 0.01645 4.35687 0.96796 0.22487 2.06020 0.50654 2.09510
+## [10] 1.90108
+```
+
+```r
+set.seed(1234)
+rexp(10,0.4)
+```
+
+```
+##  [1] 6.25440 0.61690 0.01645 4.35687 0.96796 0.22487 2.06020 0.50654 2.09510
+## [10] 1.90108
+```
+
+
+---
+
+
+
+Part 2
+======================================
+
+
+Plot a histogram of ``Exp_Vector`` showing the frequencies and paste the plot into your answer.
+
+
+```r
+set.seed(1234)
+Exp_Vector &lt;- rexp(1000,0.4)
+```
+
+
+
+```r
+mean(Exp_Vector) 
+```
+
+```
+## [1] 2.502
+```
+
+
+
+---
+
+
+
+```r
+mean(Exp_Vector) %&gt;% round(3)
+```
+
+```
+## [1] 2.502
+```
+
+
+2.502
+
+
+
+
+```r
+summary(Exp_Vector)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.001   0.713   1.793   2.502   3.467  18.168
+```
+
+
+* *  Min.   1st Qu.* Median*   Mean   3rd Qu.*   Max. 
+*  0.000592  0.712687  1.792930  2.501533  3.467425 18.167711 
+
+
+
+
+```r
+var(Exp_Vector) %&gt;% round(3)
+```
+
+```
+## [1] 6.393
+```
+
+
+6.393
+
+---
+
+* The mean and variance will vary due to the random number generation. 
+
+If the sample size was large enough, the mean and variance should be close the underlying distribution (exponential with parameter 0.4) as follows:
+
+Mean = 2.5
+
+$$ E(X) = \frac{1}{\lambda} = 2.5$$
+
+Variance = 6.25
+
+$$ \operatorname{Var}(X) = \frac{1}{\lambda^2} = 6.25$$
+
+---
+
+Part 3
+====================================
+
+Plot the probability density function for this distribution as:
+
+1. a scatter plot
+2. a line graph.
+
+---
+
+
+
+```r
+hist(Exp_Vector)
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+
+
+```r
+hist(Exp_Vector, breaks=50,col=c("lightblue","pink"))
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+
+```r
+x &lt;- seq(0,20,by=0.5)
+x
+```
+
+```
+##  [1]  0.0  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5  7.0
+## [16]  7.5  8.0  8.5  9.0  9.5 10.0 10.5 11.0 11.5 12.0 12.5 13.0 13.5 14.0 14.5
+## [31] 15.0 15.5 16.0 16.5 17.0 17.5 18.0 18.5 19.0 19.5 20.0
+```
+
+
+
+
+
+
+```r
+PDF &lt;- dexp(x, 0.4)
+
+plot(x, PDF)
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+
+
+
+```r
+plot(x, PDF, type="l")
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+
+
+
+---
+
+
+Exercise  2
+============================================================
+
+A lognormal distribution has parameters `\(\mu = 0\)` and `\(\sigma^2 = 1\)`.
+
+%Use the in-built functions in R to:
+% subsubsection*{Task a}
+
+Simulate 1,000 values from this distribution, assigning this to a vector called ``\texttt{LNorm\_Vector}`` and calculate the mean and variance of the simulated values. 
+
+
+
+
+
+```r
+set.seed(1234)
+LNorm_Vector &lt;- rlnorm(10000, meanlog = 0, sdlog = 1)
+```
+
+```r
+mean(LNorm_Vector) 
+```
+
+```
+## [1] 1.64
+```
+
+```r
+var(LNorm_Vector) 
+```
+
+```
+## [1] 4.466
+```
+
+
+\includegraphics[scale=1.2]{00-A2/images/lognormal_1_estimates.JPG}
+
+
+* The mean and variance will vary due to the random number generation. 
+
+* If the sample size was large enough, the mean and variance should be close the underlying
+distribution (lognormal with parameters $ \mu = 0$, `\(\sigma^2 = 1\)`) as follows:\\
+Mean = 1.649\\
+Variance = 4.6708\\
+
+
+---
+
+Plot a histogram of ``\texttt{LNorm\_Vector}`` showing the frequencies.
+
+
+
+\includegraphics[scale=0.4]{00-A2/images/output_23_0.jpeg}
+
+
+---
+
+Task (c)
+======================================
+
+Plot a second histogram in a new graph of ``\texttt{LNorm\_Vector}`` showing the probability densities, setting the y-axis range from 0 to 0.7 for this graph.
+
+
+
+```r
+hist(LNorm_Vector, breaks=25, freq = FALSE, xlim = c(0,25), ylim = c(0,1))
+
+grid = seq(0,25,0.1)
+lines(grid, plnorm(grid,0,1),type="l",xlab="x",ylab="f(x)", col="black")
+lines(ecdf(LNorm_Vector),col="red")
+legend("bottomright",c("True cumulative distribution","Estimate"),lty=1,col=c("black", "red"))
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+
+
+
+
+```r
+hist(LNorm_Vector)
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+
+\includegraphics[scale=0.4]{00-A2/images/output_24_0.jpeg}
+
+
+
+
+
+```r
+hist(LNorm_Vector, freq = FALSE, xlim = c(0,25), ylim = c(0,0.7))
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+
+\includegraphics[scale=0.4]{00-A2/images/output_25_0.png}
+
+
+---
+
+#### Exercise  (d)
+Add the cumulative density function of \texttt{LNorm\_Vector} to the chart
+in Exercise  (ii)(c) and paste the plot into your answer.
+
+#### Exercise  (e)
+
+Add the theoretical lognormal (0,1) distribution to the chart in Exercise  (ii)(d) to highlight the difference to the sample, including
+appropriate labels and legend and paste the plot into your answer.
+
+
+
+
+
+```r
+hist(LNorm_Vector, freq = FALSE, xlim = c(0,25), ylim = c(0,0.7))
+
+lines(grid, dlnorm(grid,0,1),type="l",xlab="x",ylab="f(x)", col="black")
+
+lines(density(LNorm_Vector), col="red")
+
+legend("topright",c("True Density", "Estimate"),lty=1,col=c("black", "red"))
+```
+
+![](02-Exercise2_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+
+
+The output is:
+(iii) (a)
+
+
+```r
+rpareto &lt;- function(n,alpha,lambda) {
+rp &lt;- lambda*( (1-runif(n))^(-1/alpha) -1 )
+rp
+}
+```
+
+---
+
+
+```r
+LNorm_Vector = rpareto(1000, 3, 1)
+mean(LNorm_Vector)
+```
+
+```
+## [1] 0.4806
+```
+
+```r
+var(LNorm_Vector)
+```
+
+```
+## [1] 0.4138
+```
+
+---
+
+The mean and variance will vary due to the random number generation. If the sample size
+was large enough, the mean and variance should be close the underlying distribution
+(Pareto α = 3, λ = 1) as follows:
+Mean = 0.5
+Variance = 0.75
+
+
+---
+
+Note: The correct R code receives full marks.
+Candidates are not required to paste theirs simulated sample.
+Note: Alternative solutions to (iii) are possible. For example,
+
+
+```r
+rpareto &lt;- function(alpha, lambda) {
+rp &lt;- lambda*( (1-runif(1))^(-1/alpha) -1 )
+rp
+}
+
+LNorm_Vector = replicate( 1000, rpareto(3,1))
+mean(LNorm_Vector)
+```
+
+```
+## [1] 0.5439
+```
+
+```r
+var(LNorm_Vector)
+```
+
+```
+## [1] 0.7015
+```
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

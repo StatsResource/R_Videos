@@ -38,6 +38,8 @@ x &lt;- c(18,23,25,35,65,54,34,56,72,19,23,42,18,39,37)
 y &lt;- c(202,186,187,180,156,169,174,172,153,199,193,174, 198,183,178)
 </code></pre>
 
+---
+
 ## Exercise 1
 
 Plot the fitted line for the regression of Max Rate on Age.
@@ -52,7 +54,7 @@ y <- c(202,186,187,180,156,169,174,172,153,199,193,174,198,183,178)
 plot(x,y)
 ```
 
-
+---
 ![png](output_4_0.png)
 
 
@@ -64,7 +66,7 @@ plot(x,y,pch=18)
 
 ![png](output_5_0.png)
 
-
+--
 
 ```{r}
 lm.result = lm(y ~ x)
