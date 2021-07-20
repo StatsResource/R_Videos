@@ -9,7 +9,6 @@ output:
       countIncrementalSlides: false
 ---
 
----
 
 The data given in the file policies_data.RData show the numbers of policies
 (n.policies) by sex of policyholder (sex.code; 1 for male, 2 for female)
@@ -22,6 +21,8 @@ axis) against the class of business.
 (b)
 Comment on the relationship in the data based on your plot in
 part (i)(a).
+
+---
 
 In the plot produced in part (i) we can distinguish between male and female
 policyholders. The plot is shown below, with “M” and “F” showing male and female
@@ -82,17 +83,22 @@ Exercise 3
 ===========
 
 (iii) R code:
+
+```{r}
 class.code = as.factor(class.code)
 sex.code = as.factor(sex.code)
 glm1 = glm(n.policies ~ class.code, family = "poisson")
-
+```
 
 ---
 
 Exercise 3
 ===========
 
+
+```{r}
 summary(glm1)
+```
 
 #Coefficients:
 #
@@ -147,36 +153,16 @@ class of business is 2, based on the model chosen in part (v).
 
 (iv)
 R code:
+  
+```{r}
 glm2 = glm(n.policies ~ class.code + sex.code, family =
 "poisson")
 
 summary(glm2)
+```
 
-#Coefficients:
-#
-Estimate
-#(Intercept)
-3.8611
-#class.code2
-0.1029
-#class.code3
-0.2540
-#class.code4 -0.2917
-#class.code5 -0.3935
-S 2019
-Pr(>|z|)
-< 2e-16
-0.49648
-0.08248
-0.08225
-0.02288
-***
-.
-.
-*
-#sex.code2
--0.2921
-0.00386 **
+
+
 Numbers of policies depend on both business class and gender of policyholder.
 
 ---
@@ -218,10 +204,3 @@ type="response")
 
 Based on model 2 we predict 52.67 policies.
 
-[Total 32]
-The performance in this question was mixed. Part (i) was generally well answered, but the
-comments in (b) were often insufficient. In part (ii) there was a range of comments of
-varying validity. In parts (iii) and (iv) many candidates fitted the GLM successfully but
-produced weak comments. Note that part (iv) can alternatively be answered using the
-update() command. Parts (v) and (vi) were not well answered, with a number of
-candidates failing to use the deviance as requested and instead opting for the AIC.

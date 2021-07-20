@@ -1,3 +1,18 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+
 Q. 4)
 
 The CDC and EISS detect influenza activity through clinical data including Influenza-like

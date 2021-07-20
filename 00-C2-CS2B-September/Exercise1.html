@@ -1,13 +1,21 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
 ---
-title: "Statistics with R"
-subtitle: "R for Actuarial Students"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
----
+
 
 
 \section{Introduction}
@@ -16,7 +24,8 @@ Data
 Before answering this question, the data file must be generated in R using the following code:
 
 
-```{r}
+
+```r
 set.seed(12345); 
 y = arima.sim( list(order = c(1,1,0), ar = 0.7), n = 300)
 
@@ -28,28 +37,36 @@ y = arima.sim( list(order = c(1,1,0), ar = 0.7), n = 300)
 Plot the time series giving appropriate labels for each axis and paste the chart into your answer.
 
 
-```{r}
+
+```r
 ts.plot( y, 
     xlab = "Time", 
     ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
 ```
 
+![](Exercise1_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
 ----
 
-```{r}
+
+```r
 plot( y, 
   
      xlab = "Time", 
   
      ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
+```
 
-x <- 1:301
+![](Exercise1_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
+```r
+x &lt;- 1:301
 ```
 
 ---
 
-```{r}
+
+```r
 plot(x, y, 
     
     type="l", 
@@ -58,6 +75,8 @@ plot(x, y,
   
     ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
 ```
+
+![](Exercise1_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
 
 
@@ -85,9 +104,9 @@ Slope: -0.2436929 [11⁄2]
 abline(leastsquaresfit)
 OR:
 lines(leastsquaresfit$fitted.values) [11⁄2]
-Error in parse(text = x, srcfile = src): <text>:4:22: unexpected input
+Error in parse(text = x, srcfile = src): &lt;text&gt;:4:22: unexpected input
 3: Intercept: 16.4405647
-4: Slope: -0.2436929 [11<e2>
+4: Slope: -0.2436929 [11&lt;e2&gt;
   ^
 Traceback:
 
@@ -106,7 +125,7 @@ acf(leastsquaresfit$res)
 The residuals are not stationary as the ACF of the residuals seems to generate a unit root as
 the ACF values are very slowly decaying.
 ​
-Error in parse(text = x, srcfile = src): <text>:7:4: unexpected symbol
+Error in parse(text = x, srcfile = src): &lt;text&gt;:7:4: unexpected symbol
 
 ---
 
@@ -114,12 +133,20 @@ Exercise 3
 ========================================
 Plot the sample Autocorrelation function (ACF) and sample Partial Autocorrelation function (PACF) of the original data, giving appropriate labels for each axis and paste the charts into your answer.
 
-```{r}
+
+```r
 acf(y, xlab = "Lag", ylab = "ACF of Simulated Values
 from an ARIMA(1,1,0) Time Series", main = "ACF")
+```
+
+![](Exercise1_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+```r
 pacf(y, xlab = "Lag", ylab = "Partial ACF of Simulated
 Values from an ARIMA(1,1,0) Time Series", main = "PACF")   
 ```
+
+![](Exercise1_files/figure-html/unnamed-chunk-5-2.png)&lt;!-- --&gt;
 
 
 (iv)
@@ -148,9 +175,6 @@ There is perhaps an initial upwards trend...
 ​
 ​
  
-
----
- 
 (iii)(b)
 Despite the PACF showing no significance past lag 2 which could indicate
 stationarity...
@@ -168,20 +192,39 @@ Exercise 4
 
 
 
-```{r}
+
+```r
 library(forecast)
+```
+
+```
+## Warning: package 'forecast' was built under R version 4.0.5
+```
+
+```
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+```
+
+```r
 tsdisplay(diff(y))  
 ```
 
+![](Exercise1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 
-```{r}
+
+
+```r
 layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
 ts.plot(diff(y), main = "diff(y)")
 points(diff(y),cex=0.4)
 acf(diff(y))
 pacf(diff(y))
 ```
+
+![](Exercise1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 
 
@@ -202,8 +245,22 @@ data looks stationary, and PACF is close to zero from lag 2.
 ​
 
 
-```{r}
+
+```r
 fit10=arima(diff(y),order = c(1,0,0));fit10
+```
+
+```
+## 
+## Call:
+## arima(x = diff(y), order = c(1, 0, 0))
+## 
+## Coefficients:
+##          ar1  intercept
+##       0.6758     0.3340
+## s.e.  0.0423     0.1825
+## 
+## sigma^2 estimated as 1.065:  log likelihood = -435.44,  aic = 876.88
 ```
 
 
@@ -238,18 +295,61 @@ considered by changing the values of p and q. In the following we fit 6 models:
 ​
 
 
-```{r}
+
+```r
 fit11=arima(diff(y),order= c(1,0,1));fit11$aic
+```
+
+```
+## [1] 878.181
+```
+
+```r
 # 844.452
 fit10=arima(diff(y),order= c(1,0,0));fit10$aic
+```
+
+```
+## [1] 876.8796
+```
+
+```r
 # 842.4563
 fit01=arima(diff(y),order= c(0,0,1));fit01$aic
+```
+
+```
+## [1] 924.0998
+```
+
+```r
 # 911.0564
 fit21=arima(diff(y),order= c(2,0,1));fit21$aic
+```
+
+```
+## [1] 877.7875
+```
+
+```r
 # 845.8664
 fit12=arima(diff(y),order= c(1,0,2));fit12$aic
+```
+
+```
+## [1] 880.0948
+```
+
+```r
 # 846.3837
 fit22=arima(diff(y),order= c(2,0,2));fit22$aic
+```
+
+```
+## [1] 879.7857
+```
+
+```r
 # 847.6294
 ```
 
@@ -295,4 +395,109 @@ second part of (v)(b).
  
 ​
 
-\end{document}
+\end{document}`
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

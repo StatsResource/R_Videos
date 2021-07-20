@@ -1,3 +1,16 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 [Total 22] CS1B A2021–4 
 3 A study was carried out to estimate the proportion, 𝑝, of workers that commute by 
 train to work. A total of n ൌ 200 workers were sampled at random and were asked the 
@@ -11,6 +24,8 @@ p 0.1 0.2 0.3 0.4 0.5
 g(p) 0.5 0.2 0.2 0.05 0.05 
 Norman chose to use a beta prior distribution for p, with parameters 3 and 12. 
 
+---
+
 Part 1
 =========================================
 (i) (a) Calculate the mean and the standard deviation for Alice’s prior
@@ -19,7 +34,11 @@ distribution. [4]
 (c) Calculate the mean and standard deviation of the values generated in
 part (i)(b). [2] 
 (d) Comment on whether or not Alice and Norman have similar prior 
-beliefs for p. [2] 
+beliefs for p. 
+
+---
+
+
 Norman’s beta prior distribution for p is adopted for the remainder of the question. 
 The likelihood of the model in the study is given by: 
 Lሺpሻ ∝ p∑ yi ሺ1 – pሻn – ∑ yi . 
@@ -27,6 +46,7 @@ The posterior density of p is given by:
 f(p|y) ∝ p2 + ∑ yiሺ1 – pሻ11 + n – ∑yi ,
 where ∑ yi is the total sum of all the binary data. 
 
+---
 
 Part 2
 =========================================
@@ -36,6 +56,7 @@ Part 2
 The posterior distribution of p is beta with parameters 3 + ∑ yi and 12 + n – ∑ yi
 . 
 
+---
 
 Part 4
 =========================================
@@ -45,6 +66,8 @@ Part 4
 by the prior distribution. [1] CS1B A2021–5 
 (v) Determine a 90% interval estimate for p based on its posterior distribution. 
 
+
+---
 
 Part 6
 =========================================

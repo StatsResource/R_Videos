@@ -1,17 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-===========================
-
-[Total 6]
 A researcher has collected the following data on a group of students, regarding
 whether they passed or failed an exam and whether or not they attended tutorials:
 Number of students Exam passed Exam failed
@@ -21,6 +8,9 @@ The data can be entered into R in matrix form using the following code:
 exam.success = matrix(c(132,120,27,51),ncol=2,nrow=2)
 The reasercher wants to establish whether tutorial attendance is independent of exam
 success, using a chi-square test.
+
+
+---
 
 Questions
 ======================================================
