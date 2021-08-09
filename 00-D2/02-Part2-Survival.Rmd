@@ -1,7 +1,6 @@
 ---
 title: "Statistics with R"
 subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
 date: "2016/12/12"
 output:
   xaringan::moon_reader:

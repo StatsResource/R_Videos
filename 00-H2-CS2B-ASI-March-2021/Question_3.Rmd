@@ -1,24 +1,28 @@
-[14]
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+
+
 Q. 3) Claim size [X] for a class of insurance follows Gamma (10,0.2). 
 i) Calculate f{30}. (3)
 ii) Calculate the median of the function. (2)
-iii) A quota share reinsurance is in place with 75% retained proportion. Estimate the mean 
-and variance of the amount paid by the reinsurer in respect of a single claim. (4)
-The aggregate claim follows a compound distribution with below parameters: IAI CS2B-0321 
-Page 3 of 3
- Number of claims follow Poisson distribution with parameter 500 
- Individual claim size follows a Gamma distribution with parameters (600,0.3) 
-[use seed = 250 for below 3 questions]. 
-iv) Generate 1000 observations and calculate the 500th simulated value. (5)
- 
-v) The insurer wants to limit its claim liability and hence has modified the terms of the 
-policy. It would now only pay for any amount in excess of an amount 500 on each 
-claim. Calculate the 500th simulated value for the insurer under the revised condition. (5)
-vi) The insurer wants to analyze another claim sharing option. Under this, insurer will pay 
-75% of the claim amount and the rest 25% will be borne by the policyholder. Calculate 
-the 500th simulated value for the insurer under this option. (6)
+
+---
 
 
+
+---
 
 Solution 3: 
 i)
@@ -35,6 +39,20 @@ qgamma(0.5,a,b)
 > qgamma(0.5,a,b) 
 [1] 48.34357 
  [2] 
+ 
+---
+
+iii) A quota share reinsurance is in place with 75% retained proportion. Estimate the mean 
+and variance of the amount paid by the reinsurer in respect of a single claim. (4)
+The aggregate claim follows a compound distribution with below parameters: IAI CS2B-0321 
+Page 3 of 3
+ Number of claims follow Poisson distribution with parameter 500 
+ Individual claim size follows a Gamma distribution with parameters (600,0.3) 
+[use seed = 250 for below 3 questions]. 
+
+ 
+--- 
+ 
 iii)
 r <- 0.75 
 ExpX = a/b 
@@ -51,6 +69,12 @@ VarY
 [1] 15.625 
  [2] 
 [4] 
+
+---
+
+iv) Generate 1000 observations and calculate the 500th simulated value. (5)
+
+---
 iv)
 set.seed(250) 
 n <- rpois(1000,500) 
@@ -62,6 +86,18 @@ s[500]
 > s[500] 
 [1] 1021670 
  [5]
+ 
+ 
+ 
+Part 5
+===================
+v) The insurer wants to limit its claim liability and hence has modified the terms of the 
+policy. It would now only pay for any amount in excess of an amount 500 on each 
+claim. Calculate the 500th simulated value for the insurer under the revised condition. 
+
+
+---
+
 v)
 set.seed(250) 
 M <-500 
@@ -75,15 +111,32 @@ s[500]
 > s[500] 
 [1] 765670.5 
  [5] 
-vi)
+ 
+---
+
+
+
+Part 6
+===================
+The insurer wants to analyze another claim sharing option. Under this, insurer will pay 
+75% of the claim amount and the rest 25% will be borne by the policyholder. Calculate 
+the 500th simulated value for the insurer under this option. 
+
+
+---
+
+```{r}
 set.seed(250) 
 M <-0.25 
 n <- rpois(1000,500) 
 s <- numeric(1000) 
+
 for(i in 1:1000) 
 {x <- rgamma(n[i],shape=600,rate=0.3) 
- z <- (1-M)* x 
- s[i] <- sum(z)} 
+
+z <- (1-M)* x 
+s[i] <- sum(z)} 
+
 s[500] 
-> s[500] 
-[1] 766252.8 
+
+```

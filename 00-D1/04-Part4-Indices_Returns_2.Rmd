@@ -19,27 +19,26 @@ the actual claims paid as well as from the fitted distributions.
 iii)
 #Computed quantiles of the actual data as well as that of different distributions
 
-\begin{framed}
-\begin{verbatim}
+```{r}
 quantile(AutoClaims$PAID,c(0.05,0.25,0.5,0.75,0.95))
-\end{verbatim}
-\end{framed}
 
+```
 
 ---
 
 \noindent Using the results from (ii) and (iii), comment on goodness-of-fit of the models to the
 data.
 
+---
 
-\begin{framed}
-\begin{verbatim}
 ##
 5%
 25%
 50%
 75%
 95%
+
+```{r}
 ## 1116.379 1610.660 3395.368 7774.382 20405.050
 qnorm(c(0.05,0.25,0.5,0.75,0.95),mean = Normalmu,sd = Normalsigma)
 
@@ -53,8 +52,7 @@ qexp(c(0.05,0.25,0.5,0.75,0.95),rate = Exprate)
 qgamma(c(0.05,0.25,0.5,0.75,0.95),shape = GammaAlpha,rate = GammaBeta)
 
 ##  142.0733 1276.6130 3737.9364 8453.3371 20244.3595
-\end{verbatim}
-\end{framed}
+```
 
 ---
 
@@ -63,15 +61,15 @@ iv)
 
 
 \begin{itemize}
-    \item From the histogram and the superimposed plots, it is clear that normal distribution does not
+*  From the histogram and the superimposed plots, it is clear that normal distribution does not
 fit the data well.
 
 The other three curves are getting superimposed more or less similarly to the data. 
-\item Even from the quantiles we observe that lower values are aptly modeled using lognormal distribution (5 th percentile of lognormal being close to actual values) whereas gamma distribution is modeling the higher values more appropriately (95 th percentile).
-\item Hence, just by looking at (ii) and (iii), best fitting distribution among Lognormal, Gamma and
+*  Even from the quantiles we observe that lower values are aptly modeled using lognormal distribution (5 th percentile of lognormal being close to actual values) whereas gamma distribution is modeling the higher values more appropriately (95 th percentile).
+*  Hence, just by looking at (ii) and (iii), best fitting distribution among Lognormal, Gamma and
 Exponential distributions cannot be concluded. 
-\item t requires additional analysis in the form of other statistical tests to confirm the best fit
-\end{itemize}
+*  t requires additional analysis in the form of other statistical tests to confirm the best fit
+
 
 
 ---

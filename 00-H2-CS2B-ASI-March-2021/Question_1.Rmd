@@ -1,3 +1,16 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 
 Q. 1) The data file “Expenses.csv” contains records of last 5 years monthly expenses paid by a 
 company starting from January 2015. 
@@ -12,6 +25,7 @@ iv) Plot a graph for the above time series data “ARIMA.csv”. (4)
 v) Plot two graphs to show the ACF and PACF for the time series provided. (4)
 vi) Comment on the stationarity of the data based on the above graphs. (3)
 
+---
 
 
 

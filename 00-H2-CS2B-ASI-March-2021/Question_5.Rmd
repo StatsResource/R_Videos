@@ -1,3 +1,16 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 [17]
 Q. 5) A primary school has two wings A and B. The students can change their Wing freely. It was 
 observed that the rate of movement is dependent on the age ‘x’ of the student (ranging from 
@@ -10,6 +23,7 @@ approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. Using this, cal
 probability that a 8 year old will move to Wing B in next 5 years in case h=1/365. 
 ***********************
 
+--
 
 Solution 5: 
 i)

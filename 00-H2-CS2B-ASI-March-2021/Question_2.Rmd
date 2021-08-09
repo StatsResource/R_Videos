@@ -1,4 +1,19 @@
-[26]
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+
+
 Q. 2) The file “Data.csv” contains records of premium received and claim paid between certain 
 time period. The ‘Day’ information represents the date on which the transaction occurred, 
 calculated from the first transaction date. 

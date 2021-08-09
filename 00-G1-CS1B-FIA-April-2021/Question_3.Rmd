@@ -17,6 +17,9 @@ train to work. A total of n ൌ 200 workers were sampled at random and were aske
 question: ‘Do you take the train to work?’ The workers’ answers were recorded as a 
 binary outcome, yi, for worker i, with 1 for yes and 0 for no. The data are available in 
 the file BinaryTrain.RData.
+
+---
+
 Two commuters, Alice and Norman, were interested in the study and proposed 
 different prior distributions for the proportion p. 
 Alice assumed a discrete prior distribution g(p) given in the following table: 
@@ -40,9 +43,11 @@ beliefs for p.
 
 
 Norman’s beta prior distribution for p is adopted for the remainder of the question. 
-The likelihood of the model in the study is given by: 
+
+
+* The likelihood of the model in the study is given by: 
 Lሺpሻ ∝ p∑ yi ሺ1 – pሻn – ∑ yi . 
-The posterior density of p is given by: 
+* The posterior density of p is given by: 
 f(p|y) ∝ p2 + ∑ yiሺ1 – pሻ11 + n – ∑yi ,
 where ∑ yi is the total sum of all the binary data. 
 
@@ -50,7 +55,7 @@ where ∑ yi is the total sum of all the binary data.
 
 Part 2
 =========================================
-(ii) Plot the shape of the posterior density of p without identifying it. [4] 
+(ii) Plot the shape of the posterior density of p without identifying it.  
 (iii) Plot the density of Norman’s prior distribution by setting ylim = c(0,14). 
  [3] 
 The posterior distribution of p is beta with parameters 3 + ∑ yi and 12 + n – ∑ yi
@@ -60,8 +65,8 @@ The posterior distribution of p is beta with parameters 3 + ∑ yi and 12 + n �
 
 Part 4
 =========================================
-(iv) (a) Plot the posterior density of p by adding it to the plot in part (iii). [3] 
-(b) Compare the two densities using your answer in part (iv)(a). [1] 
+(iv) (a) Plot the posterior density of p by adding it to the plot in part (iii). 
+(b) Compare the two densities using your answer in part (iv)(a). 
 (c) Comment on the extent to which the posterior distribution is affected 
 by the prior distribution. [1] CS1B A2021–5 
 (v) Determine a 90% interval estimate for p based on its posterior distribution. 

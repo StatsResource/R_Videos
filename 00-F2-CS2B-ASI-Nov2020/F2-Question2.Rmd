@@ -19,22 +19,25 @@ arima.sim(list(order = c(1,1,1), ar = 0.7, ma = 0.3), n = 200)
 
 
 
-
+---
 
 Exercise 1
 ==================================================================================
 Solution 2:
 i)
+```{r}
 set.seed(100)
 observations<-arima.sim(list(order = c(1,1,1), ar = 0.7, ma = 0.3), n = 200)
 plot(observations, main = "Line chart of the time series observations")
+
+```
 
 # The data is not stationary as we observe that the values are changing with time
 # Upward Trend is observed in the data, which indicates the data being non
 stationary
 # Mean and Standard Deviation are different at different points in time
 
-
+---
 
 Exercise 2
 ==================================================================================
@@ -51,14 +54,19 @@ diff_obs<-diff(observations)
 acf(diff_obs)
 
 Page 3 of 11IAI
-CS2B-1120
+
+```{r}
 
 pacf(diff_obs)
+
+
+```
 
 As both ACF and PACF are seen to have spikes only for the first two lags and they appear to tail off after that,
 ARMA(2,2) model appears to be the most appropriate model based on the ACF and PACF plots.
 
 
+---
 
 Exercise 3
 ==================================================================================
@@ -66,7 +74,7 @@ Exercise 3
 iii) Fit AR(1), AR(2), MA(1) and ARMA(1,1) models to the observations from (ii) and
 comment on the best fitting model using AIC or any other metric. (7)
 
-
+---
 
 Exercise 3
 ==================================================================================
@@ -85,8 +93,9 @@ arima(diff_obs,order = c(2,0,0))
 log likelihood = -275.55,
 aic = 557.09
 
-Page 4 of 11IAI
-CS2B-1120
+
+---
+
 Call:
 arima(x = diff_obs, order = c(2, 0, 0))
 Coefficients:
@@ -101,6 +110,8 @@ intercept
 sigma^2 estimated as 0.8725:
 log likelihood = -270.55,
 aic = 549.1
+
+---
 arima(diff_obs,order = c(0,0,1))
 
 Call:
@@ -132,13 +143,15 @@ aic = 550.99
 # AIC is appearing the least for AR(2) model. The same is being by PACF graph
 also.
 
+---
+
 Exercise 4
 ==================================================================================
 
-iv) Using the best fitted model from (iii) create a forecast of the observations for the next
+Using the best fitted model from (iii) create a forecast of the observations for the next
 3 periods.
 
-
+---
 
 Exercise 4
 ==================================================================================
@@ -161,4 +174,4 @@ End = 204
 Frequency = 1
  0.9340953 1.2338975 1.3271154
 [4]
-[22 Marks]
+```

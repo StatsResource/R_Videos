@@ -1,3 +1,15 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
 1 A researcher records the levels of caffeine present in their bloodstream at various time 
 intervals after drinking a cup of coffee. 
@@ -19,6 +31,9 @@ caffeine = c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
 Part 1
 ============================
 (i) Plot a scatterplot of the data. 
+
+
+---
 
 Part 2
 ============================

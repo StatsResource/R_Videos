@@ -10,7 +10,7 @@ output:
 ---
 
 
-\noindent Refer to the data file \textbf{\textit{Indices\_Returns.csv}} and answer the following questions:
+Refer to the data file \textbf{\textit{Indices\_Returns.csv}} and answer the following questions:
 
 
 
@@ -24,21 +24,22 @@ indices<-read.csv("Indices_Returns.csv")
 
 ---
 
-\subsection*{Exercise 1}
+Exercise 1
+================================
 
 Compute the pairwise Pearson correlation coefficient between the returns of 10 sectors
 (BM, CD, EN, FM, FI, HC, IN, IT, TE and UT) rounded to three digits after the decimal point. 
 Display the correlation matrix in the output. 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 # Compute pearson correlation coefficient 
 
 correlation<-cor(indices[,3 : 12], method = "pearson")
 correlation<-round(correlation,3) 
 
 correlation 
-\end{verbatim}\end{framed} 
+```
 
 \includegraphics[scale=0.45]{00-D1/images/indices_correlation.png}
 
@@ -46,26 +47,29 @@ correlation
 
 ---
 
-\subsection*{Exercise 2}
-\noindent Identify the pair with the highest correlation coefficient and the pair with the least correlation coefficient. 
+Exercise 2
+====================================
+
+Identify the pair with the highest correlation coefficient and the pair with the least correlation coefficient. 
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 # Pair with Minimum Correlation 
 
 min_cor_location <- which(correlation == min(correlation))
 
 min_cor_location
-\end{verbatim}\end{framed} 
+```
+
 
 ---
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 rownames(correlation)
 colnames(correlation)
-\end{verbatim}\end{framed} 
+```
 
 \includegraphics[scale=0.45]{00-D1/images/indices_rownames.png}
 
@@ -73,9 +77,9 @@ colnames(correlation)
 ---
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 ceiling(min_cor_location/10)
-\end{verbatim}\end{framed} 
+```
 
 
 <ol class="list-inline">

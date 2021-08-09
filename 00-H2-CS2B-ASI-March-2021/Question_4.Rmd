@@ -1,14 +1,30 @@
-[25]
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+
+
+
 Q. 4) The force of mortality ‘mu(x)’ for a particular group of life can be calculated using the 
-formula as A*B^x; where A=0.00002; B=exp(c); c=0.09; x denotes the age of the life. 
-i) Write down a formula for mu(x) in R and calculate the value of mu(50). (5)
+formula as A*B^x; where A=0.00002; B=exp(c); c=0.09; x denotes the age of the life.
+
+
+i) Write down a formula for mu(x) in R and calculate the value of mu(50). 
 ii) If survival probability px can be approximated as [exp(-mu(x+0.5))], calculate the 
-probability that a life aged 50, will remain alive after 10 years. (6)
-iii) Create a table of mortality rate qx for ages between 40 to 50. (6)
+probability that a life aged 50, will remain alive after 10 years. 
+iii) Create a table of mortality rate qx for ages between 40 to 50. 
 
-
- [6] 
- [25 Marks] IAI CS2B-0321 
+---
 Page 8 of 9
 Solution 4: 
 i)
@@ -33,13 +49,23 @@ for(t in 1:10)
 npx 
 > npx 
 [1] 0.9712341 
- [6] 
+
+---
+
+Part 3
+===============================
+
 iii)
+
+```{r}
 xlist=seq(40,50) 
 qx<-function(x) { 
  1-px(x) 
 } 
 qlist=sapply(xlist,qx) 
+```
+---
+
 cbind(xlist,qlist) 
 > cbind(xlist,qlist) 
  xlist qlist 
@@ -55,4 +81,4 @@ cbind(xlist,qlist)
 [10,] 49 0.0017196427 
 [11,] 50 0.0018814364 
  [6] 
- [17 Marks] 
+

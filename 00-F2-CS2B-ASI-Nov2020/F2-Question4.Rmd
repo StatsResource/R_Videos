@@ -31,6 +31,8 @@ iii) Classify the countries into five groups by using the values obtained from (
 K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
 executing the algorithm. Print the number of countries in each cluster. 
 
+---
+
 Exercises
 ===================================================================================================
 iv) What proportion of total countries in each cluster are severe with respect to COVID-
@@ -41,8 +43,12 @@ http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_COVID_2019.
 CS2B_Mortality_Investigation
 http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
 
-===================================================================================================
+
+---
+
 Solution 4:
+===================================================================================================
+
 i)
 
 ```{r}
@@ -92,6 +98,7 @@ ii)
 Covid_Cluster<-covid19_1[,c("population_density","median_age","aged_65_older","gdp_per_capita",
 "cardiovasc_death_rate","diabetes_prevalence","female_smokers",
 "male_smokers","hospital_beds_per_thousand","life_expectancy")]
+
 Covid_Cluster<-scale(Covid_Cluster)
 ```
 
@@ -99,8 +106,6 @@ Covid_Cluster<-scale(Covid_Cluster)
 
 Part 3
 ====================================================================================
-iii)
-Page 10 of 11IAI
 
 ```{r}
 set.seed(100)

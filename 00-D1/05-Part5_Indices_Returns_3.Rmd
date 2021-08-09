@@ -10,57 +10,62 @@ output:
 ---
 
 
-
-\begin{framed} \begin{verbatim}
 Question 5
+========================
 
 Refer to the data file “Indices_Returns.csv” and answer the following questions:
 
 Indices_Returns.csv file is provided in the system.
 
+```{r}
 indices<-read.csv("D:\\Indices_Returns.csv")
-\end{verbatim}\end{framed}
+```
 
 
-\begin{framed} \begin{verbatim}
+---
+
+```{r}
+
+head(indices)
+
+```
+
+
+
+
+---
 
 i) Load the csv file into R and create a new column called “Sensex_Direction”. 
 
 The value of this column will be “Positive” when the Sensex returns are positive and “Negative” when they are negative and convert the variable as a factor variable. 
-\end{verbatim}\end{framed}
 
+---
 
-\begin{framed} \begin{verbatim}
-
+```{r}
 # Creation of new column called Sensex_Direction
 
 indices$Sensex_Direction <-     ifelse(indices$Sensex>0,"Positive","Negative")
 
 indices$Sensex_Direction <- as.factor(indices$Sensex_Direction)
 
-\end{verbatim}\end{framed}
+```
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 2}
+---
+
+Exercise 2
+==================================
 
 Fit an appropriate generalized linear model (GLM) to with a ‘logit’ link function to relate the “Sensex_Direction” with the returns of 10 sectors as a multivariate model and display
 the summary of the model. 
 
 
 
-\begin{framed} \begin{verbatim}
+```{r}
 # Fit the model and display the summary
 model1 <- glm( Sensex_Direction ~ BM+CD+EN+FI+FM+HC+IN+IT+TE+UT,
                data = indices, 
                family = binomial(link = "logit"))
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-summary(model1)
-
-
-
-\end{verbatim}\end{framed}
+```
 
 ---
 
@@ -75,21 +80,23 @@ Verify the relationship between residual deviance of the model and the Akaike In
 
 \subsection*{Exercise 3}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
-\subsection*{Exercise 4}
+---
 
+Exercise 4
+=================================
 
 Sectors significantly impacted
- Sectors which have significantly impacted the direction of Sensex retur
+
+* Sectors which have significantly impacted the direction of Sensex retur
 ns are CD, EN, FI, FM, IT and TE at 95% Confidence level
 
- But only FI has impacted the Sensex direction at 99% Confidence level
+* But only FI has impacted the Sensex direction at 99% Confidence level
 
 
 Relationship between the residual deviance and AIC
- all.equal(AIC(model1), model1$deviance+2*11)
- (11 number of model parameters (the number of variables in the model pl
+* all.equal(AIC(model1), model1$deviance+2*11)
+* (11 number of model parameters (the number of variables in the model pl
 us the intercept))
 
 
