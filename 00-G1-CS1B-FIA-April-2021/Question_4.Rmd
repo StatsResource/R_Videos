@@ -1,5 +1,15 @@
-[6] 
-[Total 15] CS1B A2021–3 
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
 2 An analysis was carried out to investigate the fairness of two exam markers. They 
 both marked the same 150 exam papers, with 10 questions and total possible marks of 
 100 for each exam paper. The data were collected and arranged into 10 equally spaced 
@@ -12,9 +22,11 @@ Marker 2 0 4 16 25 27 42 23 4 9 0
  
 ==================================== 
 You can enter the exam marks for Marker 1 and Marker 2 into R using: 
+
+```{r}
 marks_1 = c(1,8,14,22,33,34,21,9,6,2) 
 marks_2 = c(0,4,16,25,27,42,23,4,9,0)  
-
+```
 
 Part 1
 =========================================
@@ -22,23 +34,28 @@ Part 1
 marks given by the two markers. 
 [Hint: You may find the R command barplot() useful.] 
 (b) Comment on the graphs produced in part (i)(a). 
- [7] 
+
 One of the marked exam papers is selected at random and the scores given by each of 
 the markers are analysed further by question. Below are the scores given by each of 
 the exam markers for this selected exam paper for each of the 10 questions: 
 Question 1 2 3 4 5 6 7 8 9 10 
 Marker 1 4 1 5 1 4 6 4 5 3 6 
 Marker 2 3 2 4 0 3 4 2 3 3 6 
+
 You can enter the scores for Marker 1 and Marker 2 into R using: 
+
+```{r}
 marker_1 = c(4,1,5,1,4,6,4,5,3,6) 
 marker_2 = c(3,2,4,0,3,4,2,3,3,6) 
-
+```
 
 Part 1
 =========================================
+
 (ii) Perform a suitable test to determine whether the difference in the mean scores 
 of the two markers is zero or not, at the 5% confidence level, taking into 
-account that the two markers have marked the same exam paper. [5] 
+account that the two markers have marked the same exam paper. 
+
 (iii) Perform the test specified in part (ii), ignoring that the two markers have 
 marked the same exam paper. 
 

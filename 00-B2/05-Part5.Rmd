@@ -55,7 +55,7 @@ Dgree Sequence
  |A | 2 |
  |B | 4 |
  |C | 4 |
- |D | 3 |
+ |D | 2 |
  |E | 3|
  |F | 3|
  |G | 2|
@@ -72,7 +72,7 @@ Create a matrix with the transition matrix with probabilities using the state na
 ```{r}
  #Create a matrix with the transition probabilities.
 
-Matrix2<- matrix(c(
+Matrix2 <- matrix(c(
   0,1/2,1/2,0,0,0,0,
   1/4,0,1/4,0,1/4,0,1/4,
   1/4,1/4,0,1/4,0,1/4,0,
@@ -132,12 +132,6 @@ transitionmat1 <- new("markovchain",
     transitionMatrix=Matrix2)
 ```
 
-
-
-```{r}
-statesmatrix1
-
-```
 
 ---
 
@@ -259,38 +253,73 @@ all(A==C)==FALSE
 
 
 ```{r}
-n=0
+n<-0
+current <- starting
 
-while(  all(starting%*%Matrix2 == starting)==FALSE  ){
-  starting=starting%*%Matrix2
-  print(starting)
+while(  all(current%*%Matrix2 == current)==FALSE  ){
+  current=current%*%Matrix2
+  #print(current)
   n=n+1
-  print(n)
+  #print(n)
 }    
 ```
 
-[1] 54
-[,1] [,2] [,3] [,4] [,5] [,6] [,7]
-[1,] 0.1 0.2 0.2 0.1 0.15 0.15 0.1
-[1] 55
-There were 50 or more warnings (use warnings() to see the first 50)
+
+---
+
+
+Starting State = B
+
+```{r}
+
+# Time to reach steady state if particle starts from B
+
+starting <- c(0,1,0,0,0,0,0)
+
+starting <- matrix(starting,byrow=TRUE, nrow=1)
+
+starting
+
+
+```
 
 ---
 
 Time to reach steady state if particle starts from B
 
 ```{r}
-m=0
+m<-0
+current <- starting
 
-while(  all(starting%*%Matrix2 == starting)==FALSE  ){
-  starting=starting%*%Matrix2
-  #print(starting)
+while(  all(current%*%Matrix2 == current)==FALSE  ){
+  current=current%*%Matrix2
+  #print(current)
   m=m+1
   #print(m)
 } 
 
 m
 ```
+
+
+
+---
+
+Starting State = C
+
+```{r}
+
+# Time to reach steady state if particle starts from C
+
+starting <- c(0,0,1,0,0,0,0)
+
+starting <- matrix(starting,byrow=TRUE, nrow=1)
+
+starting
+
+
+```
+
 
 ---
 
@@ -299,13 +328,13 @@ Time to reach steady state if particle starts from C
 
 ```{r}
 p=0
-starting=c(0,0,1,0,0,0,0)
 
-while(starting%*%Matrix2!=starting){
-    starting=starting%*%Matrix2
-    #print(starting)
-    p=p+1
-    #print(p)
+while(  all(current%*%Matrix2 == current)==FALSE  ){
+  current=current%*%Matrix2
+  #print(current)
+  
+  p=p+1
+  #print(p)
 }
 p
 ```

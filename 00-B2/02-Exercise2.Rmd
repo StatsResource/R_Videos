@@ -51,9 +51,11 @@ Solution 2:
 
 ```{r}
 set.seed(2000)
-rate1 <- 0.006
+
 q1 <- 0.002
 n1 <- 300
+rate1 <- 0.006
+
 rate2 <- 0.007
 q2 <- 0.001
 n2 <- 500
@@ -65,24 +67,47 @@ n3 <- 200
 
 ---
 
+```{r}
+
+Total = 0
+
+# 1. Fire 
+
+# How many claims out of 200 policies?
+n_1 <- rbinom(1,size = 200,prob=0.03)
+n_1
+claim_amounts_1 = rexp(6,rate=0.006)
+claim_amounts_1
+total_claim_amount_1 = sum(claim_amounts_1)
+total_claim_amount_1
+
+```
+
+---
 
 ```{r}
 Sumofclaims_sim <- numeric(5000)
 Total_policies = n1+n2+n3
 for (j in 1:5000){
-x<-numeric(Total_policies)
-for (i in 1:Total_policies)
-{if (i<= n1){rate=rate1} else{if(i<=n1+n2){rate=rate2}else{rate=rate3}}
-x[i] <- rexp(1,rate=rate)}
-death<-numeric(1000)
-for (i in 1:Total_policies)
-{if (i<= n1){prob=q1} else{if(i<=n1+n2){prob=q2}else{prob=q3}}
-death[i] <- rbinom(1,size=1,prob)}
-sim_claim <- x*death
-sim_claim<-sum(sim_claim)
-Sumofclaims_sim[j] <- sim_claim
+  x<-numeric(Total_policies)
+  
+  for (i in 1:Total_policies)
+  {if (i<= n1){rate=rate1} else{if(i<=n1+n2){rate=rate2}else{rate=rate3}}
+
+    x[i] <- rexp(1,rate=rate)}
+  death<-numeric(1000)
+  
+  for (i in 1:Total_policies)
+  {if (i<= n1){prob=q1} else{if(i<=n1+n2){prob=q2}else{prob=q3}}
+
+    death[i] <- rbinom(1,size=1,prob)}
+    sim_claim <- x*death
+  sim_claim<-sum(sim_claim)
+  Sumofclaims_sim[j] <- sim_claim
 }
+
 ```
+
 ---
 
 Sumofclaims_sim
