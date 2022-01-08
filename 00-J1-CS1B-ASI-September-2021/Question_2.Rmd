@@ -1,0 +1,34 @@
+Solution 2:
+i) a) Setwd()
+Data = read.csv(“Temperature_data.csv”)
+cor (Data, method = “pearson”)
+Monday Tuesday Wednesday Thursday Friday
+Monday 1.0000 0.9566 0.5393 0.8236 0.9271
+Tuesday 0.9566 1.0000 0.7612 0.9484 0.9776
+Wednesday 0.5393 0.7612 1.0000 0.9080 0.7620
+Thursday 0.8236 0.9484 0.9080 1.0000 0.9632
+Friday 0.9271 0.9776 0.7620 0.9632 1.0000 (3)
+b) cor (Data, method = “kendall”)
+Monday Tuesday Wednesday Thursday Friday
+Monday 1.0000 0.6952 0.2952 0.4667 0.6762
+Tuesday 0.6952 1.0000 0.6000 0.7714 0.8286
+Wednesday 0.2952 0.6000 1.0000 0.7905 0.5810
+Thursday 0.4667 0.7714 0.7905 1.0000 0.7905
+Friday 0.6762 0.8286 0.5810 0.7905 1.0000 (3)
+c) cor (Data, method = “spearman”)
+IAI CS1B-0921
+Page 3 of 15
+Monday Tuesday Wednesday Thursday Friday
+Monday 1.0000 0.8643 0.4036 0.6250 0.8250
+Tuesday 0.8643 1.0000 0.7679 0.9036 0.9536
+Wednesday 0.4036 0.7679 1.0000 0.9393 0.7821
+Thursday 0.6250 0.9036 0.9393 1.0000 0.8964
+Friday 0.8250 0.9536 0.7821 0.8964 1.0000 (3)
+ii) The outcome of Pearson method is based on the values of the data whereas Kendall and 
+Spearman correlation matrix is based on the rank of the values in the dataset.
+Diagonal in each matrix represents the correlation of temperature with respect to the individual 
+days, for example Monday with Monday.
+Pearson shows strong positive correlation between temperatures on Monday, Tuesday, 
+Thursday and Friday.
+Kendall and Spearman shows lesser positive correlation as compared to the Pearson’s result (3)
+[12 Marks]

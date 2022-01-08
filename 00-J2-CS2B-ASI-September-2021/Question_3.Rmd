@@ -1,0 +1,87 @@
+Solution 3:
+IAI CS2B-0921
+Page 5 of 13
+library(markovchain)
+## Warning: package 'markovchain' was built under R version 4.0.5
+## Package: markovchain
+## Version: 0.8.5-4
+## Date: 2021-01-07
+## BugReport: https://github.com/spedygiorgio/markovchain/issues
+# (i)
+TransitionName<-c("Pass","Shoot","Dribble")
+MarkovData<-c(0.5,0.1,0.4,0.7,0.2,0.1,0.4,0.3,0.3) [3M]
+# (ii)
+MarkovData<-c(0.5,0.1,0.4,0.7,0.2,0.1,0.4,0.3,0.3)
+TransitionName<-c("Pass","Shoot","Dribble") [1M]
+BallTransition<-matrix(MarkovData,nrow = 3,byrow = TRUE,dimnames = list(Trans
+itionName,TransitionName))
+BallTransition
+## Pass Shoot Dribble
+## Pass 0.5 0.1 0.4
+## Shoot 0.7 0.2 0.1
+## Dribble 0.4 0.3 0.3
+markov2<-new("markovchain",transitionMatrix=matrix(data=MarkovData,
+ byrow=TRUE,nrow=3,dimnames=list(TransitionName,TransitionName)))
+[2M]
+# (iii)
+plot(markov2) [3M]
+IAI CS2B-0921
+Page 6 of 13
+# (iv)
+steadyStates(markov2) [4M]
+## Pass Shoot Dribble
+## [1,] 0.5047619 0.1809524 0.3142857
+#(v)
+#(a)
+markov2^2
+## Unnamed Markov chain^2 
+## A 3 - dimensional discrete Markov Chain defined by the following states: 
+## Pass, Shoot, Dribble 
+## The transition matrix (by rows) is defined as follows: 
+## Pass Shoot Dribble
+## Pass 0.48 0.19 0.33
+## Shoot 0.53 0.14 0.33
+## Dribble 0.53 0.19 0.28
+After 2 plays the probability is 0.48
+[2.5M]
+#(b)
+markov2^5
+## Unnamed Markov chain^5 
+## A 3 - dimensional discrete Markov Chain defined by the following states: 
+## Pass, Shoot, Dribble 
+## The transition matrix (by rows) is defined as follows: 
+## Pass Shoot Dribble
+## Pass 0.50475 0.18075 0.31450
+## Shoot 0.50525 0.18100 0.31375
+## Dribble 0.50450 0.18125 0.31425
+IAI CS2B-0921
+Page 7 of 13
+After 5 plays the probability is 0.50475
+[2.5M]
+#(vi)
+set.seed(100)
+seq<-markovchainSequence(100,markov2)
+#Frequency of the terms
+table(seq)
+## seq
+## Dribble Pass Shoot 
+## 37 51 12 [4M]
+#(vii)
+library(lattice)
+## Warning: package 'lattice' was built under R version 4.0.5
+barchart(prop.table(table(seq)))
+[2M]
+# OR
+plot(prop.table(table(seq)),main = "Frequency of different states")
+IAI CS2B-0921
+Page 8 of 13
+#(viii) [3M]
+# According to the steady state distribution, the frequency of Pass, Shoot an
+d Dribble needs to be 50.47, 18.09, 31.42 respectively. 
+# Pass frequency of the simulation is matching with that of the expected. But 
+there is some discrepancy in the shoot and dribble.
+# Main Reasons - (1) The number of simulations (100) is very small and needs 
+to be increased. When the simulations are small, different seed values can pr
+oduce different results altogether because of sample error and those differen
+ces might be significant
+ [27 Marks]

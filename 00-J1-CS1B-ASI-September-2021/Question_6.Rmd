@@ -1,0 +1,95 @@
+Solution 6:
+i) H0 – Company1 and Company2 having equal variance (i.e., ratio of variance =1)
+H1 – There is a difference in variance between Company1 and Company2.
+Company1<-c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
+Company2<-c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
+var.test(Company1,Company2)
+F test to compare two variances
+data: Company1 and Company2
+F = 0.91388, num df = 9, denom df = 9, p-value = 0.8955
+alternative hypothesis: true ratio of variances is not equal to 1
+95 percent confidence interval:
+0.2269944 3.6792680
+sample estimates:
+ratio of variances 
+ 0.9138781
+IAI CS1B-0921
+Page 8 of 15
+Conclusion – As the confidence interval for the ratio between variance includes 1, we do not 
+have enough evidence to reject H0 at 5% significance level. Hence, we can conclude that ratio of 
+variance between Company1 and Company2 is 1 i.e., Company1 and Company2 having equal 
+variance at 5% significance level. (4)
+ii) H0 – No difference in mean premium charged by Company1 and Company2. 
+H1 – difference in mean premium charged by Company1 and Company2.
+t.test(Company1, Company2, var.equal = TRUE, conf=0.95)
+ Two Sample t-test
+data: Company1 and Company2
+t = -0.3433, df = 18, p-value = 0.7353
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+-398.703 286.703
+sample estimates:
+mean of x mean of y 
+ 1669 1725
+Conclusion – As the confidence interval for the difference in mean premium includes 0, we do 
+not have enough evidence to reject H0 at 5% significance level. Hence, we can conclude that 
+there is no difference between mean premium charged by Company1 and Company2 at 5% 
+significance level. (4)
+iii) H0 – mean premium charged by Company2 is INR 1500. 
+H1 – mean premium charged by Company2 is greater than 1500.
+t.test(Company2, mu=1500, alternative= c("greater"), conf=0.95)
+ One Sample t-test
+data: Company2
+t = 1.9082, df = 9, p-value = 0.04436
+alternative hypothesis: true mean is greater than 1500
+95 percent confidence interval:
+1508.858 Inf
+sample estimates:
+mean of x 
+ 1725
+Conclusion – As the confidence interval for the mean premium does not include 1500, at 5% 
+significance level we have enough evidence to reject null hypothesis. 
+(p-value less than 5% also confirms that we have enough evidence to reject null hypothesis at 
+5% significance level).
+Hence, we can conclude that the mean premium charged by Company2 is greater than INR 1500 
+at 5% significance level. (4)
+iv) H0 – There is no difference in proportion of (policies that result in) claim between Company1 and 
+Company2.
+IAI CS1B-0921
+Page 9 of 15
+H1 – There is difference in proportion of (policies that result in) claim between Company1 and 
+Company2.
+prop.test(c(60,50),c(200,100),correct=FALSE)
+ 2-sample test for equality of proportions without continuity correction
+data: c(60, 50) out of c(200, 100)
+X-squared = 11.483, df = 1, p-value = 0.0007023
+alternative hypothesis: two.sided
+95 percent confidence interval:
+-0.31677833 -0.08322167
+sample estimates:
+prop 1 prop 2 
+ 0.3 0.5
+Conclusion – As the confidence interval does not include 0 (or as p-value is less than 5%), we 
+have sufficient evidence to reject null hypothesis at 5% significance level. Hence, we can 
+conclude that there is difference in proportion of (policies that result in) claims between 
+Company1 and Company2 at 5% significance level. (4)
+v) H0 – There is no difference in ratio of claim frequency between group1 and other groups in 
+Company2. 
+H1 – Claim frequency of group1 is less than other groups in Company2.
+poisson.test(c(65,45),c(250,110), conf=.975, alternative="less")
+ Comparison of Poisson rates
+data: c(65, 45) time base: c(250, 110)
+count1 = 65, expected count1 = 76.389, p-value = 0.01358
+alternative hypothesis: true rate ratio is less than 1
+97.5 percent confidence interval:
+0.0000000 0.9511753
+sample estimates:
+rate ratio 
+0.6355556
+Conclusion – As the confidence interval for the ratio does not include 1, at 2.5% significance level 
+we have enough evidence to reject null hypothesis. 
+(p-value less than 2.5% also confirms that we have enough evidence to reject null hypothesis at 
+2.5% significance level).
+Hence, we can conclude that the claim frequency of group1 (having premium less than INR 1500) 
+is less than other groups in Company2. (4)
+[20 Marks]

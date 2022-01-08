@@ -1,0 +1,10 @@
+
+Solution 1:
+# (i)
+logistic<-function(x) 1/(1+exp(-x))
+[3M]
+# (ii)
+plot(logistic,xlim = c(-10,10), main = "Logistic Function", ylab = "y=1/(1+ex
+p(-x))")
+[5M]
+ [8 Marks]

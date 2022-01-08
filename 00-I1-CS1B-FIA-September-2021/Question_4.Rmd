@@ -1,0 +1,79 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+4 An actuarial modeller in a health insurance company is constructing a Generalised 
+Linear Model (GLM) to analyse claim numbers for its critical illness policies. For 
+every policy over the past year, the company has collected the number of reported 
+claims (Claim_number) and data on the following covariates:
+Age: Age of policyholder, a 
+number between 18 and 80 
+Gender: Gender of the policyholder 
+(Male or Female) 
+Region: A description of the region 
+where the policyholder lives 
+Pre_existing_health_condition: A categorical value 
+representing whether the 
+policyholder has a 
+pre-existing health condition, 
+0 = no and 1 = yes 
+
+---
+
+The data given in the file named Claims_Experience.RData show the past 
+year’s reported claims for this company’s critical illness policies. After loading the 
+data into R, using the command load("Claims_Experience.RData"), the 
+data frame data_claims with its variables listed above will be available. 
+The modeller wants to fit a GLM with the Claim_number as the response variable 
+and is deciding whether to fit the GLM using a Poisson or Normal distribution. 
+
+---
+(i) Fit a GLM, using a Normal distribution, that treats age as a numerical variable 
+and the remaining three covariates as factors, calling this model_g. Your 
+answer should include the estimated value, standard error and p-value of each 
+parameter in the model. [7] 
+(ii) (a) Fit a GLM, using the Poisson distribution, that treats age as a 
+numerical variable and the remaining three covariates as factors, 
+calling this model_p. 
+Your answer should include the estimated value, standard error and 
+p-value of each parameter in the model. 
+(b) Justify which model the modeller should use, using your answers to 
+parts (i) and (ii)(a). 
+(c) Comment on the dependence of the number of reported claims on 
+Pre_existing_health_condition based on your answers to 
+parts (ii)(a) and (ii)(b). 
+ [7] 
+CS1B S2021–6 
+The modeller has fitted the GLM using a Poisson distribution and now wants to 
+investigate which of the three factors should be selected in the model, by using a 
+method similar to the backward selection approach. The following models are 
+considered: 
+model_p2: removes Gender from model_p
+model_p3: removes Gender and Pre_exisiting_health_condition from 
+model_p
+model_p4: removes Gender, Pre_exisiting_health_condition and 
+Region from model_p 
+(iii) Compare the values of the Akaike’s Information Criterion for the four models 
+model_p, model_p2, model_p3 and model_p4. [6] 
+(iv) (a) Comment on your answer to part (iii). 
+(b) Comment on the differences between the process in part (iii) and the 
+full backward selection method. 
+ [3] 
+The modeller suggests refining the fitted GLM (model_p) by also including the 
+interactions between the variables: Age, Region and 
+Pre_existing_health_condition. 
+(v) (a) Fit an appropriate model, to include the interactions between the 
+variables Age, Region and 
+Pre_existing_health_condition. 
+(b) Justify whether the refined model in part (v)(a) improves the model 
+(model_p) fitted in part (ii)(a). 
+(c) Comment on whether any of the interactions are significantly 
+associated with claim numbers. 

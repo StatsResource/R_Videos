@@ -1,0 +1,31 @@
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+CS1B S2021–4 
+3 An insurer’s marketing team has developed a new lottery that gives each new 
+customer the chance to win a cash prize. The insurer states that any new customer can 
+win with probability 0.36 independently of all other customers.
+Let Y denote the number of winners in a random sample of 900 new customers. 
+(i) State a suitable distribution for the random variable Y. [1] 
+(ii) Calculate, to four decimal places, the probabilities P[k < Y ≤ k + 20] for all 
+values k = 220, 240, 260, …, 400. [5] 
+It is suggested that the true distribution of Y can be approximated with a Normal 
+distribution with expectation EሾYሿ = 324 and a standard deviation of 14.4. 
+(iii) Calculate, to four decimal places, the probabilities P[k < Y ≤ k + 20] for all 
+values k = 220, 240, 260, …, 400 based on the suggested Normal distribution. 
+ [4] 
+(iv) Plot the values calculated in parts (ii) and (iii) on the same graph. [4] 
+[Hint: you may find the R command lines(…) useful.] 
+(v) Discuss your answers in parts (i)–(iv). [5] 
+[Total 19] 
+CS1B S2021–5 

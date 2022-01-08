@@ -1,56 +1,99 @@
-[3] 
-[Total 28] CS1B A2021–6 
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
 4 A statistician wants to model the number of passengers boarding a bus from a bus 
 stop close to a student residential area. They can think of three explanatory variables: 
 which route it is (at 8 am or 9 am), if it is during the semester or not, and the 
-temperature (temp) in degrees Celsius. The statistician has data for 20 days, given in 
+temperature (temp) in degrees Celsius. 
+
+---
+
+* The statistician has data for 20 days, given in 
 the file named CS1passenger.RData, and believes that the response variable 
 (Passengers) follows a Poisson distribution. After loading the data into R, the data 
 frame data_passenger with all variables (Passengers, route, 
 semester, temp) will be available. 
 
-Part 1
+--- 
+
+##  Part 1
+
 ============================
+
 (i) State the linear predictor corresponding to models specified with the following 
 R code, explaining all relevant terms: 
 (a) temp+semester 
 (b) temp*semester 
 (c) temp*semester + route 
 
-Part 2
+
+---
+
+## Part 2
+
 ============================
 (a) Fit a Poisson Generalised Linear Model (GLM) to the data set for the 
 model in part (i)(c). Label this model as Model1. Your answer should 
 include a summary of the fitted model. 
+
 (b) Comment on the significance of the parameters of the model fitted in 
 part (ii)(a). 
 
-Part 3
+---
+
+## Part 3
+
 ============================
+
 (iii) (a) Fit an improved model for the model in part (ii)(a), using your answer 
 in part (ii)(b). Label this model as Model2. 
 (b) Justify why Model2 improves Model1 by referring to the R output. 
 [4] 
 You are given a new model (Model3), specified by the following R code: 
 ```{r}
-Model3 <- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
+# Model3 <- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
 ```
 
-Part 4
+
+--- 
+
+## Part 4
+
 ============================
+
 (iv) (a) Demonstrate that Model3 outperforms the models defined in 
 parts (i)(a) and (i)(b). 
 (b) Comment on your answer in part (iv)(a). 
 
+---
+
 Part 5
 ============================
-(v) (a) Draw a suitable plot, for the residuals of Model3, for checking the 
+(v) 
+
+(a) Draw a suitable plot, for the residuals of Model3, for checking the 
 model’s validity. 
+
 (b) Comment on the plot in part (v)(a). 
+
+
+---
 
 Part 6
 ============================
 (vi) Calculate the predicted number of passengers for an 8 am route during the 
 semester at a temperature of 0 degree Celsius, using Model3. [4] 
- [Total 35] 
-END OF PAPER
+
+
+---
