@@ -12,6 +12,49 @@ q 0 1 – q
 where 0 < p, q, r < 1. 
 (i) Construct an R function, with arguments p, q and r, that generates a Markov 
 chain object for Xt. [5] 
+
+------------------
+
+Q1
+(i)
+markovchain = 
+function(p,q,r){ 
+ 
+
+P = matrix(data = c(p,1-p,0,q,0,1-q,0,r,1-r),
+nrow =3, byrow = TRUE) 
+ 
+
+mc = new("markovchain", transitionMatrix = P) [1½]
+mc} 
+ 
+
+(ii)
+statdist = matrix(data = 0, nrow = 3, ncol = 9) 
+ 
+
+for(i in 1:9){ 
+ 
+
+q = 0.1*i 
+ 
+
+mc = markovchain(p = 0.75, q, r = 0.25) 
+ 
+
+statdist[,i] = steadyStates(mc)} 
+ 
+
+statdist 
+ 
+
+ [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+[1,] 0.08 0.16 0.24 0.32 0.4 0.48 0.56 0.64 0.72
+[2,] 0.20 0.20 0.20 0.20 0.2 0.20 0.20 0.20 0.20
+[3,] 0.72 0.64 0.56 0.48 0.4 0.32 0.24 0.16 0.08
+
+ 
+
  Assume that p = 0.75 and r = 0.25. 
 (ii) Construct R code that calculates the stationary distribution of Xt for values of 
 q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your 
