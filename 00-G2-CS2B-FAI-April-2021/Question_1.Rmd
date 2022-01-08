@@ -20,3 +20,66 @@ answer script. [7]
 a function of q. You should include three separately coloured lines on your 
 graph, each line representing the stationary probabilities of each state. [8] 
  [Total 20] CS2B A2021–3 
+
+(iii)
+q = seq(from = 0.1, to = 0.9, by = 0.1) 
+ 
+
+plot( 
+ 
+
+q, 
+ 
+
+statdist[1,], 
+ 
+
+type = "l", 
+ 
+
+main = "Stationary Distributions of X_t as a
+function of q", 
+ 
+
+ylab = "Probability", 
+ 
+
+col = "red") 
+ 
+
+lines(q, statdist[2,], col = "black") 
+ 
+
+lines(q, statdist[3,], col = "blue") 
+ 
+
+legend("top", 
+legend = c("State 1", "State 2", "State 3"), 
+ 
+
+col = c("red", "black", "blue"), 
+ 
+
+pch=7)
+
+
+
+ 
+
+[Total 20]
+Part (i) was very well answered although some candidates lost marks for not creating 
+a function, or for creating a function outputting a matrix rather than a Markov chain 
+object. Candidates who did not create a function or who created a function outputting 
+a matrix rather than a Markov chain object needed to perform additional work in part 
+(ii). 
+Part (ii) was well answered. Candidates who were less familiar with loops in R 
+included more extensive R code than necessary. Candidates who answered part (ii) by 
+raising the transition matrices to a large power were required to raise the matrices to 
+a second large power to demonstrate convergence otherwise only partial credit was 
+awarded.
+Part (iii) was poorly answered. Many candidates lost marks for missing or 
+inappropriate titles, axis labels and/or legends. Where candidates were unfamiliar 
+with the legend function in R, a manually applied legend was accepted provided that it 
+correctly represented the line colours and was situated next to the chart.
+
+
