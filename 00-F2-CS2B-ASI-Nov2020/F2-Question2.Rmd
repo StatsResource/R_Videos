@@ -11,7 +11,7 @@ output:
 
 
 Exercise 1
-==================================================================================
+===============================
 i)
 Simulate a time series of length 200 observations in a line chart using the following R
 function and comment on stationarity. (Set a seed value of 100)
@@ -22,7 +22,7 @@ arima.sim(list(order = c(1,1,1), ar = 0.7, ma = 0.3), n = 200)
 ---
 
 Exercise 1
-==================================================================================
+==
 Solution 2:
 i)
 ```{r}
@@ -40,20 +40,20 @@ stationary
 ---
 
 Exercise 2
-==================================================================================
+=======================
 ii) Plot the auto correlation function and partial auto correlation function of the data if (i)
 is stationarity, otherwise take the first difference of the observations and plot the above
 graphs. Comment on the possible ARMA model based on the graphs. (5)
 
 
 Exercise 2
-==================================================================================
+===============================================================
 ii)
 # As the data is not stationary, we take the first difference of the observations
 diff_obs<-diff(observations)
 acf(diff_obs)
 
-Page 3 of 11IAI
+
 
 ```{r}
 
@@ -69,7 +69,7 @@ ARMA(2,2) model appears to be the most appropriate model based on the ACF and PA
 ---
 
 Exercise 3
-==================================================================================
+======
 
 iii) Fit AR(1), AR(2), MA(1) and ARMA(1,1) models to the observations from (ii) and
 comment on the best fitting model using AIC or any other metric. (7)
@@ -77,7 +77,7 @@ comment on the best fitting model using AIC or any other metric. (7)
 ---
 
 Exercise 3
-==================================================================================
+======
 arima(diff_obs,order = c(1,0,0))
 [2]
 Call:
@@ -146,7 +146,7 @@ also.
 ---
 
 Exercise 4
-==================================================================================
+======
 
 Using the best fitted model from (iii) create a forecast of the observations for the next
 3 periods.
@@ -154,7 +154,7 @@ Using the best fitted model from (iii) create a forecast of the observations for
 ---
 
 Exercise 4
-==================================================================================
+======
 
 
 ```{r}

@@ -18,20 +18,24 @@ library(tseries)
 ## as.zoo.data.frame zoo
 library(forecast)
 ## Warning: package 'forecast' was built under R version 4.0.5
+
+---
+
 # (i)
 data(sunspots)
 a<-ts(sunspots,frequency = 12)
 plot(a, main = "Time series of plots")
 IAI CS2B-0921
-Page 9 of 13
-[3M]
+---
+
 #(ii)
 par(mfrow=c(1,2))
 acf(a,main="Sample ACF")
 pacf(a,main="Sample PACF")
 [5M]
-IAI CS2B-0921
-Page 10 of 13
+
+---
+
 # (iii)
 acf(a,plot = FALSE)
 ## 
@@ -51,6 +55,9 @@ acf(a,plot = FALSE)
 47 
 ## 2.7500 2.8333 
 ## 0.115 0.083
+
+---
+
 pacf(a,plot = FALSE)
 ## 
 ## Partial autocorrelations of series 'a', by lag
@@ -68,13 +75,15 @@ pacf(a,plot = FALSE)
 ## 0.014 -0.068 0.045 -0.034 -0.050 -0.029 -0.019 0.012 -0.006 0.026 -0.0
 17 
 ## 2.8333 
-## -0.039 [2M]
+## -0.039 
+
+---
+
 # (iv)
 'The ACF indicates that there is correlation between an observation and
 the past observations. There is a correlation beyond 2.5 years but it keeps g
 etting weaker'
-## [1] "The ACF indicates that there is correlation between an observation an
-d\nthe past observations. There is a correlation beyond 2.5 years but it keep
+## [1] "The ACF indicates that there is correlation between an observation and the past observations. There is a correlation beyond 2.5 years but it keep
 s getting weaker" [2M]
 # (v)
 s<-diff(a, lag=12,differences=1)
@@ -100,7 +109,9 @@ library(tree)
 DTData <- read.csv("DTData.csv",stringsAsFactors=TRUE)
 train_Data<-DTData[1:round(0.7*332,0),]
 test_Data<-DTData[(round(0.7*332,0)+1):332,]
-[3M]
+
+---
+
 # (ii)
 model<-tree(type~bmi+age,data = train_Data) [3M]
 model
@@ -122,6 +133,9 @@ Page 12 of 13
 ## 57) bmi > 48.2 6 0.00 Yes ( 0.00000 1.00000 ) *
 ## 29) age > 45.5 17 12.32 Yes ( 0.11765 0.88235 ) *
 ## 15) age > 57.5 6 0.00 No ( 1.00000 0.00000 ) *
+
+---
+
 #(iii)
 par(mfrow = c(1,1))
 summary(model) [4M]
@@ -135,6 +149,9 @@ plot(model)
 text(model)
 #(iv)
 pred<-predict(model,test_Data,type = "class") [3M]
+
+---
+
 # (v)
 summary(pred) [3M]
 IAI CS2B-0921
@@ -157,14 +174,15 @@ type1_Error
 type2_Error
 ## [1] 0.22
 # (vii) [4M]
+
+---
+
 # Accuracy is 75%. The null accuracy is 70% if all the observations would hav
 e been classified to "No" class.
 # Type 2 error is very high. Majority of the people who belonged to the type 
 "Yes", could not be successfully identified by the model
 # Addressing the bias
-# The bias of a model is a measure of how close our prediction is to the actu
-al value on average from an average model
-#a validation data set: the sample of data used to provide an unbiased evalua
-tion of model fit on the training dataset while tuning model hyper-parameters
-[24 Marks]
-******************
+# The bias of a model is a measure of how close our prediction is to the actual value on average from an average model
+
+a validation data set: the sample of data used to provide an unbiased 
+evaluation of model fit on the training dataset while tuning model hyper-parameters

@@ -34,6 +34,7 @@ Mort_Inv$DoJ<-as.Date(Mort_Inv$DoJ)
 Mort_Inv$DoE<-as.Date(Mort_Inv$DoE)
 
 ```
+
 ---
 
 
@@ -131,7 +132,7 @@ Part 3
 =====================
 iii) Compute the average age at entry and the average age at exit of the people for whom
 “Death” was the reason of Exit. (3)
-If the age label used is “Age last Birthday”, then calculate
+
 ---
 
 iii)
@@ -148,7 +149,7 @@ Time difference of 37.89168 days
 
 Part 4
 =====================
-
+If the age label used is “Age last Birthday”, then calculate
 iv) Number of lives out of total 100 lives who have contributed the full year towards the
 c
 central exposed to risk E 37
@@ -167,7 +168,7 @@ sum((Mort_Inv$Age_At_Entry)<37&Mort_Inv$Age_At_Exit>38)
 
 Part 5
 =====================
-
+If the age label used is “Age last Birthday”, then calculate
 v) Number of lives who did not contribute at all towards the central exposed to risk E 37
 . (4)
 

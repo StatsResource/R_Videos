@@ -9,6 +9,18 @@ output:
       countIncrementalSlides: false
 ---
 
+Q. 2) A student is performing study to understand the correlation of temperature among 
+different days of the week. Temperature on weekdays is recorded for 15 weeks in the file 
+Temperature_data.csv.
+i) Generate,
+a) Pearson’s correlation matrix (3)
+b) Kendall’s rank (3)
+c) Spearman’s rank (3)
+ii) Comment on the outcomes of the results in a, b and c. (3)
+
+
+---
+
 Solution 2:
 i) a) Setwd()
 Data = read.csv(“Temperature_data.csv”)

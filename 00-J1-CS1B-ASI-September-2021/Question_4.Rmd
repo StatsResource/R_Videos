@@ -9,6 +9,14 @@ output:
       countIncrementalSlides: false
 ---
 
+For a sample data X = 0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 
+0.9688, 0.6300
+i) Find the mean value of X (2)
+ii) Calculate the standard deviation of X (1)
+iii) Find the median of X (3)
+
+---
+
 Solution 4:
 i) X = c(0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 0.9688, 0.6300)
 > mean(x)
