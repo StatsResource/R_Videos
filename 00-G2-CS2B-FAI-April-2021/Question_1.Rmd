@@ -1,3 +1,14 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 
 1 Before answering this question, the R package for Markov chains should be loaded 
 into R using the following code: 

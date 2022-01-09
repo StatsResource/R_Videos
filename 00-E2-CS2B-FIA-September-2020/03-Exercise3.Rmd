@@ -1,29 +1,31 @@
-\documentclass[a4paper,12pt]{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{eurosym}
-\usepackage{vmargin}
-\usepackage{amsmath}
-\usepackage{graphics}
-\usepackage{epsfig}
-\usepackage{enumerate}
-\usepackage{multicol}
-\usepackage{subfigure}
-\usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{framed}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{chngpage}
-%\usepackage{bigints}
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-\usepackage{vmargin}
-% left top textwidth textheight headheight
-% headsep footheight footskip
-\setmargins{2.0cm}{2.5cm}{16 cm}{22cm}{0.5cm}{0cm}{1cm}{1cm}
-\renewcommand{\baselinestretch}{1.3}
 
-\setcounter{MaxMatrixCols}{10}
+CS2B S2020–4 3An analyst is investigating a life insurance portfolio data set that comprises two variables, x1 and x2, for 200 policyholders. 
+The analyst is exploring whether the 200 policyholders can be divided into two clusters (labelled A and B) based on the two variables, x1 and x2.  
+Before answering this question, generate the data set, portfolio, in R using the following code: 
 
-\begin{document}
+```{r}
+set.seed(2019);  
+portfolio = data.frame(x1=rnorm(200,3,1),  
+x2=scale(c(rnorm(70,4,1), rnorm(130,10,1)))) 
+```
 
-CS2B S2020–4 3An analyst is investigating a life insurance portfolio data set that comprises two variables, x1 and x2, for 200 policyholders. The analyst is exploring whether the 200 policyholders can be divided into two clusters (labelled A and B) based on the two variables, x1 and x2.  Before answering this question, generate the data set, portfolio, in R using the following code: set.seed(2019);  portfolio = data.frame(x1=rnorm(200,3,1),  x2=scale(c(rnorm(70,4,1), rnorm(130,10,1)))) In the first stage of the investigation, the analyst decides to assign the first 100 policyholders in the data set to cluster A, and the remaining policyholders to cluster B. (i)Construct a new column in the data set, portfolio, called group_label_stage1, containing the policyholder cluster labels, defined above.[4] (ii)Determine the coordinates (x1A, x2A) of the centre of cluster A and the coordinates (x1B, x2B) of the centre of cluster B. [6] (iii)Construct a new column in the data set, portfolio, called dist_A containing the Euclidean distances between the policyholders and the centre of cluster A.   [4] (iv)Construct a new column in the data set, portfolio, called dist_B containing the Euclidean distances between the policyholders and the centre of cluster B.   [4] The analyst decides to update the cluster labels by assigning to each policyholder the label of the cluster whose centre is nearest, according to the distances calculated in parts (iii) and (iv). (v)Construct a new column in the data set, portfolio, called group_label_stage2, containing the updated policyholder cluster labels, defined above. [4] (vi)Generate a 2x2 matrix showing the number of policyholders with each possible combination of values of group_label_stage1 and group_label_stage2. [2] (vii)Comment on the matrix generated in part (vi) with reference to how the cluster labels have changed between group_label_stage1 and group_label_stage2. [4] (viii)Plot the column, x1,of data set, portfolio, against column, x2, (with x1 on the  x-axis and x2 on the y-axis), using two distinct colours to identify clusters Aand B according to the label, group_label_stage2. [6] The analyst decides to stop at this stage and to report group_label_stage2 as the final set of cluster labels. (ix)Comment on this decision. [6] [Total 40] END OF PAPER 
+In the first stage of the investigation, the analyst decides to assign the first 100 policyholders in the data set to cluster A, and the remaining policyholders to cluster B. 
+(i)Construct a new column in the data set, portfolio, called group_label_stage1, containing the policyholder cluster labels, defined above.
+ (ii)Determine the coordinates (x1A, x2A) of the centre of cluster A and the coordinates (x1B, x2B) of the centre of cluster B. 
+ (iii)Construct a new column in the data set, portfolio, called dist_A containing the Euclidean distances between the policyholders and the centre of cluster A.   
+ 
+ [4] (iv)Construct a new column in the data set, portfolio, called dist_B containing the Euclidean distances between the policyholders and the centre of cluster B.   [4] The analyst decides to update the cluster labels by assigning to each policyholder the label of the cluster whose centre is nearest, according to the distances calculated in parts (iii) and (iv). 
+ (v)Construct a new column in the data set, portfolio, called group_label_stage2, containing the updated policyholder cluster labels, defined above. [4] (vi)Generate a 2x2 matrix showing the number of policyholders with each possible combination of values of group_label_stage1 and group_label_stage2. 
+ [2] (vii)Comment on the matrix generated in part (vi) with reference to how the cluster labels have changed between group_label_stage1 and group_label_stage2. [4] (viii)Plot the column, x1,of data set, portfolio, against column, x2, (with x1 on the  x-axis and x2 on the y-axis), using two distinct colours to identify clusters Aand B according to the label, group_label_stage2. 
+ [6] The analyst decides to stop at this stage and to report group_label_stage2 as the final set of cluster labels. (ix)Comment on this decision. [6] [Total 40] END OF PAPER 
