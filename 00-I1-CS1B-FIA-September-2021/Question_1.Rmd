@@ -1,16 +1,16 @@
-CS1B S2021 © Institute and Faculty of Actuaries 
-INSTITUTE AND FACULTY OF ACTUARIES 
-EXAMINATION 
-20 September 2021 (am) 
-Subject CS1 – Actuarial Statistics 
-Core Principles 
-Paper B 
-Time allowed: One hour and fifty minutes 
-If you encounter any issues during the examination please contact the Assessment Team on 
-T. 0044 (0) 1865 268 873. 
-In addition to this paper you should have available the 2002 edition of the 
-Formulae and Tables and your own electronic calculator. 
-CS1B S2021–2 
+---
+title: "Statistics with R"
+subtitle: "Modelling Data with R"
+author: "Dragonfly Stats"
+date: "2016/12/12"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 1 In a small country, a political election was held recently to decide on a political party 
 to govern the country. A survey was conducted to monitor the approval rating for the 
 winning political party. 
@@ -26,14 +26,22 @@ before 8 6 8 7 7 4 2 10 8 7 10 8 8 9 6
 Approval 
 after 5 6 2 3 4 1 4 7 4 2 10 1 5 3 7 
 The values can be entered in R using: 
+```{r}
 approval_before <- c(8, 6, 8, 7, 7, 4, 2, 10, 8, 7, 10, 
 8, 8, 9, 6) 
 approval_after <- c(5, 6, 2, 3, 4, 1, 4, 7, 4, 2, 10, 1, 
 5, 3, 7) 
+
+```
+
+---
+
 (i) Calculate the means for the Approval before and Approval after results. [2] 
 (ii) Outline why Kendall’s Tau would be a suitable correlation coefficient to use 
 for these results. [2] 
 (iii) Calculate Kendall’s Tau coefficient between the Approval before and 
-Approval after results. [2] 
-(iv) Comment on your results in parts (i) and (iii). [3] 
- [Total 9] 
+Approval after results. 
+
+---
+
+(iv) Comment on your results in parts (i) and (iii). 

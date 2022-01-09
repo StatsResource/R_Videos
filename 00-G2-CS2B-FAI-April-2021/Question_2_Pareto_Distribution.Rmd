@@ -1,3 +1,14 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 2 Before answering this question, construct the function, rpareto, in R using the 
 following code: 
 rpareto = function(n, alpha, lambda){ 
@@ -5,6 +16,11 @@ rp = lambda * ((1 - runif(n))^(-1/alpha) - 1)
 rp}
 The rpareto function generates a random sample of size n from a two-parameter 
 Pareto distribution with parameters α and λ. 
+
+---
+
+### Part 1
+
 (i) Generate, using rpareto, a random sample of size 25,000 from the 
 two-parameter Pareto distribution with parameters α = 3 and λ = 1, assigning 
 the simulated values to a vector called A_vec. You should set a random 
@@ -33,7 +49,12 @@ head(A_vec, 8)
  
  0.11966335 0.67788900 0.19160373 1.04468423 1.56103061 
 0.01566369 0.28445342 1.10259132 
----------------------------------------
+
+
+---
+
+### Part 2
+
 (ii) Construct an R function, called A_exceed_u, with two arguments, A and u, that 
 returns only the non-zero entries of a vector, E, where vector E is of length 
 25,000, with entries defined as: 
@@ -67,7 +88,10 @@ head(A_exceed_u(A = A_vec, u = 1), 8)
  0.04468423 0.56103061 0.10259132 0.85069357 0.15317919 
 0.80118083 0.08415856 3.58825415 
  
- ----------------------------------
+---
+
+### Part 3
+
 (iii) Construct another R function, called F_u, with one argument, 
 A_greater_than_u, that returns a vector of length 101, containing the 
 probabilities: 
@@ -110,9 +134,10 @@ head(F_u(A_exceed_u(A = A_vec, u = 1)), 8)
  
 
 
+---
 
+### Part 4
 
----------------------------------------
 
 (iv) Plot, on a single graph, four line graphs of the values of F_u against x for 
 the values of x specified in part (iii) when A_greater_than_u = A_exceed_u, 
@@ -120,8 +145,10 @@ A = A_vec and u = 1, 2, 3 and 4. You should use separate colours to identify
 each line graph and you should clearly specify which value of u is represented 
 by each of the four line graphs. [10] 
 (v) Comment on the graph produced in part (iv). [6] 
- [Total 36] CS2B A2021–4 
-------------------------------------------------------------------------------------
+
+---
+
+### Part 5
 
  
 (iv)
@@ -174,7 +201,9 @@ legend("bottomright",
  pch = 7)
 
  
+---
 
+### Part 5
 
 
 (v)
@@ -191,7 +220,7 @@ higher values of u.
 
 As a result of this irregularity, the curves for u = 3 and u = 4 cross over for small values of x.
 
- 
+--- 
 
 [Total 36]
 Part (i) was very well answered. The most common errors were to fail to set the 
@@ -217,4 +246,4 @@ values were plotted in part (iv), marks were still awarded in part (v) for any
 appropriate comments consistent with what was plotted.
 
 
-----------------------------------------------
+---

@@ -1,3 +1,14 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 Solution 2:
 i) a) Setwd()
 Data = read.csv(“Temperature_data.csv”)
@@ -8,6 +19,9 @@ Tuesday 0.9566 1.0000 0.7612 0.9484 0.9776
 Wednesday 0.5393 0.7612 1.0000 0.9080 0.7620
 Thursday 0.8236 0.9484 0.9080 1.0000 0.9632
 Friday 0.9271 0.9776 0.7620 0.9632 1.0000 (3)
+
+---
+
 b) cor (Data, method = “kendall”)
 Monday Tuesday Wednesday Thursday Friday
 Monday 1.0000 0.6952 0.2952 0.4667 0.6762
@@ -24,6 +38,9 @@ Tuesday 0.8643 1.0000 0.7679 0.9036 0.9536
 Wednesday 0.4036 0.7679 1.0000 0.9393 0.7821
 Thursday 0.6250 0.9036 0.9393 1.0000 0.8964
 Friday 0.8250 0.9536 0.7821 0.8964 1.0000 (3)
+
+---
+
 ii) The outcome of Pearson method is based on the values of the data whereas Kendall and 
 Spearman correlation matrix is based on the rank of the values in the dataset.
 Diagonal in each matrix represents the correlation of temperature with respect to the individual 

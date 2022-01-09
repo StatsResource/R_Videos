@@ -1,11 +1,22 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 Solution 7:
 i) # Fitting Linear Regression Model
 R Code:
 Data_claim = read.csv('HealthClaims.csv')
 model = lm(CLAIM_AMOUNT~.,data = Data_claim)
 summary(model) 
-IAI CS1B-0921
-Page 10 of 15
+
+---
+
 R Output:
 Call:
 lm(formula = CLAIM_AMOUNT ~ ., data = Data_claim)
@@ -49,8 +60,9 @@ AGE 1 6.2585e+11 6.2585e+11 204.271 < 2.2e-16 ***
 Residuals 1420 4.3506e+12 3.0638e+09 
 ---
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-IAI CS1B-0921
-Page 11 of 15
+
+---
+
 R-Squared : 72.75% of the variation of the claim amount is explained by geographical region, 
 profession, gender and age 
 Adjusted R- Squared: 72.46% is used to compare with the other models . Adjusted R-Squared is 
@@ -71,6 +83,9 @@ to profession self-employed.
 From ANOVA table, it can be concluded that all the variables are significant in terms of claim 
 paid as the p values of all the parameters are less than 0.05 so they are all significantly different 
 from zero (10)
+
+---
+
 ii) R Code:
 confint(model,level=0.95) 
 R output: 
@@ -91,12 +106,14 @@ PROFESSIONSelfemployed 7573.347 23638.179
 PROFESSIONService 149803.318 177585.265
 GENDERM -19489.519 -7623.148
 AGE 2439.328 3215.450 (3)
+---
+
 iii) R code:
 qqnorm(model$residuals) 
  
 Output:
-IAI CS1B-0921
-Page 12 of 15
+
+---
  
 If the residuals are normally distributed, it is expected the Q-Q plot to be along the diagonal. 
 Here it is not , indicating residuals are not forming normal distribution. Hence linear regression 
@@ -182,8 +199,9 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 Residual standard error: 40270 on 1380 degrees of freedom
 Multiple R-squared: 0.8598, Adjusted R-squared: 0.8542 
 F-statistic: 153.9 on 55 and 1380 DF, p-value: < 2.2e-16
-IAI CS1B-0921
-Page 14 of 15
+
+---
+
 anova(model3) 
 Analysis of Variance Table
 Response: CLAIM_AMOUNT
@@ -198,6 +216,9 @@ GEOGRAPHY:GENDER 10 3.9538e+10 3.9538e+09 2.4378 0.007001 **
 Residuals 1380 2.2382e+12 1.6219e+09 
 ---
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+---
+
 Comments:
  R-Squared and Adjusted R-Squared improved and hence model is a better fit compared 
 to the initial model 

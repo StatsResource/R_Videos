@@ -1,3 +1,14 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
 Solution 5:
 i) data=matrix(c(112,38,89,70,130,50,127,75,178,80,210,77,150,68,150,80),4,4)
  
@@ -39,11 +50,13 @@ Z*rowMeans(data)+(1-Z)*m
 Expected total claim payment from
  insurer A is INR 137.12 Crores (reduced compared to part i)
  insurer B is INR 65.13 Crores (increased compared to part i)
-IAI CS1B-0921
+
+--- 
+
 Page 5 of 15
- insurer C is INR 138.41 Crores (reduced compared to part i)
- insurer D is INR 79.35 Crores (increased compared to part i)
- insurer E is INR 97.24 Crores (newly added insurer)
+*  insurer C is USD 138.41 Million (reduced compared to part i)
+*  insurer D is USD 79.35 Million (increased compared to part i)
+*  insurer E is USD 97.24 Million (newly added insurer)
 (1 Mark for correct data and 1 mark for identifying the correct claim amount for each 
 insurer)
 required for other parts
@@ -57,29 +70,32 @@ required for other parts
 [1] 1288.5
 > Z
 [1] 0.862154 (2)
+
+---
+
 b) Comparison of calculated quantities
- With the introduction of insurer E, credibility factor Z has reduced. 
+*  With the introduction of insurer E, credibility factor Z has reduced. 
 o E[s2
 (Theta)] (i.e. ‘s’ in the R code used above) has reduced marginally – this has an effect of 
 increasing Z.
 o var[m(theta)] has reduced significantly (i.e. ‘v’ in the R code used above) - this has an effect 
 of reducing Z.
- Overall the ratio - ‘s’ / ‘v’ is 0.54 in part i; ‘s’ / ‘v’ increases to 0.64 in part ii – as value of 
+*  Overall the ratio - ‘s’ / ‘v’ is 0.54 in part i; ‘s’ / ‘v’ increases to 0.64 in part ii – as value of 
 denominator (in the calculation of Z = n/ (n + (s/v))) has increased in part ii compared to part 
 i – hence, credibility factor Z has reduced in part ii compared to part i. (3)
 c) Change in expected claim payment for each insurer
 Expected claim payment for insurer is based on credibility value and equal to 
 Z*individual average + (1-Z) * total average 
 (0.5 mark for comment on formula)
- Total average ‘m’ has reduced in part ii compared to part i as average of insurer E is lower 
+*  Total average ‘m’ has reduced in part ii compared to part i as average of insurer E is lower 
 than total average (m = 105.25) in part i
 (0.5 mark for comment on ‘m’)
- Expected claim payment for insurers A and C has reduced in part ii; as lower weight to 
+*  Expected claim payment for insurers A and C has reduced in part ii; as lower weight to 
 individual experience compared to part i (A and C have experienced higher claim payments in 
 the past and their average is higher than the total average of 5 insurers 103.45 - value of ‘m’ 
 as calculated above) brings down the total expected value for these insurers towards 103.45
 (1 mark for comment on A and C - where reduction observed)
- Expected claim payment for insurers B and D has increased in part ii; as lower weight to 
+*  Expected claim payment for insurers B and D has increased in part ii; as lower weight to 
 individual experience compared to part i (B and D’s individual average values are lower than 
 103.45) and higher weight to total average (103.45) pulls up the total expected value for these 
 insurers towards 103.45.
@@ -155,11 +171,11 @@ b)
 [4,] 98.01265
 [5,] 140.25116
 Claims5 gives expected claim payment based on EBCT 2 
- INR 160.36 Crores for insurer A
- INR 74.50 Crores for insurer B
- INR 158.09 Crores for insurer C
- INR 98.01 Crores for insurer D
- INR 140.25 Crores for insurer E
+*  USD 160.36 Million for insurer A
+*  USD 74.50 Million for insurer B
+*  USD 158.09 Million for insurer C
+*  USD 98.01 Million for insurer D
+*  USD 140.25 Million for insurer E
 (1 mark for identifying expected claim payment)
 Expected claim payments for all insurers has increased compared to part ii as it makes use of 
 Year 5 volume which is higher for all insurers.

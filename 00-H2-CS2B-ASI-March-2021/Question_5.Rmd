@@ -16,24 +16,31 @@ Q. 5) A primary school has two wings A and B. The students can change their Wing
 observed that the rate of movement is dependent on the age ‘x’ of the student (ranging from 
 5 to 15). The rate of movement from A to B = [0.08*x – 0.2] and the rate of movement from 
 B to A = [0.05 * x + 0.1]. 
+
+---
+
 i) Write a code to calculate the generator matrix G(x). Calculate the rate at which a 12 
 year old student will move from wing B to A and from A to B. 
-ii) Over a very small time period h, the transition probability matrix P(t,t+h) can be 
-approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. Using this, calculate the 
-probability that a 8 year old will move to Wing B in next 5 years in case h=1/365. 
-***********************
+
 
 --
 
 Solution 5: 
 i)
+```{r}
 sigmaAB=function(x){ 
- rate=0.08*x-0.2 IAI CS2B-0321 
-Page 9 of 9
+ rate=0.08*x-0.2
  rate} 
+```
+
+```{r}
 sigmaBA=function(x){ 
  rate=0.05*x+0.1 
  rate} 
+``` 
+
+---
+
 gen.matrix=function(x){ 
  muAB=sigmaAB(x) 
  muBA=sigmaBA(x) 
@@ -42,14 +49,24 @@ gen.matrix=function(x){
  movement.rates = c(muAA,muBA,muAB,muBB) 
  X =(matrix(movement.rates, 2, 2)) 
  X} 
+ 
 gen.matrix(12) 
 > gen.matrix(12) 
  [,1] [,2] 
 [1,] -0.76 0.76 
 [2,] 0.70 -0.70 
 Thus, the rates are 0.70 (from B to A) and 0.76 (from A to B). 
- [8] 
+
+---
+
 ii)
+ii) Over a very small time period h, the transition probability matrix P(t,t+h) can be 
+approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. Using this, calculate the 
+probability that a 8 year old will move to Wing B in next 5 years in case h=1/365. 
+
+---
+
+```{r}
 calc.prob.matrix=function(s,t,h){ 
  Ph=diag(2)+gen.matrix(s)*h 
  temp.matrix=Ph 
@@ -59,12 +76,17 @@ calc.prob.matrix=function(s,t,h){
  } 
  temp.matrix 
 } 
+```
+
+---
+
+```{r}
 calc.prob.matrix(8,5,1/365) 
+```
 > calc.prob.matrix(8,5,1/365) 
  [,1] [,2] 
 [1,] 0.6317483 0.3682517 
 [2,] 0.5260447 0.4739553 
 The rate of moving to Wing B = 0.3682517. 
- [10] 
-[18 Marks] 
-***************************************
+
+---

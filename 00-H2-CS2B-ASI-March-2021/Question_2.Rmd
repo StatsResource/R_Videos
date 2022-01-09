@@ -23,13 +23,15 @@ a) mean premium;
 b) mean claim amount; 
 c) standard deviation of premium; and 
 d) standard deviation of claim amount. 
-(7)
+
+---
+
 ii) It is assumed that the waiting times between consecutive events follow a Poisson 
 process. Expand the ‘claim’ table to include a column for observed waiting time (in 
 days) for all the claims and calculate a Poisson parameter value. (7)
 
 
-[26 Marks]
+---
  Solution 2: 
 i)
 data<-read.table("Data.csv",sep=",",header=T) 
@@ -50,6 +52,9 @@ Page 5 of 9
 191 352 5517 Premium 
 192 353 5371 Premium 
  [2] 
+ 
+ ---
+ 
 mean.premium=mean(premium[,2]) 
 mean.premium 
 > mean.premium 
@@ -61,7 +66,12 @@ sd.premium
 [1] 2878.675 
  [1]
 claim <- data[data$Type=="Claims",] 
-claim 
+
+---
+
+```{r}
+head(claim )
+```
 > claim 
  Day Amount Type 
 2 1 160854 Claims 
@@ -69,60 +79,43 @@ claim
 4 2 376784 Claims 
 6 5 259155 Claims 
 8 8 60865 Claims 
-10 11 347864 Claims 
-14 19 390440 Claims 
-15 22 15045 Claims 
-…………………….. 
-…………………….. 
-196 355 25257 Claims 
-197 356 30726 Claims 
-198 359 86987 Claims 
-199 359 190073 Claims 
-200 360 455409 Claims 
- [1] 
+
+--- 
+
+```{r}
 mean.claim=mean(claim[,2]) 
 mean.claim 
+```
+
 > mean.claim 
 [1] 259644.1 
  [1] 
+
+```{r}
 sd.claim=sqrt(var(claim[,2])) 
 sd.claim 
+```
  
 > sd.claim 
 [1] 155027 
  [1] 
-[7] 
-ii)
+
+---
+
+```{r}
 temp <- cbind(claim,c(NA,diff(claim[,1]))) IAI CS2B-0321 
-Page 6 of 9
+
 colnames(temp)[4] <- "Diff" 
 claim=temp 
 claim 
-> claim 
- Day Amount Type Diff 
-2 1 160854 Claims NA 
-3 1 35968 Claims 0 
-4 2 376784 Claims 1 
-6 5 259155 Claims 3 
-8 8 60865 Claims 3 
-10 11 347864 Claims 3 
-14 19 390440 Claims 8 
-15 22 15045 Claims 3 
-16 23 345151 Claims 1 
-18 27 498872 Claims 4 
-……………………. 
-………………….. 
-196 355 25257 Claims 1 
-197 356 30726 Claims 1 
-198 359 86987 Claims 3 
-199 359 190073 Claims 0 
-200 360 455409 Claims 1 
- [3] 
+```
+
+---
+
+```{r}
 mean.wait.time=mean(claim[,4][2:length(claim[,4])]) 
 Poiss.param.claims=1/mean.wait.time 
 Poiss.param.claims 
 > Poiss.param.claims 
 [1] 0.3314763 
- [4] 
-[7] 
-[14 Marks] 
+```
