@@ -32,13 +32,23 @@ BallTransition
 ## Pass 0.5 0.1 0.4
 ## Shoot 0.7 0.2 0.1
 ## Dribble 0.4 0.3 0.3
+
+```
+---
+
+```{r}
 markov2<-new("markovchain",transitionMatrix=matrix(data=MarkovData,
  byrow=TRUE,nrow=3,dimnames=list(TransitionName,TransitionName)))
-[2M]
+```
+---
+
+```{r}
 # (iii)
 plot(markov2) [3M]
-IAI CS2B-0921
-Page 6 of 13
+```
+---
+
+```{r}
 # (iv)
 steadyStates(markov2) [4M]
 ## Pass Shoot Dribble
@@ -55,7 +65,10 @@ markov2^2
 ## Shoot 0.53 0.14 0.33
 ## Dribble 0.53 0.19 0.28
 After 2 plays the probability is 0.48
-[2.5M]
+```
+---
+
+```{r}
 #(b)
 markov2^5
 ## Unnamed Markov chain^5 
@@ -66,10 +79,12 @@ markov2^5
 ## Pass 0.50475 0.18075 0.31450
 ## Shoot 0.50525 0.18100 0.31375
 ## Dribble 0.50450 0.18125 0.31425
-IAI CS2B-0921
-Page 7 of 13
+```
+---
+
+```{r}
 After 5 plays the probability is 0.50475
-[2.5M]
+
 #(vi)
 set.seed(100)
 seq<-markovchainSequence(100,markov2)
@@ -78,17 +93,24 @@ table(seq)
 ## seq
 ## Dribble Pass Shoot 
 ## 37 51 12 [4M]
+```
+---
+
+```{r}
 #(vii)
 library(lattice)
 ## Warning: package 'lattice' was built under R version 4.0.5
 barchart(prop.table(table(seq)))
-[2M]
 # OR
 plot(prop.table(table(seq)),main = "Frequency of different states")
-IAI CS2B-0921
-Page 8 of 13
-#(viii) [3M]
-# According to the steady state distribution, the frequency of Pass, Shoot an
+```
+
+---
+
+
+#(viii) 
+
+According to the steady state distribution, the frequency of Pass, Shoot an
 d Dribble needs to be 50.47, 18.09, 31.42 respectively. 
 # Pass frequency of the simulation is matching with that of the expected. But 
 there is some discrepancy in the shoot and dribble.
@@ -96,4 +118,4 @@ there is some discrepancy in the shoot and dribble.
 to be increased. When the simulations are small, different seed values can pr
 oduce different results altogether because of sample error and those differen
 ces might be significant
- [27 Marks]
+--- 

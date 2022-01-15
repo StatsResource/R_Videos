@@ -7,26 +7,37 @@ output:
     nature:
       highlightStyle: github
       countIncrementalSlides: false
+
+
 ---
 
-Solution 2:
+```{r}
+
 set.seed(1234)
 options(scipen=5)
 # (i)
 shape<-1.5
 scale<-100000
-WeibullSim<-rweibull(1000,shape,scale) [3M]
+WeibullSim<-rweibull(1000,shape,scale) 
+
+```
 
 ---
+
+```{r}
 
 # (ii)
 SimMean<-mean(WeibullSim)
 SimMean
 ## [1] 89244.03
 SimSD<-sd(WeibullSim)
-SimSD [2M]
+SimSD 
+
+```
 
 ---
+
+```{r}
 
 ## [1] 62717.89
 # (iii)
@@ -34,29 +45,62 @@ mu<-log(SimMean/(1+SimSD^2/SimMean^2)^0.5)
 mu
 ## [1] 11.19844
 
+```
+
 ---
+
+```{r}
 
 sigma<-log(1+SimSD^2/SimMean^2)^0.5
 sigma
 ## [1] 0.6335449 [5M]
 # (iv)
 
+```
+
 ---
 
+```{r}
 LogNormalSim<-rlnorm(1000,mu,sigma)
 mean(LogNormalSim)
+```
+
+---
+
+```{r}
 ## [1] 86421.17
 sd(LogNormalSim)
-## [1] 54384.16 [5M]
+## [1] 54384.16 
+
+
+```
+
+---
+
+```{r}
+
 # (v)
 SimResults<-as.data.frame(cbind(WeibullSim,LogNormalSim))
 hist(WeibullSim, breaks = 30)
-hist(LogNormalSim, breaks = 30) [3M]
-IAI CS2B-0921
+
+```
 
 ---
 
-# (vi)
+```{r}
+
+hist(LogNormalSim, breaks = 30) 
+```
+
+
+
+---
+
+### Part (6) 
+
+```{r}
 plot(density(WeibullSim),type = "l",col="red",ylim = c(0,0.00001))
 lines(density(LogNormalSim),col="green") 
+
+```
 

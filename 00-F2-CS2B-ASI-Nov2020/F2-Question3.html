@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+Q. 3)
+(7)
+[27]
+(4)
+[22]
+The number of claims in a year on an individual policy follows a Poisson distribution with
+a parameter of 0.75. Individual claim amounts follow a Gamma distribution with parameters
+(shape parameter α = 2 and rate parameter λ = 20,000). Set seed value of 100.
+i)
+Simulate claims for 10,000 policies and create a frequency distribution of the number
+of claims made on a policy per year.
+(4)
+
+---
+
+ii) Simulate the claim amounts for each claim and compute the aggregate claim amounts
+for each policy. Create a histogram of the aggregated claim amounts with proper
+labelling and legends. (6)
+iii) Compute the mean and variance of the aggregated claim amounts by using the method
+of moments of the compound Poisson distribution. (5)
+An insurer plans to go for an aggregate excess of loss reinsurance policy. The insurer wants
+to evaluate the expected cost for the retention limits from 50,000 to 100,000 in steps of
+5,000.
+iv) Compute expected costs for the insurer and the reinsurer for each of the retention limits. (6)
+v) The insurer decides to set a maximum retention limit where the mean cost to the insurer
+is not more than 75% of the mean aggregated claims. Identify the maximum possible
+retention limit based on the computations of (iv) and the proportion of total claims to
+be handled by the reinsurer. (5)
+vi) Based on that limit, compute the standard deviation and coefficient of skewness of the
+costs to the reinsurer.
+
+---
+
+===========================================================================================================
+
+Solution 3:
+i)
+
+
+```r
+set.seed(100)
+freq&lt;-rpois(10000,0.75)
+table(freq)
+```
+
+```
+## freq
+##    0    1    2    3    4    5 
+## 4761 3499 1328  327   70   15
+```
+
+
+---
+
+# There was a typo in the question. It should have been rate parameter is
+1/20000 or scale parameter should have been 20000
+# In case the students follow either one of the approaches, full marks will be
+awarded.
+#Solution Assuming rate parameter = 20000
+
+---
+
+## Part (b)
+
+
+```r
+AggclaimAmount&lt;-c()
+
+for (i in 1:10000) {
+  claimAmount&lt;-sum(rgamma(freq[i],shape = 2, rate = 20000))
+  AggclaimAmount&lt;-c(AggclaimAmount,claimAmount)
+}
+```
+
+---
+
+
+```r
+hist(AggclaimAmount, breaks =30, 
+  main = "Histogram of Aggregate Claim Amount", 
+  xlab = "AggregateClaim Amount", 
+  ylab = "Frequencies")
+```
+
+![](F2-Question3_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+## Part (c)
+
+
+```r
+mean_poisson&lt;-0.75
+mean_gamma&lt;-2/(20000)
+var_poisson&lt;-0.75
+var_gamma&lt;-2/((20000)^2)
+mean_aggregate&lt;-mean_poisson*mean_gamma
+```
+
+mean_aggregate
+ 7.5e-05
+
+
+```r
+var_aggregate&lt;-mean_poisson*var_gamma+var_poisson*mean_gamma^2
+var_aggregate
+```
+
+```
+## [1] 1.125e-08
+```
+ 1.125e-08
+
+---
+
+
+## Part (d)
+
+
+```r
+mean_claims_I&lt;-c()
+mean_claims_R&lt;-c()
+for (i in seq(50000,100000,5000)) {
+mean_claims_R&lt;-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
+mean_claims_I&lt;-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
+}
+```
+
+---
+# Mean Costs to the Insurers
+
+
+```r
+mean_claims_I
+```
+
+```
+##  [1] 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05
+##  [6] 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05
+## [11] 7.395992e-05
+```
+
+ 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-
+05
+[7] 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05
+# Mean Costs to the Reinsurer
+mean_claims_R
+ 0 0 0 0 0 0 0 0 0 0 0
+
+
+---
+
+v)
+mean_agg_cost&lt;-mean(AggclaimAmount)
+# 75% of the Aggregate claims cost
+mean_Cost_Insurer&lt;-mean_agg_cost*0.75
+# 75% of the Aggregate claims cost = 5.546994e-05
+# Retention limits should be much lesser than the limits specified in part (iv)
+# Can be recalculated by considering a different range from 0.0001 to 0.0002
+# If the student does not compute this range but mentions that no values from the range are applicable,
+then full marks should be awarded.
+
+---
+
+
+```r
+mean_claims_I&lt;-c()
+mean_claims_R&lt;-c()
+for (i in seq(0.0001,0.0002,0.00001)) {
+mean_claims_R&lt;-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
+mean_claims_I&lt;-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
+}
+```
+
+---
+
+
+```r
+mean_claims_I
+```
+
+```
+##  [1] 4.201910e-05 4.482882e-05 4.740955e-05 4.979510e-05 5.198747e-05
+##  [6] 5.400000e-05 5.584620e-05 5.751952e-05 5.904900e-05 6.044518e-05
+## [11] 6.170202e-05
+```
+ 4.201910e-05 4.482882e-05 4.740955e-05 4.979510e-05 5.198747e-05 5.400000e-
+05
+[7] 5.584620e-05 5.751952e-05 5.904900e-05 6.044518e-05 6.170202e-05
+mean_claims_R
+ 3.194081e-05 2.913110e-05 2.655037e-05 2.416482e-05 2.197244e-05 1.995992e-
+05
+[7] 1.811371e-05 1.644040e-05 1.491091e-05 1.351474e-05 1.225790e-05
+
+
+---
+
+
+```r
+Retention_Limit&lt;-0.00015
+Reinsurer_Claims&lt;-pmax(AggclaimAmount-Retention_Limit,0)
+#Proportion of Claims to be taken up by the reinsurer
+sum(Reinsurer_Claims&gt;0)/10000
+```
+
+```
+## [1] 0.1929
+```
+
+---
+
+
+## Part (4)
+vi)
+# If for the part (v), the student identifies that no values from the range are applicable and stops here, 
+
+full marks should be awarded
+
+
+```r
+SD_Retention&lt;-sd(Reinsurer_Claims)
+SD_Retention
+```
+
+```
+## [1] 5.991976e-05
+```
+
+&gt; SD_Retention
+ 5.991976e-05
+
+
+
+```r
+Skew_Retention&lt;-mean((Reinsurer_Claims-mean(Reinsurer_Claims))^3)/(sd(Reinsurer_Claims))^3
+Skew_Retention
+```
+
+```
+## [1] 4.305918
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

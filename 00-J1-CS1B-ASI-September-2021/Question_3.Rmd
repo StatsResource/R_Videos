@@ -9,6 +9,17 @@ output:
       countIncrementalSlides: false
 ---
 
+A child tosses n coins and the outcome of heads and tails are recorded in n samples as
+X1, X2, …… Xn, where, Xi’s are independent Bernoulli variables with p = 0.5. The total 
+outcome of n variables is Y = X1 +……. + Xn
+i) Specify the distribution of Y (2)
+ii) Simulate a sample of 10 values for Y (2)
+iii) Assess the value of Y for the sample created in (ii) (2)
+iv) what is the probability of Y = 4 (1)
+[7]
+
+---
+
 Solution 3:
 i) If X1, X2, …… Xn follows Bernoulli distribution with p = 0.5 (1)
 Then Y follows binomial distribution ~ Bin(n,p) as sum of independent Bernoulli distribution 

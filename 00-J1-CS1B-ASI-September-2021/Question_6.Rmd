@@ -9,6 +9,30 @@ output:
       countIncrementalSlides: false
 ---
 
+Q. 6) You are investigating the level of premium charged by two companies for certain group. 
+Random samples of 10 policies from Company1 and Company2 are compared. Below R 
+code provides the premiums charged by Company1 and Company2 in current year for 
+10 sample policies.
+ Company1<-c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
+ Company2<-c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
+Students are required to provide hypothesis, R code, Output and conclusion
+i) Assuming that the premiums are normally distributed, carry out a statistical test to 
+check equal variance assumption so that it is appropriate to apply a two-sample t 
+test to these data. 
+ Use R code – var.test (4)
+ii) Test whether the level of premiums charged by Company1 and Company2 are 
+same.
+ Use R code – t.test (use var.equal =TRUE) (4)
+iii) The average premium charged by Company2 in the previous year was INR 1500. 
+Test whether Company2 appears to have increased its premiums since the previous 
+year.
+ Use R code -t.test (#one sided) (4)
+
+
+
+
+---
+
 Solution 6:
 i) H0 – Company1 and Company2 having equal variance (i.e., ratio of variance =1)
 H1 – There is a difference in variance between Company1 and Company2.
@@ -74,7 +98,19 @@ significance level we have enough evidence to reject null hypothesis.
 (p-value less than 5% also confirms that we have enough evidence to reject null hypothesis at 
 5% significance level).
 Hence, we can conclude that the mean premium charged by Company2 is greater than INR 1500 
-at 5% significance level. (4)
+at 5% significance level. 
+
+---
+iv) It was found that out of sample of 200 policies of Company1 and 100 policies of 
+Company2 sold at the start of the year, 60 policies of Company1 and 50 policies of 
+Company2 resulted in claim. Carry out a hypothesis test for the difference in 
+proportions.
+ Use R code – prop.test (use correct=FALSE) (4)
+ 
+
+ 
+---
+
 iv) H0 – There is no difference in proportion of (policies that result in) claim between Company1 and 
 Company2.
 IAI CS1B-0921
@@ -99,12 +135,30 @@ have sufficient evidence to reject null hypothesis at 5% significance level. Hen
 conclude that there is difference in proportion of (policies that result in) claims between 
 Company1 and Company2 at 5% significance level. 
 
+
+--- 
+v) Company2 wants to study the claim frequency between group1 policies having 
+premium less than INR 1500 and remaining policyholders. There were 65 claims 
+out of 250 policies of group1 and 45 claims out of 110 other policies in a year. 
+Assuming number of claims having Poisson distribution, test at 2.5% level whether 
+the ratio of claim frequency between group1 and other policyholders is less than 1.
+ Use R code – poisson.test (#one sided) (4)
+ 
 ---
 
 v) H0 – There is no difference in ratio of claim frequency between group1 and other groups in 
 Company2. 
 H1 – Claim frequency of group1 is less than other groups in Company2.
+```{r echo=FALSE}
 poisson.test(c(65,45),c(250,110), conf=.975, alternative="less")
+```
+
+---
+
+```{r include= FALSE}
+poisson.test(c(65,45),c(250,110), conf=.975, alternative="less")
+```
+
  Comparison of Poisson rates
 data: c(65, 45) time base: c(250, 110)
 count1 = 65, expected count1 = 76.389, p-value = 0.01358
@@ -114,6 +168,9 @@ alternative hypothesis: true rate ratio is less than 1
 sample estimates:
 rate ratio 
 0.6355556
+
+---
+
 Conclusion – As the confidence interval for the ratio does not include 1, at 2.5% significance level 
 we have enough evidence to reject null hypothesis. 
 (p-value less than 2.5% also confirms that we have enough evidence to reject null hypothesis at 

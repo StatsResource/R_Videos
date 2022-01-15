@@ -1,0 +1,112 @@
+
+#Alternative Solution Assuming rate parameter = 1/20000
+
+---
+
+ii)
+
+```{r}
+AggclaimAmount<-c()
+for (i in 1:10000) {
+claimAmount<-sum(rgamma(freq[i],shape = 2, rate = 1/20000))
+AggclaimAmount<-c(AggclaimAmount,claimAmount)
+}
+hist(AggclaimAmount, breaks =30, main = "Histogram of Aggregate Claim Amount", xlab = "Aggregate
+Claim Amount", ylab = "Frequencies")
+```
+--- 
+
+iii)
+
+```{r}
+mean_poisson<-0.75
+mean_gamma<-2/(1/20000)
+var_poisson<-0.75
+var_gamma<-2/((1/20000)^2)
+mean_aggregate<-mean_poisson*mean_gamma
+```
+
+mean_aggregate
+ 30000
+
+var_aggregate<-mean_poisson*var_gamma+var_poisson*mean_gamma^2
+var_aggregate
+ 1.8e+09
+
+---
+
+iv)
+
+```{r}
+
+mean_claims_I<-c()
+mean_claims_R<-c()
+
+for (i in seq(50000,100000,5000)) {
+  mean_claims_R<-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
+  mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
+}
+```
+
+---
+
+```{r}
+# Mean Costs to the Insurers
+mean_claims_I
+```
+
+19450.96 20582.04 21600.00 22511.81 23319.69 24043.04 24680.81 25247.09 257
+58.25
+[10] 26210.38 26608.72
+# Mean Costs to the Reinsurer
+```
+
+---
+
+```{r}
+mean_claims_R
+```
+ 10133.006 9001.921 7983.967 7072.158
+.875
+[9] 3825.712 3373.590 2975.244
+6264.271
+5540.923
+4903.159
+4336
+
+---
+
+v)
+
+```{r}
+mean_agg_cost<-mean(AggclaimAmount)
+# 75% of the Aggregate claims cost
+mean_Cost_Insurer<-mean_agg_cost*0.75
+mean_Cost_Insurer
+```
+
+```{r}
+# 75% of the Aggregate claims cost = 22187.97
+# Retention limit accordingly is 60000
+Retention_Limit<-60000
+Reinsurer_Claims<-pmax(AggclaimAmount-Retention_Limit,0)
+#Proportion of Claims to be taken up by the reinsurer
+sum(Reinsurer_Claims>0)/10000
+
+```
+
+---
+
+```{r}
+SD_Retention<-sd(Reinsurer_Claims)
+SD_Retention
+```
+
+> SD_Retention
+ 23967.9
+[2]
+Skew_Retention<-mean((Reinsurer_Claims-mean(Reinsurer_Claims))^3)/(sd(Reinsurer_Claims))^3
+Skew_Retention
+> Skew_Retention
+ 4.305918
+
