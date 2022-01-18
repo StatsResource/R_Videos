@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+
+The dataset “***Interest_rates.csv***” contains a series of returns on bonds of maturities 
+1 year, 5 years, 10 years, 15 years, 20 years and 30 years (i.e. bonds that provide a
+return of the principal investment after 1, 5, 10, 15, 20 and 30 years respectively).
+
+
+
+
+```r
+interest_rates &lt;- read.csv("Interest_rates.csv")
+```
+
+
+```r
+head(interest_rates)
+```
+
+```
+##   X1.year X5.year X10.year X15.year X20.year X30.year
+## 1 0.05271 0.05088  0.04836  0.04702  0.04534  0.04320
+## 2 0.05261 0.05077  0.04798  0.04737  0.04572  0.04339
+## 3 0.05102 0.04907  0.04784  0.04809  0.04716  0.04553
+## 4 0.05125 0.05175  0.05118  0.05126  0.05027  0.04846
+## 5 0.05116 0.05330  0.05226  0.05244  0.05138  0.04969
+## 6 0.05435 0.05488  0.05289  0.05293  0.05168  0.04983
+```
+
+
+---
+
+### Exercise 1
+
+Calculate the Pearson correlation coefficient matrix for this data.
+Comment on the correlations between the data using the matrix from
+Exercise 1
+
+
+
+
+```r
+# read the data
+interest_rates&lt;-read.csv("Interest_rates.csv")
+# calculate the Pearson correlation coefficients
+```
+
+---
+
+
+```r
+cor(interest_rates, method="pearson")
+```
+
+```
+##            X1.year   X5.year  X10.year  X15.year  X20.year  X30.year
+## X1.year  1.0000000 0.8760513 0.7827029 0.7380130 0.6146684 0.4094968
+## X5.year  0.8760513 1.0000000 0.9666006 0.9356486 0.8269608 0.6020591
+## X10.year 0.7827029 0.9666006 1.0000000 0.9907851 0.9339235 0.7657966
+## X15.year 0.7380130 0.9356486 0.9907851 1.0000000 0.9696405 0.8315513
+## X20.year 0.6146684 0.8269608 0.9339235 0.9696405 1.0000000 0.9379375
+## X30.year 0.4094968 0.6020591 0.7657966 0.8315513 0.9379375 1.0000000
+```
+
+---
+
+The correlation matrix shows that there is strong (positive) correlation between returns on bonds of similar maturity.
+
+It also shows that the correlation between returns is weaker as the length of maturity between bonds increases.
+
+---
+
+
+### ***ggcorrplot()***
+
+&lt;pre&gt;&lt;code&gt;
+library(ggcorrplot)
+
+cor(interest_rates, method="pearson") %&gt;%ggcorrplot::ggcorrplot()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+---
+
+### ***ggcorrplot()***
+
+
+```
+## Loading required package: ggplot2
+```
+
+![](02-Part2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+
+### Part 2
+
+Perform a reduction of the dimension of the data using principal component analysis with the method of singular value decomposition.
+
+Your answer should include a summary of the principal component analysis.
+
+Suggest with reasons, using the output of the R analysis, how many 
+components of the transformed data should be retained.
+
+---
+ 
+### Principal component analysis
+ 
+
+```r
+# carry out principal component analysis using SVD method
+
+pca &lt;- prcomp(interest_rates)
+```
+
+
+
+```r
+# review the results of the principal component analysis
+summary(pca)
+```
+
+```
+## Importance of components:
+##                            PC1      PC2      PC3       PC4       PC5       PC6
+## Standard deviation     0.00945 0.003419 0.001488 0.0002555 0.0002061 8.986e-05
+## Proportion of Variance 0.86432 0.113130 0.021430 0.0006300 0.0004100 8.000e-05
+## Cumulative Proportion  0.86432 0.977440 0.998880 0.9995100 0.9999200 1.000e+00
+```
+
+
+---
+
+### Conclusion
+
+
+
+The R-output shows that the proportion of variance explained by the first two principal
+components is approx 98%, and by the first three components approx 99%.
+
+Therefore it would be reasonable to reduce the dimensions of the dataset by using the
+first two (or three) principal components.
+
+---
+
+
+---
+Candidates performed generally well in this question. Part (i) was very well answered,
+with some partial answers in (i)(b) where many candidates observed a relationship in
+individual years without drawing out the overall trend. Answers in part (ii) were also
+satisfactory. Note that in part (ii) the princomp() function can alternatively be used in R.
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

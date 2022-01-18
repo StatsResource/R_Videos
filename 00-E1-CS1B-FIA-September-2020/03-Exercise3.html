@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3 - Hypothesis Testing with ***t.test()***
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+A machine in a sweet factory fills bags of sweets to weigh 500 grams. The actual
+weight of the sweet bags is known to follow a Normal distribution. 
+
+The sweet manufacturer believes that the machine is under-filling the sweet bags. A sample of
+10 sweet bags is taken and weighed, as summarised below.
+
+|  |  |  |  |  ||  |  |  |  |  |
+|---|---|---|---|---|---|---|---|---|---|---|
+|Bag | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|Weight (grams) | 474.11 | 512.01 | 493.64 | 495.03 | 518.13 | 486.03 | 494.48 | 501.76 | 498.83 | 503.02 |
+
+---
+
+
+The data can be entered into R using the following code:
+
+
+
+```r
+weight&lt;-c(474.11,512.01,493.64,495.03,518.13,486.03,
+494.48,501.76,498.83,503.02)
+```
+
+#### Exercises
+
+
+1. Perform a suitable t-test to determine whether the sweet bags are being
+consistently under-filled, stating the hypotheses and the level of significance
+used in the test. 
+
+2. Propose an interpretation of your conclusion in part 1. 
+
+
+---
+
+
+The test has the null hypothesis that the mean sweet bag weight is equal to 500 grams, and 
+the alternative hypothesis that the mean sweet bag weight is less than 500 grams. 
+
+```r
+t.test(weight,mu=500,alternative="less")
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  weight
+## t = -0.58321, df = 9, p-value = 0.287
+## alternative hypothesis: true mean is less than 500
+## 95 percent confidence interval:
+##      -Inf 504.9207
+## sample estimates:
+## mean of x 
+##   497.704
+```
+Remark: we run a one-sided t-test (as we are concerned with the one 
+sided scenario of ‘under-filling’)
+
+---
+
+
+#### Interpreting the p-value
+
+The test has been performed at the 5% significance level. Since the p-value of 0.287 is not 
+less than the significance level of 0.05, we cannot reject the null hypothesis. 
+
+
+#### Conclusion
+
+Since we cannot reject the null hypothesis that the mean sweet bag weight is 500 grams, in 
+favour of the alternative that the mean sweet bag weight is less than 500 grams, 
+there is insufficient evidence that the sweet bags are being under-filled.
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

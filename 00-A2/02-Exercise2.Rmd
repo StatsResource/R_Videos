@@ -1,5 +1,5 @@
 ---
-title: "Statistics with R"
+title: "Risk Modelling and Survival Analysis with R"
 subtitle: "R for Actuarial Students"
 output:
   xaringan::moon_reader:
@@ -9,14 +9,37 @@ output:
       countIncrementalSlides: false
 ---
 
+### Risk Modelling and Survival Analysis with R
 
-```{r}
+
+#### CS2B Curriculum
+
+* It develops knowledge of and the ability to apply statistical methods for risk modelling, time series analysis methods, stochastic processes (especially Markov chains and Markov jump processes), survival analysis (including regression methods applied to duration data), and graduation methods  It also includes a high-level introduction to machine learning. 
+
+* Question 2 Part (a)
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+```{r echo=FALSE, include=FALSE}
 library(magrittr)
 
-options(repr.plot.width=10, repr.plot.height=7)
+
 options(digits=4)
 ```
 
+## Question 2 Part (a)
 
 * An exponential distribution has a parameter of $\lambda = 0.4$.
 
@@ -26,124 +49,97 @@ options(digits=4)
 ---
 
 
-Exercise 1
-===============================
+### Exercise 1
 
-Simulate 1,000 values from this distribution, assigning this to a variable called ``Exp_Vector`` and calculate the mean and variance of
-the simulated values. Paste the results of your calculation into your answer.
+
+Simulate 1,000 values from this distribution, assigning this to a variable called ***Exp_Vector*** and calculate the mean and variance of
+the simulated values. 
+
+Paste the results of your calculation into your answer.
 
 ```{r}
-rexp(10,rate = (1/0.4))
+rexp(5,rate = 0.4)
 ```
 
 ---
 
 
-Exercise 1
-===============================
+### Exercise 1
 
 
 ```{r}
 options(digits=4)
 
-rexp(10,rate = (1/0.4))
+rexp(5,rate = 0.4)
 ```
 
 
 ---
 
-Exercise 1
-===============================
+### Exercise 1
 
 
 ```{r}
-rexp(10,0.4)
+rexp(5,0.4)
 ```
 
 
 ```{r}
-rexp(10,0.4)
-```
-
-
----
-
-
-Using ``set.seed()``
-
-```{r}
-set.seed(1234)
-rexp(10,0.4)
+rexp(5,0.4)
 ```
 
 
 ---
 
+
+### Using ***set.seed()***
 
 ```{r}
 set.seed(1234)
-rexp(10,0.4)
+rexp(5,0.4)
+```
 
+```{r}
 set.seed(1234)
-rexp(10,0.4)
+rexp(5,0.4)
+```
+
+```{r}
+set.seed(1234)
+rexp(5,0.4)
 
 ```
 
 
 ---
 
-
-
-Part 2
-======================================
-
-
-Plot a histogram of ``Exp_Vector`` showing the frequencies and paste the plot into your answer.
+#### Mean and Variance
 
 ```{r}
 set.seed(1234)
 Exp_Vector <- rexp(1000,0.4)
 ```
 
+```{r}
+mean(Exp_Vector)
+```
 
 ```{r}
-mean(Exp_Vector) 
+var(Exp_Vector)
 ```
 
 
-
----
-
-
-```{r}
-mean(Exp_Vector) %>% round(3)
-```
-
-
-2.502
-
-
+#### Numerical Summary
 
 ```{r}
 summary(Exp_Vector)
 ```
 
-
-* *  Min.   1st Qu.* Median*   Mean   3rd Qu.*   Max. 
-*  0.000592  0.712687  1.792930  2.501533  3.467425 18.167711 
-
-
-
-```{r}
-var(Exp_Vector) %>% round(3)
-```
-
-
-6.393
-
 ---
 
-* The mean and variance will vary due to the random number generation. 
+#### Analytical Results
+
+The mean and variance will vary due to the random number generation. 
 
 If the sample size was large enough, the mean and variance should be close the underlying distribution (exponential with parameter 0.4) as follows:
 
@@ -157,25 +153,22 @@ $$ \operatorname{Var}(X) = \frac{1}{\lambda^2} = 6.25$$
 
 ---
 
-Part 3
-====================================
+### Part 2
 
-Plot the probability density function for this distribution as:
 
-1. a scatter plot
-2. a line graph.
+
+Plot a histogram of ***Exp_Vector*** showing the frequencies and paste the plot into your answer.
 
 ---
 
+### Part 2
 
 ```{r}
-hist(Exp_Vector)
+hist(Exp_Vector,breaks=50)
+
 ```
 
-
 ---
-
-
 
 ```{r}
 hist(Exp_Vector, breaks=50,col=c("lightblue","pink"))
@@ -185,33 +178,75 @@ hist(Exp_Vector, breaks=50,col=c("lightblue","pink"))
 
 ---
 
+#### Part 3
+
+Plot the probability density function for this distribution as:
+
+1. a scatter plot
+2. a line graph.
+
+
+#### Sequence
 
 ```{r}
 x <- seq(0,20,by=0.5)
 x
 ```
 
+---
 
-
+### Probability Density Function
 
 
 ```{r}
 PDF <- dexp(x, 0.4)
 
-plot(x, PDF)
+head(PDF)
 
+```
+
+---
+
+### Probability Density Function - Scatterplot
+
+
+```{r}
+plot(x, PDF)
 ```
 
 
 ---
 
-
+### Probability Density Function - Lineplot
 
 
 ```{r}
 plot(x, PDF, type="l")
 ```
 
+---
+
+
+### Probability Density Function - Lineplot
+
+
+```{r}
+plot(x, PDF, type="l", col="red")
+```
+
+---
+
+### Probability Density Function - Lineplot
+
+
+```{r}
+plot(x, PDF, type="l", col="red", lwd=2.4)
+```
+
+---
+
+
+---
 
 
 

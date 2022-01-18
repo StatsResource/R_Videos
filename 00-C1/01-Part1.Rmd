@@ -1,14 +1,35 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
-lib_dir: libs
-nature:
-  highlightStyle: github
-  countIncrementalSlides: false
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
 In a very small empirical study a sample from a random variable $X$ is observed. 
 The data can be entered into R using the following code:
@@ -22,7 +43,7 @@ x <- c(0.22, 0.38, 1.28, 0.54, 0.56, 1.36,
 
 ---
 
-\subsection*{Exercise 1} 
+### Exercise 1
 Estimate the expected value of $X$.
 
 
@@ -30,40 +51,21 @@ Estimate the expected value of $X$.
 mean(x)
 ```
 
-\begin{verbatim}
-0.573888
-\end{verbatim}
 
 
 ---
 
-Exercise 2
-============================
-Calculate a 95\% confidence interval for the expected value of $X$, assuming that $X$ is Normally distributed.
+### Exercise 2
+
+Calculate a 95% confidence interval for the expected value of $X$, assuming that $X$ is Normally distributed.
 
 ```{r}
 t.test(x, conf=0.95)
 ```
-\begin{verbatim}
-	One Sample t-test
-
-data:  x
-
-t = 8.2805, df = 17, p-value = 2.276e-07
-alternative hypothesis: true mean is not equal to 0
-
-95 percent confidence interval:
- 0.4276654 0.7201123
-
-sample estimates:
-mean of x 
-0.5738889 
-
-\end{verbatim}
 
 ---
 
-\textbf{Shapiro-Wilk normality test}
+#### Shapiro-Wilk normality test
 
 ```{r}
 shapiro.test(x)
@@ -80,20 +82,21 @@ qqline(x ,lwd=2,col="red")
 
 ```
 
-\includegraphics[scale=0.45]{00-C1/images/00-C1-Q1-qqnorm.png}
-
 ---
 
-Tidyverse
-==========================
+#### Tidyverse
 
-```{r}
+
+```{r warning=FALSE}
 
 # install.packages(c("magrittr","broom"))
 
 library(magrittr)
 library(broom)
+```
 
+
+```{r}
 t.test(x, conf=0.95) %>% tidy()
 
 
@@ -101,8 +104,8 @@ t.test(x, conf=0.95) %>% tidy()
 
 ---
 
-Exercise 3
-============================
+### Exercise 3
+
 
 Construct a confidence interval for the expected value of $X$ using the bootstrap
 method with 10,000 bootstrap replications.
@@ -117,28 +120,54 @@ method with 10,000 bootstrap replications.
 
 ---
 
+```{r}
+sample(1:4, 3, replace =TRUE)
 
-> sample(1:4,replace =TRUE)
-[1] 1 1 4 1
->
-> sample(1:5,replace =TRUE)
-[1] 5 3 1 5 4
->
-> sample(1:6,replace =TRUE)
-[1] 4 2 1 2 2 4
-
-
+```
 
 ```{r}
-replicate(10, mean(sample(x,replace =TRUE)))
+sample(1:5, 3, replace =TRUE)
+```
+
+```{r}
+sample(1:6, 3, replace =TRUE)
+```
+---
+
+
+---
+
+```{r}
+sample(1:4,  replace =TRUE)
+
+```
+
+```{r}
+sample(1:5,  replace =TRUE)
+```
+
+```{r}
+sample(1:6, replace =TRUE)
+```
+
+---
+
+### ***replicate()***
+
+```{r}
+replicate(5, mean(sample(x,replace =TRUE)))
 ```
 
 
-\begin{verbatim}
- [1] 0.5927778 0.4955556 0.5144444 0.5444444 0.6272222
- [6] 0.5577778 0.5438889 0.4916667 0.6233333 0.6266667
-\end{verbatim}
+```{r}
+replicate(5, mean(sample(x,replace =TRUE)))
+```
 
+
+```{r}
+replicate(5, mean(sample(x,replace =TRUE)))
+```
+---
 
 
 
@@ -150,28 +179,24 @@ quantile(y,prob=c(0.025,0.975))
 ```
 
 
-\begin{verbatim}
- 2.5% 97.5% 
-0.4544444 0.7222222 
-\end{verbatim}
-
 ---
 
 
-Exercise  4
-=============================
+### Exercise  4
+
 
 Comment on the differences between the confidence intervals in exercises 2 and 3.
 
 
 * The CIs are almost identical with the CI in exercise 3 being narrower. 
+<p>
 * The reason might be that the distribution of $X$ is not normal, and therefore the
 distribution of the mean is not normal for the small sample size we have in this
 question. 
-* 
+<p>
 
 
-The bootstrap method provides a good approximation of the distribution of the mean
+* The bootstrap method provides a good approximation of the distribution of the mean
 independently of the type of distribution.
 
 ---

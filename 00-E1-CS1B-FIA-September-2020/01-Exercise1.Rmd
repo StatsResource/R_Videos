@@ -1,15 +1,120 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
 
 
-\large 
-\noindent
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
 
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
-1 An employee at a café has been trained to set the coffee machine so that an espresso
-coffee portion results in 2.0 grams of coffee being placed into a cup. Knowing that
+An employee at a café has been trained to set the coffee machine so that an espresso
+coffee portion results in 2.0 grams of coffee being placed into a cup. 
+
+Knowing that
 variations are expected, the employee pours eight portions and measures the amounts
-to be 1.95, 1.80, 2.10, 1.82, 1.75, 2.01, 1.83 and 1.90.
-(i) Calculate an 80% confidence interval for the mean size of espresso coffee
-portions. [4]
-(ii) Comment on whether the mean portion of coffee is equal to 2.0 grams. [2]
-[Total 6]
+to be 
+$$\{1.95, 1.80, 2.10, 1.82, 1.75, 2.01, 1.83, 1.90\}$$.
 
+#### Exercises
+
+1. Calculate an 95% confidence interval for the mean size of espresso coffee
+portions. 
+2. Comment on whether the mean portion of coffee is equal to 2.0 grams. 
+3. Repeat Exercises 1 and 2 for an 80% confidence interval
+
+---
+
+```{r}
+amounts <- c(1.95, 1.80, 2.10, 1.82, 1.75, 2.01, 1.83, 1.90) 
+
+
+### First 6 items
+head(amounts)
+
+
+### Last 6 items
+tail(amounts)
+
+```
+
+---
+
+#### Inspecting the Data
+
+```{r}
+length(amounts)
+
+class(amounts)
+
+mode(amounts)
+```
+
+---
+
+### Use ***t.test()***:
+```{r}
+t.test(amounts,conf.level=0.95) 
+
+```
+
+---
+
+### Conclusion
+From output:
+
+  95 percent confidence interval: (1.796, 1.994) 
+
+
+
+
+The employee sees that value 2.0 is not in the interval and therefore a hypothesis of a 2 
+gram portion would be rejected at the 5% level.
+
+
+---
+
+```{r}
+t.test(amounts,conf.level=0.80) 
+
+```
+From output:
+80 percent confidence interval: (1.836, 1.954) 
+
+#### Conclusion
+The employee sees that value 2.0 is not in the interval and therefore a hypothesis of a 2 
+gram portion would be rejected at the 20% level.
+
+---
+
+```{r}
+t.test(amounts,conf.level=0.99) 
+
+```
+---

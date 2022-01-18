@@ -1,0 +1,179 @@
+---
+title: "Risk Modelling and Survival Analysis with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+### Risk Modelling and Survival Analysis with R
+
+
+#### CS2B Curriculum
+
+* It develops knowledge of and the ability to apply statistical methods for risk modelling, time series analysis methods, stochastic processes (especially Markov chains and Markov jump processes), survival analysis (including regression methods applied to duration data), and graduation methods  It also includes a high-level introduction to machine learning. 
+
+* Question 2 Part (c)
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+```{r echo=FALSE, include=FALSE}
+library(magrittr)
+
+
+options(digits=4)
+```
+
+---
+
+The Pareto distribution is one for which there is no built-in R code. The probability 
+density function can be written as:
+$$f (x) =  \frac{ \alpha \lambda^{\alpha }}{(\lambda + x)^{\alpha  + 1}}, x > 0$$
+
+(Remark: Pareto Type II Distribution, also known as the Lomax Distribution)
+---
+
+#### Exercises
+
+* Write down the R code for a function to simulate variables from the 
+Pareto distribution, denoting it ***rpareto*** and paste your coding into 
+your answer.
+
+* Simulate, using ***rpareto***, 1,000 values from a Pareto distribution 
+with parameters $\alpha = 3$, $\lambda = 1$, assigning the simulation to a vector 
+called ***Par_Vector*** and calculate the mean and variance of 
+the simulated values.
+
+
+---
+
+#### R Packages
+
+* {Pareto} - Pareto Type I Distribution
+* {agop} -  Pareto Type II Distribution
+
+---
+
+#### Pareto Type II (Lomax)
+
+Probability density function
+
+$${\displaystyle {\alpha \over \lambda }\left[{1+{x \over \lambda }}\right]^{-(\alpha +1)}}{\displaystyle }$$
+Cumulative distribution function
+
+$${\displaystyle 1-\left[{1+{x \over \lambda }}\right]^{-\alpha }}$$
+
+---
+
+### Inverse Transform Sampling.
+
+$${\displaystyle U = 1-\left[{1+{x \over \lambda }}\right]^{-\alpha }}$$
+
+Re-arranging
+$${\displaystyle 1- U = \left[{1+{x \over \lambda }}\right]^{-\alpha }}$$
+
+If U is uniformly distributed on $[0, 1)$, it can be exchanged with $(1 − U)$, and vice versa.
+
+$${\displaystyle U = \left[{1+{x \over \lambda }}\right]^{-\alpha }}$$
+
+---
+
+Re-arranging again - both sides to the power of $-1/\alpha$
+
+$${\displaystyle U^{-1/\alpha }-1 = {{x \over \lambda }}}$$
+
+
+
+Multiply both sides by $\lambda$
+
+$$ {\displaystyle x =  \lambda\left[U^{-1/\alpha }-1\right] }$$
+
+```{r}
+rpareto <- function(n,alpha,lambda) {
+    rp <- lambda*( ( runif(n) )^(-1/alpha) -1 )
+    rp
+}
+```
+
+---
+
+```{r}
+
+
+Par_Vector = rpareto(10000,alpha = 3,lambda = 1)
+
+```
+
+
+```{r}
+
+mean(Par_Vector)
+
+```
+
+```{r}
+var(Par_Vector)
+```
+
+---
+
+```{r warning=FALSE}
+library(agop)
+Par_Check = rpareto2(10000,k=3,s=1)
+```
+
+```{r}
+summary(Par_Vector)
+```
+
+```{r}
+summary(Par_Check)
+```
+
+---
+
+#### Range of values between 0 and 1
+
+```{r}
+Xrange <- (0:20)/20
+
+```
+
+#### Sample Quantiles
+
+```{r}
+PVQs <- quantile(Par_Vector, Xrange )
+PCQs <- quantile(Par_Check, Xrange)
+
+
+```
+
+<pre><code>
+
+plot(Xrange,PVQs,col="red")
+points(Xrange,PCQs,col="green",type="l")
+</code></pre>
+---
+
+```{r echo=FALSE}
+
+plot(Xrange,PVQs,col="red")
+points(Xrange,PCQs,col="green",type="l")
+```
+
+---

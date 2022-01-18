@@ -10,9 +10,8 @@ output:
 ---
 
 
-\section{Introduction}
 
-Data
+### Data
 Before answering this question, the data file must be generated in R using the following code:
 
 
@@ -24,9 +23,18 @@ set.seed(12345);
 y = arima.sim( list(order = c(1,1,0), ar = 0.7), n = 300)
 ```
 
+---
 
 Plot the time series giving appropriate labels for each axis and paste the chart into your answer.
 
+
+<pre><code>
+ts.plot( y, 
+    xlab = "Time", 
+    ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
+</code></pre>
+
+---
 
 ```{r}
 ts.plot( y, 
@@ -34,7 +42,7 @@ ts.plot( y,
     ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
 ```
 
-----
+---
 
 ```{r}
 plot( y, 
@@ -60,28 +68,36 @@ plot(x, y,
 ```
 
 
-
+---
 
 (b) Comment on the general features of your chart.
 
-%
+---
 
-Exercise 2}
+Exercise 2
 (a) Determine the best least squares linear fit, adding it to your chart.
 
 (b) Explain whether this least squares linear trend can be removed such that a zero mean stationary distribution is appropriate for the residuals.
 
+
+---
+
+```{r}
 x = 1:301
 leastsquaresfit = lm(y~x)
+```
+
+---
+```{r}
 leastsquaresfit$coefficients
-(Intercept)
-35.3816076916281
-x
-0.251593150412161
+```
+
 (ii) (a)
 ​
 Intercept: 16.4405647
-Slope: -0.2436929 [11⁄2]
+Slope: -0.2436929 
+
+---
 abline(leastsquaresfit)
 OR:
 lines(leastsquaresfit$fitted.values) [11⁄2]
@@ -245,6 +261,9 @@ fit10=arima(diff(y),order= c(1,0,0));fit10$aic
 # 842.4563
 fit01=arima(diff(y),order= c(0,0,1));fit01$aic
 # 911.0564
+```
+
+```{r}
 fit21=arima(diff(y),order= c(2,0,1));fit21$aic
 # 845.8664
 fit12=arima(diff(y),order= c(1,0,2));fit12$aic
@@ -266,33 +285,3 @@ tsdiag(fit10)
 ...The ACF of residuals together with the corresponding Ljung-Box test output
 ...(i.e. high p-values observed suggesting good fit - residuals close to white noise)
 ...suggest that this is a correct model.
-[21⁄2]
-​
-[Total 40]
-Part (i) was very well answered. Appropriate alternative comments received credit in part
-(i)(b). To be appropriate, the comments had to relate to the general features of the chart
-produced in part (i)(a) and not to any other charts.
-Part(ii) was less satisfactory. Whilst many candidates were able to plot the least squares
-line in part (ii)(a), few commented satisfactorily in part (ii)(b) with many candidates
-suggesting that the least squares linear trend could be removed such that the residuals
-were stationary.
-
-=====================================%
-
- 
- 
- 
-        Part (iii) was very well answered. Appropriate alternative comments received credit in part (iii)(b). To be appropriate, the comments had to relate to the ACF and PACF plots
-produced in part (iii)(a) and not to any other charts.
-​
-    Answers to part (iv) were mixed. Partial credit was awarded to candidates who differenced the time series more than once and compared the variance of each differenced data set. Only partial credit was awarded to candidates who stated that the differenced data
-“was stationary” rather than “could be stationary”.
-​
-    Part (v) was poorly answered. Many candidates did not fit the correct model in part (v)(a) with most not stating the model parameters for their proposed model. 
-    The proposed model
-had to be compared to at least two alternative models to score the full credit in the first part of (v)(b). Few candidates correctly interpreted the diagnositics procedures in the
-second part of (v)(b).
- 
-​
-
-\end{document}

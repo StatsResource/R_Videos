@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,21 +9,49 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
 
-The dataset “\texttt{Interest\_rates.csv}” contains a series of returns on bonds of maturities 
+
+The dataset “***Interest_rates.csv***” contains a series of returns on bonds of maturities 
 1 year, 5 years, 10 years, 15 years, 20 years and 30 years (i.e. bonds that provide a
 return of the principal investment after 1, 5, 10, 15, 20 and 30 years respectively).
 
 
 
 ```{r}
-interest_rates <- read.csv("Data/Interest_rates.csv")
+interest_rates <- read.csv("Interest_rates.csv")
 ``` 
+
+```{r}
+head(interest_rates)
+```
 
 
 ---
 
+### Exercise 1
 
 Calculate the Pearson correlation coefficient matrix for this data.
 Comment on the correlations between the data using the matrix from
@@ -34,7 +62,7 @@ Exercise 1
 ```{r}
 
 # read the data
-> interest_rates<-read.csv("Interest_rates.csv")
+interest_rates<-read.csv("Interest_rates.csv")
 # calculate the Pearson correlation coefficients
 
 ``` 
@@ -42,18 +70,10 @@ Exercise 1
 ---
 
 ```{r}
- C <- cor(interest_rates, method="pearson")
+cor(interest_rates, method="pearson")
 ``` 
 
 ---
-
-Alternative solution
-
-```{r}
-cor(interest_rates)
-```
-
-
 
 The correlation matrix shows that there is strong (positive) correlation between returns on bonds of similar maturity.
 
@@ -61,24 +81,47 @@ It also shows that the correlation between returns is weaker as the length of ma
 
 ---
 
-Part 2
-============================
+
+### ***ggcorrplot()***
+
+<pre><code>
+library(ggcorrplot)
+
+cor(interest_rates, method="pearson") %>%ggcorrplot::ggcorrplot()
+
+</code></pre>
+
+---
+
+### ***ggcorrplot()***
+
+```{r echo=FALSE, warning=FALSE}
+library(ggcorrplot)
+
+cor(interest_rates, method="pearson") %>%ggcorrplot::ggcorrplot()
+
+```
+
+---
+
+### Part 2
+
 Perform a reduction of the dimension of the data using principal component analysis with the method of singular value decomposition.
 
 Your answer should include a summary of the principal component analysis.
+
+Suggest with reasons, using the output of the R analysis, how many 
+components of the transformed data should be retained.
+
+---
+ 
+### Principal component analysis
  
 ```{r}
 # carry out principal component analysis using SVD method
 
 pca <- prcomp(interest_rates)
 ``` 
-
-
-(b) Suggest with reasons, using the output of the R analysis, how many components of the transformed data should be retained.
-
-
-
-
 
 
 ```{r}
@@ -88,26 +131,22 @@ summary(pca)
 ```
 
 
-======================================
+---
 
+### Conclusion
 
-
-```{r}
-pca<-princomp(interest_rates)
-summary(pca)
-
-
-``` 
 
 
 The R-output shows that the proportion of variance explained by the first two principal
-components is c.98\%, and by the first three components c.99%.
+components is approx 98%, and by the first three components approx 99%.
 
 Therefore it would be reasonable to reduce the dimensions of the dataset by using the
 first two (or three) principal components.
 
 ---
 
+
+---
 Candidates performed generally well in this question. Part (i) was very well answered,
 with some partial answers in (i)(b) where many candidates observed a relationship in
 individual years without drawing out the overall trend. Answers in part (ii) were also

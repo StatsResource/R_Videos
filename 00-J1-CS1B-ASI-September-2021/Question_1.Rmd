@@ -9,36 +9,115 @@ output:
       countIncrementalSlides: false
 ---
 
-----
+* Introduction to R for Actuarial Students
 
-Q. 1) Assume X is a random variable which follows Poi (2) where X = 1,2,3,4,5,6,7,8,9,10 i.e. 
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+Assume X is a random variable which follows Poi (2) where $X = 1,2,3,4,5,6,7,8,9,10$ i.e. 
 values from 1 to 10
-i) Calculate the probability for each of the values of X. (2)
-ii) Calculate the cumulative probability for each of the values of X. (2)
-iii) Plot a graph of the distribution function of X. (1)
-[5]
 
-----
 
-Solution 1:
-X = c(1:10)
-Lambda = 2 (1)
-i) dpois (x, Lambda)
+#### Exercises
 
->>Outcome:
-2.706706e-01 2.706706e-01 1.804470e-01 9.022352e-02 3.608941e-02 1.202980e-02 
-3.437087e-03 8.592716e-04 1.909493e-04 3.818985e-05 (1.5)
+1. Calculate the probability for each of the values of $X$. 
+2. Calculate the cumulative probability for each of the values of $X$.
+3. Plot a graph of the distribution function of $X$. 
+
 
 ---
 
-ii) ppois (x, Lambda)
+#### Exercise 1
 
->> Outcome
-0.4060058 0.6766764 0.8571235 0.9473470 0.9834364 0.9954662 0.9989033 0.9997626 
-0.9999535 0.9999917 (1.5)
+```{r}
+X <- c(1:10)
+Lambda <- 2 
+```
+
+#### Probability Mass Function $P(X=x)$
+
+```{r}
+dpois(X, Lambda)
+```
+
+
 
 ---
 
-iii) plot (ppois(x,Lambda)
-(1)
-[5 Marks]
+### Exercise 2 
+
+#### Cumulative Distribution Function $P(X \leq x)$
+
+```{r}
+ppois(X, Lambda)
+```
+
+
+
+---
+
+### Exercise 2 
+
+#### $P(X > x)$
+
+```{r}
+ppois(X, Lambda, lower.tail = FALSE)
+```
+
+```{r}
+ppois(X, Lambda, lower.tail = FALSE) %>% round(4)
+```
+
+Remember: This is a discrete probability distribution
+
+
+---
+
+#### Exercise 3 
+
+
+```{r}
+plot(ppois(X,Lambda), pch=18,col="red",cex=2)
+```
+
+---
+
+
+#### Exercise 3 
+
+
+
+```{r}
+plot(dpois(X,Lambda), pch=16,col="blue",cex=2)
+```
+
+
+---
+
+#### Exercise 3 
+
+
+```{r}
+plot(ppois(X,Lambda,lower.tail = FALSE), pch=17,col="green",cex=2)
+```
+

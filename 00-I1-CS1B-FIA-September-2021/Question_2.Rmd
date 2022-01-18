@@ -14,19 +14,21 @@ output:
 2 Use the command set.seed(2021) to initialise the random number generator. 
 When you execute any R code in this question, make sure you run the entire R script 
 including the line set.seed(2021) at the start.
+
+
 (i) (a) Generate a sample of size n = 180 from an Exponential distribution 
 with parameter λ = 5. 
 (b) Calculate the sample median of the sample in part (i)(a). 
 (c) Calculate the median of the Exponential distribution with λ = 5. 
 (d) Comment on your results in parts (i)(b) and (i)(c). 
- [8] 
+
+---
 The maximum likelihood estimator for λ is given by λ = 1/X where X is the sample 
 mean. 
-(ii) (a) Estimate the parameter λ using the maximum likelihood estimator and 
+
+5. Estimate the parameter λ using the maximum likelihood estimator and 
 the sample in part (i)(a). 
-(b) Generate another sample of size n = 180 from an Exponential 
+6. Generate another sample of size n = 180 from an Exponential 
 distribution with parameter λ = 5 and estimate the parameter λ using 
 the maximum likelihood estimator and the new sample. 
-(c) Comment on the estimated values in parts (ii)(a) and (ii)(b). 
- [7] 
- [Total 15] 
+7. Comment on the estimated values in parts 5 and 6

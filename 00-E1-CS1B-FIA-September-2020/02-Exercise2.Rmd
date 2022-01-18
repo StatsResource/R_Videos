@@ -1,25 +1,119 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-2 A researcher has collected the following data on a group of students, regarding
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 2 - Chi Square Test
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+A researcher has collected the following data on a group of students, regarding
 whether they passed or failed an exam and whether or not they attended tutorials:
 
 
-Number of students Exam passed Exam failed
-Attended tutorials 132 27
-Did not attend tutorials 120 51
-(i) State the hypotheses of this test. [2]
+| Number of students  | Exam Passed | Exam Failed |  
+|---|---|---|---|---|
+| Attended tutorials  | 132 | 27 |  
+| Did not attend tutorials  | 120 | 51 |  
+|  |  |  |  |  |
+
+
 
 
 ---
 
-The data can be entered into R using the following code:
-amounts=c(1.95,1.80,2.10,1.82,1.75,2.01,1.83,1.90)
 The data can be entered into R in matrix form using the following code:
-The reasercher wants to establish whether tutorial attendance is independent of exam
-success, using a chi-square test.
-(ii) Calculate the expected frequencies for the data under the null hypotheses
-in part (i). [3]
-(iii) Perform the test stating clearly your conclusion. 
 
-
+```{r}
 exam.success = matrix(c(132,120,27,51),ncol=2,nrow=2)
+```
 
+```{r}
+
+exam.success
+```
+
+
+```{r}
+
+addmargins(exam.success)
+```
+---
+
+#### Exercises
+The researcher wants to establish whether tutorial attendance is independent of exam
+success, using a chi-square test.
+
+1. State the hypotheses of this test. 
+
+2. Calculate the expected frequencies for the data under the null hypotheses
+in part 1.
+
+3. Perform the test stating clearly your conclusion. 
+
+---
+
+```{r}
+chisq.test(exam.success)
+```
+
+```{r}
+chisq.test(exam.success)$expected
+```
+---
+
+```{r}
+names( chisq.test(exam.success) )
+```
+
+### Residuals 
+
+Residuals are the difference between observed and expected values
+
+```{r}
+chisq.test(exam.success)$residuals
+```
+
+---
+
+### Chi-square test, 
+
+Removing the Yates' continuity correction
+
+```{r}
+chisq.test(exam.success, correct=FALSE) 
+```
+
+The p-value is significant (e.g. at the 1% level), since 0.006069 < 0.01 – therefore there is 
+evidence to reject the null hypothesis and we conclude that tutorial attendance and exam
+success are not independent.
+
+---
+
+---

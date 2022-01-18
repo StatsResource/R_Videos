@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,37 +9,150 @@ output:
       countIncrementalSlides: false
 ---
 
-1 In a small country, a political election was held recently to decide on a political party 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+```{r include=FALSE, warning=FALSE}
+library(tidyverse)
+library(data.table)
+library(knitr)
+library(magrittr)
+library(flextable)
+library(kableExtra)
+```
+
+In a small country, a political election was held recently to decide on a political party 
 to govern the country. A survey was conducted to monitor the approval rating for the 
 winning political party. 
+
 A sample of 15 voters were asked to complete the same survey twice: once before the 
 election (Approval before) and a second time 6 months after the election (Approval 
-after). The survey asked each of the 15 voters to record their approval for the winning 
-political party on a scale from 1 to 10, where 
-1 = Strongly disapprove and 10 = Strongly approve. 
+after). 
+
+---
+
+The survey asked each of the 15 voters to record their approval for the winning 
+political party on a scale from 1 to 10, where ***1 = Strongly disapprove*** and ***10 = Strongly approve***.
+<p>
 The results are shown in the table below:
-Voter 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-Approval 
-before 8 6 8 7 7 4 2 10 8 7 10 8 8 9 6 
-Approval 
-after 5 6 2 3 4 1 4 7 4 2 10 1 5 3 7 
-The values can be entered in R using: 
-```{r}
+
+
+```{r echo=FALSE, warning=FALSE}
+voters <- as.character(1:15)
+
 approval_before <- c(8, 6, 8, 7, 7, 4, 2, 10, 8, 7, 10, 
 8, 8, 9, 6) 
 approval_after <- c(5, 6, 2, 3, 4, 1, 4, 7, 4, 2, 10, 1, 
 5, 3, 7) 
 
+thisTable <- data.frame(voters,approval_before,approval_after)
+
+thisTable_t <-thisTable %>% data.table::transpose() 
+
+thisTable_t <- bind_cols(varnames=c("Voter","Before","After"),thisTable_t)
+
+thisTable_t %>% kable( col.names = NULL) %>%  
+      kable_styling(bootstrap_options = c("bordered", full_width = F, font_size = 16)) %>%
+  row_spec(1, background = "AAEEFF", color = "black", font_size = 18)
+
+
+```
+<p>
+------------------------------------
+<p>
+The values can be entered in R using: 
+<pre><code>
+approval_before <- c(8, 6, 8, 7, 7, 4, 2, 10, 8, 7, 10, 
+8, 8, 9, 6) 
+approval_after <- c(5, 6, 2, 3, 4, 1, 4, 7, 4, 2, 10, 1, 
+5, 3, 7) 
+</code></pre>
+---
+
+
+#### Exercises
+
+1. Calculate the means for the Approval before and Approval after results. 
+
+2.  Outline why Kendall’s Tau would be a suitable correlation coefficient to use 
+for these results. 
+
+3. Calculate Kendall’s Tau coefficient between the Approval before and 
+Approval after results. 
+
+4. Comment on your results in Exercises 1 and 3. 
+
+---
+
+### Exercise 1
+
+#### Sample Estimates
+
+Enter the data into R using the commands provided in the question
+```{r}
+approval_before <- c(8, 6, 8, 7, 7, 4, 2, 10, 8, 7, 10, 8, 8, 9, 6)
+approval_after <- c(5, 6, 2, 3, 4, 1, 4, 7, 4, 2, 10, 1, 5, 3, 7)
+```
+
+```{r}
+mean(approval_before)
+
+mean(approval_after) 
+```
+
+---
+### Exercise 2 and 3
+
+#### Kendall’s Rank Correlation Coefficient
+
+* Kendall’s rank correlation coefficient will measure the strength of monotonic relationship between approval before and approval after results
+<p>
+* It considers only the relative values of the bivariate data, and not their actual values
+<p>
+* It doesn’t assume linearity between the bivariate data.
+
+
+```{r}
+cor(approval_before,approval_after,method="kendall") 
+```
+
+---
+### Exercise 3
+
+#### Spearman Correlation Coefficient
+
+
+
+```{r}
+cor(approval_before,approval_after,method="spearman") 
+```
+
+
+#### Pearson Correlation Coefficient
+
+```{r}
+cor(approval_before,approval_after) 
 ```
 
 ---
 
-(i) Calculate the means for the Approval before and Approval after results. [2] 
-(ii) Outline why Kendall’s Tau would be a suitable correlation coefficient to use 
-for these results. [2] 
-(iii) Calculate Kendall’s Tau coefficient between the Approval before and 
-Approval after results. 
+### Exercise 4
+
+* From Exercise 1, the mean approval has fallen from before (7.2) to after (4.3) 
+* Kendall’s Tau in Exercise 3 shows that there is weak correlation between the approval
+scores before and after 
+* From Exercises 1 and 3, this suggests that generally, the 15 voters’ approval for the
+political party has changed, i.e. approval has fallen (or, the shift in opinion has not
+been the same across those surveyed)
 
 ---
 
-(iv) Comment on your results in parts (i) and (iii). 
+---

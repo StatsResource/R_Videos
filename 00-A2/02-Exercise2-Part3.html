@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Risk Modelling and Survival Analysis with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Risk Modelling and Survival Analysis with R
+## R for Actuarial Students
+
+---
+
+
+### Risk Modelling and Survival Analysis with R
+
+
+#### CS2B Curriculum
+
+* It develops knowledge of and the ability to apply statistical methods for risk modelling, time series analysis methods, stochastic processes (especially Markov chains and Markov jump processes), survival analysis (including regression methods applied to duration data), and graduation methods  It also includes a high-level introduction to machine learning. 
+
+* Question 2 Part (c)
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+
+---
+
+The Pareto distribution is one for which there is no built-in R code. The probability 
+density function can be written as:
+`$$f (x) =  \frac{ \alpha \lambda^{\alpha }}{(\lambda + x)^{\alpha  + 1}}, x &gt; 0$$`
+
+(Remark: Pareto Type II Distribution, also known as the Lomax Distribution)
+---
+
+#### Exercises
+
+* Write down the R code for a function to simulate variables from the 
+Pareto distribution, denoting it ***rpareto*** and paste your coding into 
+your answer.
+
+* Simulate, using ***rpareto***, 1,000 values from a Pareto distribution 
+with parameters `\(\alpha = 3\)`, `\(\lambda = 1\)`, assigning the simulation to a vector 
+called ***Par_Vector*** and calculate the mean and variance of 
+the simulated values.
+
+
+---
+
+#### R Packages
+
+* {Pareto} - Pareto Type I Distribution
+* {agop} -  Pareto Type II Distribution
+
+---
+
+#### Pareto Type II (Lomax)
+
+Probability density function
+
+`$${\displaystyle {\alpha \over \lambda }\left[{1+{x \over \lambda }}\right]^{-(\alpha +1)}}{\displaystyle }$$`
+Cumulative distribution function
+
+`$${\displaystyle 1-\left[{1+{x \over \lambda }}\right]^{-\alpha }}$$`
+
+---
+
+### Inverse Transform Sampling.
+
+`$${\displaystyle U = 1-\left[{1+{x \over \lambda }}\right]^{-\alpha }}$$`
+
+Re-arranging
+`$${\displaystyle 1- U = \left[{1+{x \over \lambda }}\right]^{-\alpha }}$$`
+
+If U is uniformly distributed on `\([0, 1)\)`, it can be exchanged with `\((1 − U)\)`, and vice versa.
+
+`$${\displaystyle U = \left[{1+{x \over \lambda }}\right]^{-\alpha }}$$`
+
+---
+
+Re-arranging again - both sides to the power of `\(-1/\alpha\)`
+
+`$${\displaystyle U^{-1/\alpha }-1 = {{x \over \lambda }}}$$`
+
+
+
+Multiply both sides by `\(\lambda\)`
+
+$$ {\displaystyle x =  \lambda\left[U^{-1/\alpha }-1\right] }$$
+
+
+```r
+rpareto &lt;- function(n,alpha,lambda) {
+    rp &lt;- lambda*( ( runif(n) )^(-1/alpha) -1 )
+    rp
+}
+```
+
+---
+
+
+```r
+Par_Vector = rpareto(10000,alpha = 3,lambda = 1)
+```
+
+
+
+```r
+mean(Par_Vector)
+```
+
+```
+## [1] 0.5067
+```
+
+
+```r
+var(Par_Vector)
+```
+
+```
+## [1] 0.8503
+```
+
+---
+
+
+```r
+library(agop)
+Par_Check = rpareto2(10000,k=3,s=1)
+```
+
+
+```r
+summary(Par_Vector)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    0.10    0.25    0.51    0.59   46.82
+```
+
+
+```r
+summary(Par_Check)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.102   0.261   0.489   0.589  19.019
+```
+
+---
+
+#### Range of values between 0 and 1
+
+
+```r
+Xrange &lt;- (0:20)/20
+```
+
+#### Sample Quantiles
+
+
+```r
+PVQs &lt;- quantile(Par_Vector, Xrange )
+PCQs &lt;- quantile(Par_Check, Xrange)
+```
+
+&lt;pre&gt;&lt;code&gt;
+
+plot(Xrange,PVQs,col="red")
+points(Xrange,PCQs,col="green",type="l")
+&lt;/code&gt;&lt;/pre&gt;
+---
+
+![](02-Exercise2-Part3_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
