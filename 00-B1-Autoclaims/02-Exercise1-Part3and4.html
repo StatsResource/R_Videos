@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -17,20 +17,260 @@ class: center, middle, inverse, title-slide
 ---
 
 
+* Introduction to R for Actuarial Students
 
-* Prepare  a  contingency  table  identifying  the  proportion  of  insured  across  differentCLASS(es) for each gender. Test the null hypothesis “There is no relationship betweenthe  GENDER  and  the  CLASS  of  the  insured”  against  an  alternate  hypothesis  of existence of significant relation at 95% confidence level.
+* CS1B Curriculum
 
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
 
-* Perform an appropriate testand comment.
+* Question 1 - Data Analysis
+* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
 
 ---
 
 
-Part 4
-============================
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+### AutoClaims
+
+
+```r
+AutoClaims &lt;- read.csv("data/AutoClaims.csv")
+```
+
+
+
+```r
+head(AutoClaims)
+```
+
+```
+##      STATE CLASS GENDER AGE      PAID
+## 1 STATE 01   C6       M  43  2364.696
+## 2 STATE 01   F6       M  43 18787.967
+## 3 STATE 01   F6       M  43 27115.745
+## 4 STATE 02   C1       M  43 15288.492
+## 5 STATE 02   C11      M  43  2265.707
+## 6 STATE 02   C11      M  43  6344.641
+```
+
+---
+### Exercise 3
+
+* Prepare  a  contingency  table  identifying  the  proportion  of  insured  across  differentCLASS(es) for each gender.
+
+* Test the null hypothesis “**There is no relationship between the  GENDER  and  the  CLASS  of  the  insured**”  against  an  alternate  hypothesis  of existence of significant relation at 95% confidence level.
+
+
+* Perform an appropriate test and comment.
+
+---
+
+#### Contingency Table for the distribution of Gender across rating classes
+
+
+```r
+State_Class_Freq &lt;-table(AutoClaims$GENDER,AutoClaims$CLASS) 
+State_Class_Freq
+```
+
+```
+##    
+##     C1  C11 C6  F6 
+##   F  43 177 325  43
+##   M  65 287 383  94
+```
+
+
+```r
+addmargins(State_Class_Freq)
+```
+
+```
+##      
+##        C1   C11  C6   F6   Sum
+##   F     43  177  325   43  588
+##   M     65  287  383   94  829
+##   Sum  108  464  708  137 1417
+```
+
+---
+
+#### Contingency Table in terms of proportion of Rating classes
+
+(overall proportion)
+
+```r
+State_Class_RowProp&lt;-prop.table(State_Class_Freq)
+
+State_Class_RowProp 
+```
+
+```
+##    
+##            C1         C11        C6         F6 
+##   F 0.03034580 0.12491179 0.22935780 0.03034580
+##   M 0.04587156 0.20254058 0.27028934 0.06633733
+```
+
+
+```r
+addmargins(State_Class_RowProp)
+```
+
+```
+##      
+##              C1         C11        C6         F6         Sum
+##   F   0.03034580 0.12491179 0.22935780 0.03034580 0.41496119
+##   M   0.04587156 0.20254058 0.27028934 0.06633733 0.58503881
+##   Sum 0.07621736 0.32745236 0.49964714 0.09668313 1.00000000
+```
+
+---
+
+#### Contingency Table in terms of proportion of Rating classes for each gender
+
+(proportions inside gender)
+
+
+```r
+State_Class_RowProp&lt;-prop.table(State_Class_Freq, margin=1)
+
+State_Class_RowProp 
+```
+
+```
+##    
+##            C1         C11        C6         F6 
+##   F 0.07312925 0.30102041 0.55272109 0.07312925
+##   M 0.07840772 0.34620024 0.46200241 0.11338963
+```
+
+
+```r
+addmargins(State_Class_RowProp)
+```
+
+```
+##      
+##              C1         C11        C6         F6         Sum
+##   F   0.07312925 0.30102041 0.55272109 0.07312925 1.00000000
+##   M   0.07840772 0.34620024 0.46200241 0.11338963 1.00000000
+##   Sum 0.15153697 0.64722065 1.01472350 0.18651888 2.00000000
+```
+
+
+---
+
+### Chi-Square test for independence of two variables 
+
+
+```r
+chisq.test(AutoClaims$GENDER,AutoClaims$CLASS) 
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  AutoClaims$GENDER and AutoClaims$CLASS
+## X-squared = 13.704, df = 3, p-value = 0.003338
+```
+---
+
+#### Interpretation: 
+
+* Chi-Squared values is 13.704 with 3 degrees of freedom. 
+* P-Value  for the chi  square test is 0.0033 &lt; 0.05. 
+* Hence the null hypothesis of independence between the gender and rating class is rejected at 95% confidence level. 
+
+Looking at the proportions in the table, it is evident that more than 55% of the females are 
+in rating class C6 whereas as only 46% of the males are in that rating class. 
+
+Similarly 34.6% 
+of the males are in C11 as against only 30% of females in that class. Same is the case with 
+F6. Hence the difference in proportions
+
+
+
+#### Exercise 4 
+
 
 Use  an  appropriate  test  to  test  if  the  mean  claim  amount  paid  and  variance  of  claim amounts paid is uniform between males and females.
 
+---
+
+
+### #Testing for mean amount paid between Male and Female
+
+
+
+```r
+t.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  AutoClaims$PAID[AutoClaims$GENDER == "M"] and AutoClaims$PAID[AutoClaims$GENDER == "F"]
+## t = -1.0808, df = 1165.9, p-value = 0.28
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1176.7935   340.7988
+## sample estimates:
+## mean of x mean of y 
+##  5953.770  6371.767
+```
+
+---
+
+* P-value = 0.28 &gt; 0.05 
+* Null hypothesis of “**Mean claim paid is same between males and 
+females**” cannot be rejected at 95% confidence level 
+
+---
+
+#### ***var.test()***
+
+Testing for variance of amount paid between Male and Female
+
+
+```r
+var.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
+```
+
+```
+## 
+## 	F test to compare two variances
+## 
+## data:  AutoClaims$PAID[AutoClaims$GENDER == "M"] and AutoClaims$PAID[AutoClaims$GENDER == "F"]
+## F = 0.78416, num df = 828, denom df = 587, p-value = 0.001337
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.6744929 0.9098948
+## sample estimates:
+## ratio of variances 
+##          0.7841591
+```
+---
+
+
+* P-value = 0.0013 &lt; 0.05 
+*  Null hypothesis of “Variance of claim paid is same between males and females” is rejected at 95% confidence level.
+
+* Claims paid among females is more  volatile compared to that of males
+
+---
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

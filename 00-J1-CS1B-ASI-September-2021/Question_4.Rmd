@@ -9,24 +9,117 @@ output:
       countIncrementalSlides: false
 ---
 
-For a sample data X = 0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 
-0.9688, 0.6300
-i) Find the mean value of X (2)
-ii) Calculate the standard deviation of X (1)
-iii) Find the median of X (3)
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1 - Data Analysis
+* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
 
 ---
 
-Solution 4:
-i) X = c(0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 0.9688, 0.6300)
-> mean(x)
-0.566461 (2)
-ii) Sd(x)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+For a sample data X =\{ 0.5820, 0.04981, 0.1552, 0.1555, 
+0.9036, 0.8501, 0.9288, 0.4408, 
+0.9688, 0.6300\}
 
 
-0.3515525 (1)
+### Exercises
+
+1. Find the mean value of X 
+
+2. Calculate the standard deviation of X 
+
+3. Find the median of X 
+
+---
 
 
-iii) median(x)
-0.606 (3)
-[6 Marks]
+
+```{r}
+X <- c(0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 0.9688, 0.6300)
+```
+
+---
+
+#### Summary Statistics
+
+```{r}
+mean(X)
+```
+
+```{r}
+sd(X)
+```
+
+```{r} 
+median(X)
+```
+
+---
+
+#### Sort
+
+```{r}
+sort(X)
+```
+
+#### Reverse the order
+
+```{r}
+rev(X)
+```
+
+
+
+---
+
+
+```{r}
+X
+```
+
+#### which,max and which.min()
+
+```{r}
+which.min(X)
+```
+
+```{r}
+which.max(X)
+```
+
+---
+
+#### Order
+
+```{r}
+order(X)
+```
+
+
+#### Rank and Order
+
+```{r}
+cbind(X, rank(X) )
+```
+
+---
+
+---

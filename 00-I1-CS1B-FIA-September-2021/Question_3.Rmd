@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,21 +9,184 @@ output:
       countIncrementalSlides: false
 ---
 
-CS1B S2021–4 
-3 An insurer’s marketing team has developed a new lottery that gives each new 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 3 - Probability Distributions
+* Exam on basis of ***Base R*** 
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+An insurer’s marketing team has developed a new lottery that gives each new 
 customer the chance to win a cash prize. The insurer states that any new customer can 
 win with probability 0.36 independently of all other customers.
-Let Y denote the number of winners in a random sample of 900 new customers. 
-(i) State a suitable distribution for the random variable Y. [1] 
-(ii) Calculate, to four decimal places, the probabilities P[k < Y ≤ k + 20] for all 
-values k = 220, 240, 260, …, 400. [5] 
-It is suggested that the true distribution of Y can be approximated with a Normal 
-distribution with expectation EሾYሿ = 324 and a standard deviation of 14.4. 
-(iii) Calculate, to four decimal places, the probabilities P[k < Y ≤ k + 20] for all 
-values k = 220, 240, 260, …, 400 based on the suggested Normal distribution. 
- [4] 
-(iv) Plot the values calculated in parts (ii) and (iii) on the same graph. [4] 
-[Hint: you may find the R command lines(…) useful.] 
-(v) Discuss your answers in parts (i)–(iv). [5] 
-[Total 19] 
-CS1B S2021–5 
+
+Let $Y$ denote the number of winners in a random sample of 900 new customers. 
+
+#### Exercises
+1.  State a suitable distribution for the random variable Y. 
+2. Calculate, to four decimal places, the probabilities $P[k < Y \leq k + 20]$ for all 
+values $k = 220, 240, 260, \ldots, 400$.
+
+3. It is suggested that the true distribution of Y can be approximated with a Normal 
+distribution with expectation $E[Y] = 324$ and a standard deviation of 14.4. Calculate, to four decimal places, the probabilities $P[k < Y \leq k + 20]$ for all 
+values $k = 220, 240, 260, \ldots, 400$, based on the suggested Normal distribution. 
+
+4. Plot the values calculated in parts 2. and 3. on the same graph. 
+*Hint: you may find the R command lines(…) useful.*
+
+5. Discuss your answers in parts 1 to 4.
+
+
+---
+
+#### Exercise 1
+
+This is a Binomial(900, 0.36) distribution. 
+
+```{r}
+n <- 900
+p <- 0.36
+```
+
+---
+
+### Cumulative Distribution Function
+
+```{r}
+
+q = 220 + 20*(0:10)
+q
+```
+
+```{r}
+cdfb = pbinom(q, n, p) 
+
+round(cdfb,4)
+```
+
+---
+
+### Probability for intervals under Binomial distribution
+
+```{r}
+pb = diff(cdfb) 
+
+
+round(pb,4)
+
+
+
+```
+
+### Alternative Approach
+
+```{r}
+pb = cdfb[-1] - cdfb[-11]
+round(pb,4)
+```
+
+
+---
+
+### Alternative Approach
+
+```{r} 
+
+k <- seq(220,400,by=20)
+
+pb <- pbinom(k+20,900,0.36)-pbinom(k,900,0.36)
+
+round(pb,4)
+```
+
+---
+
+### Exercise 4
+
+```{r}
+
+cdfn = pnorm(q, mean=324, sd=14.4) 
+pn = diff(cdfn) 
+```
+
+
+
+```{r}
+round(pn, 4)
+```
+
+---
+
+### Alternative using continuity correction:
+
+```{r}
+k <- seq(220,400,by=20)
+
+pn <- pnorm(k+20.5, mean=324, sd=14.4) -
+                pnorm(k+0.5, mean=324, sd=14.4)
+round(pn,4)
+```
+
+---
+
+### Exercise 4
+
+Plot both sets of probabilities on the same graph to compare the values:
+
+<pre><code>
+plot(q[-1], round(pb,4), type="p", xlab="k", ylab="probability",col="black", pch=16) 
+# small circles show for Bin(n,p) prob. 
+
+lines(q[-1], round(pn,4),col="green",lwd=2) 
+
+</code></pre>
+
+
+---
+
+
+```{r echo=FALSE}
+plot(q[-1], round(pb,4), type="p", xlab="k", ylab="probability",col="black") 
+# small circles show for Bin(n,p) prob. 
+
+lines(q[-1], round(pn,4),col="green") 
+
+```
+---
+
+### Central Limit Theorem
+
+* The plot shows that the suggested 𝑁𝑁(324, 14.42) distribution is a very good approximation to 
+the binomial distribution 
+
+* The reason for that is the CLT since the binomial distribution is the distribution of a sum of $n$ independent random variables and $n = 900$ is large 
+
+* The approximation only works well since the parameters of the normal distribution have been 
+chosen to match the first two moments of the normal distribution and the binomial 
+distribution, $E(Y) = 900 \times  0.36 = 324$ 
+and $$ Var(Y) = 900 \times  0.36 \times  0.64 = (30 \times  0.6 \times  0.8)^2 = 14.42 $$
+
+---
+
+
+---

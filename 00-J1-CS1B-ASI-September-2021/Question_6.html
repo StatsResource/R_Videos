@@ -1,13 +1,21 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
 ---
-title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
----
+
 
 * Introduction to R for Actuarial Students
 
@@ -21,24 +29,21 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-```
 
-```{css, echo=FALSE}
+
+&lt;style type="text/css"&gt;
 pre {
   background: #ADD8E6;
   max-width: 100%;
   overflow-x: scroll;
 }
-```
+&lt;/style&gt;
 Q. 6) You are investigating the level of premium charged by two companies for certain group. 
 Random samples of 10 policies from Company1 and Company2 are compared. Below R 
 code provides the premiums charged by Company1 and Company2 in current year for 
 10 sample policies.
- Company1<-c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
- Company2<-c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
+ Company1&lt;-c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
+ Company2&lt;-c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
 Students are required to provide hypothesis, R code, Output and conclusion
 
 ---
@@ -65,17 +70,33 @@ year.
 i) H0 – Company1 and Company2 having equal variance (i.e., ratio of variance =1)
 H1 – There is a difference in variance between Company1 and Company2.
 
-```{r}
-Company1<-c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
-Company2<-c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
+
+```r
+Company1&lt;-c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
+Company2&lt;-c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
 ```
 
 ---
 
 #### Test for Equality of Population Variances
 
-```{r}
+
+```r
 var.test(Company1,Company2)
+```
+
+```
+## 
+## 	F test to compare two variances
+## 
+## data:  Company1 and Company2
+## F = 0.91388, num df = 9, denom df = 9, p-value = 0.8955
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.2269944 3.6792680
+## sample estimates:
+## ratio of variances 
+##          0.9138781
 ```
 
 ---
@@ -92,8 +113,23 @@ variance at 5% significance level.
 ii) H0 – No difference in mean premium charged by Company1 and Company2. 
 H1 – difference in mean premium charged by Company1 and Company2.
 
-```{r}
+
+```r
 t.test(Company1, Company2, var.equal = TRUE, conf=0.95)
+```
+
+```
+## 
+## 	Two Sample t-test
+## 
+## data:  Company1 and Company2
+## t = -0.3433, df = 18, p-value = 0.7353
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -398.703  286.703
+## sample estimates:
+## mean of x mean of y 
+##      1669      1725
 ```
  
 ---
@@ -177,15 +213,24 @@ the ratio of claim frequency between group1 and other policyholders is less than
 v) H0 – There is no difference in ratio of claim frequency between group1 and other groups in 
 Company2. 
 H1 – Claim frequency of group1 is less than other groups in Company2.
-```{r echo=FALSE}
-poisson.test(c(65,45),c(250,110), conf=.975, alternative="less")
+
+```
+## 
+## 	Comparison of Poisson rates
+## 
+## data:  c(65, 45) time base: c(250, 110)
+## count1 = 65, expected count1 = 76.389, p-value = 0.01358
+## alternative hypothesis: true rate ratio is less than 1
+## 97.5 percent confidence interval:
+##  0.0000000 0.9511753
+## sample estimates:
+## rate ratio 
+##  0.6355556
 ```
 
 ---
 
-```{r include= FALSE}
-poisson.test(c(65,45),c(250,110), conf=.975, alternative="less")
-```
+
 
  Comparison of Poisson rates
 data: c(65, 45) time base: c(250, 110)
@@ -206,3 +251,108 @@ we have enough evidence to reject null hypothesis.
 Hence, we can conclude that the claim frequency of group1 (having premium less than INR 1500) 
 is less than other groups in Company2. (4)
 [20 Marks]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

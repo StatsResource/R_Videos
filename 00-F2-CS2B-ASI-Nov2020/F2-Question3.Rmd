@@ -18,26 +18,34 @@ Q. 3)
 The number of claims in a year on an individual policy follows a Poisson distribution with
 a parameter of 0.75. Individual claim amounts follow a Gamma distribution with parameters
 (shape parameter α = 2 and rate parameter λ = 20,000). Set seed value of 100.
+
+
+---
+
 i)
 Simulate claims for 10,000 policies and create a frequency distribution of the number
 of claims made on a policy per year.
 (4)
 
----
-
 ii) Simulate the claim amounts for each claim and compute the aggregate claim amounts
 for each policy. Create a histogram of the aggregated claim amounts with proper
-labelling and legends. (6)
+labelling and legends.
 iii) Compute the mean and variance of the aggregated claim amounts by using the method
 of moments of the compound Poisson distribution. (5)
+
+
+---
+
+Part (b)
 An insurer plans to go for an aggregate excess of loss reinsurance policy. The insurer wants
 to evaluate the expected cost for the retention limits from 50,000 to 100,000 in steps of
 5,000.
+
 iv) Compute expected costs for the insurer and the reinsurer for each of the retention limits. (6)
 v) The insurer decides to set a maximum retention limit where the mean cost to the insurer
 is not more than 75% of the mean aggregated claims. Identify the maximum possible
 retention limit based on the computations of (iv) and the proportion of total claims to
-be handled by the reinsurer. (5)
+be handled by the reinsurer. 
 vi) Based on that limit, compute the standard deviation and coefficient of skewness of the
 costs to the reinsurer.
 

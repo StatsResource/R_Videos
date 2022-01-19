@@ -9,6 +9,33 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1 - Data Analysis
+* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
 Solution 5:
 i) data=matrix(c(112,38,89,70,130,50,127,75,178,80,210,77,150,68,150,80),4,4)
  

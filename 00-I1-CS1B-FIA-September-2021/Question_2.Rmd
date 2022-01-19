@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,24 +9,180 @@ output:
       countIncrementalSlides: false
 ---
 
-2 Use the command set.seed(2021) to initialise the random number generator. 
-When you execute any R code in this question, make sure you run the entire R script 
-including the line set.seed(2021) at the start.
+* Introduction to R for Actuarial Students
 
+* CS1B Curriculum
 
-(i) (a) Generate a sample of size n = 180 from an Exponential distribution 
-with parameter λ = 5. 
-(b) Calculate the sample median of the sample in part (i)(a). 
-(c) Calculate the median of the Exponential distribution with λ = 5. 
-(d) Comment on your results in parts (i)(b) and (i)(c). 
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 2 - Random Number Generation
+* Exam on basis of ***Base R*** 
 
 ---
-The maximum likelihood estimator for λ is given by λ = 1/X where X is the sample 
-mean. 
 
-5. Estimate the parameter λ using the maximum likelihood estimator and 
-the sample in part (i)(a). 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+### Reproducible Simulations
+
+
+When you execute any R code in this question, make sure you run the entire R script 
+including the line ***set.seed(1234)*** at the start.
+
+---
+
+Use the command ***set.seed(1234)*** to initialise the random number generator. 
+
+
+#### Exercises
+1.  Generate a sample of size $n = 180$ from an Exponential distribution 
+with parameter $\lambda  = 5$. 
+
+2. Calculate the sample median of the sample in part 1.
+
+3. Calculate the median of the Exponential distribution with $\lambda  = 5$. 
+
+4. Comment on your results in parts 2 and 3. 
+
+5.  The maximum likelihood estimator for $\lambda$ is given by $\lambda = 1/X$ where $X$ is the sample 
+mean. Estimate the parameter $\lambda$  using the maximum likelihood estimator and 
+the sample in part 1
+
 6. Generate another sample of size n = 180 from an Exponential 
-distribution with parameter λ = 5 and estimate the parameter λ using 
+distribution with parameter $\lambda  = 5$ and estimate the parameter $\lambda$  using 
 the maximum likelihood estimator and the new sample. 
+
 7. Comment on the estimated values in parts 5 and 6
+
+
+---
+
+### Set Up 
+
+```{r}
+set.seed(1234) 
+
+lambda <- 5
+
+samplesize <- 180
+
+```
+
+---
+
+#### Exercise 1
+
+Generate a sample of size $n = 180$ from an Exponential distribution 
+with parameter $\lambda  = 5$. 
+  
+```{r}
+x = rexp(samplesize,lambda) 
+
+```
+
+```{r}
+head(x)
+```
+
+
+#### Alternative Approach
+
+* Using Inverse Transform Sampling
+
+```{r}
+x=-(1/5)*log(runif(samplesize))
+```
+
+---
+
+#### Exercise 2
+
+Calculate the sample median of the sample in part 1.
+
+```{r}
+m = median(x) 
+m 
+```
+
+---
+
+#### Exercise 3
+
+Calculate the median of the Exponential distribution with $\lambda  = 5$. 
+
+```{r}
+mq = qexp(0.5,lambda)
+mq 
+```
+
+Remark: This is the analytical result, i.e. the population median
+
+---
+
+#### Exercise 4
+
+Comment on your results in parts 2 and 3.
+
+* The sample median in part 2 is an estimator for the true median in part 3 based
+on the sample in part 1 
+
+* The results in parts 2 and 3 are not equal but similar 
+
+---
+
+#### Exercise 5
+The maximum likelihood estimator for $\lambda$ is given by $\lambda = 1/X$ where $X$ is the sample 
+mean. Estimate the parameter $\lambda$  using the maximum likelihood estimator and 
+the sample in part 1
+
+
+
+* For the parameter of an exponential distribution the MLE is the inverse of the
+sample mean
+
+```{r}
+l = 1/mean(x) 
+l 
+```
+
+Compare to $\lambda$
+
+```{r}
+lambda
+```
+---
+
+#### Exercise 6
+
+Generate another sample of size n = 180 from an Exponential distribution with parameter $\lambda  = 5$ and estimate the parameter $\lambda$ using the maximum likelihood estimator and the new sample. 
+
+```{r}
+x2 <- rexp(samplesize,lambda)
+
+1/mean(x2) 
+```
+
+---
+
+#### Exercise 7
+
+Comment on the estimated values in parts 5 and 6
+
+* The estimated values are both close to the true value ($\lambda = 5$) but not identical. 
+* The actual value of the estimator is a random variable and the estimated value depends on the actual sample
+
+
+---

@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,18 +9,47 @@ output:
       countIncrementalSlides: false
 ---
 
-5 An analyst collected samples of the prices (in £000s) of 25 one-bedroom flats in each 
-of two different cities. The data from these two samples are saved in the file 
-onebedflat.Rdata. After loading the data into R, using the command 
-load("onebedflat.Rdata"), the data frame onebedflat with its variables 
-listed below will be available. 
-City1: one-bedroom flat prices in the first city. 
-City2: one-bedroom flat prices in the second city. 
-It is assumed that the two samples come from Normal populations with equal 
-variances. 
-CS1B S2021–7 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1 - Data Analysis
+* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
 
 ---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+An analyst collected samples of the prices (in £000s) of 25 one-bedroom flats in each 
+of two different cities. The data from these two samples are saved in the file 
+onebedflat.Rdata. After loading the data into R, using the command 
+***load("onebedflat.Rdata")***, the data frame onebedflat with its variables 
+listed below will be available. 
+
+* City1: one-bedroom flat prices in the first city. 
+* City2: one-bedroom flat prices in the second city. 
+
+It is assumed that the two samples come from Normal populations with equal 
+variances. 
+
+---
+
+#### Exercises
 
 (i) Calculate an appropriate test statistic for the hypothesis of equal means in the 
 two corresponding populations using these data. [2] 
@@ -40,10 +67,14 @@ With two independent samples, given a particular choice of the significance leve
 the true significance level for a two-sided test of the hypothesis of equal means can be 
 calculated as 
 αtrue ൌ 𝑃ሺ|test statistic| ൒ critical pointሻ,
-where the critical point is the α/2 quantile of an appropriate distribution. 
+where the critical point is the α/2 quantile of an appropriate distribution.
+
+---
+
 An estimate of the true significance level for this two-sided test, when the chosen 
 level of significance is α = 0.1, can be computed using the R Monte Carlo simulation 
 code provided below: 
+```{r}
 set.seed(123) # 
 alpha = 0.1 
 m=20 
@@ -58,8 +89,13 @@ if (abs(ts)>=qt(1-alpha/2, df)) #
 nrej=nrej+1 # 
 } 
 alpha_est=nrej/N # 
+```
+
 Note that the code provided above lacks best practice of including appropriate 
-comments. 
+comments.
+
+---
+
 (iii) Explain the provided code by placing comments after each ‘#’ sign in 
 the code. 
 
@@ -69,6 +105,8 @@ the code.
 the two populations are from a standard Normal distribution. 
 
 ---
+
+#### Exercise 5
 
 (v) Estimate the true significance level, by adjusting the code provided above to 
 reflect the following pairs of populations: 
@@ -80,6 +118,8 @@ standard deviation 2 and the second population is from an Exponential
 distribution with mean 10. 
 
 ---
+
+#### Exercise 6
 
 (vi) Compare your estimates of the true significance level under all scenarios in 
 parts (iv), (v)(a) and (v)(b), stating your conclusions. [4] 

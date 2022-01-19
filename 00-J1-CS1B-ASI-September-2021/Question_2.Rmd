@@ -9,55 +9,174 @@ output:
       countIncrementalSlides: false
 ---
 
-Q. 2) A student is performing study to understand the correlation of temperature among 
-different days of the week. Temperature on weekdays is recorded for 15 weeks in the file 
-Temperature_data.csv.
-i) Generate,
-a) Pearson’s correlation matrix (3)
-b) Kendall’s rank (3)
-c) Spearman’s rank (3)
-ii) Comment on the outcomes of the results in a, b and c. (3)
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 2 - Correlation Analysis
+* Exam on basis of ***Base R***
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+A student is performing a study to understand the correlation of temperature among 
+different days of the week. 
+Temperature on weekdays is recorded for 15 weeks in the file ***Temperature_data.csv***.
+
+Generate the following correlation matrices
+
+1. Pearson’s correlation matrix 
+
+2. Kendall’s rank correlation matrix
+
+3. Spearman’s rank correlation matrix
+
+Comment on the outcomes of the results in parts 1 to 3.
 
 
 ---
 
-Solution 2:
-i) a) Setwd()
-Data = read.csv(“Temperature_data.csv”)
-cor (Data, method = “pearson”)
-Monday Tuesday Wednesday Thursday Friday
-Monday 1.0000 0.9566 0.5393 0.8236 0.9271
-Tuesday 0.9566 1.0000 0.7612 0.9484 0.9776
-Wednesday 0.5393 0.7612 1.0000 0.9080 0.7620
-Thursday 0.8236 0.9484 0.9080 1.0000 0.9632
-Friday 0.9271 0.9776 0.7620 0.9632 1.0000 (3)
+#### Exercise 1: Pearson's Correlation
+
+```{r}
+Data = read.csv("Temperature_data.csv")
+cor (Data, method = "pearson")
+```
 
 ---
 
-b) cor (Data, method = “kendall”)
-Monday Tuesday Wednesday Thursday Friday
-Monday 1.0000 0.6952 0.2952 0.4667 0.6762
-Tuesday 0.6952 1.0000 0.6000 0.7714 0.8286
-Wednesday 0.2952 0.6000 1.0000 0.7905 0.5810
-Thursday 0.4667 0.7714 0.7905 1.0000 0.7905
-Friday 0.6762 0.8286 0.5810 0.7905 1.0000 (3)
-c) cor (Data, method = “spearman”)
-IAI CS1B-0921
-Page 3 of 15
-Monday Tuesday Wednesday Thursday Friday
-Monday 1.0000 0.8643 0.4036 0.6250 0.8250
-Tuesday 0.8643 1.0000 0.7679 0.9036 0.9536
-Wednesday 0.4036 0.7679 1.0000 0.9393 0.7821
-Thursday 0.6250 0.9036 0.9393 1.0000 0.8964
-Friday 0.8250 0.9536 0.7821 0.8964 1.0000 (3)
+#### Exercise 1: Kendall's Tau
+
+```{r}
+cor (Data, method = "kendall")
+```
 
 ---
 
-ii) The outcome of Pearson method is based on the values of the data whereas Kendall and 
+#### Exercise 1
+
+```{r}
+cor (Data, method = "spearman")
+```
+
+---
+
+#### Exercise 2
+
+* The outcome of Pearson method is based on the values of the data whereas Kendall and 
 Spearman correlation matrix is based on the rank of the values in the dataset.
-Diagonal in each matrix represents the correlation of temperature with respect to the individual 
+
+* Diagonal in each matrix represents the correlation of temperature with respect to the individual 
 days, for example Monday with Monday.
-Pearson shows strong positive correlation between temperatures on Monday, Tuesday, 
+
+* Pearson shows strong positive correlation between temperatures on Monday, Tuesday, 
 Thursday and Friday.
-Kendall and Spearman shows lesser positive correlation as compared to the Pearson’s result (3)
-[12 Marks]
+
+* Kendall and Spearman shows lesser positive correlation as compared to the Pearson’s result 
+
+---
+
+<pre><code>
+library(corrplot)
+
+M = cor(Data)
+corrplot(M) 
+</code></pre>
+
+---
+
+```{r echo =FALSE}
+library(corrplot)
+M = cor(Data)
+corrplot(M) 
+```
+
+---
+
+<pre><code>
+library(corrplot)
+
+M = cor(Data)
+corrplot(M, method = 'number') 
+</code></pre>
+
+---
+
+
+```{r echo =FALSE}
+library(corrplot)
+
+M = cor(Data)
+corrplot(M, method = 'number') 
+```
+
+
+---
+
+```{r}
+library(faraway)
+data(punting)
+
+Data = punting 
+```
+
+
+---
+
+
+```{r echo =FALSE}
+library(corrplot)
+
+M = cor(Data)
+corrplot(M) 
+```
+---
+
+
+```{r echo =FALSE}
+library(corrplot)
+
+M = cor(Data)
+corrplot(M, method = 'number') 
+```
+
+
+---
+
+### mtcars
+
+
+```{r echo =FALSE}
+library(corrplot)
+
+M = cor(mtcars)
+corrplot(M) 
+```
+---
+
+
+```{r echo =FALSE}
+library(corrplot)
+
+M = cor(mtcars)
+corrplot(M, method = 'number') 
+```
+

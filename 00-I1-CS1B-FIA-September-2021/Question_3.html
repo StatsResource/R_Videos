@@ -23,9 +23,10 @@ class: center, middle, inverse, title-slide
 
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
+* Probability Distributions
 
-* Question 1 - Data Analysis
-* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
+* Question 3 - Probability Distributions
+* Exam on basis of ***Base R*** 
 
 ---
 
@@ -40,156 +41,184 @@ pre {
 }
 &lt;/style&gt;
 
-For a sample data X =\{ 0.5820, 0.04981, 0.1552, 0.1555, 
-0.9036, 0.8501, 0.9288, 0.4408, 
-0.9688, 0.6300\}
+An insurer’s marketing team has developed a new lottery that gives each new 
+customer the chance to win a cash prize. The insurer states that any new customer can 
+win with probability 0.36 independently of all other customers.
 
+Let `\(Y\)` denote the number of winners in a random sample of 900 new customers. 
 
-### Exercises
+#### Exercises
+1.  State a suitable distribution for the random variable Y. 
+2. Calculate, to four decimal places, the probabilities `\(P[k &lt; Y \leq k + 20]\)` for all 
+values `\(k = 220, 240, 260, \ldots, 400\)`.
 
-1. Find the mean value of X 
+3. It is suggested that the true distribution of Y can be approximated with a Normal 
+distribution with expectation `\(E[Y] = 324\)` and a standard deviation of 14.4. Calculate, to four decimal places, the probabilities `\(P[k &lt; Y \leq k + 20]\)` for all 
+values `\(k = 220, 240, 260, \ldots, 400\)`, based on the suggested Normal distribution. 
 
-2. Calculate the standard deviation of X 
+4. Plot the values calculated in parts 2. and 3. on the same graph. 
+*Hint: you may find the R command lines(…) useful.*
 
-3. Find the median of X 
-
----
-
-
-
-
-```r
-X &lt;- c(0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 0.9688, 0.6300)
-```
-
----
-
-#### Summary Statistics
-
-
-```r
-mean(X)
-```
-
-```
-## [1] 0.566461
-```
-
-
-```r
-sd(X)
-```
-
-```
-## [1] 0.3515525
-```
-
-
-```r
-median(X)
-```
-
-```
-## [1] 0.606
-```
-
----
-
-#### Sort
-
-
-```r
-sort(X)
-```
-
-```
-##  [1] 0.04981 0.15520 0.15550 0.44080 0.58200 0.63000 0.85010 0.90360 0.92880
-## [10] 0.96880
-```
-
-#### Reverse the order
-
-
-```r
-rev(X)
-```
-
-```
-##  [1] 0.63000 0.96880 0.44080 0.92880 0.85010 0.90360 0.15550 0.15520 0.04981
-## [10] 0.58200
-```
-
+5. Discuss your answers in parts 1 to 4.
 
 
 ---
 
+#### Exercise 1
+
+This is a Binomial(900, 0.36) distribution. 
 
 
 ```r
-X
-```
-
-```
-##  [1] 0.58200 0.04981 0.15520 0.15550 0.90360 0.85010 0.92880 0.44080 0.96880
-## [10] 0.63000
-```
-
-#### which,max and which.min()
-
-
-```r
-which.min(X)
-```
-
-```
-## [1] 2
-```
-
-
-```r
-which.max(X)
-```
-
-```
-## [1] 9
+n &lt;- 900
+p &lt;- 0.36
 ```
 
 ---
 
-#### Order
+### Cumulative Distribution Function
 
 
 ```r
-order(X)
+q = 220 + 20*(0:10)
+q
 ```
 
 ```
-##  [1]  2  3  4  8  1 10  6  5  7  9
+##  [1] 220 240 260 280 300 320 340 360 380 400 420
 ```
-
-
-#### Rank and Order
 
 
 ```r
-cbind(X, rank(X) )
+cdfb = pbinom(q, n, p) 
+
+round(cdfb,4)
 ```
 
 ```
-##             X   
-##  [1,] 0.58200  5
-##  [2,] 0.04981  1
-##  [3,] 0.15520  2
-##  [4,] 0.15550  3
-##  [5,] 0.90360  8
-##  [6,] 0.85010  7
-##  [7,] 0.92880  9
-##  [8,] 0.44080  4
-##  [9,] 0.96880 10
-## [10,] 0.63000  6
+##  [1] 0.0000 0.0000 0.0000 0.0011 0.0507 0.4052 0.8739 0.9941 0.9999 1.0000
+## [11] 1.0000
 ```
 
 ---
+
+### Probability for intervals under Binomial distribution
+
+
+```r
+pb = diff(cdfb) 
+
+
+round(pb,4)
+```
+
+```
+##  [1] 0.0000 0.0000 0.0011 0.0496 0.3544 0.4687 0.1202 0.0058 0.0001 0.0000
+```
+
+### Alternative Approach
+
+
+```r
+pb = cdfb[-1] - cdfb[-11]
+round(pb,4)
+```
+
+```
+##  [1] 0.0000 0.0000 0.0011 0.0496 0.3544 0.4687 0.1202 0.0058 0.0001 0.0000
+```
+
+
+---
+
+### Alternative Approach
+
+
+```r
+k &lt;- seq(220,400,by=20)
+
+pb &lt;- pbinom(k+20,900,0.36)-pbinom(k,900,0.36)
+
+round(pb,4)
+```
+
+```
+##  [1] 0.0000 0.0000 0.0011 0.0496 0.3544 0.4687 0.1202 0.0058 0.0001 0.0000
+```
+
+---
+
+### Exercise 4
+
+
+```r
+cdfn = pnorm(q, mean=324, sd=14.4) 
+pn = diff(cdfn) 
+```
+
+
+
+
+```r
+round(pn, 4)
+```
+
+```
+##  [1] 0.0000 0.0000 0.0011 0.0467 0.3428 0.4761 0.1271 0.0062 0.0001 0.0000
+```
+
+---
+
+### Alternative using continuity correction:
+
+
+```r
+k &lt;- seq(220,400,by=20)
+
+pn &lt;- pnorm(k+20.5, mean=324, sd=14.4) -
+                pnorm(k+0.5, mean=324, sd=14.4)
+round(pn,4)
+```
+
+```
+##  [1] 0.0000 0.0000 0.0013 0.0501 0.3526 0.4701 0.1203 0.0056 0.0000 0.0000
+```
+
+---
+
+### Exercise 4
+
+Plot both sets of probabilities on the same graph to compare the values:
+
+&lt;pre&gt;&lt;code&gt;
+plot(q[-1], round(pb,4), type="p", xlab="k", ylab="probability",col="black", pch=16) 
+# small circles show for Bin(n,p) prob. 
+
+lines(q[-1], round(pn,4),col="green",lwd=2) 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+
+---
+
+
+![](Question_3_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+---
+
+### Central Limit Theorem
+
+* The plot shows that the suggested 𝑁𝑁(324, 14.42) distribution is a very good approximation to 
+the binomial distribution 
+
+* The reason for that is the CLT since the binomial distribution is the distribution of a sum of `\(n\)` independent random variables and `\(n = 900\)` is large 
+
+* The approximation only works well since the parameters of the normal distribution have been 
+chosen to match the first two moments of the normal distribution and the binomial 
+distribution, `\(E(Y) = 900 \times  0.36 = 324\)` 
+and $$ Var(Y) = 900 \times  0.36 \times  0.64 = (30 \times  0.6 \times  0.8)^2 = 14.42 $$
+
+---
+
 
 ---
     </textarea>

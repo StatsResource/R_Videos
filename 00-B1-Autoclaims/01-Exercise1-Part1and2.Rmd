@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,47 +9,87 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1 - Data Analysis
+* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
+
+---
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
 ### AutoClaims
 
 ```{r}
-library(readr)
-AutoClaims <- read_csv("data/AutoClaims.csv")
+
+AutoClaims <- read.csv("data/AutoClaims.csv")
+```
+
+
+```{r}
+
+head(AutoClaims)
 ```
 
 ---
 
-Exercise 1
-==============================================
+### Exercise 1
+
 Prepare a table with mean, standard deviation and coefficient of variance (CV) of the claims paid
 
-for each STATE and identify the one with the least and the highest CV
-for each CLASS and sort the table in the ascending order of the CV
+* for each STATE and identify the one with the least and the highest CV
+* for each CLASS and sort the table in the ascending order of the CV
 
 Hint: Coefficient of Variance (CV) can be computed as the ratio of standard deviation to the mean.
 
 ---
 
-Implementation using Base R:
+### Implementation using Base R:
 
 ```{r}
 state_mean<-aggregate(PAID~STATE,data = AutoClaims,FUN = mean)
 names(state_mean)<-c("State","Mean")
 ```
 
+
+```{r}
+
+head(state_mean)
+```
+
 ---
+
+### Implementation using Base R:
 
 ```{r}
 state_sd<-aggregate(PAID~STATE,data = AutoClaims,FUN = sd)
+
 names(state_sd)<-c("State","SD")
 
-state_sd
+head(state_sd)
 ```
 
 
 ---
+
+### State Summary
 
 ```{r}
 
@@ -65,18 +105,21 @@ state_summary
 
 
 state_summary$CV <- state_summary$SD / state_summary$Mean
+
+
+
 ```
 
----
+Mean, Standard Deviation and Coefficient of Variance for each state
 
 ```{r}
-#Mean, Standard Deviation and Coefficient of Variance for each state
 
 state_summary
 ```
 
 ---
 
+### Coefficients of Variance
 
 The State with minimum coefficient of variance is
 
@@ -90,30 +133,33 @@ The State with maximum coefficient of variance is
 state_summary$State[state_summary$CV==max(state_summary$CV)]
 ``` 
 
-The State with minimum coefficient of variance is
-
-```{r}
-state_summary$State[state_summary$CV==min(state_summary$CV)]
-``` 
 
 
 ---
 
-The State with maximum coefficient of variance is
 
-```{r}
-state_summary$State[state_summary$CV==max(state_summary$CV)]
-``` 
 
 #### State Summarys (Tidyverse)
 
-```{r}
+```{r echo=FALSE, include=FALSE, warning=FALSE}
 library(dplyr)
 library(magrittr)
+```
+
+<pre><code>
+library(dplyr)
+library(magrittr)
+</code></pre>
+
+
+### using ***group_by*** and ***summarize***
+```{r}
+
+
 
 state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
    summarize(Mean = mean(PAID),
-   SD   = sd(PAID))
+             SD = sd(PAID))
 
 ``` 
 
@@ -123,25 +169,47 @@ state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
 head(state_summary_tidy)
 ``` 
 
+---
+
+### using ***mutate***
 
 ```{r}
 state_summary_tidy <- AutoClaims %>% group_by(STATE) %>%
-   summarize(Mean = mean(PAID),
-   SD   = sd(PAID)) %>%
-   mutate(CV = Mean/SD) %>%
+   summarize(
+      Mean = mean(PAID),
+      SD = sd(PAID)) %>%
+   mutate(CV = SD/Mean) %>%
    arrange(CV)
 
 ```   
 
+
 ---
 
-### Claims (Base R)
+```{r}
+head(state_summary_tidy)
+``` 
+
+---
+
+### Class (Base R)
+
+
+Same as before, but just using Class rather than States
 
 ```{r}
 Class_mean<-aggregate(PAID~CLASS,data = AutoClaims,FUN = mean)
+
 names(Class_mean)<-c("Class","Mean")
+
 Class_sd<-aggregate(PAID~CLASS,data = AutoClaims,FUN = sd)
+
 names(Class_sd)<-c("Class","SD")
+```
+
+---
+
+```{r}
 Class_summary<-merge(Class_mean,Class_sd)
 Class_summary$CV<-Class_summary$SD/Class_summary$Mean
 #Mean, Standard Deviation and Coefficient of variance for each rating class
@@ -155,60 +223,101 @@ Class_summary
 Class_summary[order(Class_summary$CV),]
 ``` 
 
+
+---
+
 ```{r}
 Class_summary_tidy <- AutoClaims %>% group_by(CLASS) %>%
    summarize(Mean = mean(PAID),
-   SD   = sd(PAID)) %>%
-   mutate(CV = Mean/SD) %>%
+             SD = sd(PAID)) %>%
+   mutate(CV = SD/Mean) %>%
    arrange(CV)
 
 ```   
+---
 
 ```{r}
 Class_summary_tidy
 ``` 
 
----
 
-```{r}
-Class_mean<-aggregate(PAID~CLASS,data = AutoClaims,FUN = mean)
-names(Class_mean)<-c("Class","Mean")
-Class_sd<-aggregate(PAID~CLASS,data = AutoClaims,FUN = sd)
-names(Class_sd)<-c("Class","SD")
-Class_summary<-merge(Class_mean,Class_sd)
-Class_summary$CV<-Class_summary$SD/Class_summary$Mean
-#Mean, Standard Deviation and Coefficient of variance for each rating class
-Class_summary
-
-
-Class_summary[order(Class_summary$CV),]
-``` 
 
 ---
 
-Exercise 2
-=====================
+### Exercise 2
+
 By using a box plot, identify the STATE(s) and CLASS(es) which have no outlier values in terms of the claims paid.
 
+<pre><code>
 options(repr.plot.width=12, repr.plot.height=8)
 
 boxplot(PAID~STATE,data = AutoClaims)
+</code></pre>
+
+---
+
+````{r echo=FALSE}
+options(repr.plot.width=12, repr.plot.height=8)
+
+boxplot(PAID~STATE,data = AutoClaims)
+```
 
 
 States with no outliers are State 14.
+---
 
+```{r}
 boxplot(PAID~CLASS,data = AutoClaims)
-​
+
+```
 
 Class with no outlier is C11.
 
+--- 
+
+### Exercise 2 (ggplot2)
+
+<pre><code>
 
 library(ggplot2)
-​
+
 p <- ggplot(data=AutoClaims,aes(x=STATE,y=PAID)) + geom_boxplot()
-​
+
 p
+</code></pre>
+
+---
+
+```{r echo=FALSE}
+
+library(ggplot2)
+
+p <- ggplot(data=AutoClaims,aes(x=STATE,y=PAID)) + geom_boxplot()
+
+p
+```
+
+---
+
+### Exercise 2 (ggplot2)
+
+<pre><code>
 
 p <- ggplot(data=AutoClaims,aes(x=CLASS,y=PAID)) + geom_boxplot() 
-​
+
 p + theme_bw()
+
+</code></pre>
+
+---
+
+```{r echo=FALSE}
+
+library(ggplot2)
+
+p <- ggplot(data=AutoClaims,aes(x=STATE,y=PAID)) + geom_boxplot()
+
+p
+```
+
+---

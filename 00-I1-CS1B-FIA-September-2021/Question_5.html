@@ -3,6 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
+    <meta name="author" content="Dragonfly Stats" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -12,186 +13,103 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Introduction to R for Actuarial Students
+## Modelling Data with R
+### Dragonfly Stats
+### 2016/12/12
 
 ---
 
 
-* Introduction to R for Actuarial Students
+An analyst collected samples of the prices (in £000s) of 25 one-bedroom flats in each 
+of two different cities. The data from these two samples are saved in the file 
+onebedflat.Rdata. After loading the data into R, using the command 
+***load("onebedflat.Rdata")***, the data frame onebedflat with its variables 
+listed below will be available. 
 
-* CS1B Curriculum
+* City1: one-bedroom flat prices in the first city. 
+* City2: one-bedroom flat prices in the second city. 
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1 - Data Analysis
-* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
-
----
-
-
-
-
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
-
-For a sample data X =\{ 0.5820, 0.04981, 0.1552, 0.1555, 
-0.9036, 0.8501, 0.9288, 0.4408, 
-0.9688, 0.6300\}
-
-
-### Exercises
-
-1. Find the mean value of X 
-
-2. Calculate the standard deviation of X 
-
-3. Find the median of X 
+It is assumed that the two samples come from Normal populations with equal 
+variances. 
 
 ---
 
+#### Exercises
 
-
-
-```r
-X &lt;- c(0.5820, 0.04981, 0.1552, 0.1555, 0.9036, 0.8501, 0.9288, 0.4408, 0.9688, 0.6300)
-```
-
----
-
-#### Summary Statistics
-
-
-```r
-mean(X)
-```
-
-```
-## [1] 0.566461
-```
-
-
-```r
-sd(X)
-```
-
-```
-## [1] 0.3515525
-```
-
-
-```r
-median(X)
-```
-
-```
-## [1] 0.606
-```
+(i) Calculate an appropriate test statistic for the hypothesis of equal means in the 
+two corresponding populations using these data. [2] 
+(ii) Test at a 1% significance level whether the mean flat prices are the same in the 
+two cities, against the alternative that they are different, based on your answer 
+to part (i). [4] 
+The standard assumptions for a two-sided test of the hypothesis of equal means in two 
+populations are that the populations: 
+ (A1) follow Normal distributions 
+ (A2) have equal variances. 
+The analyst suspects that those assumptions may not be satisfied, and they are 
+therefore interested in learning about the true significance level for such tests when 
+assumptions (A1) and (A2) do not necessarily hold. 
+With two independent samples, given a particular choice of the significance level, α, 
+the true significance level for a two-sided test of the hypothesis of equal means can be 
+calculated as 
+αtrue ൌ 𝑃ሺ|test statistic| ൒ critical pointሻ,
+where the critical point is the α/2 quantile of an appropriate distribution.
 
 ---
 
-#### Sort
-
-
-```r
-sort(X)
-```
-
-```
-##  [1] 0.04981 0.15520 0.15550 0.44080 0.58200 0.63000 0.85010 0.90360 0.92880
-## [10] 0.96880
-```
-
-#### Reverse the order
-
+An estimate of the true significance level for this two-sided test, when the chosen 
+level of significance is α = 0.1, can be computed using the R Monte Carlo simulation 
+code provided below: 
 
 ```r
-rev(X)
+set.seed(123) # 
+alpha = 0.1 
+m=20 
+n=20 
+N=8000 
+nrej=0 
+for (i in 1:N) { # 
+x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # 
+ts=t.test(x, y, var.equal=TRUE)$stat # 
+df = n+m-2 # 
+if (abs(ts)&gt;=qt(1-alpha/2, df)) # 
+nrej=nrej+1 # 
+} 
+alpha_est=nrej/N # 
 ```
 
-```
-##  [1] 0.63000 0.96880 0.44080 0.92880 0.85010 0.90360 0.15550 0.15520 0.04981
-## [10] 0.58200
-```
-
-
+Note that the code provided above lacks best practice of including appropriate 
+comments.
 
 ---
 
+(iii) Explain the provided code by placing comments after each ‘#’ sign in 
+the code. 
 
+--- 
 
-```r
-X
-```
+(iv) Estimate the true significance level, by using the code provided above, when 
+the two populations are from a standard Normal distribution. 
 
-```
-##  [1] 0.58200 0.04981 0.15520 0.15550 0.90360 0.85010 0.92880 0.44080 0.96880
-## [10] 0.63000
-```
+---
+#### Exercise 5
 
-#### which,max and which.min()
-
-
-```r
-which.min(X)
-```
-
-```
-## [1] 2
-```
-
-
-```r
-which.max(X)
-```
-
-```
-## [1] 9
-```
+(v) Estimate the true significance level, by adjusting the code provided above to 
+reflect the following pairs of populations: 
+(a) The first population is from a standard Normal distribution and the 
+second population is from a Normal distribution with mean 0 and
+standard deviation 10. 
+(b) The first population is from a Normal distribution with mean 10 and 
+standard deviation 2 and the second population is from an Exponential 
+distribution with mean 10. 
 
 ---
 
-#### Order
+#### Exercise 6
 
-
-```r
-order(X)
-```
-
-```
-##  [1]  2  3  4  8  1 10  6  5  7  9
-```
-
-
-#### Rank and Order
-
-
-```r
-cbind(X, rank(X) )
-```
-
-```
-##             X   
-##  [1,] 0.58200  5
-##  [2,] 0.04981  1
-##  [3,] 0.15520  2
-##  [4,] 0.15550  3
-##  [5,] 0.90360  8
-##  [6,] 0.85010  7
-##  [7,] 0.92880  9
-##  [8,] 0.44080  4
-##  [9,] 0.96880 10
-## [10,] 0.63000  6
-```
-
----
-
----
+(vi) Compare your estimates of the true significance level under all scenarios in 
+parts (iv), (v)(a) and (v)(b), stating your conclusions. [4] 
+ [Total 27] 
+END OF PAPER 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
