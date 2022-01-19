@@ -3,8 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dragonfly Stats" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -13,24 +12,41 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Modelling Data with R
-### Dragonfly Stats
-### 2016/12/12
+## Introduction to R for Actuarial Students
 
 ---
 
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 3
+
+---
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
 #### Exercise 
 
 Data is provided for ‘BMIClaims’ of 150 policyholders and corresponding claim count.
 (BMIClaims.csv)
----
 
-Another slide.
 
 
 ```r
-BMI &lt;- read.csv("CS1B_BMIClaims.csv")
+BMI &lt;- read.csv("BMIClaims.csv")
 
 head(BMI)
 ```
@@ -47,6 +63,7 @@ head(BMI)
 
 ---
 
+
 ## Exercise 1
 
 Obtain 95% confidence interval for the standard deviation of BMI (using ``qchisq()``). 
@@ -60,8 +77,6 @@ var(BMI$BMI)
 ## [1] 43.44076
 ```
 
-
-
 ```r
 sd(BMI$BMI)
 ```
@@ -73,8 +88,13 @@ sd(BMI$BMI)
 
 ---
 
+#### Exercise 2
 
-## Inspecting the Dataframe
+ii) Further test the standard deviation of BMI to be equal to 4 by obtaining p value. State
+your conclusion of the test. 
+
+
+### Inspecting the Dataframe
 
 
 ```r
@@ -86,6 +106,8 @@ nrow(BMI)
 ```
 
 ---
+
+
 
 #### Variance Testing
 
@@ -110,17 +132,6 @@ var.test(BMI$BMI,BMI$BMI)
 
 ---
 
-#### Exercise 2
-
-ii) Further test the standard deviation of BMI to be equal to 4 by obtaining p value. State
-your conclusion of the test. (6)
-
-iii)
-iii)
-iv)
-
----
-
 
 If obese is defined to be BMI above 30, use binom.test to calculate 99% confidence
 interval for proportion of obese people and comment on the likelihood if more than
@@ -128,16 +139,16 @@ interval for proportion of obese people and comment on the likelihood if more th
 
 ---
 
-## Exercise 3
+#### Exercise 3
 
 Claim frequency can be calculated as claim count divided by number of policyholders.
 Test whether claim frequency is different between obese and others.
 
 ---
 
-## Exercise 4
+#### Exercise 4
 
-Q. 4)
+
 
 If obese is defined to be BMI above 30, use binom.test to calculate 99% confidence
 interval for proportion of obese people and comment on the likelihood if more than
@@ -150,25 +161,43 @@ Test whether claim frequency is different between obese and others.
 
 Solution 3:
 i)
-&gt; BMI &lt;- read.csv("BMIClaims.csv")
-&gt; n &lt;- length(BMI$BMI)
-&gt; alpha &lt;- 0.05
 
-...
+
+```r
+BMI &lt;- read.csv("BMIClaims.csv")
+n &lt;- length(BMI$BMI)
+alpha &lt;- 0.05
+```
+
+
 
 ---
 
-&gt; sqrt(c((n-1)*var(BMI$BMI)/qchisq(1-alpha/2,df=n-1),(n-1)*var(BMI$BMI)/qchisq(alpha/2
-,df=n-1)))
-[2]
-[1] 5.920028 7.434763
-[2]
-[6]
 
-&gt; sigma &lt;- 4
-&gt; statistic &lt;- (n-1)*var(BMI$BMI)/sigma^2
-&gt; statistic
-[1] 404.5421
+
+
+```r
+sqrt(c((n-1)*var(BMI$BMI)/qchisq(1-alpha/2,df=n-1),(n-1)*var(BMI$BMI)/qchisq(alpha/2
+,df=n-1)))
+```
+
+```
+## [1] 5.920028 7.434763
+```
+
+
+
+
+```r
+sigma &lt;- 4
+statistic &lt;- (n-1)*var(BMI$BMI)/sigma^2
+statistic
+```
+
+```
+## [1] 404.5421
+```
+
 &gt; qchisq(alpha/2,n-1)
 [1] 117.098
 &gt; qchisq(alpha/2,n-1,lower=FALSE)
@@ -183,9 +212,27 @@ i.e. the standard deviation of BMI is not equal to 4.
 
 ---
 
-iii)
-&gt; x &lt;- nrow(BMI[BMI$BMI&gt;30,])
-&gt; binom.test(x,n,conf.level = 0.99)
+### Exercise 3
+
+
+```r
+x &lt;- nrow(BMI[BMI$BMI&gt;30,])
+binom.test(x,n,conf.level = 0.99)
+```
+
+```
+## 
+## 	Exact binomial test
+## 
+## data:  x and n
+## number of successes = 10, number of trials = 150, p-value &lt; 2.2e-16
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 99 percent confidence interval:
+##  0.02522882 0.13728337
+## sample estimates:
+## probability of success 
+##             0.06666667
+```
 
 ---
 
@@ -227,9 +274,30 @@ TRUE
 1
 7
 3
-&gt; y &lt;- c(3,7)
-&gt; m &lt;- c(10,140)
-&gt; poisson.test(y,m)
+
+---
+
+
+
+```r
+y &lt;- c(3,7)
+m &lt;- c(10,140)
+poisson.test(y,m)
+```
+
+```
+## 
+## 	Comparison of Poisson rates
+## 
+## data:  y time base: m
+## count1 = 3, expected count1 = 0.66667, p-value = 0.02493
+## alternative hypothesis: true rate ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.001171 26.282304
+## sample estimates:
+## rate ratio 
+##          6
+```
 
 ---
 

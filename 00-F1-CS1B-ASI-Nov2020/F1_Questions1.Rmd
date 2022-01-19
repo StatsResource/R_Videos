@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,6 +9,31 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 1 - The Gamma Distribution
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
 Use the ‘MotorClaims’ data set (MotorClaims.csv) to answer the following questions:
 
@@ -36,10 +61,10 @@ dim(claims)
 ## Exercises
 
 
-1. Fit Gamma distribution on the dataset provided by determining its scale and shape
+1. Fit Gamma distribution on the dataset provided by determining its scale ( $\theta$ ) and shape ( $\alpha$ )
 parameters. State clearly the distribution with the parameters.
 
-2. Simulate 1000 values from the distribution obtained in question (i) and print the first
+2. Simulate 1000 values from the distribution obtained in part 1 and print the first
 six values. (Set seed to 100) 
 
 3. Calculate the mean and variance of simulated values. 
@@ -66,7 +91,9 @@ xbar
 
 ```{r}
 stddev = sd(claims$Claims)
-variance = stddev ^ 2
+stddev
+
+variance = var(claims$Claims)
 variance
 ```
 
@@ -74,20 +101,89 @@ variance
 ---
 
 
-```{r}
-lambda <- xbar/variance
-lambda
-```
+
+### Method of Moments	
+
+
+#### Scale Parameter
+$${\displaystyle \theta  ={\frac {\operatorname{Var}(X)}{E(X)}}\quad \quad }$$
+
+#### Shape Parameter
+$${\displaystyle \alpha ={\frac {E(X)^{2}}{\operatorname{Var}(X)}}\quad \quad }$$ 
+
+---
+
+
+#### Method of Moments
+
+#### Scale
 
 ```{r}
-alpha <-xbar * lambda
+theta  <- variance/xbar
+theta 
+```
+
+#### Shape
+
+```{r}
+alpha <-  (xbar^2)/variance  
 alpha
 ```
 
 
---- 
+---
 
-$$X ~ Gamma (2.16, 0.0001)$$
+```{r}
+summary(claims)
+```
+
+
+---
+
+### Compare to analytical values
+
+```{r}
+
+qgamma(0.25,shape=alpha,scale=theta)
+qgamma(0.50,shape=alpha,scale=theta)
+qgamma(0.75,shape=alpha,scale=theta)
+
+```
+
+
+---
+
+#### Gamma Distributions
+
+$$X \sim Gamma (\alpha = 2.16,\theta = 8639.533)$$
+
+
+Remark: The Gamma Distribution can also be specified in terms of the shape parameter $\alpha$ and rate parameter $\lambda$ where $\lambda = 1/\theta$
+
+The rate parameter is the "default" argument for R. To use the scale parameter instead, we must specify "***scale=***" in the code.
+
+---
+
+
+### Using the Rate Parameter
+
+```{r}
+
+lambda = 1/theta
+lambda
+```
+
+```{r}
+
+qgamma(0.25,shape=alpha, rate=(1/theta))
+qgamma(0.50,shape=alpha, rate=(1/theta))
+qgamma(0.75,shape=alpha, rate=(1/theta))
+
+```
+
+
+
+
 
 ---
 
@@ -96,22 +192,29 @@ $$X ~ Gamma (2.16, 0.0001)$$
 
 ```{r}
 set.seed(100)
-samples <- rgamma(1000,alpha,lambda)
+samples <- rgamma(1000,alpha, scale = theta )
 head(samples,6)
 
 ```
 
 
+```{r}
+summary(samples)
+```
 
 ---
 
 
 ### Exercise 3
 
+
+#### mean
+
 ```{r}
 mean(samples)
 ```
 
+#### Variance
 ```{r}
 variance <- sd(samples) ^ 2
 variance
@@ -123,6 +226,16 @@ variance
 
 Normal Probability Plot (a.k.a QQ plots)
 
+<pre><code>
+qqnorm(samples)
+
+</code></pre>
+
+
+---
+
+#### Normal Probability Plot
+
 ```{r}
 qqnorm(samples)
 
@@ -131,7 +244,18 @@ qqnorm(samples)
 
 ---
 
-```{r}
+### Exercise 5
+
+<pre><code>
+qqnorm(samples,
+       pch = 16,
+       col = "blue")
+
+</code></pre>
+
+---
+
+```{r echo = FALSE}
 qqnorm(samples,
        pch = 16,
        col = "blue")
@@ -143,7 +267,19 @@ qqnorm(samples,
 
 ### Exercise 5
 
-```{r}
+<pre><code>
+qqnorm(samples,
+       pch = 16,
+       col = "blue")
+
+qqline(samples,col="red")
+</code></pre>
+
+---
+
+### Exercise 5
+
+```{r echo = FALSE}
 qqnorm(samples,
        pch = 16,
        col = "blue")
@@ -152,10 +288,20 @@ qqline(samples,col="red")
 
 ```
 
+
 ---
 
-vi)
-Close to normal... (1 mark) in the middle values... (1 mark) .
-‘Banana-shaped’ indicates positively skewed... (1 mark) .
+
+### Exercise 6
+
+* Close to normal in the middle values.
+* ‘Banana-shaped’ indicates positively skewed.
 
 
+---
+
+```{r}
+hist(samples)
+```
+
+---

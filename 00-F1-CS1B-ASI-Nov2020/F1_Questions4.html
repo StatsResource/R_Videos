@@ -25,10 +25,9 @@ class: center, middle, inverse, title-slide
 * Fundamentals of Statistical Analysis
 * Probability Distributions
 
-* Question 1 - The Gamma Distribution
+* Question 3
 
 ---
-
 
 
 
@@ -40,254 +39,74 @@ pre {
 }
 &lt;/style&gt;
 
-Use the ‘MotorClaims’ data set (MotorClaims.csv) to answer the following questions:
+Q. 4)
 
-
-```r
-claims &lt;- read.csv("MotorClaims.csv")
-
-head(claims)
-```
-
-```
-##   Claims
-## 1  10037
-## 2  60153
-## 3  37849
-## 4  13097
-## 5  33947
-## 6  18984
-```
-
+The CDC and EISS detect influenza activity through clinical data including Influenza-like
+Illness (ILI) physician visits on weekly basis. The objective of this question is to estimate
+influenza-like illness (ILI) activity using Google web search logs.
+The csv file FluTrain.csv aggregates this data from January 1, 2004 until December 31, 2011
+as follows:
+"Week" - The range of dates represented by this observation, in year/month/day format.
+"ILI" - This column lists the percentage of ILI-related physician visits for the corresponding
+week.
+"Queries" - This column lists the fraction of queries that are ILI-related for the corresponding
+week, adjusted to be between 0 and 1 (higher values correspond to more ILI-related search
+queries).
 
 ---
 
+#### Exercises
 
+i)
+Plot a histogram of the dependent variable, ILI. Comment on the shape of the
+distribution. (3)
+ii) Plot the natural logarithm of ILI versus Queries. What does the plot suggest? (4)
+iii) Fit a linear regression model for dependent variable log(ILI). Summarize it. (6)
+iv) State the formula of the model fitted in part (iii), explaining all the terms used. (3)
+v) Calculate R-squared and the correlation between the independent and dependent
+variable. What is the relationship between the two values? (5)
+Looking at the time period 2004-2011, which week corresponds to the highest
+percentage of ILI-related physician visits? (4)
+Based on the linear regression model fitted in question (iii), what is the estimate for
+the percentage of ILI-related physician visits for the week computed in question (vi)? (4)
+What is the relative error between the estimate (prediction calculated in question (vii))
+and the actual observed value for the week computed in question (vi)? (4)
+vi)
+vii)
+viii)
+---
 
-```r
-summary(claims)
-```
-
-```
-##      Claims     
-##  Min.   : 1086  
-##  1st Qu.: 9914  
-##  Median :16310  
-##  Mean   :18673  
-##  3rd Qu.:24836  
-##  Max.   :62777
-```
-
-
-
-```r
-dim(claims)
-```
-
-```
-## [1] 100   1
-```
+CS1B_BMIClaims
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS1B_BMIClaims.csv
+CS1B_FluTrain
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS1B_FluTrain.csv
+CS1B_MotorClaims
+http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS1B_MotorClaims.csv
 
 ---
 
-## Exercises
-
-
-1. Fit Gamma distribution on the dataset provided by determining its scale ( `\(\theta\)` ) and shape ( `\(\alpha\)` )
-parameters. State clearly the distribution with the parameters.
-
-2. Simulate 1000 values from the distribution obtained in part 1 and print the first
-six values. (Set seed to 100) 
-
-3. Calculate the mean and variance of simulated values. 
-
-4. Obtain a QQ plot for the simulations of 1000 values and a normal distribution. 
-
-5. Add a line to the above plot to show the true position of normal distribution. 
-
-6. Comment on the shape of the distribution and how close it is to a normal distribution.
-
-
-
----
-
-## Solution 1:
+### Exercise 1
 
 
 
 ```r
-xbar = mean(claims$Claims)
-xbar
-```
-
-```
-## [1] 18672.76
+FluTrain &lt;- read.csv("FluTrain.csv")
 ```
 
 
 ```r
-stddev = sd(claims$Claims)
-stddev
+str(FluTrain)
 ```
 
 ```
-## [1] 12701.34
+## 'data.frame':	417 obs. of  3 variables:
+##  $ Week   : chr  "2004-01-04 - 2004-01-10" "2004-01-11 - 2004-01-17" "2004-01-18 - 2004-01-24" "2004-01-25 - 2004-01-31" ...
+##  $ ILI    : num  2.42 1.81 1.71 1.54 1.44 ...
+##  $ Queries: num  0.238 0.22 0.226 0.238 0.224 ...
 ```
 
-```r
-variance = var(claims$Claims)
-variance
-```
-
-```
-## [1] 161323921
-```
-
-
----
-
-
-
-### Method of Moments	
-
-
-#### Scale Parameter
-`$${\displaystyle \theta  ={\frac {\operatorname{Var}(X)}{E(X)}}\quad \quad }$$`
-
-#### Shape Parameter
-`$${\displaystyle \alpha ={\frac {E(X)^{2}}{\operatorname{Var}(X)}}\quad \quad }$$` 
-
----
-
-
-#### Method of Moments
-
-#### Scale
-
-
-```r
-theta  &lt;- variance/xbar
-theta 
-```
-
-```
-## [1] 8639.533
-```
-
-#### Shape
-
-
-```r
-alpha &lt;-  (xbar^2)/variance  
-alpha
-```
-
-```
-## [1] 2.161316
-```
-
-
----
-
-
-```r
-summary(claims)
-```
-
-```
-##      Claims     
-##  Min.   : 1086  
-##  1st Qu.: 9914  
-##  Median :16310  
-##  Mean   :18673  
-##  3rd Qu.:24836  
-##  Max.   :62777
-```
-
-
----
-
-### Compare to analytical values
-
-
-```r
-qgamma(0.25,shape=alpha,scale=theta)
-```
-
-```
-## [1] 9337.039
-```
-
-```r
-qgamma(0.50,shape=alpha,scale=theta)
-```
-
-```
-## [1] 15885.26
-```
-
-```r
-qgamma(0.75,shape=alpha,scale=theta)
-```
-
-```
-## [1] 25006.17
-```
-
-
----
-
-#### Gamma Distributions
-
-`$$X \sim Gamma (\alpha = 2.16,\theta = 8639.533)$$`
-
-
-Remark: The Gamma Distribution can also be specified in terms of the shape parameter `\(\alpha\)` and rate parameter `\(\lambda\)` where `\(\lambda = 1/\theta\)`
-
-The rate parameter is the "default" argument for R. To use the scale parameter instead, we must specify "***scale=***" in the code.
-
----
-
-
-### Using the Rate Parameter
-
-
-```r
-lambda = 1/theta
-lambda
-```
-
-```
-## [1] 0.000115747
-```
-
-
-```r
-qgamma(0.25,shape=alpha, rate=(1/theta))
-```
-
-```
-## [1] 9337.039
-```
-
-```r
-qgamma(0.50,shape=alpha, rate=(1/theta))
-```
-
-```
-## [1] 15885.26
-```
-
-```r
-qgamma(0.75,shape=alpha, rate=(1/theta))
-```
-
-```
-## [1] 25006.17
-```
-
-
-
+hist(FluTrain$ILI)
+The data is positively skewed. Most of the ILI values are small, with a relatively small number of much larger values.
 
 
 ---
@@ -295,132 +114,135 @@ qgamma(0.75,shape=alpha, rate=(1/theta))
 ### Exercise 2
 
 
-
 ```r
-set.seed(100)
-samples &lt;- rgamma(1000,alpha, scale = theta )
-head(samples,6)
+plot(FluTrain$Queries,log(FluTrain$ILI))
 ```
 
-```
-## [1]  9305.461  2125.292 25926.442 15685.099 18120.436  8605.442
-```
+![](F1_Questions4_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+There is a positive linear relationship between log(ILI) and Queries.
+i.e. more the number of the Google search queries, higher the number of ILI-related physician visits.
 
-
-
-```r
-summary(samples)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   411.4  8767.1 16223.3 18423.5 24954.9 76387.0
-```
 
 ---
-
 
 ### Exercise 3
 
 
-#### mean
-
-
 ```r
-mean(samples)
+FluTrend1 = lm(log(ILI) ~ Queries, data = FluTrain)
+summary (FluTrend1)
 ```
 
 ```
-## [1] 18423.47
+## 
+## Call:
+## lm(formula = log(ILI) ~ Queries, data = FluTrain)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.76003 -0.19696 -0.01657  0.18685  1.06450 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.49934    0.03041  -16.42   &lt;2e-16 ***
+## Queries      2.96129    0.09312   31.80   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2995 on 415 degrees of freedom
+## Multiple R-squared:  0.709,	Adjusted R-squared:  0.7083 
+## F-statistic:  1011 on 1 and 415 DF,  p-value: &lt; 2.2e-16
 ```
 
-#### Variance
-
-```r
-variance &lt;- sd(samples) ^ 2
-variance
-```
-
-```
-## [1] 153958637
-```
 
 ---
 
 ### Exercise 4
 
-Normal Probability Plot (a.k.a QQ plots)
 
-&lt;pre&gt;&lt;code&gt;
-qqnorm(samples)
+```r
+coef(FluTrend1)
+```
 
-&lt;/code&gt;&lt;/pre&gt;
+```
+## (Intercept)     Queries 
+##  -0.4993435   2.9612925
+```
+
+$$ln y = -0.49934 +2.96129x $$
+
+where x is the google search queries and y is the percentage of ILI related physician visits. 
 
 
 ---
 
-#### Normal Probability Plot
+### Exercise 5
+
+From the R output, R-squared value is 0.709. 
 
 
 ```r
-qqnorm(samples)
+correlation &lt;- cor(FluTrain$Queries,log(FluTrain$ILI))
+correlation
 ```
 
-![](F1_Questions1_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
-
-
----
-
-### Exercise 5
-
-&lt;pre&gt;&lt;code&gt;
-qqnorm(samples,
-       pch = 16,
-       col = "blue")
-
-&lt;/code&gt;&lt;/pre&gt;
-
----
-
-![](F1_Questions1_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
-
-
----
-
-### Exercise 5
-
-&lt;pre&gt;&lt;code&gt;
-qqnorm(samples,
-       pch = 16,
-       col = "blue")
-
-qqline(samples,col="red")
-&lt;/code&gt;&lt;/pre&gt;
-
----
-
-### Exercise 5
-
-![](F1_Questions1_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
-
-
----
-
-
-### Exercise 6
-
-* Close to normal in the middle values.
-* ‘Banana-shaped’ indicates positively skewed.
-
-
----
+```
+## [1] 0.8420333
+```
 
 
 ```r
-hist(samples)
+correlation ^ 2
 ```
 
-![](F1_Questions1_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+```
+## [1] 0.7090201
+```
+Hence, R-squared = Correlation ^ 2
+
+
+---
+
+
+#### Exercise 6
+
+which.max(FluTrain$ILI)
+[1] 303
+&gt; FluTrain$Week[303]
+[1] 2009-10-18 - 2009-10-24
+417 Levels: 2004-01-04 - 2004-01-10 2004-01-11 - 2004-01-17 ... 2011-12-25 - 2011-12-3
+1
+Week of 18 th October 2009 to 24 th October 2009 corresponds to the highest percentage of ILI-related physician visits.
+
+
+---
+
+
+#### Exercise 7
+
+
+```r
+PredTest1 = exp(predict(FluTrend1,newdata = FluTrain))
+PredTest1[303]
+```
+
+```
+##      303 
+## 11.72765
+```
+
+---
+
+#### Exercise 8
+
+viii)
+FluTrain$ILI[303]
+[1] 7.618892
+(7.618892-11.72765)/7.618892
+[1] -0.5392855
+
+---
+
 
 ---
     </textarea>
