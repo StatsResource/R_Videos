@@ -3,8 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dragonfly Stats" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -13,47 +12,108 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Modelling Data with R
-### Dragonfly Stats
-### 2016/12/12
+## Introduction to R for Actuarial Students
 
 ---
 
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 2 - Principal Component Analysis
+* Exam on basis of ***Base R*** 
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
 ## mtcars
 
 The dataset ‘mtcars’ (built into R) consists of data on various models of car, taken from an American motoring magazine (1974 Motor Trend magazine). 
+
 For each car, there are certain features expressed in varying units.
+
+---
+
+### mtcars
 
 
 ```r
-library(xaringan)
+head(mtcars)
 ```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+---
+
+
+### mtcars
+
+&lt;pre&gt;&lt;code&gt;
+help(mtcars)
+&lt;/code&gt;&lt;/pre&gt;
+
+#### Format
+A data frame with 32 observations on 11 (numeric) variables.
+
+1. ***mpg*** - 	Miles/(US) gallon
+2. ***cyl***	- Number of cylinders
+3. ***disp*** - 	Displacement (cu.in.)
+4. ***hp*** - 	Gross horsepower
+5. ***drat*** - 	Rear axle ratio
+6. ***wt*** - 	Weight (1000 lbs)
+7. ***qsec*** - 	1/4 mile time
+8. ***vs*** - 	Engine (0 = V-shaped, 1 = straight)  [*CATEGORICAL*]
+9. ***am*** - 	Transmission (0 = automatic, 1 = manual) [*CATEGORICAL*]
+10. ***gear*** - 	Number of forward gears
+11. ***carb*** - 	Number of carburetors
 
 ---
 
 
 ## Exercises
 
+Load the ‘***mtcars***’ dataset which is built into R. How many observations and variables
+are there in this dataset? Your answer should include the R output.
 
+2. Identify the categorical variables from the dataset ‘***mtcars***’ and create a dataset
+excluding the categorical variables. 
 
-1. Load the ‘mtcars’ dataset which is built into R. How many observations and variables
-are there in this dataset? Your answer should include the R output. (4)
-2. Identify the categorical variables from the dataset ‘mtcars’ and create a dataset
-excluding the categorical variables. (5)
 3. How many observations and variables are there in the new dataset? Your answer
-should include the R output. (2)
+should include the R output. 
 
 4. Carry out a principal component analysis on the new dataset of mtcars by passing two
 arguments, ‘center’ and ‘scale’ to be TRUE. Your answer should include a summary
-of the principal component analysis. (5)
+of the principal component analysis. 
+
 5. How many components of the reduced data should be retained using the output
-derived in question (iv)? Also state the reason for the same.
+derived in part 4? Also state the reason for the same.
 
 ---
 
-Solution 2:
-i)
+#### Exercise 1
 
 ```r
 data("mtcars")
@@ -111,8 +171,9 @@ summary(mtcars)
 
 ---
 
-The two variables ‘vs’ and ‘am’ are categorical variables. (This can be identified using str or summary function)
+The two variables ‘vs’ and ‘am’ are categorical variables. (This can be identified using ***str*** or ***summary*** function)
 
+There are the 8th and 9th variables
 
 ```r
 mtcars1 &lt;- mtcars[,c(1:7,10,11)]
@@ -120,11 +181,8 @@ mtcars1 &lt;- mtcars[,c(1:7,10,11)]
 
 ---
 
+### Exercise 3
 
-
-Exercise 3
-==================================================
-iii)
 
 
 ```r
@@ -149,10 +207,8 @@ There are 32 observations (car models) and 9 variables (car features) in the dat
 
 ---
 
+### Exercise 4
 
-Exercise 4
-==================================================
-iv)
 
 
 
@@ -172,28 +228,18 @@ summary(mtcars1.pca)
 ## Proportion of Variance 0.0065 0.00247
 ## Cumulative Proportion  0.9975 1.00000
 ```
-Importance of components:
-PC1 PC2
-Standard deviation
-PC3
-PC4
-PC5
-PC6
-PC7 PC8
-[2]
-[2]
-[1]
-PC9
-2.3782 1.4429 0.71008 0.51481 0.42797 0.35184 0.32413 0.2419 0.14896
-Proportion of Variance 0.6284 0.2313 0.05602 0.02945 0.02035 0.01375 0.01167 0.0065 0.00247
-Cumulative Proportion 0.6284 0.8598 0.91581 0.94525 0.96560 0.97936 0.99103 0.9975 1.00000
 
 ---
 
-v)
-The R analysis shows that the proportion of variance explained by first three principal components is 91.5% and by
+### Exercise 5
+
+* The R analysis shows that the proportion of variance explained by first three principal components is 91.5% and by
 first four variables is 94.5%.
-Thus, it will be appropriate to retain the first three (or four) principal components.
+
+* Thus, it will be appropriate to retain the first three (or four) principal components.
+
+---
+
 
 ---
     </textarea>
