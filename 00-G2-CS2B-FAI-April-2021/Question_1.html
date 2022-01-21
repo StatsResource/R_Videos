@@ -12,165 +12,75 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Statistical Modelling with R for Actuarial Students
+## Introduction to R for Actuarial Students
 
 ---
 
 
 
+Before answering this question, the R package for Markov chains should be loaded 
+into R using the following code: 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
-
-***CS2B – Risk Modelling and Survival Analysis ***
-
-
-* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
-
-* Time Series. Probability Distributions, Survival Analysis
-
----
-
-A general insurance company has sold 5000 Accident Benefit Policies to independent lives.
-
-* The number of claims follows a Poisson distribution with parameter 500. 
-
-* The amount of claim from individual policy is following a Gamma distribution with parameters `\(\alpha = 250\)` and `\(\lambda = 0.5\)`.
-
-
-
-#### Exercise
-
-Calculate the aggregate claim amount paid by the insurer by simulating 5000 values if the insurer retains only 500 (assume the aggregate claim amount follows a compound Poisson distribution). 
-
-*Use seed number 4321.*
-
-
----
-
-***Poisson Distribution***
-
-* Simulating the number of claims
-* Poisson Random Variable with mean `\(\lambda = 500\)`
-
-
-```r
-set.seed(4321)
-
-rpois(10,lambda=500)
-```
-
-```
-##  [1] 490 461 518 497 472 504 527 483 500 516
-```
-
-
-
-```r
-set.seed(4321)
-
-num_claims &lt;- rpois(1,lambda=500)
-
-num_claims
-```
-
-```
-## [1] 490
-```
+&lt;pre&gt;&lt;code&gt;
+install.packages("markovchain") 
+library(markovchain)
+&lt;/code&gt;&lt;/pre&gt;
 
 ---
 
 
-***Individual claim amounts***
-
-Gamma Distribution
-
-* Shape Parameter `\(\alpha = 250\)`
-* Rate Parameter `\(\lambda = 0.5\)`
-* Scale Parameter `\(\beta = \frac{1}{\lambda} = 2\)`
-
-
-```r
-rgamma(1,shape = 250, scale = 2)
+```
+## Warning: package 'markovchain' was built under R version 4.0.5
 ```
 
 ```
-## [1] 446.5083
+## Package:  markovchain
+## Version:  0.8.6
+## Date:     2021-05-17
+## BugReport: https://github.com/spedygiorgio/markovchain/issues
 ```
 
+`\(X_t\)` is a Markov chain on the state space {1,2,3} with the following transition matrix: 
 
+$$
+\left(\begin{array}{ccc}
+p &amp;  1 – p &amp; 0\\
+q &amp; 0 &amp; 1 – q\\
+0 &amp; r &amp; 1 – r\\
+\end{array}\right)
+$$
+where `\(0 &lt; p, q, r &lt; 1\)`. 
 
-```r
-claims &lt;- rgamma(num_claims,shape = 250, scale= 2)
+---
 
-head(claims)
-```
+### Exercises
 
-```
-## [1] 525.9362 494.9533 460.3728 505.2112 538.9663 476.5538
-```
+1. Construct an R function, with arguments p, q and r, that generates a Markov 
+chain object for Xt. 
 
-```r
-length(claims)
-```
-
-```
-## [1] 490
-```
+2.
 
 
 ---
 
-
-***Parallel Maxima and Minima***
-
-
-```r
-claims &lt;- c( 530, 480, 490, 505, 515, 525, 475)
-
-pmax(claims,500)
-```
-
-```
-## [1] 530 500 500 505 515 525 500
-```
+#### Exercise 1
 
 
 
 ```r
-pmin(claims,500)
+p &lt;- 0.4
+q &lt;- 0.2
+r &lt;- 0.25
+
+P &lt;- matrix(data = c(p,1-p,0,q,0,1-q,0,r,1-r), nrow =3, byrow = TRUE) 
+P
 ```
 
 ```
-## [1] 500 480 490 500 500 500 475
-```
-
-
----
-
-
-***Simulation of 5000 observations***
-
-
-
-```r
-set.seed(4321)
-n &lt;- rpois(5000,lambda = 500)
-
-Agg_Claim &lt;- rep(0,5000)
-
-for(j in 1:5000){
-    y&lt;-rgamma(n[j], shape = 250,  scale = 0.5)
-    
-    z&lt;-pmin(y,500)
-    
-    Agg_Claim[j] &lt;-sum(z)
-    }
+##      [,1] [,2] [,3]
+## [1,]  0.4 0.60 0.00
+## [2,]  0.2 0.00 0.80
+## [3,]  0.0 0.25 0.75
 ```
 
 ---
@@ -178,39 +88,141 @@ for(j in 1:5000){
 
 
 ```r
-head(Agg_Claim,20)
+markovchain = function(p,q,r){ 
+ P = matrix(data = c(p,1-p,0,q,0,1-q,0,r,1-r), nrow =3, byrow = TRUE) 
+ mc = new("markovchain", transitionMatrix = P) 
+ mc
+} 
 ```
-
-```
-##  [1] 61301.49 57788.84 64715.93 61998.01 58977.62 63068.42 65779.83 60292.86
-##  [9] 62680.42 64289.25 59598.01 59076.25 67783.81 63720.93 57725.33 60282.14
-## [17] 61959.80 62406.58 63949.43 62140.21
-```
-
 
 ---
 
 
 ```r
-summary(Agg_Claim)
+test_mc &lt;- markovchain(0.5,0.3,0.2)
+```
+
+```r
+steadyStates(test_mc)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   53226   60670   62477   62499   64352   72714
+##              1         2         3
+## [1,] 0.1176471 0.1960784 0.6862745
 ```
 
 ---
+
+#### Exercise 2
+
+Assume that p = 0.75 and r = 0.25. 
+(ii) Construct R code that calculates the stationary distribution of Xt for values of 
+q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your 
+answer script. [7] 
+
 
 
 
 ```r
-hist(Agg_Claim,breaks=100)
+statdist = matrix(data = 0, nrow = 3, ncol = 9) 
+ 
+
+for(i in 1:9){ 
+  q = 0.1*i 
+  mc = markovchain(p = 0.75, q, r = 0.25) 
+  statdist[,i] = steadyStates(mc)} 
+
+statdist 
 ```
 
-![](01-Exercise1-ShortQuestion_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+```
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+## [1,] 0.08 0.16 0.24 0.32  0.4 0.48 0.56 0.64 0.72
+## [2,] 0.20 0.20 0.20 0.20  0.2 0.20 0.20 0.20 0.20
+## [3,] 0.72 0.64 0.56 0.48  0.4 0.32 0.24 0.16 0.08
+```
+
+
+--- 
+
+ Assume that p = 0.75 and r = 0.25. 
+(ii) Construct R code that calculates the stationary distribution of Xt for values of 
+q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your 
+answer script. [7] 
+(iii) Plot a graph showing the stationary distributions of Xt calculated in part (ii) as 
+a function of q. You should include three separately coloured lines on your 
+graph, each line representing the stationary probabilities of each state. [8] 
 
 ---
+
+(iii) Plot a graph showing the stationary distributions of Xt calculated in part (ii) as 
+a function of q. You should include three separately coloured lines on your 
+graph, each line representing the stationary probabilities of each state. 
+
+---
+
+(iii)
+q = seq(from = 0.1, to = 0.9, by = 0.1) 
+ 
+
+plot( 
+ 
+
+q, 
+ 
+
+statdist[1,], 
+ 
+
+type = "l", 
+ 
+
+main = "Stationary Distributions of X_t as a
+function of q", 
+ 
+
+ylab = "Probability", 
+ 
+
+col = "red") 
+ 
+
+lines(q, statdist[2,], col = "black") 
+ 
+
+lines(q, statdist[3,], col = "blue") 
+ 
+
+legend("top", 
+legend = c("State 1", "State 2", "State 3"), 
+ 
+
+col = c("red", "black", "blue"), 
+ 
+
+pch=7)
+
+
+
+ 
+
+[Total 20]
+Part (i) was very well answered although some candidates lost marks for not creating 
+a function, or for creating a function outputting a matrix rather than a Markov chain 
+object. Candidates who did not create a function or who created a function outputting 
+a matrix rather than a Markov chain object needed to perform additional work in part 
+(ii). 
+Part (ii) was well answered. Candidates who were less familiar with loops in R 
+included more extensive R code than necessary. Candidates who answered part (ii) by 
+raising the transition matrices to a large power were required to raise the matrices to 
+a second large power to demonstrate convergence otherwise only partial credit was 
+awarded.
+Part (iii) was poorly answered. Many candidates lost marks for missing or 
+inappropriate titles, axis labels and/or legends. Where candidates were unfamiliar 
+with the legend function in R, a manually applied legend was accepted provided that it 
+correctly represented the line colours and was situated next to the chart.
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

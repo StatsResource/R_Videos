@@ -12,9 +12,10 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Statistical Modelling with R for Actuarial Students
+## Modelling Data with R - Linear Models
 
 ---
+
 
 
 
@@ -27,190 +28,115 @@ pre {
 }
 &lt;/style&gt;
 
-***CS2B – Risk Modelling and Survival Analysis ***
+---
+
+4.
+The following data refer to the sheep population in millions, y, of a certain country
+over 0 consecutive years, x, together with some of the values for MA, the 5-point
+moving average of y.
+x
+1
 
 
-* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+4
+5
+6
+7
+8
+9
+10
+(i)
+y
+0
+19
+18
+17
+17
+18
+18
+17
+16
+15
+MA
+–
+–
+18.
+17.8
+17.6
+17.4
+17.
+16.8
+15.8
+15.0
+x
+11
+1
+1
+14
+15
+16
+17
+18
+19
+0
+y
+1
+14
+1
+14
+15
+16
+17
+17
+16
+16
+MA
+14.
+1.8
+–
+–
+Estimate the trend in the data using
+(a) MA (complete as appropriate the values for MA in the table),
+(b) linear regression (summary statistics are given below).
+∑ x
+i
+= 10
+∑ y
+i
+= 6
+∑ x
+i
 
-* Time Series. Probability Distributions, Survival Analysis
+= 870
+∑ x y
+i
+i
+= 05
 
 ---
 
-A general insurance company has sold 5000 Accident Benefit Policies to independent lives.
-
-* The number of claims follows a Poisson distribution with parameter 500. 
-
-* The amount of claim from individual policy is following a Gamma distribution with parameters `\(\alpha = 250\)` and `\(\lambda = 0.5\)`.
-
-
-
-#### Exercise
-
-Calculate the aggregate claim amount paid by the insurer by simulating 5000 values if the insurer retains only 500 (assume the aggregate claim amount follows a compound Poisson distribution). 
-
-*Use seed number 4321.*
-
-
----
-
-***Poisson Distribution***
-
-* Simulating the number of claims
-* Poisson Random Variable with mean `\(\lambda = 500\)`
-
-
-```r
-set.seed(4321)
-
-rpois(10,lambda=500)
-```
-
-```
-##  [1] 490 461 518 497 472 504 527 483 500 516
-```
-
-
-
-```r
-set.seed(4321)
-
-num_claims &lt;- rpois(1,lambda=500)
-
-num_claims
-```
-
-```
-## [1] 490
-```
-
----
-
-
-***Individual claim amounts***
-
-Gamma Distribution
-
-* Shape Parameter `\(\alpha = 250\)`
-* Rate Parameter `\(\lambda = 0.5\)`
-* Scale Parameter `\(\beta = \frac{1}{\lambda} = 2\)`
-
-
-```r
-rgamma(1,shape = 250, scale = 2)
-```
-
-```
-## [1] 446.5083
-```
-
-
-
-```r
-claims &lt;- rgamma(num_claims,shape = 250, scale= 2)
-
-head(claims)
-```
-
-```
-## [1] 525.9362 494.9533 460.3728 505.2112 538.9663 476.5538
-```
-
-```r
-length(claims)
-```
-
-```
-## [1] 490
-```
-
+2.  Plot a graph of the data and the regression and MA estimated trends. Comment
+on how well each fits the data. Comment on the use of an unweighted, as
+opposed to a weighted, moving average.
+(10)
+3.  State the assumptions made about the error terms in simple linear regression.
+Comment on how well the data support these assumptions.
 
 ---
 
 
-***Parallel Maxima and Minima***
-
-
-```r
-claims &lt;- c( 530, 480, 490, 505, 515, 525, 475)
-
-pmax(claims,500)
-```
-
-```
-## [1] 530 500 500 505 515 525 500
-```
-
-
-
-```r
-pmin(claims,500)
-```
-
-```
-## [1] 500 480 490 500 500 500 475
-```
-
-
----
-
-
-***Simulation of 5000 observations***
-
-
-
-```r
-set.seed(4321)
-n &lt;- rpois(5000,lambda = 500)
-
-Agg_Claim &lt;- rep(0,5000)
-
-for(j in 1:5000){
-    y&lt;-rgamma(n[j], shape = 250,  scale = 0.5)
-    
-    z&lt;-pmin(y,500)
-    
-    Agg_Claim[j] &lt;-sum(z)
-    }
-```
-
----
-
-
-
-```r
-head(Agg_Claim,20)
-```
-
-```
-##  [1] 61301.49 57788.84 64715.93 61998.01 58977.62 63068.42 65779.83 60292.86
-##  [9] 62680.42 64289.25 59598.01 59076.25 67783.81 63720.93 57725.33 60282.14
-## [17] 61959.80 62406.58 63949.43 62140.21
-```
-
-
----
-
-
-```r
-summary(Agg_Claim)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   53226   60670   62477   62499   64352   72714
-```
-
----
-
-
-
-```r
-hist(Agg_Claim,breaks=100)
-```
-
-![](01-Exercise1-ShortQuestion_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
-
----
+\begin{enumerate}[(a)]
+*  
+(a) Remaining MA values are: at 13, ()1131413141513.8;5++++= at 14, (1141314151614.4;5++++= at 15, 15.0; at 16, 15.8; at 17, 16.2; and at 18, 16.4.
+* (b) Slope = ()222210326330511820200.177421066528702020iiiixyxxiixyxySSxx×−−−===−−ΣΣΣΣΣ.
+Intercept = ˆ16.3((0.1774)10.5)18.163ybx−=−−×=.
+Thus the regression equation is sheep = 18.163 – 0.177 year.
+*  The graph shows that the 5-point moving average (AVER1) best reflects the sharp changes in sheep population in years 10 to 15 while the regression (FITS1) line reflects the overall downward trend.
+An unweighted MA is appropriate in the absence of periodic or cyclic effects.
+*  The residual (error) terms have zero mean, constant variance and are uncorrelated. An assumption of Normality (so that the uncorrelatedness would imply independence) would also be needed it formal tests were to be carried out rather than only estimating the parameters. There does appear to be some sort of serial pattern in the data, rather than purely random variation from year to year. This makes the assumption of uncorrelatedness doubtful.
+--- 
+ 
+ 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

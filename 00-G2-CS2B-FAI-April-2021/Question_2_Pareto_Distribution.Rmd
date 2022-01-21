@@ -105,27 +105,22 @@ A = A_vec and u = 1.
 
 
 (iii)
-F_u = 
- 
 
-function(A_greater_than_u) { 
+```{r}
+F_u =  function(A_greater_than_u) { 
+    y = vector(length = 101) 
+    for (i in 1:101) { 
+       y[i] =  length(A_greater_than_u[A_greater_than_u <= 0.1 * (i-1)]) / 
+        length(A_greater_than_u) [4]
+    }
+    y
+} 
  
-
-y = vector(length = 101) 
- 
-
-for (i in 1:101) { 
- 
-
-y[i] = 
-length(A_greater_than_u[A_greater_than_u <= 0.1 * (i-1)]) / 
-length(A_greater_than_u) [4]
- }
-y} 
- 
-
+```
+```{r}
 head(F_u(A_exceed_u(A = A_vec, u = 1)), 8) 
- 
+
+```
 
 
  
@@ -150,68 +145,46 @@ by each of the four line graphs. [10]
 
 ### Part 5
 
- 
-(iv)
+```{r}
 x = seq(from = 0, to = 10, by = 0.1) 
  
 
 plot( 
+ x, 
+ F_u(A_greater_than_u = A_exceed_u(A = A_vec,u = 1)), 
+ type = "l", 
+ main = "Values of F_u against x for u = 1, 2, 3 and 4", 
+ col = "red", 
+ ylab = "F_u") 
  
 
-x, 
- 
-
-F_u(A_greater_than_u = A_exceed_u(A = A_vec,
-u = 1)), 
- 
-
-type = "l", 
- 
-
-main = "Values of F_u against x for u = 1, 2, 3 
-and 4", 
- 
-
-col = "red", 
- 
-
-ylab = "F_u") 
- 
 
 lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
-A_vec, u = 2), col = "yellow") 
- 
+  A_vec, u = 2), col = "yellow") 
 
 lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
-A_vec, u = 3), col = "blue") 
+  A_vec, u = 3), col = "blue") 
  
-
 lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
-A_vec, u = 4), col = "green") 
- 
+  A_vec, u = 4), col = "green") 
+
 
 legend("bottomright", 
- legend = c("u = 1", "u = 2", "u = 3", 
- "u = 4"), 
- 
-
+ legend = c("u = 1", "u = 2", "u = 3",  "u = 4"), 
  col = c("red", "yellow", "blue", "green"), 
- 
-
  pch = 7)
 
- 
+```  
 ---
 
 ### Part 5
 
 
-(v)
-For all but the smallest values of x, F_u(x) decreases as u increases. 
+For all but the smallest values of x, $F_u(x)$ decreases as u increases. 
  
 
 This is consistent with the result that if X ~ Pa(alpha, lambda), then the threshold exceedance 
-X – u | X > u is distributed as Pa(alpha, lambda + u). 
+X – u | X > u is distributed as $Pa(alpha, lambda + u)$. 
  
 
 There is some irregularity caused by sampling variation due to low data volumes above the 
@@ -222,7 +195,8 @@ As a result of this irregularity, the curves for u = 3 and u = 4 cross over for 
 
 --- 
 
-[Total 36]
+---
+
 Part (i) was very well answered. The most common errors were to fail to set the 
 random number generator seed to 123 and to output the default 6 rather than 8 values 
 using the head function.

@@ -9,6 +9,24 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+
+
+#Higher Certificate, Paper II, 2007.  Question 3
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
 ***CS2B – Risk Modelling and Survival Analysis ***
 
 
@@ -24,7 +42,11 @@ A general insurance company has sold 5000 Accident Benefit Policies to independe
 
 * The amount of claim from individual policy is following a Gamma distribution with parameters $\alpha = 250$ and $\lambda = 0.5$.
 
-* Calculate the aggregate claim amount paid by the insurer by simulating 5000 values if the insurer retains only 500 (assume the aggregate claim amount follows a compound Poisson distribution). 
+
+
+#### Exercise
+
+Calculate the aggregate claim amount paid by the insurer by simulating 5000 values if the insurer retains only 500 (assume the aggregate claim amount follows a compound Poisson distribution). 
 
 *Use seed number 4321.*
 
@@ -37,7 +59,7 @@ A general insurance company has sold 5000 Accident Benefit Policies to independe
 * Poisson Random Variable with mean $\lambda = 500$
 
 ```{r}
-set.seed(1234)
+set.seed(4321)
 
 rpois(10,lambda=500)
 
@@ -75,6 +97,8 @@ rgamma(1,shape = 250, scale = 2)
 claims <- rgamma(num_claims,shape = 250, scale= 2)
 
 head(claims)
+
+length(claims)
 ```
 
 
@@ -104,7 +128,7 @@ pmin(claims,500)
 
 
 ````{r}
-set.seed(1234)
+set.seed(4321)
 n <- rpois(5000,lambda = 500)
 
 Agg_Claim <- rep(0,5000)

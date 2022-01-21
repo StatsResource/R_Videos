@@ -17,17 +17,17 @@ The data consist of 60 observations, representing 60 guinea pigs, and 3 variable
 * ***dose***: numeric, dose (mg/day)
 
 A quick look at ToothGrowth reveals that many guinea pigs were given the same dose of vitamin C. Three doses, 0.5, 1.0, and 2.0, were used.
-​
 
 
-```R
+
+```{r}
 #look at ToothGrowth data
 str(ToothGrowth)
 
 ```
 
 
-```R
+```{r}
 
 unique(ToothGrowth$dose)
 ## [1] 0.5 1.0 2.0
@@ -45,7 +45,7 @@ Frequencies are often plotted as bars, so we select geom_bar. We specify dose ma
 ### Exploring distributions
 
 
-```R
+```{r}
 library(ggplot2)
 #bar plot of counts of dose by supp
 #data are balanced, so not so interesting
@@ -63,7 +63,7 @@ Statistical models often make assumptions about the distribution of the outcome 
 
 
 
-```R
+```{r}
 #density of len
 ggplot(ToothGrowth, aes(x=len))  + geom_density()
 
@@ -81,18 +81,14 @@ We can get densities of len by supp by mapping supp to color:
 
 
 
-```R
+```{r}
 library(ggplot2)
 #density of len by supp
 ggplot(ToothGrowth, aes(x=len, color=supp)) + 
   geom_density()
 
 ```
-
-
-
-
-![png](output_9_1.png)
+---
 
 
 #### Summarizing the outcome across a predictor
@@ -106,9 +102,9 @@ The outcome distributions appear a bit skewed, but the samples are small.
 
 We plot the dose-tooth length (len) relationship.
 
+---
 
-
-```R
+```{r}
 
 #not the best scatterplot
 tp <- ggplot(ToothGrowth, aes(x=dose, y=len))
@@ -119,28 +115,20 @@ tp + geom_point()
 
 
 
-![png](output_12_1.png)
 
-
-
-```R
+```{r}
 #mean and cl of len at each dose
 tp.1 <- tp + stat_summary(fun.data="mean_cl_normal")
 tp.1
 
 ```
 
-
-
-
-![png](output_13_1.png)
-
+---
 
 An additional call to stat_summary with fun.y=mean (fun.y because mean returns one value) and changing the geom to “line” adds a line between means.
-​
 
 
-```R
+```{r}
 
 #add a line plot of means to see dose-len relationship
 #maybe not linear
@@ -148,15 +136,9 @@ tp.2 <- tp.1 + stat_summary(fun.y="mean", geom="line")
 tp.2
 
 ```
+---
 
-
-
-
-![png](output_15_1.png)
-
-
-
-```R
+```{r}
 Does a third variable moderate the x-y relationship?
 
 Does the dose-len relationship depend on supp? We can specify new global aesthetics in aes.
@@ -164,13 +146,15 @@ Does the dose-len relationship depend on supp? We can specify new global aesthet
 ```
 
 
-```R
+```{r}
 
 #all plots in tp.2 will now be colored by supp
 tp.2 + aes(color=supp)
 
 ```
 
+
+---
 ### Interpreting the previous graph
 
 This graph suggests:
@@ -181,23 +165,24 @@ This graph suggests:
 4. The 2 supp group means differ at the two lower doses, but not at the highest dose
 
 ggplot2 makes graphs summarizing the outcome easy
-​
+
 We just plotted means and confidence limits of len, with lines connecting the means, separated by supp, all without any manipulation to the original data!
-​
+
 The stat_summary function facilitates looking at patterns of means, just as regression models do.
-​
+
 Next we fit our linear regression model and check model assumptions with diagnostic graphs.
-​
+
+---
 
 ### Model preliminaries
-​
+
 We want to model how tooth length (len) is predicted by dose, allowing for moderation of this relationship through an interaction with supp.
-​
+
 We assume that dose and tooth length have a smooth, continuous relationship in the range of doses tested, so we will treat dose as a continuous (numeric) predictor. We also create a dose-squared variable, for use in the quadratic model and prediction later.
-​
 
 
-```R
+
+```{r}
 #create dose-squared variable
 ToothGrowth$dosesq <- ToothGrowth$dose^2
 ```
@@ -208,7 +193,7 @@ We noticed in the previous graph that the dose-len relationship appears quadrati
 
 
 
-```R
+```{r}
 
 lm2 <- lm(len ~ dose + dosesq*supp, data=ToothGrowth)
 summary(lm2)$coef
@@ -262,7 +247,7 @@ We fortify our lm2 object with these diagnostic variables and take a quick look 
 
 
 
-```R
+```{r}
 
 
 #create dataset with original data and diagnostic variables
@@ -297,7 +282,7 @@ head(lm2diag)
 
 
 
-```R
+```{r}
 
 
 #q-q plot of residuals and diagonal reference line
@@ -317,7 +302,7 @@ ggplot(lm2diag, aes(sample=.stdresid)) +
 
 
 
-```R
+```{r}
 ### Linearity and Homoscedasticity: residuals vs fitted
 
 We next assess the assumptions of homoscedescasticity and linear relationships between the outcome and predictors. A residuals vs fitted (predicted value) plot assesses both of these assmuptions.
@@ -328,7 +313,7 @@ An even spread of residuals around 0 suggests homoscedasticity, and a zero, flat
 ```
 
 
-```R
+```{r}
 We build our residuals vs fitted plot like so:
 
 1. Start with a scatter plot of x=.fitted and y=.stdresid.
@@ -339,7 +324,7 @@ We build our residuals vs fitted plot like so:
 ```
 
 
-```R
+```{r}
 
 #residual vs fitted, means and s.e.
 ggplot(lm2diag, aes(x=.fitted, y=.stdresid)) + 
@@ -365,7 +350,7 @@ The dependence of Cook’s D on both leverage and residual is apparent in the pl
 
 
 
-```R
+```{r}
 
 # in geom_text we SET size to 4 so that size of text is constant,
 #   and not tied to .cooksd.  We also  nudge the text .001 (x-axis units)
@@ -384,6 +369,6 @@ ggplot(lm2diag, aes(x=.hat, y=.stdresid, size=.cooksd)) +
 
 
 
-```R
+```{r}
 
 ```
