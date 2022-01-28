@@ -14,12 +14,16 @@ output:
 
 Q. 1) The data file “Expenses.csv” contains records of last 5 years monthly expenses paid by a 
 company starting from January 2015. 
+
+### Exercises
 i) Import the data and classify it as a time series object, specifying the relevant dates. (4)
+
 ii) Assuming that the data shows yearly seasonal variation, remove the seasonality from 
-the data using seasonal differencing. (5)
+the data using seasonal differencing. 
+
 iii) Plot a graph showing the actual data, the trend line, the trend + seasonal line and any 
 remaining un-trended number. Plot them in the same graph and use different colour 
-lines for each of the series. (6)
+lines for each of the series. 
 
 
 ---

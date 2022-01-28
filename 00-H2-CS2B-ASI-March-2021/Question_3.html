@@ -12,181 +12,219 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## R for Actuarial Students
+## Statistical Modelling with R for Actuarial Students
 
 ---
 
 
 
-Exercise 1
-===================================================
-Q. 2) ABC General Insurance Company Limited has sold total of 1000 insurance policies under 3
-type of insurance, where each type of insurance gives rise to a maximum of one claim per year.
-The insurer hold the following portfolio:
-Number of
-Policies
-300
-500
-200
-Portfolio
-Fire Insurance
-Marine Cargo Insurance
-Marine Hull Insurance
-Claim
-distribution
-Exp (0.006)
-Exp (0.007)
-Exp (0.006)
-Probability of
-claim
-0.002
-0.001
-0.003
-All policies and claims are independent.
 
----
-
-Simulate a set of 5,000 observations from the insurer’s aggregate claims size
-distribution. Use seed corresponding to your birth year.
-Summarize the output, draw plot histogram of the simulated results, and comment on
-the results.
-
----
-
-
-Solution 2:
-===================================================
-
-
-```r
-set.seed(2000)
-
-q1 &lt;- 0.002
-n1 &lt;- 300
-rate1 &lt;- 0.006
-
-rate2 &lt;- 0.007
-q2 &lt;- 0.001
-n2 &lt;- 500
-
-rate3 &lt;- 0.006
-q3 &lt;- 0.003
-n3 &lt;- 200
-```
-
----
-
-
-```r
-Total = 0
-
-# 1. Fire 
-
-# How many claims out of 200 policies?
-n_1 &lt;- rbinom(1,size = 200,prob=0.03)
-n_1
-```
-
-```
-## [1] 4
-```
-
-```r
-claim_amounts_1 = rexp(n_1,rate=0.006)
-claim_amounts_1
-```
-
-```
-## [1]  72.1420 190.2483 209.5762 104.4357
-```
-
-```r
-total_claim_amount_1 = sum(claim_amounts_1)
-total_claim_amount_1
-```
-
-```
-## [1] 576.4022
-```
-
----
-
-
-```r
-Sumofclaims_sim &lt;- numeric(5000)
-Total_policies = n1+n2+n3
-for (j in 1:5000){
-  x&lt;-numeric(Total_policies)
-  
-  for (i in 1:Total_policies)
-  {if (i&lt;= n1){rate=rate1} else{if(i&lt;=n1+n2){rate=rate2}else{rate=rate3}}
-
-    x[i] &lt;- rexp(1,rate=rate)}
-  death&lt;-numeric(1000)
-  
-  for (i in 1:Total_policies)
-  {if (i&lt;= n1){prob=q1} else{if(i&lt;=n1+n2){prob=q2}else{prob=q3}}
-
-    death[i] &lt;- rbinom(1,size=1,prob)}
-    sim_claim &lt;- x*death
-  sim_claim&lt;-sum(sim_claim)
-  Sumofclaims_sim[j] &lt;- sim_claim
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
 }
-```
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
 
 ---
 
-Sumofclaims_sim
-[4981]
-[4987]
-[4993]
-[4999]
-48.0509705 180.6917655 387.8498483 158.5486544 79.6699608 718.4442927
-260.0237473 58.7869147 0.0000000 824.1810537 121.5688946 393.4891939
-34.2667969 0.0000000 0.0000000 323.9416166 0.0000000 47.5719195
+The Claim size `\(X\)` for a class of insurance follows a Gamma (10,0.2) distribution. 
+
+#### Exercises
+
+1. Calculate f{30}. 
+2. Calculate the median of the function. (2)
 
 ---
-400.2364413 155.3775077
-ii) 
 
+
+
+---
 
 
 ```r
-summary(Sumofclaims_sim)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.00   28.93  175.43  260.75  393.86 2664.99
+a &lt;- 10 
+b &lt;-0.2 
+x&lt;-30 
 ```
 
 
 ```r
-hist(Sumofclaims_sim)
+dgamma(x,a,b) 
 ```
 
-![](02-Exercise2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+```
+## [1] 0.0137677
+```
 
----
-&gt; summary(Sumofclaims_sim)
-Min. 1st Qu. Median
-Mean 3rd Qu.
-Max.
-0.00
-29.03 175.60 260.88 393.86 2664.99
-[Note the numbers will change with change in seed]
 
 ---
 
-The claims seem to be highly skewed with Q1 equal to 29.03, Q2 equal to 260.88 and Q3 equal to
-393.86. The highest value is 2664.99.
+### Exercise 2
 
-The distribution seems to follow exponential distribution, which is consistent with underlying
-distribution of claims.
+We want to find M such that `\(P(X &lt;= M) = 0.5\)` 
 
 
+```r
+qgamma(0.5,a,b) 
+```
+
+```
+## [1] 48.34357
+```
+---
+
+### Exercise 3
+
+A quota share reinsurance is in place with 75% retained proportion. Estimate the mean 
+and variance of the amount paid by the reinsurer in respect of a single claim. 
 
 
+ 
+--- 
+ 
+
+```r
+r &lt;- 0.75 
+ExpX = a/b 
+VarX = a/b^2 
+ExpY &lt;- (1-r)*ExpX 
+```
+
+
+```r
+VarY &lt;- (1-r)^2*VarX 
+```
+
+#### Expected Value
+
+```r
+ExpY 
+```
+
+```
+## [1] 12.5
+```
+
+#### Variance 
+
+```r
+VarY 
+```
+
+```
+## [1] 15.625
+```
+
+
+---
+
+### Exercise 4
+
+The aggregate claim follows a compound distribution with below parameters: 
+
+* Number of claims follow Poisson distribution with parameter 500 
+* Individual claim size follows a Gamma distribution with parameters (600,0.3) 
+[use seed = 250 for below 3 questions]. 
+
+
+Generate 1000 observations and calculate the 500th simulated value. 
+
+
+---
+
+
+```r
+set.seed(250) 
+n &lt;- rpois(1000,500) 
+s &lt;- numeric(1000) 
+for(i in 1:1000) 
+{x &lt;- rgamma(n[i],shape=600,rate=0.3) 
+ s[i] &lt;- sum(x)
+ } 
+s[500] 
+```
+
+```
+## [1] 1021670
+```
+ 
+---
+ 
+### Exercise 5
+The insurer wants to limit its claim liability and hence has modified the terms of the 
+policy. It would now only pay for any amount in excess of an amount 500 on each 
+claim. 
+
+Calculate the 500th simulated value for the insurer under the revised condition. 
+
+
+---
+
+### Exercise 5
+
+
+```r
+set.seed(250) 
+M &lt;-500 
+n &lt;- rpois(1000,500) 
+s &lt;- numeric(1000) 
+```
+
+
+```r
+for(i in 1:1000) 
+{x &lt;- rgamma(n[i],shape=600,rate=0.3) 
+ z &lt;- pmax(0,x-M) 
+ s[i] &lt;- sum(z)} 
+s[500] 
+```
+
+```
+## [1] 765670.5
+```
+ 
+---
+
+
+
+### Exercise 6
+
+The insurer wants to analyze another claim sharing option. Under this, insurer will pay 
+75% of the claim amount and the rest 25% will be borne by the policyholder. 
+
+Calculate the 500th simulated value for the insurer under this option. 
+
+
+---
+
+
+```r
+set.seed(250) 
+M &lt;-0.25 
+n &lt;- rpois(1000,500) 
+s &lt;- numeric(1000) 
+
+for(i in 1:1000) {
+  x &lt;- rgamma(n[i],shape=600,rate=0.3) 
+  z &lt;- (1-M)* x 
+  s[i] &lt;- sum(z)
+  } 
+
+s[500] 
+```
+
+```
+## [1] 766252.8
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

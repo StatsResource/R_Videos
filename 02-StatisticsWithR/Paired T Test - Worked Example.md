@@ -38,6 +38,8 @@ significance
 
 ```
 
+---
+#### data
 
 
 car  |  with additive  |  without additive  |  $d_i$  |  $d^2_i$ | 
@@ -52,6 +54,8 @@ car  |  with additive  |  without additive  |  $d_i$  |  $d^2_i$ |
 9 | 21.9 | 21.5 | 0.4 | 0.16 | 
 10 | 20.3 | 20.0 | 0.3 | 0.09 | 
 
+
+---
 ### The paired t-test (c)
 
 *  Observed Mean of Case-wise differences $\bar{d}$ = 8.21,
@@ -84,7 +88,7 @@ Alternative Approach : using p-values.
 *  The user then interprets the p-values. If p-value is small, reject the null hypothesis. If the p-value is large, the appropriate conclusion is a failure to reject $H_0$.
 *  The threshold for being considered small is less than $\alpha/k$, (usually 0.0250). (This is a very arbitrary choice of threshold, suitable for some subject areas, not for others)
 
-
+---
 
 
 
@@ -108,7 +112,7 @@ mean of the differences
 
 </code></pre>
 
-
+---
 
 
 ### The paired t-test (h)
@@ -119,7 +123,7 @@ mean of the differences
 *  That is to say, we can expected a difference between two paired measurements.
 
 
-
+---
 
 ### The paired t-test (i)
 
@@ -128,6 +132,7 @@ mean of the differences
 *  Therefore we reject the null hypothesis.
 
 
+---
 
 <pre><code>
 &gt; t.test(Before,After,paired=TRUE)

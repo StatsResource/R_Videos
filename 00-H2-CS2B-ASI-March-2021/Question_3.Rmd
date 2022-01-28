@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,12 +9,39 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
 
+```
 
-Q. 3) Claim size [X] for a class of insurance follows Gamma (10,0.2). 
-i) Calculate f{30}. (3)
-ii) Calculate the median of the function. (2)
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+The Claim size $X$ for a class of insurance follows a Gamma (10,0.2) distribution. 
+
+#### Exercises
+
+1. Calculate f{30}. 
+2. Calculate the median of the function. (2)
 
 ---
 
@@ -24,103 +49,129 @@ ii) Calculate the median of the function. (2)
 
 ---
 
-Solution 3: 
-i)
+```{r}
 a <- 10 
 b <-0.2 
 x<-30 
+
+```
+
+```{r}
 dgamma(x,a,b) 
-> dgamma(x,a,b) 
-[1] 0.0137677 
- [3] 
-ii)
-We want to find M such that P(X <= M) = 0.5 
-qgamma(0.5,a,b) 
-> qgamma(0.5,a,b) 
-[1] 48.34357 
- [2] 
- 
+```
+
+
 ---
 
-iii) A quota share reinsurance is in place with 75% retained proportion. Estimate the mean 
-and variance of the amount paid by the reinsurer in respect of a single claim. (4)
-The aggregate claim follows a compound distribution with below parameters: IAI CS2B-0321 
-Page 3 of 3
- Number of claims follow Poisson distribution with parameter 500 
- Individual claim size follows a Gamma distribution with parameters (600,0.3) 
-[use seed = 250 for below 3 questions]. 
+### Exercise 2
+
+We want to find M such that $P(X <= M) = 0.5$ 
+
+```{r}
+
+qgamma(0.5,a,b) 
+```
+---
+
+### Exercise 3
+
+A quota share reinsurance is in place with 75% retained proportion. Estimate the mean 
+and variance of the amount paid by the reinsurer in respect of a single claim. 
+
 
  
 --- 
  
-iii)
+```{r}
 r <- 0.75 
 ExpX = a/b 
 VarX = a/b^2 
-ExpY <- (1-r)*ExpX IAI CS2B-0321 
-Page 7 of 9
+ExpY <- (1-r)*ExpX 
+```
+
+```{r}
 VarY <- (1-r)^2*VarX 
+```
+
+#### Expected Value
+```{r}
 ExpY 
-> ExpY 
-[1] 12.5 
- [2]
+```
+
+#### Variance 
+```{r}
 VarY 
-> VarY 
-[1] 15.625 
- [2] 
-[4] 
+```
+
 
 ---
 
-iv) Generate 1000 observations and calculate the 500th simulated value. (5)
+### Exercise 4
+
+The aggregate claim follows a compound distribution with below parameters: 
+
+* Number of claims follow Poisson distribution with parameter 500 
+* Individual claim size follows a Gamma distribution with parameters (600,0.3) 
+[use seed = 250 for below 3 questions]. 
+
+
+Generate 1000 observations and calculate the 500th simulated value. 
+
 
 ---
-iv)
+
+```{r}
 set.seed(250) 
 n <- rpois(1000,500) 
 s <- numeric(1000) 
 for(i in 1:1000) 
 {x <- rgamma(n[i],shape=600,rate=0.3) 
- s[i] <- sum(x)} 
+ s[i] <- sum(x)
+ } 
 s[500] 
-> s[500] 
-[1] 1021670 
- [5]
+
+
+```
  
+---
  
- 
-Part 5
-===================
-v) The insurer wants to limit its claim liability and hence has modified the terms of the 
+### Exercise 5
+The insurer wants to limit its claim liability and hence has modified the terms of the 
 policy. It would now only pay for any amount in excess of an amount 500 on each 
-claim. Calculate the 500th simulated value for the insurer under the revised condition. 
+claim. 
+
+Calculate the 500th simulated value for the insurer under the revised condition. 
 
 
 ---
 
-v)
+### Exercise 5
+
+```{r}
 set.seed(250) 
 M <-500 
 n <- rpois(1000,500) 
 s <- numeric(1000) 
+```
+
+```{r}
 for(i in 1:1000) 
 {x <- rgamma(n[i],shape=600,rate=0.3) 
  z <- pmax(0,x-M) 
  s[i] <- sum(z)} 
 s[500] 
-> s[500] 
-[1] 765670.5 
- [5] 
+```
  
 ---
 
 
 
-Part 6
-===================
+### Exercise 6
+
 The insurer wants to analyze another claim sharing option. Under this, insurer will pay 
-75% of the claim amount and the rest 25% will be borne by the policyholder. Calculate 
-the 500th simulated value for the insurer under this option. 
+75% of the claim amount and the rest 25% will be borne by the policyholder. 
+
+Calculate the 500th simulated value for the insurer under this option. 
 
 
 ---
@@ -131,11 +182,11 @@ M <-0.25
 n <- rpois(1000,500) 
 s <- numeric(1000) 
 
-for(i in 1:1000) 
-{x <- rgamma(n[i],shape=600,rate=0.3) 
-
-z <- (1-M)* x 
-s[i] <- sum(z)} 
+for(i in 1:1000) {
+  x <- rgamma(n[i],shape=600,rate=0.3) 
+  z <- (1-M)* x 
+  s[i] <- sum(z)
+  } 
 
 s[500] 
 

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 1 - Binomial Probability Distribution
+* Exam on basis of ***Base R***
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+Refer to the data file ***Indices_Returns.csv*** and answer the following questions:
+
+
+
+```r
+# Load the data file
+
+indices&lt;-read.csv("Indices_Returns.csv")
+```
+
+
+```r
+head(indices)
+```
+
+```
+##    Month  Sensex      BM      CD      EN      FM      FI      HC      IN
+## 1 Feb-06  0.0444  0.0364  0.0291 -0.0179  0.1233  0.0103  0.0769  0.0670
+## 2 Mar-06  0.0841  0.1632  0.0783  0.1032  0.1158  0.0185  0.0822  0.0983
+## 3 Apr-06  0.0654  0.1513  0.0415  0.1518  0.0445 -0.0093  0.0095  0.0545
+## 4 May-06 -0.1468 -0.1939 -0.0884 -0.1015 -0.2018 -0.0885 -0.1394 -0.1507
+## 5 Jun-06  0.0201 -0.0252 -0.0691  0.0347  0.0314 -0.0806 -0.0784 -0.0728
+## 6 Jul-06  0.0126 -0.0177 -0.0280 -0.0478 -0.0361  0.0536  0.0298 -0.0235
+##        IT      TE      UT
+## 1 -0.0115  0.0100  0.0449
+## 2  0.0838  0.1532  0.0817
+## 3  0.0011  0.0035  0.0193
+## 4 -0.1023 -0.1274 -0.1576
+## 5  0.0273  0.0043 -0.0530
+## 6  0.0540 -0.0035 -0.0079
+```
+
+
+
+
+
+---
+
+### Exercise 1
+
+Load the csv file into R and create a new column called “Sensex_Direction”. 
+
+The value of this column will be “Positive” when the Sensex returns are positive and “Negative” when they are negative and convert the variable as a factor variable. 
+
+---
+
+
+```r
+# Creation of new column called Sensex_Direction
+
+indices$Sensex_Direction &lt;-     ifelse(indices$Sensex&gt;0,"Positive","Negative")
+
+indices$Sensex_Direction &lt;- as.factor(indices$Sensex_Direction)
+```
+
+---
+
+
+
+```r
+head(indices)
+```
+
+```
+##    Month  Sensex      BM      CD      EN      FM      FI      HC      IN
+## 1 Feb-06  0.0444  0.0364  0.0291 -0.0179  0.1233  0.0103  0.0769  0.0670
+## 2 Mar-06  0.0841  0.1632  0.0783  0.1032  0.1158  0.0185  0.0822  0.0983
+## 3 Apr-06  0.0654  0.1513  0.0415  0.1518  0.0445 -0.0093  0.0095  0.0545
+## 4 May-06 -0.1468 -0.1939 -0.0884 -0.1015 -0.2018 -0.0885 -0.1394 -0.1507
+## 5 Jun-06  0.0201 -0.0252 -0.0691  0.0347  0.0314 -0.0806 -0.0784 -0.0728
+## 6 Jul-06  0.0126 -0.0177 -0.0280 -0.0478 -0.0361  0.0536  0.0298 -0.0235
+##        IT      TE      UT Sensex_Direction
+## 1 -0.0115  0.0100  0.0449         Positive
+## 2  0.0838  0.1532  0.0817         Positive
+## 3  0.0011  0.0035  0.0193         Positive
+## 4 -0.1023 -0.1274 -0.1576         Negative
+## 5  0.0273  0.0043 -0.0530         Positive
+## 6  0.0540 -0.0035 -0.0079         Positive
+```
+
+
+---
+
+### Exercise 2
+
+
+Fit an appropriate generalized linear model (GLM) to with a ‘logit’ link function to relate the “Sensex_Direction” with the returns of 10 sectors as a multivariate model and display
+the summary of the model. 
+
+
+
+
+```r
+# Fit the model and display the summary
+model1 &lt;- glm( Sensex_Direction ~ BM+CD+EN+FI+FM+HC+IN+IT+TE+UT,
+               data = indices, 
+               family = binomial(link = "logit"))
+```
+
+```
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+```
+
+---
+
+
+```r
+summary(model1)
+```
+
+```
+## 
+## Call:
+## glm(formula = Sensex_Direction ~ BM + CD + EN + FI + FM + HC + 
+##     IN + IT + TE + UT, family = binomial(link = "logit"), data = indices)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.27544  -0.00117   0.00000   0.01354   1.75651  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -1.0086     0.7315  -1.379  0.16796   
+## BM            7.7977    16.5255   0.472  0.63703   
+## CD          -87.5335    42.6785  -2.051  0.04027 * 
+## EN           93.9675    38.3193   2.452  0.01420 * 
+## FI          172.8807    60.8192   2.843  0.00448 **
+## FM           41.1745    20.1436   2.044  0.04095 * 
+## HC           -6.4294    13.9394  -0.461  0.64463   
+## IN            4.1735    18.2152   0.229  0.81877   
+## IT           78.3494    30.9307   2.533  0.01131 * 
+## TE           29.9111    13.4184   2.229  0.02581 * 
+## UT          -14.4767    23.0602  -0.628  0.53015   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 223.213  on 163  degrees of freedom
+## Residual deviance:  32.905  on 153  degrees of freedom
+## AIC: 54.905
+## 
+## Number of Fisher Scoring iterations: 11
+```
+
+---
+
+
+```r
+library(broom)
+```
+
+```
+## Warning: package 'broom' was built under R version 4.0.5
+```
+
+```r
+tidy(model1)
+```
+
+```
+## # A tibble: 11 x 5
+##    term        estimate std.error statistic p.value
+##    &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1 (Intercept)    -1.01     0.732    -1.38  0.168  
+##  2 BM              7.80    16.5       0.472 0.637  
+##  3 CD            -87.5     42.7      -2.05  0.0403 
+##  4 EN             94.0     38.3       2.45  0.0142 
+##  5 FI            173.      60.8       2.84  0.00448
+##  6 FM             41.2     20.1       2.04  0.0409 
+##  7 HC             -6.43    13.9      -0.461 0.645  
+##  8 IN              4.17    18.2       0.229 0.819  
+##  9 IT             78.3     30.9       2.53  0.0113 
+## 10 TE             29.9     13.4       2.23  0.0258 
+## 11 UT            -14.5     23.1      -0.628 0.530
+```
+---
+
+## Exercise 
+
+Identify which sectors have significantly impacted the direction of Sensex returns at 95% and 99% confidence level.
+
+Verify the relationship between residual deviance of the model and the Akaike Information Criteria (AIC). 
+
+
+---
+
+
+
+### Exercise 4
+
+Sectors significantly impacted
+
+* Sectors which have significantly impacted the direction of Sensex retur
+ns are CD, EN, FI, FM, IT and TE at 95% Confidence level
+
+* But only FI has impacted the Sensex direction at 99% Confidence level
+
+
+Relationship between the residual deviance and AIC
+* all.equal(AIC(model1), model1$deviance+2*11)
+* (11 number of model parameters (the number of variables in the model pl
+us the intercept))
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

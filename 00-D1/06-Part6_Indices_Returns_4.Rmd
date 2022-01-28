@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,6 +9,47 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 1 - Binomial Probability Distribution
+* Exam on basis of ***Base R***
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+Refer to the data file ***Indices_Returns.csv*** and answer the following questions:
+
+
+```{r}
+# Load the data file
+
+indices<-read.csv("Indices_Returns.csv")
+```
+
+```{r}
+head(indices)
+```
+
+---
 
 
 ```{r}

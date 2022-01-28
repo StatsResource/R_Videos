@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,42 +9,69 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
 
-Question 5
-========================
+* CS1B Curriculum
 
-Refer to the data file “Indices_Returns.csv” and answer the following questions:
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
 
-Indices_Returns.csv file is provided in the system.
-
-```{r}
-indices<-read.csv("D:\\Indices_Returns.csv")
-```
-
+* Question 1 - Binomial Probability Distribution
+* Exam on basis of ***Base R***
 
 ---
 
-```{r}
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+Refer to the data file ***Indices_Returns.csv*** and answer the following questions:
+
+
+```{r}
+# Load the data file
+
+indices<-read.csv("Indices_Returns.csv")
+```
+
+```{r}
 head(indices)
-
 ```
+
 
 
 
 
 ---
 
-i) Load the csv file into R and create a new column called “Sensex_Direction”. 
+### Exercise 1
+
+Load the csv file into R and create a new column called “***Sensex_Direction***”. 
 
 The value of this column will be “Positive” when the Sensex returns are positive and “Negative” when they are negative and convert the variable as a factor variable. 
 
 ---
 
+
+#### New Categorical Variable
+
 ```{r}
 # Creation of new column called Sensex_Direction
 
-indices$Sensex_Direction <-     ifelse(indices$Sensex>0,"Positive","Negative")
+indices$Sensex_Direction <- ifelse(indices$Sensex>0,
+                                   "Positive",
+                                   "Negative")
 
 indices$Sensex_Direction <- as.factor(indices$Sensex_Direction)
 
@@ -52,8 +79,16 @@ indices$Sensex_Direction <- as.factor(indices$Sensex_Direction)
 
 ---
 
-Exercise 2
-==================================
+
+```{r}
+head(indices)
+```
+
+
+---
+
+### Exercise 2
+
 
 Fit an appropriate generalized linear model (GLM) to with a ‘logit’ link function to relate the “Sensex_Direction” with the returns of 10 sectors as a multivariate model and display
 the summary of the model. 
@@ -69,6 +104,22 @@ model1 <- glm( Sensex_Direction ~ BM+CD+EN+FI+FM+HC+IN+IT+TE+UT,
 
 ---
 
+```{r}
+
+summary(model1)
+
+```
+
+---
+
+```{r}
+library(broom)
+
+tidy(model1)
+
+```
+---
+
 ## Exercise 
 
 Identify which sectors have significantly impacted the direction of Sensex returns at 95% and 99% confidence level.
@@ -78,13 +129,9 @@ Verify the relationship between residual deviance of the model and the Akaike In
 
 ---
 
-\subsection*{Exercise 3}
 
 
----
-
-Exercise 4
-=================================
+### Exercise 4
 
 Sectors significantly impacted
 

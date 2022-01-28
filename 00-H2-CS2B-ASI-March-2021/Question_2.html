@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+The file “***InsuranceData.csv***” contains records of premium received and claim paid between certain 
+time period. 
+* The ‘Day’ information represents the date on which the transaction occurred, 
+calculated from the first transaction date. 
+
+#### Exercise 1
+
+Separate the data into two tables – premium and claim, based on the transaction type 
+and calculate 
+
+1. mean premium; 
+2. mean claim amount; 
+3. standard deviation of premium; and 
+4. standard deviation of claim amount. 
+
+---
+
+#### Exercise 2
+
+It is assumed that the waiting times between consecutive events follow a Poisson 
+process. 
+
+Expand the ‘claim’ table to include a column for observed waiting time (in 
+days) for all the claims and estimate a Poisson rate parameter value. 
+
+
+
+---
+
+
+
+```r
+InsuranceData &lt;- read.csv("InsuranceData.csv")
+
+head(InsuranceData)
+```
+
+```
+##   Day Amount    Type
+## 1   1    934 Premium
+## 2   1 160854  Claims
+## 3   1  35968  Claims
+## 4   2 376784  Claims
+## 5   3   1563 Premium
+## 6   5 259155  Claims
+```
+
+---
+
+
+
+```r
+library(magrittr)
+library(janitor)
+
+InsuranceData %&gt;% tabyl(Type)
+```
+
+```
+##     Type   n percent
+##   Claims 120     0.6
+##  Premium  80     0.4
+```
+
+---
+
+
+```r
+premium &lt;- InsuranceData[InsuranceData$Type=="Premium",] 
+```
+
+
+```r
+summary(premium)
+```
+
+```
+##       Day            Amount         Type          
+##  Min.   :  1.0   Min.   : 133   Length:80         
+##  1st Qu.: 96.0   1st Qu.:3003   Class :character  
+##  Median :183.5   Median :5190   Mode  :character  
+##  Mean   :182.4   Mean   :5190                     
+##  3rd Qu.:264.2   3rd Qu.:7638                     
+##  Max.   :353.0   Max.   :9770
+```
+
+---
+
+#### Premiums Claims
+
+
+```r
+mean.premium=mean(premium[,2]) 
+mean.premium 
+```
+
+```
+## [1] 5189.613
+```
+
+
+```r
+sd.premium=sd(premium[,2]) 
+sd.premium 
+```
+
+```
+## [1] 2878.675
+```
+ 
+---
+
+####  Claims Data
+ 
+
+```r
+claims &lt;- InsuranceData[InsuranceData$Type=="Claims",] 
+```
+
+
+
+```r
+head(claims )
+```
+
+```
+##    Day Amount   Type
+## 2    1 160854 Claims
+## 3    1  35968 Claims
+## 4    2 376784 Claims
+## 6    5 259155 Claims
+## 8    8  60865 Claims
+## 10  11 347864 Claims
+```
+ 
+
+---
+
+#### Mean and Variance of Claims
+
+
+```r
+mean.claim=mean(claims[,2]) 
+mean.claim 
+```
+
+```
+## [1] 259644.1
+```
+
+
+```r
+sd.claim= sd(claims[,2]) 
+sd.claim 
+```
+
+```
+## [1] 155027
+```
+ 
+---
+
+
+
+```r
+# using "tidyverse"
+
+# library(dplyr)
+
+InsuranceData %&gt;% group_by(Type) %&gt;%
+  summarize(mean.value = mean(Amount),
+            std.dev = sd(Amount)
+            )
+```
+
+```
+## # A tibble: 2 x 3
+##   Type    mean.value std.dev
+##   &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Claims     259644. 155027.
+## 2 Premium      5190.   2879.
+```
+
+---
+
+### Computing the Waiting Times
+
+* Time Differences
+
+
+```r
+waiting_time &lt;- diff(claims[,1]) 
+
+waiting_time
+```
+
+```
+##   [1]  0  1  3  3  3  8  3  1  4  4  2  1  2  3  1  9 11  5  0  3  5  1  0  2 15
+##  [26]  5  1  1  6  2  1  4  3  1  3  4 13  1  1  9  4  9  1  1  2  1  2  3  0  5
+##  [51]  0  2  1  8  2  3  1  0  4  6  7  2  0  1  2  5  2  1  1  8  2  2  0  4  1
+##  [76]  1  0  0  1  5  3  0 12  1  1  2  2 14  5  9  2  4  4  2  7  0  1  1  3  2
+## [101]  4  1  1  2  3  9  1  2  3  0  2  5  0  0  1  1  3  0  1
+```
+
+
+---
+
+Check that dimensions fit
+
+
+```r
+length(waiting_time)
+```
+
+```
+## [1] 119
+```
+
+
+
+```r
+nrow(claims)
+```
+
+```
+## [1] 120
+```
+
+---
+
+
+
+```r
+head(claims)
+```
+
+```
+##    Day Amount   Type
+## 2    1 160854 Claims
+## 3    1  35968 Claims
+## 4    2 376784 Claims
+## 6    5 259155 Claims
+## 8    8  60865 Claims
+## 10  11 347864 Claims
+```
+
+
+
+
+```r
+waiting_time &lt;- c(NA,waiting_time)
+
+length(waiting_time)
+```
+
+```
+## [1] 120
+```
+ 
+
+---
+
+#### Update Claims Data
+
+
+```r
+claims &lt;- cbind(claims,waiting_time)
+
+head(claims) 
+```
+
+```
+##    Day Amount   Type waiting_time
+## 2    1 160854 Claims           NA
+## 3    1  35968 Claims            0
+## 4    2 376784 Claims            1
+## 6    5 259155 Claims            3
+## 8    8  60865 Claims            3
+## 10  11 347864 Claims            3
+```
+
+
+
+```r
+tail(claims)
+```
+
+```
+##     Day Amount   Type waiting_time
+## 195 354  35360 Claims            0
+## 196 355  25257 Claims            1
+## 197 356  30726 Claims            1
+## 198 359  86987 Claims            3
+## 199 359 190073 Claims            0
+## 200 360 455409 Claims            1
+```
+
+---
+
+#### Mean Time Difference
+
+
+
+```r
+mean.wait.time &lt;- mean(claims$waiting_time,na.rm=TRUE)
+mean.wait.time
+```
+
+```
+## [1] 3.016807
+```
+
+#### Estimate Poisson Rate Parameter
+
+
+```r
+Poiss.param.claims &lt;- 1/mean.wait.time 
+
+Poiss.param.claims 
+```
+
+```
+## [1] 0.3314763
+```
+
+---
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,81 +9,243 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
 
-\noindent Compute the 5-th percentile, 1st quartile, median, 3rd quartile and 95 th percentile of both
-the actual claims paid as well as from the fitted distributions. 
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 4 - Categorical Variables
+* Exam on basis of ***Base R***
+
+---
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
 
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
-iii)
-#Computed quantiles of the actual data as well as that of different distributions
+Refer to the data file ***Indices_Returns.csv*** and answer the following questions:
+
 
 ```{r}
-quantile(AutoClaims$PAID,c(0.05,0.25,0.5,0.75,0.95))
+# Load the data file
+
+indices<-read.csv("Indices_Returns.csv")
+```
+
+```{r}
+head(indices)
+```
+
+---
+
+### Exercise 1
+
+Express the number of months with negative Sensex returns as a proportion of total 
+number of months. 
+
+---
+
+number of months with negative Sensex returns as a proportion of total number of months
+
+```{r}
+negative_Sensex <- sum(indices$Sensex<0) 
+negative_Sensex 
+```
+
+```{r}
+proportion_neg <- negative_Sensex / nrow(indices) 
+proportion_neg 
+```
+
+```{r}
+mean(indices$Sensex<0)
+```
+
+---
+
+### Exercise 2
+
+Test whether the proportion of months with negative Sensex returns is less than 50% at 
+95% confidence level as well as at 99% confidence level. 
+
+---
+
+```{r}
+binom.test(negative_Sensex,nrow(indices),
+           p=0.5,
+           alternative = "less") 
+```
+
+---
+
+```{r}
+test <- binom.test(negative_Sensex,nrow(indices),
+           p=0.5,
+           alternative = "less") 
+
+```
+
+```{r}
+library(broom)
+
+tidy(test)
 
 ```
 
 ---
 
-\noindent Using the results from (ii) and (iii), comment on goodness-of-fit of the models to the
-data.
+#### Interpretation
+
+* The p-value corresponding to the test is 0.02529. 
+
+* So the null hypothesis of Proportion of Negatives is at least 50% is rejected at 
+95% Confidence level but is failed to be rejected at 99% Confidence level 
+ 
+---
+
+### Exercise 3
+
+Classify the monthly returns of FI and IT sectors as follows and prepare a contingency 
+table of counts. 
+
+
+|**Monthly Return** |**Classification**|
+|:----:|:----:|
+|≤ First Quartile value |Low|
+|> Third Quartile value |High|
+|All others| Medium|
+
 
 ---
 
-##
-5%
-25%
-50%
-75%
-95%
+### Exercise 3
+
+
+Classify the monthly returns of FI and IT 
 
 ```{r}
-## 1116.379 1610.660 3395.368 7774.382 20405.050
-qnorm(c(0.05,0.25,0.5,0.75,0.95),mean = Normalmu,sd = Normalsigma)
+FI<-ifelse(indices$FI <= quantile(indices$FI,0.25),"Low",
+           ifelse(indices$FI > quantile(indices$FI,0.75),"High",
+                  "Medium")) 
 
-##  -5431.878 1387.290 6127.222 10867.155 17686.323
-qlnorm(c(0.05,0.25,0.5,0.75,0.95),meanlog = LNmu,sdlog = LNsigma)
+```
 
-##  892.0584 2170.4062 4026.6904 7470.5996 18176.2032
-qexp(c(0.05,0.25,0.5,0.75,0.95),rate = Exprate)
-
-##  314.2854 1762.6920 4247.0670 8494.1339 18355.5180
-qgamma(c(0.05,0.25,0.5,0.75,0.95),shape = GammaAlpha,rate = GammaBeta)
-
-##  142.0733 1276.6130 3737.9364 8453.3371 20244.3595
+```{r}
+IT<-ifelse(indices$IT <= quantile(indices$IT,0.25),"Low",
+           ifelse(indices$IT > quantile(indices$IT,0.75),"High",
+                  "Medium")) 
 ```
 
 ---
 
-iv)
-#Comment based on (ii) and (iii)
+#### Categorical Variable
 
+```{r}
+FI
+```
 
-\begin{itemize}
-*  From the histogram and the superimposed plots, it is clear that normal distribution does not
-fit the data well.
+---
 
-The other three curves are getting superimposed more or less similarly to the data. 
-*  Even from the quantiles we observe that lower values are aptly modeled using lognormal distribution (5 th percentile of lognormal being close to actual values) whereas gamma distribution is modeling the higher values more appropriately (95 th percentile).
-*  Hence, just by looking at (ii) and (iii), best fitting distribution among Lognormal, Gamma and
-Exponential distributions cannot be concluded. 
-*  t requires additional analysis in the form of other statistical tests to confirm the best fit
+#### Categorical Variable
 
+```{r}
+class(FI)
+```
+
+```{r}
+table(FI)
+```
 
 
 ---
 
-Part (i) was well attempted though many students had difficulty in arriving at the parameter
-s corresponding to lognormal distribution and Gamma distribution. 
+```{r}
 
-All those who attempted
-Part (i) successfully were able to attempt Part (ii) and Part (iii) as well, but the failure in fittin
-g a few distributions in part (i) resulted in only part answers for part (ii) and (iii). Many stude
-nts were able to plot the histogram and the distributions decently well but the labelling thro
-ugh appropriate legends was not done well. 
+cut(x = indices$FI, 
+    breaks = c(min(indices$FI),
+               quantile(indices$FI,0.25),
+               quantile(indices$FI,0.75),
+               max(indices$FI)), 
+    labels = c("Low","Medium","High"))
 
-Part (iv) was not attempted by many students a
-nd among them who attempted, complete interpretation was lagging. Very few wrote a det
-ailed interpretation of the result.
+```
 
+---
+
+```{r}
+table(FI,IT) 
+```
+
+---
+
+### Exercise 4
+
+Use the contingency table provided in Exercise 3 and test for the independence of 
+monthly returns between FI and IT sector returns using an appropriate test and provide an 
+interpretation of the test results. 
+
+---
+
+Test if the returns of FI and IT sectors are independent of each other
+
+```{r}
+chisq.test(FI,IT) 
+```
+
+---
+
+### Interpretation
+*  p-value < 0.05 indicating the rejection of null hypothesis of independe
+nce of returns of both the sectors
+
+* There is a lot of interdependence in the sectoral returns
+
+* There were very few instances where one sector's returns were below the Q1 and the other sector's returns were above Q3
+
+* The numbers in the diagonals are much higher to the ones in the off 
+diagonals indicating the strength of the relationship
+
+---
+
+### Exercise 5
+
+Test whether the returns of FI sector are significantly higher compared to that of IT Sector 
+at 95% confidence level using appropriate test. 
+
+---
+
+### Exercise 5
+
+Test whether the returns of FI sector are significantly higher compared to 
+that of IT Sector
+
+```{r}
+t.test(indices$FI,indices$IT, alternative = "greater") 
+```
+
+---
+
+#### Interpretation  
+
+*  p-value =0.4094 > 0.05 indicates failure to reject the null hypothesis 
+of the return of FI not greater than that of IT sector at 95% confidence level
+
+*  There is no sufficient evidence to infer that the returns of FI sector 
+are significantly higher than that of IT Sector
+
+---
+
+---

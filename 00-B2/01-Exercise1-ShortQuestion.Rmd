@@ -15,8 +15,6 @@ library(magrittr)
 library(knitr)
 
 
-#Higher Certificate, Paper II, 2007.  Question 3
-
 ```
 
 ```{css, echo=FALSE}

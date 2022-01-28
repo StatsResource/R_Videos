@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -127,8 +127,8 @@ component.
 ---
 
 
-Exercise 2
-============================
+### Exercise 2
+
 
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results.
@@ -153,8 +153,8 @@ pacf(ts(sb_data),main="PACF Speedboat Sales")
 
 
 
-Exercise 3
-======================
+### Exercise 3
+
 
 You believe that differencing series is one of the ways to remove trend. 
 
@@ -177,41 +177,45 @@ diff_data = diff(  ts(sb_data)  )
 forecasts through ARIMA models.
 
 
-
-
-
-
-```r
+&lt;pre&gt;&lt;code&gt;
 diff_data_2 = diff(diff_data)
 plot(diff_data_2,ylab="Differenced Speedboat Sales")
-```
-
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 ---
 
-Exercise 4
-============================
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+### Exercise 4
+
 Looking at the plots of difference series, you decide to apply log transformation to the
 original series to smoothen the variance. Obtain the log-transformed (base 10) series
 and plot the same. 
 
-
-```r
+&lt;pre&gt;&lt;code&gt;
 Log_data = log10(  ts(sb_data)  )
 
 plot(Log_data,ylab="Log Speedboat Sales")
-```
+&lt;/code&gt;&lt;/pre&gt;
+---
 
 ![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ---
 
-Exercise 5
-=================
+### Exercise 5
+
 Obtain the first order difference series of the transformed series and plot the same. 
 
+&lt;pre&gt;&lt;code&gt;
+Diff_log_data = diff(Log_data)
+
+plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
+&lt;/code&gt;&lt;/pre&gt;
+
+---
 
 
 ```r
@@ -272,14 +276,15 @@ model on the fly. Comment on the summary results of fitting this series and on A
 Information Criterion (AIC) and Bayesian Information Criterion (BIC) values. 
 
 
-
-
-```r
+&lt;pre&gt;&lt;code&gt;
 ARIMAfit = auto.arima (  Log_data[,2] ,approximation=FALSE,
     trace=FALSE)
 
 summary(ARIMAfit)
-```
+&lt;/code&gt;&lt;/pre&gt;
+
+---
+
 
 ```
 ## Series: Log_data[, 2] 
@@ -299,7 +304,6 @@ summary(ARIMAfit)
 ##                    ACF1
 ## Training set -0.0978577
 ```
-
 ---
 
 
@@ -315,15 +319,19 @@ model has MA value of order 1. Also, there is seasonal MA with lag 12 of order 1
 
 ---
 
-PART 8
+### PART 8
 
-===============================================================================================
 
 Predict speedboat sales for next 3 years i.e. for 2015, 2016, and 2017 through the above
 model and plot the results along-with one times the range of standard error from
 predicted value. 
 
-
+&lt;pre&gt;&lt;code&gt;
+pred = forecast(ARIMAfit, n.ahead = 36)
+pred
+&lt;/code&gt;&lt;/pre&gt;
+  
+---
 
 
 

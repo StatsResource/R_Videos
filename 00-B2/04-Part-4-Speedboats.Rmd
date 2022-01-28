@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,6 +9,30 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 ABC Tech, a Speedboat manufacturing company, was established a few decades back. The
 company has shown a consistent growth in its revenue from Speedboat sales since its inception.
 
@@ -97,8 +121,8 @@ component.
 ---
 
 
-Exercise 2
-============================
+### Exercise 2
+
 
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results.
@@ -115,8 +139,8 @@ pacf(ts(sb_data),main="PACF Speedboat Sales")
 
 
 
-Exercise 3
-======================
+### Exercise 3
+
 
 You believe that differencing series is one of the ways to remove trend. 
 
@@ -138,24 +162,34 @@ diff_data = diff(  ts(sb_data)  )
 forecasts through ARIMA models.
 
 
+<pre><code>
+diff_data_2 = diff(diff_data)
+plot(diff_data_2,ylab="Differenced Speedboat Sales")
+</code></pre>
 
+---
 
-
-```{r}
+```{r echo=FALSE}
 diff_data_2 = diff(diff_data)
 plot(diff_data_2,ylab="Differenced Speedboat Sales")
 ```
 
-
 ---
 
-Exercise 4
-============================
+### Exercise 4
+
 Looking at the plots of difference series, you decide to apply log transformation to the
 original series to smoothen the variance. Obtain the log-transformed (base 10) series
 and plot the same. 
 
-```{r}
+<pre><code>
+Log_data = log10(  ts(sb_data)  )
+
+plot(Log_data,ylab="Log Speedboat Sales")
+</code></pre>
+---
+
+```{r echo=FALSE}
 Log_data = log10(  ts(sb_data)  )
 
 plot(Log_data,ylab="Log Speedboat Sales")
@@ -163,10 +197,17 @@ plot(Log_data,ylab="Log Speedboat Sales")
 
 ---
 
-Exercise 5
-=================
+### Exercise 5
+
 Obtain the first order difference series of the transformed series and plot the same. 
 
+<pre><code>
+Diff_log_data = diff(Log_data)
+
+plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
+</code></pre>
+
+---
 
 ```{r}
 Diff_log_data = diff(Log_data)
@@ -216,14 +257,21 @@ model on the fly. Comment on the summary results of fitting this series and on A
 Information Criterion (AIC) and Bayesian Information Criterion (BIC) values. 
 
 
+<pre><code>
+ARIMAfit = auto.arima (  Log_data[,2] ,approximation=FALSE,
+    trace=FALSE)
 
-```{r}
+summary(ARIMAfit)
+</code></pre>
+
+---
+
+```{r echo=FALSE}
 ARIMAfit = auto.arima (  Log_data[,2] ,approximation=FALSE,
     trace=FALSE)
 
 summary(ARIMAfit)
 ```
-
 ---
 
 
@@ -239,15 +287,19 @@ model has MA value of order 1. Also, there is seasonal MA with lag 12 of order 1
 
 ---
 
-PART 8
+### PART 8
 
-===============================================================================================
 
 Predict speedboat sales for next 3 years i.e. for 2015, 2016, and 2017 through the above
 model and plot the results along-with one times the range of standard error from
 predicted value. 
 
-
+<pre><code>
+pred = forecast(ARIMAfit, n.ahead = 36)
+pred
+</code></pre>
+  
+---
 
 
 ```{r}

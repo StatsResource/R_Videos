@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,6 +9,30 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 
 Exercise 1
 ===================================================
@@ -59,6 +83,7 @@ rate1 <- 0.006
 rate2 <- 0.007
 q2 <- 0.001
 n2 <- 500
+
 rate3 <- 0.006
 q3 <- 0.003
 n3 <- 200
@@ -76,7 +101,7 @@ Total = 0
 # How many claims out of 200 policies?
 n_1 <- rbinom(1,size = 200,prob=0.03)
 n_1
-claim_amounts_1 = rexp(6,rate=0.006)
+claim_amounts_1 = rexp(n_1,rate=0.006)
 claim_amounts_1
 total_claim_amount_1 = sum(claim_amounts_1)
 total_claim_amount_1
@@ -92,9 +117,13 @@ for (j in 1:5000){
   x<-numeric(Total_policies)
   
   for (i in 1:Total_policies)
-  {if (i<= n1){rate=rate1} else{if(i<=n1+n2){rate=rate2}else{rate=rate3}}
+  {
+    if (i<= n1){rate=rate1}else{
+    if(i<=n1+n2){rate=rate2}else{
+      rate=rate3}
+    }
 
-    x[i] <- rexp(1,rate=rate)}
+  x[i] <- rexp(1,rate=rate)}
   death<-numeric(1000)
   
   for (i in 1:Total_policies)

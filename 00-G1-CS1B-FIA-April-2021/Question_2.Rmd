@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,6 +9,30 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 
 4 A statistician wants to model the number of passengers boarding a bus from a bus 
 stop close to a student residential area. They can think of three explanatory variables: 

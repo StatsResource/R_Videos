@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,111 +9,233 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
 
+```
 
-Q. 2) The file “Data.csv” contains records of premium received and claim paid between certain 
-time period. The ‘Day’ information represents the date on which the transaction occurred, 
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+The file “***InsuranceData.csv***” contains records of premium received and claim paid between certain 
+time period. 
+* The ‘Day’ information represents the date on which the transaction occurred, 
 calculated from the first transaction date. 
-i) Separate the data into two tables – premium and claim, based on the transaction type 
+
+#### Exercise 1
+
+Separate the data into two tables – premium and claim, based on the transaction type 
 and calculate 
-a) mean premium; 
-b) mean claim amount; 
-c) standard deviation of premium; and 
-d) standard deviation of claim amount. 
+
+1. mean premium; 
+2. mean claim amount; 
+3. standard deviation of premium; and 
+4. standard deviation of claim amount. 
 
 ---
 
-ii) It is assumed that the waiting times between consecutive events follow a Poisson 
-process. Expand the ‘claim’ table to include a column for observed waiting time (in 
-days) for all the claims and calculate a Poisson parameter value. (7)
+#### Exercise 2
+
+It is assumed that the waiting times between consecutive events follow a Poisson 
+process. 
+
+Expand the ‘claim’ table to include a column for observed waiting time (in 
+days) for all the claims and estimate a Poisson rate parameter value. 
+
 
 
 ---
- Solution 2: 
-i)
-data<-read.table("Data.csv",sep=",",header=T) 
-premium <- data[data$Type=="Premium",] 
-premium IAI CS2B-0321 
-Page 5 of 9
-> premium 
- Day Amount Type 
-1 1 934 Premium 
-5 3 1563 Premium 
-7 8 7568 Premium 
-9 11 1569 Premium 
-11 14 5107 Premium 
-…………………… 
-…………………… 
-188 349 5559 Premium 
-190 350 2366 Premium 
-191 352 5517 Premium 
-192 353 5371 Premium 
- [2] 
- 
- ---
- 
+
+
+```{r}
+
+InsuranceData <- read.csv("InsuranceData.csv")
+
+head(InsuranceData)
+```
+
+---
+
+
+```{r warning=FALSE}
+
+library(magrittr)
+library(janitor)
+
+InsuranceData %>% tabyl(Type)
+
+```
+
+---
+
+```{r}
+premium <- InsuranceData[InsuranceData$Type=="Premium",] 
+```
+
+```{r}
+summary(premium)
+```
+
+---
+
+#### Premiums Claims
+
+```{r} 
 mean.premium=mean(premium[,2]) 
 mean.premium 
-> mean.premium 
-[1] 5189.613 
- [1] 
-sd.premium=sqrt(var(premium[,2])) 
+```
+
+```{r}
+sd.premium=sd(premium[,2]) 
 sd.premium 
-> sd.premium 
-[1] 2878.675 
- [1]
-claim <- data[data$Type=="Claims",] 
+```
+ 
+---
+
+####  Claims Data
+ 
+```{r} 
+claims <- InsuranceData[InsuranceData$Type=="Claims",] 
+
+```
+
+
+```{r}
+head(claims )
+```
+ 
 
 ---
 
-```{r}
-head(claim )
-```
-> claim 
- Day Amount Type 
-2 1 160854 Claims 
-3 1 35968 Claims 
-4 2 376784 Claims 
-6 5 259155 Claims 
-8 8 60865 Claims 
-
---- 
+#### Mean and Variance of Claims
 
 ```{r}
-mean.claim=mean(claim[,2]) 
+mean.claim=mean(claims[,2]) 
 mean.claim 
 ```
 
-> mean.claim 
-[1] 259644.1 
- [1] 
-
 ```{r}
-sd.claim=sqrt(var(claim[,2])) 
+sd.claim= sd(claims[,2]) 
 sd.claim 
 ```
  
-> sd.claim 
-[1] 155027 
- [1] 
-
 ---
 
-```{r}
-temp <- cbind(claim,c(NA,diff(claim[,1]))) IAI CS2B-0321 
 
-colnames(temp)[4] <- "Diff" 
-claim=temp 
-claim 
+```{r}
+# using "tidyverse"
+
+# library(dplyr)
+
+InsuranceData %>% group_by(Type) %>%
+  summarize(mean.value = mean(Amount),
+            std.dev = sd(Amount)
+            )
+
+
 ```
 
 ---
 
+### Computing the Waiting Times
+
+* Time Differences
+
 ```{r}
-mean.wait.time=mean(claim[,4][2:length(claim[,4])]) 
-Poiss.param.claims=1/mean.wait.time 
+waiting_time <- diff(claims[,1]) 
+
+waiting_time
+
+```
+
+
+---
+
+Check that dimensions fit
+
+```{r}
+length(waiting_time)
+```
+
+
+```{r}
+nrow(claims)
+```
+
+---
+
+
+```{r}
+head(claims)
+```
+
+
+
+```{r}
+waiting_time <- c(NA,waiting_time)
+
+length(waiting_time)
+
+```
+ 
+
+---
+
+#### Update Claims Data
+
+```{r}
+claims <- cbind(claims,waiting_time)
+
+head(claims) 
+```
+
+
+```{r}
+tail(claims)
+```
+
+---
+
+#### Mean Time Difference
+
+
+```{r}
+mean.wait.time <- mean(claims$waiting_time,na.rm=TRUE)
+mean.wait.time
+
+```
+
+#### Estimate Poisson Rate Parameter
+
+```{r}
+Poiss.param.claims <- 1/mean.wait.time 
+
 Poiss.param.claims 
-> Poiss.param.claims 
-[1] 0.3314763 
+
+
 ```
+
+---
+
+
+---

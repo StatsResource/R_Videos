@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 1 - Binomial Probability Distribution
+* Exam on basis of ***Base R***
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+Refer to the data file ***Indices_Returns.csv*** and answer the following questions:
+
+
+
+```r
+# Load the data file
+
+indices&lt;-read.csv("Indices_Returns.csv")
+```
+
+
+```r
+head(indices)
+```
+
+```
+##    Month  Sensex      BM      CD      EN      FM      FI      HC      IN
+## 1 Feb-06  0.0444  0.0364  0.0291 -0.0179  0.1233  0.0103  0.0769  0.0670
+## 2 Mar-06  0.0841  0.1632  0.0783  0.1032  0.1158  0.0185  0.0822  0.0983
+## 3 Apr-06  0.0654  0.1513  0.0415  0.1518  0.0445 -0.0093  0.0095  0.0545
+## 4 May-06 -0.1468 -0.1939 -0.0884 -0.1015 -0.2018 -0.0885 -0.1394 -0.1507
+## 5 Jun-06  0.0201 -0.0252 -0.0691  0.0347  0.0314 -0.0806 -0.0784 -0.0728
+## 6 Jul-06  0.0126 -0.0177 -0.0280 -0.0478 -0.0361  0.0536  0.0298 -0.0235
+##        IT      TE      UT
+## 1 -0.0115  0.0100  0.0449
+## 2  0.0838  0.1532  0.0817
+## 3  0.0011  0.0035  0.0193
+## 4 -0.1023 -0.1274 -0.1576
+## 5  0.0273  0.0043 -0.0530
+## 6  0.0540 -0.0035 -0.0079
+```
+
+---
+
+### Exercise 1
+
+Express the number of months with negative Sensex returns as a proportion of total 
+number of months. 
+
+---
+
+number of months with negative Sensex returns as a proportion of total number of months
+
+
+```r
+negative_Sensex &lt;- sum(indices$Sensex&lt;0) 
+negative_Sensex 
+```
+
+```
+## [1] 69
+```
+
+
+```r
+proportion_neg &lt;- negative_Sensex / nrow(indices) 
+proportion_neg 
+```
+
+```
+## [1] 0.4207317
+```
+
+
+```r
+mean(indices$Sensex&lt;0)
+```
+
+```
+## [1] 0.4207317
+```
+
+---
+
+### Exercise 2
+
+Test whether the proportion of months with negative Sensex returns is less than 50% at 
+95% confidence level as well as at 99% confidence level. 
+
+---
+
+
+```r
+binom.test(negative_Sensex,nrow(indices),
+           p=0.5,
+           alternative = "less") 
+```
+
+```
+## 
+## 	Exact binomial test
+## 
+## data:  negative_Sensex and nrow(indices)
+## number of successes = 69, number of trials = 164, p-value = 0.02529
+## alternative hypothesis: true probability of success is less than 0.5
+## 95 percent confidence interval:
+##  0.0000000 0.4878846
+## sample estimates:
+## probability of success 
+##              0.4207317
+```
+
+---
+
+
+```r
+test &lt;- binom.test(negative_Sensex,nrow(indices),
+           p=0.5,
+           alternative = "less") 
+```
+
+
+```r
+library(broom)
+```
+
+```
+## Warning: package 'broom' was built under R version 4.0.5
+```
+
+```r
+tidy(test)
+```
+
+```
+## # A tibble: 1 x 8
+##   estimate statistic p.value parameter conf.low conf.high method     alternative
+##      &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      
+## 1    0.421        69  0.0253       164        0     0.488 Exact bin~ less
+```
+
+---
+
+#### Interpretation
+
+* The p-value corresponding to the test is 0.02529. 
+
+* So the null hypothesis of Proportion of Negatives is at least 50% is rejected at 
+95% Confidence level but is failed to be rejected at 99% Confidence level 
+ 
+---
+
+### Exercise 3
+
+Classify the monthly returns of FI and IT sectors as follows and prepare a contingency 
+table of counts. 
+
+
+|**Monthly Return*** |**Classification**|
+|:----:|:----:|
+|≤ First Quartile value |Low|
+|&gt; Third Quartile value |High|
+|All others| Medium|
+
+
+---
+
+### Exercise 3
+
+
+Classify the monthly returns of FI and IT 
+
+
+```r
+FI&lt;-ifelse(indices$FI &lt;= quantile(indices$FI,0.25),"Low",
+           ifelse(indices$FI &gt; quantile(indices$FI,0.75),"High",
+                  "Medium")) 
+```
+
+
+```r
+IT&lt;-ifelse(indices$IT &lt;= quantile(indices$IT,0.25),"Low",
+           ifelse(indices$IT &gt; quantile(indices$IT,0.75),"High",
+                  "Medium")) 
+```
+
+---
+
+#### Categorical Variable
+
+
+```r
+FI
+```
+
+```
+##   [1] "Medium" "Medium" "Medium" "Low"    "Low"    "Medium" "High"   "High"  
+##   [9] "Medium" "High"   "Medium" "Medium" "Low"    "Medium" "High"   "High"  
+##  [17] "High"   "Medium" "Low"    "High"   "High"   "Medium" "Medium" "Low"   
+##  [25] "Low"    "Low"    "High"   "Low"    "Low"    "High"   "High"   "Low"   
+##  [33] "Low"    "Low"    "High"   "Low"    "Low"    "High"   "High"   "High"  
+##  [41] "Medium" "Medium" "Medium" "High"   "Low"    "High"   "Medium" "Low"   
+##  [49] "Medium" "High"   "Medium" "Low"    "Medium" "High"   "Medium" "High"  
+##  [57] "Medium" "Low"    "Medium" "Low"    "Medium" "High"   "Medium" "Low"   
+##  [65] "Medium" "Low"    "Low"    "Medium" "Medium" "Low"    "Low"    "High"  
+##  [73] "Medium" "Medium" "Medium" "Low"    "High"   "Medium" "Medium" "High"  
+##  [81] "Medium" "High"   "Medium" "Medium" "Low"    "Medium" "High"   "Medium"
+##  [89] "Low"    "Low"    "Low"    "High"   "High"   "Medium" "Medium" "Low"   
+##  [97] "Medium" "High"   "Medium" "High"   "Medium" "Medium" "Medium" "Medium"
+## [105] "High"   "High"   "Medium" "Medium" "Medium" "Low"    "Medium" "Medium"
+## [113] "Medium" "Medium" "Low"    "Medium" "Medium" "Medium" "Medium" "Low"   
+## [121] "Low"    "High"   "Medium" "High"   "Medium" "High"   "Medium" "Medium"
+## [129] "Medium" "Low"    "Low"    "High"   "Medium" "Medium" "Medium" "Medium"
+## [137] "Medium" "High"   "Medium" "Medium" "Medium" "Medium" "Medium" "Medium"
+## [145] "Low"    "Low"    "Medium" "Medium" "Medium" "High"   "Medium" "Low"   
+## [153] "Medium" "High"   "Medium" "Medium" "Medium" "High"   "Medium" "High"  
+## [161] "Medium" "Low"    "Low"    "Medium"
+```
+
+---
+
+
+```r
+cut(x = indices$FI, 
+    breaks = c(min(indices$FI),
+               quantile(indices$FI,0.25),
+               quantile(indices$FI,0.75),
+               max(indices$FI)), 
+    labels = c("Low","Medium","High"))
+```
+
+```
+##   [1] Medium Medium Medium Low    Low    Medium High   High   Medium High  
+##  [11] Medium Medium Low    Medium High   High   High   Medium Low    High  
+##  [21] High   Medium Medium Low    Low    Low    High   Low    &lt;NA&gt;   High  
+##  [31] High   Low    Low    Low    High   Low    Low    High   High   High  
+##  [41] Medium Medium Medium High   Low    High   Medium Low    Medium High  
+##  [51] Medium Low    Medium High   Medium High   Medium Low    Medium Low   
+##  [61] Medium High   Medium Low    Medium Low    Low    Medium Medium Low   
+##  [71] Low    High   Medium Medium Medium Low    High   Medium Medium High  
+##  [81] Medium High   Medium Medium Low    Medium High   Medium Low    Low   
+##  [91] Low    High   High   Medium Medium Low    Medium High   Medium High  
+## [101] Medium Medium Medium Medium High   High   Medium Medium Medium Low   
+## [111] Medium Medium Medium Medium Low    Medium Medium Medium Medium Low   
+## [121] Low    High   Medium High   Medium High   Medium Medium Medium Low   
+## [131] Low    High   Medium Medium Medium Medium Medium High   Medium Medium
+## [141] Medium Medium Medium Medium Low    Low    Medium Medium Medium High  
+## [151] Medium Low    Medium High   Medium Medium Medium High   Medium High  
+## [161] Medium Low    Low    Medium
+## Levels: Low Medium High
+```
+
+---
+
+
+```r
+table(FI,IT) 
+```
+
+```
+##         IT
+## FI       High Low Medium
+##   High     14   8     19
+##   Low       3  18     20
+##   Medium   24  15     43
+```
+
+---
+
+### Exercise 4
+
+Use the contingency table provided in Exercise 3 and test for the independence of 
+monthly returns between FI and IT sector returns using an appropriate test and provide an 
+interpretation of the test results. 
+
+---
+
+Test if the returns of FI and IT sectors are independent of each other
+
+
+```r
+chisq.test(FI,IT) 
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  FI and IT
+## X-squared = 15.146, df = 4, p-value = 0.004407
+```
+
+---
+
+### Interpretation
+*  p-value &lt; 0.05 indicating the rejection of null hypothesis of independe
+nce of returns of both the sectors
+
+* There is a lot of interdependence in the sectoral returns
+
+* There were very few instances where one sector's returns were below the Q1 and the other sector's returns were above Q3
+
+* The numbers in the diagonals are much higher to the ones in the off 
+diagonals indicating the strength of the relationship
+
+---
+
+### Exercise 5
+
+Test whether the returns of FI sector are significantly higher compared to that of IT Sector 
+at 95% confidence level using appropriate test. 
+
+---
+
+### Exercise 5
+
+Test whether the returns of FI sector are significantly higher compared to 
+that of IT Sector
+
+
+```r
+t.test(indices$FI,indices$IT, alternative = "greater") 
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  indices$FI and indices$IT
+## t = 0.22935, df = 314.81, p-value = 0.4094
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  -0.012103       Inf
+## sample estimates:
+##   mean of x   mean of y 
+## 0.010674390 0.008720122
+```
+
+---
+
+#### Interpretation  
+
+*  p-value =0.4094 &gt; 0.05 indicates failure to reject the null hypothesis 
+of the return of FI not greater than that of IT sector at 95% confidence level
+
+*  There is no sufficient evidence to infer that the returns of FI sector 
+are significantly higher than that of IT Sector
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

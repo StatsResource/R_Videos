@@ -49,6 +49,7 @@ premium.
 It is observed that the ratio is above 150 means the policies are Regular Premium Policies and if the
 ratio is below 50 means the policies are Single Premium Policies. If the ratio falls between 50 and 150
 indicates that the policies are Regular Limited Payment Polices.
+
 Binary Decision Tree:
 IF ratio < 50
 If ration > 150
@@ -81,11 +82,11 @@ method.
  
 ```{r} 
 SA<-5000000
-> FP<-250000
-> Ratio<-(SA/100)/(FP/1000)
-> guess<-ifelse(Ratio<50,"Single Premium",ifelse(Ratio>150,"Regular Premium","Regular Limited
+FP<-250000
+Ratio<-(SA/100)/(FP/1000)
+guess<-ifelse(   Ratio<50,"Single Premium",ifelse(Ratio>150,"Regular Premium","Regular Limited
 Premium"))
-> guess
-> guess
+guess
+guess
 
 ```

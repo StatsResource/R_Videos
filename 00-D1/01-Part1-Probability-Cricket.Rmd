@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,74 +9,121 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 1 - Binomial Probability Distribution
+* Exam on basis of ***Base R***
+
+---
 
 
-All questions need to be answered using the ‘R’ software, unless otherwise mentioned.
-Q. 1)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+
 The probability that India will win a cricket match against South Africa is 0.7
-i) Prepare a probability distribution table of number of wins if Indians are going to play 10
-matches against the South Africans. (4)
-ii) Plot a bar chart of the probabilities of number of wins from 0 to 10. (4)
-iii) Find the mean and median number of wins for India against South Africa.
+
+
+#### Exercises
+
+1. Prepare a probability distribution table of number of wins if Indians are going to play 10
+matches against the South Africans. 
+2. Plot a bar chart of the probabilities of number of wins from 0 to 10.
+
+3.Find the mean and median number of wins for India against South Africa.
 
 ---
 
 
-Solution 1:
-i)
-p<-0.7
-probability distribution table of number of number of wins
-prob<-dbinom(0:10,size = 10,prob = 0.7)
-probability_Densities<-data.frame(No_Successes = 0:10,prob)
-probability_Densities
-No_Successes
-0
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+#### Exercise Solution 1:
 
 
-prob
-0.0000059049
-0.0001377810
-0.0014467005
-0.0090016920
-0.0367569090
-0.1029193452
-0.2001209490
-0.2668279320
-0.2334744405
-0.1210608210
-0.0282475249
-
-
----
-
-ii)
-bar chart of the probabilities of number of wins
-barplot(prob,main = "Bar Chart of Probability of Successes", xlab = "Numbe
-r of Successes", names.arg = 0:10)
-
----
-
-mean and median number of wins for India against South Africa
+$$ X \sim Bin(n=10,p=0.7)$$
 
 ```{r}
+p<-0.7
+```
+probability distribution table of number of number of wins
+
+```{r}
+prob<-dbinom(0:10,size = 10,prob = 0.7)
+probability_Densities<-data.frame(No_Successes = 0:10,prob)
+```
+
+---
+
+```{r}
+probability_Densities
+```
+
+
+---
+
+### Exercsie 2
+
+Bar chart of the probabilities of number of wins
+
+<pre><code>
+barplot(prob,main = "Bar Chart of Probability of Successes", 
+    xlab = "Number of Successes", 
+    names.arg = 0:10)
+</code></pre>
+
+---
+
+
+```{r echo=FALSE}
+barplot(prob,main = "Bar Chart of Probability of Successes", 
+    xlab = "Number of Successes", 
+    names.arg = 0:10)
+```
+
+---
+### Exercise 3
+
+Mean and median number of wins for India against South Africa
+
+
+#### Mean
+
+```{r}
+#Definition of Binomial Mean
 mean<-10*0.7 #or
-
-
-mean<-sum(probability_Densities$No_Successes*probability_Densities$prob
-)
 mean
 ```
+
+```{r}
+
+#Definition of Expectation of Discrete Random Variable
+X <- probability_Densities$No_Successes
+Prob.X <- probability_Densities$prob
+mean <- sum(X * Prob.X)
+
+mean
+
+```
+
 ---
+
+
+#### Median
 
 ```{r}
 median<-qbinom(0.5,size = 10,prob = 0.7)
