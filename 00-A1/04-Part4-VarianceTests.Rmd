@@ -9,7 +9,7 @@ output:
       countIncrementalSlides: false
 ---
 
-\noindent Actuaries in an insurance company have data which have been collected separately
+Actuaries in an insurance company have data which have been collected separately
 in two different samples. The actuaries are concerned about the validity of the equal
 variance assumption between the two underlying populations when carrying out a
 two-sample t-test. The two samples are given below:
@@ -26,8 +26,7 @@ two-sample t-test. The two samples are given below:
 
 ---
 
-Exercise 1
-===========================
+### Exercise 1
 
 Enter the data into R.
 
@@ -47,26 +46,28 @@ assign("sample2", c(19, 18, 38, 33, 24, 39, 22,
 
 ```
 
----
-
-\includegraphics[scale=1.6]{00-A1/images/A1-Q4-Samples.JPG}
 
 ---
 
-Exercise 2
-=========================
+### Exercise 2
+
+Perform an F-test at a 5% significance level to compare the populationvariances. You should state your conclusion clearly.
 
 
-\noindent Perform an F-test at a 5\% significance level to compare the populationvariances. You should state your conclusion clearly.
+#### Stating the Hypotheses
 
-$$ H_0 : \sigma^2_{1} = \sigma^2_{2} $$
-$$ H_1 : \sigma^2_{1} \neq \sigma^2_{2} $$
+$$H_0 : \sigma^2_{1} = \sigma^2_{2}$$
+$$H_1 : \sigma^2_{1} \neq \sigma^2_{2}$$
+
+---
+
+#### Stating the Hypotheses
 
 
-\noindent Alternatively, expressed in terms of variance ratios
+Alternatively, expressed in terms of variance ratios
 
-$$ H_0 : \frac{\sigma^2_{1}}{ \sigma^2_{2} } = 1$$
-$$ H_1 : \frac{\sigma^2_{1}}{ \sigma^2_{2} } \neq 1 $$
+$$H_0 : \frac{\sigma^2_{1}}{ \sigma^2_{2} } = 1$$
+$$H_1 : \frac{\sigma^2_{1}}{ \sigma^2_{2} } \neq 1$$
 
 ---
 
@@ -77,23 +78,14 @@ var.test(x = sample1, y = sample2, conf.level = 0.95)
 ```
 
 
-\begin{verbatim}
-  
-    	F test to compare two variances
-    
-    data:  sample1 and sample2
-    F = 0.29259, num df = 10, denom df = 10, p-value = 0.06553
-    alternative hypothesis: true ratio of variances is not equal to 1
-    95 percent confidence interval:
-     0.07872181 1.08750577
-    sample estimates:
-    ratio of variances 
-             0.2925926 
-    
-\end{verbatim} 
 
 
 ---
+
+```{r echo=FALSE}
+library(broom)
+library(magrittr)
+```
 
 ```{r}
 library(broom)
@@ -103,20 +95,21 @@ var.test(x = sample1, y = sample2,
     conf.level = 0.95) %>% tidy() 
 ```
 
-    \includegraphics[scale=1.15]{00-A1/images/A1-Q4-Broom.JPG}
 
 ---
 
-\noindent The p-value is $0.06553 \geq 0.05$, so we have insufficient evidence to reject the assumption of
+The p-value is $0.06553 \geq 0.025$, so we have insufficient evidence to reject the assumption of
 equal variance.
 
+N.B. The Variance test is a two-tailed test
+
 
 ---
 
-\subsection*{Exercise 3}
+### Exercise 3
 
-\noindent Perform a suitable t-test for the null hypothesis that the two population
-means are equal at a 5\% significance level.
+Perform a suitable t-test for the null hypothesis that the two population
+means are equal at a 5%*  significance level.
 
 
 
@@ -128,18 +121,6 @@ t.test(x = sample1,
 ```
 
 
-\begin{verbatim}
-    	Two Sample t-test
-    
-    data:  sample1 and sample2
-    t = -0.79396, df = 20, p-value = 0.4365
-    alternative hypothesis: true difference in means is not equal to 0
-    95 percent confidence interval:
-     -7.254581  3.254581
-    sample estimates:
-    mean of x mean of y 
-           25        27  
-\end{verbatim}   
 
 
 ---
@@ -155,12 +136,13 @@ t.test(x = sample1,
 ```
 
 
-\includegraphics[]{00-A1/images/A1-Q4-Broom2.JPG}
-
 
 --- 
 
-\noindent Calculate a two-sided 95\% confidence interval for the difference in the
+
+### Exercise 3 (Continued)
+
+Calculate a two-sided 95% confidence interval for the difference in the
 population means.
 
 
@@ -182,11 +164,11 @@ thisTest$conf.int
 --- 
 
 
-\includegraphics[scale=1.4]{00-A1/images/A1-Q4-ConfInts.JPG}
+### Exercise 3 (Continued)
 
-* The 95\% Confidence Interval is (-7.25, 3.25).
+* The 95%*  Confidence Interval is (-7.25, 3.25).
 
-* The p-value of 0.4365 is much larger than the 5\% significance level, therefore we
+* The p-value of 0.4365 is much larger than the 5%*  significance level, therefore we
 have no evidence to suggest that the means are different between the two samples.
  
 * It is clear that the confidence interval (-7.25, 3.25) contains 0, therefore 
@@ -195,13 +177,12 @@ the assumption of equal means holds.
 
 ---
 
+###  Exercise 4
 
-Exercise 4
-====================================
 
-Calculate the two sets of absolute deviations.
+Calculate the two sets of absolute deviations (i.e. one for each sample).
 
- [Hint: \texttt{abs(x)} gives the absolute value of x.]
+[Hint: ***abs(x)*** gives the absolute value of x.]
 		
 
 
@@ -215,9 +196,14 @@ s2 = abs(sample2 - mean(sample2))
 
 ```
 
-\noindent Perform a two-sample t-test on the two sets of absolute deviations at a
-5\% level, stating your conclusion.
-\newpage 
+
+---
+
+### Exercise 4 (Continued)
+
+Perform a two-sample t-test on the two sets of absolute deviations at a
+5% level, stating your conclusion.
+
 ```{r}
 
 t.test(x = s1, y = s2, 
@@ -225,63 +211,42 @@ t.test(x = s1, y = s2,
     conf.level = 0.95)
 
 ```
+  
 
 ---
 
-\begin{verbatim}
-    	Two Sample t-test
-    
-    data:  s1 and s2
-    t = -2.1077, df = 20, p-value = 0.04788
-    alternative hypothesis: true difference in means is not equal to 0
-    95 percent confidence interval:
-     -5.42646442 -0.02808103
-    sample estimates:
-    mean of x mean of y 
-     3.272727  6.000000 
+### Exercise 5
 
-\end{verbatim}    
+Comment on your conclusions in Exercise 2 and Exercise 4.
 
+#### Comments 
 
-\newpage 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\large 
-
-\subsection*{Exercise 5}
-\noindent Comment on your conclusions in Exercise 2 and Exercise 4.
-
-\begin{itemize}
-    \item A different approach for checking the equal variance assumption between the two
+* A different approach for checking the equal variance assumption between the two
 underlying populations is suggested. 
 
-    \item It involves a two-sample t-test: for each sample, calculate the absolute deviations defined as the absolute value of the difference between each observed value and the mean of the sample. 
+* It involves a two-sample t-test: for each sample, calculate the absolute deviations defined as the absolute value of the difference between each observed value and the mean of the sample. 
 
-    \item  Apply a two-sample t-test to the two sets of absolute deviations. 
+* Apply a two-sample t-test to the two sets of absolute deviations. 
 
-    \item  The idea is that if the samples have equal variances, then the absolute deviations will have the same mean for both samples.
-\end{itemiz e}
+* The idea is that if the samples have equal variances, then the absolute deviations will have the same mean for both samples.
 
+---
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\large 
+### Exercise 6
 
-\subsection*{Exercise 6}
+Comment on whether or not the equality of the population means can still be tested.
 
-\noindent Comment on whether or not the equality of the population means can still be tested.
+#### Comments 
 
-\begin{itemize}
-    \item The p-value 0.04788 is slightly less than 5\%, so we reject the hypothesis of equal mean of the absolute deviations and therefore the equal variance assumption in the original data.
+*  The p-value 0.04788 is slightly less than 5%* , so we reject the hypothesis of equal mean of the absolute deviations and therefore the equal variance assumption in the original data.
 
-    \item The tests in Exercise 2 and Exercise 4 give different results but the p-values are quite similar.
+*  The tests in Exercise 2 and Exercise 4 give different results but the p-values are quite similar.
 
-    \item We would need to find an appropriate test that allows for the variances to be different
+*  We would need to find an appropriate test that allows for the variances to be different
 and compare with the tests carried in Exercise 3.
-\end{itemize}
 
-\newpage
-BLANK
 
-\end{document}
+---
+
+
+---

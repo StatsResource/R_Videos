@@ -24,7 +24,8 @@ You can enter the y values into R by using:
 
 ```{r}
 
-y = c(5,5,6,2,4,10,2,5,5,2,5,3,7,     4,4,5,4,6,7,2,8,4,6,4,3,6,
+y = c(5,5,6,2,4,10,2,5,5,2,5,3,7,     
+      4,4,5,4,6,7,2,8,4,6,4,3,6,
       6,6,5,7)
 
 ```
@@ -54,12 +55,17 @@ Carry out a simulation of N = 5,000 posterior samples for the
 parameter $\theta$.
 
 (i) (a)
-(ii) Plot the histogram of the posterior distribution of $\theta$.
+
+---
+
+### Exercise 2
+
+
+Plot the histogram of the posterior distribution of $\theta$.
 
 
 
 
-Q2
 
 
 ```{r}
@@ -81,11 +87,6 @@ plot(theta, dgamma(theta, sum(y)-1, length(y) + 0.01),
 
 ---
 
-### Test Image
-
-![]("/00-A1/images/Exercise_2_A.jpeg")
-
----
 
 
 The posterior samples are
@@ -93,53 +94,43 @@ The posterior samples are
 x = rgamma(5000, sum(y)-1, 30 + 0.01)
 ```
 
+```{r}
+head(x)
+```
 
 ---
 
-Exercise 2
-================================================
+#### Exercise 2
 
 We can plot the histogram using
 
 
 
 
-```{r}
+```{r eval=FALSE}
 x = rgamma(5000, sum(y)-1, 30 + 0.01)
+
+hist(x, 
+     main="Posterior distribution of theta",
+     xlab="theta")
 ```
 
 
 ---
 
-```{r}
-hist(x, main="Posterior distribution of theta",xlab="theta")
+
+```{r echo=FALSE}
+x = rgamma(5000, sum(y)-1, 30 + 0.01)
+hist(x, 
+     main="Posterior distribution of theta",
+     xlab="theta")
 ```
 
 
 ---
 
-![](00-A1/images/Exercise_2_B.jpeg)
 
-
-
-```{r}
-```
-[1]
-Posterior distribution of
-3.5
-4.0
-4.5
-5.0
-5.5
-6.0
-6.5
-theta
-
----
-
-
-Exercise 3
-======================================
+### Exercise 3
 
 Calculate the mean, median and standard deviation of the posterior distribution
 of $\theta$.
@@ -168,18 +159,20 @@ of $\theta$.
 
 ---
 
-Exercise 5
-================================
+### Exercise 5
+
 
 Comment on these two values based on the posterior distribution of $\theta$ plotted
 in part (ii) and summarised in part (iii).
 
 
 
-15 is very unlikely to be the case if there is no calculation error.
+* 15 is very unlikely to be the case if there is no calculation error.
 
-5 fits well within the distribution and the values of the mean and the median are very close to it.
+* 5 fits well within the distribution and the values of the mean and the median are very close to it.
 
 ---
 
+
+---
 

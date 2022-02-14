@@ -1,0 +1,166 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+### Question 5
+
+The ‘***DTData.csv***’ file that has been provided contains details of individuals who made insurance claims in the country of **Actuaria**. 
+
+A ‘Yes’ in the ‘type’ column indicates a claim was made. The data, additionally contains details on the age and BMI of the individuals at the time of claim. Use a decision tree approach to classify the type of claims based on BMI and 
+age. 
+
+#### Library required 
+* ‘{tree}’
+
+
+---
+
+#### Exercises
+1. Load the data from the csv file into a data frame (while importing the dataset ensure you 
+set ``stringsAsFactors= TRUE`` in the ``read.csv`` function). 
+<p>
+Split the dataset into 2 – one to train the model and the other to test the model. 
+The first 70% of the data should go into the training set and the rest into the test dataset. 
+<p>
+
+2.  Using the ‘tree’ package and the ‘tree’ function, train a decision tree model on your training 
+dataset. Print the results of the model. 
+
+3.   Summarise the results and plot the decision tree. Use the ‘text’ function to add text to the 
+decision tree.
+
+---
+
+4.   Using the model trained on the ‘Training’ dataset, predict whether a claim will or will not occur on the test dataset. Use the ‘``predict()``’ function to carry out the prediction. 
+
+5.  Summarise the results of your prediction. 
+
+6.  Create a summary table to compare the predicted results against the actual ‘type’ in the test 
+dataset and calculate an accuracy score and type 1 and type 2 errors.
+
+7. Comment on the accuracy of your predictions and provide suggestions on how any bias in 
+the modelling could be minimised.
+
+---
+
+### Solution 5:
+```{r}
+
+
+library(tree)
+## Warning: package 'tree' was built under R version 4.0.5
+# (i)
+DTData <- read.csv("DTData.csv",stringsAsFactors=TRUE)
+train_Data<-DTData[1:round(0.7*332,0),]
+test_Data<-DTData[(round(0.7*332,0)+1):332,]
+```
+---
+```{r}
+
+# (ii)
+model<-tree(type~bmi+age,data = train_Data) [3M]
+model
+## node), split, n, deviance, yval, (yprob)
+## * denotes terminal node
+## 
+
+---
+
+#(iii)
+  
+```{r}  
+par(mfrow = c(1,1))
+summary(model) [4M]
+```
+
+```{r}
+plot(model)
+text(model)
+#(iv)
+pred<-predict(model,test_Data,type = "class")
+
+```
+
+---
+```{r}
+
+# (v)
+summary(pred) [3M]
+IAI CS2B-0921
+Page 13 of 13
+## No Yes 
+## 89 11
+
+```
+
+---
+```{r}
+# (vi)
+table(pred,test_Data$type) [4M]
+## 
+## pred No Yes
+## No 67 22
+## Yes 3 8
+```
+
+---
+```{r}
+accuracy<-sum(pred==test_Data$type)/nrow(test_Data)
+type1_Error<-sum(pred=="Yes"&test_Data$type=="No")/nrow(test_Data)
+type2_Error<-sum(pred=="No"&test_Data$type=="Yes")/nrow(test_Data)
+accuracy
+## [1] 0.75
+type1_Error
+## [1] 0.03
+type2_Error
+## [1] 0.22
+# (vii) [4M]
+```
+---
+
+Accuracy is 75%. The null accuracy is 70% if all the observations would hav
+e been classified to "No" class.
+
+Type 2 error is very high. Majority of the people who belonged to the type "Yes", could not be successfully identified by the model
+
+---
+### Addressing the bias
+
+ The bias of a model is a measure of how close our prediction is to the actual value on average from an average model a validation data set: the sample of data used to provide an unbiased 
+evaluation of model fit on the training dataset while tuning model hyper-parameters
+
+---

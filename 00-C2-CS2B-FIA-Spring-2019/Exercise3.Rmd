@@ -30,6 +30,7 @@ hist(claims, main = "Histogram of 10,000 Simulated Claims Values from the Expone
 
 ```
 
+---
 
 ## Exercise 2
 
@@ -37,12 +38,15 @@ hist(claims, main = "Histogram of 10,000 Simulated Claims Values from the Expone
 
 Calculate the mean and the variance of the simulated claims in ***Exercise 1***.
 
-
+```{r}
 mean(claims)
 
 var(claims)
+```
 
+---
 
+```{r}
 library(magrittr)  # pipe operator %>%
 
 mean(claims) %>% round(3)
@@ -57,6 +61,9 @@ mean(claims) %>% comma()
 
 var(claims)  %>% comma()
 
+```
+
+---
 
 #### Part B
 
@@ -73,9 +80,9 @@ Compare your answers to part (ii)(a) with the theoretical values expected from t
 * *  The difference is due to sampling error 
 
 
-%
+---
 
-Exercise 3}
+### Exercise 3
 
 The insurer decides to take out an individual excess of loss reinsurance arrangement with a retention level of $20,000.
 
@@ -87,6 +94,7 @@ Calculate the mean and the variance of the claims paid, under this arrangement, 
 The insurer wishes to determine an appropriate retention limit and has asked an analyst to investigate the effect of different retention limits on the mean and variance
 of claims.
 
+---
 
 (iv)
 Calculate the mean and variance of the claims paid by:
@@ -97,6 +105,7 @@ the reinsurer
 under each of the following six retention levels:
 £5,000, £10,000, £20,000, £30,000, £40,000 and £50,000.
 
+---
 
 (iii)(a)
 For the insurer:
@@ -186,6 +195,7 @@ OR: (alternative accepted answer based on conditional distribution).
 ReClaims1_alt <- claims[claims>5000] -5000
 ReClaims2_alt <- claims[claims>10000]-10000
 
+---
 
 ReClaims4_alt <- claims[claims>30000]-30000
 ReClaims5_alt <- claims[claims>40000]-40000
@@ -206,10 +216,8 @@ VarRe_alt
 98212292
 
 
-```
 
-
-----
+---
 
 
 
@@ -220,20 +228,35 @@ retention level.
 
 (v)
 92486321 106717925
-
+---
 
 ```{r}
 x <- c(5000, 10000, 20000, 30000, 40000, 50000)
 plot(x, MeanIns, xlab = "Retention Limit", ylab = "Mean
 amount paid by Insurer", main = "Mean Claim Amount for
 Insurer by Retention Limit", type = "l")
+```
+
+---
+
+```{r}
 plot(x, MeanRe, xlab = "Retention Limit", ylab = "Mean
 amount paid by Reinsurer",main = "Mean Claim Amount for
 Reinsurer by Retention Limit", type = "l")
+```
+
+---
+
+```{r}
 plot(x, VarIns, xlab = "Retention Limit", ylab =
 "Variance of amount paid by Insurer", main = "Variance
 of Claim Amount for Insurer by Retention Limit", type =
 "l")
+```
+
+---
+
+```{r}
 plot(x, VarRe, xlab = "Retention Limit", ylab =
 "Variance of amount paid by Reinsurer", main = "Variance
 of Claim Amount for Reinsurer by Retention Limit", type
@@ -253,6 +276,11 @@ x <- c(5000, 10000, 20000, 30000, 40000, 50000)
 plot(x, MeanRe_alt, xlab = "Retention Limit", ylab = "Mean
 amount paid by Reinsurer",main = "Mean Claim Amount for
 Reinsurer by Retention Limit", type = "l")
+```
+
+---
+
+```{r}
 plot(x, VarRe_alt, xlab = "Retention Limit", ylab = "Variance
 of amount paid by Reinsurer", main = "Variance of Claim Amount
 for Reinsurer by Retention Limit", type = "l")* 
@@ -298,6 +326,7 @@ reinsurer is accepted. In this case,
 Among the six retention limits investigated, the sum of the variance of the reinsurer
 and the insurer is at a minimum at a retention limit of around £5,000
 
+---
 
 TotalVar_alt <- VarIns + VarRe_alt
 
@@ -309,6 +338,7 @@ TotalVar_alt
 This suggests that this retention limit might be the most appropriate in practice. 
 5
 
+---
 
 Parts (i) to (iv) were very well answered.
 
@@ -321,5 +351,3 @@ credit here. To be appropriate, the comments had to relate to the results in par
 In parts (iii) to (vi) full credit was awarded to candidates who calculated the mean and variance of the Reinsurer’s claims based on the conditional distribution i.e. only claims
 over the retention limit.
 
-
-\end{document}

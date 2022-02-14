@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,14 +9,84 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
 
-Solution 1:
-# (i)
-logistic<-function(x) 1/(1+exp(-x))
-[3M]
-# (ii)
-plot(logistic,xlim = c(-10,10), main = "Logistic Function", ylab = "y=1/(1+ex
-p(-x))")
-[5M]
- [8 Marks]
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+The Logistic function can be defined by the function:
+
+$$ f(𝑥) = \frac{1}{(1 + exp(-x))}$$
+
+1. Create a function in R to calculate f(x). 
+
+2. Create a plot of this function and evaluate it at values for x ranging from -10 to 10. Add appropriate x and y-axis labels. 
+
+
+---
+#### Exercise 1
+```{r}
+logistic<-function(x){ 1/(1+exp(-x))}
+```
+
+```{r}
+logistic(4)
+```
+
+---
+
+```{r}
+X <- seq(-10,10,by=0.25)
+```
+
+```{r}
+logistic(X)
+```
+
+
+---
+
+#### Exercise 2
+<pre><code>
+plot(logistic,
+  xlim = c(-10,10), 
+  main = "Logistic Function", 
+  ylab = "y=1/(1+exp(-x))")
+</code></pre>
+
+---
+
+```{r echo=FALSE}
+plot(logistic,
+  xlim = c(-10,10), 
+  main = "Logistic Function", 
+  ylab = "y=1/(1+exp(-x))")
+```
+---
+
+
+---

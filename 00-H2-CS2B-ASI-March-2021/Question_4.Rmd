@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,74 +9,156 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
 
 
-Q. 4) The force of mortality ‘mu(x)’ for a particular group of life can be calculated using the 
-formula as A*B^x; where A=0.00002; B=exp(c); c=0.09; x denotes the age of the life.
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
 
-
-i) Write down a formula for mu(x) in R and calculate the value of mu(50). 
-ii) If survival probability px can be approximated as [exp(-mu(x+0.5))], calculate the 
-probability that a life aged 50, will remain alive after 10 years. 
-iii) Create a table of mortality rate qx for ages between 40 to 50. 
+* Time Series. Probability Distributions, Survival Analysis
 
 ---
-Page 8 of 9
-Solution 4: 
-i)
-A=0.00002 
-C=0.09 
-B=exp(C) 
+
+
+The force of mortality ‘mu(x)’ for a particular group of life can be calculated using the 
+formula as `A*B^x`; where 
+
+* `A=0.00002`
+* `B=exp(c)` 
+* `c=0.09`
+* x denotes the age of the life.
+
+---
+
+#### Exercises
+
+1. Write down a formula for mu(x) in R and calculate the value of mu(50). 
+
+2. If survival probability ***px*** can be approximated as `[exp(-mu(x+0.5))]`, calculate the 
+probability that a life aged 50, will remain alive after 10 years. 
+
+3. Create a table of mortality rate ***qx*** for ages between 40 to 50. 
+
+---
+
+```{r}
+A <- 0.00002 
+C <- 0.09 
+B <- exp(C) 
+
 mu<-function(x) { 
  A * B^x 
 } 
+
 mu(50) 
-> mu(50) 
-[1] 0.001800343 
- [5] 
-ii)
+```
+
+---
+
+```{r}
 px<-function(x) { 
  exp(-mu(x+0.5)) 
 } 
-x=50 
-npx=1 
-for(t in 1:10) 
-{alive=px(x+t-1); npx=npx*alive} 
-npx 
-> npx 
-[1] 0.9712341 
+
+ 
+```
+
+Ten year range starting from 50
+
+```{r}
+x <- 50 
+
+t <- 1:10
+
+x+t-1
+```
 
 ---
 
-Part 3
-===============================
-
-iii)
-
 ```{r}
-xlist=seq(40,50) 
-qx<-function(x) { 
- 1-px(x) 
-} 
-qlist=sapply(xlist,qx) 
+
+x <- 50 
+npx <- 1
+
+
+for(t in 1:10){
+  alive=px(x+t-1);
+  
+  npx=npx*alive
+
+  } 
+npx 
+
+
 ```
 ---
 
+```{r}
+
+for(t in 1:10){
+  alive=px(x+t-1);
+  
+  npx=npx*alive
+  cat("\nAge:",x+t-1,"\tFor year:", alive,"\tCumulative:",npx)
+  } 
+
+
+
+```
+---
+
+```{r}
+
+
+qx<-function(x) { 
+ 1-px(x) 
+} 
+
+```
+
+```{r}
+
+qx(40:50)
+```
+
+---
+
+
+
+
+```{r}
+cbind(40:50,qx(40:50))
+```
+
+
+---
+
+```{r}
+xlist <- seq(40,50) 
+
+qlist <- sapply(xlist,qx) 
+```
+
+
+```{r}
 cbind(xlist,qlist) 
-> cbind(xlist,qlist) 
- xlist qlist 
- [1,] 40 0.0007653624 
- [2,] 41 0.0008374097 
- [3,] 42 0.0009162360 
- [4,] 43 0.0010024786 
- [5,] 44 0.0010968345 
- [6,] 45 0.0012000661 
- [7,] 46 0.0013130073 
- [8,] 47 0.0014365699 
- [9,] 48 0.0015717515 
-[10,] 49 0.0017196427 
-[11,] 50 0.0018814364 
- [6] 
+```
+
 

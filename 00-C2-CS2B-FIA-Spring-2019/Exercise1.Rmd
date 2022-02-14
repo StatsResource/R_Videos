@@ -137,6 +137,7 @@ pacf(y, xlab = "Lag", ylab = "Partial ACF of Simulated
 Values from an ARIMA(1,1,0) Time Series", main = "PACF")   
 ```
 
+---
 
 (iv)
 (v)
@@ -148,8 +149,9 @@ strategy which could be adopted.
 model is possible, pasting any relevant charts into your answer.
 ​
 (b) Comment on your answer to part (iv)(a).
-​
-[5]
+
+---
+
 (b)
 
 

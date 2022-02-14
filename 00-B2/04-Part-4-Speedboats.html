@@ -12,34 +12,63 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## R for Actuarial Students
+## Statistical Modelling with R for Actuarial Students
 
 ---
 
 
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 ABC Tech, a Speedboat manufacturing company, was established a few decades back. The
 company has shown a consistent growth in its revenue from Speedboat sales since its inception.
 
-However, over the years the company has struggled to keep it’s inventory and production cost
-down because of variability in sales and Speedboat demand. The management at ABC Tech is
+* However, over the years the company has struggled to keep it’s inventory and production cost
+down because of variability in sales and Speedboat demand.
+* The management at ABC Tech is
 under enormous pressure from the shareholders and board to reduce the production cost.
-Additionally, they are also interested in understanding the impact of their marketing and
-customer connect efforts towards overall sales. In the same effort, they have your employer as
+* Additionally, they are also interested in understanding the impact of their marketing and
+customer connect efforts towards overall sales. 
+* In the same effort, they have your employer as
 a data science and predictive analytics consultant.
 
 ---
 
-Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
+* Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
 
+* Additionally, They have  also suggested you to investigate the impact of marketing program on
+sales by using an exogenous variable ARIMA model. 
 
-
-Additionally, They have  also suggested you to investigate the impact of marketing program on
-sales by using an exogenous variable ARIMA model. You agreed on the steps to be followed
-and agree on the following steps.
+* You agreed on the steps to be followed and agree on the following steps.
 
 **Note: You will require “Forecast” package for this assignment.**
 
+
+
+```r
+install.packages("Forecast")
+
+library(forecast)
+```
+
 ---
+
+#### Data 
 
 Data provided in ***Speedboat_Sales.csv*** in a subfolder called ***datasets*** in the local file directory.
 
@@ -50,7 +79,7 @@ Data provided in ***Speedboat_Sales.csv*** in a subfolder called ***datasets*** 
 sb_data &lt;- read.csv("datasets/Speedboat_Sales.csv")
 ```
 
----
+
 
 
 
@@ -69,32 +98,14 @@ head(sb_data)
 ```
 
 
----
-
-
-
-```r
-#install.packages("Forecast")
-
-library(forecast)
-```
-
-```
-## Warning: package 'forecast' was built under R version 4.0.5
-```
-
-```
-## Registered S3 method overwritten by 'quantmod':
-##   method            from
-##   as.zoo.data.frame zoo
-```
-
 
 ---
 
 
-Exercise 1
-===========================
+
+
+### Exercise 1
+
 
 Plot a time series chart with year as `\(X\)` axis and sales as `\(Y\)` axis with suitable labelling. 
 
@@ -108,18 +119,9 @@ data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
 plot(data, xlab="Years", ylab = "Speedboat Sales")
 ```
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
-
 ---
 
-
-```r
-data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
-
-plot(data, xlab="Years", ylab = "Speedboat Sales")
-```
-
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 Clearly the above chart has an upward trend for speedboat sales and there is also a seasonal
 component.
@@ -138,15 +140,18 @@ comment on the results.
 par(mfrow = c(1,2))
 
 acf(ts(sb_data),main="ACF Speedboat Sales")
-```
-
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
-
-```r
 pacf(ts(sb_data),main="PACF Speedboat Sales")
 ```
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-6-2.png)&lt;!-- --&gt;
+
+---
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+---
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -162,13 +167,15 @@ Obtain the first order and second order difference series and plot the same. Als
 variance of the `\(d(1)\)` series.
 
 
-
 ```r
-#par(mfrow = c(1,1))
+par(mfrow = c(1,1))
 
 diff_data = diff(  ts(sb_data)  )
-#plot(diff_data,ylab="Differenced Speedboat Sales")
+plot(diff_data,ylab="Differenced Speedboat Sales")
 ```
+
+---
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -177,14 +184,14 @@ diff_data = diff(  ts(sb_data)  )
 forecasts through ARIMA models.
 
 
-&lt;pre&gt;&lt;code&gt;
+
+```r
 diff_data_2 = diff(diff_data)
 plot(diff_data_2,ylab="Differenced Speedboat Sales")
-&lt;/code&gt;&lt;/pre&gt;
-
+```
 ---
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -194,28 +201,22 @@ Looking at the plots of difference series, you decide to apply log transformatio
 original series to smoothen the variance. Obtain the log-transformed (base 10) series
 and plot the same. 
 
-&lt;pre&gt;&lt;code&gt;
+
+```r
 Log_data = log10(  ts(sb_data)  )
 
 plot(Log_data,ylab="Log Speedboat Sales")
-&lt;/code&gt;&lt;/pre&gt;
+```
+
 ---
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
 
 ---
 
 ### Exercise 5
 
 Obtain the first order difference series of the transformed series and plot the same. 
-
-&lt;pre&gt;&lt;code&gt;
-Diff_log_data = diff(Log_data)
-
-plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
-&lt;/code&gt;&lt;/pre&gt;
-
----
 
 
 ```r
@@ -224,14 +225,14 @@ Diff_log_data = diff(Log_data)
 plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
 ```
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+---
 
-
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
 
 ---
 
-Exercise 6
-=========================
+### Exercise 6
+
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results. 
 
@@ -241,19 +242,15 @@ comment on the results.
 par(mfrow = c(1,2))
 
 acf(ts(Diff_log_data),main="ACF Speedboat Sales")
-```
-
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
-
-```r
 pacf(ts(Diff_log_data),main="PACF Speedboat Sales")
 ```
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-11-2.png)&lt;!-- --&gt;
+---
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
 
 
-----
-
+---
 
 * Since, there are enough spikes in the plots outside the insignificant zone (dotted horizontal lines) we
 can conclude that the residuals are not random. 
@@ -268,8 +265,8 @@ monthly data that tends to have seasonality of 12 months because of patterns in 
 
 ---
 
-PART 7
-===========================================================================
+### Exercise 7
+
 
 Use Auto arima function in forecast package in R helps us identify the best fit ARIMA
 model on the fly. Comment on the summary results of fitting this series and on Akaike
@@ -287,23 +284,24 @@ summary(ARIMAfit)
 
 
 ```
-## Series: Log_data[, 2] 
-## ARIMA(3,1,2) with drift 
+## Series: log(sb_data, 10) 
+## ARIMA(0,1,1)(0,1,1)[12] 
 ## 
 ## Coefficients:
-##          ar1      ar2      ar3      ma1     ma2   drift
-##       1.4309  -0.5020  -0.2662  -1.8162  0.9537  0.0043
-## s.e.  0.0827   0.1417   0.0838   0.0265  0.0359  0.0014
+##           ma1     sma1
+##       -0.3978  -0.5550
+## s.e.   0.0894   0.0729
 ## 
-## sigma^2 estimated as 0.001782:  log likelihood=249.88
-## AIC=-485.77   AICc=-484.94   BIC=-465.03
+## sigma^2 estimated as 0.0002518:  log likelihood=355.75
+## AIC=-705.5   AICc=-705.31   BIC=-696.88
 ## 
 ## Training set error measures:
-##                        ME       RMSE        MAE        MPE     MAPE      MASE
-## Training set 0.0007905177 0.04117848 0.03459759 0.01502853 1.358851 0.7394419
+##                        ME       RMSE        MAE        MPE      MAPE      MASE
+## Training set 0.0002955105 0.01501924 0.01127437 0.01048748 0.4425516 0.2167046
 ##                    ACF1
-## Training set -0.0978577
+## Training set 0.01183187
 ```
+
 ---
 
 
@@ -335,6 +333,8 @@ pred
 
 
 
+
+
 ```r
 pred = forecast(ARIMAfit, n.ahead = 36)
 ```
@@ -349,33 +349,73 @@ pred
 ```
 
 ```
-##     Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
-## 145       2.788853 2.734746 2.842959 2.706104 2.871601
-## 146       2.833251 2.769736 2.896765 2.736113 2.930388
-## 147       2.878288 2.808922 2.947653 2.772202 2.984373
-## 148       2.920771 2.849530 2.992011 2.811818 3.029724
-## 149       2.948589 2.876920 3.020258 2.838981 3.058197
-## 150       2.956535 2.884801 3.028269 2.846827 3.066243
-## 151       2.944087 2.872264 3.015909 2.834243 3.053930
-## 152       2.916333 2.843957 2.988709 2.805644 3.027022
-## 153       2.882207 2.807719 2.956694 2.768288 2.996126
-## 154       2.852071 2.772770 2.931371 2.730791 2.973351
+##          Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
+## Jan 2017       2.757190 2.736854 2.777526 2.726089 2.788292
+## Feb 2017       2.755749 2.732009 2.779488 2.719442 2.792055
+## Mar 2017       2.828882 2.802169 2.855594 2.788028 2.869735
+## Apr 2017       2.882418 2.853032 2.911805 2.837476 2.927361
+## May 2017       2.934635 2.902798 2.966471 2.885945 2.983325
+## Jun 2017       2.914012 2.879901 2.948123 2.861844 2.966181
+## Jul 2017       2.973922 2.937679 3.010165 2.918493 3.029351
+## Aug 2017       2.972476 2.934220 3.010733 2.913968 3.030985
+## Sep 2017       2.850108 2.809939 2.890277 2.788674 2.911541
+## Oct 2017       2.800220 2.758226 2.842215 2.735995 2.864446
+## Nov 2017       2.759985 2.716241 2.803730 2.693084 2.826887
+## Dec 2017       2.827989 2.782563 2.873416 2.758515 2.897463
+## Jan 2018       2.799138 2.748966 2.849309 2.722407 2.875868
+## Feb 2018       2.797696 2.744495 2.850897 2.716332 2.879060
+## Mar 2018       2.870829 2.814761 2.926896 2.785081 2.956577
+## Apr 2018       2.924366 2.865571 2.983160 2.834448 3.014284
+## May 2018       2.976582 2.915182 3.037982 2.882679 3.070486
+## Jun 2018       2.955959 2.892060 3.019859 2.858233 3.053686
+## Jul 2018       3.015869 2.949564 3.082174 2.914464 3.117274
+## Aug 2018       3.014424 2.945797 3.083050 2.909468 3.119379
+## Sep 2018       2.892055 2.821183 2.962927 2.783666 3.000444
+## Oct 2018       2.842168 2.769120 2.915216 2.730450 2.953885
+## Nov 2018       2.801933 2.726771 2.877094 2.686983 2.916882
+## Dec 2018       2.869937 2.792720 2.947153 2.751844 2.988030
 ```
+
+---
+
+
+```r
+names(pred)
+```
+
+```
+##  [1] "method"    "model"     "level"     "mean"      "lower"     "upper"    
+##  [7] "x"         "series"    "fitted"    "residuals"
+```
+
+
 
 ---
 
 
 
 ```r
-plot(data,type="l",xlim=c(2006,2020),ylim=c(1,1600),xlab = "Year",ylab = "Speedboat Sales")
-lines(10^(pred$pred),col="blue")
+plot(pred)
 ```
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
 
 ```r
-#lines(10^(pred$pred+2*pred$se),col="orange")
-#lines(10^(pred$pred-2*pred$se),col="Brown")
+plot(sb_data,type="l",
+     xlim=c(2006,2020),
+     ylim=c(1,1600),
+     xlab = "Year",
+     ylab = "Speedboat Sales")
+
+lines(pred$pred,col="blue")
+```
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+
+```r
+#lines(10^(pred$upper),col="orange")
+#lines(10^(pred$lower),col="Brown")
 ```
 
 
@@ -383,8 +423,8 @@ lines(10^(pred$pred),col="blue")
 
 
 
-Exercise 9
-===========================================
+### Exercise 9
+
 Plot ACF and PACF plot of the residuals of the best fit ARIMA model and comment
 on the results.
 
@@ -397,7 +437,9 @@ acf(ts(ARIMAfit$residuals),main="ACF Residual")
 pacf(ts(ARIMAfit$residuals),main="PACF Residual")
 ```
 
-![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+---
+
+![](04-Part-4-Speedboats_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
 
 ---
 

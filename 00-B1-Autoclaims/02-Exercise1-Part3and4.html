@@ -34,9 +34,9 @@ class: center, middle, inverse, title-slide
 
 &lt;style type="text/css"&gt;
 pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
+ background: #ADD8E6;
+ max-width: 100%;
+ overflow-x: scroll;
 }
 &lt;/style&gt;
 
@@ -66,9 +66,9 @@ head(AutoClaims)
 ---
 ### Exercise 3
 
-* Prepare  a  contingency  table  identifying  the  proportion  of  insured  across  differentCLASS(es) for each gender.
+* Prepare a contingency table identifying the proportion of insured across differentCLASS(es) for each gender.
 
-* Test the null hypothesis “**There is no relationship between the  GENDER  and  the  CLASS  of  the  insured**”  against  an  alternate  hypothesis  of existence of significant relation at 95% confidence level.
+* Test the null hypothesis “**There is no relationship between the GENDER and the CLASS of the insured**” against an alternate hypothesis of existence of significant relation at 95% confidence level.
 
 
 * Perform an appropriate test and comment.
@@ -79,7 +79,7 @@ head(AutoClaims)
 
 
 ```r
-State_Class_Freq &lt;-table(AutoClaims$GENDER,AutoClaims$CLASS) 
+State_Class_Freq &lt;- table(AutoClaims$GENDER,AutoClaims$CLASS) 
 State_Class_Freq
 ```
 
@@ -168,6 +168,39 @@ addmargins(State_Class_RowProp)
 ##   Sum 0.15153697 0.64722065 1.01472350 0.18651888 2.00000000
 ```
 
+---
+
+#### Contingency Table in terms of proportion of Rating classes for each gender
+
+(proportions inside class)
+
+
+```r
+State_Class_RowProp&lt;-prop.table(State_Class_Freq, margin=2)
+
+State_Class_RowProp 
+```
+
+```
+##    
+##           C1        C11       C6        F6 
+##   F 0.3981481 0.3814655 0.4590395 0.3138686
+##   M 0.6018519 0.6185345 0.5409605 0.6861314
+```
+
+
+
+```r
+addmargins(State_Class_RowProp)
+```
+
+```
+##      
+##             C1        C11       C6        F6        Sum
+##   F   0.3981481 0.3814655 0.4590395 0.3138686 1.5525218
+##   M   0.6018519 0.6185345 0.5409605 0.6861314 2.4474782
+##   Sum 1.0000000 1.0000000 1.0000000 1.0000000 4.0000000
+```
 
 ---
 
@@ -190,32 +223,34 @@ chisq.test(AutoClaims$GENDER,AutoClaims$CLASS)
 #### Interpretation: 
 
 * Chi-Squared values is 13.704 with 3 degrees of freedom. 
-* P-Value  for the chi  square test is 0.0033 &lt; 0.05. 
+* P-Value for the chi square test is 0.0033 &lt; 0.05. 
 * Hence the null hypothesis of independence between the gender and rating class is rejected at 95% confidence level. 
 
 Looking at the proportions in the table, it is evident that more than 55% of the females are 
 in rating class C6 whereas as only 46% of the males are in that rating class. 
 
 Similarly 34.6% 
-of the males are in C11 as against only 30% of females in that class. Same is the case with 
-F6. Hence the difference in proportions
+of the males are in C11 as against only 30% of females in that class.
 
+Same is the case with F6. Hence the difference in proportions
 
+---
 
 #### Exercise 4 
 
 
-Use  an  appropriate  test  to  test  if  the  mean  claim  amount  paid  and  variance  of  claim amounts paid is uniform between males and females.
+Use an appropriate test to test if the mean claim amount paid and variance of claim amounts paid is uniform between males and females.
 
 ---
 
 
-### #Testing for mean amount paid between Male and Female
+### Testing for mean amount paid between Male and Female
 
 
 
 ```r
-t.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
+t.test( AutoClaims$PAID[AutoClaims$GENDER=="M"] , 
+        AutoClaims$PAID[AutoClaims$GENDER=="F"] ) 
 ```
 
 ```
@@ -240,13 +275,25 @@ females**” cannot be rejected at 95% confidence level
 
 ---
 
+
+```r
+boxplot(PAID~GENDER,data=AutoClaims,
+        horizontal = TRUE)
+```
+
+![](02-Exercise1-Part3and4_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+
+---
+
 #### ***var.test()***
 
 Testing for variance of amount paid between Male and Female
 
 
 ```r
-var.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
+var.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],
+         AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
 ```
 
 ```
@@ -266,9 +313,9 @@ var.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GEND
 
 
 * P-value = 0.0013 &lt; 0.05 
-*  Null hypothesis of “Variance of claim paid is same between males and females” is rejected at 95% confidence level.
+* Null hypothesis of “Variance of claim paid is same between males and females” is rejected at 95% confidence level.
 
-* Claims paid among females is more  volatile compared to that of males
+* Claims paid among females is more volatile compared to that of males
 
 ---
 ---

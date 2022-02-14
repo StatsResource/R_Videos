@@ -3,7 +3,6 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dragonfly Stats" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -13,18 +12,35 @@
 class: center, middle, inverse, title-slide
 
 # Statistics with R
-## Modelling Data with R
-### Dragonfly Stats
-### 2016/12/12
+## Statistical Modelling with R for Actuarial Students
 
 ---
 
 
 
-4 A statistician wants to model the number of passengers boarding a bus from a bus 
-stop close to a student residential area. They can think of three explanatory variables: 
-which route it is (at 8 am or 9 am), if it is during the semester or not, and the 
-temperature (temp) in degrees Celsius. 
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+A statistician wants to model the number of passengers boarding a bus from a bus stop close to a student residential area. They can think of three explanatory variables: 
+
+* Route which route it is (at 8 am or 9 am),
+* Semester - if it is during the semester or not, and the 
+* Temperature temperature (temp) in degrees Celsius. 
 
 ---
 
@@ -34,77 +50,85 @@ the file named CS1passenger.RData, and believes that the response variable
 frame data_passenger with all variables (Passengers, route, 
 semester, temp) will be available. 
 
---- 
-
-##  Part 1
-
-============================
-
-(i) State the linear predictor corresponding to models specified with the following 
-R code, explaining all relevant terms: 
-(a) temp+semester 
-(b) temp*semester 
-(c) temp*semester + route 
-
 
 ---
 
-## Part 2
-
-============================
-(a) Fit a Poisson Generalised Linear Model (GLM) to the data set for the 
-model in part (i)(c). Label this model as Model1. Your answer should 
-include a summary of the fitted model. 
-
-(b) Comment on the significance of the parameters of the model fitted in 
-part (ii)(a). 
-
----
-
-## Part 3
-
-============================
-
-(iii) (a) Fit an improved model for the model in part (ii)(a), using your answer 
-in part (ii)(b). Label this model as Model2. 
-(b) Justify why Model2 improves Model1 by referring to the R output. 
-[4] 
-You are given a new model (Model3), specified by the following R code: 
 
 ```r
-# Model3 &lt;- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
+PassengerData &lt;- read.csv("PassengerData.csv")
+head(PassengerData)
+```
+
+```
+##   Passengers route    semester temp
+## 1          3   8am    semester  8.8
+## 2          1   9am nonSemester 11.5
+## 3          1   8am nonSemester 12.0
+## 4          3   8am    semester 14.8
+## 5          0   8am nonSemester -1.2
+## 6          0   8am nonSemester  7.8
+```
+
+
+---
+
+###  Exercise 1
+
+State the linear predictor corresponding to models specified with the following R code, explaining all relevant terms: 
+
+a. temp+semester 
+b. temp*semester 
+c. temp*semester + route 
+
+
+---
+
+### Part 2
+
+Fit a Poisson Generalised Linear Model (GLM) to the data set for the 
+model. Label this model as Model1. Your answer should 
+include a summary of the fitted model. Comment on the significance of the parameters of the model. 
+
+---
+
+### Part 3
+
+ Fit an improved model for the model in part (ii)(a), using your answer 
+in part (ii)(b). Label this model as Model2. 
+(b) Justify why Model2 improves Model1 by referring to the R output. 
+You are given a new model (Model3), specified by the following R code: 
+
+---
+
+
+
+```r
+Model3 &lt;- glm(Passengers~temp+temp:semester,data=PassengerData,family=poisson(link="log"))
 ```
 
 
 --- 
 
-## Part 4
+### Part 4
 
-============================
-
-(iv) (a) Demonstrate that Model3 outperforms the models defined in 
+Demonstrate that Model3 outperforms the models defined in 
 parts (i)(a) and (i)(b). 
 (b) Comment on your answer in part (iv)(a). 
 
 ---
 
-Part 5
-============================
-(v) 
-
-(a) Draw a suitable plot, for the residuals of Model3, for checking the 
-model’s validity. 
-
-(b) Comment on the plot in part (v)(a). 
+### Part 5
+Draw a suitable plot, for the residuals of Model3, for checking the 
+model’s validity. Comment on the plot. 
 
 
 ---
 
-Part 6
-============================
-(vi) Calculate the predicted number of passengers for an 8 am route during the 
+### Part 6
+Calculate the predicted number of passengers for an 8 am route during the 
 semester at a temperature of 0 degree Celsius, using Model3. [4] 
 
+---
 
 ---
     </textarea>

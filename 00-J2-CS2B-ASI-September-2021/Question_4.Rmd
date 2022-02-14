@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,6 +9,63 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+### Question 4
+
+The ‘sunspot’ dataset contains the monthly mean relative sunspot numbers from 1749 to 1983. 
+Collected at Swiss Federal Observatory, Zurich until 1960, then Tokyo Astronomical 
+Observatory. Please import this dataset from the ‘datasets’ package in R.
+Libraries required:
+‘tseries’
+‘forecast’
+
+---
+
+#### Exercises 
+1. Plot the timeseries with frequency = 12, giving appropriate labels for each axis and paste 
+the chart into your answer sheet. 
+
+2.  Plot the sample Auto-correlation Function (ACF) and the sample Partial Auto-Correlation 
+Function (PACF) of the data, giving appropriate labels for the x and y axes. 
+
+3.   Estimate the ACF and PACF values at each lag. 
+
+4.   Comment on the ACF based on the charts and values computed in (2.  and (iii). 
+
+5.  Calculate the simple seasonal difference with period 12. Print the top 12 values of the 
+seasonal difference. 
+
+6.  Decompose the trend, seasonality and randomness of the data. Plot the decomposed values.
+
+7. Comment on the general features of your chart. 
+
+---
 
 Solution 4:
 library(tseries)
@@ -22,12 +79,13 @@ library(forecast)
 ---
 
 # (i)
+```{r}
 data(sunspots)
 a<-ts(sunspots,frequency = 12)
 plot(a, main = "Time series of plots")
-IAI CS2B-0921
+```
 ---
-
+```{r}
 #(ii)
 par(mfrow=c(1,2))
 acf(a,main="Sample ACF")
@@ -56,7 +114,9 @@ acf(a,plot = FALSE)
 ## 2.7500 2.8333 
 ## 0.115 0.083
 
+```
 ---
+```{r}
 
 pacf(a,plot = FALSE)
 ## 
@@ -77,7 +137,9 @@ pacf(a,plot = FALSE)
 ## 2.8333 
 ## -0.039 
 
+```
 ---
+```{r}
 
 # (iv)
 'The ACF indicates that there is correlation between an observation and
@@ -85,13 +147,17 @@ the past observations. There is a correlation beyond 2.5 years but it keeps g
 etting weaker'
 ## [1] "The ACF indicates that there is correlation between an observation and the past observations. There is a correlation beyond 2.5 years but it keep
 s getting weaker" [2M]
+```
+---
+```{r}
 # (v)
 s<-diff(a, lag=12,differences=1)
 head(s,12) [2M]
 ## Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 ## 2 15.3 13.3 19.2 32.6 5.0 16.5 -9.4 36.7 15.3 -9.8 -95.3 -9.8
-IAI CS2B-0921
-Page 11 of 13
+```
+---
+```{r}
 # (vi)
 f<-decompose(a)
 plot(f)
@@ -101,88 +167,5 @@ plot(f)
 there is seasonality in the dataset'
 ## [1] "The cyclical trend with more variations at the longer time lags, \nth
 ere is seasonality in the dataset" [2M]
- [20 Marks]
-Solution 5:
-library(tree)
-## Warning: package 'tree' was built under R version 4.0.5
-# (i)
-DTData <- read.csv("DTData.csv",stringsAsFactors=TRUE)
-train_Data<-DTData[1:round(0.7*332,0),]
-test_Data<-DTData[(round(0.7*332,0)+1):332,]
-
+```
 ---
-
-# (ii)
-model<-tree(type~bmi+age,data = train_Data) [3M]
-model
-## node), split, n, deviance, yval, (yprob)
-## * denotes terminal node
-## 
-## 1) root 232 297.60 No ( 0.65948 0.34052 ) 
-IAI CS2B-0921
-Page 12 of 13
-## 2) age < 24.5 73 46.13 No ( 0.90411 0.09589 ) 
-## 4) bmi < 33.4 48 0.00 No ( 1.00000 0.00000 ) *
-## 5) bmi > 33.4 25 29.65 No ( 0.72000 0.28000 ) *
-## 3) age > 24.5 159 219.00 No ( 0.54717 0.45283 ) 
-## 6) bmi < 25.3 16 0.00 No ( 1.00000 0.00000 ) *
-## 7) bmi > 25.3 143 198.20 Yes ( 0.49650 0.50350 ) 
-## 14) age < 57.5 137 189.60 Yes ( 0.47445 0.52555 ) 
-## 28) age < 45.5 120 166.10 No ( 0.52500 0.47500 ) 
-## 56) bmi < 48.2 114 156.80 No ( 0.55263 0.44737 ) *
-## 57) bmi > 48.2 6 0.00 Yes ( 0.00000 1.00000 ) *
-## 29) age > 45.5 17 12.32 Yes ( 0.11765 0.88235 ) *
-## 15) age > 57.5 6 0.00 No ( 1.00000 0.00000 ) *
-
----
-
-#(iii)
-par(mfrow = c(1,1))
-summary(model) [4M]
-## 
-## Classification tree:
-## tree(formula = type ~ bmi + age, data = train_Data)
-## Number of terminal nodes: 7 
-## Residual mean deviance: 0.8833 = 198.7 / 225 
-## Misclassification error rate: 0.2586 = 60 / 232
-plot(model)
-text(model)
-#(iv)
-pred<-predict(model,test_Data,type = "class") [3M]
-
----
-
-# (v)
-summary(pred) [3M]
-IAI CS2B-0921
-Page 13 of 13
-## No Yes 
-## 89 11
-# (vi)
-table(pred,test_Data$type) [4M]
-## 
-## pred No Yes
-## No 67 22
-## Yes 3 8
-accuracy<-sum(pred==test_Data$type)/nrow(test_Data)
-type1_Error<-sum(pred=="Yes"&test_Data$type=="No")/nrow(test_Data)
-type2_Error<-sum(pred=="No"&test_Data$type=="Yes")/nrow(test_Data)
-accuracy
-## [1] 0.75
-type1_Error
-## [1] 0.03
-type2_Error
-## [1] 0.22
-# (vii) [4M]
-
----
-
-# Accuracy is 75%. The null accuracy is 70% if all the observations would hav
-e been classified to "No" class.
-# Type 2 error is very high. Majority of the people who belonged to the type 
-"Yes", could not be successfully identified by the model
-# Addressing the bias
-# The bias of a model is a measure of how close our prediction is to the actual value on average from an average model
-
-a validation data set: the sample of data used to provide an unbiased 
-evaluation of model fit on the training dataset while tuning model hyper-parameters

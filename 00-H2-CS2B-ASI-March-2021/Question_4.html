@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+The force of mortality ‘mu(x)’ for a particular group of life can be calculated using the 
+formula as `A*B^x`; where 
+
+* `A=0.00002`
+* `B=exp(c)` 
+* `c=0.09`
+* x denotes the age of the life.
+
+---
+
+#### Exercises
+
+1. Write down a formula for mu(x) in R and calculate the value of mu(50). 
+
+2. If survival probability ***px*** can be approximated as `[exp(-mu(x+0.5))]`, calculate the 
+probability that a life aged 50, will remain alive after 10 years. 
+
+3. Create a table of mortality rate ***qx*** for ages between 40 to 50. 
+
+---
+
+
+```r
+A &lt;- 0.00002 
+C &lt;- 0.09 
+B &lt;- exp(C) 
+
+mu&lt;-function(x) { 
+ A * B^x 
+} 
+
+mu(50) 
+```
+
+```
+## [1] 0.001800343
+```
+
+---
+
+
+```r
+px&lt;-function(x) { 
+ exp(-mu(x+0.5)) 
+} 
+```
+
+Ten year range starting from 50
+
+
+```r
+x &lt;- 50 
+
+t &lt;- 1:10
+
+x+t-1
+```
+
+```
+##  [1] 50 51 52 53 54 55 56 57 58 59
+```
+
+---
+
+
+```r
+x &lt;- 50 
+npx &lt;- 1
+
+
+for(t in 1:10){
+  alive=px(x+t-1);
+  
+  npx=npx*alive
+
+  } 
+npx 
+```
+
+```
+## [1] 0.9712341
+```
+---
+
+
+```r
+for(t in 1:10){
+  alive=px(x+t-1);
+  
+  npx=npx*alive
+  cat("\nAge:",x+t-1,"\tFor year:", alive,"\tCumulative:",npx)
+  } 
+```
+
+```
+## 
+## Age: 50 	For year: 0.9981186 	Cumulative: 0.9694068
+## Age: 51 	For year: 0.9979416 	Cumulative: 0.9674113
+## Age: 52 	For year: 0.9977479 	Cumulative: 0.9652326
+## Age: 53 	For year: 0.9975361 	Cumulative: 0.9628544
+## Age: 54 	For year: 0.9973044 	Cumulative: 0.9602589
+## Age: 55 	For year: 0.9970509 	Cumulative: 0.957427
+## Age: 56 	For year: 0.9967736 	Cumulative: 0.954338
+## Age: 57 	For year: 0.9964703 	Cumulative: 0.9509695
+## Age: 58 	For year: 0.9961385 	Cumulative: 0.9472973
+## Age: 59 	For year: 0.9957757 	Cumulative: 0.9432956
+```
+---
+
+
+```r
+xlist=seq(40,50) 
+
+qx&lt;-function(x) { 
+ 1-px(x) 
+} 
+```
+---
+
+
+```r
+qx(40:50)
+```
+
+```
+##  [1] 0.0007653624 0.0008374097 0.0009162360 0.0010024786 0.0010968345
+##  [6] 0.0012000661 0.0013130073 0.0014365699 0.0015717515 0.0017196427
+## [11] 0.0018814364
+```
+
+
+
+```r
+cbind(40:50,qx(40:50))
+```
+
+```
+##       [,1]         [,2]
+##  [1,]   40 0.0007653624
+##  [2,]   41 0.0008374097
+##  [3,]   42 0.0009162360
+##  [4,]   43 0.0010024786
+##  [5,]   44 0.0010968345
+##  [6,]   45 0.0012000661
+##  [7,]   46 0.0013130073
+##  [8,]   47 0.0014365699
+##  [9,]   48 0.0015717515
+## [10,]   49 0.0017196427
+## [11,]   50 0.0018814364
+```
+
+
+---
+
+
+```r
+qlist=sapply(xlist,qx) 
+```
+
+
+
+```r
+cbind(xlist,qlist) 
+```
+
+```
+##       xlist        qlist
+##  [1,]    40 0.0007653624
+##  [2,]    41 0.0008374097
+##  [3,]    42 0.0009162360
+##  [4,]    43 0.0010024786
+##  [5,]    44 0.0010968345
+##  [6,]    45 0.0012000661
+##  [7,]    46 0.0013130073
+##  [8,]    47 0.0014365699
+##  [9,]    48 0.0015717515
+## [10,]    49 0.0017196427
+## [11,]    50 0.0018814364
+```
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

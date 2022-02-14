@@ -1,7 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -10,8 +9,36 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
-```{r}
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+```{r echo=FALSE}
 library(magrittr)
 
 options(repr.plot.width=8, repr.plot.height=5)
@@ -25,11 +52,26 @@ probability of a person aged x moving:
 * from Sick to Death state is 0.002(100-x)
 * from Sick to Healthy is 0.006(100-x).
 
+#### Exercises
+
 Assuming 100 is the maximum age. Calculate the probability of:
 
 1.  Healthy person aged 30 will be in Sick state after 4 years.
 
 2.  Sick person aged 25 will be in Death state after 7 years.
+
+---
+
+The transition matrix can be characterized as follows:
+$$
+\begin{pmatrix}
+1-H2S(x)-H2D(x) & H2S(x) & H2D(x) \\
+S2H(x) & 1-S2H(x)-S2D(x) & S2D(x) \\
+0 & 0 & 1 \\
+\end{pmatrix}
+$$
+
+N.B. This matrix varies for differing values of $x$, and hence the process is not a Markov Process.
 
 ---
 
@@ -61,62 +103,76 @@ transmat<-function(x){
   M[3,1] <- 0
   M[3,2] <- 0
   M[3,3] <- 1
-  
+  M
 }
 
 
 ```
 
+---
 
 ```{r}
-transmat()
+transmat(30)
 ```
-
-
-    Error in eval(expr, envir, enclos): object 'M' not found
-    Traceback:
 
 ---
 
+```{r}
+transmat(25)
+```
+
+---
+
+#### Exercise 1
 
 ```{r}
 
-n=30
-B<-c(1,0,0)
+n <- 30
+B <- c(1,0,0)
+
+```
+
+```{r}
+i<- 1:4
+n +i-1
+```
+
+---
+
+```{r}
 for (i in 1:4){
-B=B%*%transmat(n+i-1)}
-B
+  B=B%*%transmat(n+i-1)
+  }
+
 ```
 
 
-    Error in B %*% transmat(n + i - 1): non-conformable arguments
-    Traceback:
+```{r}
+B
+```
+Hence the probability of Healthy person aged 30 will be in Sick state after 4 years is 0.2608.
 
 
 ---
 
-```{r}
-
-B
-```
-Hence the probability of Healthy person aged 30 will be in Sick state after 4 years is 0.2608138.
-
-[9]
-2.
+#### Exercise 2.
 
 ```{r}
-n=25
-C<-c(0,1,0)
+n <- 25
+C <- c(0,1,0)
 for (i in 1:7){
-C=C%*%transmat(n+i-1)}
+  C=C%*%transmat(n+i-1)
+  }
+
+```
+
+
+```{r}
 C
 ```
 
-> C
-[,1]
-[,2]
-[,3]
-[1,] 0.3946025 0.1720589 0.4333386
-Hence the probability of sick person aged 25 will be in Death state after 7 years is 0.4333386.
+Hence the probability of sick person aged 25 will be in Death state after 7 years is 0.4333.
+
+---
 
 ---

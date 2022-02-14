@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,102 +9,263 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
-Q. 1) The data file “Expenses.csv” contains records of last 5 years monthly expenses paid by a 
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+* This presentation features Time Series Analysis, and is split into two parts
+
+---
+
+
+### Part A
+
+The data file “Expenses.csv” contains records of last 5 years monthly expenses paid by a 
 company starting from January 2015. 
 
 ### Exercises
-i) Import the data and classify it as a time series object, specifying the relevant dates. (4)
 
-ii) Assuming that the data shows yearly seasonal variation, remove the seasonality from 
+1. Import the data and classify it as a time series object, specifying the relevant dates. 
+
+2. Assuming that the data shows yearly seasonal variation, remove the seasonality from 
 the data using seasonal differencing. 
 
-iii) Plot a graph showing the actual data, the trend line, the trend + seasonal line and any 
+3. Plot a graph showing the actual data, the trend line, the trend + seasonal line and any 
 remaining un-trended number. Plot them in the same graph and use different colour 
 lines for each of the series. 
 
 
 ---
 
+### Exercise 1
+
+```{r}
+expenses <- read.csv("Expenses.csv") 
+
+class( expenses)
+
+dim(expenses)
+```
+
+```{r}
+expenses <- ts(expenses ,frequency=12,start=c(2015,1)) 
+
+class( expenses)
+```
+
 ---
 
-
-Solution 1: 
-i)
-data<-read.table("/Expenses.csv",sep=",",header=F) 
-expenses<-ts(data,frequency=12,start=c(2015,1)) 
+```{r}
 expenses 
+```
+---
+
+```{r}
+plot(expenses) 
+```
 
 ---
 
-> expenses 
- Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 
-2015 400 451 580 750 680 1000 992 692 620 585 464 435 
-2016 402 458 580 760 682 1100 1092 694 622 585 471 437 
-2017 408 462 570 760 682 1050 1042 694 622 575 475 443 
-2018 406 460 585 770 690 1070 1062 702 630 590 473 441 
-2019 410 465 560 775 692 1090 1082 704 632 565 478 445 
-2020 415 468 550 775 700 1111 1103 712 640 555 481 450 
-2021 420 470 575 772 702 1120 1112 714 642 580 483 455 
-2022 430 471 580 785 705 1120 1112 717 645 585 484 465 
-2023 425 475 590 790 710 1135 1127 722 650 595 488 460 
-2024 435 478 610 810 715 1130 1122 727 655 615 491 470 
- [4] 
-ii)
----
+```{r}
+decomposed <-(decompose(expenses,type="additive")) 
 
-decomposed<-(decompose(expenses,type="additive")) 
-trend<-decomposed$trend 
-seasonal<-decomposed$seasonal 
-random<-decomposed$random 
+plot(decomposed)
+
+```
 
 ---
+
+```{r}
+trend <- decomposed$trend 
+
+seasonal <- decomposed$seasonal 
+
+random <- decomposed$random 
+```
+
+---
+
+
+```{r}
 
 random 
-> random 
- Jan Feb Mar Apr May 
-Jun 
-2015 NA NA NA NA NA 
-NA 
-2016 -2.07137346 -0.22415123 11.59992284 -7.84915123 -5.98804012 6.59066
-358 
-2017 4.92862654 11.10918210 9.09992284 0.15084877 2.55362654 -34.90933
-642 
-2018 0.09529321 3.02584877 17.34992284 2.02584877 1.63695988 -23.24266
-975 
-……………….. 
+```
 
 ---
 
-iii)
-ts.plot(expenses,ylab="",main="Components of time series ", col="dark grey") 
+
+```{r}
+
+plot(random )
+```
+
+---
+
+### Exercise 3
+
+```{r eval=FALSE}
+ts.plot(expenses,ylab="",main="Components of time series ", 
+        col="dark grey") 
+
 lines(trend,col="red") 
 lines(seasonal+trend,col="blue") 
-lines(random,col="yellow") IAI CS2B-0321 
-Page 3 of 9
+lines(random,col="yellow") 
+```
+
 
 ---
 
+```{r echo =FALSE}
+ts.plot(expenses,ylab="",main="Components of time series ", 
+        col="dark grey") 
+
+lines(trend,col="red") 
+lines(seasonal+trend,col="blue") 
+lines(random,col="yellow") 
+```
+---
+
+
+### Exercise 3
+
+```{r eval=FALSE}
+ts.plot(expenses,ylab="",main="Components of time series ", 
+        col="dark grey") 
+lines(seasonal+trend,col="green")
+```
+
+
+---
+
+### Trend and Seasonal Component
+
+```{r eval =FALSE}
+ts.plot(seasonal,ylab="",
+        main="Components of time series ", 
+        col="grey",
+        ylim=c(0,1300)) 
+lines(trend,col="blue")  
+```
+
+
+---
+
+```{r echo =FALSE}
+ts.plot(seasonal,ylab="",
+        main="Components of time series ", 
+        col="grey",
+        ylim=c(0,1300)) 
+lines(trend,col="blue")  
+```
+
+---
+
+```{r eval=FALSE}
+ts.plot(random,ylab="",main="Components of time series ", 
+        col="dark green") 
+
+```
+
+---
+
+```{r echo =FALSE}
+ts.plot(random,ylab="",main="Components of time series ", 
+        col="dark green") 
+
+```
+
+---
+
+### Part B
 Import the time series data file “ARIMA.csv” and answer the below questions. 
-iv) Plot a graph for the above time series data “ARIMA.csv”. (4)
-v) Plot two graphs to show the ACF and PACF for the time series provided. (4)
-vi) Comment on the stationarity of the data based on the above graphs. (3)
+
+#### Exercises
+
+4. Plot a graph for the above time series data “ARIMA.csv”. 
+
+5. Plot two graphs to show the ACF and PACF for the time series provided. 
+
+6. Comment on the stationarity of the data based on the above graphs. 
 
 ---
   
-iv)
- data<-read.table("ARIMA.csv",sep=",",header=F) 
-ts.plot(data,main="Time series data",ylab="Data") 
- 
+### Exercise 1
+
+```{r}
+ARIMAdata<-read.csv("ARIMA.csv") 
+```
+
+```{r}
+head(ARIMAdata)
+```
+
 ---
- 
-v)
- acf(data, main="Time series data ",ylab="sample ACF") IAI CS2B-0321 
-Page 4 of 9
- 
- 
- pacf(data, main=" Time series data",ylab="sample PACF") 
- 
+  
+### Exercise 1
+
+```{r}
+ARIMAdata<-read.csv("ARIMA.csv",header=FALSE) 
+```
+
+```{r}
+head(ARIMAdata)
+```
+
 ---
 
-vi) The ACF drops to zero relatively quickly, denoting the series is stationary. [3] 
+```{r}
+class(ARIMAdata)
+```
+
+
+```{r}
+dim(ARIMAdata)
+```
+---
+
+
+```{r}
+ts.plot(ARIMAdata,main="Time series data",ylab="Data") 
+```
+
+---
+ 
+### Exercise 2
+
+```{r}
+ acf(ARIMAdata, main="Time series data ",ylab="sample ACF") 
+```
+
+---
+
+```{r} 
+ pacf(ARIMAdata, main=" Time series data",ylab="sample PACF") 
+```
+---
+
+### Exercise 3
+
+The ACF drops to zero relatively quickly, denoting the series is stationary. 
+
+---

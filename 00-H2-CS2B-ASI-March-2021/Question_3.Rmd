@@ -41,9 +41,34 @@ The Claim size $X$ for a class of insurance follows a Gamma (10,0.2) distributio
 #### Exercises
 
 1. Calculate f{30}. 
-2. Calculate the median of the function. (2)
+2. Calculate the median of the function. 
 
 ---
+
+### Gamma Distribution
+
+#### Parameters	
+
+* shape: $\alpha > 0$  (code as "a")
+* rate: $\beta > 0$   (code as "b")
+
+PDF
+$${\displaystyle f(x)={\frac {\beta ^{\alpha }}{\Gamma (\alpha )}}x^{\alpha -1}e^{-\beta x}}$$
+CDF	
+$${\displaystyle F(x)={\frac {1}{\Gamma (\alpha )}}\gamma (\alpha ,\beta x)}$$
+
+---
+
+
+#### Gamma Distribution
+
+Mean		
+$${\displaystyle {\frac {\alpha }{\beta }}}$$
+
+
+Variance	
+$${\displaystyle {\frac {\alpha }{\beta ^{2}}}}$$
+
 
 
 
@@ -51,14 +76,31 @@ The Claim size $X$ for a class of insurance follows a Gamma (10,0.2) distributio
 
 ```{r}
 a <- 10 
-b <-0.2 
-x<-30 
+b <- 0.2 
+
+x <- 30 
 
 ```
 
 ```{r}
-dgamma(x,a,b) 
+dgamma(x,shape = a, rate= b) 
 ```
+
+---
+
+
+
+```{r}
+
+### rate and shape are the default arguments
+dgamma(x,a, b) 
+```
+```{r}
+
+### can specify rate and scale
+dgamma(x,shape = a, scale = 1/b) 
+```
+
 
 
 ---
@@ -71,40 +113,69 @@ We want to find M such that $P(X <= M) = 0.5$
 
 qgamma(0.5,a,b) 
 ```
+
 ---
 
 ### Exercise 3
 
-A quota share reinsurance is in place with 75% retained proportion. Estimate the mean 
-and variance of the amount paid by the reinsurer in respect of a single claim. 
+A quota share reinsurance is in place with 75% retained proportion. 
 
+Estimate the mean and variance of the amount paid by the re-insurer in respect of a single claim. 
+
+#### Remark 
+
+- Re-insurer pays 25% of claim 
+
+- we will denote the amount paid by the insurer as $Y$
+ 
 
  
---- 
+---
  
 ```{r}
 r <- 0.75 
+
 ExpX = a/b 
+ExpX
+
 VarX = a/b^2 
+VarX
+```
+
+
+---
+
+#### Expected Value
+
+```{r}
+  
 ExpY <- (1-r)*ExpX 
 ```
 
 ```{r}
-VarY <- (1-r)^2*VarX 
-```
-
-#### Expected Value
-```{r}
 ExpY 
 ```
 
+---
+
 #### Variance 
+
+
+Recall : $\operatorname{Var}(aX)= a^2\operatorname{Var}(X)$
+```{r}
+VarY <- (1-r)^2*VarX 
+```
+
+
+
 ```{r}
 VarY 
 ```
 
 
 ---
+[use seed = 250 for below 3 questions]. 
+
 
 ### Exercise 4
 
@@ -112,7 +183,6 @@ The aggregate claim follows a compound distribution with below parameters:
 
 * Number of claims follow Poisson distribution with parameter 500 
 * Individual claim size follows a Gamma distribution with parameters (600,0.3) 
-[use seed = 250 for below 3 questions]. 
 
 
 Generate 1000 observations and calculate the 500th simulated value. 
@@ -122,12 +192,15 @@ Generate 1000 observations and calculate the 500th simulated value.
 
 ```{r}
 set.seed(250) 
+
 n <- rpois(1000,500) 
 s <- numeric(1000) 
-for(i in 1:1000) 
-{x <- rgamma(n[i],shape=600,rate=0.3) 
- s[i] <- sum(x)
- } 
+
+for(i in 1:1000) {
+  x <- rgamma(n[i],shape=600,rate=0.3) 
+  s[i] <- sum(x)
+}
+
 s[500] 
 
 
@@ -155,10 +228,12 @@ s <- numeric(1000)
 ```
 
 ```{r}
-for(i in 1:1000) 
-{x <- rgamma(n[i],shape=600,rate=0.3) 
- z <- pmax(0,x-M) 
- s[i] <- sum(z)} 
+for(i in 1:1000) {
+  x <- rgamma(n[i],shape=600,rate=0.3) 
+  z <- pmax(0,x-M) 
+  s[i] <- sum(z)
+}
+
 s[500] 
 ```
  
@@ -178,7 +253,7 @@ Calculate the 500th simulated value for the insurer under this option.
 
 ```{r}
 set.seed(250) 
-M <-0.25 
+M <- 0.25 
 n <- rpois(1000,500) 
 s <- numeric(1000) 
 
@@ -191,3 +266,9 @@ for(i in 1:1000) {
 s[500] 
 
 ```
+
+---
+
+
+
+---

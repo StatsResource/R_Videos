@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+
+Exercise 1
+===============================
+i)
+Simulate a time series of length 200 observations in a line chart using the following R
+function and comment on stationarity. (Set a seed value of 100)
+
+
+```r
+set.seed(100)
+observations &lt;- arima.sim(list(order = c(1,1,1), 
+          ar = 0.7, 
+          ma = 0.3), 
+          n = 200)
+```
+
+---
+
+
+
+```r
+observations
+```
+
+```
+## Time Series:
+## Start = 1 
+## End = 201 
+## Frequency = 1 
+##   [1]   0.00000000   1.67297615   3.09905852   4.72994980   6.36275318
+##   [6]   8.35770852   9.17181952   9.05893291   8.12815556   7.49148949
+##  [11]   5.95737713   4.78325564   3.94437983   5.08720831   6.27647133
+##  [16]   6.95638306   6.70894890   6.10694647   5.80191418   6.06058716
+##  [21]   7.43225757   9.68224957  11.44667533  14.05448809  14.52414243
+##  [26]  14.94273517  14.90032695  16.03618715  16.86451825  18.65438366
+##  [31]  20.34678824  19.66594929  18.17870307  15.26491412  12.88254732
+##  [36]  13.16601571  11.66175781  10.90766377   9.27511157   9.53754977
+##  [41]  11.65001696  12.70428174  12.92861575  12.93820680  12.54538377
+##  [46]  14.73870151  17.17844574  18.21219196  19.35990107  20.55638730
+##  [51]  21.38451820  21.85074487  22.59825985  22.19183564  20.42561267
+##  [56]  20.48905255  18.96592096  17.29384977  15.03969650  13.40607020
+##  [61]  13.35214551  11.54252904  10.55029835  10.07478779   8.38158235
+##  [66]   4.86152222   2.52769825   0.94899091   0.01289214   0.23989544
+##  [71]   2.37118212   4.27746524   5.02361004   6.80707614   7.59103544
+##  [76]   6.71434849   5.22309980   6.46581953   7.23693238   7.94048248
+##  [81]   7.37834036   5.45720118   3.42726997   3.26955483   3.09894100
+##  [86]   3.68164276   2.88440295   1.48863105  -0.38491835  -2.29862462
+##  [91]  -2.50890650  -2.39150719  -2.16896431  -1.70680497  -1.92144689
+##  [96]  -3.68527147  -5.67968864  -7.04668723  -6.94695043  -6.82727236
+## [101]  -7.12271084  -5.80508939  -5.17191052  -4.53679692  -4.54896366
+## [106]  -4.31762880  -5.57644534  -7.43994493  -9.17981104  -9.47419741
+## [111]  -9.84760060  -9.95195678 -10.35343143 -11.61018280 -12.05597679
+## [116] -12.62151492 -11.80726609 -10.38976521  -9.41551937  -8.32327628
+## [121]  -7.46219615  -6.41536541  -5.95417261  -7.89035902  -9.72981574
+## [126] -10.31033997 -11.50052668 -13.74185140 -16.08221949 -18.36779270
+## [131] -19.70353134 -20.37869415 -19.77637503 -17.39084248 -15.24286555
+## [136] -13.76886906 -12.49408562 -11.86378767 -11.63707018 -11.61125696
+## [141] -11.35876575 -10.96381218 -10.88791907 -10.84844336 -10.98037282
+## [146] -10.33122473  -9.63167920  -9.76976629 -10.30785412 -11.45068470
+## [151] -12.25525061 -11.91130267 -10.78455061  -9.60478843  -8.80960149
+## [156]  -7.99080770  -7.38549175  -9.02002592 -10.41838555 -11.66232738
+## [161] -11.37655807  -8.62742658  -7.29217729  -6.13954575  -5.03172221
+## [166]  -4.74274774  -4.07734994  -2.71728150  -1.64596546  -1.21920044
+## [171]  -2.09483917  -3.65834591  -5.17325168  -6.55440455  -6.64256128
+## [176]  -6.68407490  -4.89765024  -3.50856102  -1.08964882   1.23819502
+## [181]   1.83081516   2.49695069   3.16449851   3.28353011   4.11246759
+## [186]   5.46187698   7.57867613   8.34441735   8.01232420   6.59880244
+## [191]   2.28475609  -1.30897038  -2.48436227  -2.26363352  -3.23775262
+## [196]  -5.16922654  -8.56526312 -10.24761604 -11.39020618 -13.25766128
+## [201] -13.97570613
+```
+
+---
+
+#### Exercise 2:
+
+
+```r
+plot(observations, 
+     main = "Line chart of the time series observations")
+```
+
+![](F2-Question2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+
+---
+
+#### Stationarity
+
+Stationarity means that the statistical properties of a process that creates a time series are constant over time. This statistical consistency makes predictable distributions and is an assumption of many time series forecasting models.
+
+
+
+* The data is not stationary as we observe that the values are changing with time
+
+* Mean and Standard Deviation are different at different points in time
+
+---
+
+#### Exercise 2
+
+Plot the auto correlation function and partial auto correlation function of the data if the data
+is stationarity, otherwise take the first difference of the observations and plot the above
+graphs. Comment on the possible ARMA model based on the graphs. 
+
+
+---
+
+As the data is not stationary, we take the first difference of the observations
+
+
+```r
+diff_obs&lt;-diff(observations)
+acf(diff_obs)
+```
+
+![](F2-Question2_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+
+
+```r
+pacf(diff_obs)
+```
+
+![](F2-Question2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+As both ACF and PACF are seen to have spikes only for the first two lags and they appear to tail off after that,
+ARMA(2,2) model appears to be the most appropriate model based on the ACF and PACF plots.
+
+
+---
+
+#### Exercise 3
+
+Fit AR(1), AR(2), MA(1) and ARMA(1,1) models to the observations from (ii) and
+comment on the best fitting model using AIC or any other metric.
+
+---
+
+Exercise 3
+
+```r
+AR1model &lt;- arima(diff_obs,order = c(1,0,0))
+AR1model
+```
+
+```
+## 
+## Call:
+## arima(x = diff_obs, order = c(1, 0, 0))
+## 
+## Coefficients:
+##          ar1  intercept
+##       0.7070    -0.0570
+## s.e.  0.0498     0.2284
+## 
+## sigma^2 estimated as 0.9177:  log likelihood = -275.55,  aic = 557.09
+```
+
+
+---
+
+
+```r
+AR2model &lt;- arima(diff_obs,order = c(2,0,0)) 
+AR2model
+```
+
+```
+## 
+## Call:
+## arima(x = diff_obs, order = c(2, 0, 0))
+## 
+## Coefficients:
+##          ar1      ar2  intercept
+##       0.8631  -0.2218    -0.0593
+## s.e.  0.0688   0.0693     0.1831
+## 
+## sigma^2 estimated as 0.8725:  log likelihood = -270.55,  aic = 549.1
+```
+
+
+---
+
+
+```r
+MA1model &lt;- arima(diff_obs,order = c(0,0,1))
+MA1model
+```
+
+```
+## 
+## Call:
+## arima(x = diff_obs, order = c(0, 0, 1))
+## 
+## Coefficients:
+##          ma1  intercept
+##       0.6436    -0.0655
+## s.e.  0.0434     0.1194
+## 
+## sigma^2 estimated as 1.06:  log likelihood = -289.89,  aic = 585.79
+```
+
+---
+
+```r
+ARMA1.1model &lt;- arima(diff_obs,order = c(1,0,1))
+ARMA1.1model
+```
+
+```
+## 
+## Call:
+## arima(x = diff_obs, order = c(1, 0, 1))
+## 
+## Coefficients:
+##          ar1     ma1  intercept
+##       0.5877  0.2533    -0.0578
+## s.e.  0.0754  0.0865     0.2002
+## 
+## sigma^2 estimated as 0.881:  log likelihood = -271.5,  aic = 550.99
+```
+---
+
+### Akaike Information Criterion
+
+
+```r
+AIC(AR1model)
+```
+
+```
+## [1] 557.0935
+```
+
+
+```r
+AIC(AR2model)
+```
+
+```
+## [1] 549.0967
+```
+
+
+```r
+AIC(MA1model)
+```
+
+```
+## [1] 585.7875
+```
+
+
+```r
+AIC(ARMA1.1model)
+```
+
+```
+## [1] 550.993
+```
+
+
+
+
+
+AIC is appearing the least for AR(2) model. 
+The same is being by PACF graph also.
+
+---
+
+#### Exercise 4
+
+Using the best fitted model from exercise 3 create a forecast of the observations for the next
+3 periods.
+
+
+
+
+
+```r
+AR2model &lt;- arima(diff_obs,order = c(2,0,0))
+
+predict(AR2model,n.ahead = 3)
+```
+
+```
+## $pred
+## Time Series:
+## Start = 202 
+## End = 204 
+## Frequency = 1 
+## [1] -0.22671820 -0.05765193 -0.02073163
+## 
+## $se
+## Time Series:
+## Start = 202 
+## End = 204 
+## Frequency = 1 
+## [1] 0.9340953 1.2338975 1.3271154
+```
+---
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

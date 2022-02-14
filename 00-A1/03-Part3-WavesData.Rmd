@@ -20,64 +20,84 @@ Loading the data into R will create two
 vectors in your R workspace, called \textbf{\textit{Wn}} (number of waves per hour) and \textbf{\textit{Wheight}}
 (average wave height in cm during the hour).
 
-1. Generate an appropriate plot to visually inspect the relationship between wave
-height and number of waves per hour.
+Generate an appropriate plot to visually inspect the relationship between wave
+height and number of waves per hour.
 
 
 ---
 
-Q3
-\begin{framed}\begin{verbatim}
+### Exercise  1
+
+
+Generate an appropriate plot to visually inspect the relationship between wave
+height and number of waves per hour.
+
+
+
+```{r}
 # load data
 load("CS1waves.Rdata")
-(i)
+
 #plot data
 plot(Wn, Wheight)
-\end{verbatim}\end{framed}
+```
 
-\subsection*{Part 2}
-2. Comment on the plot in part (i).
 
-(ii)
+---
+
+### Exercise  2
+
+Comment on the plot in Exercise 1
+
+
+#### Comments 
+
 There seems to be a linear relationship between wave height and number of waves.
 The more waves per hour, the smaller the waves (negative association).
 
 ---
 
-\subsection*{ Part 3}
+### Exercise 3
 
 Calculate Pearson’s correlation coefficient between the number of waves per
-hour and the average wave height.
+hour and the average wave height.
 
 
-\begin{framed}\begin{verbatim}
+```{r}
 cor(Wn, Wheight,method = "pearson")
--0.8055382 
-\end{verbatim}\end{framed}
 
-\subsection*{ Part 4.}
+```
+
+
+---
+
+### Exercise 4
 
 Calculate Spearman’s rank correlation coefficient between the number of
 waves per hour and the average wave height.
+
 Comment on your findings in parts (iii) and (iv).
 
-\begin{framed}\begin{verbatim}
+```{r}
 cor(Wn, Wheight, method = "spearman")
--0.7688486 
-\end{verbatim}\end{framed}
+
+```
 
 ---
 
 
-\subsection*{Part 5}
-5. We now model the number of waves per hour, X, as a random variable with a Poisson
+### Exercise  5
+We now model the number of waves per hour, X, as a random variable with a Poisson
 distribution with unknown parameter l. The log likelihood function for estimating l
 is given by l(l) = log(l)
 n
 x i ) – ln where n is the number of observations.
 ( Â i=1
 
-(v)
+
+---
+
+### Exercise 5
 
 
 * Both correlation coefficients confirm the negative relationship that is
@@ -89,38 +109,40 @@ already obvious in the plot.
 
 ---
 
-Part 6
-==================================
-6. Plot the log likelihood function for values of $l = 220, 221, ..., 280$.
+### Exercise  6
 
-\begin{framed}\begin{verbatim}
+Plot the log likelihood function for values of $l = 220, 221, ..., 280$.
+
+```{r}
 l = 220:280
 ll = log(l)*sum(Wn)-168*l
 plot(l,ll) [1]
-\end{verbatim}\end{framed}
+```
 
 
 ---
 
-\subsection*{ Part 7}
-7. Determine an approximate maximum likelihood estimate for l using the plot
-in part (vi).
+### Exercise  7
 
-(vii)
+Determine an approximate maximum likelihood estimate for l using the plot in Exercise 6
+
+#### Solution
 
 
-By inspection, the maximum of $ll(\hat{\lambda})$ is at about 250.
-The maximum likelihood estimate is $\hat{\lambda} \approx 250$ waves per hour. [1]
+* By inspection, the maximum of $ll(\hat{\lambda})$ is at about 250.
+* The maximum likelihood estimate is $\hat{\lambda} \approx 250$ waves per hour.
 
 
 ---
 
-\subsection*{ pART 8}
+### Exercise  8
 
-8. Calculate the exact maximum likelihood estimate of l.
-(vi)
+Calculate the exact maximum likelihood estimate of $l$.
 
-(viii) The exact MLE is the mean, that is, \hat{\lambda}̂ = 168 ∑ 168
+
+#### Solution
+
+The exact MLE is the mean, that is, \hat{\lambda}̂ = 168 ∑ 168
 ii=1 XX ii
 mean(Wn)
 
@@ -131,3 +153,7 @@ instead of lambda.
 
 
 
+---
+
+
+---

@@ -53,8 +53,7 @@ plot.ts(y3, type='s')
 ![png](output_2_1.png)
 
 
-
-![png](output_2_2.png)
+---
 
 
 ## Exercise 2 

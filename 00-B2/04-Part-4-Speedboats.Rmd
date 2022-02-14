@@ -13,7 +13,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-
+library(forecast)
 
 ```
 
@@ -36,26 +36,38 @@ pre {
 ABC Tech, a Speedboat manufacturing company, was established a few decades back. The
 company has shown a consistent growth in its revenue from Speedboat sales since its inception.
 
-However, over the years the company has struggled to keep it’s inventory and production cost
-down because of variability in sales and Speedboat demand. The management at ABC Tech is
+* However, over the years the company has struggled to keep it’s inventory and production cost
+down because of variability in sales and Speedboat demand.
+* The management at ABC Tech is
 under enormous pressure from the shareholders and board to reduce the production cost.
-Additionally, they are also interested in understanding the impact of their marketing and
-customer connect efforts towards overall sales. In the same effort, they have your employer as
+* Additionally, they are also interested in understanding the impact of their marketing and
+customer connect efforts towards overall sales. 
+* In the same effort, they have your employer as
 a data science and predictive analytics consultant.
 
 ---
 
-Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
+* Your senior have analysed the sales data and believe that ARIMA model will fit the data. They have  suggested you to develop an ARIMA model to forecast sale / demand for next three years.
 
+* Additionally, They have  also suggested you to investigate the impact of marketing program on
+sales by using an exogenous variable ARIMA model. 
 
-
-Additionally, They have  also suggested you to investigate the impact of marketing program on
-sales by using an exogenous variable ARIMA model. You agreed on the steps to be followed
-and agree on the following steps.
+* You agreed on the steps to be followed and agree on the following steps.
 
 **Note: You will require “Forecast” package for this assignment.**
 
+
+```{r eval=FALSE}
+
+install.packages("Forecast")
+
+library(forecast)
+
+```
+
 ---
+
+#### Data 
 
 Data provided in ***Speedboat_Sales.csv*** in a subfolder called ***datasets*** in the local file directory.
 
@@ -70,7 +82,7 @@ sb_data <- read.csv("datasets/Speedboat_Sales.csv")
 
 ```
 
----
+
 
 
 ```{r}
@@ -78,30 +90,21 @@ head(sb_data)
 ```
 
 
----
-
-
-```{r}
-
-#install.packages("Forecast")
-
-library(forecast)
-
-```
-
 
 ---
 
 
-Exercise 1
-===========================
+
+
+### Exercise 1
+
 
 Plot a time series chart with year as $X$ axis and sales as $Y$ axis with suitable labelling. 
 
 Basis the plot thus obtain, comment on the type of time series.
 
 
-```{r}
+```{r eval = FALSE}
 data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
 
 plot(data, xlab="Years", ylab = "Speedboat Sales")
@@ -109,10 +112,10 @@ plot(data, xlab="Years", ylab = "Speedboat Sales")
 
 ---
 
-```{r}
-data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
+```{r echo=FALSE}
+sb_data = ts(sb_data[,2],start = c(2005,1),frequency = 12)
 
-plot(data, xlab="Years", ylab = "Speedboat Sales")
+plot(sb_data, xlab="Years", ylab = "Speedboat Sales")
 ```
 
 Clearly the above chart has an upward trend for speedboat sales and there is also a seasonal
@@ -127,10 +130,27 @@ component.
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results.
 
-```{r}
+```{r eval=FALSE}
 par(mfrow = c(1,2))
 
 acf(ts(sb_data),main="ACF Speedboat Sales")
+pacf(ts(sb_data),main="PACF Speedboat Sales")
+```
+
+
+---
+
+```{r echo=FALSE}
+
+
+acf(ts(sb_data),main="ACF Speedboat Sales")
+```
+
+
+---
+
+```{r echo=FALSE}
+
 pacf(ts(sb_data),main="PACF Speedboat Sales")
 ```
 
@@ -147,12 +167,19 @@ You believe that differencing series is one of the ways to remove trend.
 Obtain the first order and second order difference series and plot the same. Also provide comment on
 variance of the $d(1)$ series.
 
-
-```{r}
-#par(mfrow = c(1,1))
+```{r eval=FALSE}
+par(mfrow = c(1,1))
 
 diff_data = diff(  ts(sb_data)  )
-#plot(diff_data,ylab="Differenced Speedboat Sales")
+plot(diff_data,ylab="Differenced Speedboat Sales")
+```
+
+---
+```{r echo=FALSE}
+par(mfrow = c(1,1))
+
+diff_data = diff(  ts(sb_data)  )
+plot(diff_data,ylab="Differenced Speedboat Sales")
 ```
 
 ---
@@ -162,11 +189,10 @@ diff_data = diff(  ts(sb_data)  )
 forecasts through ARIMA models.
 
 
-<pre><code>
+```{r eval=FALSE}
 diff_data_2 = diff(diff_data)
 plot(diff_data_2,ylab="Differenced Speedboat Sales")
-</code></pre>
-
+```
 ---
 
 ```{r echo=FALSE}
@@ -182,11 +208,13 @@ Looking at the plots of difference series, you decide to apply log transformatio
 original series to smoothen the variance. Obtain the log-transformed (base 10) series
 and plot the same. 
 
-<pre><code>
+```{r eval=FALSE}
 Log_data = log10(  ts(sb_data)  )
 
 plot(Log_data,ylab="Log Speedboat Sales")
-</code></pre>
+
+```
+
 ---
 
 ```{r echo=FALSE}
@@ -201,40 +229,47 @@ plot(Log_data,ylab="Log Speedboat Sales")
 
 Obtain the first order difference series of the transformed series and plot the same. 
 
-<pre><code>
-Diff_log_data = diff(Log_data)
-
-plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
-</code></pre>
-
----
-
-```{r}
+```{r eval=FALSE}
 Diff_log_data = diff(Log_data)
 
 plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
 ```
 
+---
 
+```{r echo=FALSE}
+Diff_log_data = diff(Log_data)
+
+plot(Diff_log_data,ylab="Difference Log Speedboat Sales")
+```
 
 ---
 
-Exercise 6
-=========================
+### Exercise 6
+
 Plot ACF and PACF to identify potential AR and MA model for this series and
 comment on the results. 
 
 
-```{r}
+```{r eval = FALSE}
 par(mfrow = c(1,2))
 
 acf(ts(Diff_log_data),main="ACF Speedboat Sales")
 pacf(ts(Diff_log_data),main="PACF Speedboat Sales")
 ```
 
+---
 
-----
+```{r echo=FALSE}
+par(mfrow = c(1,2))
 
+acf(ts(Diff_log_data),main="ACF Speedboat Sales")
+pacf(ts(Diff_log_data),main="PACF Speedboat Sales")
+
+```
+
+
+---
 
 * Since, there are enough spikes in the plots outside the insignificant zone (dotted horizontal lines) we
 can conclude that the residuals are not random. 
@@ -249,8 +284,8 @@ monthly data that tends to have seasonality of 12 months because of patterns in 
 
 ---
 
-PART 7
-===========================================================================
+### Exercise 7
+
 
 Use Auto arima function in forecast package in R helps us identify the best fit ARIMA
 model on the fly. Comment on the summary results of fitting this series and on Akaike
@@ -267,11 +302,13 @@ summary(ARIMAfit)
 ---
 
 ```{r echo=FALSE}
-ARIMAfit = auto.arima (  Log_data[,2] ,approximation=FALSE,
+ARIMAfit = auto.arima (log(sb_data,10) ,approximation=FALSE,
     trace=FALSE)
 
 summary(ARIMAfit)
+
 ```
+
 ---
 
 
@@ -302,20 +339,62 @@ pred
 ---
 
 
-```{r}
 
+
+```{r}
 pred = forecast(ARIMAfit, n.ahead = 36)
 pred
 ```
 
 ---
 
+```{r}
+
+head(pred)
+```
+
+
+
+---
+
 
 ```{r}
-plot(data,type="l",xlim=c(2006,2020),ylim=c(1,1600),xlab = "Year",ylab = "Speedboat Sales")
-lines(10^(pred$pred),col="blue")
-#lines(10^(pred$pred+2*pred$se),col="orange")
-#lines(10^(pred$pred-2*pred$se),col="Brown")
+plot(pred)
+```
+```{r}
+
+```
+
+---
+
+```{r}
+plot(sb_data,type="l",
+     xlim=c(2006,2020),
+     ylim=c(1,1600),
+     xlab = "Year",
+     ylab = "Speedboat Sales")
+
+lines(10^(pred$mean),col="blue")
+
+## 80% CI
+
+lines(10^(pred$upper[,1]),col="orange")
+lines(10^(pred$lower[,1]),col="Brown")
+
+```
+
+---
+
+```{r}
+plot(sb_data,type="l",
+     xlim=c(2006,2020),
+     ylim=c(1,1600),
+     xlab = "Year",
+     ylab = "Speedboat Sales")
+
+lines(10^(pred$mean),col="blue")
+lines(10^(pred$upper[,2]),col="orange")
+lines(10^(pred$lower[,2]),col="Brown")
 
 ```
 
@@ -324,13 +403,22 @@ lines(10^(pred$pred),col="blue")
 
 
 
-Exercise 9
-===========================================
+### Exercise 9
+
 Plot ACF and PACF plot of the residuals of the best fit ARIMA model and comment
 on the results.
 
 
-```{r}
+```{r eval=FALSE}
+par(mfrow=c(1,2))
+acf(ts(ARIMAfit$residuals),main="ACF Residual")
+
+pacf(ts(ARIMAfit$residuals),main="PACF Residual")
+```
+
+---
+
+```{r echo = FALSE}
 par(mfrow=c(1,2))
 acf(ts(ARIMAfit$residuals),main="ACF Residual")
 

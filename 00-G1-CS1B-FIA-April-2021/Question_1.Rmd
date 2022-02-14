@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,8 +9,30 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
 
-## 
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 
 1 A researcher records the levels of caffeine present in their bloodstream at various time 
 intervals after drinking a cup of coffee. 
@@ -33,33 +53,37 @@ caffeine = c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
 
 ##
 
-Part 1
-============================
+#### Exercise  1
+
 (i) Plot a scatterplot of the data. 
 
 
 ---
 
-Part 2
-============================
-(ii) Comment on the relationship between C and T based on the plot in part 1.  
+#### Exercise  2
 
-Part 3
-============================
-(iii) Justify why a logarithmic transformation of C is appropriate. 
+Comment on the relationship between C and T based on the plot in Exercise  1.  
 
 
-##
+---
+#### Exercise  3
 
-Part 4
-============================
-(iv) Perform the transformation suggested in part 3.  
+Justify why a logarithmic transformation of C is appropriate. 
 
-Part 5
-============================
+
+---
+
+#### Exercise  4
+
+(iv) Perform the transformation suggested in Exercise  3.  
+
+
+---
+
+#### Exercise  5
+
 (a) Plot a scatterplot of the transformed data. 
 (b) Calculate the Pearson correlation coefficient for the transformed data. 
-(c) Comment on the scatterplot and Pearson correlation coefficient 
-produced in parts (v)(a) and (v)(b). 
+(c) Comment on the scatterplot and Pearson correlation coefficient. 
 
-##
+---

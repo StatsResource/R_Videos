@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+The Logistic function can be defined by the function:
+
+$$ f(𝑥) = \frac{1}{(1 + exp(-x))}$$
+
+1. Create a function in R to calculate f(x). 
+
+2. Create a plot of this function and evaluate it at values for x ranging from -10 to 10. Add appropriate x and y-axis labels. 
+
+
+---
+#### Exercise 1
+
+```r
+logistic&lt;-function(x){ 1/(1+exp(-x))}
+```
+
+
+```r
+logistic(4)
+```
+
+```
+## [1] 0.982
+```
+
+---
+
+
+```r
+X &lt;- seq(-10,10,by=0.25)
+```
+
+
+```r
+logistic(X)
+```
+
+```
+##  [1] 0.0000454 0.0000583 0.0000748 0.0000961 0.0001234 0.0001584 0.0002034
+##  [8] 0.0002612 0.0003354 0.0004306 0.0005528 0.0007097 0.0009111 0.0011695
+## [15] 0.0015012 0.0019267 0.0024726 0.0031727 0.0040701 0.0052201 0.0066929
+## [22] 0.0085775 0.0109869 0.0140636 0.0179862 0.0229774 0.0293122 0.0373269
+## [29] 0.0474259 0.0600867 0.0758582 0.0953495 0.1192029 0.1480472 0.1824255
+## [36] 0.2227001 0.2689414 0.3208213 0.3775407 0.4378235 0.5000000 0.5621765
+## [43] 0.6224593 0.6791787 0.7310586 0.7772999 0.8175745 0.8519528 0.8807971
+## [50] 0.9046505 0.9241418 0.9399133 0.9525741 0.9626731 0.9706878 0.9770226
+## [57] 0.9820138 0.9859364 0.9890131 0.9914225 0.9933071 0.9947799 0.9959299
+## [64] 0.9968273 0.9975274 0.9980733 0.9984988 0.9988305 0.9990889 0.9992903
+## [71] 0.9994472 0.9995694 0.9996646 0.9997388 0.9997966 0.9998416 0.9998766
+## [78] 0.9999039 0.9999252 0.9999417 0.9999546
+```
+
+
+---
+
+#### Exercise 2
+&lt;pre&gt;&lt;code&gt;
+plot(logistic,
+  xlim = c(-10,10), 
+  main = "Logistic Function", 
+  ylab = "y=1/(1+exp(-x))")
+&lt;/code&gt;&lt;/pre&gt;
+
+---
+
+![](Question_1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+---
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

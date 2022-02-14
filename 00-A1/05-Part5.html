@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -22,7 +22,7 @@ times of outdoor telephone cables, with respect to the cable material quality (g
 1 to 4) and level of rainfall in centimetres that the cable is exposed to.
 
 
-The data given in the file “\texttt{CablesDataset.csv}” show failure times in years for 20
+The data given in the file “***CablesDataset.csv” show failure times in years for 20
 different cables.
 
 ---
@@ -46,17 +46,16 @@ head(cables_data)
 ## 6 6  0.002198732             2 0.2545738
 ```
 
-\includegraphics[scale=1.5]{00-A1/images/CablesData_1_head.JPG}
 
 ---
 
 
-Exercise 1
-===============================
+#### Exercise 1
 
-Fit a linear model to the data with the failure time as the response, including
-both cable material quality and level of rainfall as the two covariates. Your
-answer should include a summary of the fitted model.\\
+Fit a linear model to the data with the ***failure time*** as the response, including
+both cable material quality and level of rainfall as the two covariates.
+
+Your answer should include a summary of the fitted model.
 
 
 
@@ -66,7 +65,7 @@ answer should include a summary of the fitted model.\\
 ```r
 # fit the linear model
 
-linear_model&lt;-lm(Failure.Time~Material.Type + Rainfall,
+linear_model&lt;-lm(Failure.Time ~ Material.Type + Rainfall,data =
 cables_data)
 ```
 
@@ -103,24 +102,47 @@ summary(linear_model)
 
 ---
 
-Exercise 2
-===============================
+#### Exercise 2
+
 
 State the formula of the model fitted in Exercise 1, clearly explaining the
 notation that you use.
 Comment on the significance of the parameters of the model fitted.
 
 
-\includegraphics[scale=1.3]{00-A1/images/CablesData_2_modelsummary.JPG}
 
-* From analysing the R output, we see that the fitted linear model is:
-\[ \hat{y} = 0.081086 \;-;\ 0.014499x_1 \;+\; 0.005591x_2\]
+```r
+coef(linear_model)
+```
+
+```
+##   (Intercept) Material.Type      Rainfall 
+##   0.081085679  -0.014498574   0.005590787
+```
+
+
+```r
+confint(linear_model)
+```
+
+```
+##                     2.5 %       97.5 %
+## (Intercept)    0.05437813  0.107793231
+## Material.Type -0.02204146 -0.006955686
+## Rainfall      -0.09303214  0.104213714
+```
+
+---
+
+#### Model Summary 
+From analysing the R output, we see that the fitted linear model is:
+$$ \hat{y} = 0.081086 - 0.014499x_1 + 0.005591x_2$$
 
 where `\(x_1\)` is the ‘material type’ variable, and `\(x_2\)` is the ‘rainfall’ variable. `\(\hat{y}\)` is the predicted failure time.
 
 
 * The R output shows that the ‘material type’ parameter is significantly
-different to zero (at the 0.1\% level).
+different to zero (at the 0.1% level).
 * The ‘rainfall’ parameter is not significantly different to zero - this is
 indicated by the t-tests shown in the fourth column of the R output.
 * The intercept is also significantly different to zero
@@ -129,13 +151,10 @@ indicated by the t-tests shown in the fourth column of the R output.
 
 ---
 
-Exercise 3
-===================================
+#### Exercise 3
+
 
 Plot the residuals of the model. Comment on the plot.
-
-
-
 
 
 
@@ -157,10 +176,34 @@ residuals(linear_model)
 ##  0.0129294294 -0.0034739334 -0.0111647847 -0.0049300016  0.0004568271
 ```
 
+
 ---
 
-\includegraphics[scale=1.1]{00-A1/images/CablesData_3_residuals.JPG}
 
+```r
+# obtain the largest residuals 
+
+which.max( residuals(linear_model) ) 
+```
+
+```
+## 1 
+## 1
+```
+
+
+
+
+```r
+# obtain the largest residuals
+
+which.max( abs ( residuals(linear_model) ) )
+```
+
+```
+## 6 
+## 6
+```
 
 ---
 
@@ -174,11 +217,12 @@ plot(residuals(linear_model),
 abline(h=0)
 ```
 
-![](05-Part5_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 ---
 
-\includegraphics[scale=0.8]{00-A1/images/CableData_4_Residuals.png}
+![](05-Part5_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+---
 
 
 
@@ -187,11 +231,11 @@ apart from the 6th point.
 
 ---
 
-Exercise 4
-=================================
+#### Exercise 4
 
-An analyst suggests that the 6th row of the original data should be removed. Construct a new data set from the original data \textbf{\textit{CablesDataset.csv}}
-with the 6th row removed. Justify the removal of the 6th row from the original data.
+An analyst suggests that the 6th row of the original data should be removed. 
+Construct a new data set from the original data ***CablesDataset.csv*** with the 6th row removed. 
+Justify the removal of the 6th row from the original data.
 
 
 
@@ -201,14 +245,13 @@ with the 6th row removed. Justify the removal of the 6th row from the original d
 cables_data2 &lt;- cables_data[-6,]
 ```
 
-The residuals plot indicates that data point 6 is an outlier.
+Remark: Previously the residuals plot indicates that data point 6 is an outlier.
 
 
 ---
 
   
-Exercise 5
-======================================
+#### Exercise 5
 
 Fit a linear model to the new data set constructed in Exercise 4. 
 Comment on the fit of the new model compared to the model fitted previously, by comparing suitable statistics from the R outputs.
@@ -255,20 +298,18 @@ summary(linear_model2)
 
 * The adjusted `\(R^2\)` statistic for the model fitted to the data with the outlier
 removed is 0.7475. 
-\item This shows an improved fit relative to the model fitted to all
+
+* This shows an improved fit relative to the model fitted to all
 20 data points, which had an adjusted `\(R^2\)` statistic of 0.4776.
 
 
 
 ---
 
-Exercise 6
-======================================
+#### Exercise 6
 
-Fit a generalised linear model (GLM) to the data set constructed in
-Exercise 4 using a Gamma distribution.
-State the formula of the model fitted, clearly explaining
-the notation that you use.
+Fit a generalised linear model (GLM) to the data set constructed in Exercise 4 using a Gamma distribution.
+State the formula of the model fitted, clearly explaining the notation that you use.
 Comment on the significance of the parameters of the fitted model.
 
 ---
@@ -381,7 +422,7 @@ summary(gfit)
 
 Reviewing the model fit output from R, the ‘rainfall’ parameter is not
 significantly different to zero, whereas the ‘material type’ parameter is
-significant at the 0.1\% level.
+significant at the 0.1% level.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

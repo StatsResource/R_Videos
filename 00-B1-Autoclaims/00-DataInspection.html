@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -43,7 +43,7 @@ getwd()
 ```
 
 ```
-## [1] "C:/Users/kilbi/OneDrive/Documents/GitHub/R_Videos/00-B1-Autoclaims"
+## [1] "C:/Users/kilbi/Documents/GitHub/R_Videos/00-B1-Autoclaims"
 ```
 
 
@@ -57,14 +57,18 @@ list.files()
 ```
 
 ```
-##  [1] "00-DataInspection.html"      "00-DataInspection.Rmd"      
-##  [3] "01-Exercise1-Part1and2.Rmd"  "01a-Exercise1-Part1and2.R"  
-##  [5] "02-Exercise1-Part3and4.html" "02-Exercise1-Part3and4.Rmd" 
-##  [7] "04-Exercise2-ALL.Rmd"        "05-Exercise3-Part1and2.Rmd" 
-##  [9] "06-Exercise3-Part3and4.html" "06-Exercise3-Part3and4.Rmd" 
-## [11] "Code.Rmd"                    "Code.tex"                   
-## [13] "data"                        "images"                     
-## [15] "libs"                        "tex"
+##  [1] "00-DataInspection.html"       "00-DataInspection.Rmd"       
+##  [3] "01-Exercise1-Part1and2.html"  "01-Exercise1-Part1and2.Rmd"  
+##  [5] "01-Exercise1-Part1and2_files" "01a-Exercise1-Part1and2.R"   
+##  [7] "02-Exercise1-Part3and4.html"  "02-Exercise1-Part3and4.Rmd"  
+##  [9] "04-Exercise2-ALL.html"        "04-Exercise2-ALL.Rmd"        
+## [11] "04-Exercise2-ALL_files"       "05-Exercise3-Part1and2.html" 
+## [13] "05-Exercise3-Part1and2.Rmd"   "05-Exercise3-Part1and2_files"
+## [15] "06-Exercise3-Part3and4.html"  "06-Exercise3-Part3and4.Rmd"  
+## [17] "Code.Rmd"                     "Code.tex"                    
+## [19] "data"                         "images"                      
+## [21] "libs"                         "Q_CS1B.pdf"                  
+## [23] "S_CS1PaperB.pdf"              "tex"
 ```
 
 
@@ -122,19 +126,31 @@ summary(AutoClaims)
 
 ```r
 library(readr)
+```
+
+```
+## Warning: package 'readr' was built under R version 4.0.5
+```
+
+```r
 AutoClaims &lt;- read_csv("Data/AutoClaims.csv")
 ```
 
 ```
-## 
+## Rows: 1417 Columns: 5
+```
+
+```
 ## -- Column specification --------------------------------------------------------
-## cols(
-##   STATE = col_character(),
-##   CLASS = col_character(),
-##   GENDER = col_character(),
-##   AGE = col_double(),
-##   PAID = col_double()
-## )
+## Delimiter: ","
+## chr (3): STATE, CLASS, GENDER
+## dbl (2): AGE, PAID
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
     Parsed with column specification:

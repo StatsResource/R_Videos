@@ -2,11 +2,11 @@
 title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
+ xaringan::moon_reader:
+  lib_dir: libs
+  nature:
+   highlightStyle: github
+   countIncrementalSlides: false
 ---
 
 * Introduction to R for Actuarial Students
@@ -29,9 +29,9 @@ library(magrittr)
 
 ```{css, echo=FALSE}
 pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
+ background: #ADD8E6;
+ max-width: 100%;
+ overflow-x: scroll;
 }
 ```
 
@@ -51,9 +51,9 @@ head(AutoClaims)
 ---
 ### Exercise 3
 
-* Prepare  a  contingency  table  identifying  the  proportion  of  insured  across  differentCLASS(es) for each gender.
+* Prepare a contingency table identifying the proportion of insured across differentCLASS(es) for each gender.
 
-* Test the null hypothesis “**There is no relationship between the  GENDER  and  the  CLASS  of  the  insured**”  against  an  alternate  hypothesis  of existence of significant relation at 95% confidence level.
+* Test the null hypothesis “**There is no relationship between the GENDER and the CLASS of the insured**” against an alternate hypothesis of existence of significant relation at 95% confidence level.
 
 
 * Perform an appropriate test and comment.
@@ -64,12 +64,11 @@ head(AutoClaims)
 
 ```{r}
 
-State_Class_Freq <-table(AutoClaims$GENDER,AutoClaims$CLASS) 
+State_Class_Freq <- table(AutoClaims$GENDER,AutoClaims$CLASS) 
 State_Class_Freq
 ```
 
 ```{r}
-
 addmargins(State_Class_Freq)
 ```
 
@@ -108,6 +107,24 @@ State_Class_RowProp
 addmargins(State_Class_RowProp)
 ```
 
+---
+
+#### Contingency Table in terms of proportion of Rating classes for each gender
+
+(proportions inside class)
+
+```{r}
+
+State_Class_RowProp<-prop.table(State_Class_Freq, margin=2)
+
+State_Class_RowProp 
+```
+
+
+```{r}
+
+addmargins(State_Class_RowProp)
+```
 
 ---
 
@@ -121,7 +138,7 @@ chisq.test(AutoClaims$GENDER,AutoClaims$CLASS)
 #### Interpretation: 
 
 * Chi-Squared values is 13.704 with 3 degrees of freedom. 
-* P-Value  for the chi  square test is 0.0033 < 0.05. 
+* P-Value for the chi square test is 0.0033 < 0.05. 
 * Hence the null hypothesis of independence between the gender and rating class is rejected at 95% confidence level. 
 
 Looking at the proportions in the table, it is evident that more than 55% of the females are 
@@ -137,7 +154,7 @@ Same is the case with F6. Hence the difference in proportions
 #### Exercise 4 
 
 
-Use  an  appropriate test to  test  if  the  mean  claim  amount  paid  and  variance  of  claim amounts paid is uniform between males and females.
+Use an appropriate test to test if the mean claim amount paid and variance of claim amounts paid is uniform between males and females.
 
 ---
 
@@ -146,7 +163,8 @@ Use  an  appropriate test to  test  if  the  mean  claim  amount  paid  and  var
 
 
 ```{r}
-t.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
+t.test( AutoClaims$PAID[AutoClaims$GENDER=="M"] , 
+        AutoClaims$PAID[AutoClaims$GENDER=="F"] ) 
 ```
 
 ---
@@ -157,20 +175,30 @@ females**” cannot be rejected at 95% confidence level
 
 ---
 
+```{r}
+
+boxplot(PAID~GENDER,data=AutoClaims,
+        horizontal = TRUE)
+```
+
+
+---
+
 #### ***var.test()***
 
 Testing for variance of amount paid between Male and Female
 
 ```{r}
-var.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
+var.test(AutoClaims$PAID[AutoClaims$GENDER=="M"],
+         AutoClaims$PAID[AutoClaims$GENDER=="F"]) 
 ```
 ---
 
 
 * P-value = 0.0013 < 0.05 
-*  Null hypothesis of “Variance of claim paid is same between males and females” is rejected at 95% confidence level.
+* Null hypothesis of “Variance of claim paid is same between males and females” is rejected at 95% confidence level.
 
-* Claims paid among females is more  volatile compared to that of males
+* Claims paid among females is more volatile compared to that of males
 
 ---
 ---

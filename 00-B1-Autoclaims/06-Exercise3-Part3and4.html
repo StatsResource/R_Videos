@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -22,45 +22,69 @@ class: center, middle, inverse, title-slide
 
 ```r
 library(readr)
+```
+
+```
+## Warning: package 'readr' was built under R version 4.0.5
+```
+
+```r
 AutoClaims &lt;- read_csv("Data/AutoClaims.csv")
 ```
 
 ```
-## 
+## Rows: 1417 Columns: 5
+```
+
+```
 ## -- Column specification --------------------------------------------------------
-## cols(
-##   STATE = col_character(),
-##   CLASS = col_character(),
-##   GENDER = col_character(),
-##   AGE = col_double(),
-##   PAID = col_double()
-## )
+## Delimiter: ","
+## chr (3): STATE, CLASS, GENDER
+## dbl (2): AGE, PAID
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Your actuarial friend has suggested you to use natural logarithm of “PAID” claims instead of the actual “PAID” Claim amount because the log e (PAID) is more closer to
-normal distribution than “PAID” Claims. Verify the statement made by your friend by comparing the Skewness and Excess Kurtosis of both the PAID claims as well as
-log e (PAID). Write appropriate custom functions to compute both of them. (7)
+normal distribution than “PAID” Claims. 
 
+--- 
+#### Exercises
+1. Verify the statement made by your friend by comparing the Skewness and Excess Kurtosis of both the PAID claims as well as
+log e (PAID). Write appropriate custom functions to compute both of them.
 
----
+2. Repeat the model in (i) above by considering the suggestion in (iii). 
 
-Repeat the model in (i) above by considering the suggestion in (iii). Identify and comment on the key differences between both the models. (6)
-Your Manager has suggested that the model can be improved by adding interaction effects between STATE and CLASS, STATE and GENDER, CLASS and GENDER
+3. Identify and comment on the key differences between both the models.
+
+4. Your Manager has suggested that the model can be improved by adding interaction effects between STATE and CLASS, STATE and GENDER, CLASS and GENDER
 as additional variables to the set of independent variables taken in (i). Evaluate the worthiness of this suggestion.
 
-%
-iii)
+
 
 ---
 
+
+#### Exercise 1
+* Reason for better model
+* Checking for the normality of Auto Claims Paid vs. Logarithm of Auto Claims Paid
+* Writing Functions for Skewness and Kurtosis
 
 
 ```r
-#Reason for better model
-#Checking for the normality of Auto Claims Paid vs. Logairthm of Auto Claims Paid
-#Writing Functions for Skewness and Kurtosis
 skew&lt;-function(x)mean((x-mean(x))^3)/sd(x)^3
 kurt&lt;-function(x)(mean((x-mean(x))^4)/sd(x)^4)-3
+```
+
+
+---
+
+
+```r
 skew(AutoClaims$PAID)
 ```
 
@@ -69,11 +93,23 @@ skew(AutoClaims$PAID)
 ```
 
 
+```r
+skew(log(AutoClaims$PAID))
+```
+
+```
+## [1] 0.4528057
+```
+
+#### Remark
+
+* The closer to Zero, the better
+
+
 ---
 
 
 ```r
-##  2.619422
 kurt(AutoClaims$PAID)
 ```
 
@@ -83,18 +119,9 @@ kurt(AutoClaims$PAID)
 
 
 
-```r
-##  9.20876
-skew(log(AutoClaims$PAID))
-```
-
-```
-## [1] 0.4528057
-```
 
 
 ```r
-##  0.4528057
 kurt(log(AutoClaims$PAID))
 ```
 
@@ -102,22 +129,72 @@ kurt(log(AutoClaims$PAID))
 ## [1] -0.787689
 ```
 
+#### Remark
+
+* The closer to Zero, the better
+
 ---
 
+
+#### Conclusion
 
 Skewness and Kurtosis of Log (Claims) are more close to Zero compared to those of actual
 claims paid, thus indicating the possibility of using linear regression with this dependent
 variable
 
-
 ---
 
-iv)
+#### Model with untransformed "PAID" variable
+
 
 
 ```r
-# Using Natural Logarithm of the claims paid
-model2&lt;-lm(log(PAID)~.,data = AutoClaims)
+model1 &lt;- lm(PAID~.,data = AutoClaims)
+summary(model1)
+```
+
+```
+## 
+## Call:
+## lm(formula = PAID ~ ., data = AutoClaims)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -10462  -2276    119   1611  36377 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    19818.12    1391.58  14.242  &lt; 2e-16 ***
+## STATESTATE 02  -2306.41     658.69  -3.502 0.000477 ***
+## STATESTATE 03   -580.09     761.36  -0.762 0.446242    
+## STATESTATE 04   -689.08     702.04  -0.982 0.326495    
+## STATESTATE 06    440.79     752.27   0.586 0.558010    
+## STATESTATE 07  -1254.29     837.22  -1.498 0.134318    
+## STATESTATE 10   2275.25     885.44   2.570 0.010284 *  
+## STATESTATE 12   -752.99     850.10  -0.886 0.375897    
+## STATESTATE 14   -404.69     842.90  -0.480 0.631216    
+## STATESTATE 15  -4791.86     623.56  -7.685 2.87e-14 ***
+## STATESTATE 17   -883.67     704.58  -1.254 0.209982    
+## CLASSC11      -11743.95     430.60 -27.274  &lt; 2e-16 ***
+## CLASSC6       -14833.37     410.84 -36.105  &lt; 2e-16 ***
+## CLASSF6         -225.16     517.68  -0.435 0.663670    
+## GENDERM        -1193.01     215.50  -5.536 3.69e-08 ***
+## AGE               15.76      24.10   0.654 0.513418    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3943 on 1401 degrees of freedom
+## Multiple R-squared:  0.6886,	Adjusted R-squared:  0.6852 
+## F-statistic: 206.5 on 15 and 1401 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+Using Natural Logarithm of the claims paid
+
+
+```r
+model2 &lt;- lm(log(PAID)~.,data = AutoClaims)
 summary(model2)
 ```
 
@@ -182,22 +259,14 @@ anova(model2)
 ---
 
 
-Key Differences
-1. R-Squared and Adjusted R-Squared improved
-fit compared to the initial model
-and hence the model is a better
+#### Key Differences
+
+1. R-Squared and Adjusted R-Squared improved fit compared to the initial model and hence the model is a better
+2. While a the significance level of a few factor coefficients when compared with the base categories changed, the overall significant variables did not change which can be inferred from the ANOVA table
 
 ---
 
-2. While a the significance level of a few factor coefficients when compared with the
-base categories changed, the overall significant variables did not change which can
-be inferred from the ANOVA table
-[1.5]
-
----
-
-
-v)
+#### Exercise 3
 
 
 ```r
@@ -205,6 +274,11 @@ v)
 model3&lt;-lm(PAID~.+STATE:CLASS+STATE:GENDER+CLASS:GENDER,data = AutoClaims)
 summary(model3)
 ```
+
+
+
+---
+
 
 ```
 ## 
@@ -286,55 +360,29 @@ summary(model3)
 ```
 
 
-
 ---
+#### Exercise 2
+Interaction effect between a few classes and states emerged out to be very
+significant (State 6 and Class F6 came out to be significantly negative).
 
-anova(model3)
-Analysis of Variance Table
-[5]
-Response: PAID
-Df Sum Sq Mean Sq F value Pr(&gt;F)
-STATE
-10 9.8027e+09 9.8027e+08 101.2664 &lt; 2.2e-16 ***
-CLASS
-3 3.7869e+10 1.2623e+10 1304.0318 &lt; 2.2e-16 ***
-GENDER
-1 4.7271e+08 4.7271e+08 48.8334 4.350e-12 ***
-AGE
-1 6.6423e+06 6.6423e+06 0.6862 0.407612
-STATE:CLASS 27 7.8659e+09 2.9133e+08 30.0960 &lt; 2.2e-16 ***
-STATE:GENDER 10 2.7570e+08 2.7570e+07 2.8482 0.001634 **
-CLASS:GENDER 3 4.6128e+08 1.5376e+08 15.8841 3.733e-10 ***
-Residuals 1361 1.3175e+10 9.6801e+06
----
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-1. R-Squared and Adjusted R-Squared increased to above 80% and hence the model is a
-better fit compared to the earlier models
-
----
-
-2. Interaction effect between a few classes and states emerged out to be very
-significant (State 6 and Class F6 came out to be significantly negative). Though State
-15 came out to be significantly negative when main effects alone were considered,
-the interaction effects compensated that negative significantly when interacted with
-class C6 and Class 11 whereas the interaction coefficient is not significant between
-State 15 and Class F6 indicating that the claims paid is significantly lesser when the
-state is 15 and class is F6 compared to other rating classes. Digging deeper into the
-relationships is possible with the interaction effect. Similarly main effect of Gender is
-significantly negative compared to females but that is offset to some extent for some
-states (2,3,7,15) and for some rating classes (C6) whereas it is further negative in
-case of F6. So the differences can be magnified by considering the interaction
-effects, improving the predictability of the model
+* Though State 15 came out to be significantly negative when main effects alone were considered,
+the interaction effects compensated that negative significantly when interacted with class C6 and Class 11 whereas the interaction coefficient is not significant between State 15 and Class F6 indicating that the claims paid is significantly lesser when the
+state is 15 and class is F6 compared to other rating classes. 
+* Digging deeper into the relationships is possible with the interaction effect. 
+* Similarly main effect of Gender is significantly negative compared to females but that is offset to some extent for some
+states (2,3,7,15) and for some rating classes (C6) whereas it is further negative in case of F6. 
+* So the differences can be magnified by considering the interaction effects, improving the predictability of the model
 
 
 ---
 
-3.
+#### Exercise 3
 ANOVA table for the model suggests that except the age all the main effects and
 their interaction effects are significant at 5% significance level
 indicating their
 contribution to the predictability of the model
 
+---
 
 ---
 
@@ -342,27 +390,22 @@ Part (i) and Part (ii) were attempted by maximum number of students. Many of the
 were successful in writing the code to fit a linear regression model but only successful
 students were able to provide a good interpretation of the results. Likewise many
 students were able to write the code for plotting but very few of them ended up in
-writing the interpretations based on the graphs. Part (iii) was not attempted by many
+writing the interpretations based on the graphs. 
+
+---
+
+Part (iii) was not attempted by many
 students and those who attempted also ended up in writing wrong functions. Overall,
-this question was very poorly done. Part (iv) was attempted well, code was written well
-but a few ended up in writing correct interpretations. Part (v) was attempted by a few
+this question was very poorly done. 
+
+Part (iv) was attempted well, code was written well
+but a few ended up in writing correct interpretations. 
+
+Part (v) was attempted by a few
 students only and many of them failed to provide appropriate interpretation.
+---
 
-%
-
-
-Performance of students in CS1B varied drastically. Only a few questions were
-answered successfully by majority of the participants
-R code was used well by majority of the participants but they failed to make
-interpretations based on the results of the code
-Topics wise, students showed a good understanding of the regression models, data
-analysis and visualizations but the topics on distributions, Hypothesis testing were not
-addressed well.
-The level of interpretation and the comments provided next to the R Code varied
-significantly among the students.
-A good number of students failed in submitting/pasting the output for a few R
-Functions which resulted in them losing a few marks.
-
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

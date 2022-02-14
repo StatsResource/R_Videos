@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -18,45 +18,47 @@ class: center, middle, inverse, title-slide
 
 
 
-Q. 4)
-(4)
-[30]
+
 Consider the data set ‘Covid_2019.csv’ (name it covid19) where the first row of the csv file
 contains the headings for the columns.
 
 
-Exercises
-===================================================================================================
+#### Exercises
 i)
 Print the number of missing values in each of the columns and create a new data set
 ‘covid19_1’ by removing all the missing values.
-(4)
 From covid19_1, use the columns from Population Density (8th column) to Life Expectancy
 (17th column) to answer the following questions.
+
 ii) Create a new data frame “Covid_Cluster” containing only the above mentioned
 columns. Normalize all the columns of the data frame using the scale function. (3)
+
 iii) Classify the countries into five groups by using the values obtained from (ii) applying
 K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
 executing the algorithm. Print the number of countries in each cluster. 
 
-Exercises
-===================================================================================================
+
+#### Exercises
+
 iv) What proportion of total countries in each cluster are severe with respect to COVID-
 19? You can use the “Severe” column from the original dataset. (5)
 v) Print the total number of cases and total number of deaths for each cluster.
+
+--- 
 
 http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_COVID_2019.csv
 CS2B_Mortality_Investigation
 http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
 
-===================================================================================================
-Solution 4:
-i)
+
+---
+
+#### Exercise 1
 
 
 ```r
 covid19 &lt;- read.csv("Covid_2019.csv")
-missingvalues&lt;-sapply(covid19,FUN = function(x)sum(is.na(x)))
+missingvalues &lt;- sapply(covid19,FUN = function(x)sum(is.na(x)))
 missingvalues
 ```
 
@@ -81,26 +83,7 @@ missingvalues
 ##                          3                          0
 ```
 
-&gt; missingvalues
-Continent Country
-total_case
-0 0 total_deaths total_cases_per_million 0 0 population population_density median_ag
-0 11 2
-aged_65_older gdp_per_capita cardiovasc_death_rat
-27 27 2
-diabetes_prevalence female_smokers male_smoker
-17
-1
-hospital_beds_per_thousand
-e
-45
-0 69 7
-life_expectancy Sever
-s
-0
-total_deaths_per_millio
-n
-0
+
 e
 4
 e
@@ -114,24 +97,21 @@ covid19_1&lt;-na.omit(covid19)
 
 ---
 
-Part 2
-====================================================================================
-ii)
+#### Part 2
+
 
 
 ```r
 Covid_Cluster&lt;-covid19_1[,c("population_density","median_age","aged_65_older","gdp_per_capita",
 "cardiovasc_death_rate","diabetes_prevalence","female_smokers",
 "male_smokers","hospital_beds_per_thousand","life_expectancy")]
+
 Covid_Cluster&lt;-scale(Covid_Cluster)
 ```
 
 ---
 
-Part 3
-====================================================================================
-iii)
-Page 10 of 11IAI
+#### Part 3
 
 
 ```r
@@ -146,8 +126,7 @@ cluster1$size
 
 ---
 
-Part 4
-====================================================================================
+#### Part 4
 
 
 
@@ -172,8 +151,7 @@ table(covid19_1$cluster,covid19_1$Severe)
 
 ---
 
-Part 4
-====================================================================================
+#### Part 4
 
 
 
@@ -224,9 +202,7 @@ Yes
 ---
 
 
-Part 5
-====================================================================================
-v)
+#### Part 5
 
 
 ```r
@@ -254,15 +230,8 @@ aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
 ## 4       4        32231
 ## 5       5        56431
 ```
-&gt; aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
-cluster total_cases
-1
-1
-1467904
-2
-2
-658083
-3
+
+---
 
 
 ```r

@@ -1,13 +1,40 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
 ---
 
 
@@ -26,11 +53,13 @@ Draw the graph of hazard function for the gamma distribution with parameters $\a
 
 ---
 
+### Hazard Functions
+
 The hazard function $h(x)$ for a distribution is defined as the ratio between its probability density function and its survival function.
 
 Survival functions are most often used in reliability and related fields. The survival function is the probability that the variate takes a value greater than x.
 
-$$ S(x) = Pr[X gt x ] = 1 − F(x) $$
+$$ S(x) = Pr[X \geq x ] = 1 − F(x) $$
 
 ---
 
@@ -38,20 +67,32 @@ $$ S(x) = Pr[X gt x ] = 1 − F(x) $$
 
 
 ```{r}
-pdf <-function(x) {dgamma(x,0.75,0.3)}
+pdf <-function(x) {dgamma(x,0.75,0.5)}
 
 plot.function(pdf,0,10)
 ```
 
 
---- 
+---
 
+
+#### Cumulative Distribution Function
+
+
+```{r}
+cdf <-function(x) {pgamma(x,0.75,0.5)}
+
+plot.function(cdf,0,10)
+```
+
+
+---
 
 #### Survival Function
 
 
 ```{r}
-sf <-function(x){ 1-pgamma(x,0.75,0.3) }
+sf <-function(x){ 1-pgamma(x,0.75,0.5) }
 
 plot.function(sf,0,10)
 title("Survival Function")
@@ -61,12 +102,24 @@ title("Survival Function")
 
 ---
 
+#### Survival Function
+
+```{r}
+sf <-function(x){ pgamma(x,0.75,0.5,lower.tail = FALSE) }
+
+plot.function(sf,0,10)
+title("Survival Function")
+
+```
+
+
+---
 
 #### Hazard Function
 
 
-```{r}
-h1<-function(x) {dgamma(x,0.75,0.3)/(1-pgamma(x,0.75,0.3))}
+```{r eval = FALSE}
+h1<-function(x) {dgamma(x,0.75,0.5)/pgamma(x,0.75,0.5,lower.tail = FALSE)}
 
 plot.function(h1,0,10)
 title("Hazard Function 1")
@@ -74,17 +127,40 @@ title("Hazard Function 1")
 
 ```
 
+---
+
+#### Hazard Function
+
+
+```{r echo=FALSE,warning=FALSE}
+h1<-function(x) {dgamma(x,0.75,0.5)/pgamma(x,0.75,0.5,lower.tail = FALSE)}
+
+plot.function(h1,0,10)
+title("Hazard Function 1")
+
+
+```
 
 ---
 
 
 ## Part (b)
 
-Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 1$ and $\lambda  = 0.3$. 
+Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 1$ and $\lambda  = 0.5$. 
 
 
-```{r}
-h2<-function(x) {dgamma(x,1,0.3)/(1-pgamma(x,1,0.3))}
+```{r eval=FALSE}
+h2<-function(x) {dgamma(x,1,0.5)/pgamma(x,1,0.5,lower.tail = FALSE)}
+
+plot.function(h2,0,10)
+
+```
+
+
+---
+
+```{r echo=FALSE,warning=FALSE}
+h2<-function(x) {dgamma(x,1,0.5)/(1-pgamma(x,1,0.5))}
 
 plot.function(h2,0,10)
 ```
@@ -93,13 +169,14 @@ plot.function(h2,0,10)
 ---
 
 
+
 ## Part (c)
 
-Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 1.5$ and $\lambda  = 0.3$. 
+Draw the graph of hazard function for the gamma distribution with parameters $\alpha  = 1.5$ and $\lambda  = 0.5$. 
 
 
-```{r}
-h3<-function(x) {dgamma(x,1.5,0.3)/(1-pgamma(x,1.5,0.3))}
+```{r eval=FALSE}
+h3<-function(x) {dgamma(x,1.5,0.5)/(1-pgamma(x,1.5,0.5))}
 
 plot.function(h3,0,10)
 ```
@@ -108,17 +185,26 @@ plot.function(h3,0,10)
 ---
 
 
+```{r echo =FALSE}
+h3<-function(x) {dgamma(x,1.5,0.5)/(1-pgamma(x,1.5,0.5))}
+
+plot.function(h3,0,10)
+```
+
+
+---
+
 ## Part (d)
 
 Comment on the thickness of the tails of the distribution of ***Part (b)*** with the tails of ***Part (a)*** and
 ***Part (c)***.
 
 
-* If $\alpha  &lt; 1$, it is a decreasing function of x and thus indicating a heavier tail than the exponential
+* If $\alpha  \leq 1$, it is a decreasing function of x and thus indicating a heavier tail than the exponential
 distribution. 
 
 
-* If $\alpha  &gt; 1$, it is a increasing function of x and thus indicating a lighter tail than the exponential
+* If $\alpha  \geq 1$, it is a increasing function of x and thus indicating a lighter tail than the exponential
 distribution. 
 
 

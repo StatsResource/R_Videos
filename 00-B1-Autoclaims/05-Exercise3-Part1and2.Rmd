@@ -18,6 +18,10 @@ output:
 library(readr)
 library(magrittr)
 
+```
+
+```{r}
+#### Load the Autoclaims Data
 AutoClaims <- read_csv("data/AutoClaims.csv")
 
 
@@ -36,30 +40,36 @@ significant variables in the prediction of “PAID” claims.
 ---
 
 
-Solution 3:
-i)
+
 ```{r}
 #Fitting a Linear Regression Model
+
 model1<-lm(PAID~.,data = AutoClaims)
+
 summary(model1)
 ```
 
 
 ---
 
-Interpretation
-=============================
-R-Squared: 68.86% of the variation in the claims paid is explained by state, rating class,
+#### Interpretation
+
+* ***R-Squared:*** 68.86% of the variation in the claims paid is explained by state, rating class,
 gender and age
 
-Adjusted R-Squared: 68.52% is used to compare with other models, adjusts for the number of terms in the model. We Use adjusted R-squared to compare the goodness-of-fit for regression models that contain differing numbers of independent variables.
+* ***Adjusted R-Squared:*** 68.52% is used to compare with other models, adjusts for the number of terms in the model. We Use adjusted R-squared to compare the goodness-of-fit for regression models that contain differing numbers of independent variables.
 
 
-p-value of the model is <2.2*E-16 which is less than 0.05 and hence the null hypothesis of “There is no significant linear relationship between the given independent variables X and a dependent variable Y” is rejected at 5% level of significance. Using this model to predict the DV is better than simply using the expected value of the DV as a predictor for the DV
+* ***p-value**: The p-value of the model is <2.2*E-16 which is less than 0.05. 
+Hence the null hypothesis of “***There is no significant linear relationship between the given independent variables X and a dependent variable Y***” is rejected at 5% level of significance. 
+Using this model to predict the DV is better than simply using the expected value of the DV as a predictor for the DV
 
 ---
 
-p-value of the coefficients: While the model is overall significant, some of the variables may be insignificant. As state 1, Rating class C1 and Gender female are taken as based states and
+#### p-value of the coefficients: 
+While the model is overall significant, some of the variables may be insignificant. 
+
+* As state 1, Rating class C1 and Gender female are taken as based states and
 their coefficients are clubbed in the intercept itself, we observe that coefficients of State 2 and state 15 (Negative) and State 10 (Positive) are significantly different from state 1 (At
 95% Confidence level). 
 
@@ -71,9 +81,9 @@ significantly lesser compared to that of C1.
 
 ---
 
-## Exercise
+### Exercise 2
 
-ii)
+
 ```{r}
 #Plot of residuals vs. Fitted Values
 plot(model1$fitted.values,model1$residuals)
@@ -81,6 +91,7 @@ plot(model1$fitted.values,model1$residuals)
 
 ---
 
+#### Plot of residuals vs. Fitted Values
 
 * The plot is used to detect non-linearity, unequal error variances, and outliers.
 * The residuals "do not bounce randomly" around the 0 line. This suggests that the assumption that the relationship is linear is not reasonable.
@@ -95,9 +106,14 @@ plot(model1$fitted.values,model1$residuals)
 qqnorm(model1$residuals)
 ```
 
+
+---
 A Q-Q plot is a scatterplot created by plotting two sets of quantiles against one another. 
 If both sets of quantiles came from the same distribution, we should see the points forming a line that’s roughly straight. Here it is not, indicating deviance of the residuals from
 normality. Thus linear regression may not be a better fit to the data. 
+
+
+---
 
 
 ---

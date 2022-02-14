@@ -1,8 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Modelling Data with R"
-author: "Dragonfly Stats"
-date: "2016/12/12"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,7 +9,34 @@ output:
       countIncrementalSlides: false
 ---
 
-[17]
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
 Q. 5) A primary school has two wings A and B. The students can change their Wing freely. It was 
 observed that the rate of movement is dependent on the age ‘x’ of the student (ranging from 
 5 to 15). The rate of movement from A to B = [0.08*x – 0.2] and the rate of movement from 
@@ -41,6 +66,7 @@ sigmaBA=function(x){
 
 ---
 
+```{r}
 gen.matrix=function(x){ 
  muAB=sigmaAB(x) 
  muBA=sigmaBA(x) 
@@ -50,18 +76,21 @@ gen.matrix=function(x){
  X =(matrix(movement.rates, 2, 2)) 
  X} 
  
-gen.matrix(12) 
-> gen.matrix(12) 
- [,1] [,2] 
-[1,] -0.76 0.76 
-[2,] 0.70 -0.70 
-Thus, the rates are 0.70 (from B to A) and 0.76 (from A to B). 
+``` 
 
 ---
 
-ii)
-ii) Over a very small time period h, the transition probability matrix P(t,t+h) can be 
-approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. Using this, calculate the 
+```{r}
+gen.matrix(12) 
+``` 
+
+---
+#### Exercise 2
+
+Over a very small time period h, the transition probability matrix P(t,t+h) can be 
+approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. 
+
+Using this, calculate the 
 probability that a 8 year old will move to Wing B in next 5 years in case h=1/365. 
 
 ---
@@ -83,10 +112,7 @@ calc.prob.matrix=function(s,t,h){
 ```{r}
 calc.prob.matrix(8,5,1/365) 
 ```
-> calc.prob.matrix(8,5,1/365) 
- [,1] [,2] 
-[1,] 0.6317483 0.3682517 
-[2,] 0.5260447 0.4739553 
+
 The rate of moving to Wing B = 0.3682517. 
 
 ---

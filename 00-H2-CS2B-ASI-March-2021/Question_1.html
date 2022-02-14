@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+* This presentation features Time Series Analysis, and is split into two parts
+
+---
+
+
+### Part A
+
+The data file “Expenses.csv” contains records of last 5 years monthly expenses paid by a 
+company starting from January 2015. 
+
+### Exercises
+
+1. Import the data and classify it as a time series object, specifying the relevant dates. 
+
+2. Assuming that the data shows yearly seasonal variation, remove the seasonality from 
+the data using seasonal differencing. 
+
+3. Plot a graph showing the actual data, the trend line, the trend + seasonal line and any 
+remaining un-trended number. Plot them in the same graph and use different colour 
+lines for each of the series. 
+
+
+---
+
+### Exercise 1
+
+
+```r
+expenses &lt;- read.csv("Expenses.csv") 
+
+class( expenses)
+```
+
+```
+## [1] "data.frame"
+```
+
+```r
+dim(expenses)
+```
+
+```
+## [1] 119   1
+```
+
+
+```r
+expenses &lt;- ts(expenses ,frequency=12,start=c(2015,1)) 
+
+class( expenses)
+```
+
+```
+## [1] "ts"
+```
+
+---
+
+
+```r
+expenses 
+```
+
+```
+##       Jan  Feb  Mar  Apr  May  Jun  Jul  Aug  Sep  Oct  Nov  Dec
+## 2015  451  580  750  680 1000  992  692  620  585  464  435  402
+## 2016  458  580  760  682 1100 1092  694  622  585  471  437  408
+## 2017  462  570  760  682 1050 1042  694  622  575  475  443  406
+## 2018  460  585  770  690 1070 1062  702  630  590  473  441  410
+## 2019  465  560  775  692 1090 1082  704  632  565  478  445  415
+## 2020  468  550  775  700 1111 1103  712  640  555  481  450  420
+## 2021  470  575  772  702 1120 1112  714  642  580  483  455  430
+## 2022  471  580  785  705 1120 1112  717  645  585  484  465  425
+## 2023  475  590  790  710 1135 1127  722  650  595  488  460  435
+## 2024  478  610  810  715 1130 1122  727  655  615  491  470
+```
+---
+
+
+```r
+plot(expenses) 
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+decomposed &lt;-(decompose(expenses,type="additive")) 
+
+plot(decomposed)
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+trend &lt;- decomposed$trend 
+
+seasonal &lt;- decomposed$seasonal 
+
+random &lt;- decomposed$random 
+```
+
+---
+
+
+
+```r
+random 
+```
+
+```
+##               Jan          Feb          Mar          Apr          May
+## 2015           NA           NA           NA           NA           NA
+## 2016   0.45307677  12.27715085  -7.17192323  -5.31081211   7.26789159
+## 2017  11.78641011   9.77715085   0.82807677   3.23085455 -34.23210841
+## 2018   3.70307677  18.02715085   2.70307677   2.31418789 -22.56544174
+## 2019   4.11974344 -11.05618248   5.53641011   3.52252122  -3.89877508
+## 2020   3.86974344 -24.80618248   0.91141011   6.35585455  11.97622492
+## 2021   0.86974344  -4.30618248  -7.79692323   1.23085455  13.89289159
+## 2022  -3.83858989  -5.09784915   0.20307677   0.10585455   9.60122492
+## 2023  -5.83858989  -1.26451582  -1.25525656  -1.68581211  18.30955826
+## 2024  -8.42192323  13.15215085  12.74474344  -3.06081211   6.35122492
+##               Jun          Jul          Aug          Sep          Oct
+## 2015           NA  10.42066937  10.39289159  29.61511381  10.55492863
+## 2016   7.93745177  -7.28766397  -6.77377508  11.28178048  -0.27840471
+## 2017 -33.39588156   1.96233603   1.68455826   8.28178048   9.97159529
+## 2018 -21.64588156   1.17066937   2.26789159  17.74011381   2.88826196
+## 2019  -3.27088156   1.58733603   2.14289159  -9.80155285   5.30492863
+## 2020  12.56245177   4.46233603   3.60122492 -27.67655285   0.80492863
+## 2021  14.27078511  -0.99599730  -0.98210841  -9.09321952  -4.32007137
+## 2022  10.39578511  -1.37099730  -1.69044174  -7.67655285  -6.65340471
+## 2023  19.10411844  -3.24599730  -3.94044174  -5.96821952 -11.57007137
+## 2024           NA           NA           NA           NA           NA
+##               Nov          Dec
+## 2015   7.62437307  -1.39414545
+## 2016  -1.87562693   5.60585455
+## 2017   7.12437307   0.77252122
+## 2018   0.29103974  -0.06081211
+## 2019   1.41603974   1.98085455
+## 2020  -0.33396026   1.23085455
+## 2021  -2.12562693   5.18918789
+## 2022   3.83270640  -5.10247878
+## 2023  -9.25062693  -1.51914545
+## 2024           NA
+```
+
+---
+
+
+
+```r
+plot(random )
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+### Exercise 3
+
+
+```r
+ts.plot(expenses,ylab="",main="Components of time series ", 
+        col="dark grey") 
+
+lines(trend,col="red") 
+lines(seasonal+trend,col="blue") 
+lines(random,col="yellow") 
+```
+
+
+---
+
+![](Question_1_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+---
+
+
+### Exercise 3
+
+
+```r
+ts.plot(expenses,ylab="",main="Components of time series ", 
+        col="dark grey") 
+lines(seasonal+trend,col="green")
+```
+
+
+---
+
+### Trend and Seasonal Component
+
+
+```r
+ts.plot(seasonal,ylab="",
+        main="Components of time series ", 
+        col="grey",
+        ylim=c(0,1300)) 
+lines(trend,col="blue")  
+```
+
+
+---
+
+![](Question_1_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+ts.plot(random,ylab="",main="Components of time series ", 
+        col="dark green") 
+```
+
+---
+
+![](Question_1_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+---
+
+### Part B
+Import the time series data file “ARIMA.csv” and answer the below questions. 
+
+#### Exercises
+
+4. Plot a graph for the above time series data “ARIMA.csv”. 
+
+5. Plot two graphs to show the ACF and PACF for the time series provided. 
+
+6. Comment on the stationarity of the data based on the above graphs. 
+
+---
+  
+### Exercise 1
+
+
+```r
+ARIMAdata&lt;-read.csv("ARIMA.csv") 
+```
+
+
+```r
+head(ARIMAdata)
+```
+
+```
+##   X557
+## 1  651
+## 2  273
+## 3  707
+## 4  232
+## 5  351
+## 6  109
+```
+
+---
+  
+### Exercise 1
+
+
+```r
+ARIMAdata&lt;-read.csv("ARIMA.csv",header=FALSE) 
+```
+
+
+```r
+head(ARIMAdata)
+```
+
+```
+##    V1
+## 1 557
+## 2 651
+## 3 273
+## 4 707
+## 5 232
+## 6 351
+```
+
+---
+
+
+```r
+class(ARIMAdata)
+```
+
+```
+## [1] "data.frame"
+```
+
+
+
+```r
+dim(ARIMAdata)
+```
+
+```
+## [1] 100   1
+```
+---
+
+
+
+```r
+ts.plot(ARIMAdata,main="Time series data",ylab="Data") 
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+---
+ 
+### Exercise 2
+
+
+```r
+ acf(ARIMAdata, main="Time series data ",ylab="sample ACF") 
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+ pacf(ARIMAdata, main=" Time series data",ylab="sample PACF") 
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+---
+
+### Exercise 3
+
+The ACF drops to zero relatively quickly, denoting the series is stationary. 
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,26 +1,97 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
-```R
-#sessionInfo()
+options(scipen = 2, digits = 3) #set to two decimal 
 ```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 
 ## Exercise 1
 
-Monthly totals of airline passengers are given in time series data ‘AirPassengers’.
+Monthly totals of airline passengers are given in time series data ‘***AirPassengers***’.
 
 Plot the data as time series with frequency =12.
 
+---
+
+### AirPassengers 
+
+Monthly Airline Passenger Numbers 1949-1960
+
+#### Description
+The classic Box & Jenkins airline data. Monthly totals of international airline passengers, 1949 to 1960.
+
+#### Usage
+```{r eval=FALSE}
+AirPassengers
+```
+
+#### Format
+A monthly time series, in thousands.
+
+#### Source
+
+Box, G. E. P., Jenkins, G. M. and Reinsel, G. C. (1976) Time Series Analysis, Forecasting and Control. Third Edition. Holden-Day. Series G.
+
+---
+
+#### AirPassengers
+
+```{r}
+AirPassengers
+```
 
 
-```R
+---
+
+```{r eval =FALSE}
 apts <- ts(AirPassengers, frequency=12)
 
 plot(apts)
 ```
 
 
-![png](output_2_0.png)
+---
 
+```{r echo=FALSE}
+apts <- ts(AirPassengers, frequency=12)
+
+plot(apts)
+```
+
+
+---
 
 ## Exercise 2
 
@@ -28,34 +99,47 @@ Plot the acf function.
 
 
 
-```R
+```{r eval=FALSE}
 
 acf(apts)
 ```
 
 
-![png](output_4_0.png)
+---
+
+
+```{r echo=FALSE}
+
+acf(apts)
+```
+
+
+---
 
 
 ## Exercise 3
 
 Decompose the trend, seasonality and randomness for the data.
 
-(Hint: use ``decompose()`` function.)
+(Hint: use  ***decompose()*** function.)
 
 
 
-```R
+```{r eval=FALSE}
 f <- decompose(apts)
 plot(f)
 
+```
 
+---
+
+```{r echo=FALSE}
+f <- decompose(apts)
+plot(f)
 
 ```
 
-
-![png](output_6_0.png)
-
+---
 
 ## Exercise 4
 
@@ -64,58 +148,28 @@ Fit Arima model.
 
 
 
-```R
-fit <- arima(AirPassengers, order=c(1,0,0), list(order=c(2,1,0), period=12))
+```{r}
+fit <- arima(AirPassengers, 
+             order=c(1,0,0), 
+             list(order=c(2,1,0), period=12))
 fit
-
-
 ```
 
-
-    
-    Call:
-    arima(x = AirPassengers, order = c(1, 0, 0), seasonal = list(order = c(2, 1, 
-        0), period = 12))
-    
-    Coefficients:
-             ar1     sar1    sar2
-          0.9458  -0.1333  0.0821
-    s.e.  0.0284   0.1035  0.1078
-    
-    sigma^2 estimated as 143.1:  log likelihood = -516.18,  aic = 1040.37
+---
 
 
-
-```R
+```{r}
 class(fit)
 ```
 
 
-'Arima'
 
 
-
-```R
+```{r}
 summary(fit)
 ```
 
-
-              Length Class  Mode     
-    coef        3    -none- numeric  
-    sigma2      1    -none- numeric  
-    var.coef    9    -none- numeric  
-    mask        3    -none- logical  
-    loglik      1    -none- numeric  
-    aic         1    -none- numeric  
-    arma        7    -none- numeric  
-    residuals 144    ts     numeric  
-    call        4    -none- call     
-    series      1    -none- character
-    code        1    -none- numeric  
-    n.cond      1    -none- numeric  
-    nobs        1    -none- numeric  
-    model      10    -none- list     
-
+---
 
 ## Exercise 5
 
@@ -123,7 +177,7 @@ Predict the data for next 24 months.
 
 
 
-```R
+```{r}
 # "fore" for forecast
 
 fore <- predict(fit, n.ahead=24)
@@ -131,44 +185,21 @@ fore <- predict(fit, n.ahead=24)
 fore
 ```
 
-
-<dl>
-	<dt>$pred</dt>
-		<dd><table>
-<caption>A Time Series: 2 x 12</caption>
-<thead>
-	<tr><th></th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr>
-</thead>
-<tbody>
-	<tr><th>1961</th><td>445.0772</td><td>418.6286</td><td>451.3255</td><td>485.0739</td><td>496.9859</td><td>555.4025</td><td>641.1830</td><td>627.2158</td><td>528.6446</td><td>478.3612</td><td>410.0384</td><td>452.4290</td></tr>
-	<tr><th>1962</th><td>463.4606</td><td>435.4701</td><td>463.6918</td><td>501.9637</td><td>511.8873</td><td>571.0617</td><td>657.1925</td><td>640.0611</td><td>540.7620</td><td>491.0499</td><td>419.6633</td><td>461.3783</td></tr>
-</tbody>
-</table>
-</dd>
-	<dt>$se</dt>
-		<dd><table>
-<caption>A Time Series: 2 x 12</caption>
-<thead>
-	<tr><th></th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr>
-</thead>
-<tbody>
-	<tr><th>1961</th><td>11.96267</td><td>16.46600</td><td>19.63824</td><td>22.09347</td><td>24.07871</td><td>25.72521</td><td>27.11359</td><td>28.29798</td><td>29.31703</td><td>30.19955</td><td>30.96776</td><td>31.63920</td></tr>
-	<tr><th>1962</th><td>35.68346</td><td>38.94721</td><td>41.65083</td><td>43.92872</td><td>45.87078</td><td>47.54098</td><td>48.98693</td><td>50.24524</td><td>51.34481</td><td>52.30891</td><td>53.15659</td><td>53.90364</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-
+---
 
 
 ## Exercise 6
 
 Find upper and lower bound of fitted data and plot the same along with predicted data with legends.
 
+```{r}
+U <- fore$pred + 2*fore$se 
+L <- fore$pred - 2*fore$se 
 
+c(U,L)
+```
 
-
-```R
+```{r eval=FALSE}
 ts.plot(AirPassengers, fore$pred, U, L, 
         col=c(1,2,4,4), 
         lty = c(1,1,2,2))
@@ -179,16 +210,18 @@ legend("topleft",
        lty=c(1,1,2))
 ```
 
-
-    Error in ts.plot(AirPassengers, fore$pred, U, L, col = c(1, 2, 4, 4), : object 'U' not found
-    Traceback:
+---
 
 
-    1. ts.plot(AirPassengers, fore$pred, U, L, col = c(1, 2, 4, 4), 
-     .     lty = c(1, 1, 2, 2))
+```{r echo=FALSE}
+ts.plot(AirPassengers, fore$pred, U, L, 
+        col=c(1,2,4,4), 
+        lty = c(1,1,2,2))
 
-
-
-```R
-
+legend("topleft", 
+       c("Actual", "Forecast", "Error Bounds (95% Confidence)"),
+       col=c(1,2,4), 
+       lty=c(1,1,2))
 ```
+
+---

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+
+
+Suppose the transition probabilities are a function of the age of a person. The transition
+probability of a person aged x moving:
+
+* from Healthy to Sick state is 0.007x
+* from Healthy to Death state is 0.001x
+* from Sick to Death state is 0.002(100-x)
+* from Sick to Healthy is 0.006(100-x).
+
+#### Exercises
+
+Assuming 100 is the maximum age. Calculate the probability of:
+
+1.  Healthy person aged 30 will be in Sick state after 4 years.
+
+2.  Sick person aged 25 will be in Death state after 7 years.
+
+---
+
+The transition matrix can be characterized as follows:
+$$
+`\begin{pmatrix}
+1-H2S(x)-H2D(x) &amp; H2S(x) &amp; H2D(x) \\
+S2H(x) &amp; 1-S2H(x)-S2D(x) &amp; S2D(x) \\
+0 &amp; 0 &amp; 1 \\
+\end{pmatrix}`
+$$
+
+N.B. This matrix varies for differing values of `\(x\)`, and hence the process is not a Markov Process.
+
+---
+
+
+
+```r
+H2S&lt;-function(x){ 0.007*x}
+H2D&lt;-function(x){ 0.001*x}
+S2H&lt;-function(x){ 0.006*(100-x)}
+S2D&lt;-function(x){ 0.002*(100-x)}
+```
+
+
+---
+
+
+```r
+transmat&lt;-function(x){
+  M&lt;-matrix(0,nrow=3,ncol=3)
+  M[1,1] &lt;- 1 - H2S(x) - H2D(x)
+  M[1,2] &lt;- H2S(x)
+  M[1,3] &lt;- H2D(x)
+  M[2,1] &lt;- S2H(x)
+  M[2,2] &lt;- 1 - S2H(x) - S2D(x)
+  M[2,3] &lt;- S2D(x) 
+  M[3,1] &lt;- 0
+  M[3,2] &lt;- 0
+  M[3,3] &lt;- 1
+  M
+}
+```
+
+---
+
+
+```r
+transmat(30)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,] 0.76 0.21 0.03
+## [2,] 0.42 0.44 0.14
+## [3,] 0.00 0.00 1.00
+```
+
+---
+
+
+```r
+transmat(25)
+```
+
+```
+##      [,1]  [,2]  [,3]
+## [1,] 0.80 0.175 0.025
+## [2,] 0.45 0.400 0.150
+## [3,] 0.00 0.000 1.000
+```
+
+---
+
+#### Exercise 1
+
+
+```r
+n &lt;- 30
+B &lt;- c(1,0,0)
+```
+
+
+```r
+i&lt;- 1:4
+n +i-1
+```
+
+```
+## [1] 30 31 32 33
+```
+
+---
+
+
+```r
+for (i in 1:4){
+  B=B%*%transmat(n+i-1)
+  }
+```
+
+
+
+```r
+B
+```
+
+```
+##       [,1]  [,2]  [,3]
+## [1,] 0.545 0.261 0.194
+```
+Hence the probability of Healthy person aged 30 will be in Sick state after 4 years is 0.2608138.
+
+
+---
+
+#### Exercise 2.
+
+
+```r
+n &lt;- 25
+C &lt;- c(0,1,0)
+for (i in 1:7){
+  C=C%*%transmat(n+i-1)
+  }
+```
+
+
+
+```r
+C
+```
+
+```
+##       [,1]  [,2]  [,3]
+## [1,] 0.395 0.172 0.433
+```
+
+Hence the probability of sick person aged 25 will be in Death state after 7 years is 0.4333386.
+
+---
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
