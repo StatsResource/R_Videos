@@ -36,99 +36,81 @@ pre {
 
 ---
 
-A statistician wants to model the number of passengers boarding a bus from a bus stop close to a student residential area. They can think of three explanatory variables: 
+An analysis was carried out to investigate the fairness of two exam markers. They 
+both marked the same 150 exam papers, with 10 questions and total possible marks of 
+100 for each exam paper. The data were collected and arranged into 10 equally spaced 
+groups, with marks rounded to the nearest whole number. 
+Below are the frequencies of the marks given by each of the exam markers: 
 
-* Route which route it is (at 8 am or 9 am),
-* Semester - if it is during the semester or not, and the 
-* Temperature temperature (temp) in degrees Celsius. 
-
+Exam marks 0–10 11–20 21–30 31–40 41–50 51–60 61–70 71–80 81–90 91–100
+Marker 1 1 8 14 22 33 34 21 9 6 2 
+Marker 2 0 4 16 25 27 42 23 4 9 0 
+ 
 ---
-
-* The statistician has data for 20 days, given in 
-the file named CS1passenger.RData, and believes that the response variable 
-(Passengers) follows a Poisson distribution. After loading the data into R, the data 
-frame data_passenger with all variables (Passengers, route, 
-semester, temp) will be available. 
-
-
----
+ 
+You can enter the exam marks for Marker 1 and Marker 2 into R using: 
 
 
 ```r
-PassengerData &lt;- read.csv("PassengerData.csv")
-head(PassengerData)
+marks_1 = c(1,8,14,22,33,34,21,9,6,2) 
+marks_2 = c(0,4,16,25,27,42,23,4,9,0)  
 ```
 
-```
-##   Passengers route    semester temp
-## 1          3   8am    semester  8.8
-## 2          1   9am nonSemester 11.5
-## 3          1   8am nonSemester 12.0
-## 4          3   8am    semester 14.8
-## 5          0   8am nonSemester -1.2
-## 6          0   8am nonSemester  7.8
-```
+---
 
+### Exercise 1
+
+Plot two graphs, one for each marker, for the distribution of the exam 
+marks given by the two markers. 
+[Hint: You may find the R command barplot() useful.] 
+(b) Comment on the graphs produced in part (i)(a). 
 
 ---
 
-###  Exercise 1
+One of the marked exam papers is selected at random and the scores given by each of 
+the markers are analysed further by question. Below are the scores given by each of 
+the exam markers for this selected exam paper for each of the 10 questions: 
+Question 1 2 3 4 5 6 7 8 9 10 
+Marker 1 4 1 5 1 4 6 4 5 3 6 
+Marker 2 3 2 4 0 3 4 2 3 3 6 
 
-State the linear predictor corresponding to models specified with the following R code, explaining all relevant terms: 
-
-a. temp+semester 
-b. temp*semester 
-c. temp*semester + route 
-
-
----
-
-### Part 2
-
-Fit a Poisson Generalised Linear Model (GLM) to the data set for the 
-model. Label this model as Model1. Your answer should 
-include a summary of the fitted model. Comment on the significance of the parameters of the model. 
-
----
-
-### Part 3
-
- Fit an improved model for the model in part (ii)(a), using your answer 
-in part (ii)(b). Label this model as Model2. 
-(b) Justify why Model2 improves Model1 by referring to the R output. 
-You are given a new model (Model3), specified by the following R code: 
-
----
-
+You can enter the scores for Marker 1 and Marker 2 into R using: 
 
 
 ```r
-Model3 &lt;- glm(Passengers~temp+temp:semester,data=PassengerData,family=poisson(link="log"))
+marker_1 = c(4,1,5,1,4,6,4,5,3,6) 
+marker_2 = c(3,2,4,0,3,4,2,3,3,6) 
 ```
 
+---
 
---- 
+### Exercise 2
 
-### Part 4
-
-Demonstrate that Model3 outperforms the models defined in 
-parts (i)(a) and (i)(b). 
-(b) Comment on your answer in part (iv)(a). 
+Perform a suitable test to determine whether the difference in the mean scores 
+of the two markers is zero or not, at the 5% confidence level, taking into 
+account that the two markers have marked the same exam paper. 
 
 ---
 
-### Part 5
-Draw a suitable plot, for the residuals of Model3, for checking the 
-model’s validity. Comment on the plot. 
+### Exercise 3
 
+Perform the test specified in Exercise 2, ignoring that the two markers have 
+marked the same exam paper. 
+
+---
+
+### Exercise 4
+
+Comment on your conclusions from Exercises 2 and 3. 
 
 ---
 
-### Part 6
-Calculate the predicted number of passengers for an 8 am route during the 
-semester at a temperature of 0 degree Celsius, using Model3. [4] 
+### Exercise 5
+(v) Comment on the issues arising when analysing paired data as independent 
+samples, and independent samples as though they were paired. 
 
 ---
+
 
 ---
     </textarea>

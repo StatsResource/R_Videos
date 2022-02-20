@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -17,6 +17,16 @@ class: center, middle, inverse, title-slide
 ---
 
 
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
 * Introduction to R for Actuarial Students
 
 * CS1B Curriculum
@@ -29,7 +39,7 @@ class: center, middle, inverse, title-slide
 
 
 Part 1
-===========================
+
 The following amounts are the sizes of claims (in £) on house insurance policies for a 
 certain type of repair. 
 
@@ -42,21 +52,22 @@ certain type of repair.
 
 ---
 
-Part 1
-==============
+### Part 1
+
 
 Enter data in R. 
 
 
 ```r
-mydata = c(1990,2400,2150,2090,2300,2100,2180,
-                2150,2030,2100,2180,2010,2060,2160,2120)
+mydata &lt;- c(1990,2400,2150,2090,2300,
+           2100,2180,2150,2030,2100,
+           2180,2010,2060,2160,2120)
 ```
 
 ---
 
-Part 1
-==============
+### Part 1
+
 
  Calculate Q1, Q2, Q3 and Inter-quartile range. (4)
 
@@ -105,7 +116,9 @@ IQR(mydata)
 
 ---
 
-iii) Determine the sample mean and variance of the data. (2)
+### Part 3
+
+Determine the sample mean and variance of the data. 
 
 
 ```r
@@ -174,8 +187,9 @@ Since the p-value is `\(2.2\times 10^{-16}\)` is less than 5%, there is sufficie
 
 ---
 
-Part 5
-===============================
+### Part 5
+
+
 
 Assuming the data to be normally distributed, calculate the probability of a claim amount 
 exceeding £2300. 
@@ -194,8 +208,8 @@ pnorm(2300,mean = xbar , sd = sqrt(Ssquare) ,lower.tail = FALSE)
 
 ---
 
-Part 6
-========================
+### Part 6
+
 
 Calculate the revised mean and median after removing the largest two values from the 
 dataset. Comment on the result.
@@ -241,7 +255,7 @@ rev(sort(mydata))[1:2]
 mydata1 = mydata[mydata &lt; max(mydata)] 
 ```
 
-
+---
 
 
 ```r
@@ -281,9 +295,15 @@ median(mydata2)
 ## [1] 2100
 ```
 
+---
 
 Impact of removing outliers from the data has led to the mean and median being almost equal. Earlier the 
 mean was higher than median, which shows that the mean is more likely to be affected by outliers. 
+
+---
+
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

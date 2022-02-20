@@ -1,33 +1,186 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
-\noindent
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 2 - Chi Square Test
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 
 5 A waiting time random variable X follows an Exponential distribution with rate l
 parameterised as f (x) = le–lx (x > 0, l > 0).
-The rate l has a Gamma prior distribution with parameters a and s. A Bayesian
-credibility model provides that the posterior mean of 1/l can be expressed as
+The rate l has a Gamma prior distribution with parameters $a$ and $s$. 
+
+A Bayesian credibility model provides that the posterior mean of 1/l can be expressed as
 Z3x + (1– Z)3
 s
 α – 1
 , where Z = n
 α + n – 1
 with n being the number of past waiting times observed.
-Assume that the parameters of the prior Gamma distribution are a = 5 and s = 1.
+Assume that the parameters of the prior Gamma distribution are $a = 5$ and $s = 1$.
 
 
 ---
 
-(i) Determine an estimate of the posterior mean of 1/l assuming n = 10 by
+(i) Determine an estimate of the posterior mean of $1/l$ assuming $n = 10$ by
 implementing M = 3,000 Monte Carlo repetitions. 
-(ii) Determine an estimate of the posterior mean of 1/l and the value of x when
-n = 1,000, by implementing M = 3,000 Monte Carlo repetitions. [15]
-(iii) Plot the histograms of the samples of the posterior mean of 1/l and of x
+
+---
+
+#### Exercise 1
+
+```{r}
+M = 3000
+n = 10
+alpha = 5
+s = 1
+pml = numeric(M)
+```
+---
+
+```{r}
+Z = n/(alpha + n - 1) 
+
+for (i in 1:M){ 
+ lam = rgamma(1, alpha, s) 
+ x = rexp(n, lam) 
+ pml[i] = Z*sum(x)/n + (1-Z)*s/(alpha-1) 
+ }
+```
+
+---
+
+```{r}
+head(pml)
+```
+ 
+```{r}
+mean(pml)
+```
+A point estimate is given as the mean of the produced estimates, i.e.
+#mean(pml) [2]
+which gives 0.248. 
+---
+### Exercise 2
+
+Determine an estimate of the posterior mean of $1/l$ and the value of x when
+n = 1,000, by implementing M = 3,000 Monte Carlo repetitions. 
+
+This time we use the same code as in (i) but we are recording the mean of 𝑥𝑥 for the case 𝑛𝑛 =
+1000.
+
+```{r}
+M = 3000
+n = 1000
+alpha = 5
+s = 1
+pml = numeric(M)
+mx = numeric(M)
+Z = n/(alpha + n - 1)
+```
+
+---
+
+```{r}
+for (i in 1:M){
+ lam = rgamma(1, alpha, s)
+ x = rexp(n, lam)
+ mx[i] = mean(x)
+ pml[i] = Z*sum(x)/n + (1-Z)*s/(alpha-1)
+}
+
+```
+
+---
+
+```{r}
+mean(pml)
+mean(mx)
+```
+
+With this new run, both estimates are equal to 0.245.
+
+---
+
+### Exercise 3
+
+Plot the histograms of the samples of the posterior mean of $1/l$ and of x
 obtained in part (ii).
 
+
+```{r eval=FALSE}
+hist(pml, main = "Histogram of posterior means", 
+ xlab = "Posterior means")
+hist(mx, main ="Histogram of the distribution of the means of x", 
+xlab = "mean of x")
+
+```
 ---
 
-(iv) Compare, by visual inspection of the graphs in part (iii), the distributions
-of the posterior mean of 1/l and the distribution of x when n = 1,000. [2]
+```{r echo=FALSE}
+hist(pml, main = "Histogram of posterior means", 
+ xlab = "Posterior means",
+ breaks=50)
+```
+---
+
+```{r echo=FALSE}
+hist(mx, main ="Histogram of the distribution of the means of x", 
+xlab = "mean of x",
+breaks=50)
+
+```
+---
+
+### Exercise 4
+
+Compare, by visual inspection of the graphs in part (iii), the distributions
+of the posterior mean of 1/l and the distribution of x when n = 1,000.
+
+#### Conclusion
+
+The distributions look identical.
+---
+
+### Exercise 5
+
 (v) Comment on the behaviour of the credibility model as n increases, relating
-your answer to your findings in part (iv). [4]
-[Total 39]
-END OF PAPER
+your answer to your findings in part (iv). 
+
+#### Conclusion
+
+We should expect that the distributions are the same, [2]
+since the credibility factor 𝑍𝑍 tends to 1 as 𝑛𝑛 increases and therefore the posterior mean of 1⁄𝜆𝜆
+becomes 𝑥𝑥̅.
+
+---
+
+---

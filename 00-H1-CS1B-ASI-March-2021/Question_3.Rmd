@@ -39,8 +39,8 @@ monthly basis.
 
 ---
 
-Part 1
-====================
+### Exercise  1
+
 Enter data in R. 
 
 
@@ -52,8 +52,8 @@ city2 <- c(8919,9095,9046,9321,9719,9704,9107,9275)
 
 ---
 
-Part 2
-====================
+### Exercise  2
+
 Test at 5% level with clearly mentioning the hypothesis, if there is a difference in the 
 mean of the two sample data assuming equal & unknown variances. 
 
@@ -79,8 +79,9 @@ t.test(x=city1, y=city2, conf.level = 0.95)
 ```
 
 ---
-Part 3
-====================
+
+### Exercise  3
+
 
 Test whether the variances are equal at 5% level and comment on the results. 
 
@@ -94,23 +95,32 @@ The p-value is 0.5691 > 5%, so there is insufficient evidence to reject the assu
 
 ---
 
-Part 4
-====================
+### Exercise  4
+
 Calculate the 95% confidence interval for the difference in means. 
 
 
 
 Confidence interval can be read from Part 2 or can be derived as below: 
 ```{r}
-t.test(x=city1,y=city2,var.equal = TRUE,conf.level = 0.95)$conf.int 
+my.t.Test <- t.test(x=city1,y=city2,
+       var.equal = TRUE,
+       conf.level = 0.95)
+
+my.t.Test$conf.int 
 ```
 i.e. 95% CI is (-337.39, 241.89) 
 
 ---
 
-Part 5
-====================
+### Exercise 5
+
 
 Comment on your findings in part 2 and part 4. 
 
 The confidence interval (-337,241) contains 0, therefore the assumption of equal means holds. 
+
+---
+
+
+---

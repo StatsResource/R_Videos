@@ -1,12 +1,37 @@
 ---
 title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
 ---
 
 2 Before answering this question, construct the function, rpareto, in R using the 
@@ -62,7 +87,7 @@ Ei = maxሼAi – u, 0ሽ.
 Use the R function, head(), to display in your answer script the first eight 
 values of A_exceed_u when A = A_vec and u = 1. 
 
-----------------------------
+---
 
 
 
@@ -100,8 +125,7 @@ for values of x from 0 to 10 inclusive, at intervals of 0.1.
 Use the R function, head(), to display in your answer script the first eight 
 values of F_u when A_greater_than_u = A_exceed_u with arguments 
 A = A_vec and u = 1. 
----------------------------------------
-
+---
 
 
 (iii)

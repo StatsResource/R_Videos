@@ -48,9 +48,9 @@ Five years of marketing expenditure and company sales by month
 Construct a scatterplot of the data. Comment on the relationship between the Sales & 
 Spend based on the plot. 
 
-<pre><code>
+```{r eval=FALSE}
 plot(budget$Spend,budget$Sales)
-</code></pre>
+```
 
 ---
 
@@ -69,8 +69,8 @@ plot(budget$Spend,budget$Sales, pch=18, col="blue")
 
 ---
 
-Part 2
-=================
+### Exercise  2
+
 
 Calculate Pearson’s correlation coefficient between Sales and Spend of the company. 
 
@@ -82,19 +82,18 @@ cor(budget$Sales,budget$Spend)
 
 ---
 
-Part 3
-=====================================
+### Exercise  3
 
 Perform a hypothesis test for the null hypothesis that Pearson’s population correlation 
 coefficient is equal to zero, against the alternative that it is positive. You should report the 
 p-value of the test and a clear conclusion. 
 
 
-<pre><code>
+```{r eval=FALSE}
 cor.test(budget$Spend,budget$Sales,
          method="pearson",
          alternative = "greater")
-</code></pre>
+```
 
 ---
 
@@ -110,8 +109,7 @@ cor.test(budget$Spend,budget$Sales,
 
 ---
 
-Part 4
-=====================================
+### Exercise  4
 
 Perform a simple linear regression analysis on the data. 
 
@@ -133,15 +131,15 @@ From the output, the estimate of parameter sigma is 10,650.
 
 ---
 
-Part 5
-====================================
+### Exercise  5
+
 
 Plot the fitted line on the data scatterplot. 
 
-<pre><code>
+```{r eval=FALSE}
 plot(budget$Spend,budget$Sales)
 abline(reg) 
-</code></pre>
+```
 
 
 
@@ -155,16 +153,16 @@ abline(reg)
 
 ---
 
-Part 6
-====================================
+### Exercise  6
+
 State the proportion of the total variability of the responses explained by the model based on your output in Part 4. 
 
 From the R output, the proportion of total variability of the responses explained by the model is 94.12%. 
 
 ---
 
-Part 7
-====================================
+### Exercise  7
+
 Plot a graph of the residuals of the model fitted in Part 6 against the explanatory variable. 
 
 
@@ -174,10 +172,10 @@ plot(budget$Spend,residuals(reg))
 
 ---
 
-Part 8
-====================================
+### Exercise  8
 
-Obtain a 99% confidence interval for parameter sigma. (4)
+
+Obtain a 99% confidence interval for parameter sigma. 
 
 ```{r}
 es = resid(reg)
@@ -188,13 +186,14 @@ From the above, the confidence interval for parameter sigma is (-3630.15, 3630.1
 
 ---
 
-Part 9
-============================
-Comment on the validity of the model based on results in part (vii) and part (viii). 
+### Exercise  9
+
+Comment on the validity of the model based on results in exercises 7 and 8. 
 
 
-ix)
-Based on the results in both part (vii) and part (viii), the errors seem to be close to zero and the 
+#### Comments
+
+Based on the results in both exercises 7 and 8, the errors seem to be close to zero and the 
 confidence interval of residuals also contains 0. Hence the model seems to be a good fit. 
 
 ---

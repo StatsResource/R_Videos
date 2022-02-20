@@ -64,15 +64,6 @@ summary(AutoClaims)
 ```
 
 
-          STATE     CLASS     GENDER       AGE             PAID      
-     STATE 15:586   C1 :108   F:588   Min.   :43.00   Min.   : 1096  
-     STATE 02:219   C11:464   M:829   1st Qu.:46.00   1st Qu.: 1611  
-     STATE 04:126   C6 :708           Median :49.00   Median : 3395  
-     STATE 17:116   F6 :137           Mean   :49.62   Mean   : 6127  
-     STATE 06: 79                     3rd Qu.:53.00   3rd Qu.: 7774  
-     STATE 03: 75                     Max.   :60.00   Max.   :59096  
-     (Other) :216                                                    
-
 
 
 ```{r}
@@ -81,14 +72,6 @@ AutoClaims <- read_csv("Data/AutoClaims.csv")
 
 ```
 
-    Parsed with column specification:
-    cols(
-      STATE = [31mcol_character()[39m,
-      CLASS = [31mcol_character()[39m,
-      GENDER = [31mcol_character()[39m,
-      AGE = [32mcol_double()[39m,
-      PAID = [32mcol_double()[39m
-    )
 
 
 
@@ -96,24 +79,13 @@ AutoClaims <- read_csv("Data/AutoClaims.csv")
 head(AutoClaims)
 ```
 
-
-<table>
-<caption>A tibble: 6 x 5</caption>
-<thead>
-	<tr><th>STATE</th><th>CLASS</th><th>GENDER</th><th>AGE</th><th>PAID</th></tr>
-	<tr><th>&lt;chr&gt;</th><th>&lt;chr&gt;</th><th>&lt;chr&gt;</th><th>&lt;dbl&gt;</th><th>&lt;dbl&gt;</th></tr>
-</thead>
-<tbody>
-	<tr><td>STATE 01</td><td>C6 </td><td>M</td><td>43</td><td> 2364.696</td></tr>
-	<tr><td>STATE 01</td><td>F6 </td><td>M</td><td>43</td><td>18787.967</td></tr>
-	<tr><td>STATE 01</td><td>F6 </td><td>M</td><td>43</td><td>27115.745</td></tr>
-	<tr><td>STATE 02</td><td>C1 </td><td>M</td><td>43</td><td>15288.492</td></tr>
-	<tr><td>STATE 02</td><td>C11</td><td>M</td><td>43</td><td> 2265.707</td></tr>
-	<tr><td>STATE 02</td><td>C11</td><td>M</td><td>43</td><td> 6344.641</td></tr>
-</tbody>
-</table>
+---
 
 
+
+```{r}
+names(AutoClaims)
+```
 
 
 ```{r}
@@ -121,11 +93,7 @@ dim(AutoClaims)
 ```
 
 
-<ol class="list-inline">
-	<li>1417</li>
-	<li>5</li>
-</ol>
-
+---
 
 
 
@@ -133,21 +101,7 @@ dim(AutoClaims)
 summary(AutoClaims)
 ```
 
-
-        STATE              CLASS              GENDER               AGE       
-     Length:1417        Length:1417        Length:1417        Min.   :43.00  
-     Class :character   Class :character   Class :character   1st Qu.:46.00  
-     Mode  :character   Mode  :character   Mode  :character   Median :49.00  
-                                                              Mean   :49.62  
-                                                              3rd Qu.:53.00  
-                                                              Max.   :60.00  
-          PAID      
-     Min.   : 1096  
-     1st Qu.: 1611  
-     Median : 3395  
-     Mean   : 6127  
-     3rd Qu.: 7774  
-     Max.   :59096  
+---
 
 
 
@@ -155,29 +109,6 @@ summary(AutoClaims)
 AutoClaims$GENDER[1:20]
 ```
 
-
-<ol class="list-inline">
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'F'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'F'</li>
-	<li>'F'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-	<li>'M'</li>
-</ol>
 
 
 --- 
@@ -194,6 +125,8 @@ library(magrittr)
 
 ---
 
+#### Tabulations: STATE
+
 ```{r}
 AutoClaims %>% tabyl(STATE)
 
@@ -202,11 +135,17 @@ AutoClaims %>% tabyl(STATE)
 
 ---
 
+
+#### Tabulations: GENDER
+
 ```{r}
 AutoClaims %>% tabyl(GENDER)
 ```
 
 ---
+
+
+#### Cross-Tabulations: CLASS and GENDER
 
 ```{r}
 AutoClaims %>% tabyl(CLASS,GENDER)

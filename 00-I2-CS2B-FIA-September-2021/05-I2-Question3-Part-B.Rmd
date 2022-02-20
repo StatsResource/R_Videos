@@ -1,0 +1,75 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+(iv) Comment on how realistic your answer to part (iii) is in terms of what the 
+bank may expect in practice, suggesting how the parameter a could be 
+changed to make it more realistic.  
+The R code for fitting and plotting a decision tree object called tree, that predicts 
+whether a customer will default or not, is as follows: 
+tree = rpart(default ~ ., data = specimen, method = "class")
+rpart.plot(tree, digits = 3, type = 5, extra = 106) 
+(v) Plot the decision tree object, called tree, using the R code above.  
+(vi) State, using the decision tree plot, whether a customer with features f1 = 0 and 
+f2 = –0.425 is expected to default or not.  
+Before launching the product, the Actuary gathers actual customer data from another 
+bank, that is available in the public domain, to assess the predictive power of the 
+decision tree model. The ‘CS2B_Sept_21_Qu_3_Data.csv’ file contains the actual 
+data for 100 customers in the required format for the decision tree model. 
+Before answering the remainder of this question, the ‘CS2B_Sept_21_Qu_3_Data.csv’ 
+file should be loaded into R and assigned to a data frame called actual. 
+CS2B S2021–6 
+
+
+---
+
+
+(iv)
+The answer to part (iii) is not likely to be realistic 
+as the mean default probability of their potential customers would be expected to be 
+significantly less than 0.5 
+A negative value of a would be better 
+so as to reduce the expected probability of default 
+(v)
+CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
+CS2B S2021 © Institute and Faculty of Actuaries
+tree = rpart(default ~ ., data = specimen, method = "class")
+rpart.plot(tree, digits = 3, type = 5, extra = 106)
+
+
+(vi)
+According to the decision tree, this customer is NOT expected to default 

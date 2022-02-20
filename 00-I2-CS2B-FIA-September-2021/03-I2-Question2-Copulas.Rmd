@@ -1,0 +1,159 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+2 Before answering this question, the R package for copulas should be loaded into R 
+using the following code: 
+install.packages("copula") 
+library(copula) 
+A copula model is to be constructed of the dependence between annual average 
+temperature X, in degrees Celsius, and annual rainfall Y, in millimetres, in a region at 
+risk of desertification. The marginal distributions of X and Y are: 
+X ~ N൫20, 32
+൯, Y ~ N൫200, 502
+൯. 
+Two copulas are under consideration to model the dependence of X and Y: 
+Copula 1: A Gaussian copula with ρ = –0.5. 
+Copula 2: A Student’s t copula with 3 degrees of freedom and ρ = –0.5. 
+CS2B S2021–3 
+The following R code generates n simulations of jointly distributed random variables 
+U and V, where the marginal distributions of U and V are the uniform distribution on 
+[0, 1] and the dependency between U and V is given by a Gaussian copula with 
+correlation ρ (rho): 
+rCopula(n, normalCopula(param = rho)) 
+The corresponding code for the Student’s t-copula with nu degrees of freedom is: 
+rCopula(n, tCopula(param = rho, df = nu)) 
+The output from the function rCopula is in the format of an n × 2 matrix whose 
+rows are the observations of (U, V). 
+Before answering part (i), generate the matrix, GaussXY, in R using the following 
+code: 
+set.seed(3) 
+GaussUV = rCopula(200000, normalCopula(param = -0.5)) 
+GaussXY = matrix(nrow = 200000, ncol = 2) 
+GaussXY[,1] = qnorm(GaussUV[,1], mean = 20, sd = 3) 
+GaussXY[,2] = qnorm(GaussUV[,2], mean = 200, sd = 50) 
+The 200,000 × 2 matrix, GaussXY, represents 200,000 observations of (X, Y) under 
+Copula 1. 
+(i) Generate 200,000 observations of (X, Y) using Copula 2 and the marginal 
+distributions of X and Y, assigning the observations to a 200,000 × 2 matrix 
+named t3XY. You should set a random number generator seed of 3 before 
+generating the observations and use the R function, head(), to display the 
+first six rows of t3XY in your answer script.  
+(ii) Plot, on a single graph, line graphs of the estimated conditional mean of Y
+given that X ൒ x against x for values of x at intervals of 1 from 10 to 30 
+inclusive for each of the two generated copulas. You should use separate 
+colours to identify each of the two line graphs and set the y-axis range from 50 
+to 250.  
+(iii) Comment on the key features of your plot in part (ii).  
+(iv) Comment on the implications of your plot in part (ii) if the distribution of 
+temperatures, X, is expected to become more weighted towards higher values 
+as a result of climate change. 
+ [Total 30] 
+CS2B S2021–4 
+
+---
+---
+ 
+Q2
+install.packages("copula")
+library(copula)
+set.seed(3)
+GaussUV = rCopula(200000, normalCopula(param = -0.5))
+GaussXY = matrix(nrow = 200000, ncol = 2)
+GaussXY[,1] = qnorm(GaussUV[,1], mean = 20, sd = 3)
+GaussXY[,2] = qnorm(GaussUV[,2], mean = 200, sd = 50)
+CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
+CS2B S2021 © Institute and Faculty of Actuaries
+(i)
+set.seed(3) 
+t3UV = rCopula(200000, tCopula(param = -0.5, df = 3)) 
+t3XY = matrix(nrow = 200000, ncol = 2) 
+t3XY[,1] = qnorm(t3UV[,1], mean = 20, sd = 3) 
+t3XY[,2] = qnorm(t3UV[,2], mean = 200, sd = 50) 
+head(t3XY) 
+ [,1] [,2]
+[1,] 16.41179 197.2892
+[2,] 21.82020 141.0359
+[3,] 20.44033 199.1250
+[4,] 19.41271 246.2435
+[5,] 15.33383 278.9245
+[6,] 18.40018 148.0110 
+(ii)
+x = seq(from = 10, to = 30, by = 1) 
+y1 = vector(length = 21) 
+y2 = vector(length = 21) 
+for (i in 1:21) { 
+y1[i]= mean(GaussXY[,2][GaussXY[,1] >= x[i]]) [3]
+y2[i]= mean(t3XY[,2][t3XY[,1] >= x[i]]) 
+}
+plot( 
+x, 
+y1, 
+ylim = c(50, 250), 
+type = "l", 
+ylab = "Conditional Mean of Y | X >= x", 
+main = "Conditional Mean of Y | X >= x for Two Copulas with rho = -
+0.5") 
+lines( 
+x, 
+y2, 
+col = "red") 
+legend("topright", 
+legend = c("Gaussian Copula", "Student's t Copula with 3 df"), 
+col = c("black", "red"), 
+pch=7)
+CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
+CS2B S2021 © Institute and Faculty of Actuaries
+
+(iii)
+For the lower values of x, the conditional means for both copulas are similar 
+and close to the unconditional mean of 200 
+The conditional means for both copulas decrease with increasing x 
+because of the negative value of rho 
+Since the t3 copula exhibits positive tail dependence and the Gaussian copula has zero tail 
+dependence 
+the graph for the t3 copula slopes downwards more steeply than for the Gaussian copula 
+The order of the Gaussian and t3 copulas is not consistent for all values of x (i.e. the
+red line is slightly above the black line from around x = 18 to x = 23) 
+[Marks available 8, maximum 6]
+(iv)
+In order to draw any conclusions here, it is necessary to assume that the conditional 
+distribution of Y given that X >= x remains unchanged for each value of x 
+The graph in part (ii) indicates that the mean level of rainfall can be expected to decrease 
+with the extent of the decrease being greater for the Student’s t3 copula than for the
+Gaussian copula 
+[Total 30] 

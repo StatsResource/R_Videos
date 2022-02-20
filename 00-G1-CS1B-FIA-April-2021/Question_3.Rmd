@@ -46,20 +46,23 @@ the file BinaryTrain.RData.
 
 Two commuters, Alice and Norman, were interested in the study and proposed 
 different prior distributions for the proportion p. 
+<p>
+
 Alice assumed a discrete prior distribution g(p) given in the following table: 
+
 p 0.1 0.2 0.3 0.4 0.5 
 g(p) 0.5 0.2 0.2 0.05 0.05 
-Norman chose to use a beta prior distribution for p, with parameters 3 and 12. 
+Norman chose to use a beta prior distribution for $p$, with parameters 3 and 12. 
 
 ---
 
-Part 1
-=========================================
+### Exercise  1
+
 (i) (a) Calculate the mean and the standard deviation for Alice’s prior
 distribution. 
 (b) Generate 10,000 random values from Norman’s prior distribution. [1] 
 (c) Calculate the mean and standard deviation of the values generated in
-part (i)(b). [2] 
+part (i)(b).  
 (d) Comment on whether or not Alice and Norman have similar prior 
 beliefs for p. 
 
@@ -77,31 +80,47 @@ where ∑ yi is the total sum of all the binary data.
 
 ---
 
-Part 2
-=========================================
+### Exercise  2
 (ii) Plot the shape of the posterior density of p without identifying it.  
-(iii) Plot the density of Norman’s prior distribution by setting ylim = c(0,14). 
- [3] 
+
+
+---
+
+### Exercise  3
+
+Plot the density of Norman’s prior distribution by setting `ylim = c(0,14)`. 
+
 The posterior distribution of p is beta with parameters 3 + ∑ yi and 12 + n – ∑ yi
 . 
 
 ---
 
-Part 4
-=========================================
+### Exercise  4
+
 (iv) (a) Plot the posterior density of p by adding it to the plot in part (iii). 
 (b) Compare the two densities using your answer in part (iv)(a). 
 (c) Comment on the extent to which the posterior distribution is affected 
 by the prior distribution. 
+
+---
+
+### Exercise  5
 
 (v) Determine a 90% interval estimate for p based on its posterior distribution. 
 
 
 ---
 
-Part 6
-=========================================
+---
+
+### Exercise 6
+
 (vi) Determine the exact posterior probability that p exceeds 0.25. 
 (vii) (a) Generate 10,000 samples from the posterior distribution of p. 
 (b) Calculate the proportion of sampled values of p that exceed 0.25. 
 (c) Compare your answer in part (vii)(b) with your answer in part (vi). 
+
+---
+
+
+---

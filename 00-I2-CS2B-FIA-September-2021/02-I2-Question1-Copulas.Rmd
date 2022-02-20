@@ -1,0 +1,154 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+1 The ‘CS2B_Sept_21_Qu_1_Data.csv’ file contains mortality data for a particular 
+population of females in the year 1921, taken from the Human Mortality Database. 
+The file contains the following three variables:
+Age Age, 𝑥, in single years from 25 to 90 
+mu_x Crude values of the forces of mortality at age x, μ௫
+Exposed_x Exposed to risk at age 𝑥 nearest birthday 
+Before answering this question, the ‘CS2B_Sept_21_Qu_1_Data.csv’ file should be 
+loaded into R and assigned to a data frame called mortalitydata. 
+(i) Plot the crude values of μ௫ against age, x, using a line graph.  
+(ii) Comment on the age pattern of the crude values of μx
+ shown in the graph in 
+part (i).  
+The Gompertz law of mortality can be expressed as follows: 
+μx
+ = Bcx
+(iii) Perform a graduation of the crude values of μ௫ using the Gompertz formula, 
+specifying the values of B and c in your answer script. [7] 
+(iv) Perform a chi-square goodness-of-fit test of the graduated values of μx
+ from 
+part (iii) using a 95% confidence level. [9] 
+ [Total 26]
+
+(i)
+mortalitydata = read.csv("CS2B_Sept_21_Qu_1_Data.csv”) 
+plot( 
+mortalitydata$Age, 
+mortalitydata$mu_x, 
+type = "l", 
+xlab = "Age, x", 
+ylab = "Crude Force of Mortality", 
+main = "Forces of Mortality for a 1921 Female Population (Human 
+Mortality Database)") 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
+CS2B S2021 © Institute and Faculty of Actuaries
+
+(ii)
+EITHER:
+The mu_x’s increase with age 
+increasing rapidly from age 60 onwards 
+OR:
+The mu_x’s increase approximately exponentially with age 
+THEN:
+They exhibit some roughness 
+especially between ages 70 and 85 years 
+They should be graduated before being used 
+(iii)
+EITHER:
+GompModel = lm( 
+log(mu_x) 
+~ Age, 
+data = mortalitydata) 
+OR
+GompModel = lm( 
+log(mortalitydata$mu_x) 
+~ mortalitydata$Age) 
+THEN EITHER:
+CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
+CS2B S2021 © Institute and Faculty of Actuaries
+exp(as.numeric(coef(GompModel))) 
+ 0.0003828807 
+exp(as.numeric(coef(GompModel))) 
+ 1.06997 
+And hence: 
+B = 0.0003828807 
+c = 1.06997 
+OR:
+summary(GompModel) 
+Call:
+lm(formula = log_mux ~ Age, data = mortalitydata)
+Residuals:
+ Min 1Q Median 3Q Max 
+-0.49034 -0.23744 0.02004 0.23381 0.53057 
+Coefficients:
+ Estimate Std. Error t value Pr(>|t|) 
+(Intercept) -7.867787 0.106390 -73.95 <2e-16 ***
+Age 0.067630 0.001756 38.51 <2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 0.2718 on 64 degrees of freedom
+Multiple R-squared: 0.9586, Adjusted R-squared: 0.958 
+F-statistic: 1483 on 1 and 64 DF, p-value: < 2.2e-16 
+
+The fitted Gompertz formula for ln(mu_x) is therefore:
+ln (mu_x) = -7.867787 + 0.067630x 
+And hence: 
+B = 0.0003829 
+c = 1.0699693 
+(iv)
+The null hypothesis is that the Gompertz graduated rates are the true rates underlying the 
+observed data 
+The alternative hypothesis is that the Gompertz graduated rates are NOT the true rates 
+underlying the observed data 
+mortalitydata$fittedmu_x = exp(GompModel$coefficients + 
+GompModel$coefficients * mortalitydata$Age) 
+mortalitydata$zx = ((mortalitydata$mu_x * mortalitydata$Exposed_x) -
+(mortalitydata$fittedmu_x * mortalitydata$Exposed_x)) /
+sqrt(mortalitydata$fittedmu_x * mortalitydata$Exposed_x) 
+mortalitydata$zxsquared = (mortalitydata$zx)^2 
+chisquare = sum(mortalitydata$zxsquared); chisquare 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
+CS2B S2021 © Institute and Faculty of Actuaries
+ 114.8394 
+The test statistic has a chi-square distribution with m degrees of freedom, where m is
+the number of age groups less one for each Gompertz parameter fitted
+So, in this case m = 66 - 2 = 64. 
+THEN EITHER:
+The critical value at the 5% level with 64 degrees of freedom is:
+qchisq(0.95, 64)
+ 83.67526
+OR:
+Using Page 169 of the Golden Book, the critical value at the 5% level with 70 degrees
+of freedom is 90.53 and so the critical value with 64 degrees of freedom is less than this
+
+Since 114.8394 > critical value 
+there IS enough evidence to reject the null hypothesis at the 5% level 
+[Total 26]
+ 

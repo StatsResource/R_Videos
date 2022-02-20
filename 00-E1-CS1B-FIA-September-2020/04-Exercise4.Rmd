@@ -10,62 +10,73 @@ alcohol: alcohol consumption per adult per year (litres/year);
 cigarettes: number of cigarettes consumed per adult per year.
 
 ---
-
+### Exercise 1
 (i) (a) Construct a scatterplot of the data with alcohol consumption on the
 x axis.
 (b) Comment on the relationship between the data on alcohol and cigarette
 consumption based on your plot in part (i)(a).
-[5]
+---
+### Exercise 2
 (ii) Calculate Pearson’s correlation coefficient between the data on alcohol and
-cigarette consumption. [2]
+cigarette consumption. 
+---
+### Exercise 3
 An analyst suggests using the following R code to modify the data:
 (iii) Explain what the above code does and give a justification for its use. [3]
 For the remainder of the question, use the modified data
 (alcohol.2, cigarettes.2), as produced by applying the R
 code above.
+---
+### Exercise 4
+
 (iv) (a) Construct a scatterplot with alcohol consumption on the x axis.
 (b) Calculate Pearson’s correlation coefficient between the new data on
 alcohol and cigarette consumption.
 (c) Comment on your answers in parts (ii) and (iv)(b).
-[6]
-(v) Perform a hypothesis test for the null hypothesis that Pearson’s population
+
+---
+### Exercise 5
+Perform a hypothesis test for the null hypothesis that Pearson’s population
 correlation coefficient is equal to zero, against the alternative that it is positive.
 You should report the p-value of the test and a clear conclusion. 
 
 ---
-
+### Exercise 6
 A media bulletin has reported that ‘'‘h‘igher alcohol consumption causes higher
 cigarette consumption .
 (vi) Comment on whether this report is justified based on your analysis in parts (iv)
-and (v). [2]
+and (v). 
 
 ---
 
+```{r}
 alcohol.2 = alcohol[-c(6,16)]
 cigarettes.2 = cigarettes[-c(6,16)]
-
+```
 
 ---
+### Exercise 7
 
-(vii) Perform a simple linear regression analysis on the new data using a
-model of the form y = α + βx + ε (cigarette consumption, y, on alcohol
+Perform a simple linear regression analysis on the new data using a
+model of the form $$y = α + βx + ε$$ (cigarette consumption, y, on alcohol
 consumption, x), where the error terms ε independently follow a
 N(0, s2) distribution.
 Your answer should show the fitted line plotted on the data scatterplot
-and report the estimate of parameter s. [5]
+and report the estimate of parameter s. 
 
 
 ---
+### Exercise 8 
 
-(viii) State the proportion of the total variability of the responses explained
+State the proportion of the total variability of the responses explained
 by the model, based on your output in part (vii). [1]
 (ix) Plot a graph of the residuals of the model fitted in part (vii)
 against the explanatory variable. 
 
 
 ---
+### Exercise 10
 
-(x) Comment on the validity of the model, based on your output in
-part (ix) . [3]
-[Total 34]
-CS1B S2020–6
+Comment on the validity of the model, based on your output in
+part (ix) . 
+---

@@ -81,17 +81,22 @@ head(indices)
 
 ### Exercise 1
 
-Load the csv file into R and create a new column called “Sensex_Direction”. 
+Load the csv file into R and create a new column called “***Sensex_Direction***”. 
 
 The value of this column will be “Positive” when the Sensex returns are positive and “Negative” when they are negative and convert the variable as a factor variable. 
 
 ---
 
 
+#### New Categorical Variable
+
+
 ```r
 # Creation of new column called Sensex_Direction
 
-indices$Sensex_Direction &lt;-     ifelse(indices$Sensex&gt;0,"Positive","Negative")
+indices$Sensex_Direction &lt;- ifelse(indices$Sensex&gt;0,
+                                   "Positive",
+                                   "Negative")
 
 indices$Sensex_Direction &lt;- as.factor(indices$Sensex_Direction)
 ```
@@ -245,6 +250,11 @@ Relationship between the residual deviance and AIC
 * (11 number of model parameters (the number of variables in the model pl
 us the intercept))
 
+
+---
+
+
+---
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

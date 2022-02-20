@@ -110,9 +110,8 @@ steadyStates(test_mc)
 #### Exercise 2
 
 Assume that p = 0.75 and r = 0.25. 
-(ii) Construct R code that calculates the stationary distribution of Xt for values of 
-q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your 
-answer script. [7] 
+Construct R code that calculates the stationary distribution of Xt for values of 
+q from 0.1 to 0.9 inclusive, at intervals of 0.1.
 
 
 
@@ -135,12 +134,10 @@ statdist
  Assume that p = 0.75 and r = 0.25. 
 (ii) Construct R code that calculates the stationary distribution of Xt for values of 
 q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your 
-answer script. [7] 
-(iii) Plot a graph showing the stationary distributions of Xt calculated in part (ii) as 
-a function of q. You should include three separately coloured lines on your 
-graph, each line representing the stationary probabilities of each state. [8] 
+answer script. 
 
 ---
+
 
 (iii) Plot a graph showing the stationary distributions of Xt calculated in part (ii) as 
 a function of q. You should include three separately coloured lines on your 
@@ -149,6 +146,8 @@ graph, each line representing the stationary probabilities of each state.
 ---
 
 (iii)
+
+```{r}
 q = seq(from = 0.1, to = 0.9, by = 0.1) 
  
 
@@ -189,7 +188,12 @@ col = c("red", "black", "blue"),
 
 pch=7)
 
+```
 
+```{r}
+
+
+```
 
  
 

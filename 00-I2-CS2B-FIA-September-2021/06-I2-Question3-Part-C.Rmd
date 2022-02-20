@@ -1,0 +1,128 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+(vii) Show the first six rows of the actual data frame in your answer script using the 
+R function, head().  
+The R code for generating the predicted default classifications of the policyholders in 
+the actual data frame using the tree decision tree object is as follows: 
+predict(tree, actual, type = 'class') 
+(viii) Generate the predicted default classifications of the 100 customers in the 
+actual data frame using the R code above, assigning the predictions to a vector 
+called predict_defaults. Use the R function, head(), to display the first six 
+values of predict_defaults in your answer script.  
+
+---
+(ix) Generate a confusion matrix of actual defaults versus predicted defaults for the 
+100 actual customers, displaying the matrix in your answer script.  
+(x) Determine, using R, the values of the precision and recall percentages for the 
+decision tree model’s predictions for the 100 actual customers, where the true 
+positive is defined as the case where the model predicts a default for a 
+customer that has actually defaulted.  
+Based on the value of the recall percentage for the 100 actual customers, the bank’s 
+Finance Director concludes that the decision tree model needs no further refinement 
+and can be used to determine which loan applications to approve when the product is 
+launched. 
+(xi) Comment on the Finance Director’s conclusion.  
+
+---
+(vii)
+actual = read.csv("CS2B_Sept_21_Qu_3_Data.csv") 
+head(actual) 
+ f1 f2 default
+1 -1 0.4842612 0
+2 1 0.8991797 0
+3 0 -0.2146289 0
+4 1 -0.7641544 0
+5 -1 -0.5532892 0
+6 1 -0.9808636 1 
+
+---
+
+
+(viii)
+predict_defaults = predict(tree, actual, type = 'class') 
+head(predict_defaults) 
+1 2 3 4 5 6 
+0 1 0 1 0 1 
+Levels: 0 1 
+(ix)
+Confusion_matrix = table(actual$default,predict_defaults); 
+Confusion_matrix 
+---
+predict_defaults
+ 0 1
+0 50 30
+1 0 20 
+(x)
+precision = Confusion_matrix[2,2] / sum(Confusion_matrix[,2]); 
+precision 
+ 0.4 
+recall = Confusion_matrix[2,2] / sum(Confusion_matrix[2,]); 
+recall 
+ 1 
+The precision percentage is 40% 
+and the recall percentage is 100% 
+---
+
+(xi)
+The recall percentage is the percentage of defaults that the model managed to identify 
+Here the model has performed well and has identified all 20 actual defaults 
+However, the model is currently not very precise 
+The precision percentage is the percentage of predicted defaults that are in fact actual
+defaults 
+The model has predicted far more defaults than was actually the case 
+Hence, if this model had been used to approve the loans of these 100 customers,
+30% of them would have not been approved for a loan even though they did not
+actually default 
+The model is therefore not commercially optimised 
+This is in line with our conclusions from part (iv) i.e. that the probability of default
+in the specimen data used to train the model was unrealistically too high 
+The Actuary could refine the parameters (a, b, c) used to construct the specimen data
+and re-train the model to improve it 
+Better still, further data could be gathered from the public domain, if available, and
+used to train the model to improve it 
+Additionally, other decision tree models (e.g. bagged decision trees, random forests,
+boosted decision trees) should be investigated to see if a better fit can be obtained 
+Alternatively, other classification machine learning models (e.g. naïve Bayes
+classification) should be investigated to see if a better fit can be obtained 
+Additionally, the Actuary could change the approach from classification of loan
+default/not default to a probability of loan default approach and use some form of
+regression machine learning algorithm to predict the probabilities 
+[Marks available 10, maximum 6]
+
+---

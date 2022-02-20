@@ -35,8 +35,8 @@ priorsd <- 10
 
 ---
 
-Part 1
-========================================
+### Part 1
+
 
 Generate range of values of x in the interval [80,160] and using `len = 100`. 
 
@@ -57,28 +57,27 @@ max(x)
 
 ---
 
-Part 2
-====================================
+### Part 2
 
 Plot the posterior probability density function of x using answer from Part 1. 
 
 
-<pre><code>
-y<-dnorm(x,mean = priormean,sd=priorsd)
-plot(x,y,type = "l")
-</code></pre>
-
----
-
-```{r}
+```{r eval=FLASE}
 y<-dnorm(x,mean = priormean,sd=priorsd)
 plot(x,y,type = "l")
 ```
 
 ---
 
-Part 3
-====================================
+```{r echo=FLASE}
+y<-dnorm(x,mean = priormean,sd=priorsd)
+plot(x,y,type = "l")
+```
+
+---
+
+### Part 3
+
 
 Perform a simulation of 1000 posterior samples for the parameter x.      
 
@@ -92,27 +91,26 @@ head(z)
 
 ---
 
-Part 4
-====================================
+### Part 4
+
 
 Plot a histogram of the posterior distribution of x. 
 
 
-<pre><code>
+```{r echo=FALSE} 
 hist(z,main = "Posterior distribution of x")
-</code></pre>
-
+```
 ---
 
 
-```{r} 
+```{r echo=FALSE} 
 hist(z,main = "Posterior distribution of x")
 ```
 
 ---
 
-Part 5
-====================================
+#### Part 5
+
 
 What is the mean and standard deviation of posterior distribution of x?      
 
@@ -126,8 +124,8 @@ sd(z)
 
 ---
 
-Part 6
-====================================
+### Part 6
+#
 
 Calculate the 95% confidence interval for systolic blood pressure using the posterior 
 distribution. 
@@ -138,4 +136,7 @@ sbp <- mean(z) + qnorm(c(0.025,0.975)) * sd(z)
 sbp
 ```
 
+---
  
+ 
+--- 
