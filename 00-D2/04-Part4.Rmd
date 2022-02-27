@@ -1,6 +1,46 @@
+---
+title: "Risk Modelling and Survival Analysis with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+### Risk Modelling and Survival Analysis with R
 
 
-```{r}
+#### CS2B Curriculum
+
+* It develops knowledge of and the ability to apply statistical methods for risk modelling, time series analysis methods, stochastic processes (especially Markov chains and Markov jump processes), survival analysis (including regression methods applied to duration data), and graduation methods  It also includes a high-level introduction to machine learning. 
+
+* Question 2 Part (a)
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+```{r echo=FALSE, include=FALSE}
+library(magrittr)
+
+
+options(digits=4)
+```
+
+
+---
 Q. 4)
 
 An life insurance company is selling Endowment, Pure Term and Unit Linked products
@@ -10,7 +50,7 @@ of 5000 . The sum assured are normally distributed with below parameters - Endow
 (mean 50000, standard deviation 10000), Pure Term (mean 100000, standard deviation
 25000), Unit Linked (mean 60000, standard deviation 5000). One policy is randomly picked
 from the system and the sum assured of that policy is 75000.
-Page 2 of 4IAI
+---
 
 1. 
 Create a sequence ranging from 30000 to 200000 with an increase of 5000 and plot the
@@ -20,7 +60,7 @@ product portfolio and the probability that the policy comes from Unit Linked Pro
 portfolio.
 
 
-
+---
 
 
 
@@ -41,14 +81,7 @@ FUL<-dnorm(y,60000,5000)
 plot(y,FE,typ="l",col="darkgreen",lwd=2)
 lines(y,FPT,col="darkred",lwd=2)
 lines(y,FUL,col="darkblue",lwd=2)
-> y
- 30000 35000 40000 45000 50000 55000 60000 65000 70000 75000
-80000
-[12] 85000 90000 95000 100000 105000 110000 115000 120000 125000 130000
-135000
-[23] 140000 145000 150000 155000 160000 165000 170000 175000 180000 185000
-190000
-[34] 195000 200000
+
 ```
 
 
@@ -62,6 +95,11 @@ PxE<-dnorm(75000,50000,10000)
 PxPT<-dnorm(75000,100000,25000)
 
 
+```
+
+---
+
+```{r}
 
 PxUL<-dnorm(75000,60000,5000)
 P1<-PE*PxE / (PE*PxE+PPT*PxPT+PUL*PxUL)
@@ -69,11 +107,5 @@ P2<-PUL*PxUL / (PE*PxE+PPT*PxPT+PUL*PxUL)
 P1
 P2
 
-> P1
- 0.6944786
-> P2
- 0.06584688
-[4]
 
-[12 Marks]
 ```

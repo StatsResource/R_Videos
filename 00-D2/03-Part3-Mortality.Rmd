@@ -1,5 +1,5 @@
 ---
-title: "Statistics with R"
+title: "Risk Modelling and Survival Analysis with R"
 subtitle: "R for Actuarial Students"
 output:
   xaringan::moon_reader:
@@ -9,7 +9,38 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r}
+### Risk Modelling and Survival Analysis with R
+
+
+#### CS2B Curriculum
+
+* It develops knowledge of and the ability to apply statistical methods for risk modelling, time series analysis methods, stochastic processes (especially Markov chains and Markov jump processes), survival analysis (including regression methods applied to duration data), and graduation methods  It also includes a high-level introduction to machine learning. 
+
+* Question 2 Part (a)
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+```{r echo=FALSE, include=FALSE}
+library(magrittr)
+
+
+options(digits=4)
+```
+
+
+
 Q. 3)
 Mortality of a group of lives follows Gompertz’s law. 
 
@@ -21,7 +52,7 @@ for age 55 or e55. Assuming 100 is the maximum age.
 Solution 3:
 
 
-```
+---
 
 
 ```{r}
@@ -43,7 +74,7 @@ qx<-function(x){
 
 ```{r}
 x<-55
-Page 5 of 11IAI
+
 
 ex<-0
 npx<-1
