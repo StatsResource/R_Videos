@@ -17,7 +17,7 @@ output:
 * Fundamentals of Statistical Analysis
 * Probability Distributions
 
-* Question 3 - Binomial Probability Distribution
+* Question 3 
 * Exam on basis of ***Base R***
 
 ---
@@ -126,13 +126,6 @@ min_cor_location %% 10
 ```
 
 
-<ol class="list-inline">
-	<li>9</li>
-	<li>8</li>
-</ol>
-
-
----
 
 
 ```{r}
@@ -140,10 +133,6 @@ ceiling(min_cor_location%%10)
 ```
 
 
-<ol class="list-inline">
-	<li>9</li>
-	<li>8</li>
-</ol>
 
 ---
 
@@ -153,11 +142,6 @@ rownames(correlation)[ceiling(min_cor_location/10)]
 ```
 
 
-<ol class="list-inline">
-	<li>'IT'</li>
-	<li>'TE'</li>
-</ol>
-
 
 
 
@@ -165,14 +149,7 @@ rownames(correlation)[ceiling(min_cor_location/10)]
 colnames(correlation)[ceiling(min_cor_location%%10)]
 ```
 
-
-<ol class="list-inline">
-	<li>'TE'</li>
-	<li>'IT'</li>
-</ol>
-
-
-
+---
 
 ```{r}
 
@@ -197,7 +174,7 @@ max_cor_pair
 
 ### Exercise 3
 
-Perform Principal component analysis on the returns values of the 10 sectors. (4)
+Perform Principal component analysis on the returns values of the 10 sectors. 
 
 
 
@@ -221,24 +198,9 @@ summary(PCA_corr_1)
 
 ---
 
-\begin{verbatim}
+### Exercise 4
 
-    Importance of components:
-                              PC1     PC2     PC3     PC4     PC5     PC6     PC7
-    Standard deviation     0.2113 0.06784 0.05843 0.04646 0.04269 0.03747 0.03337
-    Proportion of Variance 0.7294 0.07523 0.05580 0.03527 0.02978 0.02295 0.01820
-    Cumulative Proportion  0.7294 0.80463 0.86043 0.89571 0.92548 0.94843 0.96663
-                               PC8     PC9    PC10
-    Standard deviation     0.03103 0.02388 0.02257
-    Proportion of Variance 0.01573 0.00932 0.00833
-    Cumulative Proportion  0.98236 0.99167 1.00000
-
-\end{verbatim}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
-\subsection*{Exercise 4}
-
-\noindent How many principal components have an Eigen value of more than 1? 
+How many principal components have an Eigen value of more than 1? 
 
 
 

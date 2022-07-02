@@ -85,18 +85,7 @@ indices$Month[which(model1$residuals==min(model1$residuals))]
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 vi)
 Interpretation
@@ -105,24 +94,17 @@ Interpretation
 223.21 to 32.90, the variables are able to classify the direction appropriately
 
 
-\begin{itemize}
-    \item One huge outlier (Jun-09) can impact the accuracy of the result (Removing this may reduce the residual deviance further)
-    \item  The independent variables are not independent and they are interdependent (Correlations are very high among the sectors). 
+*  One huge outlier (Jun-09) can impact the accuracy of the result (Removing this may reduce the residual deviance further)
+*   The independent variables are not independent and they are interdependent (Correlations are very high among the sectors). 
 Hence the standard errors may not be appropriate
 
-    \item As this data is a time series data serial correlation between the observations need to be considered and the model may have to be fitted after removing serial correlation.
-
-\end{itemize}
-
-
-
+*  As this data is a time series data serial correlation between the observations need to be considered and the model may have to be fitted after removing serial correlation.
 
 
 
 ```
 
-
-```{r}
+----
 
 vii) Update the model fitted in (ii) above, as suggested by your friend and display the summary
 of the model.
@@ -130,29 +112,24 @@ of the model.
 
 viii) Compare the models in (ii) and (vii) using an appropriate test and comment on the
 difference in the residual deviances between the two models.
-```
 
-
-```{r}
+---
 
 vii)
 Remove the variables that do not impact the model
+
+```{r}
+
+
 model2<-update(model1,~.-BM-HC-IN-UT)
 
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 summary(model2)
 
 
-
-
-##
-##
-##
-##
-##
-##
-##
-##
+```
+---
+  
 viii)
 Call:
 glm(formula = Sensex_Direction ~ CD + EN + FI + FM + IT + TE,
@@ -238,7 +215,7 @@ Interpretation
 
 
 
-
+---
 
 
 p-value of the comparison is 0.94 > 0.05 thus not rejecting the null hypothesis of no significant difference between the two models. 
