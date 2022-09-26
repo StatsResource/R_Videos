@@ -1,0 +1,103 @@
+ [Total 30]
+CS1B A2022–5 
+
+### QUESTION 4
+4 An actuary produces the following summary of claim amounts and number of policies 
+sold for four of her insurance clients in the past 5 years. 
+ Year 1 Year 2 Year 3 Year 4 Year 5
+Insurer A 
+Claims 
+(£m) 56.2 60.7 62.0 69.1 59.6 
+Policies 1,079 1,221 1,728 1,769 1,812 
+Insurer B 
+Claims 
+(£m) 18.3 18.7 18.6 18.9 19.2 
+Policies 697 624 588 615 520 
+Insurer C 
+Claims 
+(£m) 130.4 110.3 123.2 129.6 124.4 
+Policies 2,896 2,601 2,757 2,923 2,842 
+Insurer D 
+Claims 
+(£m) 63.2 67.3 43.2 47.0 42.1 
+Policies 1,321 765 721 743 730 
+The policies expected to be sold in the next year are as follows: 
+Year 6
+Insurer A 1,920 
+Insurer B 575 
+Insurer C 2,820 
+Insurer D 798 
+The data for years 1 to 5 are given in the file claims.Rdata, which contains the 
+claims data (claims_matrix) and the policies data (policies_matrix). 
+(i) Calculate estimates of Eሾmሺθሻሿ, Eሾs2ሺθሻሿ and Varሾmሺθሻሿ, under the 
+assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. [10] 
+(ii) Calculate the credibility factors Zi. [5] 
+(iii) Calculate the expected claim amounts for each of the four insurers in year 6.
+
+#################################################
+
+Q4
+(i)
+First set up the calculations required for the EBCT 2 model:
+> load("claims.Rdata")
+> n<-ncol(policies_matrix) [½]
+> N<-nrow(policies_matrix) [½]
+> X<-claims_matrix/policies_matrix [½]
+> X
+##########################
+CS1B A2022 © Institute and Faculty of Actuaries
+ [,1] [,2] [,3] [,4] [,5]
+[1,] 0.05208526 0.04971335 0.03587963 0.03906162 0.03289183
+[2,] 0.02625538 0.02996795 0.03163265 0.03073171 0.03692308
+[3,] 0.04502762 0.04240677 0.04468625 0.04433801 0.04377199
+[4,] 0.04784254 0.08797386 0.05991678 0.06325707 0.05767123
+> Xibar<-rowSums(claims_matrix)/rowSums(policies_matrix)
+> Xibar
+# 0.04042581 0.03078187 0.04407590 0.06140187 
+> Pi <-rowSums(policies_matrix)
+> Pi
+# 7609 3044 14019 4280 [½]
+> P <-sum(Pi)
+> P
+# 28952 
+> Pstar <-sum(Pi*(1-Pi/P))/(N*n-1)
+> Pstar
+# 1011.12 
+> m <-sum(claims_matrix)/P
+> s<-mean(rowSums(policies_matrix*(X-Xibar)^2)/(n-1))
+> m
+# 0.04428019
+So, E[m(theta)] = 0.04428019 
+> s
+# 0.07732984
+E[s^2(theta)] = 0.07732984 
+> v<-(sum(rowSums(policies_matrix*(X-m)^2))/(n*N-1)-s)/Pstar
+> v
+# 8.801906e-05
+Var[m(theta)] = 8.801906e-05 
+(ii)
+Now calculate the credibility factors:
+> Zi<-Pi/(Pi+s/v) [4]
+> Zi
+# 0.8964887 0.7760242 0.9410267 0.8296892
+Credibility factors are: (0.8964887, 0.7760242, 0.9410267, 0.8296892) 
+(iii)
+Then calculate the credibility premiums per unit of risk volume:
+> premiums<-Zi*Xibar +(1-Zi)*m [4]
+##########################
+CS1B A2022 © Institute and Faculty of Actuaries
+> premiums
+# 0.04082478 0.03380516 0.04408794 0.05848586 
+> year6sales<-c(1920, 575, 2820, 798) 
+Finally calculate the credibility premium by multiplying by the sales for the upcoming year:
+> premiums*year6sales [3]
+# 78.38358 19.43797 124.32800 46.67172
+Therefore, the expected payout for the insurers in the coming year is as follows:
+Insurer A: £78.4m, Insurer B: £19.4m, Insurer C: £124.3m, Insurer D: £46.7m 
+[Total 25]
+Candidates overall answered well this question.
+Candidates demonstrated this kind of calculations had been well practised. Some 
+numerical slips were common, however candidates who showed intermediate steps were 
+able to pick up most of the available partial marks.
+[Paper Total 100]
+END OF EXAMINERS’ REPOR

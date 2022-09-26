@@ -1,0 +1,153 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+Q. 5) A study aimed at estimating hazard rates and survival probabilities has produced the results of
+Nj=Number at risk and Dj=Decrements for different time intervals tj as shown in 
+CS2B_Mar22_Dataset3.csv. The researchers analysed the results using Nelson-Aalen model 
+of comparison.
+
+i) Write down the formulae for the estimated integrated hazard and the estimated variance of 
+this estimator, using the Nelson-Aalen model. 
+ii) Find the estimated integrated hazard and the estimated variance of this estimator for the 
+given data for each time tj. 
+
+
+---
+
+
+iii) Produce a scatter plot in R along with corresponding 95% confidence intervals for the 
+Nelson-Aalen model. Paste the plot in the answer. (6)
+iv) Compute the survival function according to the Kaplan Meier estimate. (3)
+v) Demonstrate numerically the validity of the inequality relationship between the survival 
+function using the Nelson Aalen model and the Kaplan Meier model using the data in this 
+study. 
+
+
+---
+
+#### Part  (i)
+For the Nelson‐Aalen model the estimated integrated hazard is calculated as:
+
+---
+
+The estimated variance of the estimator of the integrated hazard is 
+calculated as: 
+ 
+ 
+--- 
+
+#### Part (b)
+
+```{r}
+data = read.csv("CS2B_Mar22_Dataset3.csv")
+names(data) = c("j","tj","nj","dj")
+```
+
+
+```{r}
+data$lambda = cumsum(data$dj/data$nj) 
+data$sdlambda=sqrt(cumsum(data$dj*(data$nj-data$dj)/data$nj^3)) 
+data
+
+data$varlambda=cumsum(data$dj*(data$nj-data$dj)/data$nj^3) 
+
+```
+
+
+---
+
+```{r}
+head(data)
+
+## j tj nj dj lambda varlambda
+## 1 1 4 100 2 0.02000000 0.0001960000
+## 2 2 5 98 2 0.04040816 0.0003999966
+## 3 3 8 96 1 0.05082483 0.0005073733
+```
+
+---
+
+#### Part (iii)
+
+```{r}
+plot(c(0,data$tj),c(0,data$lambda),type="s",main="Nelson-Aalen estimator of t
+he integrated hazard",xlab="Time t",ylab="Integrated hazard") 
+
+```
+
+---
+
+```{r}
+plot(c(0,data$tj),c(0,data$lambda),type="s",main="Nelson-Aalen estimator of t
+he integrated hazard",xlab="Time t",ylab="Integrated hazard")
+lines(data$tj,data$lambda-1.96*data$sdlambda,type="s",lty=2)
+lines(data$tj,data$lambda+1.96*data$sdlambda,type="s",lty=2)
+```
+
+---
+
+#### Part (iv)
+```{r}
+data$Survival_KM = cumprod(1-data$dj/data$nj)
+data$Survival_KM
+```
+
+---
+
+#### Part (v)
+
+```{r}
+# The inequality states that:
+ 
+# Survival function of Kaplan Meir SKM(t) < survival function of Nelson Aalen SNA(t) 
+# To demonstrate the inequality:
+```
+
+---
+
+```{r}
+data$Survival_NA = exp(-data$lambda)
+sum(data$Survival_KM<data$Survival_NA)
+```
+
+---
+
+Since all the values are true, the inequality is proved
+
+
+

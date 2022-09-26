@@ -1,0 +1,129 @@
+CS1B A2022–4 
+3 Consider a sample of 10,000 car insurance policies sold to drivers who have had a 
+driving licence for no more than 5 years. The data are given in the file 
+CarInsurance.Rdata, which contains the following four variables: 
+ age: a factor taking the values 0 for young and 1 for old; this refers to the age of 
+the policyholder. 
+ LY: the number of years the policyholder has had a driving licence before the start 
+of the current year. 
+ NCD: the number of years the policyholder has had a no claims discount before the 
+start of the current year. 
+ claims: the number of claims the policyholder submitted during the current year. 
+It has been suggested that drivers belonging to the old age category have more years 
+of no claims discount than younger drivers. 
+(i) Plot two histograms for the number of years with no claims discount, one for 
+young policyholders and another for old policyholders. [5] 
+(ii) Comment on the suggestion that drivers belonging to the old age category 
+have more years of no claims discount than young drivers, using the 
+histograms from part (i).  
+(iii) Calculate the proportion of: 
+(a) policyholders with more than 2 years of no claims discount among 
+young policyholders. 
+(b) policyholders with more than 2 years of no claims discount among old 
+policyholders. 
+ [4] 
+(iv) Test the hypothesis that the proportion of policyholders with more than 2 
+years of no claims discount is equal in both groups (young and old 
+policyholders). [6] 
+An analyst assumes that the number of claims per year has a Poisson distribution. The 
+analyst wishes to fit a generalised linear model (GLM) to the observed claim counts 
+using age,LY and NCD as explanatory variables. 
+(v) Fit a GLM to the claim counts with age, LY and NCD as the main effect 
+explanatory variables. [3] 
+To simplify the integration of the model into business processes, an insurer wishes to 
+use only models with at most two explanatory variables. 
+(vi) Determine which two explanatory variables (out of age, LY and NCD) should 
+be used in a GLM for the claim counts if only two explanatory variables are 
+allowed. [8] 
+(vii) Comment on the comparison of the fit of the models in parts (v) and (vi).  
+
+############################
+Q3
+(i)
+Plot histograms for no claims discount years:
+CS1B – Actuarial Statistics – Core Principles – April 2022 - Examiners’ report
+CS1B A2022 © Institute and Faculty of Actuaries
+NCD_old = NCD[age==1] 
+NCD_young = NCD[age==0] 
+hist(NCD_old, prob=TRUE, breaks = c(0,1,2,3,4,5)) 
+hist(NCD_young, prob=TRUE, breaks = c(0,1,2,3,4,5)) 
+
+Alternative R code (this produces more accurate plots):
+hist(NCD_young, breaks=seq(-0.5,5.5,by=1))
+hist(NCD_old, breaks=seq(-0.5,5.5,by=1))
+#################################################
+(ii)
+The distribution for old policyholders is more concentrated on the right, 
+so the number of years of NCD seems to be higher for old policyholders. 
+(iii)(a)
+Calculate proportions:
+prop_young = sum(NCD_young > 2)/length(NCD_young) 
+prop_young
+Proportion is 0.5736150 [½]
+Alternative R code:
+length(NCD_young[NCD_young>2])/length(NCD_young)
+(b)
+prop_old = sum(NCD_old > 2)/length(NCD_old) 
+prop_old
+Proportion is 0.9704187 [½]
+#################################################
+Alternative R code:
+length(NCD_old[NCD_old>2])/length(NCD_old)
+CS1B – Actuarial Statistics – Core Principles – April 2022 - Examiners’ report
+CS1B A2022 © Institute and Faculty of Actuaries
+(iv)
+Test the hypothesis that prop of NCD >2 is equal for young and old, against alternative that 
+proportions are not equal: 
+NCDgreaterTwo = c(sum(NCD_young > 2), sum(NCD_old > 2)) 
+YoungOld = c(length(NCD_young), length(NCD_old)) 
+Two-sample test for equality of proportions:
+prop.test(NCDgreaterTwo, YoungOld, correct=F) 
+data: NCDgreaterTwo out of YoungOld
+X-squared = 1924, df = 1, p-value < 2.2e-16
+alternative hypothesis: two.sided
+95 percent confidence interval:
+-0.4103664 -0.3832408
+sample estimates:
+ prop 1 prop 2 
+0.5736150 0.9704187
+The 𝑝𝑝-value is very small, therefore we reject the null hypothesis of equal proportions. 
+(v)
+R code:
+glm(claims ~ age + LY + NCD, family = poisson)
+or
+glm(claims ~ factor(age) + LY + NCD, family = poisson) 
+summary(glm(claims ~ age + LY + NCD, family = poisson)) 
+Call:
+glm(formula = claims ~ age + LY + NCD, family = poisson)
+Deviance Residuals: 
+ Min 1Q Median 3Q Max 
+-1.7864 -1.1705 -0.0495 0.5274 3.9661 
+Coefficients:
+ Estimate Std. Error z value Pr(>|z|) 
+(Intercept) 0.467231 0.034983 13.356 < 2e-16 ***
+age -0.009214 0.033348 -0.276 0.782 
+LY -0.113913 0.021145 -5.387 7.16e-08 ***
+NCD -0.095156 0.019703 -4.829 1.37e-06 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Null deviance: 11574 on 9999 degrees of freedom
+Residual deviance: 11015 on 9996 degrees of freedom
+AIC: 23104
+CS1B – Actuarial Statistics – Core Principles – April 2022 - Examiners’ report
+CS1B A2022 © Institute and Faculty of Actuaries
+
+(vi)
+We need to fit the three possible models with two variables each and compare the AIC 
+values:
+glm(claims ~ LY + NCD, family = poisson)$aic
+# 23102.41 
+glm(claims ~ age+LY, family = poisson)$aic
+# 23125.08 
+glm(claims ~ age+NCD, family = poisson)$aic
+# 23131.97 
+Model LY + NCD has the smallest AIC value and should be preferred. 
+(vi)
+The AIC for model LY + NCD (23102) is slightly lower than the AIC for
+age + LY + NCD (23104), but the AIC values are very close. 
+We would prefer model LY + NCD as it also involves fewer variables (it is a smaller 
+model). 

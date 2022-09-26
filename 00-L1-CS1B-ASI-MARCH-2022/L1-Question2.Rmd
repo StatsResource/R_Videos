@@ -1,0 +1,197 @@
+[30]
+Q. 2) Policy and claims information (PolicyData.csv) of 650 policies is provided to you. The 
+data contains following fields:
+Policy : Policy Number
+Claim : Number of claims corresponding to each policy
+Cust_Exp: Policyholder’s experience (VS = Very satisfied, SA= Satisfied, DS= 
+Disappointed, VD= Very Disappointed) at the end of the policy tenure.
+Amount: Claim amount per policy. Note that amount is set 0 if there is no claim.
+i) Create a frequency table of claim and share how many policies don’t have any claim. (2)
+ii) Plot a histogram of claim count and suggest 2 distributions that can be a good fit. (2)
+iii) Given that claim count follows Poisson distribution with following two possible values 
+for Poisson parameter:
+a) 0.35 and 
+b) 0.30 
+########################
+ Page 3 of 4
+Compute confidence interval at 95% confidence level to assess which value is more 
+suitable for the given data. (3)
+iv) Compute mean, variance and median of log of claim amount. (Name it: log amount). 
+Make sure to exclude policies with no claim. (4)
+v) Obtain histogram and Normal QQ Plot of log amount. Add a line to the QQ plot for 
+normal distribution (3)
+vi) Indicate which distribution the claim amount might be following using evidence from 
+(iv) and (v). (3)
+vii)Assuming the log amount (i.e. log of claim amount) follows a Normal distribution, test 
+if mean of log amount is greater than 10 at 90% level of confidence. State the 
+hypothesis and conclusion clearly. (4)
+viii) Assess whether the policyholder experience (i.e. Cust_Exp) changes with more 
+number of claims. Create contingency table and perform test to check the above 
+assertion. State the hypothesis clearly. (3)
+ix) Please explain why warning message appears while performing the above test. (1)
+x) Again, perform the above test by combining 
+a. Very Satisfied and Satisfied customers
+b. Disappointed and very disappointed customers
+and 
+c. 2 or more claims. 
+Please provide your conclusion on association of policyholder’s experience with 
+number of claims. (5)
+xi) Amount is defined to be large if the amount is greater than 100,000. Calculate 95% 
+confidence interval for proportion of large claim, and comment on the likelihood if 
+more than 25% of claims are large. (5)
+
+Solution 2:
+i)
+library(dplyr)
+> str(policydata)
+'data.frame': 650 obs. of 4 variables:
+$ Policy : int 1 2 3 4 5 6 7 8 9 10 ...
+$ Claim : int 0 0 0 2 1 0 0 0 0 0 ...
+$ Cust_Exp: chr "SA" "SA" "SA" "DS" ...
+$ Amount : int 0 0 0 52601 56174 0 0 0 0 0 ...
+> 
+> #a
+> table(policydata$Claim)
+ 0 1 2 3 
+458 149 36 7 
+########################
+Page 6 of 13
+> #Alternative, if dplyr installed
+> #count(policydata,Claim)
+> print("458 Policies don't have any claim")
+[1] "458 Policies don't have any claim"
+(2)
+ii)
+> hist(policydata$Claim)
+> #poisson and negative binomial distribution
+(2)
+iii)
+> poisson.test(x=sum(policydata$Claim),T=length(policydata$Policy))
+Exact Poisson test
+data: sum(policydata$Claim) time base: length(policydata$Policy)
+number of events = 242, time base = 650, p-value < 2.2e-16
+alternative hypothesis: true event rate is not equal to 1
+95 percent confidence interval:
+0.3268739 0.4222903
+sample estimates:
+event rate 
+0.3723077 
+> #0.35 is more suitable value of parameter since it lies between confidence interval.
+(3)
+iv)
+> lx=log(policydata$Amount[policydata$Amount>0])
+> #Alternative, if dplyr installed
+> #lx=log(filter(policydata,Amount >0)$Amount)
+> mean(lx)
+[1] 9.835205
+> median(lx)
+[1] 9.774659
+> sd(lx)^2
+[1] 3.425705
+(4)
+Histogram of policydata$Claim
+policydata$Claim
+Frequency
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+0 200 400
+########################
+Page 7 of 13
+v)
+> par(mfrow=c(2,1))
+> hist(lx)
+> qqnorm(lx)
+> qqline(lx)
+(3)
+vi)
+> # From Histogram and QQPlot it seems log amount closely follows normal distribution.
+> # To add, the mean and median are very close indicating symmtery. One of the characterstics of Z. 
+> # Hence,Claim amount might be following log normal distribution. 
+(3)
+vii)
+> #Null Hypothesis : mu = 10 , alternate hypothesis mu >10
+> t.test(lx,mu=10,alternative="greater", conf.level = .9)
+One Sample t-test
+data: lx
+t = -1.2337, df = 191, p-value = 0.8906
+alternative hypothesis: true mean is greater than 10
+90 percent confidence interval:
+9.663428 Inf
+sample estimates:
+mean of x 
+Histogram of lx
+lx Frequency
+6 8 10 12 14
+0 10 20 30 40
+-3 -2 -1 0 1 2 3
+6 8 10 14
+Normal Q-Q Plot
+Theoretical Quantiles
+Sample Quantiles
+########################
+Page 8 of 13
+9.835205 
+> #Given p-value greater than 10% null hypothesis can not be rejected.
+(4)
+viii)
+> ct=table(policydata$Claim,policydata$Cust_Exp)
+> ct
+ 
+ DS SA VD VS
+ 0 63 306 20 69
+ 1 36 90 9 14
+ 2 16 14 6 0
+ 3 3 3 1 0
+> # Null Hypothesis: No association between Policyholder's experience and Claim
+> chisq.test(ct)
+Pearson's Chi-squared test
+data: ct
+X-squared = 47.749, df = 9, p-value = 2.846e-07
+Warning message:
+In chisq.test(ct) : Chi-squared approximation may be incorrect
+(3)
+ix)
+> #There are cells where the number of observations are less than 5. (1)
+x)
+> policydata$Claim2=ifelse(policydata$Claim >2,2,policydata$Claim) 
+> policydata$Cust_Exp2=ifelse(policydata$Cust_Exp %in% c("DS","VD"),"DS","SA") 
+> ct2=table(policydata$Claim2,policydata$Cust_Exp2)
+> ct2
+ 
+ DS SA
+ 0 83 375
+ 1 45 104
+ 2 26 17
+> chisq.test(ct2)
+Pearson's Chi-squared test
+data: ct2
+X-squared = 43.514, df = 2, p-value = 3.557e-10
+> # There is a strong reason to reject null hypothesis.
+> # Hence, it can concluded that policyholder's experience gets worse as 
+claim count increases
+(5)
+xi)
+> summary(policydata$Amount)
+########################
+Page 9 of 13
+ Min. 1st Qu. Median Mean 3rd Qu. Max. 
+ 0 0 0 29501 3232 1848069 
+> policydata$large= ifelse(policydata$Amount >100000,1,0)
+> x = sum(policydata$large)
+> n = length(policydata$Amount[policydata$Amount>0])
+> #Alternative, if dplyr installed
+> #n = length(filter(policydata,Amount >0)$Amount)
+> binom.test(x,n)
+Exact binomial test
+data: x and n
+number of successes = 35, number of trials = 192, p-value < 2.2e-16
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+0.1303796 0.2442928
+sample estimates:
+probability of success 
+ 0.1822917 
+> 
+> # Since upper bound of c.i is less that .25, it is unlikely that more 
+that 
+> #25% claims are large
+(5)

@@ -1,0 +1,107 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+MA(2,2) time series Zt is defined by the following equation
+Zt=2 + 0.8Zt-1 + 0.1Zt-2 + et + 0.4et-1 + 0.1et-2 , where et are white noise terms which are IID 
+random variables with mean 0 and σ2= 7
+i) Simulate 300 observations of the above time series using seed value equal to 100 and plot 
+it giving appropriate labels for each axis. Paste the plot into your answer sheet. (4)
+ii) Using the data simulated in (i), compute the mean and standard deviation of 
+a) The entire series
+b) The first 150 observations of the series
+c) The last 150 observations of the series (6)
+iii) Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF) of 
+the simulated data in (i), giving appropriate labels for each axis. Paste the plots into your 
+answer sheet. (4)
+iv) Comment on the stationarity of data from (ii) and (iii) above. (3)
+v) Comment whether ARMA(2,2) can be inferred from the ACF and PACF plots. (3)
+
+---
+ [25 Marks]
+Solution 3:
+(i)
+set.seed(100) 
+z=2+arima.sim(n=300,list(ar=c(0.8,0.1),ma=c(0.4,0.1),sd=7^0.5))
+plot(z, xlab = "Time", ylab = "Simulated Values from an ARMA(2,2) Time Series
+", main = "Time Series Plot")
+(4)
+IAI CS2B-0322
+Page 8 of 14
+# (ii)
+# (a)
+mean (z)
+## [1] 1.520674
+sd(z)
+## [1] 5.865453
+# (b)
+mean(z[1:150])
+## [1] 0.678429
+sd(z[1:150])
+## [1] 4.997272
+# (c)
+mean(z[151:300])
+## [1] 2.362919
+sd(z[151:300])
+## [1] 6.529698
+(6)
+# (iii)
+acf(z, xlab = "Lag", ylab = "ACF of Simulated Values from an ARMA(2,2) Time S
+eries", main = "ACF") 
+IAI CS2B-0322
+Page 9 of 14
+pacf(z, xlab = "Lag", ylab = "Partial ACF of Simulated Values from an ARMA(2,
+2) Time Series", main = "PACF")
+ (4)
+# (iv)
+# The series appears stationary as there are no obvious trends or cycles in t
+he graph of the series and it appears to have constant mean. 
+# However, from (ii), it appears that mean of the two subsets of the data is 
+very different.
+# Working with a larger subset takes the mean values closer to constant thus 
+revealing in stationarity. 
+# For a stationary time series, the ACF will drop to zero relatively quickly, 
+while the ACF of non-stationary data decreases slowly 
+# Hence, we confirm that the series is stationary
+ (3)
+# (v)
+# PACF becomes insignificant after two lags and ACF goes gradually to zero in
+dicating the strong presence of AR(2)process compared to an ARMA (2,2) models
+# In ARMA(2,2) model, we should observe, ACF and PACF to gradually go down to 
+zero after a few lags
+ (3)

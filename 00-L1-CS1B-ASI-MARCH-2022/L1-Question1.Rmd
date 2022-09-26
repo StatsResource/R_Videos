@@ -1,0 +1,212 @@
+
+INSTITUTE OF ACTUARIES OF INDIA
+EXAMINATIONS
+23rd March 2022
+Subject CS1B – Actuarial Statistics (Paper B)
+Time allowed: 2 Hours (14.30 - 16.30 Hours)
+Total Marks: 100
+########################
+ Page 2 of 4
+Q. 1) An Actuarial student fits following simple regression model to the data
+yi = alpha + beta * xi + ei ; i =1 to 12
+where ei are independent normal random variables with mean 0 and variance sigma2
+Use following 12 data points for x and y 
+where y is response variable while x is explanatory variable
+x = c(5,10,15,20,25,30,35,40,45,50,55,60)
+y = c(15,12,25,23,35,36,33,38,43,45,50,53)
+Note: Do not use standard ‘model fitting related’ R codes - lm, glm, fitted, residuals, 
+predict, anova - to answer parts of this question.
+i) Calculate Sxx, Sxy and Syy. (7)
+ii) Calculate alpha, beta and sigma2
+using results in part (i). (3)
+iii) Calculate fitted values of y using results in part (ii). (1)
+iv) Calculate residuals using results of earlier parts and Calculate mean and variance of 
+residuals and comment on the result. (3)
+v) Calculate 95% confidence interval for beta and comment if we can conclude that beta 
+is not zero stating the Null and alternate hypothesis. Calculate 95% confidence interval 
+for sigma2
+.
+ 
+ 
+Note: Candidates are expected to find tabulated value using R. (7)
+vi) State SSTOT and Calculate SSREG and SSRES. Hence calculate the proportion of 
+variability explained by the model using SSREG and SSRES and comment on the result. 
+Calculate adjusted R2
+and compare it with R^2 to explain result. (5)
+vii)Calculate mean predicted response when x=52 and 95% confidence interval for the 
+same. Note: Candidates are expected to find tabulated value using R. (4)
+
+##################################################
+
+Page 1 of 13
+Institute of Actuaries of India
+Subject CS1-Actuarial Statistics (Paper B)
+March 2022 Examination
+INDICATIVE SOLUTION
+Introduction
+The indicative solution has been written by the Examiners with the aim of helping candidates. The 
+solutions given are only indicative. It is realized that there could be other points as valid answers and 
+examiner have given credit for any alternative approach or interpretation which they consider to be 
+reasonable.
+########################
+Page 2 of 13
+Solution 1:
+i) 
+x= c(5,10,15,20,25,30,35,40,45,50,55,60)
+y=c(15,12,25,23,35,36,33,38,43,45,50,53)
+> meanx = mean(x)
+> meany=mean(y)
+> meanx
+[1] 32.5
+> meany
+[1] 34
+> x_sq=x*x
+> x_sq
+[1] 25 100 225 400 625 900 1225 1600 2025 2500 3025 3600
+> y_sq=y*y
+> xy=x*y
+> xy
+[1] 75 120 375 460 875 1080 1155 1520 1935 2250 2750 3180
+> sumx_sq=sum(x_sq)
+> sumy_sq=sum(y_sq)
+> sumxy=sum(xy)
+> sumx_sq
+[1] 16250
+> sumy_sq
+[1] 15760
+> sumxy
+[1] 15775
+> Sxx=Sumx_sq-12*meanx^2
+> Sxx
+[1] 3575
+> Sxy=sumxy-12*meanx*meany
+> Sxy
+[1] 2515
+> Syy=sumy_sq-12*meany^2
+> Syy
+[1] 1888
+(7)
+ii)
+> beta=Sxy/Sxx
+> beta
+[1] 0.7034965
+> alpha=meany-beta*meanx
+> alpha
+[1] 11.13636
+########################
+Page 3 of 13
+> sigmasq=(1/(12-2))*(Syy-Sxy^2/Sxx)
+> sigmasq
+[1] 11.87063
+(3)
+iii)
+> expectedy=alpha+beta*x
+> expectedy
+[1] 14.65385 18.17133 21.68881 25.20629 28.72378 32.24126 35.75874 39.27622 42.79371 
+46.31119 49.82867 53.34615
+(1)
+iv)
+> e=y-alpha-beta*x
+> e
+[1] 0.3461538 -6.1713287 3.3111888 -2.2062937 6.2762238 3.7587413
+[7] -2.7587413 -1.2762238 0.2062937 -1.3111888 0.1713287 -0.3461538
+> meane=mean(e)
+> meane
+[1] -1.702344e-15
+> var(e)
+[1] 10.79148
+Mean value of residuals is close to zero as expected as e~N(0,sigma^2)
+(Otherwise, “e” could be calculated as e = y-expectedy)
+Var of e is slightly lower than sigma square as calculated in part ii – as denominator is not adjusted
+When denominator of 10 gets used instead of 11 we see that var of residuals = sigma^2 
+> var(e)*11/10
+[1] 11.87063
+(3)
+v) 95% confidence interval for beta
+Ho: Beta is zero (i.e. no linear relationship between x and y)
+H1: Beta is not equal to zero
+(Beta_cap-0)/ sqrt(sigma^2_cap/ Sxx) ~ t10
+We use t distribution with n-2 i.e. 10 degrees of freedom
+> qt(p=0.025, lower.tail = T, df=10)
+[1] -2.228139
+Being symmetric distribution, 97.5% point would be 2.228139
+> sqrt(sigmasq/Sxx)
+[1] 0.0576234
+Hence, endpoints of CI would be
+> end1=beta+sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
+> end1
+[1] 0.5751036
+########################
+Page 4 of 13
+> end2=beta-sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
+> end2
+[1] 0.8318894
+Hence 95% Confidence interval for beta is (0.5751, 0.8319)
+As confidence interval for beta does not include zero, we can reject null hypothesis (viz. beta=0) and 
+Hence, can conclude that beta is not equal to zero at 5% level.
+95% CI for sigma^2
+(n-2)sigmacap^2/ sigma^2 ~ Chi sq distribution with 10 degrees of freedom
+Tabulated values of Chi square having 10 df can be obtained as
+> chitenend1=qchisq(df=10, p=0.025)
+> chitenend2=qchisq(df=10,p=0.975)
+> chitenend1
+[1] 3.246973
+> chitenend2
+[1] 20.48318
+End points of CI would be
+> sigmasqend1=(12-2)*sigmasq/chitenend1
+> sigmasqend2=(12-2)*sigmasq/chitenend2
+> sigmasqend1
+[1] 36.55907
+> sigmasqend2
+[1] 5.795307
+Hence 95% Confidence interval for sigma^2 is (5.795,36.559)
+(7)
+vi)
+SSTOT = Syy = 1888 (as calculated in part i)
+SSREG = Sxy^2/Sxx 
+> ss_reg=Sxy^2/Sxx
+> ss_reg
+[1] 1769.294
+SSRES = SSTOT - SSREG
+> ss_res=Syy-ss_reg
+> ss_res
+[1] 118.7063
+R^2 denotes the % of variability explained by the model
+R^2 = SSREG / (SSREG + SSRES)
+> Rsq = ss_reg/(ss_reg+ss_res)
+> Rsq
+[1] 0.9371259
+Model is a good fit as 93.7% of the variability is explained by the model.
+########################
+Page 5 of 13
+> adj_Rsq = 1-((12-1)/(12-1-1))*(1-Rsq)
+> adj_Rsq
+[1] 0.9308385
+Adjusted R^2 (93.08%) is lower than R^2 (93.71%) as adjusted R square penalises for extra predictors 
+and 
+hence is better suited to assess the adequacy of the model (or for comparison between models) 
+compared to just using R^2 for model comparison as 
+R^2 cannot decrease on addition of more explanatory variables which can be undesirable (as it may 
+promote too many explanatory variables though not adding significant improvement in the predicted 
+value)
+(5)
+vii)
+using results from earlier parts mean predicted response is calculated (using regression line 
+equation)
+> Emean52=alpha+beta*52
+> Emean52
+[1] 47.71818
+Expected value of mean predicted response is 47.718 when x=52
+varofmean52=((1/12)+(52-meanx)^2/Sxx)*sigmasq
+> varofmean52
+[1] 2.251822
+> mean52end1=Emean52+qt(p=0.025, lower.tail = T, df=10)*sqrt(varofmean52)
+> mean52end2=Emean52-qt(0.025,lower.tail = T, df=10)*sqrt(varofmean52)
+> mean52end1
+[1] 44.37462
+> mean52end2
+[1] 51.06174
+Hence 95% confidence interval for the mean predicted response is (44.3746,51.0617)
+(4)
+[30 Marks]

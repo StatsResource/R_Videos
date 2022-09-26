@@ -90,12 +90,17 @@ plot(a, main = "Time series of plots")
 par(mfrow=c(1,2))
 acf(a,main="Sample ACF")
 pacf(a,main="Sample PACF")
-[5M]
+```
 
 ---
 
 # (iii)
+```{r}
 acf(a,plot = FALSE)
+
+```
+
+
 ## 
 ## Autocorrelations of series 'a', by lag
 ## 
@@ -139,7 +144,7 @@ pacf(a,plot = FALSE)
 
 ```
 ---
-```{r}
+
 
 # (iv)
 'The ACF indicates that there is correlation between an observation and
@@ -152,16 +157,22 @@ s getting weaker" [2M]
 ```{r}
 # (v)
 s<-diff(a, lag=12,differences=1)
-head(s,12) [2M]
+head(s,12) 
+```
 ## Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 ## 2 15.3 13.3 19.2 32.6 5.0 16.5 -9.4 36.7 15.3 -9.8 -95.3 -9.8
-```
+
 ---
+
 ```{r}
 # (vi)
 f<-decompose(a)
 plot(f)
-[4M]
+
+```
+
+---
+
 # (vii)
 'The cyclical trend with more variations at the longer time lags, 
 there is seasonality in the dataset'

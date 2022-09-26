@@ -1,0 +1,125 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+1 The annual aggregate claim amount of an insurer follows a compound Poisson 
+distribution with parameter 1,000. Individual claim amounts follow a Gamma 
+distribution with shape parameter α = 750 and rate parameter λ = 0.25. 
+(i) Generate 20,000 simulated aggregate claim values for this insurer, using a 
+random number generator seed of 914. Use the R function, head(), to 
+display the first seven simulated claim values in your answer script. [7] 
+(ii) Determine the mean and the standard deviation of the simulated aggregate 
+claim values from part (i). [3] 
+(iii) Plot the empirical density function of the simulated aggregate claim values 
+from part (i), setting the x-axis range from 2,600,000 to 3,300,000 and the 
+y-axis range from 0 to 0.0000045. [5] 
+(iv) Suggest a suitable distribution, including its parameters, that approximates the 
+simulated aggregate claim values from part (i). [2] 
+(v) Generate 20,000 values from your suggested distribution in part (iv) using a 
+random number generator seed of 914. Use the R function, head(), to 
+display the first seven generated values in your answer script. [3] 
+(vi) Plot the empirical density function of the simulated values in part (v) as a 
+different coloured line in the chart that was produced in part (iii).  
+
+
+
+
+Solutions for Subject CS2B - April 2022
+Q1
+(i)
+set.seed(914) 
+n = rpois(20000, 1000) 
+s = numeric(20000) 
+for(i in 1:20000) 
+{x = rgamma(n[i], shape = 750, rate = 0.25) 
+s[i] = sum(x)} 
+head(s, 7) 
+ 2860469 2915250 2998362 3223837 2915546 2971731 3132371
+
+ALTERNATIVE SOLUTION:
+set.seed(914) 
+s = numeric(20000) 
+for(i in 1:20000) 
+{n = rpois(1, 1000) 
+x = rgamma(n, shape = 750, rate = 0.25) 
+s[i] = sum(x)} 
+head(s, 7) 
+ 2856968 2929369 2910782 2941784 3041930 3057008 2953528
+
+(ii)
+mean(s) 
+ 3000982 
+The mean of the simulated claim values is 3,000,982 
+sd(s) 
+ 93872.61 
+The standard deviation of the simulated claim values is 93,872.61 
+(iii)
+plot( 
+density(s), 
+xlim = c(2600000, 3300000), 
+ylim = c(0, 4.5e-06), 
+xlab = "Simulated Claims", 
+main = "Probability Density Function of Simulated Claims
+from a Compound Poisson Distribution") 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+
+(iv)
+Normal distribution 
+with mean = 3,000,982 … 
+and standard deviation = 93,872.61
+OR
+and variance = 93,872.61^2 = 8,812,067,277 
+(v)
+set.seed(914) 
+approx_dist = rnorm(20000, mean(s), sd(s)) 
+head(approx_dist, 7) 
+ 2856910 3082046 2903046 2999750 3229462 2919827 2976414
+
+(vi)
+lines( 
+density(approx_dist), 
+col = "red") 
+legend("topright", 
+legend = c("Simulated Claims", "Approximate Normal 
+Distribution"), 
+ col = c("black","red"), 
+ pch = 7)
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+
+[Total 24]

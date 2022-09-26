@@ -1,0 +1,137 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+Q. 1) A statistician uses Decision Tree to reach the final decision of whether there is a need to 
+conduct a surgery for a patient or not. This is based on testing the presence of three parameters 
+in human body. You need to test the effectiveness of the decision tree in predicting the need 
+for surgery correctly.
+Below is the decision tree as shown:
+i) Write a function in R to decide whether a surgery is needed or not based on the value of 
+three parameters. Denote Surgery required as 1 and Surgery not required as 0. (3)
+ii) Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 (1)
+iii) Load CS2B_Mar22_Dataset1.csv file into R and name it as decisionData. This data 
+contains the three parameter values for 50 patients and the actual decision taken with 
+respect to the surgery. Apply the function created in (i) to this data. Paste the output after 
+applying the function in your answer sheet. (3)
+iv) Compare the predicted and actual decisions by computing precision, recall and F1 score. (6)
+v) Comment on the results obtained in (iv). (2)
+
+---
+Solution 1:
+library(moments)
+# i)
+f=function(x){
+ ifelse(x[1]>150 & x[2]>50,ifelse(x[3]>300,1,0),0)
+}
+#OR
+f=function(x){
+ifelse(x[1]>150 & x[2]>50,0,ifelse(x[3]>300,1,0))
+}
+#OR
+f=function(x){
+ifelse(x[1]>150 & x[2]>50,ifelse(x[3]>300,0,1),0)
+}
+#OR
+f=function(x){
+ifelse(x[1]>150 & x[2]>50,0,ifelse(x[3]>300,0,1))
+}
+(3)
+# (ii)
+f(c(180,75,350))
+## [1] 1
+## [1] 0
+## [1] 0
+## [1] 0
+(1)
+# (iii)
+decisionData=read.csv("D:\\IAI Question Paper\\Mar22 Diet\\CS2B_Mar22_Dataset
+1.csv")
+model=apply(decisionData,1,f)
+model
+## [1] 1 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 1 1 0 0 0 
+0 0 1
+## [39] 0 0 1 0 0 0 0 0 0 1 0 0
+---
+Page 3 of 14
+##[1] 0 1 0 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1 1 1 
+1 0 0 0 0 1 1 0 1 0 1 0 0 0
+##[1] 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+0 0 1 1 0 0 0 0 0 0 0 0 1 1
+## [1] 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 1 0 1 0 0 0 0
+ (3)
+# (iv)
+TP=sum(model == 1 & decisionData$OperationStatus == 1)
+print(paste("TP = ", TP))
+## [1] "TP = 8"
+FP=sum(model == 1 & decisionData$OperationStatus == 0)
+print(paste("FP = ", FP))
+## [1] "FP = 5"
+TN=sum(model == 0 & decisionData$OperationStatus == 0)
+print(paste("TN = ", TN))
+## [1] "TN = 22"
+FN=sum(model == 0 & decisionData$OperationStatus == 1)
+print(paste("FN = ", FN))
+## [1] "FN = 15"
+precision=(TP/(TP+FP))
+precision 
+## [1] 0.6153846
+recall=(TP/(TP+FN))
+recall 
+## [1] 0.3478261
+f1=(2*precision*recall)/(precision+recall)
+f1 
+## [1] 0.4444444
+(6)
+# (v)
+# Lower precision value indicates the presence of larger number of False posi
+tives
+# Lower recall value indicates the presence of larger number of False negativ
+es
+# This test is not really effective at correctly identifying individuals who 
+require Surgery
+---
+Page 4 of 14
+# F1 tells how precise your classifier is (how many instances it classifies c
+orrectly), as well as how robust it is (it does not miss a significant number 
+of instances)
+# Low F1 score indicates that the model can be modified to increase its perfo
+rmance
+ (2)
+ [15 Marks]

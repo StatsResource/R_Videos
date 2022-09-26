@@ -1,0 +1,333 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+CS2B A2022–4 
+3 An international pensions provider is interested in quantifying the force of mortality at 
+certain ages for a particular country, for the period from 1 January 2017 through to 
+1 January 2020. The ‘CS2B_A22_Qu_3_Data.csv’ file contains mortality data from a 
+recent mortality investigation. The deaths and exposure data are all in respect of the 
+period 1 January 2020 to 31 December 2020 inclusive. The file contains the following 
+six variables: 
+Age Age last birthday, x, in single ages from 55 to 95 inclusive 
+Deaths Number of observed deaths at age x, Dx
+Exposure Central exposed to risk at age x, Ex
+c (measured in years) 
+Graduation1 Central mortality rate at age x, mx, derived from graduation method 1 
+Graduation2 Central mortality rate at age x, mx, derived from graduation method 2 
+Graduation3 Central mortality rate at age x, mx, derived from graduation method 3 
+The graduation methods are set out below: 
+Graduation 1 Graduation by parametric formula 
+Graduation 2 Graduation obtained by removing one parameter from the formula 
+underlying Graduation 1 
+Graduation 3 Graduation obtained by adding one parameter to the formula 
+underlying Graduation 1 
+Before answering this question, the ‘CS2B_A22_Qu_3_Data.csv’ file should be 
+loaded into R and assigned to a data frame called graduation. 
+(i) Construct three new columns in graduation, called zx1, zx2 and zx3, 
+containing the standardised deviations: 
+zx = Dx – mxEx
+c
+ 
+ √ mxEx
+c
+for each of the graduations. 
+Use the R function, head(), to display the first seven values of columns zx1, 
+zx2 and zx3 ONLY in your answer script. [6] 
+(ii) Determine, using R, the p-value of the chi-square goodness-of-fit test for each 
+of the three graduations given that the numbers of degrees of freedom are as 
+follows: 
+Graduation 1 2 3 
+Degrees of freedom 36 37 35 
+--- 
+(iii) Comment on your results in part (ii), with reference to the suitability of the 
+three graduations for the observed mortality rates. [6] 
+(iv) Determine, using R, the numbers of positive and negative deviations for each 
+of the three graduations. [8] 
+CS2B A2022–5 
+(v) Determine, using R, the numbers of groups of positive deviations for each of 
+the three graduations. [12] 
+(vi) Determine, using R, the p-value of the grouping of signs test for each of the 
+three graduations. 
+[Hint: If you are using the binomial coefficients ൫
+n
+r
+൯ in your calculations, 
+these may be obtained in R as choose(n, r).] [9] 
+(vii) Comment on whether your conclusions in part (iii) have changed in light of 
+the results in part (vi). [2] 
+ [Total 51] 
+END OF PAPER 
+---
+
+Q3
+(i)
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+graduation = 
+read.csv(file = "CS2B_A22_Qu_3_Data.csv", head = TRUE) 
+
+---
+graduation$zx1 = (graduation$Deaths - graduation$Exposure * 
+graduation$Graduation1) / sqrt(graduation$Exposure * 
+graduation$Graduation1) [1½]
+graduation$zx2 = (graduation$Deaths - graduation$Exposure *
+graduation$Graduation2) / sqrt(graduation$Exposure * 
+graduation$Graduation2) 
+
+graduation$zx3 = (graduation$Deaths - graduation$Exposure * 
+graduation$Graduation3) / sqrt(graduation$Exposure * 
+graduation$Graduation3) 
+
+---
+
+
+head(graduation[, 7:9], 7) 
+ zx1 zx2 zx3
+1 -0.4532486 2.08008602 0.077224448
+2 -0.7304714 1.21170927 -0.453050849
+3 0.4301427 1.78813614 0.498299817
+4 -0.1565084 0.57642875 -0.250408199
+5 0.5517038 0.72246846 0.351202375
+6 0.2811644 -0.07163144 0.002057777
+7 -0.5559179 -1.34146800 -0.839474197 
+---
+(ii)
+EITHER:
+chisq = vector(length = 3) 
+chisq = sum(graduation$zx1^2) 
+chisq[2] = sum(graduation$zx2^2) 
+chisq[3] = sum(graduation$zx3^2) 
+df = c(36, 37, 35) 
+1 - pchisq(chisq, df = df) [1½]
+ 7.002971e-02 5.582300e-08 7.128381e-02 
+OR:
+chisq1 = sum(graduation$zx1^2) 
+chisq2 = sum(graduation$zx2^2) 
+chisq3 = sum(graduation$zx3^2) 
+1 - pchisq(chisq1, df = 36) [1½]
+ 0.07002971 
+1 - pchisq(chisq2, df = 37) 
+ 5.5823e-08 
+1 - pchisq(chisq3, df = 35) 
+ 0.07128381 
+THEN:
+The p-value for graduation 1 is 0.07003
+The p-value for graduation 2 is 5.582e-08
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+The p-value for graduation 3 is 0.07128 
+(iii)
+Based on the p-values, there is enough evidence to reject graduation 2 at the 5% significance 
+level but not graduations 1 and 3 [2]
+Since graduation 2 does not fit the rates well, the parameter that was removed from 
+graduation 1 to give this graduation is statistically significant and should be added
+back in [2]
+The results do not support the need for the additional parameter in graduation 3
+compared with graduation 1. [2]
+For graduation 3 the improvement in fit approximately balances out the lost
+degree of freedom. 
+Although graduations 1 and 3 appear suitable based on the chi-square test, they
+may be unsuitable for other reasons 
+Any appropriate example, e.g. small consistent bias, a few large outliers, or clumps
+of deviations of the same sign 
+[Marks available 9, maximum 6]
+(iv)
+EITHER:
+pos = vector(length = 3) 
+neg = vector(length = 3) 
+pos = length(graduation$zx1[graduation$zx1 > 0]) 
+pos[2] = length(graduation$zx2[graduation$zx2 > 0]) 
+pos[3] = length(graduation$zx3[graduation$zx3 > 0]) 
+neg = length(graduation$zx1[graduation$zx1 < 0]) 
+neg[2] = length(graduation$zx2[graduation$zx2 < 0]) 
+neg[3] = length(graduation$zx3[graduation$zx3 < 0]) 
+pos 
+ 22 20 21 
+neg 
+ 19 21 20 
+OR:
+pos1 = length(graduation$zx1[graduation$zx1 > 0]) 
+pos2 = length(graduation$zx2[graduation$zx2 > 0]) 
+pos3 = length(graduation$zx3[graduation$zx3 > 0]) 
+neg1 = length(graduation$zx1[graduation$zx1 < 0]) 
+neg2 = length(graduation$zx2[graduation$zx2 < 0]) 
+neg3 = length(graduation$zx3[graduation$zx3 < 0]} 
+pos1
+ 22 
+pos2
+ 20 
+pos3
+ 21 
+neg1
+ 19 
+neg2
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+ 21 
+neg3
+ 20 
+THEN:
+Graduation 1 has 22 positive and 19 negative deviations.
+Graduation 2 has 20 positive and 21 negative deviations.
+Graduation 3 has 21 positive and 20 negative deviations. 
+(v)
+EITHER:
+groups = vector(length = 3) 
+for(j in 1:3){ 
+pos_z = (graduation[, j + 6] > 0) * 1 
+groups[j] = 
+sum( 
+duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
+ [3½]
++ pos_z * 1} [2]
+groups 
+ 11 5 11 
+OR:
+pos_z = (graduation$zx1 > 0) * 1 
+groups1 = 
+sum( 
+duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
+ [3½]
++ pos_z * 1 [2]
+pos_z = (graduation$zx2 > 0) * 1
+groups2 =
+sum(
+duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1)
++ pos_z * 1 
+pos_z = (graduation$zx3 > 0) * 1
+groups3 =
+sum(
+duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1)
++ pos_z * 1 
+groups1 
+ 11 
+groups2
+ 5 
+groups3
+ 11 
+THEN:
+Graduation 1 has 11 groups of positive deviations.
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+Graduation 2 has 5 groups of positive deviations.
+Graduation 3 has 11 groups of positive deviations. 
+ALTERNATIVE SOLUTION:
+EITHER:
+groups = vector(length = 3) 
+for(j in 1:3){ 
+pos_z = (graduation[, j + 6] > 0) * 1 
+groups[j] = 
+sum( 
+duplicated(c(which(pos_z == 1) - 1,
+which(pos_z == 0))) * 1) [3½]
++ pos_z * 1 [2]
+}
+groups 
+ 11 5 11 
+OR:
+pos_z = (graduation$zx1 > 0) * 1 
+groups1 = 
+sum( 
+duplicated(c(which(pos_z == 1) - 1,
+which(pos_z == 0))) * 1) [3½]
++ pos_z * 1 [2]
+pos_z = (graduation$zx2 > 0) * 1
+groups2 =
+sum(
+duplicated(c(which(pos_z == 1) - 1,
+which(pos_z == 0))) * 1)
++ pos_z * 1 
+pos_z = (graduation$zx3 > 0) * 1
+groups3 =
+sum(
+duplicated(c(which(pos_z == 1) - 1,
+which(pos_z == 0))) * 1)
++ pos_z * 1 
+groups1 
+ 11 
+groups2
+ 5 
+groups3
+ 11 
+THEN:
+Graduation 1 has 11 groups of positive deviations.
+Graduation 2 has 5 groups of positive deviations.
+Graduation 3 has 11 groups of positive deviations. 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+---
+(vi)
+EITHER:
+pval = vector(length = 3) 
+for(j in 1:3){ 
+pval[j] = 0 
+for(t in 1:groups[j]){ 
+pval[j] = pval[j] + choose(pos[j] - 1, t - 1) *
+choose(neg[j] + 1, t) / 
+choose(pos[j] + neg[j], pos[j])}} [3]
+pval 
+ 0.6844862501 0.0004065953 0.6787210548 
+OR:
+pval1 = 0 
+for(t in 1:groups1){ 
+pval1 = pval1 + choose(pos1 - 1, t - 1)*
+choose(neg1 + 1, t) /
+choose(pos1 + neg1, pos1)} [3]
+pval2 = 0
+for(t in 1:groups2){
+pval2 = pval2 + choose(pos2 - 1, t - 1)*
+choose(neg2 + 1, t) /
+choose(pos2 + neg2, pos2)} 
+pval3 = 0
+for(t in 1:groups3){
+pval3 = pval3 + choose(pos3 - 1, t - 1)*
+choose(neg3 + 1, t) /
+choose(pos3 + neg3, pos3)} 
+pval1 
+ 0.6844862501 
+pval2
+ 0.0004065953 
+pval3
+ 0.6787210548 
+THEN:
+The p-value for graduation 1 is 0.6845
+The p-value for graduation 2 is 0.0004066
+The p-value for graduation 3 is 0.6787 
+(vii)
+The conclusions in part (iii) remain unchanged 
+as the p-values calculated under the grouping of signs test support the conclusions
+in part (iii) 
