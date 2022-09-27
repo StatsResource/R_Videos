@@ -54,6 +54,8 @@ v) Comment on the results obtained in (iv). (2)
 
 ---
 Solution 1:
+
+```{r}
 library(moments)
 # i)
 f=function(x){
@@ -71,32 +73,46 @@ ifelse(x[1]>150 & x[2]>50,ifelse(x[3]>300,0,1),0)
 f=function(x){
 ifelse(x[1]>150 & x[2]>50,0,ifelse(x[3]>300,0,1))
 }
-(3)
-# (ii)
+```
+
+---
+#### Part (ii)
+```{r}
 f(c(180,75,350))
 ## [1] 1
 ## [1] 0
 ## [1] 0
 ## [1] 0
-(1)
-# (iii)
-decisionData=read.csv("D:\\IAI Question Paper\\Mar22 Diet\\CS2B_Mar22_Dataset
-1.csv")
+
+
+```
+
+---
+#### Part (iii)
+
+```{r}
+decisionData=read.csv("CS2B_Mar22_Dataset1.csv")
 model=apply(decisionData,1,f)
 model
+```
+
+---
+
 ## [1] 1 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 1 1 0 0 0 
 0 0 1
 ## [39] 0 0 1 0 0 0 0 0 0 1 0 0
+
 ---
-Page 3 of 14
 ##[1] 0 1 0 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1 1 1 
 1 0 0 0 0 1 1 0 1 0 1 0 0 0
 ##[1] 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
 0 0 1 1 0 0 0 0 0 0 0 0 1 1
 ## [1] 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0
- (3)
-# (iv)
+---
+#### Part (iv)
+
+```{r}
 TP=sum(model == 1 & decisionData$OperationStatus == 1)
 print(paste("TP = ", TP))
 ## [1] "TP = 8"
@@ -106,20 +122,34 @@ print(paste("FP = ", FP))
 TN=sum(model == 0 & decisionData$OperationStatus == 0)
 print(paste("TN = ", TN))
 ## [1] "TN = 22"
+```
+
+---
+
+```{r}
 FN=sum(model == 0 & decisionData$OperationStatus == 1)
 print(paste("FN = ", FN))
 ## [1] "FN = 15"
 precision=(TP/(TP+FP))
 precision 
+
 ## [1] 0.6153846
+```
+
+---
+
+```{r}
 recall=(TP/(TP+FN))
-recall 
+recall
+
 ## [1] 0.3478261
 f1=(2*precision*recall)/(precision+recall)
 f1 
 ## [1] 0.4444444
-(6)
-# (v)
+```
+
+---
+#### Part (v)
 # Lower precision value indicates the presence of larger number of False posi
 tives
 # Lower recall value indicates the presence of larger number of False negativ
@@ -127,11 +157,10 @@ es
 # This test is not really effective at correctly identifying individuals who 
 require Surgery
 ---
-Page 4 of 14
+
 # F1 tells how precise your classifier is (how many instances it classifies c
 orrectly), as well as how robust it is (it does not miss a significant number 
 of instances)
 # Low F1 score indicates that the model can be modified to increase its perfo
 rmance
- (2)
- [15 Marks]
+

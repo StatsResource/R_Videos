@@ -112,13 +112,26 @@ he integrated hazard",xlab="Time t",ylab="Integrated hazard")
 
 ---
 
-```{r}
-plot(c(0,data$tj),c(0,data$lambda),type="s",main="Nelson-Aalen estimator of t
-he integrated hazard",xlab="Time t",ylab="Integrated hazard")
-lines(data$tj,data$lambda-1.96*data$sdlambda,type="s",lty=2)
-lines(data$tj,data$lambda+1.96*data$sdlambda,type="s",lty=2)
+```{r eval=FALSE}
+plot(c(0,data$tj),c(0,data$lambda),type="s",
+main="Nelson-Aalen estimator of the integrated hazard",
+xlab="Time t",ylab="Integrated hazard")
+
+lines(data$tj,data$lambda-1.96*data$sdlambda,type="s",lty=2, col="blue")
+lines(data$tj,data$lambda+1.96*data$sdlambda,type="s",lty=2, col="blue")
 ```
 
+
+---
+
+```{r echo=FALSE}
+plot(c(0,data$tj),c(0,data$lambda),type="s",
+main="Nelson-Aalen estimator of the integrated hazard",
+xlab="Time t",ylab="Integrated hazard")
+
+lines(data$tj,data$lambda-1.96*data$sdlambda,type="s",lty=2, col="blue")
+lines(data$tj,data$lambda+1.96*data$sdlambda,type="s",lty=2, col="blue")
+```
 ---
 
 #### Part (iv)

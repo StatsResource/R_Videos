@@ -36,188 +36,165 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-Q. 5) A study aimed at estimating hazard rates and survival probabilities has produced the results of
-Nj=Number at risk and Dj=Decrements for different time intervals tj as shown in 
-CS2B_Mar22_Dataset3.csv. The researchers analysed the results using Nelson-Aalen model 
-of comparison.
 
-i) Write down the formulae for the estimated integrated hazard and the estimated variance of 
-this estimator, using the Nelson-Aalen model. 
-ii) Find the estimated integrated hazard and the estimated variance of this estimator for the 
-given data for each time tj. 
-
-
----
-
-
-iii) Produce a scatter plot in R along with corresponding 95% confidence intervals for the 
-Nelson-Aalen model. Paste the plot in the answer. (6)
-iv) Compute the survival function according to the Kaplan Meier estimate. (3)
-v) Demonstrate numerically the validity of the inequality relationship between the survival 
-function using the Nelson Aalen model and the Kaplan Meier model using the data in this 
-study. 
-
+MA(2,2) time series Zt is defined by the following equation
+Zt=2 + 0.8Zt-1 + 0.1Zt-2 + et + 0.4et-1 + 0.1et-2 , where et are white noise terms which are IID 
+random variables with mean 0 and σ2= 7
+i) Simulate 300 observations of the above time series using seed value equal to 100 and plot 
+it giving appropriate labels for each axis. Paste the plot into your answer sheet. (4)
+ii) Using the data simulated in (i), compute the mean and standard deviation of 
+a) The entire series
+b) The first 150 observations of the series
+c) The last 150 observations of the series (6)
+iii) Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF) of 
+the simulated data in (i), giving appropriate labels for each axis. Paste the plots into your 
+answer sheet. (4)
+iv) Comment on the stationarity of data from (ii) and (iii) above. (3)
+v) Comment whether ARMA(2,2) can be inferred from the ACF and PACF plots. (3)
 
 ---
-
-#### Part  (i)
-For the Nelson‐Aalen model the estimated integrated hazard is calculated as:
-
----
-
-The estimated variance of the estimator of the integrated hazard is 
-calculated as: 
- 
- 
---- 
-
-#### Part (b)
+ [25 Marks]
+Solution 3:
+(i)
 
 
 ```r
-data = read.csv("CS2B_Mar22_Dataset3.csv")
-names(data) = c("j","tj","nj","dj")
+set.seed(100) 
+z=2+arima.sim(n=300,list(ar=c(0.8,0.1),ma=c(0.4,0.1),sd=7^0.5))
+plot(z, xlab = "Time", ylab = "Simulated Values from an ARMA(2,2) Time Series
+", main = "Time Series Plot")
 ```
 
-
+![](L2-Question3_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
 ```r
-data$lambda = cumsum(data$dj/data$nj) 
-data$sdlambda=sqrt(cumsum(data$dj*(data$nj-data$dj)/data$nj^3)) 
-data
+(4)
 ```
 
 ```
-##     j tj  nj dj lambda sdlambda
-## 1   1  4 100  2 0.0200   0.0140
-## 2   2  5  98  2 0.0404   0.0200
-## 3   3  8  96  1 0.0508   0.0225
-## 4   4 10  90  3 0.0842   0.0294
-## 5   5 11  87  1 0.0957   0.0316
-## 6   6 15  86  0 0.0957   0.0316
-## 7   7 20  76  5 0.1614   0.0425
-## 8   8 22  71  2 0.1896   0.0468
-## 9   9 24  67  1 0.2045   0.0491
-## 10 10 25  66  1 0.2197   0.0513
-## 11 11 29  61  1 0.2361   0.0539
-## 12 12 30  60  1 0.2527   0.0563
-## 13 13 33  58  4 0.3217   0.0654
-## 14 14 35  54  2 0.3588   0.0703
-## 15 15 36  52  1 0.3780   0.0728
-## 16 16 40  50  1 0.3980   0.0755
-## 17 17 45  49  1 0.4184   0.0781
-## 18 18 47  45  3 0.4851   0.0865
-## 19 19 49  42  1 0.5089   0.0897
-## 20 20 50  40  1 0.5339   0.0930
-## 21 21 54  38  2 0.5865   0.0998
-## 22 22 55  35  3 0.6722   0.1105
-## 23 23 58  30  2 0.7389   0.1195
-## 24 24 60  27  2 0.8130   0.1297
-## 25 25 61  22  5 1.0402   0.1575
-```
-
-```r
-data$varlambda=cumsum(data$dj*(data$nj-data$dj)/data$nj^3) 
-```
-
-
----
-
-
-```r
-head(data)
-```
-
-```
-##   j tj  nj dj lambda sdlambda varlambda
-## 1 1  4 100  2 0.0200   0.0140  0.000196
-## 2 2  5  98  2 0.0404   0.0200  0.000400
-## 3 3  8  96  1 0.0508   0.0225  0.000507
-## 4 4 10  90  3 0.0842   0.0294  0.000865
-## 5 5 11  87  1 0.0957   0.0316  0.000996
-## 6 6 15  86  0 0.0957   0.0316  0.000996
-```
-
-```r
-## j tj nj dj lambda varlambda
-## 1 1 4 100 2 0.02000000 0.0001960000
-## 2 2 5 98 2 0.04040816 0.0003999966
-## 3 3 8 96 1 0.05082483 0.0005073733
+## [1] 4
 ```
 
 ---
-
-#### Part (iii)
-
-
-```r
-plot(c(0,data$tj),c(0,data$lambda),type="s",main="Nelson-Aalen estimator of t
-he integrated hazard",xlab="Time t",ylab="Integrated hazard") 
-```
-
-![](L2-Question5_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
-
----
+  
+# (ii)
+# (a)
 
 
 ```r
-plot(c(0,data$tj),c(0,data$lambda),type="s",
-main="Nelson-Aalen estimator of the integrated hazard",
-xlab="Time t",ylab="Integrated hazard")
-
-lines(data$tj,data$lambda-1.96*data$sdlambda,type="s",lty=2)
-lines(data$tj,data$lambda+1.96*data$sdlambda,type="s",lty=2)
+mean (z)
 ```
 
-
----
-
-![](L2-Question5_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
----
-
-#### Part (iv)
+```
+## [1] 1.82
+```
 
 ```r
-data$Survival_KM = cumprod(1-data$dj/data$nj)
-data$Survival_KM
+## [1] 1.520674
+sd(z)
 ```
 
 ```
-##  [1] 0.980 0.960 0.950 0.918 0.908 0.908 0.848 0.824 0.812 0.800 0.786 0.773
-## [13] 0.720 0.693 0.680 0.666 0.653 0.609 0.595 0.580 0.549 0.502 0.469 0.434
-## [25] 0.335
+## [1] 2.22
 ```
-
----
-
-#### Part (v)
-
 
 ```r
-# The inequality states that:
- 
-# Survival function of Kaplan Meir SKM(t) &lt; survival function of Nelson Aalen SNA(t) 
-# To demonstrate the inequality:
+## [1] 5.865453
+# (b)
 ```
 
 ---
 
 
 ```r
-data$Survival_NA = exp(-data$lambda)
-sum(data$Survival_KM&lt;data$Survival_NA)
+mean(z[1:150])
 ```
 
 ```
-## [1] 25
+## [1] 1.5
+```
+
+```r
+## [1] 0.678429
+sd(z[1:150])
+```
+
+```
+## [1] 1.89
+```
+
+```r
+## [1] 4.997272
 ```
 
 ---
 
-Since all the values are true, the inequality is proved
+
+```r
+# (c)
+mean(z[151:300])
+```
+
+```
+## [1] 2.14
+```
+
+```r
+## [1] 2.362919
+sd(z[151:300])
+```
+
+```
+## [1] 2.47
+```
+
+```r
+## [1] 6.529698
+```
+
+---
 
 
+```r
+# (iii)
+acf(z, xlab = "Lag", ylab = "ACF of Simulated Values from an ARMA(2,2) Time S
+eries", main = "ACF") 
+```
 
+![](L2-Question3_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+pacf(z, xlab = "Lag", ylab = "Partial ACF of Simulated Values from an ARMA(2,
+2) Time Series", main = "PACF")
+```
+
+![](L2-Question3_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+# (iv)
+
+* The series appears stationary as there are no obvious trends or cycles in t
+he graph of the series and it appears to have constant mean. 
+*  However, from (ii), it appears that mean of the two subsets of the data is 
+very different.
+* Working with a larger subset takes the mean values closer to constant thus 
+revealing in stationarity. 
+* For a stationary time series, the ACF will drop to zero relatively quickly, 
+while the ACF of non-stationary data decreases slowly 
+# Hence, we confirm that the series is stationary
+
+---
+
+# (v)
+ PACF becomes insignificant after two lags and ACF goes gradually to zero in
+dicating the strong presence of AR(2)process compared to an ARMA (2,2) models
+ In ARMA(2,2) model, we should observe, ACF and PACF to gradually go down to 
+zero after a few lags
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
