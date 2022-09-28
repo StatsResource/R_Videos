@@ -1,3 +1,42 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
 CS1B A2022–4 
 3 Consider a sample of 10,000 car insurance policies sold to drivers who have had a 
 driving licence for no more than 5 years. The data are given in the file 
@@ -37,7 +76,13 @@ be used in a GLM for the claim counts if only two explanatory variables are
 allowed. [8] 
 (vii) Comment on the comparison of the fit of the models in parts (v) and (vi).  
 
-############################
+```
+
+---
+
+
+
+```{r}
 Q3
 (i)
 Plot histograms for no claims discount years:
@@ -55,6 +100,13 @@ hist(NCD_old, breaks=seq(-0.5,5.5,by=1))
 (ii)
 The distribution for old policyholders is more concentrated on the right, 
 so the number of years of NCD seems to be higher for old policyholders. 
+```
+
+---
+
+
+
+```{r}
 (iii)(a)
 Calculate proportions:
 prop_young = sum(NCD_young > 2)/length(NCD_young) 
@@ -66,7 +118,13 @@ length(NCD_young[NCD_young>2])/length(NCD_young)
 prop_old = sum(NCD_old > 2)/length(NCD_old) 
 prop_old
 Proportion is 0.9704187 [½]
-#################################################
+```
+
+---
+
+
+
+```{r}
 Alternative R code:
 length(NCD_old[NCD_old>2])/length(NCD_old)
 CS1B – Actuarial Statistics – Core Principles – April 2022 - Examiners’ report

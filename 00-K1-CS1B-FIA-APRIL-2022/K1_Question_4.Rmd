@@ -1,4 +1,43 @@
- [Total 30]
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+[Total 30]
 CS1B A2022–5 
 
 ### QUESTION 4
@@ -38,6 +77,13 @@ assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. [10]
 
 Q4
 (i)
+```
+
+---
+
+
+
+```{r}
 First set up the calculations required for the EBCT 2 model:
 > load("claims.Rdata")
 > n<-ncol(policies_matrix) [½]
@@ -45,7 +91,13 @@ First set up the calculations required for the EBCT 2 model:
 > X<-claims_matrix/policies_matrix [½]
 > X
 ##########################
-CS1B A2022 © Institute and Faculty of Actuaries
+```
+
+---
+
+
+
+```{r}
  [,1] [,2] [,3] [,4] [,5]
 [1,] 0.05208526 0.04971335 0.03587963 0.03906162 0.03289183
 [2,] 0.02625538 0.02996795 0.03163265 0.03073171 0.03692308
@@ -76,7 +128,14 @@ E[s^2(theta)] = 0.07732984
 # 8.801906e-05
 Var[m(theta)] = 8.801906e-05 
 (ii)
+```
+
+---
+
 Now calculate the credibility factors:
+
+```{r}
+
 > Zi<-Pi/(Pi+s/v) [4]
 > Zi
 # 0.8964887 0.7760242 0.9410267 0.8296892
@@ -84,8 +143,13 @@ Credibility factors are: (0.8964887, 0.7760242, 0.9410267, 0.8296892)
 (iii)
 Then calculate the credibility premiums per unit of risk volume:
 > premiums<-Zi*Xibar +(1-Zi)*m [4]
-##########################
-CS1B A2022 © Institute and Faculty of Actuaries
+```
+
+---
+
+
+
+```{r}
 > premiums
 # 0.04082478 0.03380516 0.04408794 0.05848586 
 > year6sales<-c(1920, 575, 2820, 798) 
@@ -94,7 +158,13 @@ Finally calculate the credibility premium by multiplying by the sales for the up
 # 78.38358 19.43797 124.32800 46.67172
 Therefore, the expected payout for the insurers in the coming year is as follows:
 Insurer A: £78.4m, Insurer B: £19.4m, Insurer C: £124.3m, Insurer D: £46.7m 
-[Total 25]
+```
+
+---
+
+
+
+```{r}
 Candidates overall answered well this question.
 Candidates demonstrated this kind of calculations had been well practised. Some 
 numerical slips were common, however candidates who showed intermediate steps were 

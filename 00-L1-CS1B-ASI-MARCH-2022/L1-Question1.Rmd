@@ -233,24 +233,37 @@ Ho: Beta is zero (i.e. no linear relationship between x and y)
 H1: Beta is not equal to zero
 (Beta_cap-0)/ sqrt(sigma^2_cap/ Sxx) ~ t10
 We use t distribution with n-2 i.e. 10 degrees of freedom
-> qt(p=0.025, lower.tail = T, df=10)
-[1] -2.228139
+
+
+```{r}
+qt(p=0.025, lower.tail = T, df=10)
+```
+
 Being symmetric distribution, 97.5% point would be 2.228139
-> sqrt(sigmasq/Sxx)
-[1] 0.0576234
+```{r}
+sqrt(sigmasq/Sxx)
+```
+
+---
+
 Hence, endpoints of CI would be
-> end1=beta+sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
-> end1
-[1] 0.5751036
+
+```{r}
+end1=beta+sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
+end1
 
 ```
 ---
 
 ```{r}
 
-> end2=beta-sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
-> end2
-[1] 0.8318894
+end2=beta-sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
+end2
+
+
+```
+---
+
 Hence 95% Confidence interval for beta is (0.5751, 0.8319)
 As confidence interval for beta does not include zero, we can reject null hypothesis (viz. beta=0) and 
 Hence, can conclude that beta is not equal to zero at 5% level.
@@ -267,6 +280,9 @@ Tabulated values of Chi square having 10 df can be obtained as
 > chitenend2
 [1] 20.48318
 End points of CI would be
+
+---
+
 > sigmasqend1=(12-2)*sigmasq/chitenend1
 > sigmasqend2=(12-2)*sigmasq/chitenend2
 > sigmasqend1
@@ -278,9 +294,11 @@ Hence 95% Confidence interval for sigma^2 is (5.795,36.559)
 ```
 ---
 
+#### Part (vi)
+
 ```{r}
 
-vi)
+
 SSTOT = Syy = 1888 (as calculated in part i)
 SSREG = Sxy^2/Sxx 
 > ss_reg=Sxy^2/Sxx
@@ -290,6 +308,10 @@ SSRES = SSTOT - SSREG
 > ss_res=Syy-ss_reg
 > ss_res
 [1] 118.7063
+```
+---
+
+```{r}
 R^2 denotes the % of variability explained by the model
 R^2 = SSREG / (SSREG + SSRES)
 > Rsq = ss_reg/(ss_reg+ss_res)
@@ -300,27 +322,35 @@ Model is a good fit as 93.7% of the variability is explained by the model.
 ---
 
 ```{r}
+adj_Rsq = 1-((12-1)/(12-1-1))*(1-Rsq)
+adj_Rsq
 
-> adj_Rsq = 1-((12-1)/(12-1-1))*(1-Rsq)
-> adj_Rsq
-[1] 0.9308385
-Adjusted R^2 (93.08%) is lower than R^2 (93.71%) as adjusted R square penalises for extra predictors 
+```
+
+---
+
+* Adjusted R^2 (93.08%) is lower than R^2 (93.71%) as adjusted R square penalises for extra predictors 
 and 
 hence is better suited to assess the adequacy of the model (or for comparison between models) 
 compared to just using R^2 for model comparison as 
-R^2 cannot decrease on addition of more explanatory variables which can be undesirable (as it may 
+* R^2 cannot decrease on addition of more explanatory variables which can be undesirable (as it may 
 promote too many explanatory variables though not adding significant improvement in the predicted 
 value)
-```
+
+
 ---
 
-```{r}
-vii)
+
+#### Part (vii)
+
 using results from earlier parts mean predicted response is calculated (using regression line 
 equation)
-> Emean52=alpha+beta*52
-> Emean52
-[1] 47.71818
+
+```{r}
+
+Emean52=alpha+beta*52
+Emean52
+```
 
 ---
   

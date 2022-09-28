@@ -130,8 +130,7 @@ Page 13 of 13
 ---
 ```{r}
 # (vi)
-table(pred,test_Data$type) [4M]
-## 
+table(pred,test_Data$type) 
 ## pred No Yes
 ## No 67 22
 ## Yes 3 8

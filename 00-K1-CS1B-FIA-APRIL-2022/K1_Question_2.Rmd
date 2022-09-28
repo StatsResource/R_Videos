@@ -1,4 +1,42 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
 CS1B A2022–3 
 2 (i) (a) Simulate a sample of 100 values from a Beta distribution with 
 parameters a = 3, b = 1. Use the command set.seed(12345)to 
@@ -30,9 +68,9 @@ mean of the y data using the same bootstrap sample as in part (v).
 (b) Comment on the two confidence intervals produced in parts (iii) and 
 (vi)(a). 
  [6] 
-[Total 33] 
 
-##########################################################
+---
+
 Q2
 (i)(a)
 R code:
@@ -42,12 +80,20 @@ x = rbeta(100,3,1)
 R code:
 hist(x, main="Histogram of 100 values from Beta(3,1) distribution") 
 ##########################
-CS1B A2022 © Institute and Faculty of Actuaries
+
+---
 
 (c)
 The histogram is heavily skewed. 
 This is consistent with the skewness of a Beta(3,1) distribution, which is negative for 
 (𝛼𝛼 > 𝛽𝛽), see “Formula and Tables …”, page 13. 
+```
+
+---
+
+
+
+```{r}
 (ii)(a)
 R code:
 set.seed(12345)
@@ -56,24 +102,63 @@ xbar = numeric(nsim)
 for (i in 1:nsim){ 
 x = rbeta(100,3,1) 
 xbar[i] = mean(x) 
+```
+
+---
+
+
+
+
 Alternative code may be used. For example, without using a loop:
+
+
+---
+
+
+
+```{r}
 set.seed(12345)
 xbar <- replicate(1000,mean(rbeta(100,3,1)))
 (b)
+```
+
+---
+
+
+
+```{r}
 hist(xbar, main="Histogram of sample mean") 
-##########################
-CS1B A2022 © Institute and Faculty of Actuaries
+```
+
+---
+
+
+
 
 (c)
 The distribution of the sample mean is roughly symmetrical. 
 This demonstrates the CLT where the distribution of the sample mean is
 approximately normal for large sample size. 
+
+
+---
+
+
+
+```{r}
 (iii)
 R code:
 y = c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1)
 t.test(y, conf.level =0.90) 
 # 2.124776 3.795224
 Alternative R code:
+```
+
+---
+
+
+
+```{r}
 mean(y)-qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
 mean(y)+qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
 We have assumed that the data come from a normal distribution. 
@@ -83,6 +168,13 @@ R code:
 se.t = sd(y)/sqrt(length(y)); se.t 
 # 0.4556314
 Standard error of sample mean = 0.456. 
+```
+
+---
+
+
+
+```{r}
 (v)
 R code:
 set.seed(12345)
@@ -91,10 +183,16 @@ ybar.sim = numeric(nsim) [½]
 for (i in 1:nsim){ 
 y.sim = sample(y, replace=T) 
 ybar.sim[i] = mean(y.sim) 
-##########################
-CS1B A2022 © Institute and Faculty of Actuaries
+
 se.boot = sd(ybar.sim); se.boot 
 # 0.4318923
+```
+
+---
+
+
+
+```{r}
 Bootstrap standard error of sample mean = 0.432. 
 Alternative code may be used. For example, without using a loop:
 set.seed(12345)
@@ -104,6 +202,13 @@ We can use the output from part (v) and the R code:
 boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1 
 # 2.27 3.69 
 The 90% CI is (2.27, 3.69). 
+```
+
+---
+
+
+
+```{r}
 (b)
 The CI is now narrower; 
 this suggests that the data may not be from a Normal distribution 
