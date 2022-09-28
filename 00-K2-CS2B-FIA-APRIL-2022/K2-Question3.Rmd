@@ -58,6 +58,8 @@ Graduation 3 Graduation obtained by adding one parameter to the formula
 underlying Graduation 1 
 Before answering this question, the ‘CS2B_A22_Qu_3_Data.csv’ file should be 
 loaded into R and assigned to a data frame called graduation. 
+
+---
 (i) Construct three new columns in graduation, called zx1, zx2 and zx3, 
 containing the standardised deviations: 
 zx = Dx – mxEx
@@ -77,10 +79,10 @@ Degrees of freedom 36 37 35
 (iii) Comment on your results in part (ii), with reference to the suitability of the 
 three graduations for the observed mortality rates. [6] 
 (iv) Determine, using R, the numbers of positive and negative deviations for each 
-of the three graduations. [8] 
-CS2B A2022–5 
+of the three graduations. 
+
 (v) Determine, using R, the numbers of groups of positive deviations for each of 
-the three graduations. [12] 
+the three graduations. 
 (vi) Determine, using R, the p-value of the grouping of signs test for each of the 
 three graduations. 
 [Hint: If you are using the binomial coefficients ൫
@@ -98,8 +100,11 @@ Q3
 (i)
 CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
 ---
+
+```{r}
 graduation = 
 read.csv(file = "CS2B_A22_Qu_3_Data.csv", head = TRUE) 
+```
 
 ---
 graduation$zx1 = (graduation$Deaths - graduation$Exposure * 
@@ -128,10 +133,13 @@ head(graduation[, 7:9], 7)
 ---
 (ii)
 EITHER:
+```{r}
 chisq = vector(length = 3) 
 chisq = sum(graduation$zx1^2) 
 chisq[2] = sum(graduation$zx2^2) 
-chisq[3] = sum(graduation$zx3^2) 
+chisq[3] = sum(graduation$zx3^2)
+```
+--- 
 df = c(36, 37, 35) 
 1 - pchisq(chisq, df = df) [1½]
  7.002971e-02 5.582300e-08 7.128381e-02 
@@ -151,28 +159,31 @@ The p-value for graduation 2 is 5.582e-08
 CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
 ---
 The p-value for graduation 3 is 0.07128 
+
+---
 (iii)
 Based on the p-values, there is enough evidence to reject graduation 2 at the 5% significance 
-level but not graduations 1 and 3 [2]
+level but not graduations 1 and 3 
 Since graduation 2 does not fit the rates well, the parameter that was removed from 
 graduation 1 to give this graduation is statistically significant and should be added
 back in [2]
 The results do not support the need for the additional parameter in graduation 3
-compared with graduation 1. [2]
+compared with graduation 1. 
 For graduation 3 the improvement in fit approximately balances out the lost
 degree of freedom. 
 Although graduations 1 and 3 appear suitable based on the chi-square test, they
 may be unsuitable for other reasons 
 Any appropriate example, e.g. small consistent bias, a few large outliers, or clumps
 of deviations of the same sign 
-[Marks available 9, maximum 6]
+
+---
 (iv)
 EITHER:
 pos = vector(length = 3) 
 neg = vector(length = 3) 
-pos = length(graduation$zx1[graduation$zx1 > 0]) 
-pos[2] = length(graduation$zx2[graduation$zx2 > 0]) 
-pos[3] = length(graduation$zx3[graduation$zx3 > 0]) 
+pos = length(graduation$zx1[graduation$zx1 0]) 
+pos[2] = length(graduation$zx2[graduation$zx2 0]) 
+pos[3] = length(graduation$zx3[graduation$zx3 0]) 
 neg = length(graduation$zx1[graduation$zx1 < 0]) 
 neg[2] = length(graduation$zx2[graduation$zx2 < 0]) 
 neg[3] = length(graduation$zx3[graduation$zx3 < 0]) 
@@ -181,9 +192,9 @@ pos
 neg 
  19 21 20 
 OR:
-pos1 = length(graduation$zx1[graduation$zx1 > 0]) 
-pos2 = length(graduation$zx2[graduation$zx2 > 0]) 
-pos3 = length(graduation$zx3[graduation$zx3 > 0]) 
+pos1 = length(graduation$zx1[graduation$zx1 0]) 
+pos2 = length(graduation$zx2[graduation$zx2 0]) 
+pos3 = length(graduation$zx3[graduation$zx3 0]) 
 neg1 = length(graduation$zx1[graduation$zx1 < 0]) 
 neg2 = length(graduation$zx2[graduation$zx2 < 0]) 
 neg3 = length(graduation$zx3[graduation$zx3 < 0]} 
@@ -196,7 +207,7 @@ pos3
 neg1
  19 
 neg2
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+
 ---
  21 
 neg3
@@ -205,11 +216,13 @@ THEN:
 Graduation 1 has 22 positive and 19 negative deviations.
 Graduation 2 has 20 positive and 21 negative deviations.
 Graduation 3 has 21 positive and 20 negative deviations. 
+
+---
 (v)
 EITHER:
 groups = vector(length = 3) 
 for(j in 1:3){ 
-pos_z = (graduation[, j + 6] > 0) * 1 
+pos_z = (graduation[, j + 6] 0) * 1 
 groups[j] = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
@@ -218,18 +231,18 @@ duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1)
 groups 
  11 5 11 
 OR:
-pos_z = (graduation$zx1 > 0) * 1 
+pos_z = (graduation$zx1 0) * 1 
 groups1 = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
  [3½]
 + pos_z * 1 [2]
-pos_z = (graduation$zx2 > 0) * 1
+pos_z = (graduation$zx2 0) * 1
 groups2 =
 sum(
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1)
 + pos_z * 1 
-pos_z = (graduation$zx3 > 0) * 1
+pos_z = (graduation$zx3 0) * 1
 groups3 =
 sum(
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1)
@@ -242,15 +255,16 @@ groups3
  11 
 THEN:
 Graduation 1 has 11 groups of positive deviations.
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+
 ---
 Graduation 2 has 5 groups of positive deviations.
 Graduation 3 has 11 groups of positive deviations. 
 ALTERNATIVE SOLUTION:
 EITHER:
+```{r}
 groups = vector(length = 3) 
 for(j in 1:3){ 
-pos_z = (graduation[, j + 6] > 0) * 1 
+pos_z = (graduation[, j + 6] 0) * 1 
 groups[j] = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1,
@@ -258,21 +272,23 @@ which(pos_z == 0))) * 1) [3½]
 + pos_z * 1 [2]
 }
 groups 
+```
+
  11 5 11 
 OR:
-pos_z = (graduation$zx1 > 0) * 1 
+pos_z = (graduation$zx1 0) * 1 
 groups1 = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1,
 which(pos_z == 0))) * 1) [3½]
 + pos_z * 1 [2]
-pos_z = (graduation$zx2 > 0) * 1
+pos_z = (graduation$zx2 0) * 1
 groups2 =
 sum(
 duplicated(c(which(pos_z == 1) - 1,
 which(pos_z == 0))) * 1)
 + pos_z * 1 
-pos_z = (graduation$zx3 > 0) * 1
+pos_z = (graduation$zx3 0) * 1
 groups3 =
 sum(
 duplicated(c(which(pos_z == 1) - 1,

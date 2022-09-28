@@ -11,7 +11,9 @@ based on method of moments:
 2. Lognormal distribution
 3. Exponential distribution
 4. Gamma distribution.
-########################
+
+---
+
  Page 4 of 4
 i) Estimate the parameters of each of the above distributions. (8)
 ii) Plot a histogram of “CLAIM” data with 35 equal class intervals. Superimpose the 
@@ -21,7 +23,8 @@ appropriate legend. (8)
 iii) Compute the 5th percentile, 1st quartile, median, 3rd quartile and 95th percentile of both 
 the actual claim paid as well as the fitted distributions. (5)
 iv) Using the results from (ii) and (iii) comment on goodness of fit of the models to the 
-data. (4)
+data. 
+---
 v) Assuming Gamma distribution to be the right fit to the data, simulate 20,000 values of 
 claim amounts using the Gamma distribution based on the parameter estimates 
 obtained in part (i) and print first 10 values of claim amounts. (Set seed to 2022) (2)
@@ -29,8 +32,8 @@ vi) Generate 700 different random samples of size 400 from the simulated data ob
 in part (v) and compute sample mean for each of the samples. (Set seed to 2022) (5)
 vii)Plot the histogram of sample means generated from part (vi) and comment on the 
 distribution of the sample means from the point of view of central limit theorem. (3)
-[35]
-*****************************
+
+---
 
 [35 Marks]
 Solution 3:
@@ -50,8 +53,8 @@ Normal_sigma
 # Log Normal Distribution
 LogNormal_sigma<- sqrt(log(1+Var_Claim/Mean_Claim^2)) 
 LogNormal_mu<-log(Mean_Claim)-LogNormal_sigma^2/2 
-########################
-Page 10 of 13
+
+---
 LogNormal_sigma
 [1] 0.8899276 
 LogNormal_mu
@@ -67,7 +70,8 @@ Gamma_lamda
 [1] 0.0001302421 
 Gamma_alpha
 [1] 0.82799 
-(8)
+
+---
 ii)
 # Histogram
 hist(Motorclaim$CLAIM,breaks = 35,freq = FALSE) 
@@ -85,8 +89,8 @@ curve(dgamma(x,shape = Gamma_alpha,rate = Gamma_lamda),from = min(Motorclaim$CLA
 = max(Motorclaim$CLAIM), add = TRUE, col= "yellow") 
 legend("topright",legend = c("Normal", "Lognormal", "Exponential", "Gamma"),lty = 1, col = 
 c("blue","green","red","yellow"))
-########################
-Page 11 of 13
+
+---
  
  (8)
 iii)
@@ -105,30 +109,34 @@ qlnorm(c(0.05,0.25,0.5,0.75,0.95),meanlog = LogNormal_mu,sdlog = LogNormal_sigma
 # Exponential Distribution
 qexp(c(0.05,0.25,0.5,0.75,0.95),rate = Exp_lamda) 
 [1] 326.0876 1828.8853 4406.5544 8813.1089 19044.8114 
-########################
-Page 12 of 13
+
+---
 # Gamma Distribution
 qgamma(c(0.05,0.25,0.5,0.75,0.95),shape = Gamma_alpha,rate = Gamma_lamda) 
 [1] 193.6261 1479.4200 4053.4299 8797.0450 20369.6614 
-(5)
+
+---
+
 iv) From the histogram and superimposed plots it is clear that normal distribution is not good fit to 
 the data. 
+
 The other three plots are getting superimposed more or less similar to the data. From the quantiles it 
 is observed that lower value(5th percentile) of lognormal is closed to actual value and higher 
 values(95th percentile) of gamma distribution is closed to actual value 
 The best fitting distribution among Lognormal, exponential & Gamma can not be decided basis of 
 observations from (ii) & (iii). Further statistical tests need to be carried out to confirm best fit 
-(4)
+
+---
 v)
+
 # Simulation from Gamma distribution
 set.seed(2022) 
 Sim_samples <- rgamma(20000,Gamma_alpha,Gamma_lamda) 
 head(Sim_samples,10) 
-[1] 9505.735311 1376.831631 458.302589 3189.065594 5.340363 5821.017458
-[7] 11122.004509 5372.490004 43002.362493 3557.086406 
-(2)
 
-##########################################################
+
+---
+
 vi)
 # Generating 700 random samples of size 400 and computing sample means 
 means<-c()
@@ -143,7 +151,11 @@ means<-c(means,sample_mean)
 vii)
 # Histogram of the sample means
 hist(means,breaks = 40)
-########################
+
+---
+
+
+---
 Page 13 of 13
 Comment:
 The distribution of sample means tend to follow normal distribution however the actual data comes 

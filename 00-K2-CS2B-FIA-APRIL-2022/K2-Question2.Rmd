@@ -55,25 +55,25 @@ ARMA(1,0)
 ARMA(1,1) 
 ARMA(2,0) 
   
+---
 (iv) Explain, using the results from part (iii), which of the fitted models is the most 
 appropriate for modelling the data set x. [2] 
-(v) Comment on your answer to part (iv). [3] 
+(v) Comment on your answer to part (iv). 
 (vi) Explain, with reasons, how the value of n in the R code for generating data set 
 x may be changed to ensure that the ARMA(2,0) model becomes the best 
 fitting model. [2] 
 (vii) Generate a new data set, y, using your suggested change to the value of n in 
 part (vi). Set the same random number generator seed as above before 
-generating y. [2] 
+generating y. 
 (viii) Fit the three models to the new data set y, displaying their AIC values in the R 
 output in your answer script. [3] 
 (ix) Explain, using the results from part (viii), why the ARMA(2,0) model is the 
 most appropriate model for modelling data set y.  
 (x) Comment on the differences between the suggested models fitted for data sets 
-x and y in parts (iv) and (ix), respectively. [3] 
- [Total 25] 
+x and y in parts (iv) and (ix), respectively. 
 
 
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+
 ---
 Q2
 set.seed(12456)
@@ -100,7 +100,8 @@ THEN:
 But the PACF seems to cut off after lag 1. 
 We might expect the PACF of an ARMA(2,0) process to cut off after lag 2 
 However, given the small sample size and the fact that this process is close to being nonstationary, the two plots are not out-of-line with expectations. 
-[Marks available 3, maximum 2]
+
+---
 (iii)
 fitx10 = arima(x, order = c(1,0,0)) 
 fitx10$aic 
@@ -112,20 +113,25 @@ fitx20 = arima(x, order = c(2,0,0)); fitx20$aic
 (iv)
 The preferred model here is ARMA(1,0) 
 as the AIC value is the lowest 
-(v)
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
 ---
+(v)
+
 We might have expected the ARMA(2,0) model to be the best fit as that is the “true”
 model that x was generated from 
 However, the number of observations of x is quite small 
 and so sampling uncertainty has produced a better fitting / forecasting model that is
 not ARMA(2,0) 
+
+---
 (vi)
 We could increase the value of n in the R code (to say 1,000) 
 which would reduce the sampling uncertainty of the observations 
 (vii)
 set.seed(12456) 
 y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2))) [1½]
+
+---
+
 (viii)
 fity10 = arima(y, order = c(1,0,0)); fity10$aic 
  2904.756 
@@ -135,6 +141,8 @@ fity20 = arima(y, order = c(2,0,0)); fity20$aic
  2861.243 
 (ix)
 The preferred model here is ARMA(2,0) as the AIC value is the lowest 
+
+---
 (x)
 fitx10
 Call:
@@ -156,8 +164,9 @@ sigma^2 estimated as 1.014: log likelihood = -1426.62,
 aic = 2861.24 
 For data set y, the best fitting model is the “true” model 
 Whereas the best fitting model for data set x is not the “true” model 
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+
 ---
+
 This is what we expected as the more observations we have the more likely it is that
 the “true” model is the best fit 
 The estimated AR parameters for data set y are close to the real values of 0.7 and 0.2 
@@ -169,5 +178,3 @@ These observations on the estimated error variance and intercept term are to be
 expected given that the data volume is higher in data set y than in data set x 
 and given that the fitted model matches the true model for data set y but not for
 data set x 
-[Marks available 5½, maximum 3]
-[Total 25]

@@ -80,17 +80,17 @@ Q4
 ```
 
 ---
-
+First set up the calculations required for the EBCT 2 model:
 
 
 ```{r}
-First set up the calculations required for the EBCT 2 model:
+
 > load("claims.Rdata")
-> n<-ncol(policies_matrix) [½]
-> N<-nrow(policies_matrix) [½]
-> X<-claims_matrix/policies_matrix [½]
+> n<-ncol(policies_matrix) 
+> N<-nrow(policies_matrix) 
+> X<-claims_matrix/policies_matrix 
 > X
-##########################
+
 ```
 
 ---
@@ -98,17 +98,19 @@ First set up the calculations required for the EBCT 2 model:
 
 
 ```{r}
- [,1] [,2] [,3] [,4] [,5]
-[1,] 0.05208526 0.04971335 0.03587963 0.03906162 0.03289183
-[2,] 0.02625538 0.02996795 0.03163265 0.03073171 0.03692308
-[3,] 0.04502762 0.04240677 0.04468625 0.04433801 0.04377199
-[4,] 0.04784254 0.08797386 0.05991678 0.06325707 0.05767123
+
 > Xibar<-rowSums(claims_matrix)/rowSums(policies_matrix)
 > Xibar
 # 0.04042581 0.03078187 0.04407590 0.06140187 
 > Pi <-rowSums(policies_matrix)
 > Pi
-# 7609 3044 14019 4280 [½]
+```
+
+---
+
+
+
+```{r}
 > P <-sum(Pi)
 > P
 # 28952 
@@ -118,7 +120,13 @@ First set up the calculations required for the EBCT 2 model:
 > m <-sum(claims_matrix)/P
 > s<-mean(rowSums(policies_matrix*(X-Xibar)^2)/(n-1))
 > m
-# 0.04428019
+```
+
+---
+
+
+
+```{r}
 So, E[m(theta)] = 0.04428019 
 > s
 # 0.07732984
@@ -156,18 +164,17 @@ Then calculate the credibility premiums per unit of risk volume:
 Finally calculate the credibility premium by multiplying by the sales for the upcoming year:
 > premiums*year6sales [3]
 # 78.38358 19.43797 124.32800 46.67172
+
+```
 Therefore, the expected payout for the insurers in the coming year is as follows:
 Insurer A: £78.4m, Insurer B: £19.4m, Insurer C: £124.3m, Insurer D: £46.7m 
-```
+---
 
 ---
 
-
-
-```{r}
 Candidates overall answered well this question.
 Candidates demonstrated this kind of calculations had been well practised. Some 
 numerical slips were common, however candidates who showed intermediate steps were 
 able to pick up most of the available partial marks.
-[Paper Total 100]
-END OF EXAMINERS’ REPOR
+
+---

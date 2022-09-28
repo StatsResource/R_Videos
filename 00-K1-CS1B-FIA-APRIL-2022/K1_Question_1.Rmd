@@ -61,7 +61,8 @@ distribution of the total weight of eight people in this case.
 (b) Comment on your answers to parts (iv) and (v)(a). 
  [3] 
 [Total 12] 
-#########################################
+
+---
 
 Solutions for Subject CS1B – April 2022
 Q1
@@ -71,6 +72,8 @@ interested in the probability P(X > 650):
 1 - pnorm(650,560,57) 
 # 0.05717406
 The probability that the total weight of 8 people exceeds 650kg is equal to 0.05717406. 
+---
+
 (ii)
 Let Y be the total weight of 9 people. By the assumption: 𝑌𝑌 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(630 , 612). We are 
 interested in the probability P(Y > 650):
@@ -78,11 +81,14 @@ interested in the probability P(Y > 650):
 # 0.3715054
 We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
 and is equal to 0.3715054. 
+
+---
 (iii)
 Parts (i) & (ii) show that as more people enter the lift, the probability of exceeding 
-650kg increases. [½]
-While the probability of exceeding 650kg is small with 8 people, [½]
+650kg increases. 
+While the probability of exceeding 650kg is small with 8 people, 
 exceeding the maximum weight is considerably more likely with 9 people. 
+---
 (iv)
 Again, 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560, 572), where X is the total weight of 8 people. 
 In order to find the central region that contains 80% of the distribution we need to identify the 
@@ -92,23 +98,25 @@ We use the function “qnorm" in the code:
 # 486.9516
 > qnorm(0.9,560,57) 
 # 633.0484
-##########################
-CS1B A2022 © Institute and Faculty of Actuaries
+
+---
 The requested interval is [486.9516, 633.0484]. 
 (v)(a) 
 We now have 𝑌𝑌 ~ 𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺(96.5220, 0.1724), where Y is the total weight of 8 people. The 
 computation this time produces:
-qgamma(0.1, 96.5220, 0.1724) [½]
+qgamma(0.1, 96.5220, 0.1724) 
 # 488.195
-> qgamma(0.9, 96.5220, 0.1724) [½]
+> qgamma(0.9, 96.5220, 0.1724) 
 # 634.0333
-and the interval is [488.195, 634.0333]. [½]
+and the interval is [488.195, 634.0333]. 
 (b)
-The intervals are very similar. [½]
-The mean and standard deviation of the two distributions are (approximately) equal. [½]
+The intervals are very similar. 
+The mean and standard deviation of the two distributions are (approximately) equal. 
 As the first (shape) parameter of the gamma distribution is large, the distribution is close 
-to a normal distribution. [½]
-[Total 12]
+to a normal distribution. 
+---
+
+---
 Candidates overall answered well this question. 
 In parts (i) and (ii) a common error was calculating the probability at the wrong tail, e.g. 
 using pnorm() instead of 1-pnorm().
