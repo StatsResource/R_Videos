@@ -46,21 +46,25 @@ Assume that:
  the total weight of eight people chosen at random follows a normal distribution 
 with a mean of 560 kg and standard deviation of 57 kg 
  the total weight of nine people chosen at random follows a normal distribution 
-with a mean of 630 kg and standard deviation of 61 kg. 
+with a mean of 630 kg and standard deviation of 61 kg.
+
+---
+
+### Exercises
+
 (i) Calculate the probability that the total weight of eight people exceeds 650 kg.
   
 (ii) Calculate the probability that the total weight of nine people exceeds 650 kg.
   
 (iii) Comment on your answers to parts (i) and (ii).  
 (iv) Calculate the interval for the central region containing 80% of the distribution 
-of the total weight of eight people. [3] 
+of the total weight of eight people.
 Assume now that the total weight of eight people chosen at random follows a gamma 
 distribution with parameters α = 96.5220 and λ = 0.1724. 
 (v) (a) Calculate the interval for the central region containing 80% of the 
 distribution of the total weight of eight people in this case. 
 (b) Comment on your answers to parts (iv) and (v)(a). 
- [3] 
-[Total 12] 
+
 
 ---
 
@@ -75,10 +79,15 @@ The probability that the total weight of 8 people exceeds 650kg is equal to 0.05
 ---
 
 (ii)
-Let Y be the total weight of 9 people. By the assumption: 𝑌𝑌 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(630 , 612). We are 
+Let Y be the total weight of 9 people. By the assumption: 𝑌𝑌 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(630 , 612). 
+
+We are 
 interested in the probability P(Y > 650):
+```{r}
 1 - pnorm(650,630,61) 
-# 0.3715054
+```
+
+
 We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
 and is equal to 0.3715054. 
 
@@ -94,13 +103,18 @@ Again, 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560, 572), wh
 In order to find the central region that contains 80% of the distribution we need to identify the 
 10%-percentile and the 90%-percentile of X.
 We use the function “qnorm" in the code:
+
+<pre><code>
 > qnorm(0.1,560,57) 
 # 486.9516
 > qnorm(0.9,560,57) 
 # 633.0484
 
----
+</code></pre>
+
 The requested interval is [486.9516, 633.0484]. 
+---
+
 (v)(a) 
 We now have 𝑌𝑌 ~ 𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺(96.5220, 0.1724), where Y is the total weight of 8 people. The 
 computation this time produces:
@@ -115,6 +129,13 @@ The mean and standard deviation of the two distributions are (approximately) equ
 As the first (shape) parameter of the gamma distribution is large, the distribution is close 
 to a normal distribution. 
 ---
+
+END
+
+
+---
+
+END
 
 ---
 Candidates overall answered well this question. 

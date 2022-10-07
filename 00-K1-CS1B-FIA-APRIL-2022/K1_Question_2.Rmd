@@ -38,15 +38,21 @@ pre {
 
 ---
 CS1B A2022–3 
-2 (i) (a) Simulate a sample of 100 values from a Beta distribution with 
+2 (i) (a) 
+
+Simulate a sample of 100 values from a Beta distribution with 
 parameters $a = 3$, $b = 1$. Use the command <tt>set.seed(12345)</tt> to 
 initialise the random number generator, before you start the simulation. 
 (b) Plot a histogram of the sample simulated in part (i)(a). 
 (c) Comment on the shape of the histogram produced in part (i)(b). 
- 
-(ii) (a) Perform 1,000 repetitions of the simulation in part (i)(a). You should 
-compute and store the value of the mean of the sample for each 
-repetition. Use the command set.seed(12345) to initialise the 
+
+---
+
+(ii) (a) Perform 1,000 repetitions of the simulation in part (i)(a). 
+You should compute and store the value of the mean of the sample for each 
+repetition. 
+
+Use the command <tt>set.seed(12345)</tt> to initialise the 
 random number generator, before you start the simulation. 
 (b) Plot a histogram of the 1,000 sample means computed in part (ii)(a). 
 
@@ -67,7 +73,9 @@ data.
 ---
 
 (v) Determine an estimate of the standard error of the sample mean using 
-bootstrap with a bootstrap sample size of 10,000. Use the command 
+bootstrap with a bootstrap sample size of 10,000. 
+
+Use the command 
 <tt>set.seed(12345)</tt> to initialise the random number generator, before you 
 start the bootstrap sampling. 
 
@@ -87,10 +95,12 @@ R code:
 set.seed(12345)
 x = rbeta(100,3,1) 
 ```
+
 (b)
 R code:
+```{r}
 hist(x, main="Histogram of 100 values from Beta(3,1) distribution") 
-##########################
+```
 
 ---
 
@@ -98,7 +108,7 @@ hist(x, main="Histogram of 100 values from Beta(3,1) distribution")
 The histogram is heavily skewed. 
 This is consistent with the skewness of a Beta(3,1) distribution, which is negative for 
 (𝛼𝛼 > 𝛽𝛽), see “Formula and Tables …”, page 13. 
-```
+
 
 ---
 
@@ -107,19 +117,16 @@ This is consistent with the skewness of a Beta(3,1) distribution, which is negat
 R code:
 
 ```{r}
-
-
 set.seed(12345)
 nsim = 1000 
 xbar = numeric(nsim) 
 for (i in 1:nsim){ 
 x = rbeta(100,3,1) 
 xbar[i] = mean(x) 
+}
 ```
 
 ---
-
-
 
 
 Alternative code may be used. For example, without using a loop:
@@ -131,6 +138,7 @@ using <tt>replicate()</tt>
 
 ```{r}
 set.seed(12345)
+
 xbar <- replicate(1000,mean(rbeta(100,3,1)))
 
 ```
@@ -140,7 +148,9 @@ xbar <- replicate(1000,mean(rbeta(100,3,1)))
 
 
 ```{r}
+
 hist(xbar, main="Histogram of sample mean") 
+
 ```
 
 ---
@@ -159,33 +169,39 @@ approximately normal for large sample size.
 
 #### Part (c)
 
-```{r}
 (iii)
 R code:
+
+```{r}
+
+
 y = c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1)
 t.test(y, conf.level =0.90) 
 # 2.124776 3.795224
-Alternative R code:
+
 ```
 
 ---
 
 
+#### Alternative R code:
 
 ```{r}
 mean(y)-qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
 mean(y)+qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
+
+```
 We have assumed that the data come from a normal distribution. 
 CI is given by (2.125, 3.795) 
-```
 
 ---
 
 #### Part (d)
 
-```{r}
 (iv)
 R code:
+```{r}
+
 se.t = sd(y)/sqrt(length(y)); se.t 
 
 ```
@@ -196,18 +212,21 @@ Standard error of sample mean = 0.456.
 
 #### Part (e)
 
-```{r}
+
 (v)
 R code:
+
+```{r}
+
 set.seed(12345)
 nsim = 10^4 
 ybar.sim = numeric(nsim) 
 for (i in 1:nsim){ 
 y.sim = sample(y, replace=T) 
 ybar.sim[i] = mean(y.sim) 
-
+}
 se.boot = sd(ybar.sim); se.boot 
-# 0.4318923
+
 ```
 
 ---
@@ -216,6 +235,7 @@ Bootstrap standard error of sample mean = 0.432.
 Alternative code may be used. For example, without using a loop:
 
 ```{r}
+
 
 set.seed(12345)
 sd(replicate(10000, mean(sample(y, replace = T))))
@@ -226,7 +246,10 @@ sd(replicate(10000, mean(sample(y, replace = T))))
 
 (vi)(a)
 We can use the output from part (v) and the R code:
+```{r}
 boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1 
+
+```
 # 2.27 3.69 
 The 90% CI is (2.27, 3.69). 
 ```
@@ -234,8 +257,6 @@ The 90% CI is (2.27, 3.69).
 ---
 
 
-
-```{r}
 (b)
 The CI is now narrower; 
 this suggests that the data may not be from a Normal distribution 

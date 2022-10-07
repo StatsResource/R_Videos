@@ -33,7 +33,9 @@ results in binomial distribution with n trials and p is the probability of succe
 ---
 
 ii) Since ‘n’ is not specified in the question, sample simulations of Y can be generated assuming any 
-value of ‘n’. The answer below is calculated using n = 10, however marks are allotted to 
+value of ‘n’. 
+
+The answer below is calculated using <tt>n = 10</tt>, however marks are allotted to 
 simulations of Y, calculated using any value of ‘n’.
 R Code
 

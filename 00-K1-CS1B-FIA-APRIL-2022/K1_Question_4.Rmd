@@ -60,24 +60,28 @@ Insurer D
 Claims 
 (£m) 63.2 67.3 43.2 47.0 42.1 
 Policies 1,321 765 721 743 730 
+
+---
+
 The policies expected to be sold in the next year are as follows: 
 Year 6
 Insurer A 1,920 
 Insurer B 575 
 Insurer C 2,820 
 Insurer D 798 
-The data for years 1 to 5 are given in the file claims.Rdata, which contains the 
+The data for years 1 to 5 are given in the file <tt>claims.Rdata</tt>, which contains the 
 claims data (claims_matrix) and the policies data (policies_matrix). 
+
+---
+
+#### Exercises 
+
 (i) Calculate estimates of Eሾmሺθሻሿ, Eሾs2ሺθሻሿ and Varሾmሺθሻሿ, under the 
-assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. [10] 
-(ii) Calculate the credibility factors Zi. [5] 
+assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. 
+
+(ii) Calculate the credibility factors Zi. 
 (iii) Calculate the expected claim amounts for each of the four insurers in year 6.
 
-#################################################
-
-Q4
-(i)
-```
 
 ---
 First set up the calculations required for the EBCT 2 model:
@@ -85,11 +89,11 @@ First set up the calculations required for the EBCT 2 model:
 
 ```{r}
 
-> load("claims.Rdata")
-> n<-ncol(policies_matrix) 
-> N<-nrow(policies_matrix) 
-> X<-claims_matrix/policies_matrix 
-> X
+load("claims.Rdata")
+n<-ncol(policies_matrix) 
+N<-nrow(policies_matrix) 
+X<-claims_matrix/policies_matrix 
+X
 
 ```
 
@@ -99,11 +103,11 @@ First set up the calculations required for the EBCT 2 model:
 
 ```{r}
 
-> Xibar<-rowSums(claims_matrix)/rowSums(policies_matrix)
-> Xibar
+Xibar<-rowSums(claims_matrix)/rowSums(policies_matrix)
+Xibar
 # 0.04042581 0.03078187 0.04407590 0.06140187 
-> Pi <-rowSums(policies_matrix)
-> Pi
+Pi <-rowSums(policies_matrix)
+Pi
 ```
 
 ---
@@ -122,12 +126,14 @@ First set up the calculations required for the EBCT 2 model:
 > m
 ```
 
+So, E[m(theta)] = 0.04428019 
+
 ---
 
 
 
 ```{r}
-So, E[m(theta)] = 0.04428019 
+
 > s
 # 0.07732984
 E[s^2(theta)] = 0.07732984 
@@ -135,22 +141,31 @@ E[s^2(theta)] = 0.07732984
 > v
 # 8.801906e-05
 Var[m(theta)] = 8.801906e-05 
-(ii)
+
 ```
 
 ---
+
+#### Part (ii)
 
 Now calculate the credibility factors:
 
 ```{r}
 
-> Zi<-Pi/(Pi+s/v) [4]
+> Zi<-Pi/(Pi+s/v) 
 > Zi
 # 0.8964887 0.7760242 0.9410267 0.8296892
+```
 Credibility factors are: (0.8964887, 0.7760242, 0.9410267, 0.8296892) 
-(iii)
+
+
+---
+
+#### Part (iii)
 Then calculate the credibility premiums per unit of risk volume:
-> premiums<-Zi*Xibar +(1-Zi)*m [4]
+
+```{r}
+premiums <- Zi*Xibar +(1-Zi)*m 
 ```
 
 ---
@@ -160,15 +175,19 @@ Then calculate the credibility premiums per unit of risk volume:
 ```{r}
 > premiums
 # 0.04082478 0.03380516 0.04408794 0.05848586 
-> year6sales<-c(1920, 575, 2820, 798) 
+> year6sales <- c(1920, 575, 2820, 798) 
+```
 Finally calculate the credibility premium by multiplying by the sales for the upcoming year:
-> premiums*year6sales [3]
-# 78.38358 19.43797 124.32800 46.67172
 
+```{r}
+> premiums*year6sales 
+# 78.38358 19.43797 124.32800 46.67172
 ```
 Therefore, the expected payout for the insurers in the coming year is as follows:
 Insurer A: £78.4m, Insurer B: £19.4m, Insurer C: £124.3m, Insurer D: £46.7m 
 ---
+
+#### END
 
 ---
 

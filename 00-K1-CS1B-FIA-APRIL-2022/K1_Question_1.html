@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+1 An engineer is considering the maximum number of people who can occupy a lift. In 
+particular, the engineer wants to assess the probability of exceeding a maximum 
+weight when eight people are allowed to use the lift at the same time, compared to 
+nine people. 
+Assume that: 
+ the total weight of eight people chosen at random follows a normal distribution 
+with a mean of 560 kg and standard deviation of 57 kg 
+ the total weight of nine people chosen at random follows a normal distribution 
+with a mean of 630 kg and standard deviation of 61 kg.
+
+---
+
+### Exercises
+
+(i) Calculate the probability that the total weight of eight people exceeds 650 kg.
+  
+(ii) Calculate the probability that the total weight of nine people exceeds 650 kg.
+  
+(iii) Comment on your answers to parts (i) and (ii).  
+(iv) Calculate the interval for the central region containing 80% of the distribution 
+of the total weight of eight people.
+Assume now that the total weight of eight people chosen at random follows a gamma 
+distribution with parameters α = 96.5220 and λ = 0.1724. 
+(v) (a) Calculate the interval for the central region containing 80% of the 
+distribution of the total weight of eight people in this case. 
+(b) Comment on your answers to parts (iv) and (v)(a). 
+
+
+---
+
+Solutions for Subject CS1B – April 2022
+Q1
+(i) 
+Let X be the total weight of 8 people. By the assumption: 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560 , 572). We are 
+interested in the probability P(X &gt; 650):
+1 - pnorm(650,560,57) 
+# 0.05717406
+The probability that the total weight of 8 people exceeds 650kg is equal to 0.05717406. 
+---
+
+(ii)
+Let Y be the total weight of 9 people. By the assumption: 𝑌𝑌 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(630 , 612). 
+
+We are 
+interested in the probability P(Y &gt; 650):
+
+```r
+1 - pnorm(650,630,61) 
+```
+
+```
+## [1] 0.3715054
+```
+
+
+We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
+and is equal to 0.3715054. 
+
+---
+(iii)
+Parts (i) &amp; (ii) show that as more people enter the lift, the probability of exceeding 
+650kg increases. 
+While the probability of exceeding 650kg is small with 8 people, 
+exceeding the maximum weight is considerably more likely with 9 people. 
+---
+(iv)
+Again, 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560, 572), where X is the total weight of 8 people. 
+In order to find the central region that contains 80% of the distribution we need to identify the 
+10%-percentile and the 90%-percentile of X.
+We use the function “qnorm" in the code:
+
+&lt;pre&gt;&lt;code&gt;
+&gt; qnorm(0.1,560,57) 
+# 486.9516
+&gt; qnorm(0.9,560,57) 
+# 633.0484
+
+&lt;/code&gt;&lt;/pre&gt;
+
+The requested interval is [486.9516, 633.0484]. 
+---
+
+(v)(a) 
+We now have 𝑌𝑌 ~ 𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺(96.5220, 0.1724), where Y is the total weight of 8 people. The 
+computation this time produces:
+qgamma(0.1, 96.5220, 0.1724) 
+# 488.195
+&gt; qgamma(0.9, 96.5220, 0.1724) 
+# 634.0333
+and the interval is [488.195, 634.0333]. 
+(b)
+The intervals are very similar. 
+The mean and standard deviation of the two distributions are (approximately) equal. 
+As the first (shape) parameter of the gamma distribution is large, the distribution is close 
+to a normal distribution. 
+---
+
+END
+
+
+---
+
+END
+
+---
+Candidates overall answered well this question. 
+In parts (i) and (ii) a common error was calculating the probability at the wrong tail, e.g. 
+using pnorm() instead of 1-pnorm().
+In part (iv) some candidates provided a wrong answer giving a single value with 
+qnorm(0.8, …). 
+In part (v) (b), well prepared candidates referenced the gamma shape parameter.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

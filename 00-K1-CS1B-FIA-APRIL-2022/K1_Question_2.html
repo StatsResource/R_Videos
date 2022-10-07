@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+CS1B A2022–3 
+2 (i) (a) 
+
+Simulate a sample of 100 values from a Beta distribution with 
+parameters `\(a = 3\)`, `\(b = 1\)`. Use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to 
+initialise the random number generator, before you start the simulation. 
+(b) Plot a histogram of the sample simulated in part (i)(a). 
+(c) Comment on the shape of the histogram produced in part (i)(b). 
+
+---
+
+(ii) (a) Perform 1,000 repetitions of the simulation in part (i)(a). 
+You should compute and store the value of the mean of the sample for each 
+repetition. 
+
+Use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the 
+random number generator, before you start the simulation. 
+(b) Plot a histogram of the 1,000 sample means computed in part (ii)(a). 
+
+---
+
+(c) Comment on the shape of the histogram produced in part (ii)(b) by 
+referring to a fundamental statistical property.  
+For the remaining parts of the question consider the following small sample of data 
+(given here in R code): 
+&lt;pre&gt;&lt;code&gt;
+y &lt;- c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1) 
+&lt;/code&gt;&lt;/pre&gt;
+(iii) Determine a 90% confidence interval for the population mean of these data, 
+stating any assumptions that you make. [3] 
+(iv) Determine an estimate of the standard error of the sample mean using these 
+data.  
+
+---
+
+(v) Determine an estimate of the standard error of the sample mean using 
+bootstrap with a bootstrap sample size of 10,000. 
+
+Use the command 
+&lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random number generator, before you 
+start the bootstrap sampling. 
+
+(vi) (a) Determine a bootstrap 90% confidence interval for the population 
+mean of the y data using the same bootstrap sample as in part (v). 
+(b) Comment on the two confidence intervals produced in parts (iii) and 
+(vi)(a). 
+ 
+
+---
+
+Q2
+(i)(a)
+R code:
+
+
+```r
+set.seed(12345)
+x = rbeta(100,3,1) 
+```
+
+(b)
+R code:
+
+```r
+hist(x, main="Histogram of 100 values from Beta(3,1) distribution") 
+```
+
+![](K1_Question_2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+(c)
+The histogram is heavily skewed. 
+This is consistent with the skewness of a Beta(3,1) distribution, which is negative for 
+(𝛼𝛼 &gt; 𝛽𝛽), see “Formula and Tables …”, page 13. 
+
+
+---
+
+#### Part (b)
+
+R code:
+
+
+```r
+set.seed(12345)
+nsim = 1000 
+xbar = numeric(nsim) 
+for (i in 1:nsim){ 
+x = rbeta(100,3,1) 
+xbar[i] = mean(x) 
+}
+```
+
+---
+
+
+Alternative code may be used. For example, without using a loop:
+
+
+---
+
+using &lt;tt&gt;replicate()&lt;/tt&gt;
+
+
+```r
+set.seed(12345)
+
+xbar &lt;- replicate(1000,mean(rbeta(100,3,1)))
+```
+
+---
+
+
+
+
+```r
+hist(xbar, main="Histogram of sample mean") 
+```
+
+![](K1_Question_2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+
+
+#### Part (b)
+
+(c)
+The distribution of the sample mean is roughly symmetrical. 
+This demonstrates the CLT where the distribution of the sample mean is
+approximately normal for large sample size. 
+
+
+---
+
+
+#### Part (c)
+
+(iii)
+R code:
+
+
+```r
+y = c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1)
+t.test(y, conf.level =0.90) 
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  y
+## t = 6.4965, df = 9, p-value = 0.0001119
+## alternative hypothesis: true mean is not equal to 0
+## 90 percent confidence interval:
+##  2.124776 3.795224
+## sample estimates:
+## mean of x 
+##      2.96
+```
+
+```r
+# 2.124776 3.795224
+```
+
+---
+
+
+#### Alternative R code:
+
+
+```r
+mean(y)-qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
+```
+
+```
+## [1] 2.124776
+```
+
+```r
+mean(y)+qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
+```
+
+```
+## [1] 3.795224
+```
+We have assumed that the data come from a normal distribution. 
+CI is given by (2.125, 3.795) 
+
+---
+
+#### Part (d)
+
+(iv)
+R code:
+
+```r
+se.t = sd(y)/sqrt(length(y)); se.t 
+```
+
+```
+## [1] 0.4556314
+```
+
+# 0.4556314
+Standard error of sample mean = 0.456. 
+---
+
+#### Part (e)
+
+
+(v)
+R code:
+
+
+```r
+set.seed(12345)
+nsim = 10^4 
+ybar.sim = numeric(nsim) 
+for (i in 1:nsim){ 
+y.sim = sample(y, replace=T) 
+ybar.sim[i] = mean(y.sim) 
+}
+se.boot = sd(ybar.sim); se.boot 
+```
+
+```
+## [1] 0.4318923
+```
+
+---
+
+Bootstrap standard error of sample mean = 0.432. 
+Alternative code may be used. For example, without using a loop:
+
+
+```r
+set.seed(12345)
+sd(replicate(10000, mean(sample(y, replace = T))))
+```
+
+```
+## [1] 0.4318923
+```
+
+---
+
+(vi)(a)
+We can use the output from part (v) and the R code:
+
+```r
+boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1 
+```
+
+```
+##   5%  95% 
+## 2.27 3.69
+```
+# 2.27 3.69 
+The 90% CI is (2.27, 3.69). 
+```
+
+---
+
+
+(b)
+The CI is now narrower; 
+this suggests that the data may not be from a Normal distribution 
+and the statistic 𝑋𝑋�−𝜇𝜇
+𝑆𝑆
+√𝑛𝑛 � may not follow a 𝑡𝑡9 distribution, as suggested in part (iii). 
+
+---
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
