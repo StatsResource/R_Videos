@@ -36,10 +36,13 @@ pre {
 
 2 Before answering this question, construct the function, rpareto, in R using the 
 following code: 
+```{r}
 rpareto = function(n, alpha, lambda){ 
 rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
 rp}
-The rpareto function generates a random sample of size n from a two-parameter 
+```
+
+The <tt>rpareto()</tt> function generates a random sample of size n from a two-parameter 
 Pareto distribution with parameters α and λ. 
 
 ---
@@ -50,13 +53,18 @@ Pareto distribution with parameters α and λ.
 two-parameter Pareto distribution with parameters α = 3 and λ = 1, assigning 
 the simulated values to a vector called A_vec. You should set a random 
 number generator seed of 123 before generating A_vec and use the R function, 
-head(), to display the first eight values of A_vec in your answer script. [3] 
+<tt>head()</tt>, to display the first eight values of A_vec in your answer script.  
 
---------------------------
+---
+
 Q2
-rpareto = function(n, alpha, lambda){
-rp = lambda * ((1 - runif(n))^(-1/alpha) - 1)
-rp} 
+
+```{r}
+rpareto = function(n, alpha, lambda){ 
+rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
+rp}
+
+---
 (i)
 set.seed (123) 
  
@@ -84,7 +92,7 @@ head(A_vec, 8)
 returns only the non-zero entries of a vector, E, where vector E is of length 
 25,000, with entries defined as: 
 Ei = maxሼAi – u, 0ሽ.
-Use the R function, head(), to display in your answer script the first eight 
+Use the R function, <tt>head()</tt>, to display in your answer script the first eight 
 values of A_exceed_u when A = A_vec and u = 1. 
 
 ---
@@ -92,6 +100,8 @@ values of A_exceed_u when A = A_vec and u = 1.
 
 
 (ii)
+
+```{R}
 A_exceed_u = 
  
 
@@ -103,11 +113,13 @@ output = E[E!=0]
  
 
 output} 
- 
+```
 
+
+```{r}
 head(A_exceed_u(A = A_vec, u = 1), 8) 
  
-
+```
 
  
  0.04468423 0.56103061 0.10259132 0.85069357 0.15317919 
@@ -117,14 +129,14 @@ head(A_exceed_u(A = A_vec, u = 1), 8)
 
 ### Part 3
 
-(iii) Construct another R function, called F_u, with one argument, 
+Construct another R function, called <tt>F_u</tt>, with one argument, 
 A_greater_than_u, that returns a vector of length 101, containing the 
 probabilities: 
-PሺAi – u ≤ x | Ai > u), where x ≥ 0, 
+PሺAi – u ≤ x | Ai > u), where $x \geq 0$, 
 for values of x from 0 to 10 inclusive, at intervals of 0.1. 
-Use the R function, head(), to display in your answer script the first eight 
+Use the R function, <tt>head()</tt>, to display in your answer script the first eight 
 values of F_u when A_greater_than_u = A_exceed_u with arguments 
-A = A_vec and u = 1. 
+A = A_vec and $u = 1$. 
 ---
 
 
@@ -158,12 +170,13 @@ head(F_u(A_exceed_u(A = A_vec, u = 1)), 8)
 ### Part 4
 
 
-(iv) Plot, on a single graph, four line graphs of the values of F_u against x for 
+(iv) Plot, on a single graph, four line graphs of the values of <tt>F_u</tt> against x for 
 the values of x specified in part (iii) when A_greater_than_u = A_exceed_u, 
 A = A_vec and u = 1, 2, 3 and 4. You should use separate colours to identify 
-each line graph and you should clearly specify which value of u is represented 
-by each of the four line graphs. [10] 
-(v) Comment on the graph produced in part (iv). [6] 
+each line graph and you should clearly specify which value of $u$ is represented 
+by each of the four line graphs. 
+
+(v) Comment on the graph produced in part (iv). 
 
 ---
 
@@ -181,7 +194,10 @@ plot(
  col = "red", 
  ylab = "F_u") 
  
+```
 
+
+```{r}
 
 lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
   A_vec, u = 2), col = "yellow") 
@@ -192,6 +208,11 @@ lines(x, F_u(A_greater_than_u = A_exceed_u(A =
 lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
   A_vec, u = 4), col = "green") 
 
+
+```
+
+
+```{r}
 
 legend("bottomright", 
  legend = c("u = 1", "u = 2", "u = 3",  "u = 4"), 

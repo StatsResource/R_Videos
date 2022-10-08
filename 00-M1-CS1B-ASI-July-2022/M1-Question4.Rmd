@@ -1,0 +1,63 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+[17]
+Q. 4) The marketing dataset contains the impact of three advertising medias 
+(youtube, facebook and newspaper) on sales. The first three columns are the 
+advertising budget in thousands of dollars along with the fourth column as sales. The 
+advertising experiment has been repeated 200 times.
+The marketing data is provided in a csv file “data.csv”. 
+i) Plot the data. Analyze the trend of how sales varies with the advertising budget of all 
+3 advertising medias and comment on the same.
+ii) Perform a simple linear regression analysis on the data. Your answer should include 
+summary of the data. (6)
+iii) Comment on the significance of the parameters of the model and justify your 
+observations from point (i).
+
+---
+iv) Calculate the correlation between independent and dependent variables.
+v) Fit an improved model for the model in part (ii), using your answer in part (iv). 
+State the linear regression formula clearly explaining all parameters.
+vi) Which model is better between part (ii) and (v) and why?
+vii)What is the maximum sales generated? (2)
+viii) Based on the linear regression model fitted in question (v), what is the predicted 
+value for maximum sales generated in question (vii) .
+ix) What is the relative error between the estimated (prediction calculated in question 
+(viii)) and the actual sales computed in question (vii)?
+---

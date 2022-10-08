@@ -62,14 +62,25 @@ caffeine = c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
 
 #### Exercise  2
 
-Comment on the relationship between C and T based on the plot in Exercise  1.  
+Comment on the relationship between $C$ and $T$ based on the plot in Exercise  1.  
 
-
+(ii)
+The plot shows a non-linear and inverse relationship between C and T (i.e. the level of 
+caffeine in the blood does not reduce linearly over time - instead it appears to decay at an 
+exponential rate) 
 ---
 #### Exercise  3
 
-Justify why a logarithmic transformation of C is appropriate. 
+Justify why a logarithmic transformation of $C$ is appropriate. 
 
+
+
+
+---
+(iii)
+Given the shape of the graph in (i), a log transformation should be used on the data (i.e. 
+transform C to log(C)) 
+This is because the original plot from part (i) has an exponential shape 
 
 ---
 
@@ -77,6 +88,10 @@ Justify why a logarithmic transformation of C is appropriate.
 
 (iv) Perform the transformation suggested in Exercise  3.  
 
+(iv) > logcaffeine <- log(caffeine) 
+> logcaffeine
+3.955082 3.671225 3.342862 2.946017 2.636196 2.438863 2.172476 1.879465
+1.691939 1.615420 [½]
 
 ---
 
@@ -87,3 +102,7 @@ Justify why a logarithmic transformation of C is appropriate.
 (c) Comment on the scatterplot and Pearson correlation coefficient. 
 
 ---
+(v)(a)
+> plot(time,logcaffeine,main = "Plot for time and log(caffeine)")
+
+

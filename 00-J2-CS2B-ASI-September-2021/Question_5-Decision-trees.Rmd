@@ -84,42 +84,65 @@ the modelling could be minimised.
 library(tree)
 ## Warning: package 'tree' was built under R version 4.0.5
 # (i)
-DTData <- read.csv("DTData.csv",stringsAsFactors=TRUE)
-train_Data<-DTData[1:round(0.7*332,0),]
-test_Data<-DTData[(round(0.7*332,0)+1):332,]
 ```
 ---
+
+
+### Data 
+
 ```{r}
+DTData <- read.csv("DTData.csv",stringsAsFactors=TRUE)
+train_Data <- DTData[1:round(0.7*332,0),]
+test_Data <- DTData[(round(0.7*332,0)+1):332,]
+```
+---
+
+#### Part 2
 
 # (ii)
-model<-tree(type~bmi+age,data = train_Data) [3M]
+```{r}
+
+
+model<-tree(type~bmi+age,data = train_Data) 
 model
 ## node), split, n, deviance, yval, (yprob)
 ## * denotes terminal node
 ## 
 
+```
+
 ---
 
-#(iii)
+#### Part 3
   
 ```{r}  
 par(mfrow = c(1,1))
-summary(model) [4M]
+summary(model) 
 ```
 
 ```{r}
 plot(model)
 text(model)
+```
+---
+
+#### Part 4
+
+```{r}
 #(iv)
 pred<-predict(model,test_Data,type = "class")
 
 ```
 
 ---
+
+
+#### Part 5
+
 ```{r}
 
 # (v)
-summary(pred) [3M]
+summary(pred) 
 IAI CS2B-0921
 Page 13 of 13
 ## No Yes 
@@ -128,6 +151,9 @@ Page 13 of 13
 ```
 
 ---
+
+#### Part 6
+
 ```{r}
 # (vi)
 table(pred,test_Data$type) 
@@ -147,19 +173,22 @@ type1_Error
 ## [1] 0.03
 type2_Error
 ## [1] 0.22
-# (vii) [4M]
+
 ```
 ---
 
-Accuracy is 75%. The null accuracy is 70% if all the observations would hav
-e been classified to "No" class.
+#### Part 7
 
-Type 2 error is very high. Majority of the people who belonged to the type "Yes", could not be successfully identified by the model
+* Accuracy is 75%. The null accuracy is 70% if all the observations would have been classified to "No" class.
+
+* Type 2 error is very high. Majority of the people who belonged to the type "Yes", could not be successfully identified by the model
 
 ---
 ### Addressing the bias
 
  The bias of a model is a measure of how close our prediction is to the actual value on average from an average model a validation data set: the sample of data used to provide an unbiased 
 evaluation of model fit on the training dataset while tuning model hyper-parameters
+
+---
 
 ---

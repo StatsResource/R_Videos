@@ -36,16 +36,19 @@ pre {
 
 3 Before answering this question, the ‘survival’ package should be loaded into R using 
 the following code: 
+
+<pre><code>
 install.packages("survival") 
 library(survival)
+</code></pre>
 
 ---
 
-A recently developed drug, MediCo, has been used over the past 12 months to treat a 
+* A recently developed drug, MediCo, has been used over the past 12 months to treat a 
 potentially fatal disease. MediCo was approved by a medical regulator last year 
 following initial trials and mortality data has been collected over the past 12 months, 
 since approval, to continue reviewing the drug’s effectiveness. 
-This mortality data has been compared with mortality data collected from infected 
+* This mortality data has been compared with mortality data collected from infected 
 patients, prior to MediCo’s approval, who were NOT administered the drug. 
 It is suspected that gender may be a significant covariate on the mortality rate of 
 infected patients. 
@@ -56,14 +59,15 @@ The ‘CS2B_Apr_21_Qu_3_Data.csv’ file contains the combined mortality data fr
 this investigation for 4,400 infected patients. The file contains the following five 
 variables: 
 
-* Life Unique patient identifier (integers 1, 2, …, 4,400) 
-* Drug Drug indicator (1 = received drug, 0 = did not receive drug) 
+* ***Life*** Unique patient identifier (integers 1, 2, …, 4,400) 
+* ***Drug*** Drug indicator (1 = received drug, 0 = did not receive drug) 
 * Gender Gender indicator (1 = female, 0 = male) 
 * Status Status indicator (1 = death due to disease, 0 = censoring event 
 occurred) 
 * 9Time Duration in days at which death/censoring occurred (integers with a 
 range of 1–365, with 1 = first day of the investigation and 
 365 = last day of the investigation). 
+
 Before answering this question, the ‘CS2B_Apr_21_Qu_3_Data.csv’ file should be 
 loaded into R and assigned to a data frame called mortalitydata. 
 

@@ -53,6 +53,8 @@ values of predict_defaults in your answer script.
 decision tree model’s predictions for the 100 actual customers, where the true 
 positive is defined as the case where the model predicts a default for a 
 customer that has actually defaulted.  
+---
+
 Based on the value of the recall percentage for the 100 actual customers, the bank’s 
 Finance Director concludes that the decision tree model needs no further refinement 
 and can be used to determine which loan applications to approve when the product is 
@@ -75,14 +77,23 @@ head(actual)
 
 
 (viii)
+
+```{r}
 predict_defaults = predict(tree, actual, type = 'class') 
 head(predict_defaults) 
+```
+
 1 2 3 4 5 6 
 0 1 0 1 0 1 
 Levels: 0 1 
+
+---
+
 (ix)
+```{r}
 Confusion_matrix = table(actual$default,predict_defaults); 
 Confusion_matrix 
+```
 ---
 predict_defaults
  0 1

@@ -36,31 +36,37 @@ pre {
 
 
 Part 6
-===========================
+
 (vi) Estimate a Cox proportional hazards model with death as the event of interest 
 using the two covariates, drug and gender, with no interaction term, pasting 
 your results into your answer script. You should use the Breslow method for 
-tie handling. [5] 
+tie handling. 
+
 (vii) Comment on the results produced in part (vi) with reference to the effects of 
 the two covariates, drug and gender, on the mortality rate. [5]
 (viii) Update the Cox proportional hazards model in part (vi) to include an 
 interaction term between drug and gender, pasting your results into your 
-answer script. [3] 
+answer script. 
 (ix) Analyse the effectiveness of MediCo, commenting on any differences between 
-males and females. [5] 
+males and females. 
 
 (vi)
+
+
+```{r}
 coxph( 
  
 
 Surv(mortalitydata$Time, mortalitydata$Status) ~ Drug + 
-Gender, [1½]
+Gender, 
 data = mortalitydata, 
  
 
 ties = "breslow") 
  
+```
 
+---
 Call:
 coxph(formula = Surv(mortalitydata$Time, mortalitydata$Status) 
 ~ 
@@ -71,15 +77,19 @@ Gender -0.93263 0.39352 0.03575 -26.09 <2e-16
 Likelihood ratio test=820.3 on 2 df, p=< 2.2e-16
 n= 4400, number of events= 3441 
  
-
+---
 OR:
+
+```{r}
 coxph( 
  
 
 Surv(mortalitydata$Time, mortalitydata$Status) ~ 
 mortalitydata$Drug + mortalitydata$Gender, [2½]
 ties = "breslow") 
- 
+```
+
+---
 
 Call:
 coxph(formula = Surv(mortalitydata$Time, mortalitydata$Status) ~ 
@@ -90,29 +100,34 @@ mortalitydata$Gender -0.93263 0.39352 0.03575 -26.09 <2e-16
 Likelihood ratio test=820.3 on 2 df, p=< 2.2e-16
 n= 4400, number of events= 3441 
  
+---
 
 
+#### Exercise 7
 
-(vii)
-The results suggest that MediCo reduces the mortality rate of patients by around 30% 
+* The results suggest that MediCo reduces the mortality rate of patients by around 30% 
+ 
+* The results suggest that female lives’ mortality rates are around 40% of that of males 
  
 
-The results suggest that female lives’ mortality rates are around 40% of that of males 
- 
-
-However, the graphs from part (iv) suggest that an interaction term may be required in the 
+* However, the graphs from part (iv) suggest that an interaction term may be required in the 
 Cox model to fully analyse the effects of MediCo and Gender on the mortality rate, and 
 hence the above analysis is potentially misleading 
  
 
-The results suggest that the Gender covariate appears to have a greater effect on the mortality 
+* The results suggest that the Gender covariate appears to have a greater effect on the mortality 
 rate than the Drug covariate 
  
 
-Both p-values indicate that the coefficients are unlikely to be 0 
+* Both p-values indicate that the coefficients are unlikely to be 0 
  
+---
 
-(viii)
+
+#### Exercise 8
+
+
+```{r}
 coxph( 
  
 
@@ -125,6 +140,9 @@ data = mortalitydata,
 
 ties = "breslow") 
  
+```
+
+---
 
 Call:
 coxph(formula = Surv(mortalitydata$Time, mortalitydata$Status) ~ 
@@ -136,6 +154,8 @@ Drug:Gender -0.65874 0.51750 0.06977 -9.442 <2e-16
 Likelihood ratio test=910.2 on 3 df, p=< 2.2e-16
 n= 4400, number of events= 3441 
  
+
+---
 
 OR:
 coxph( 
@@ -156,7 +176,7 @@ mortalitydata$Drug:mortalitydata$Gender -0.65874 0.51750 0.06977 -9.442 <2e-16
 Likelihood ratio test=910.2 on 3 df, p=< 2.2e-16
 n= 4400, number of events= 3441 
  
-
+---
 
 
 (ix)
@@ -174,7 +194,7 @@ which is statistically significant
 
 The results from the Cox analysis are consistent with the Kaplan–Meier plots in part (iv)
 
- 
+---
 
 The likelihood ratio test statistic for the model with the interaction term compared with the 
 model without the interaction term is: 
@@ -195,5 +215,6 @@ which is highly significant under the chi-squared distribution with one degree o
 
  
 
-[Marks available 7, maximum5]
-[Total 44]
+---
+
+---

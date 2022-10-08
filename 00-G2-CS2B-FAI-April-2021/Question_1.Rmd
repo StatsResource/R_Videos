@@ -80,7 +80,9 @@ p <- 0.4
 q <- 0.2
 r <- 0.25
 
-P <- matrix(data = c(p,1-p,0,q,0,1-q,0,r,1-r), nrow =3, byrow = TRUE) 
+P <- matrix(data = c(p,1-p,0,q,0,1-q,0,r,1-r), 
+	nrow =3, 
+	byrow = TRUE) 
 P
 ```
 
@@ -137,15 +139,14 @@ q from 0.1 to 0.9 inclusive, at intervals of 0.1, pasting your results into your
 answer script. 
 
 ---
-
+#### Exercise 3
 
 (iii) Plot a graph showing the stationary distributions of Xt calculated in part (ii) as 
 a function of q. You should include three separately coloured lines on your 
 graph, each line representing the stationary probabilities of each state. 
 
 ---
-
-(iii)
+#### Exercise 3
 
 ```{r}
 q = seq(from = 0.1, to = 0.9, by = 0.1) 
@@ -190,12 +191,9 @@ pch=7)
 
 ```
 
-```{r}
+---
 
-
-```
-
- 
+---
 
 [Total 20]
 Part (i) was very well answered although some candidates lost marks for not creating 
@@ -214,3 +212,4 @@ with the legend function in R, a manually applied legend was accepted provided t
 correctly represented the line colours and was situated next to the chart.
 
 
+---

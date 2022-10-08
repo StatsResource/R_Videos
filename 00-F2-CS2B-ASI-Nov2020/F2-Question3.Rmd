@@ -17,7 +17,7 @@ Q. 3)
 [22]
 The number of claims in a year on an individual policy follows a Poisson distribution with
 a parameter of 0.75. Individual claim amounts follow a Gamma distribution with parameters
-(shape parameter α = 2 and rate parameter λ = 20,000). Set seed value of 100.
+(shape parameter α = 2 and rate parameter \lambda = 20,000). Set seed value of 100.
 
 
 ---
@@ -31,7 +31,7 @@ ii) Simulate the claim amounts for each claim and compute the aggregate claim am
 for each policy. Create a histogram of the aggregated claim amounts with proper
 labelling and legends.
 iii) Compute the mean and variance of the aggregated claim amounts by using the method
-of moments of the compound Poisson distribution. (5)
+of moments of the compound Poisson distribution. 
 
 
 ---
@@ -41,7 +41,7 @@ An insurer plans to go for an aggregate excess of loss reinsurance policy. The i
 to evaluate the expected cost for the retention limits from 50,000 to 100,000 in steps of
 5,000.
 
-iv) Compute expected costs for the insurer and the reinsurer for each of the retention limits. (6)
+iv) Compute expected costs for the insurer and the reinsurer for each of the retention limits. 
 v) The insurer decides to set a maximum retention limit where the mean cost to the insurer
 is not more than 75% of the mean aggregated claims. Identify the maximum possible
 retention limit based on the computations of (iv) and the proportion of total claims to
@@ -184,6 +184,7 @@ mean_claims_R
 
 ```{r}
 Retention_Limit<-0.00015
+
 Reinsurer_Claims<-pmax(AggclaimAmount-Retention_Limit,0)
 #Proportion of Claims to be taken up by the reinsurer
 sum(Reinsurer_Claims>0)/10000
@@ -194,7 +195,7 @@ sum(Reinsurer_Claims>0)/10000
 
 ## Part (4)
 vi)
-# If for the part (v), the student identifies that no values from the range are applicable and stops here, 
+If for the part (v), the student identifies that no values from the range are applicable and stops here, 
 
 full marks should be awarded
 
@@ -207,7 +208,7 @@ SD_Retention
 > SD_Retention
  5.991976e-05
 
-
+---
 ```{r}
 Skew_Retention<-mean((Reinsurer_Claims-mean(Reinsurer_Claims))^3)/(sd(Reinsurer_Claims))^3
 Skew_Retention

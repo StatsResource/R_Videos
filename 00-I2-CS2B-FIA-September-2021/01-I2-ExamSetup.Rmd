@@ -35,14 +35,7 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-CS2B S2021 © Institute and Faculty of Actuaries
-INSTITUTE AND FACULTY OF ACTUARIES
-PRE-WORK MATERIAL
-September 2021
-Subject CS2 – Risk Modelling and Survival Analysis
-Core Principles
-Paper B
-INSTRUCTIONS TO THE CANDIDATES
+
 You are provided with this advance information to enable you to read, understand and action in your 
 own time, and not under examination conditions. 
 This instruction sheet provides you with two data files for you to use in the examination:
@@ -64,6 +57,8 @@ within R:
 ###################################################### 
 #### (i) Open libraries #############################
 ######################################################
+
+```{r}
 library(copula)
 library(graphics)
 library(markovchain)
@@ -71,8 +66,11 @@ library(rpart)
 library(rpart.plot)
 library(stats)
 library(survival)
+```
 
 ---
+
+```{r}
 library(utils)
 ###################################################### 
 #### (ii) Check installs ############################
@@ -84,15 +82,33 @@ mean(x)
 # Check copula package
 fk = frankCopula(5)
 persp(fk, dCopula)
+
+
 # Check graphics package
 plot(x)
+```
+
+---
+
+```{r}
 # Check markovchain package
 mc = new("markovchain", transitionMatrix = y); mc
+```
+
+---
+
+```{r}
 # Check rpart package
 rectree <- rpart(Mileage ~ Weight, car.test.frame)
 summary(rectree)
+```
+
+---
+
+```{r}
 # Check rpart.plot package
 rpart.plot(rectree, digits = 3, type = 4)
+```
 ---
 # Check stats package
 ppois(5, 11.668332)
@@ -100,6 +116,8 @@ ppois(5, 11.668332)
 cipoisson(5)
 # Check utils package
 combn(x,10)
+
+---
 If the code completes with no errors the nine packages are successfully installed.
 If you encounter any issues, please contact the Examinations Team on +44 (0) 1865 268 873.
 END OF PRE-WORK MATERIAL

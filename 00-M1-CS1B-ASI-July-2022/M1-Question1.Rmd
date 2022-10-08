@@ -1,0 +1,63 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+Q. 1) Identify the probability distribution that best fits the below questions. Calculate the 
+following using R functions:
+i) Assume golf balls from the driving range next door lands in your yard at an average 
+rate of 3 balls per hour during the day. What is the probability that 10 or fewer golf 
+balls will land in your yard during the afternoon, assuming the afternoon is 5 hours 
+long? 
+ii) You are surveying people exiting from a polling booth and asking them if they voted 
+independently. The probability that a person voted independently is 20%. What is 
+the probability that 70 people must be asked before you can find 5 people who voted 
+independently? 
+
+---
+iii) Assume you flip a fair coin 100 times. What is the number N such that, 90% of the 
+time, the number of heads is less than or equal to N?
+iv) A researcher is waiting outside of a library to ask people if they support a certain 
+law. The probability that a given person supports the law is p = 0.2. What is the 
+probability that the fourth person the researcher talks to is the first person to support
+the law?
+v) Assume that a light bulb has a mean lifetime of 1000 hours. What is the probability 
+that the light bulb survives to 2000 hours?
+vi) Assume a random variable Z is distributed according to the normal distribution with 
+mean 6 and standard deviation 4. What is the probability that Z takes on a value 
+between -1 and 3?
+---

@@ -49,7 +49,9 @@ plot(observations,
 
 #### Stationarity
 
-Stationarity means that the statistical properties of a process that creates a time series are constant over time. This statistical consistency makes predictable distributions and is an assumption of many time series forecasting models.
+Stationarity means that the statistical properties of a process that creates a time series are constant over time. 
+
+This statistical consistency makes predictable distributions and is an assumption of many time series forecasting models.
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -9,8 +9,35 @@ output:
       countIncrementalSlides: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
 
-CS2B S2020–4 3An analyst is investigating a life insurance portfolio data set that comprises two variables, x1 and x2, for 200 policyholders. 
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+CS2B S2020–4 3
+
+An analyst is investigating a life insurance portfolio data set that comprises two variables, x1 and x2, for 200 policyholders. 
 The analyst is exploring whether the 200 policyholders can be divided into two clusters (labelled A and B) based on the two variables, x1 and x2.  
 Before answering this question, generate the data set, portfolio, in R using the following code: 
 
@@ -22,10 +49,31 @@ x2=scale(c(rnorm(70,4,1), rnorm(130,10,1))))
 
 In the first stage of the investigation, the analyst decides to assign the first 100 policyholders in the data set to cluster A, and the remaining policyholders to cluster B. 
 (i)Construct a new column in the data set, portfolio, called group_label_stage1, containing the policyholder cluster labels, defined above.
- (ii)Determine the coordinates (x1A, x2A) of the centre of cluster A and the coordinates (x1B, x2B) of the centre of cluster B. 
- (iii)Construct a new column in the data set, portfolio, called dist_A containing the Euclidean distances between the policyholders and the centre of cluster A.   
+
+(ii)Determine the coordinates (x1A, x2A) of the centre of cluster A and the coordinates (x1B, x2B) of the centre of cluster B. 
+
+
+(iii)Construct a new column in the data set, portfolio, called <tt>dist_A</tt> containing the Euclidean distances between the policyholders and the centre of cluster A.   
+
+--- 
+(iv)Construct a new column in the data set, portfolio, called dist_B containing the Euclidean distances between the policyholders and the centre of cluster B.   
+
+The analyst decides to update the cluster labels by assigning to each policyholder the label of the cluster whose centre is nearest, according to the distances calculated in parts (iii) and (iv). 
+--- 
+(v)Construct a new column in the data set, portfolio, called <tt>group_label_stage2</tt>, containing the updated policyholder cluster labels, defined above.
+
+--- 
  
- [4] (iv)Construct a new column in the data set, portfolio, called dist_B containing the Euclidean distances between the policyholders and the centre of cluster B.   [4] The analyst decides to update the cluster labels by assigning to each policyholder the label of the cluster whose centre is nearest, according to the distances calculated in parts (iii) and (iv). 
- (v)Construct a new column in the data set, portfolio, called group_label_stage2, containing the updated policyholder cluster labels, defined above. [4] (vi)Generate a 2x2 matrix showing the number of policyholders with each possible combination of values of group_label_stage1 and group_label_stage2. 
- [2] (vii)Comment on the matrix generated in part (vi) with reference to how the cluster labels have changed between group_label_stage1 and group_label_stage2. [4] (viii)Plot the column, x1,of data set, portfolio, against column, x2, (with x1 on the  x-axis and x2 on the y-axis), using two distinct colours to identify clusters Aand B according to the label, group_label_stage2. 
- [6] The analyst decides to stop at this stage and to report group_label_stage2 as the final set of cluster labels. (ix)Comment on this decision. [6] [Total 40] END OF PAPER 
+(vi)Generate a 2x2 matrix showing the number of policyholders with each possible combination of values of <tt>group_label_stage1</tt> and <tt>group_label_stage2</tt>. 
+
+---
+(vii)
+
+Comment on the matrix generated in part (vi) with reference to how the cluster labels have changed between <tt>group_label_stage1</tt> and <tt>group_label_stage2</tt>.
+
+---
+
+(viii)Plot the column, x1,of data set, portfolio, against column, x2, (with x1 on the  x-axis and x2 on the y-axis), using two distinct colours to identify clusters Aand B according to the label, <tt>group_label_stage2</tt>. 
+---
+
+The analyst decides to stop at this stage and to report <tt>group_label_stage2</tt> as the final set of cluster labels. (ix)Comment on this decision. [6] [Total 40] END OF PAPER 

@@ -1,0 +1,58 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3
+---
+
+
+Q. 3) An analysis was carried out to investigate the annual average rainfall of two countries. 
+The data is as below:
+Iran: 128,125,133,104,146,132,125,118,129,124
+Belgium:160,128,169,105,151,164,162,177,185,150,182,158,156,123,141,176,162,172
+i) Perform a suitable test to determine whether the rainfall in both countries has equal 
+variance or not, at the 5% confidence level. (6)
+ii) Test whether the mean rainfall in both countries is equal or not, at 5% confidence 
+level. 
+iii) Calculate the 95% confidence interval for difference in means. (2)
+iv) Comment on the results in part (ii) and (iii).
+---
+
+```{r}
+Iran: 128,125,133,104,146,132,125,118,129,124
+Belgium:160,128,169,105,151,164,162,177,185,150,182,158,156,123,141,176,162,172
+```
+
+---

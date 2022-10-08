@@ -38,14 +38,18 @@ pre {
 
 3 Before answering this question, the R packages for calculating and plotting Recursive 
 Partitioning and Regression Trees should be loaded into R using the following code: 
+<pre><code>
 install.packages("rpart") 
 install.packages("rpart.plot") 
 library(rpart) 
 library(rpart.plot) 
+</code><pre>
 A new start-up bank is considering which product it should first launch to market. 
 One of the products it is considering is a personal loan. An Actuary employed by the 
 bank wants to construct a simple decision tree machine learning model to determine 
 which loan applications to approve. 
+
+---
 The Actuary has decided to construct the decision tree model to classify each 
 potential customer as either expected to default (default = 1) or not expected to default 
 (default = 0) based on the following inputs: 
@@ -57,6 +61,7 @@ information for each of n hypothetical customers, where n = 10,000:
 *  feature f1 taking the values –1, 0 and +1 with equal probability 
 *  feature f2 being uniformly distributed on [–1,1] 
 *  a field containing the value 1 if the customer defaults on the loan and 0 otherwise. 
+---
 To determine whether a hypothetical customer will default, the Actuary decides to 
 model the probability of default as: 
 exp (f)
@@ -64,13 +69,16 @@ exp (f)
 where f = a + bf1 + cf2 and a, b and c are parameters. 
 Before constructing the specimen data set, the Actuary first needs to generate three 
 sets of 10,000 observations from the uniform distribution on [0, 1]. 
+
+---
 (i) Generate a 10,000 × 3 matrix named U of observations from the uniform 
 distribution on [0, 1]. Each column of U should contain 10,000 observations 
 that have been generated together but separately from the observations in other 
 columns. You should set a random number generator seed of 12345 before 
 generating the observations in the first column and use the R function, 
-head(), to display the first six rows of U in your answer script.  
-CS2B S2021–5 
+<tt>head()</tt>, to display the first six rows of U in your answer script.  
+
+---
 Let Uij represent the (i, j) entry of matrix U. 
 The Actuary proceeds with creating the specimen data set by constructing: 
 *  an n-component vector f1 whose ith component is equal to –1 if Ui1 ≤ 1
@@ -93,12 +101,7 @@ rpart, incorporating the vectors f1, f2 and default.
 The R code to create the data frame in the format required, given the vectors f1, f2 and 
 default, is: 
 data.frame("f1" = f1, "f2" = f2, "default" = default)
-(ii) Generate a data frame named specimen, in line with the Actuary’s construction 
-rules, corresponding to the parameter values n = 10,000, a = 0 and b = c = 0.5. 
-Use the R function, head(), to display the first six rows of specimen in your 
-answer script. [15] 
-(iii) Determine the expected probability of customer default based on the specimen 
-data.  
+
 
 ---
 
@@ -133,8 +136,12 @@ THEN EITHER:
 n = 10000 
 f1 = vector(length = n) 
 f2 = vector(length = n) 
-
 ---
+(ii) Generate a data frame named ***specimen***, in line with the Actuary’s construction 
+rules, corresponding to the parameter values n = 10,000, a = 0 and b = c = 0.5. 
+Use the R function, <tt>head()</tt>, to display the first six rows of specimen in your 
+answer script. 
+
 
 f = vector(length = n) 
 defprob = vector(length = n) 
@@ -146,6 +153,7 @@ f[i] = a + b * f1[i] + c * f2[i]
 defprob[i] = exp(f[i]) /(1 + exp(f[i])) 
 default[i] = 1 * (U[i, 3] <= defprob[i]) 
 }
+---
 OR:
 f1 = -1 *(U[,1] <= 1/3) + 1 * (U[,1] > 2/3) [3]
 f2 = 2 * (U[,2] - 0.5) [3]
@@ -163,6 +171,11 @@ head(specimen)
 4 1 0.9624672 0
 5 0 0.1385551 1
 6 -1 -0.6713421 0 
+
+---
+(iii) Determine the expected probability of customer default based on the specimen 
+data.  
+
 (iii)
 mean(defprob)
 OR

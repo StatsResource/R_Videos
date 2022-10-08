@@ -52,7 +52,7 @@ Alice assumed a discrete prior distribution g(p) given in the following table:
 
 p 0.1 0.2 0.3 0.4 0.5 
 g(p) 0.5 0.2 0.2 0.05 0.05 
-Norman chose to use a beta prior distribution for $p$, with parameters 3 and 12. 
+Norman chose to use a beta prior distribution for $p$ , with parameters 3 and 12. 
 
 ---
 
@@ -60,7 +60,7 @@ Norman chose to use a beta prior distribution for $p$, with parameters 3 and 12.
 
 (i) (a) Calculate the mean and the standard deviation for Alice’s prior
 distribution. 
-(b) Generate 10,000 random values from Norman’s prior distribution. [1] 
+(b) Generate 10,000 random values from Norman’s prior distribution.
 (c) Calculate the mean and standard deviation of the values generated in
 part (i)(b).  
 (d) Comment on whether or not Alice and Norman have similar prior 
@@ -74,15 +74,51 @@ Norman’s beta prior distribution for p is adopted for the remainder of the que
 
 * The likelihood of the model in the study is given by: 
 Lሺpሻ ∝ p∑ yi ሺ1 – pሻn – ∑ yi . 
-* The posterior density of p is given by: 
+* The posterior density of $p$ is given by: 
 f(p|y) ∝ p2 + ∑ yiሺ1 – pሻ11 + n – ∑yi ,
 where ∑ yi is the total sum of all the binary data. 
 
 ---
 
-### Exercise  2
-(ii) Plot the shape of the posterior density of p without identifying it.  
+Q3
+(i)(a)
+> p = c(0.1, 0.2, 0.3, 0.4, 0.5) [½]
+> gp=c(0.5, 0.2, 0.2, 0.05, 0.05) [½]
+> mean_A=sum(p*gp)
+> mean_A
+#[1] 0.195 [1]
+>sd_A = sqrt(sum(gp*p^2)-mean_A^2)
+>sd_A
+#[1] 0.1160819 [2]
+(b)
+> samples_beta = rbeta(10000, 3, 12) [1]
+(c)
+> mean_N = mean(samples_beta)
+> mean_N
+#[1] 0.2012128 [1]
+> sd_N = sd(samples_beta)
+> sd_N
+#[1] 0.09913621 [1]
+(d)
+The first and second moments of the two priors are very similar [1]
+The two prior beliefs are similar despite one being based on a continuous distribution and the 
+other on a discrete distribution 
+---
 
+### Exercise  2
+(ii) Plot the shape of the posterior density of $p$  without identifying it.  
+
+---
+
+(ii)
+Read the data in: 
+> load("BinaryTrain.RData")
+ 
+> p = seq(0, 1, by = 0.01)
+> dens = p^(2+sum(y))*(1-p)^(11+length(y)-sum(y))
+> plot(p, dens, type = "l", ylab ="",xlab="p") [3]
+Or, 
+> curve(x^(2+sum(y))*(1-x)^(11+length(y)-sum(y))) 
 
 ---
 
@@ -90,14 +126,22 @@ where ∑ yi is the total sum of all the binary data.
 
 Plot the density of Norman’s prior distribution by setting `ylim = c(0,14)`. 
 
-The posterior distribution of p is beta with parameters 3 + ∑ yi and 12 + n – ∑ yi
+The posterior distribution of $p$ is beta with parameters 3 + ∑ yi and 12 + n – ∑ yi
 . 
+---
+
+(iii)
+Prior distribution
+> plot(p, dbeta(p, 3, 12), type = "l", ylim =c(0, 14), ylab ="")
+[2]
+Or,
+> curve(dbeta(x, 3, 12), type="l",ylim=c(0, 14), ylab ="", xlab="p")
 
 ---
 
 ### Exercise  4
 
-(iv) (a) Plot the posterior density of p by adding it to the plot in part (iii). 
+(iv) (a) Plot the posterior density of $p$ by adding it to the plot in part (iii). 
 (b) Compare the two densities using your answer in part (iv)(a). 
 (c) Comment on the extent to which the posterior distribution is affected 
 by the prior distribution. 
@@ -117,10 +161,7 @@ by the prior distribution.
 
 (vi) Determine the exact posterior probability that p exceeds 0.25. 
 (vii) (a) Generate 10,000 samples from the posterior distribution of p. 
-(b) Calculate the proportion of sampled values of p that exceed 0.25. 
+(b) Calculate the proportion of sampled values of $p$ that exceed 0.25. 
 (c) Compare your answer in part (vii)(b) with your answer in part (vi). 
-
----
-
 
 ---

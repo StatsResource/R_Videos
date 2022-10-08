@@ -23,7 +23,7 @@ From covid19_1, use the columns from Population Density (8th column) to Life Exp
 (17th column) to answer the following questions.
 
 ii) Create a new data frame “Covid_Cluster” containing only the above mentioned
-columns. Normalize all the columns of the data frame using the scale function. (3)
+columns. Normalize all the columns of the data frame using the scale function. 
 
 iii) Classify the countries into five groups by using the values obtained from (ii) applying
 K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
@@ -33,7 +33,7 @@ executing the algorithm. Print the number of countries in each cluster.
 #### Exercises
 
 iv) What proportion of total countries in each cluster are severe with respect to COVID-
-19? You can use the “Severe” column from the original dataset. (5)
+19? You can use the “Severe” column from the original dataset. 
 v) Print the total number of cases and total number of deaths for each cluster.
 
 --- 

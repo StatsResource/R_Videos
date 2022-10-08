@@ -17,8 +17,8 @@ between 1-Jan-2016 and 31-Dec-2018.
 
 ---
 
-Part 1
-===========
+#### Part 1
+
 Print first 6 rows of the data ensuring correct data formats for all the columns and
 calculate the proportion of the total sample died, survived and withdrew from the
 observation period.
@@ -39,7 +39,7 @@ Mort_Inv$DoE<-as.Date(Mort_Inv$DoE)
 
 
 ```{r}
-head(Mort_Inv) [2]
+head(Mort_Inv)
 prop.table(table(Mort_Inv$Exit_Reason)) 
 
 ```
@@ -65,6 +65,9 @@ Survived
 6
 A6 1979-11-08 2016-08-02 2017-04-14
 Death
+
+---
+
 > prop.table(table(Mort_Inv$Exit_Reason))
 Death
 0.31
@@ -89,9 +92,15 @@ formed table.
 ---
 
 ii)
+
+```{r}
 Mort_Inv$Age_At_Entry<-round((Mort_Inv$DoJ-Mort_Inv$DoB)/365.25,4)
 Mort_Inv$Age_At_Exit<-round((Mort_Inv$DoE-Mort_Inv$DoB)/365.25,4)
 tail(Mort_Inv)
+```
+
+---
+
 > tail(Mort_Inv)
 Life
 DoB
@@ -131,13 +140,17 @@ Survived 37.7413 days 39.2635 days
 Part 3
 =====================
 iii) Compute the average age at entry and the average age at exit of the people for whom
-“Death” was the reason of Exit. (3)
+“Death” was the reason of Exit. 
 
 ---
 
 iii)
+
+```{r}
 mean(Mort_Inv$Age_At_Entry[Mort_Inv$Exit_Reason == "Death"])
 mean(Mort_Inv$Age_At_Exit[Mort_Inv$Exit_Reason == "Death"])
+```
+
 > mean(Mort_Inv$Age_At_Entry[Mort_Inv$Exit_Reason == "Death"])
 Time difference of 37.01715 days
 > mean(Mort_Inv$Age_At_Exit[Mort_Inv$Exit_Reason == "Death"])
@@ -159,15 +172,16 @@ c
 ---
 
 iv)
+
+```{r}
 sum((Mort_Inv$Age_At_Entry)<37&Mort_Inv$Age_At_Exit>38)
- 14
-[4]
+```
 
 ---
 
 
-Part 5
-=====================
+#### Part 5
+
 If the age label used is “Age last Birthday”, then calculate
 v) Number of lives who did not contribute at all towards the central exposed to risk E 37
 . (4)
@@ -176,14 +190,18 @@ v) Number of lives who did not contribute at all towards the central exposed to 
 
 
 v)
+
+```{r}
 sum((Mort_Inv$Age_At_Entry)>38|Mort_Inv$Age_At_Exit<37)
+```
+
  49
 
 
 ---
 
-Part 6
-=====================
+#### Part 6
+
 c
 vi) Total number of years of contribution to E 37
 by all the lives together (Round your

@@ -57,6 +57,11 @@ specifying the values of B and c in your answer script. [7]
 part (iii) using a 95% confidence level. [9] 
  [Total 26]
 
+```
+
+---
+
+```{r}
 (i)
 mortalitydata = read.csv("CS2B_Sept_21_Qu_1_Data.csv”) 
 plot( 
@@ -69,7 +74,11 @@ main = "Forces of Mortality for a 1921 Female Population (Human
 Mortality Database)") 
 CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
 CS2B S2021 © Institute and Faculty of Actuaries
+```
 
+---
+
+```{r}
 (ii)
 EITHER:
 The mu_x’s increase with age 
@@ -81,12 +90,22 @@ They exhibit some roughness
 especially between ages 70 and 85 years 
 They should be graduated before being used 
 (iii)
+```
+
+---
+
+```{r}
 EITHER:
 GompModel = lm( 
 log(mu_x) 
 ~ Age, 
 data = mortalitydata) 
 OR
+```
+
+---
+
+```{r}
 GompModel = lm( 
 log(mortalitydata$mu_x) 
 ~ mortalitydata$Age) 
@@ -95,12 +114,22 @@ CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 -
 CS2B S2021 © Institute and Faculty of Actuaries
 exp(as.numeric(coef(GompModel))) 
  0.0003828807 
+ ```
+
+---
+
+```{r}
 exp(as.numeric(coef(GompModel))) 
  1.06997 
 And hence: 
 B = 0.0003828807 
 c = 1.06997 
 OR:
+```
+
+---
+
+```{r}
 summary(GompModel) 
 Call:
 lm(formula = log_mux ~ Age, data = mortalitydata)
@@ -117,16 +146,29 @@ Residual standard error: 0.2718 on 64 degrees of freedom
 Multiple R-squared: 0.9586, Adjusted R-squared: 0.958 
 F-statistic: 1483 on 1 and 64 DF, p-value: < 2.2e-16 
 
+```
+
+---
+
 The fitted Gompertz formula for ln(mu_x) is therefore:
+
+```{r}
+
 ln (mu_x) = -7.867787 + 0.067630x 
+
+```
 And hence: 
 B = 0.0003829 
 c = 1.0699693 
-(iv)
+
+---
+#### Exercise 4
+
 The null hypothesis is that the Gompertz graduated rates are the true rates underlying the 
 observed data 
 The alternative hypothesis is that the Gompertz graduated rates are NOT the true rates 
 underlying the observed data 
+```{r}
 mortalitydata$fittedmu_x = exp(GompModel$coefficients + 
 GompModel$coefficients * mortalitydata$Age) 
 mortalitydata$zx = ((mortalitydata$mu_x * mortalitydata$Exposed_x) -
@@ -134,9 +176,12 @@ mortalitydata$zx = ((mortalitydata$mu_x * mortalitydata$Exposed_x) -
 sqrt(mortalitydata$fittedmu_x * mortalitydata$Exposed_x) 
 mortalitydata$zxsquared = (mortalitydata$zx)^2 
 chisquare = sum(mortalitydata$zxsquared); chisquare 
-CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
-CS2B S2021 © Institute and Faculty of Actuaries
- 114.8394 
+```
+
+---
+
+```{r}
+
 The test statistic has a chi-square distribution with m degrees of freedom, where m is
 the number of age groups less one for each Gompertz parameter fitted
 So, in this case m = 66 - 2 = 64. 
@@ -150,5 +195,6 @@ of freedom is 90.53 and so the critical value with 64 degrees of freedom is less
 
 Since 114.8394 > critical value 
 there IS enough evidence to reject the null hypothesis at the 5% level 
-[Total 26]
- 
+
+
+---

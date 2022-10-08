@@ -19,6 +19,8 @@ library(markovchain)
 ## Version: 0.8.5-4
 ## Date: 2021-01-07
 ## BugReport: https://github.com/spedygiorgio/markovchain/issues
+
+---
 # (i)
 TransitionName<-c("Pass","Shoot","Dribble")
 MarkovData<-c(0.5,0.1,0.4,0.7,0.2,0.1,0.4,0.3,0.3) [3M]
@@ -44,17 +46,18 @@ markov2<-new("markovchain",transitionMatrix=matrix(data=MarkovData,
 
 ```{r}
 # (iii)
-plot(markov2) [3M]
+plot(markov2) 
 ```
 ---
 
 ```{r}
 # (iv)
-steadyStates(markov2) [4M]
+steadyStates(markov2)
 ## Pass Shoot Dribble
 ## [1,] 0.5047619 0.1809524 0.3142857
 #(v)
 #(a)
+---
 markov2^2
 ## Unnamed Markov chain^2 
 ## A 3 - dimensional discrete Markov Chain defined by the following states: 
