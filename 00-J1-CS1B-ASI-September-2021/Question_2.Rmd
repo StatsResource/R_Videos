@@ -97,7 +97,7 @@ Thursday and Friday.
 <pre><code>
 library(corrplot)
 
-M = cor(Data)
+M <- cor(Data)
 corrplot(M) 
 </code></pre>
 

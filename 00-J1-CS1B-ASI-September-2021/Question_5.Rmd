@@ -35,24 +35,35 @@ pre {
 }
 ```
 
+---
 
+Year 1 * Year 2 * Year 3 * Year 4 * 
+Insurer A * 112 * 130 * 178 * 150 * 
+Insurer  B * 38 * 50 * 80 * 68 * 
+Insurer  C * 89 * 127 * 210 * 150* 
+Insurer  D * 70 * 75 * 77 * 80 *
+
+
+---
 Solution 5:
 i) data=matrix(c(112,38,89,70,130,50,127,75,178,80,210,77,150,68,150,80),4,4)
  
-n<-ncol(data)
-m<-mean(rowMeans(data))
-s<-mean(apply(data,1,var))
-v<-var(rowMeans(data))-mean(apply(data,1,var))/n
-Z<-n/(n+s/v)
+n <- ncol(data)
+m <- mean(rowMeans(data))
+s <- mean(apply(data,1,var))
+v <- var(rowMeans(data))-mean(apply(data,1,var))/n
+Z <- n/(n+s/v)
 Z*rowMeans(data)+(1-Z)*m
 [1] 138.08805 64.47793 139.41039 79.02364
 Expected total claim payment from 
- insurer A is INR 138.09 Crores
- insurer B is INR 64.48 Crores
- insurer C is INR 139.41 Crores
- insurer D is INR 79.02 Crores
+*  insurer A is INR 138.09 Crores
+*  insurer B is INR 64.48 Crores
+*  insurer C is INR 139.41 Crores
+*  insurer D is INR 79.02 Crores
 (1 Mark for correct Z and 1 mark for identifying the correct claim amount for each insurer)
 As required for other parts
+---
+
 > n
 [1] 4
 > m
@@ -62,31 +73,39 @@ As required for other parts
 > v
 [1] 1737.625
 > Z
-[1] 0.8815584 (2)
+[1] 0.8815584 
+
+---
+
 ii) a) R Code
  
 data=matrix(c(112,38,89,70,73,130,50,127,75,87,178,80,210,77,113,150,68,150,80,112),5,4)
 #no change in other code from part i
-n<-ncol(data)
-m<-mean(rowMeans(data))
-s<-mean(apply(data,1,var))
-v<-var(rowMeans(data))-mean(apply(data,1,var))/n
-Z<-n/(n+s/v)
+n <- ncol(data)
+m <- mean(rowMeans(data))
+s <- mean(apply(data,1,var))
+v <- var(rowMeans(data))-mean(apply(data,1,var))/n
+Z <- n/(n+s/v)
 Z*rowMeans(data)+(1-Z)*m
+
+---
+
+
 [1] 137.11712 65.12725 138.41035 79.35279 97.24249
 Expected total claim payment from
- insurer A is INR 137.12 Crores (reduced compared to part i)
- insurer B is INR 65.13 Crores (increased compared to part i)
+*  insurer A is INR 137.12 Crores (reduced compared to part i)
+*  insurer B is INR 65.13 Crores (increased compared to part i)
 
 --- 
 
-Page 5 of 15
+
 *  insurer C is USD 138.41 Million (reduced compared to part i)
 *  insurer D is USD 79.35 Million (increased compared to part i)
 *  insurer E is USD 97.24 Million (newly added insurer)
 (1 Mark for correct data and 1 mark for identifying the correct claim amount for each 
 insurer)
 required for other parts
+```{r}
 > n
 [1] 4
 > m
@@ -96,60 +115,82 @@ required for other parts
 > v
 [1] 1288.5
 > Z
-[1] 0.862154 (2)
+[1] 0.862154
+```
+
+---
+
+
+Provide the new R code so that ‘data’ includes insurer E and calculate the expected 
+claim payment to be paid by each insurer in year 5. 
+b) Comment on the values of Z and ‘s/v’ ratio in part (ii) compared to part (i). 
+c) Comment on the change in expected claim payment for insurers A, B C and D in 
+year 5 in part (ii) compared to part (i). 
+
+iii) Your manager is not happy with results based on EBCT 1 model. 
+He has now provided you additional information about volume measure for these 5 insurers over Year 1 to Year 5.
 
 ---
 
 b) Comparison of calculated quantities
 *  With the introduction of insurer E, credibility factor Z has reduced. 
-o E[s2
+
+*  E[s2
 (Theta)] (i.e. ‘s’ in the R code used above) has reduced marginally – this has an effect of 
 increasing Z.
-o var[m(theta)] has reduced significantly (i.e. ‘v’ in the R code used above) - this has an effect 
+* var[m(theta)] has reduced significantly (i.e. ‘v’ in the R code used above) - this has an effect 
 of reducing Z.
 *  Overall the ratio - ‘s’ / ‘v’ is 0.54 in part i; ‘s’ / ‘v’ increases to 0.64 in part ii – as value of 
 denominator (in the calculation of Z = n/ (n + (s/v))) has increased in part ii compared to part 
-i – hence, credibility factor Z has reduced in part ii compared to part i. (3)
+i – hence, credibility factor Z has reduced in part ii compared to part i. 
+
+
+---
+
 c) Change in expected claim payment for each insurer
 Expected claim payment for insurer is based on credibility value and equal to 
 Z*individual average + (1-Z) * total average 
 (0.5 mark for comment on formula)
+
+---
+
 *  Total average ‘m’ has reduced in part ii compared to part i as average of insurer E is lower 
 than total average (m = 105.25) in part i
 (0.5 mark for comment on ‘m’)
-*  Expected claim payment for insurers A and C has reduced in part ii; as lower weight to 
-individual experience compared to part i (A and C have experienced higher claim payments in 
-the past and their average is higher than the total average of 5 insurers 103.45 - value of ‘m’ 
-as calculated above) brings down the total expected value for these insurers towards 103.45
-(1 mark for comment on A and C - where reduction observed)
-*  Expected claim payment for insurers B and D has increased in part ii; as lower weight to 
-individual experience compared to part i (B and D’s individual average values are lower than 
+*  Expected claim payment for insurers A and C has reduced in part ii; as lower weight to individual experience compared to part i (A and C have experienced higher claim payments in 
+the past and their average is higher than the total average of 5 insurers 103.45 - value of ‘m’ as calculated above) brings down the total expected value for these insurers towards 103.45
+
+*  Expected claim payment for insurers B and D has increased in part ii; as lower weight to individual experience compared to part i (B and D’s individual average values are lower than 
 103.45) and higher weight to total average (103.45) pulls up the total expected value for these 
 insurers towards 103.45.
-(1 mark for comment on B and D – where increase observed)
-(3)
+
+---
+
+#### Exercise 3
 iii) a) Use data as used in part ii
-IAI CS1B-0921
-Page 6 of 15
+
+
+```{r}
 data=matrix(c(112,38,89,70,73,130,50,127,75,87,178,80,210,77,113,150,68,150,80,112),5,4)
 #all other code lines as provide in part iii reference R code
-volume<-
+volume <- 
 matrix(c(165,51,119,108,103,186,63,159,112,116,198,78,219,122,126,200,83,188,133,151),5,4)
-n<-ncol(data)
-N<-nrow(data)
-X<-data/volume #claim payment per unit of volume measure
-Xibar<-rowSums(data)/rowSums(volume)
-Pi<-rowSums(volume) #volume measure for each insurer
-P<-sum(Pi)
-Pstar<-sum(Pi*(1-Pi/P))/(N*n-1)
-m<-sum(data)/P #average claim payment per unit volume measure across all insurers
-s<-mean(rowSums(volume*(X-Xibar)^2)/(n-1))
-v<-(sum(rowSums(volume*(X-m)^2))/(n*N-1)-s)/Pstar
-zi<-Pi/(Pi+s/v) #credibility factor for each insurer
-credibilityi<-zi*Xibar+(1-zi)*m #expected claim payment per unit of volume measure
-volume5i<-matrix(c(210,91,192,144,181),5,1) #’volume5i’ is Year 5 volume measure 
+n <- ncol(data)
+N <- nrow(data)
+X <- data/volume #claim payment per unit of volume measure
+Xibar <- rowSums(data)/rowSums(volume)
+Pi <- rowSums(volume) #volume measure for each insurer
+P <- sum(Pi)
+Pstar <- sum(Pi*(1-Pi/P))/(N*n-1)
+m <- sum(data)/P #average claim payment per unit volume measure across all insurers
+s <- mean(rowSums(volume*(X-Xibar)^2)/(n-1))
+v <- (sum(rowSums(volume*(X-m)^2))/(n*N-1)-s)/Pstar
+zi <- Pi/(Pi+s/v) #credibility factor for each insurer
+credibilityi <- zi*Xibar+(1-zi)*m #expected claim payment per unit of volume measure
+volume5i <- matrix(c(210,91,192,144,181),5,1) #’volume5i’ is Year 5 volume measure 
 #okay to have 1,5 instead of 5,1 in volume5i (row , column interchange)
-claims5i<-credibilityi*volume5i #claims5i is the expected claim payment in year 5 
+claims5i <- credibilityi*volume5i #claims5i is the expected claim payment in year 5 
+```
 Additional output (marks not to be deducted in case if other parts are not provided by student)
 > n
 [1] 4
@@ -162,7 +203,11 @@ Additional output (marks not to be deducted in case if other parts are not provi
 [3,] 0.7478992 0.7987421 0.9589041 0.7978723
 [4,] 0.6481481 0.6696429 0.6311475 0.6015038
 [5,] 0.7087379 0.7500000 0.8968254 0.7417219
-> Xibar
+
+---
+
+
+#> Xibar
 [1] 0.7610147 0.8581818 0.8408759 0.6357895 0.7762097
 > Pi
 [1] 749 275 685 475 496
@@ -181,14 +226,17 @@ Additional output (marks not to be deducted in case if other parts are not provi
 > credibility
 [1] 0.7636262 0.8186443 0.8233883 0.6806434 0.7748683
 > volume5
-IAI CS1B-0921
-Page 7 of 15
+
  [,1]
 [1,] 210
 [2,] 91
 [3,] 192
 [4,] 144
-[5,] 181 (2)
+[5,] 181 
+
+
+---
+
 b)
 > claims5
  [,1]
@@ -207,4 +255,7 @@ Claims5 gives expected claim payment based on EBCT 2
 Expected claim payments for all insurers has increased compared to part ii as it makes use of 
 Year 5 volume which is higher for all insurers.
 (1 mark for comment on increase and 1 mark for comment on Year 5 volume) (3)
-[15 Marks]
+
+---
+
+

@@ -39,16 +39,13 @@ pre {
 Linear Model (GLM) to analyse claim numbers for its critical illness policies. For 
 every policy over the past year, the company has collected the number of reported 
 claims (Claim_number) and data on the following covariates:
-Age: Age of policyholder, a 
-number between 18 and 80 
-Gender: Gender of the policyholder 
-(Male or Female) 
-Region: A description of the region 
+
+* Age: Age of policyholder, a number between 18 and 80 
+* Gender: Gender of the policyholder (Male or Female) 
+* Region: A description of the region 
 where the policyholder lives 
-Pre_existing_health_condition: A categorical value 
-representing whether the 
-policyholder has a 
-pre-existing health condition, 
+* Pre_existing_health_condition: A categorical value representing whether the 
+policyholder has a pre-existing health condition, 
 0 = no and 1 = yes 
 
 ---
@@ -85,20 +82,21 @@ The modeller has fitted the GLM using a Poisson distribution and now wants to
 investigate which of the three factors should be selected in the model, by using a 
 method similar to the backward selection approach. The following models are 
 considered: 
-model_p2: removes Gender from model_p
-model_p3: removes Gender and Pre_exisiting_health_condition from 
-model_p
-model_p4: removes Gender, Pre_exisiting_health_condition and 
-Region from model_p 
+
+* model_p2: removes Gender from model_p
+* model_p3: removes Gender and Pre_exisiting_health_condition from model_p
+* model_p4: removes Gender, Pre_exisiting_health_condition and Region from <tt>model_p</tt> 
+---
+
 (iii) Compare the values of the Akaike’s Information Criterion for the four models 
-model_p, model_p2, model_p3 and model_p4. 
+<tt>model_p</tt>, <tt>model_p</tt>2, <tt>model_p</tt>3 and <tt>model_p</tt>4. 
 ---
 
 (iv) (a) Comment on your answer to part (iii). 
 (b) Comment on the differences between the process in part (iii) and the 
 full backward selection method. 
  [3] 
-The modeller suggests refining the fitted GLM (model_p) by also including the 
+The modeller suggests refining the fitted GLM (<tt>model_p</tt>) by also including the 
 interactions between the variables: Age, Region and 
 Pre_existing_health_condition. 
 
@@ -109,6 +107,8 @@ Pre_existing_health_condition.
 variables Age, Region and 
 Pre_existing_health_condition. 
 (b) Justify whether the refined model in part (v)(a) improves the model 
-(model_p) fitted in part (ii)(a). 
+(<tt>model_p</tt>) fitted in part (ii)(a). 
 (c) Comment on whether any of the interactions are significantly 
 associated with claim numbers. 
+
+---

@@ -45,17 +45,17 @@ a) Likelihood that the claim will be of 5000. (to 2 significant figures) (2)
 b) Probability that the claim pay-out will be greater than 5000 (to 2 significant figures) (2)
 c) Maximum claim pay-out in the confidence interval [0.9,0.99] (3)
 d) Median of Z (2)
-e) Interquartile range of Z (2)
+e) Interquartile range of Z 
 ---
- Page 4 of 4
+
 ii) Generate a random sample of 100 observed claim amounts using seed value equal to 50 
 from this distribution. 
 a) Calculate the mean, median, standard deviation and skewness coefficient of the 
-sample. (4)
+sample. 
 b) Plot a histogram of the sample vector showing the probability densities, setting the 
 y-axis range from 0 to 10^-5 and x axis range from 0 to 10^5 for this graph and paste 
-the plot into your answer sheet. (5)
-[20]
+the plot into your answer sheet. 
+
 
 
 ---
@@ -63,27 +63,40 @@ the plot into your answer sheet. (5)
 Solution 4:
 # i)
 # a)
+```{r}
 mu = 10
----
-Page 10 of 14
 var = 4
+```
+
+---
+
+```{r}
 dlnorm(5000,mu,sqrt(var))
 ## [1] 3.030741e-05
 # The likelihood that the claim will be of 5000 is 0.000030
- (2)
+
 # b)
 1-plnorm(5000,mu,sqrt(var))
 ## [1] 0.7707756
 # probability that the claim payout will be greater than 5000 is 0.77
- (2)
+```
+
+---
+
+```{r}
 # c)
 qlnorm(0.9,mu,sqrt(var))
 ## [1] 285815.9
 qlnorm(0.99,mu,sqrt(var))
 ## [1] 2309856
-# maximum claim payout in the confidence interval [0.9,0.99] is [285815.9, 23
+
+```
+
+maximum claim payout in the confidence interval [0.9,0.99] is [285815.9, 23
 09856]
-(3)
+
+---
+
 # d) 
 qlnorm(0.5,mu,sqrt(var))
 ## [1] 22026.47
@@ -93,26 +106,43 @@ qlnorm(0.5,mu,sqrt(var))
 qlnorm(0.75,mu,sqrt(var))-qlnorm(0.25,mu,sqrt(var))
 ## [1] 79162.81
 # Interquartile range for Z is 79162.81
- (2)
+
+---
+
 # ii)
 a)
+```{r}
 set.seed(50)
 a=rlnorm(100,mu,sqrt(var))
+```
+
+```{r}
 mean(a)
 ## [1] 121227.3
 median(a)
 ## [1] 22785.05
+```
 ---
-Page 11 of 14
+
+```{r}
 sd(a)
 ## [1] 481295.3
-skewness(a)
+
+#skewness(a)
 ## [1] 8.163985
+```
+
+
+```{r}
 sk = function(x) sum((x-mean(x))^3)/(100*(sd(x))^3)
 sk(a)
 ## [1] 8.041831
-(4)
+```
+
+---
+
 # (b)
 hist(a, freq = FALSE,xlim = c(0,100000),ylim = c(0,0.00001))
 #hist(a,freq = FALSE)
- (5)
+
+---

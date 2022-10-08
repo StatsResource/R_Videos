@@ -52,10 +52,12 @@ variances.
 #### Exercises
 
 (i) Calculate an appropriate test statistic for the hypothesis of equal means in the 
-two corresponding populations using these data. [2] 
+two corresponding populations using these data.
 (ii) Test at a 1% significance level whether the mean flat prices are the same in the 
 two cities, against the alternative that they are different, based on your answer 
-to part (i). [4] 
+to part (i). 
+---
+
 The standard assumptions for a two-sided test of the hypothesis of equal means in two 
 populations are that the populations: 
  (A1) follow Normal distributions 
@@ -72,7 +74,7 @@ where the critical point is the α/2 quantile of an appropriate distribution.
 ---
 
 An estimate of the true significance level for this two-sided test, when the chosen 
-level of significance is α = 0.1, can be computed using the R Monte Carlo simulation 
+level of significance is \alpha = 0.1, can be computed using the R Monte Carlo simulation 
 code provided below: 
 ```{r}
 set.seed(123) # 
@@ -122,6 +124,36 @@ distribution with mean 10.
 #### Exercise 6
 
 (vi) Compare your estimates of the true significance level under all scenarios in 
-parts (iv), (v)(a) and (v)(b), stating your conclusions. [4] 
- [Total 27] 
-END OF PAPER 
+parts (iv), (v)(a) and (v)(b), stating your conclusions.
+
+
+Q5
+(i)
+load("onebedflat.RData")
+t.stat = t.test(City1, City2, var.equal=TRUE)$stat [1½]
+t.stat
+-6.010694 [½]
+(ii)
+The p-value of the test is:
+(pt(-6.010694, 48))*2 [1]
+So, the p-value is 2.414801e-07 . [1]
+The p-value is less than 1%, [1]
+therefore the flat prices are not the same for the two cities 
+(iii)
+set.seed(123) # Set seed to allow replication of answers 
+alpha = 0.1
+m=20
+n=20 
+N=8000
+nrej=0 
+for (i in 1:N) { # Run N = 8000 MC iterations 
+x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # Simulate
+2 random samples of size 20 from N(0,1), i.e with same mean and variance 
+ts=t.test(x, y, var.equal=TRUE)$stat # Compute the test statistic
+under assumption of equal variances 
+df = n+m-2 # Determine degrees of freedom 
+if (abs(ts)>=qt(1-alpha/2, df)) # Determine if H0 should be rejected 
+nrej=nrej+1 # Count number of rejections 
+}
+alpha_est=nrej/N # Compute estimated significance level as proportion of
+rejections when H0 is true

@@ -1,31 +1,31 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
 ---
-title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-library(knitr)
-library(dplyr)
-library(janitor)
 
 
-```
 
-```{css, echo=FALSE}
+
+&lt;style type="text/css"&gt;
 pre {
   background: #ADD8E6;
   max-width: 100%;
   overflow-x: scroll;
 }
-```
+&lt;/style&gt;
 
 * Introduction to R for Actuarial Students
 
@@ -78,52 +78,96 @@ distribution of the sample means from the point of view of central limit theorem
 [35 Marks]
 Solution 3:
 
-```{r}
+
+```r
 # Sample mean and variance
 Motorclaim = read.csv("Motorclaim.CSV")
-Mean_Claim<-mean(Motorclaim$CLAIM)
-Var_Claim<-var(Motorclaim$CLAIM)
+Mean_Claim&lt;-mean(Motorclaim$CLAIM)
+Var_Claim&lt;-var(Motorclaim$CLAIM)
 ```
 
 ---
 i)
 # Method of moments estimate
 # Normal Distribution
-```{r}
-Normal_mu <- Mean_Claim 
-Normal_sigma <- sqrt(Var_Claim) 
+
+```r
+Normal_mu &lt;- Mean_Claim 
+Normal_sigma &lt;- sqrt(Var_Claim) 
 Normal_mu
+```
+
+```
+## [1] 6357.314
+```
+
+```r
 #[1] 6357.314 
 Normal_sigma
+```
+
+```
+## [1] 6986.523
+```
+
+```r
 #[1] 6986.523 
 ```
 
 ---
 # Log Normal Distribution
-```{r}
-LogNormal_sigma<- sqrt(log(1+Var_Claim/Mean_Claim^2)) 
-LogNormal_mu<-log(Mean_Claim)-LogNormal_sigma^2/2 
+
+```r
+LogNormal_sigma&lt;- sqrt(log(1+Var_Claim/Mean_Claim^2)) 
+LogNormal_mu&lt;-log(Mean_Claim)-LogNormal_sigma^2/2 
 ```
 
 ---
-```{r}
+
+```r
 LogNormal_sigma
+```
+
+```
+## [1] 0.8899276
+```
+
+```r
 #[1] 0.8899276 
 LogNormal_mu
+```
+
+```
+## [1] 8.361376
+```
+
+```r
 #[1] 8.361376 
 ```
 
 ---
 
-```{r}
+
+```r
 # Exponential Distribution
-Exp_lamda <- 1/Mean_Claim 
+Exp_lamda &lt;- 1/Mean_Claim 
 Exp_lamda
+```
+
+```
+## [1] 0.0001572991
+```
+
+```r
 #[1] 0.0001572991 
 # Gamma Distribution
-Gamma_lamda<-Mean_Claim/Var_Claim 
-Gamma_alpha<-Gamma_lamda*Mean_Claim 
+Gamma_lamda&lt;-Mean_Claim/Var_Claim 
+Gamma_alpha&lt;-Gamma_lamda*Mean_Claim 
 Gamma_lamda
+```
+
+```
+## [1] 0.0001302421
 ```
 [1] 0.0001302421 
 Gamma_alpha
@@ -131,7 +175,8 @@ Gamma_alpha
 
 ---
 ii)
-```{r}
+
+```r
 # Histogram
 hist(Motorclaim$CLAIM,breaks = 35,freq = FALSE) 
 #Superimpose Normal distribution
@@ -140,13 +185,15 @@ max(Motorclaim$CLAIM), add = TRUE, col= "blue")
 #Superimpose Log Normal distribution
 curve(dlnorm(x,meanlog = LogNormal_mu,sdlog = LogNormal_sigma),from = 
 min(Motorclaim$CLAIM), to = max(Motorclaim$CLAIM), add = TRUE, col= "green") 
-
 ```
+
+![](L1-Question3_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ---
 
 
-```{r}
+
+```r
 # Histogram
 hist(Motorclaim$CLAIM,breaks = 35,freq = FALSE) 
 #Superimpose Normal distribution
@@ -160,10 +207,13 @@ curve(dexp(x,rate = Exp_lamda),from = min(Motorclaim$CLAIM), to = max(Motorclaim
 = TRUE, col= "red") 
 ```
 
+![](L1-Question3_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
 ---
 
 
-```{r}
+
+```r
 # Histogram
 hist(Motorclaim$CLAIM,breaks = 35,freq = FALSE) 
 #Superimpose Normal distribution
@@ -178,6 +228,8 @@ curve(dgamma(x,shape = Gamma_alpha,rate = Gamma_lamda),from = min(Motorclaim$CLA
 legend("topright",legend = c("Normal", "Lognormal", "Exponential", "Gamma"),lty = 1, col = 
 c("blue","green","red","yellow"))
 ```
+
+![](L1-Question3_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ---
  
@@ -214,15 +266,15 @@ the data.
 The other three plots are getting superimposed more or less similar to the data. From the quantiles it 
 is observed that lower value(5th percentile) of lognormal is closed to actual value and higher 
 values(95th percentile) of gamma distribution is closed to actual value 
-The best fitting distribution among Lognormal, exponential & Gamma can not be decided basis of 
-observations from (ii) & (iii). Further statistical tests need to be carried out to confirm best fit 
+The best fitting distribution among Lognormal, exponential &amp; Gamma can not be decided basis of 
+observations from (ii) &amp; (iii). Further statistical tests need to be carried out to confirm best fit 
 
 ---
 v)
 
 # Simulation from Gamma distribution
 set.seed(2022) 
-Sim_samples <- rgamma(20000,Gamma_alpha,Gamma_lamda) 
+Sim_samples &lt;- rgamma(20000,Gamma_alpha,Gamma_lamda) 
 head(Sim_samples,10) 
 
 
@@ -230,13 +282,13 @@ head(Sim_samples,10)
 
 vi)
 # Generating 700 random samples of size 400 and computing sample means 
-means<-c()
+means&lt;-c()
 set.seed(2022)
 for (i in 1:700){
-selected_data_point<-sample(1:20000,400,FALSE)
-random_sample<- Sim_samples[selected_data_point]
-sample_mean<-mean(random_sample)
-means<-c(means,sample_mean)
+selected_data_point&lt;-sample(1:20000,400,FALSE)
+random_sample&lt;- Sim_samples[selected_data_point]
+sample_mean&lt;-mean(random_sample)
+means&lt;-c(means,sample_mean)
 } 
 (5)
 vii)
@@ -256,3 +308,108 @@ normal distribution by increasing the sample size from its current level of 400.
  (3)
 [35 Marks]
 ***************************
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

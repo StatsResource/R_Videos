@@ -44,7 +44,7 @@ including the line ***set.seed(1234)*** at the start.
 
 ---
 
-Use the command ***set.seed(1234)*** to initialise the random number generator. 
+Use the command <tt>set.seed(1234)</tt> to initialise the random number generator. 
 
 
 #### Exercises
@@ -61,7 +61,7 @@ with parameter $\lambda  = 5$.
 mean. Estimate the parameter $\lambda$  using the maximum likelihood estimator and 
 the sample in part 1
 
-6. Generate another sample of size n = 180 from an Exponential 
+6. Generate another sample of size $n = 180$ from an Exponential 
 distribution with parameter $\lambda  = 5$ and estimate the parameter $\lambda$  using 
 the maximum likelihood estimator and the new sample. 
 

@@ -40,19 +40,23 @@ pre {
 
 Q. 2) Policy and claims information (PolicyData.csv) of 650 policies is provided to you. The 
 data contains following fields:
-Policy : Policy Number
-Claim : Number of claims corresponding to each policy
-Cust_Exp: Policyholder’s experience (VS = Very satisfied, SA= Satisfied, DS= 
+
+* Policy : Policy Number
+* Claim : Number of claims corresponding to each policy
+* Cust_Exp: Policyholder’s experience (VS = Very satisfied, SA= Satisfied, DS= 
 Disappointed, VD= Very Disappointed) at the end of the policy tenure.
+
 Amount: Claim amount per policy. Note that amount is set 0 if there is no claim.
-i) Create a frequency table of claim and share how many policies don’t have any claim. (2)
-ii) Plot a histogram of claim count and suggest 2 distributions that can be a good fit. (2)
+
+---
+i) Create a frequency table of claim and share how many policies don’t have any claim. 
+ii) Plot a histogram of claim count and suggest 2 distributions that can be a good fit. 
 iii) Given that claim count follows Poisson distribution with following two possible values 
 for Poisson parameter:
 a) 0.35 and 
 b) 0.30 
 ---
- Page 3 of 4
+
 Compute confidence interval at 95% confidence level to assess which value is more 
 suitable for the given data. 
 iv) Compute mean, variance and median of log of claim amount. (Name it: log amount). 
@@ -68,7 +72,8 @@ hypothesis and conclusion clearly.
 viii) Assess whether the policyholder experience (i.e. Cust_Exp) changes with more 
 number of claims. Create contingency table and perform test to check the above 
 assertion. State the hypothesis clearly. 
-ix) Please explain why warning message appears while performing the above test. (1)
+---
+ix) Please explain why warning message appears while performing the above test. 
 x) Again, perform the above test by combining 
 a. Very Satisfied and Satisfied customers
 b. Disappointed and very disappointed customers
@@ -83,18 +88,26 @@ more than 25% of claims are large.
 ---
 Solution 2:
 i)
+
+
+```{r}
+policydata <- read.csv("PolicyData.csv")
+```
+
+---
+
+```{r}
 library(dplyr)
 str(policydata)
-'data.frame': 650 obs. of 4 variables:
-$ Policy : int 1 2 3 4 5 6 7 8 9 10 ...
-$ Claim : int 0 0 0 2 1 0 0 0 0 0 ...
-$ Cust_Exp: chr "SA" "SA" "SA" "DS" ...
-$ Amount : int 0 0 0 52601 56174 0 0 0 0 0 ...
 
+```
+
+```{r}
 #a
 table(policydata$Claim)
- 0 1 2 3 
-458 149 36 7 
+# 0 1 2 3 
+# 458 149 36 7 
+```
 
 ---
 #Alternative, if dplyr installed
@@ -103,12 +116,21 @@ print("458 Policies don't have any claim")
 [1] "458 Policies don't have any claim"
 (2)
 ii)
+```{r}
 hist(policydata$Claim)
 #poisson and negative binomial distribution
+```
 
 ---
+
 iii)
+
+```{r}
 poisson.test(x=sum(policydata$Claim),T=length(policydata$Policy))
+```
+
+---
+
 Exact Poisson test
 data: sum(policydata$Claim) time base: length(policydata$Policy)
 number of events = 242, time base = 650, p-value < 2.2e-16
@@ -122,16 +144,20 @@ event rate
 
 ---
 iv)
+
+```{r}
 lx=log(policydata$Amount[policydata$Amount>0])
 #Alternative, if dplyr installed
 #lx=log(filter(policydata,Amount >0)$Amount)
 mean(lx)
+```
 [1] 9.835205
 median(lx)
 [1] 9.774659
 sd(lx)^2
 [1] 3.425705
-(4)
+
+---
 Histogram of policydata$Claim
 policydata$Claim
 Frequency
@@ -141,16 +167,19 @@ Frequency
 ---
 
 v)
+```{r}
 par(mfrow=c(2,1))
 hist(lx)
 qqnorm(lx)
 qqline(lx)
+```
 
 ---
 vi)
-# From Histogram and QQPlot it seems log amount closely follows normal distribution.
-# To add, the mean and median are very close indicating symmtery. One of the characterstics of Z. 
-# Hence,Claim amount might be following log normal distribution. 
+
+From Histogram and QQPlot it seems log amount closely follows normal distribution.
+To add, the mean and median are very close indicating symmtery. One of the characterstics of Z. 
+Hence,Claim amount might be following log normal distribution. 
 
 ---
 vii)
@@ -209,6 +238,8 @@ ct2
  0 83 375
  1 45 104
  2 26 17
+
+---
 chisq.test(ct2)
 Pearson's Chi-squared test
 data: ct2
@@ -241,6 +272,8 @@ alternative hypothesis: true probability of success is not equal to 0.5
 sample estimates:
 probability of success 
  0.1822917 
+
+---
 
 # Since upper bound of c.i is less that .25, it is unlikely that more 
 that 

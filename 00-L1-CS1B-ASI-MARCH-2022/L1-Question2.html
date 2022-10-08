@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Introduction to R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 2
+
+---
+
+Q. 2) Policy and claims information (PolicyData.csv) of 650 policies is provided to you. The 
+data contains following fields:
+
+* Policy : Policy Number
+* Claim : Number of claims corresponding to each policy
+* Cust_Exp: Policyholder’s experience (VS = Very satisfied, SA= Satisfied, DS= 
+Disappointed, VD= Very Disappointed) at the end of the policy tenure.
+
+Amount: Claim amount per policy. Note that amount is set 0 if there is no claim.
+
+---
+i) Create a frequency table of claim and share how many policies don’t have any claim. 
+ii) Plot a histogram of claim count and suggest 2 distributions that can be a good fit. 
+iii) Given that claim count follows Poisson distribution with following two possible values 
+for Poisson parameter:
+a) 0.35 and 
+b) 0.30 
+---
+
+Compute confidence interval at 95% confidence level to assess which value is more 
+suitable for the given data. 
+iv) Compute mean, variance and median of log of claim amount. (Name it: log amount). 
+Make sure to exclude policies with no claim. (4)
+v) Obtain histogram and Normal QQ Plot of log amount. Add a line to the QQ plot for 
+normal distribution 
+vi) Indicate which distribution the claim amount might be following using evidence from 
+(iv) and (v). 
+---
+vii)Assuming the log amount (i.e. log of claim amount) follows a Normal distribution, test 
+if mean of log amount is greater than 10 at 90% level of confidence. State the 
+hypothesis and conclusion clearly. 
+viii) Assess whether the policyholder experience (i.e. Cust_Exp) changes with more 
+number of claims. Create contingency table and perform test to check the above 
+assertion. State the hypothesis clearly. 
+---
+ix) Please explain why warning message appears while performing the above test. 
+x) Again, perform the above test by combining 
+a. Very Satisfied and Satisfied customers
+b. Disappointed and very disappointed customers
+and 
+c. 2 or more claims. 
+---
+Please provide your conclusion on association of policyholder’s experience with 
+number of claims. (5)
+xi) Amount is defined to be large if the amount is greater than 100,000. Calculate 95% 
+confidence interval for proportion of large claim, and comment on the likelihood if 
+more than 25% of claims are large. 
+---
+Solution 2:
+i)
+
+
+
+```r
+policydata &lt;- read.csv("PolicyData.csv")
+```
+
+---
+
+
+```r
+library(dplyr)
+str(policydata)
+```
+
+```
+## 'data.frame':	650 obs. of  4 variables:
+##  $ Policy  : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Claim   : int  0 0 0 2 1 0 0 0 0 0 ...
+##  $ Cust_Exp: chr  "SA" "SA" "SA" "DS" ...
+##  $ Amount  : int  0 0 0 52601 56174 0 0 0 0 0 ...
+```
+
+
+```r
+#a
+table(policydata$Claim)
+```
+
+```
+## 
+##   0   1   2   3 
+## 458 149  36   7
+```
+
+```r
+# 0 1 2 3 
+# 458 149 36 7 
+```
+
+---
+#Alternative, if dplyr installed
+#count(policydata,Claim)
+print("458 Policies don't have any claim")
+[1] "458 Policies don't have any claim"
+(2)
+ii)
+
+```r
+hist(policydata$Claim)
+```
+
+![](L1-Question2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+```r
+#poisson and negative binomial distribution
+```
+
+---
+
+iii)
+
+
+```r
+poisson.test(x=sum(policydata$Claim),T=length(policydata$Policy))
+```
+
+```
+## 
+## 	Exact Poisson test
+## 
+## data:  sum(policydata$Claim) time base: length(policydata$Policy)
+## number of events = 242, time base = 650, p-value &lt; 2.2e-16
+## alternative hypothesis: true event rate is not equal to 1
+## 95 percent confidence interval:
+##  0.3268739 0.4222903
+## sample estimates:
+## event rate 
+##  0.3723077
+```
+
+---
+
+Exact Poisson test
+data: sum(policydata$Claim) time base: length(policydata$Policy)
+number of events = 242, time base = 650, p-value &lt; 2.2e-16
+alternative hypothesis: true event rate is not equal to 1
+95 percent confidence interval:
+0.3268739 0.4222903
+sample estimates:
+event rate 
+0.3723077 
+#0.35 is more suitable value of parameter since it lies between confidence interval.
+
+---
+iv)
+
+
+```r
+lx=log(policydata$Amount[policydata$Amount&gt;0])
+#Alternative, if dplyr installed
+#lx=log(filter(policydata,Amount &gt;0)$Amount)
+mean(lx)
+```
+
+```
+## [1] 9.835205
+```
+[1] 9.835205
+median(lx)
+[1] 9.774659
+sd(lx)^2
+[1] 3.425705
+
+---
+Histogram of policydata$Claim
+policydata$Claim
+Frequency
+0.0 0.5 1.0 1.5 2.0 2.5 3.0
+0 200 400
+
+---
+
+v)
+
+```r
+par(mfrow=c(2,1))
+hist(lx)
+qqnorm(lx)
+qqline(lx)
+```
+
+![](L1-Question2_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+vi)
+
+From Histogram and QQPlot it seems log amount closely follows normal distribution.
+To add, the mean and median are very close indicating symmtery. One of the characterstics of Z. 
+Hence,Claim amount might be following log normal distribution. 
+
+---
+vii)
+#Null Hypothesis : mu = 10 , alternate hypothesis mu &gt;10
+t.test(lx,mu=10,alternative="greater", conf.level = .9)
+One Sample t-test
+data: lx
+t = -1.2337, df = 191, p-value = 0.8906
+alternative hypothesis: true mean is greater than 10
+90 percent confidence interval:
+9.663428 Inf
+sample estimates:
+mean of x 
+Histogram of lx
+lx Frequency
+6 8 10 12 14
+0 10 20 30 40
+-3 -2 -1 0 1 2 3
+6 8 10 14
+Normal Q-Q Plot
+Theoretical Quantiles
+Sample Quantiles
+---
+9.835205 
+#Given p-value greater than 10% null hypothesis can not be rejected.
+
+
+---
+viii)
+ct=table(policydata$Claim,policydata$Cust_Exp)
+ct
+ 
+ DS SA VD VS
+ 0 63 306 20 69
+ 1 36 90 9 14
+ 2 16 14 6 0
+ 3 3 3 1 0
+# Null Hypothesis: No association between Policyholder's experience and Claim
+chisq.test(ct)
+Pearson's Chi-squared test
+data: ct
+X-squared = 47.749, df = 9, p-value = 2.846e-07
+Warning message:
+In chisq.test(ct) : Chi-squared approximation may be incorrect
+
+---
+ix)
+#There are cells where the number of observations are less than 5. (1)
+x)
+policydata$Claim2=ifelse(policydata$Claim &gt;2,2,policydata$Claim) 
+policydata$Cust_Exp2=ifelse(policydata$Cust_Exp %in% c("DS","VD"),"DS","SA") 
+ct2=table(policydata$Claim2,policydata$Cust_Exp2)
+ct2
+ 
+ DS SA
+ 0 83 375
+ 1 45 104
+ 2 26 17
+
+---
+chisq.test(ct2)
+Pearson's Chi-squared test
+data: ct2
+X-squared = 43.514, df = 2, p-value = 3.557e-10
+# There is a strong reason to reject null hypothesis.
+# Hence, it can concluded that policyholder's experience gets worse as 
+claim count increases
+---
+(5)
+xi)
+summary(policydata$Amount)
+########################
+Page 9 of 13
+ Min. 1st Qu. Median Mean 3rd Qu. Max. 
+ 0 0 0 29501 3232 1848069 
+---
+policydata$large= ifelse(policydata$Amount &gt;100000,1,0)
+x = sum(policydata$large)
+n = length(policydata$Amount[policydata$Amount&gt;0])
+#Alternative, if dplyr installed
+#n = length(filter(policydata,Amount &gt;0)$Amount)
+---
+binom.test(x,n)
+Exact binomial test
+data: x and n
+number of successes = 35, number of trials = 192, p-value &lt; 2.2e-16
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+0.1303796 0.2442928
+sample estimates:
+probability of success 
+ 0.1822917 
+
+---
+
+# Since upper bound of c.i is less that .25, it is unlikely that more 
+that 
+#25% claims are large
+(5)
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

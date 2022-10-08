@@ -50,8 +50,8 @@ values from 1 to 10
 #### Exercise 1
 
 ```{r}
-X <- c(1:10)
-Lambda <- 2 
+X  <-  c(1:10)
+Lambda  <-  2 
 ```
 
 #### Probability Mass Function $P(X=x)$

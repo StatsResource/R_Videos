@@ -176,7 +176,7 @@ lines(q[-1], round(pn,4),col="green")
 
 ### Central Limit Theorem
 
-* The plot shows that the suggested 𝑁𝑁(324, 14.42) distribution is a very good approximation to 
+* The plot shows that the suggested $N(324, 14.42)$ distribution is a very good approximation to 
 the binomial distribution 
 
 * The reason for that is the CLT since the binomial distribution is the distribution of a sum of $n$ independent random variables and $n = 900$ is large 

@@ -9,26 +9,54 @@ output:
       countIncrementalSlides: false
 ---
 
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+* Probability Distributions
+
+* Question 2 - Correlation Analysis
+* Exam on basis of ***Base R***
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
 A child tosses n coins and the outcome of heads and tails are recorded in n samples as
-X1, X2, …… Xn, where, Xi’s are independent Bernoulli variables with p = 0.5. The total 
-outcome of n variables is Y = X1 +……. + Xn
+$X_1, X_2, \ldots X_n$, where, Xi’s are independent Bernoulli variables with $p = 0.5$. 
+The total outcome of $n$ variables is $Y = X_1 +\ldots + Xn$
 
 
-1. Specify the distribution of Y (2)
+1. Specify the distribution of Y 
 
 2. Simulate a sample of 10 values for Y 
 
-3.  Assess the value of Y for the sample created in (ii) (2)
+3.  Assess the value of Y for the sample created in (ii) 
 4.  what is the probability of Y = 4 
 
 ---
 
 #### Solution 3:
 
-i) If X1, X2, …… Xn follows Bernoulli distribution with p = 0.5 (1)
+i) If $X_1, X_2, \ldots X_n$ follows Bernoulli distribution with p = 0.5 
 
 Then Y follows binomial distribution ~ Bin(n,p) as sum of independent Bernoulli distribution 
-results in binomial distribution with n trials and p is the probability of success. (1)
+results in binomial distribution with n trials and p is the probability of success. 
 
 ---
 
@@ -52,7 +80,7 @@ Y
 
 Values of y from R (since these are random values, answers for each individual may vary from 
 the numbers stated below, please evaluate accordingly)
-5 4 4 5 2 6 5 4 2 5 (2)
+5 4 4 5 2 6 5 4 2 5 
 ---
 
 iii) 
@@ -62,8 +90,14 @@ iii)
 calculation required to assess the value of variable Y. 
 ---
 
-iv) dbinom (4,n,p)
+iv) 
+
+<pre><code>
+dbinom (4,n,p)
+</code></pre>
+
 The solution is based on assumption that n = 10 (as assumed in part(ii)). Marks are allotted to 
 solutions calculated using any value for “n”.
 0.2050781 
 
+---
