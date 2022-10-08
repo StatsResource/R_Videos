@@ -46,15 +46,24 @@ Q. 4)
 An life insurance company is selling Endowment, Pure Term and Unit Linked products
 wherein 80% of the business comes from Endowment, 5% from Term Insurance and 15%
 from Unit Linked products. The sum assured ranges between 30000 to 200000 with multiple
-of 5000 . The sum assured are normally distributed with below parameters - Endowment
-(mean 50000, standard deviation 10000), Pure Term (mean 100000, standard deviation
-25000), Unit Linked (mean 60000, standard deviation 5000). One policy is randomly picked
+of 5000 . 
+
+The sum assured are normally distributed with below parameters - Endowment
+(mean 50000, standard deviation 10000), 
+
+Pure Term (mean 100000, standard deviation
+25000), Unit Linked (mean 60000, standard deviation 5000). 
+
+One policy is randomly picked
 from the system and the sum assured of that policy is 75000.
 ---
 
+
+#### Exercises
 1. 
 Create a sequence ranging from 30000 to 200000 with an increase of 5000 and plot the
 density functions of the above three distributions in a single graph.
+
 2.  Find the probability that the policy (75000 sum assured) comes from the Endowment
 product portfolio and the probability that the policy comes from Unit Linked Product
 portfolio.
@@ -66,24 +75,45 @@ portfolio.
 
 ```
 
-
-```{r}
-
 Solution 4:
 
 [7 Marks]
 1. 
+```{r}
+
+
 y<-seq(30000,200000,5000)
 y
+```
+
+---
+
+```{r}
 FE<-dnorm(y,50000,10000)
 FPT<-dnorm(y,100000,25000)
 FUL<-dnorm(y,60000,5000)
+
+```
+
+---
+
+```{r eval=FALSE}
 plot(y,FE,typ="l",col="darkgreen",lwd=2)
 lines(y,FPT,col="darkred",lwd=2)
 lines(y,FUL,col="darkblue",lwd=2)
 
 ```
 
+---
+
+```{r echo=FALSE}
+plot(y,FE,typ="l",col="darkgreen",lwd=2)
+lines(y,FPT,col="darkred",lwd=2)
+lines(y,FUL,col="darkblue",lwd=2)
+
+```
+
+---
 
 ```{r}
 

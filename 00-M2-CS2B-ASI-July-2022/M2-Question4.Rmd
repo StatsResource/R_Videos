@@ -1,0 +1,47 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+[11]
+Q .4) Refer to “data_1.csv”.
+i) Write down formulae for the estimated integrated hazard and its estimated variance, using 
+the Nelson‐Aalen model.
+ii) Load the table into R. Add two new columns to the table and populate them with estimated 
+integrated hazard, and the estimated variance for each tj of the given data.
+iii) Produce a scatterplot showing the values of the estimated integrated hazard across time tj, 
+for j = 0, 1,2, 3,…,20, together with the corresponding 90% confidence interval values.
+You need to do a proper labelling of the axes. (6)

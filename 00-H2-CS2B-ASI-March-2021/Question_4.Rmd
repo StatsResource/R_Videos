@@ -125,8 +125,6 @@ for(t in 1:10){
 ---
 
 ```{r}
-
-
 qx<-function(x) { 
  1-px(x) 
 } 
@@ -134,7 +132,6 @@ qx<-function(x) {
 ```
 
 ```{r}
-
 qx(40:50)
 ```
 
@@ -162,3 +159,6 @@ cbind(xlist,qlist)
 ```
 
 
+---
+
+---

@@ -1,0 +1,45 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+[25]
+Q. 3) The number of customers arriving to a grocery store can be modelled by a Poisson process 
+with rate of 30 customers per hour.
+i) Find the probability that there are 2 customers between 10:00 AM and 10:15 AM. (2)
+ii) Find the probability that there are 7 customers between 11:00 AM and 11:20 AM
+and 15 customers between 11:20 AM and 12 noon. (4)
+iii) Prepare a probability distribution table for different number of customers (0, 1, 2…20) at 
+any given 10 minute time interval. (5)

@@ -36,17 +36,24 @@ pre {
 
 ---
 
+#### Exercise
 
 Q. 5) A primary school has two wings A and B. The students can change their Wing freely. It was 
 observed that the rate of movement is dependent on the age ‘x’ of the student (ranging from 
-5 to 15). The rate of movement from A to B = [0.08*x – 0.2] and the rate of movement from 
-B to A = [0.05 * x + 0.1]. 
+5 to 15). 
+
+* The rate of movement from A to B = [0.08*x – 0.2] 
+* The rate of movement from B to A = [0.05 * x + 0.1]. 
 
 ---
 
-i) Write a code to calculate the generator matrix G(x). Calculate the rate at which a 12 
-year old student will move from wing B to A and from A to B. 
+#### Exercise 1 
 
+Write a code to calculate the ***generator matrix*** G(x). 
+Calculate the rate at which a 12 year old student will move from wing B to A and from A to B. 
+
+
+* write a function called <tt>gen.matrix()</tt>
 
 --
 
@@ -68,13 +75,14 @@ sigmaBA=function(x){
 
 ```{r}
 gen.matrix=function(x){ 
- muAB=sigmaAB(x) 
- muBA=sigmaBA(x) 
- muAA=-muAB 
- muBB=-muBA 
+ muAB = sigmaAB(x) 
+ muBA = sigmaBA(x) 
+ muAA = -muAB 
+ muBB = -muBA 
  movement.rates = c(muAA,muBA,muAB,muBB) 
  X =(matrix(movement.rates, 2, 2)) 
- X} 
+ X
+ } 
  
 ``` 
 
@@ -87,7 +95,7 @@ gen.matrix(12)
 ---
 #### Exercise 2
 
-Over a very small time period h, the transition probability matrix P(t,t+h) can be 
+Over a very small time period $h$, the transition probability matrix P(t,t+h) can be 
 approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. 
 
 Using this, calculate the 
@@ -100,8 +108,8 @@ calc.prob.matrix=function(s,t,h){
  Ph=diag(2)+gen.matrix(s)*h 
  temp.matrix=Ph 
  for (j in 1:((t-s)/h-1)){ 
- temp.matrix=temp.matrix%*%Ph 
- Ph=diag(2)+gen.matrix(s+h*j)*h 
+	temp.matrix = temp.matrix %*% Ph 
+	Ph = diag(2) + gen.matrix(s+h*j)*h 
  } 
  temp.matrix 
 } 
@@ -114,5 +122,8 @@ calc.prob.matrix(8,5,1/365)
 ```
 
 The rate of moving to Wing B = 0.3682517. 
+
+---
+
 
 ---

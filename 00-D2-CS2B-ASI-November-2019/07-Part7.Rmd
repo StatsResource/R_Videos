@@ -1,0 +1,106 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+```{r echo=FALSE}
+library(magrittr)
+
+options(repr.plot.width=8, repr.plot.height=5)
+```
+
+Solution 7: 
+i)
+
+```{r}
+patients<-c(1:15) 
+time<-c(6,6,12,18,27,27,30,36,39,39,54,57,60,60,60) 
+censtat<-c(1,0,1,0,1,0,0,0,1,0,0,1,0,0,0) 
+data1<-data.frame(patients,time,censtat) 
+data1 
+library(survival) 
+model1<-survfit(Surv(data1$time,data1$censtat)~1) 
+```
+
+---
+
+
+```{r}
+data<-summary(model1) 
+data 
+```
+
+> data 
+Call: survfit(formula = Surv(data1$time, data1$censtat) ~ 1) 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI 
+ 6 15 1 0.933 0.0644 0.815 1 
+ 12 13 1 0.862 0.0911 0.700 1 
+ 27 11 1 0.783 0.1115 0.593 1 
+ 39 7 1 0.671 0.1409 0.445 1 
+ 57 4 1 0.503 0.1797 0.250 1 
+
+---
+ii)
+
+```{r}
+tj=c(6,12,27,39,57) 
+dj=c(1,1,1,1,1) 
+nj=c(15,13,11,7,4) 
+1-dj/nj 
+```
+---
+
+Lambda=cumsum(dj/nj) 
+SNA<-exp(-Lambda) 
+SNA 
+> 1-dj/nj 
+[1] 0.9333333 0.9230769 0.9090909 0.8571429 0.7500000 
+> SNA 
+[1] 0.9355070 0.8662431 0.7909672 0.6856719 0.5340018 
+
+--- 
+iii)
+survdata<-data.frame(tj,nj,dj,data$surv,SNA) 
+survdata 
+> survdata 
+ tj nj dj data.surv SNA 
+1 6 15 1 0.9333333 0.9355070 
+2 12 13 1 0.8615385 0.8662431 
+3 27 11 1 0.7832168 0.7909672 
+4 39 7 1 0.6713287 0.6856719 
+5 57 4 1 0.5034965 0.5340018 

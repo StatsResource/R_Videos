@@ -41,7 +41,7 @@ pre {
 
 ### Part A
 
-The data file “Expenses.csv” contains records of last 5 years monthly expenses paid by a 
+The data file “***Expenses.csv***” contains records of last 5 years monthly expenses paid by a 
 company starting from January 2015. 
 
 ### Exercises
@@ -202,7 +202,7 @@ Import the time series data file “ARIMA.csv” and answer the below questions.
 
 #### Exercises
 
-4. Plot a graph for the above time series data “ARIMA.csv”. 
+4. Plot a graph for the above time series data “***ARIMA.csv***”. 
 
 5. Plot two graphs to show the ACF and PACF for the time series provided. 
 
@@ -253,19 +253,37 @@ ts.plot(ARIMAdata,main="Time series data",ylab="Data")
  
 ### Exercise 2
 
-```{r}
+```{r eval = FALSE}
  acf(ARIMAdata, main="Time series data ",ylab="sample ACF") 
 ```
 
 ---
 
-```{r} 
- pacf(ARIMAdata, main=" Time series data",ylab="sample PACF") 
+```{r echo=FALSE}
+ acf(ARIMAdata, main="Time series data ",ylab="sample ACF") 
+```
+
+---
+
+```{r eval = FALSE} 
+ pacf(ARIMAdata, 
+      main=" Time series data",
+	  
+	  ylab="sample PACF") 
 ```
 ---
 
+```{r, echo = FALSE} 
+ pacf(ARIMAdata, 
+      main=" Time series data",
+	  
+	  ylab="sample PACF") 
+```
+---
 ### Exercise 3
 
 The ACF drops to zero relatively quickly, denoting the series is stationary. 
+
+---
 
 ---

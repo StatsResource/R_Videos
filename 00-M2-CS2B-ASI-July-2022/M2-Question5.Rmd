@@ -1,0 +1,50 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+[12]
+Q. 5) i) Write a general function to compute the truncated moments for a lognormal distribution 
+using k, σ, µ, L (the lower bound) and U (the upper bound)
+ Given
+σ= 0.7
+µ = 1.2
+L = 10
+U = ∞
+ii) Use the function generated in (i) to compute the first and second order truncated moments.
+iii) Using the function in (i) or otherwise, compute the first two moments for a non-truncated 
+normal distribution with the same µ and σ.
+iv) Compare the results generated in (ii) and (iii) with appropriate reasoning.

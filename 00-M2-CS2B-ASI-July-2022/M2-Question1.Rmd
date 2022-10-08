@@ -1,0 +1,53 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+ Page 2 of 4
+Q. 1) Given below is the PDF h(x) derived from the CDF H(x) of a GEV distribution
+CDF:
+PDF:
+Based on the historical data, the maxima value for three years are 8, 8 and 9 units
+i) Write a function in R to compute the log-likelihood of the above distribution.
+ii) Use the function in (i), to find the Maximum Likelihood Estimates (MLE) of the three 
+parameters α, \beta and γ. You can use α = 6, \beta = 4 and γ = 5 as the initial estimates of the 
+parameters. 
+---
+iii) Using the MLE parameters obtained in (ii) above, estimate the probability that maximum 
+claim ‘p’ in any given year is greater than X where X = {10, 15, 20,….100}. (6)
+iv) Plot a curve of the probabilities against the maximum claim in a year and do appropriate 
+labelling. (4)
+v) Explain the reason associated with the shape of the curve generated in (iv).

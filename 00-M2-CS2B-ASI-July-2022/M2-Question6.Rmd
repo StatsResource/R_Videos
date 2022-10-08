@@ -1,0 +1,77 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+Q. 6) Refer to the data set “Cricket.csv”. The data contains the following columns
+A. Player – Name of the Player
+B. Team – The team he represented in IPL 2022
+C. Init_Group – His initial group (Batsman/ Bowler/ Alrounder)
+D. Runs – Number of runs scored in IPL 2022
+E. Ave_Bat – Batting Average
+F. Wickets – Number of wickets taken as a bowler
+G. Economy – Economy as a bowler
+
+---
+
+Load the data into R and answer the following questions. Name the data frame as “Cricket”.
+i) What is the average of “Runs” and “Wickets” for three groups of players based on the 
+initial grouping.
+ii) Create a copy of “Cricket” and rename it as “Cricket1”. In “Cricket1” keep only the four 
+numerical columns and remove the rest of them.
+
+---
+Perform a feature scaling on Cricket1 by executing the following code 
+```{r}
+Cricket1 = as.data.frame(scale (Cricket1))
+```
+After scaling, set a seed value of 100 using the following code <tt>set.seed(100)</tt>.
+
+--=
+iii) Execute k-means clustering algorithm on “Cricket1” and assign it to a variable 
+“clust_Cricket”. Print the cluster means of the generated clusters.
+iv) Add the cluster memberships of each of the players to the original data frame (Cricket) by 
+creating a new column called “***Clust_Membership***”.
+v) Rename the cluster memberships as “Batsman”, “***Bowler***” and “Alrounder” by following 
+the rules given below:
+* The cluster with the highest average runs is renamed as “Batsman”
+* The cluster with the highest average number of wickets is renamed as “***Bowler***”
+* The remaining cluster is renamed as “Alrounder”
+vi) Compute the error rate in clustering by comparing the initial grouping with the clusters 
+created.
+vii)Comment on the possible reasons for misclassification in the clustering.
+[20]
+********************
