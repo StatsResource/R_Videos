@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -148,13 +148,10 @@ for(t in 1:10){
 
 
 ```r
-xlist=seq(40,50) 
-
 qx&lt;-function(x) { 
  1-px(x) 
 } 
 ```
----
 
 
 ```r
@@ -166,6 +163,10 @@ qx(40:50)
 ##  [6] 0.0012000661 0.0013130073 0.0014365699 0.0015717515 0.0017196427
 ## [11] 0.0018814364
 ```
+
+---
+
+
 
 
 
@@ -193,7 +194,9 @@ cbind(40:50,qx(40:50))
 
 
 ```r
-qlist=sapply(xlist,qx) 
+xlist &lt;- seq(40,50) 
+
+qlist &lt;- sapply(xlist,qx) 
 ```
 
 
@@ -218,6 +221,9 @@ cbind(xlist,qlist)
 ```
 
 
+---
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -95,23 +95,26 @@ gen.matrix(12)
 ---
 #### Exercise 2
 
-Over a very small time period $h$, the transition probability matrix P(t,t+h) can be 
+* Over a very small time period $h$, the transition probability matrix P(t,t+h) can be 
 approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. 
 
-Using this, calculate the 
+* Using this, calculate the 
 probability that a 8 year old will move to Wing B in next 5 years in case h=1/365. 
 
 ---
 
-```{r}
+```{r attr.source= ".numberLines"}
 calc.prob.matrix=function(s,t,h){ 
- Ph=diag(2)+gen.matrix(s)*h 
- temp.matrix=Ph 
- for (j in 1:((t-s)/h-1)){ 
-	temp.matrix = temp.matrix %*% Ph 
-	Ph = diag(2) + gen.matrix(s+h*j)*h 
- } 
- temp.matrix 
+ 
+  Ph=diag(2)+gen.matrix(s)*h 
+  temp.matrix=Ph 
+ 
+  for (j in 1:((t-s)/h-1)){ 
+    temp.matrix = temp.matrix %*% Ph 
+    Ph = diag(2) + gen.matrix(s+h*j)*h 
+    } 
+  
+  temp.matrix 
 } 
 ```
 

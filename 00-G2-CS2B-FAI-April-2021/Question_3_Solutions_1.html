@@ -1,29 +1,31 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
 ---
-title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-library(knitr)
 
 
-```
 
-```{css, echo=FALSE}
+
+&lt;style type="text/css"&gt;
 pre {
   background: #ADD8E6;
   max-width: 100%;
   overflow-x: scroll;
 }
-```
+&lt;/style&gt;
 
 ***CS2B – Risk Modelling and Survival Analysis ***
 
@@ -35,7 +37,8 @@ pre {
 ---
 
 
-```{r}
+
+```r
 library(survival)
 ```
 
@@ -44,8 +47,9 @@ library(survival)
 Q3
 (i)
 
-```{r}
-mortalitydata <- 
+
+```r
+mortalitydata &lt;- 
 read.csv(file = "CS2B_Apr_21_Qu_3_Data.csv", head = TRUE)
 ```
 
@@ -54,14 +58,26 @@ read.csv(file = "CS2B_Apr_21_Qu_3_Data.csv", head = TRUE)
 
 #### Mortality Data
 
-```{r}
+
+```r
 head(mortalitydata)
+```
+
+```
+##   Life Drug Gender Status Time
+## 1    1    0      0      1   85
+## 2    2    0      0      1   67
+## 3    3    0      0      1   10
+## 4    4    0      0      1  283
+## 5    5    0      0      1   58
+## 6    6    0      0      1  108
 ```
 
 ---
 
 
-```{r}
+
+```r
 KMfit = 
 survfit( 
  
@@ -75,7 +91,8 @@ conf.int = 0.995)
 --- 
 
 
-```{r eval = FALSE}
+
+```r
 plot( 
  
 
@@ -97,22 +114,7 @@ confidence interval, for all patients")
 
 
 #### Kaplan-Meier Curve
-```{r echo = FALSE}
-plot( 
- 
-
-KMfit, 
- 
-
-xlab = "Time", 
- 
-
-ylab = "Survival Function, S(t)", 
- 
-
-main = "Kaplan-Meier Estimate, with its two-sided 99.5% 
-confidence interval, for all patients") 
-```
+![](Question_3_Solutions_1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -120,8 +122,13 @@ confidence interval, for all patients")
 
 (ii)
 
-```{r}
+
+```r
 summary(KMfit, time = 365)$surv
+```
+
+```
+## [1] 0.1715504
 ```
 
 OR:
@@ -159,7 +166,8 @@ patients that received the drug with the lifetime distribution of patients who d
 ---
 (iv)
 #### Exercise 4
-```{r}
+
+```r
 KMfit = 
 survfit( 
  
@@ -169,7 +177,17 @@ Surv(mortalitydata$Time,mortalitydata$Status)
 data = mortalitydata) 
  
 print(KMfit)
+```
 
+```
+## Call: survfit(formula = Surv(mortalitydata$Time, mortalitydata$Status) ~ 
+##     Drug + Gender, data = mortalitydata)
+## 
+##                     n events median 0.95LCL 0.95UCL
+## Drug=0, Gender=0 1100    982     70      64      76
+## Drug=0, Gender=1 1100    870    145     135     158
+## Drug=1, Gender=0 1100    982     76      70      81
+## Drug=1, Gender=1 1100    607    295     273     317
 ```
 ---
 
@@ -185,7 +203,8 @@ OR:
 
 ---
 
-```{r}
+
+```r
 KMfit = 
 survfit( 
  
@@ -193,7 +212,17 @@ survfit(
 Surv(mortalitydata$Time,mortalitydata$Status)~ 
 mortalitydata$Drug + mortalitydata$Gender) 
 print(KMfit)
+```
 
+```
+## Call: survfit(formula = Surv(mortalitydata$Time, mortalitydata$Status) ~ 
+##     mortalitydata$Drug + mortalitydata$Gender)
+## 
+##                                                 n events median 0.95LCL 0.95UCL
+## mortalitydata$Drug=0, mortalitydata$Gender=0 1100    982     70      64      76
+## mortalitydata$Drug=0, mortalitydata$Gender=1 1100    870    145     135     158
+## mortalitydata$Drug=1, mortalitydata$Gender=0 1100    982     76      70      81
+## mortalitydata$Drug=1, mortalitydata$Gender=1 1100    607    295     273     317
 ```
 
 ---
@@ -218,7 +247,8 @@ mortalitydata$Drug=1, mortalitydata$Gender=1 273 317
 ---
 
 
-```{r}
+
+```r
 plot( 
 KMfit, 
 xlab = "Time", 
@@ -228,9 +258,9 @@ col = c("blue", "red", "black", "green"))
 
 legend("topright", legend = c("Male - No Drug", "Female - No Drug", "Male -Drug", "Female - Drug"), 
 pch = 7)
-
-
 ```
+
+![](Question_3_Solutions_1_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 --- 
 
@@ -304,3 +334,108 @@ Part (ix) was very poorly answered. Many candidates commented on the statistical
 significance of gender in isolation, which was not relevant to this part of the question. 
 Few candidates commented on the significance of the reduction in mortality from 
 taking MediCo for each gender separately, or of the interaction term.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

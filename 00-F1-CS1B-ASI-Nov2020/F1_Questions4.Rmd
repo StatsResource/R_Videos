@@ -41,10 +41,11 @@ Illness (ILI) physician visits on weekly basis. The objective of this question i
 influenza-like illness (ILI) activity using Google web search logs.
 The csv file FluTrain.csv aggregates this data from January 1, 2004 until December 31, 2011
 as follows:
-"Week" - The range of dates represented by this observation, in year/month/day format.
-"ILI" - This column lists the percentage of ILI-related physician visits for the corresponding
+
+* "Week" - The range of dates represented by this observation, in year/month/day format.
+* "ILI" - This column lists the percentage of ILI-related physician visits for the corresponding
 week.
-"Queries" - This column lists the fraction of queries that are ILI-related for the corresponding
+* "Queries" - This column lists the fraction of queries that are ILI-related for the corresponding
 week, adjusted to be between 0 and 1 (higher values correspond to more ILI-related search
 queries).
 
@@ -55,15 +56,17 @@ queries).
 i)
 Plot a histogram of the dependent variable, ILI. Comment on the shape of the
 distribution. (3)
-ii) Plot the natural logarithm of ILI versus Queries. What does the plot suggest? (4)
-iii) Fit a linear regression model for dependent variable log(ILI). Summarize it. (6)
-iv) State the formula of the model fitted in part (iii), explaining all the terms used. (3)
+ii) Plot the natural logarithm of ILI versus Queries. What does the plot suggest? 
+iii) Fit a linear regression model for dependent variable log(ILI). Summarize it. 
+iv) State the formula of the model fitted in part (iii), explaining all the terms used. 
 v) Calculate R-squared and the correlation between the independent and dependent
-variable. What is the relationship between the two values? (5)
+variable. What is the relationship between the two values? 
+
+---
 Looking at the time period 2004-2011, which week corresponds to the highest
 percentage of ILI-related physician visits? (4)
 Based on the linear regression model fitted in question (iii), what is the estimate for
-the percentage of ILI-related physician visits for the week computed in question (vi)? (4)
+the percentage of ILI-related physician visits for the week computed in question (vi)?
 What is the relative error between the estimate (prediction calculated in question (vii))
 and the actual observed value for the week computed in question (vi)? (4)
 vi)
@@ -90,8 +93,13 @@ FluTrain <- read.csv("FluTrain.csv")
 ```{r}
 str(FluTrain)
 ```
+---
+
+
+```{r}
 
 hist(FluTrain$ILI)
+```
 The data is positively skewed. Most of the ILI values are small, with a relatively small number of much larger values.
 
 
@@ -152,10 +160,15 @@ Hence, R-squared = Correlation ^ 2
 
 #### Exercise 6
 
+
+```{r}
 which.max(FluTrain$ILI)
-[1] 303
-> FluTrain$Week[303]
-[1] 2009-10-18 - 2009-10-24
+```
+
+```{r}
+FluTrain$Week[303]
+```
+
 417 Levels: 2004-01-04 - 2004-01-10 2004-01-11 - 2004-01-17 ... 2011-12-25 - 2011-12-3
 1
 Week of 18 th October 2009 to 24 th October 2009 corresponds to the highest percentage of ILI-related physician visits.
@@ -176,10 +189,14 @@ PredTest1[303]
 #### Exercise 8
 
 viii)
+
+```{r}
 FluTrain$ILI[303]
-[1] 7.618892
+```
+
+```{r}
 (7.618892-11.72765)/7.618892
-[1] -0.5392855
+```
 
 ---
 
