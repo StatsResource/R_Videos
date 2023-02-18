@@ -75,9 +75,12 @@ cor(interest_rates, method="pearson")
 
 ---
 
-The correlation matrix shows that there is strong (positive) correlation between returns on bonds of similar maturity.
 
-It also shows that the correlation between returns is weaker as the length of maturity between bonds increases.
+#### Correlation
+
+* The correlation matrix shows that there is strong (positive) correlation between returns on bonds of similar maturity.
+
+* It also shows that the correlation between returns is weaker as the length of maturity between bonds increases.
 
 ---
 
@@ -152,4 +155,4 @@ with some partial answers in (i)(b) where many candidates observed a relationshi
 individual years without drawing out the overall trend. Answers in part (ii) were also
 satisfactory. Note that in part (ii) the princomp() function can alternatively be used in R.
 
-
+---

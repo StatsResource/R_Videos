@@ -117,6 +117,7 @@ var(InsClaims3)
  43964610
 ```
 
+---
 (b)
 For the reinsurer:
 ReClaims3 <- pmax(0, claims - 20000)
@@ -125,12 +126,18 @@ mean(ReClaims3)
 var(ReClaims3)
  25047814
 
+
+---
+
 OR: (alternative accepted answer based on conditional distribution).
 ReClaims3_alt <- claims[claims>20000]-20000
 mean(ReClaims3_alt)
  10099.67
 var(ReClaims3_alt)
  96978902
+
+
+---
 
 %
 
@@ -155,6 +162,9 @@ pmin(claims,
 30000)
 40000)
 50000)
+
+---
+
 MeanIns <- c(mean(InsClaims1), mean(InsClaims2),
 mean(InsClaims3), mean(InsClaims4), mean(InsClaims5),
 mean(InsClaims6))
@@ -168,24 +178,38 @@ VarIns
  2533775 12858446 43964610 70204248 86376566
 93370367
 
+---
+
 (b)
+
+```{r}
 ReClaims1 <- pmax(0, claims - 5000)
 ReClaims2 <- pmax(0, claims - 10000)
 ReClaims4 <- pmax(0, claims - 30000)
 ReClaims5 <- pmax(0, claims - 40000)
 ReClaims6 <- pmax(0, claims - 50000)
+```
+
+```{r}
 MeanRe <- c(mean(ReClaims1), mean(ReClaims2),
 mean(ReClaims3), mean(ReClaims4), mean(ReClaims5),
 mean(ReClaims6))
+
+```
+
 MeanRe
  6097.15469 3697.87535 1366.48492
 168.40057
 66.20174
 499.15454
+
+```{r}
 VarRe <- c(var(ReClaims1), var(ReClaims2),
 var(ReClaims3), var(ReClaims4), var(ReClaims5),
 var(ReClaims6))
 VarRe
+```
+
  84523429 60046376 25047814
 1305645
 9343406
@@ -197,21 +221,31 @@ ReClaims2_alt <- claims[claims>10000]-10000
 
 ---
 
+```{r}
 ReClaims4_alt <- claims[claims>30000]-30000
 ReClaims5_alt <- claims[claims>40000]-40000
 ReClaims6_alt <- claims[claims>50000]-50000
 MeanRe_alt <- c(mean(ReClaims1_alt),mean(ReClaims2_alt),
 mean(ReClaims3_alt), mean(ReClaims4_alt),
 mean(ReClaims5_alt), mean(ReClaims6_alt))
+```
+
+
 MeanRe_alt
  10019.975 10040.389 10099.667
 11033.623
 9562.348
 9568.214
+
+```{r}
 VarRe_alt <- c(var(ReClaims1_alt), var(ReClaims2_alt),
 var(ReClaims3_alt), var(ReClaims4_alt),
 var(ReClaims5_alt), var(ReClaims6_alt))
 VarRe_alt
+
+```
+
+
  99600486 99365957 96978902
 98212292
 
@@ -230,7 +264,7 @@ retention level.
 92486321 106717925
 ---
 
-```{r}
+```{r eval =FALSE}
 x <- c(5000, 10000, 20000, 30000, 40000, 50000)
 plot(x, MeanIns, xlab = "Retention Limit", ylab = "Mean
 amount paid by Insurer", main = "Mean Claim Amount for
@@ -239,7 +273,8 @@ Insurer by Retention Limit", type = "l")
 
 ---
 
-```{r}
+```{r echo=FALSE}
+x <- c(5000, 10000, 20000, 30000, 40000, 50000)
 plot(x, MeanRe, xlab = "Retention Limit", ylab = "Mean
 amount paid by Reinsurer",main = "Mean Claim Amount for
 Reinsurer by Retention Limit", type = "l")
@@ -259,8 +294,8 @@ of Claim Amount for Insurer by Retention Limit", type =
 ```{r}
 plot(x, VarRe, xlab = "Retention Limit", ylab =
 "Variance of amount paid by Reinsurer", main = "Variance
-of Claim Amount for Reinsurer by Retention Limit", type
-= "l")
+of Claim Amount for Reinsurer by Retention Limit", 
+type= "l")
 
 ```
 

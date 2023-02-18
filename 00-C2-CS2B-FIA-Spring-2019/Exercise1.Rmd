@@ -36,7 +36,7 @@ ts.plot( y,
 
 ---
 
-```{r}
+```{r echo=FALSE}
 ts.plot( y, 
     xlab = "Time", 
     ylab = "Simulated Values from an ARIMA(1,1,0) Time Series")
@@ -44,7 +44,7 @@ ts.plot( y,
 
 ---
 
-```{r}
+```{r eval = FALSE}
 plot( y, 
   
      xlab = "Time", 
@@ -57,7 +57,7 @@ x <- 1:301
 
 ---
 
-```{r}
+```{r echo=FALSE}
 plot(x, y, 
     
     type="l", 
@@ -117,6 +117,8 @@ plot(leastsquaresfit$res, xlab = "Time", ylab="Residuals")
 It is clear that the residuals are not stationary as they are negative in the first third
 followed by positive residuals in the middle part and then negative in the last part.
 ​
+---
+
 OR:
 acf(leastsquaresfit$res)
 The residuals are not stationary as the ACF of the residuals seems to generate a unit root as
@@ -126,8 +128,7 @@ Error in parse(text = x, srcfile = src): <text>:7:4: unexpected symbol
 
 ---
 
-Exercise 3
-========================================
+### Exercise 3
 Plot the sample Autocorrelation function (ACF) and sample Partial Autocorrelation function (PACF) of the original data, giving appropriate labels for each axis and paste the charts into your answer.
 
 ```{r}

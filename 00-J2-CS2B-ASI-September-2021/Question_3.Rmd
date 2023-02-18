@@ -13,51 +13,94 @@ output:
 Solution 3:
 IAI CS2B-0921
 Page 5 of 13
+
+
+```{r}
 library(markovchain)
-## Warning: package 'markovchain' was built under R version 4.0.5
-## Package: markovchain
-## Version: 0.8.5-4
-## Date: 2021-01-07
-## BugReport: https://github.com/spedygiorgio/markovchain/issues
+```
 
 ---
 # (i)
-TransitionName<-c("Pass","Shoot","Dribble")
-MarkovData<-c(0.5,0.1,0.4,0.7,0.2,0.1,0.4,0.3,0.3) [3M]
-# (ii)
-MarkovData<-c(0.5,0.1,0.4,0.7,0.2,0.1,0.4,0.3,0.3)
-TransitionName<-c("Pass","Shoot","Dribble") [1M]
-BallTransition<-matrix(MarkovData,nrow = 3,byrow = TRUE,dimnames = list(Trans
-itionName,TransitionName))
+
+```{r}
+TransitionName <- c("Pass","Shoot","Dribble")
+MarkovData <- c(0.5,0.1,0.4,
+              0.7,0.2,0.1,
+              0.4,0.3,0.3) 
+```
+
+---
+
+
+#### Part (B)
+
+```{r}
+# MarkovData<-c(0.5,0.1,0.4,0.7,0.2,0.1,0.4,0.3,0.3)
+# TransitionName<-c("Pass","Shoot","Dribble") 
+BallTransition<-matrix(MarkovData,nrow = 3,
+                       byrow = TRUE,
+                       dimnames = list(TransitionName,TransitionName))
+```
+
+---
+
+```{r}
 BallTransition
-## Pass Shoot Dribble
-## Pass 0.5 0.1 0.4
-## Shoot 0.7 0.2 0.1
-## Dribble 0.4 0.3 0.3
+
 
 ```
+
+
 ---
 
 ```{r}
-markov2<-new("markovchain",transitionMatrix=matrix(data=MarkovData,
- byrow=TRUE,nrow=3,dimnames=list(TransitionName,TransitionName)))
+markov2<-new("markovchain",
+             transitionMatrix=matrix(data=MarkovData,
+ byrow=TRUE,nrow=3,
+ dimnames=list(TransitionName,TransitionName)))
 ```
+
 ---
 
+
+Part (c)
+
 ```{r}
-# (iii)
+
 plot(markov2) 
 ```
 ---
 
+
+
+#### PArt 4
 ```{r}
-# (iv)
+
+summary(markov2)
+
+```
+
+
+---
+
+  
+```{r}
+
 steadyStates(markov2)
 ## Pass Shoot Dribble
 ## [1,] 0.5047619 0.1809524 0.3142857
 #(v)
 #(a)
+
+```
+
 ---
+
+#### Part 5
+
+```{r}
+
+
 markov2^2
 ## Unnamed Markov chain^2 
 ## A 3 - dimensional discrete Markov Chain defined by the following states: 
@@ -67,9 +110,14 @@ markov2^2
 ## Pass 0.48 0.19 0.33
 ## Shoot 0.53 0.14 0.33
 ## Dribble 0.53 0.19 0.28
-After 2 plays the probability is 0.48
+
 ```
+
+After 2 plays the probability is 0.48
+
 ---
+
+After 5 plays the probability is 0.50475
 
 ```{r}
 #(b)
@@ -83,10 +131,13 @@ markov2^5
 ## Shoot 0.50525 0.18100 0.31375
 ## Dribble 0.50450 0.18125 0.31425
 ```
+
 ---
 
+
+
 ```{r}
-After 5 plays the probability is 0.50475
+
 
 #(vi)
 set.seed(100)
@@ -99,26 +150,34 @@ table(seq)
 ```
 ---
 
+#### Part (g)
+
 ```{r}
 #(vii)
 library(lattice)
 ## Warning: package 'lattice' was built under R version 4.0.5
 barchart(prop.table(table(seq)))
 # OR
+```
+
+---
+
+```{r}
 plot(prop.table(table(seq)),main = "Frequency of different states")
 ```
 
 ---
 
 
-#(viii) 
+#### Part (H) 
 
-According to the steady state distribution, the frequency of Pass, Shoot an
-d Dribble needs to be 50.47, 18.09, 31.42 respectively. 
-# Pass frequency of the simulation is matching with that of the expected. But 
-there is some discrepancy in the shoot and dribble.
-# Main Reasons - (1) The number of simulations (100) is very small and needs 
-to be increased. When the simulations are small, different seed values can pr
-oduce different results altogether because of sample error and those differen
-ces might be significant
+According to the steady state distribution, the frequency of Pass, Shoot and Dribble needs to be 50.47, 18.09, 31.42 respectively. 
+
+Pass frequency of the simulation is matching with that of the expected. But there is some discrepancy in the shoot and dribble.
+
+---
+
+#### Main Reasons 
+- (1) The number of simulations (100) is very small and needs 
+to be increased. When the simulations are small, different seed values can produce different results altogether because of sample error and those differences might be significant
 --- 

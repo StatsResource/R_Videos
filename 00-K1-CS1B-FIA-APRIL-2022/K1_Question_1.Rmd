@@ -98,6 +98,9 @@ Parts (i) & (ii) show that as more people enter the lift, the probability of exc
 While the probability of exceeding 650kg is small with 8 people, 
 exceeding the maximum weight is considerably more likely with 9 people. 
 ---
+
+#### Exercise 4
+
 (iv)
 Again, 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560, 572), where X is the total weight of 8 people. 
 In order to find the central region that contains 80% of the distribution we need to identify the 
@@ -115,15 +118,28 @@ We use the function “qnorm" in the code:
 The requested interval is [486.9516, 633.0484]. 
 ---
 
+#### Exercise 5
+
 (v)(a) 
-We now have 𝑌𝑌 ~ 𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺(96.5220, 0.1724), where Y is the total weight of 8 people. The 
+We now have 𝑌𝑌 ~ 𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺(96.5220, 0.1724), where Y is the total weight of 8 people. 
+
+The 
 computation this time produces:
+```{r}
 qgamma(0.1, 96.5220, 0.1724) 
-# 488.195
+
+```
+488.195
+
+<pre><code>
 > qgamma(0.9, 96.5220, 0.1724) 
 # 634.0333
+
+</code></pre>
 and the interval is [488.195, 634.0333]. 
 (b)
+---
+
 The intervals are very similar. 
 The mean and standard deviation of the two distributions are (approximately) equal. 
 As the first (shape) parameter of the gamma distribution is large, the distribution is close 

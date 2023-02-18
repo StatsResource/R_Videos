@@ -205,7 +205,9 @@ Part 10
 Calculate the p-value of a hypothesis test for this suggestion (slope equal to 10), by 
 creating a suitable test statistic. 
 
-Let Ho: Beta = 10 and H1: Beta not equal to 10 
+Let 
+* Ho: Beta = 10 
+* H1: Beta not equal to 10 
 
 ```{r}
 b1 = (coef(reg))[['Spend']]
@@ -252,6 +254,6 @@ y
 
 ```
 
-With a marketing spend of $4,500, the Sales would be $50,821. 
+With a marketing spend of \$4,500, the Sales would be \$50,821. 
 
 ---

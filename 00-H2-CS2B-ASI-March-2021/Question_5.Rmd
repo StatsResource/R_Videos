@@ -99,11 +99,12 @@ gen.matrix(12)
 approximated as P(t,t+h) = I + h*G(t); I is the identity matrix. 
 
 * Using this, calculate the 
-probability that a 8 year old will move to Wing B in next 5 years in case h=1/365. 
+probability that a 8 year old will move to Wing B in next 5 years in case $h=1/365$. 
 
 ---
 
-```{r attr.source= ".numberLines"}
+#### Exercise 2
+```{r}
 calc.prob.matrix=function(s,t,h){ 
  
   Ph=diag(2)+gen.matrix(s)*h 

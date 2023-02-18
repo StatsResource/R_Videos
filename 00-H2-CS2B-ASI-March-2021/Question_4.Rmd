@@ -47,6 +47,12 @@ formula as `A*B^x`; where
 
 ---
 
+#### Force of Mortality
+
+In actuarial science, force of mortality represents the instantaneous rate of mortality at a certain age measured on an annualized basis. It is identical in concept to failure rate, also called ***hazard function***, in reliability theory. 
+
+---
+
 #### Exercises
 
 1. Write down a formula for mu(x) in R and calculate the value of mu(50). 
