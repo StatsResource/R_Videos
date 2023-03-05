@@ -45,17 +45,17 @@ following counts:
 31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24
 Assume that the Poisson distribution with unknown parameter lambda describes the 
 variability from each of the grid squares. 
-i) Calculate Q1, Q3 and Inter-quartile range.
-ii) Plot histogram of sample data and label it appropriately.
-iii) Use the method of maximum likelihood to estimate the parameter lambda.
-iv) Test the hypothesis whether the mean fiber count is equal to 25. Comment on the 
+1.  Calculate Q1, Q3 and Inter-quartile range.
+2.  Plot histogram of sample data and label it appropriately.
+3.   Use the method of maximum likelihood to estimate the parameter lambda.
+4.  Test the hypothesis whether the mean fiber count is equal to 25. Comment on the 
 results.
 ---
-v) Calculate the standard error of parameter lambda. (2)
-vi) Calculate the 90% confidence interval for standard error.
+5.  Calculate the standard error of parameter lambda. (2)
+6.   Calculate the 90% confidence interval for standard error.
 IAI CS1B-0722
 
-vii)Calculate the probability of fiber count exceeding 30, with the help of Central Limit 
+7.  Calculate the probability of fiber count exceeding 30, with the help of Central Limit 
 Theorem.
 
 ---

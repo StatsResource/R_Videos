@@ -49,82 +49,87 @@ Pareto distribution with parameters α and λ.
 
 ### Part 1
 
-(i) Generate, using rpareto, a random sample of size 25,000 from the 
+Generate, using rpareto, a random sample of size 25,000 from the 
 two-parameter Pareto distribution with parameters α = 3 and λ = 1, assigning 
-the simulated values to a vector called A_vec. You should set a random 
-number generator seed of 123 before generating A_vec and use the R function, 
-<tt>head()</tt>, to display the first eight values of A_vec in your answer script.  
+the simulated values to a vector called <tt>A_vec</tt>. 
 
----
+You should set a random  number generator seed of 123 before generating <tt>A_vec</tt> and use the R function, 
+<tt>head()</tt>, to display the first eight values of <tt>A_vec</tt> in your answer script.  
 
-Q2
 
 ```{r}
+#Given in Exam Paper
+
 rpareto = function(n, alpha, lambda){ 
-rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
-rp}
+    rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
+    rp
+    }
+```
 
 ---
-(i)
+
+### Part 1
+
+```{r}
 set.seed (123) 
  
 
-A_vec = 
- 
-
-rpareto(n = 25000, alpha = 3, lambda = 1) 
+A_vec =  rpareto(n = 25000, alpha = 3, lambda = 1) 
  
 
 head(A_vec, 8) 
- 
+```
+
+---
+
+Histogram of <tt>A_vec</tt>
+
+```{r}
+hist(A_vec,breaks=500,col="lightblue")
+```
 
 
- 
- 0.11966335 0.67788900 0.19160373 1.04468423 1.56103061 
-0.01566369 0.28445342 1.10259132 
+
 
 
 ---
 
 ### Part 2
 
-(ii) Construct an R function, called A_exceed_u, with two arguments, A and u, that 
-returns only the non-zero entries of a vector, E, where vector E is of length 
-25,000, with entries defined as: 
-Ei = maxሼAi – u, 0ሽ.
-Use the R function, <tt>head()</tt>, to display in your answer script the first eight 
-values of A_exceed_u when A = A_vec and u = 1. 
+Construct an R function, called <tt>A_exceed_u</tt>, with two arguments, ***A*** and ***u***, that returns only the non-zero entries of a vector, ***E***, where vector ***E*** is of length 25,000, with entries defined as: 
+$$E_i = \textrm{max}(A_i – u, 0).$$
+
+Use the R function, <tt>head()</tt>, to display in your answer script the first eight
+values of <tt>A_exceed_u</tt> when <tt>A = A_vec</tt> and <tt>u = 1</tt>. 
 
 ---
 
-
-
-(ii)
+### Part 2
 
 ```{R}
-A_exceed_u = 
- 
-
-function(A, u){ 
- 
-
-E = pmax(A - u, 0) [2½]
-output = E[E!=0] 
- 
-
-output} 
+A_exceed_u = function(A, u){ 
+  E = pmax(A - u, 0) #pairwise-maximum
+  output = E[E!=0]   #remove 0s
+  output
+  } 
 ```
 
 
 ```{r}
-head(A_exceed_u(A = A_vec, u = 1), 8) 
+head( A_exceed_u(A = A_vec, u = 1), 8) 
  
 ```
 
- 
- 0.04468423 0.56103061 0.10259132 0.85069357 0.15317919 
-0.80118083 0.08415856 3.58825415 
- 
+---
+
+Histogram of <tt>A_vec</tt>
+
+```{r}
+hist(A_exceed_u(A = A_vec, u = 1),breaks=500,col="lightpink")
+```
+
+
+
 ---
 
 ### Part 3
@@ -139,8 +144,9 @@ values of F_u when A_greater_than_u = A_exceed_u with arguments
 A = A_vec and $u = 1$. 
 ---
 
+### Part 3
 
-(iii)
+
 
 ```{r}
 F_u =  function(A_greater_than_u) { 
@@ -170,11 +176,15 @@ head(F_u(A_exceed_u(A = A_vec, u = 1)), 8)
 ### Part 4
 
 
-(iv) Plot, on a single graph, four line graphs of the values of <tt>F_u</tt> against x for 
+Plot, on a single graph, four line graphs of the values of <tt>F_u</tt> against x for 
 the values of x specified in part (iii) when A_greater_than_u = A_exceed_u, 
 A = A_vec and u = 1, 2, 3 and 4. You should use separate colours to identify 
 each line graph and you should clearly specify which value of $u$ is represented 
 by each of the four line graphs. 
+
+---
+
+### Part 5
 
 (v) Comment on the graph produced in part (iv). 
 
@@ -188,25 +198,26 @@ x = seq(from = 0, to = 10, by = 0.1)
 
 plot( 
  x, 
- F_u(A_greater_than_u = A_exceed_u(A = A_vec,u = 1)), 
+ y= F_u(A_greater_than_u = A_exceed_u(A = A_vec,u = 1)), 
  type = "l", 
  main = "Values of F_u against x for u = 1, 2, 3 and 4", 
  col = "red", 
- ylab = "F_u") 
+ ylab = "F_u",
+ ylim = c(0,200))
  
 ```
 
 
 ```{r}
 
-lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
-  A_vec, u = 2), col = "yellow") 
-
-lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
-  A_vec, u = 3), col = "blue") 
- 
-lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
-  A_vec, u = 4), col = "green") 
+# lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
+#   A_vec, u = 2), col = "yellow") 
+# 
+# lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
+#   A_vec, u = 3), col = "blue") 
+#  
+# lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
+#   A_vec, u = 4), col = "green") 
 
 
 ```
@@ -214,10 +225,10 @@ lines(x, F_u(A_greater_than_u = A_exceed_u(A =
 
 ```{r}
 
-legend("bottomright", 
- legend = c("u = 1", "u = 2", "u = 3",  "u = 4"), 
- col = c("red", "yellow", "blue", "green"), 
- pch = 7)
+# legend("bottomright", 
+#  legend = c("u = 1", "u = 2", "u = 3",  "u = 4"), 
+#  col = c("red", "yellow", "blue", "green"), 
+#  pch = 7)
 
 ```  
 ---

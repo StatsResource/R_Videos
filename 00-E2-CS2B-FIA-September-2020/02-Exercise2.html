@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+Before answering this question, generate the vector, X, in R using the following code:
+
+```r
+set.seed(1027); 
+X = rexp(n=1000, rate=0.01)
+```
+
+The vector X represents the gross claim sizes of 1,000 claims. 
+
+---
+
+
+### Part 1. 
+The payments are to be split between an insurance company and its reinsurer under an Excess of Loss reinsurance arrangement with a retention level M = 400. 
+
+Determine the proportion of the claims that are fully covered by the insurer. 
+
+
+```r
+length(X[X&lt;=400])/1000
+```
+
+```
+## [1] 0.987
+```
+
+
+```r
+sum(X&lt;=400)/1000
+```
+
+```
+## [1] 0.987
+```
+
+---
+
+
+### Part 2.
+
+Generate an additional vector, Y, which is of the same length as X, such that Y represents the amounts to be paid by the insurer for each component of X.  
+
+
+```r
+M = 400
+Y = pmin(X, M)
+```
+
+
+```r
+#Inspect first 20 values of Y
+
+Y[1:20]
+```
+
+```
+##  [1]  95.745056  31.976822 341.373883  49.476732 164.743634  10.940437
+##  [7]  77.629390 103.466445  11.955999 174.101980  37.893417 167.524190
+## [13]   1.154016 400.000000  86.340029 139.390573 152.989324  70.268304
+## [19]  62.408035   1.998936
+```
+---
+
+### Part 3.
+
+Generate an additional vector, Z, which is of the same length as X, such that Z
+represents the amounts to be paid by the reinsurer for each component of X.
+
+An actuary assumes that the underlying gross claims distribution follows an exponential distribution of some unknown rate `\(\lambda\)`. 
+
+
+```r
+Z = pmax(0, X-M)
+
+#Inspect Non-Zero Values of Z
+Z[Z&gt;0]
+```
+
+```
+##  [1] 152.75137 338.93845  61.91985  30.47295  60.00136  56.26533 101.77658
+##  [8] 177.37659 108.33183  98.39699  41.38842  13.81782 113.12680
+```
+
+
+```r
+z = X-Y
+
+#Inspect Non-Zero Values of Z
+Z[Z&gt;0]
+```
+
+```
+##  [1] 152.75137 338.93845  61.91985  30.47295  60.00136  56.26533 101.77658
+##  [8] 177.37659 108.33183  98.39699  41.38842  13.81782 113.12680
+```
+
+
+---
+
+### Part 4.
+
+The actuary needs to estimate `\(\lambda\)` using only the claim amounts recorded in vector Y. 
+
+Construct R code that calculates the log-likelihood, as a function of the parameter `\(\lambda\)`, given the claim amounts data in vector Y. 
+
+
+```r
+S = sum(X[X&lt;=400])
+logLik = function(lambda){
+  -5200 * lambda + 987 * log(lambda) - lambda * S
+}
+```
+
+---
+
+### Part 4.
+
+
+```r
+nz = length(Y[Y==M])
+Y_exc_M = Y[Y&lt;M]
+flnL = function(parameter){
+  nz*pexp(M, rate=parameter, lower.tail=FALSE,
+  log.p=TRUE)+
+  sum(dexp(Y_exc_M, rate=parameter, log=TRUE))
+}
+```
+
+---
+
+### Part 5.
+
+Determine the value of `\(\lambda\)` at which the log-likelihood function reaches its maximum.  
+
+
+```r
+987 / (5200 + sum(X[X&lt;=400]))
+```
+
+```
+## [1] 0.01023176
+```
+
+---
+
+
+```r
+nlm(f = function(x) - logLik(x), p = 0.01)$estimate
+```
+
+```
+## [1] 0.01023209
+```
+
+Hence, the maximum likelihood estimate of lambda = 0.01023209.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

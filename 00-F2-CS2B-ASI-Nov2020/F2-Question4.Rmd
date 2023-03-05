@@ -10,71 +10,91 @@ output:
 ---
 
 
+### Data 
 
-Consider the data set ‘Covid_2019.csv’ (name it covid19) where the first row of the csv file
-contains the headings for the columns.
-
-
-#### Exercises
-i)
-Print the number of missing values in each of the columns and create a new data set
-‘covid19_1’ by removing all the missing values.
-From covid19_1, use the columns from Population Density (8th column) to Life Expectancy
-(17th column) to answer the following questions.
-
-ii) Create a new data frame “Covid_Cluster” containing only the above mentioned
-columns. Normalize all the columns of the data frame using the scale function. 
-
-iii) Classify the countries into five groups by using the values obtained from (ii) applying
-K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
-executing the algorithm. Print the number of countries in each cluster. 
-
-
-#### Exercises
-
-iv) What proportion of total countries in each cluster are severe with respect to COVID-
-19? You can use the “Severe” column from the original dataset. 
-v) Print the total number of cases and total number of deaths for each cluster.
-
---- 
-
-http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_COVID_2019.csv
-CS2B_Mortality_Investigation
-http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
-
+Consider the data set ‘Covid_2019.csv’.The first row of the csv file
+contains the headings for the columns. Import it into the R environment as <tt>covid19</tt> 
 
 ---
 
-#### Exercise 1
+#### Exercises
+
+1. Print the number of missing values in each of the col umns and create a new data set
+‘<tt>covid19_1</tt>’ by removing all the missing values. From <tt>covid19_1</tt>, use the columns from Population Density (8th column) to Life Expectancy(17th column) to answer the following questions.
+
+2. Create a new data frame “<tt>Covid_Cluster</tt>” containing only the above mentioned
+columns. Normalize all the columns of the data frame using the scale function. 
+
+3. Classify the countries into five groups by using the values obtained from Part 2 applying
+K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
+executing the algorithm. Print the number of countries in each cluster. 
+
+4. What proportion of total countries in each cluster are severe with respect to COVID-
+19? You can use the “Severe” column from the original dataset. 
+
+5. Print the total number of cases and total number of deaths for each cluster.
+
+
+
+```{r include=FALSE}
+# http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_COVID_2019.csv
+
+#http://www.actuariesindia.org/downloads/Year_2020_November_Exam/CS2B_Mortality_
+```
+
+---
+
+### Part 1
 
 ```{r}
 covid19 <- read.csv("Covid_2019.csv")
-missingvalues <- sapply(covid19,FUN = function(x)sum(is.na(x)))
-missingvalues
+dim(covid19)
 
 ```
-
-
-e
-4
-e
-4
-s
 
 ```{r}
-covid19_1<-na.omit(covid19)
+
+### Summary of sum of the columns
+summary( covid19[ , 14:17] )
 ```
+
+---
+
+```{r}
+missingvalues<-sapply(covid19,FUN = function(x)sum(is.na(x))) 
+missingvalues 
+```
+---
+
+### Part 1
+
+```{r}
+covid19_1 <- covid19[complete.cases(covid19),]
+dim(covid19_1)
+
+```
+
+```{r}
+
+### Summary of sum of the columns
+summary(covid19_1[ , 8:11] )
+```
+
 
 ---
 
 #### Part 2
 
 
-```{r}
-Covid_Cluster<-covid19_1[,c("population_density","median_age","aged_65_older","gdp_per_capita",
-"cardiovasc_death_rate","diabetes_prevalence","female_smokers",
-"male_smokers","hospital_beds_per_thousand","life_expectancy")]
 
+```{r}
+Covid_Cluster<-covid19_1[,8:17]
+names(Covid_Cluster)
+
+```
+
+
+```{r}
 Covid_Cluster<-scale(Covid_Cluster)
 ```
 
@@ -82,9 +102,13 @@ Covid_Cluster<-scale(Covid_Cluster)
 
 #### Part 3
 
+Classify the countries into five groups by using the values obtained from Part 2 applying
+K-Means clustering algorithm. It is mandatory to set a seed value of 100 before
+executing the algorithm. Print the number of countries in each cluster. 
+
 ```{r}
 set.seed(100)
-cluster1<-kmeans(Covid_Cluster,centers = 5)
+cluster1 <- kmeans(Covid_Cluster,centers = 5)
 cluster1$size
 
 ```
@@ -93,6 +117,8 @@ cluster1$size
 
 #### Part 4
 
+What proportion of total countries in each cluster are severe with respect to COVID-
+19? You can use the “Severe” column from the original dataset. 
 
 ```{r}
 covid19_1$cluster<-cluster1$cluster
@@ -111,34 +137,6 @@ table(covid19_1$cluster,covid19_1$Severe)
 ```{r}
 prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
 ```
-> table(covid19_1$cluster,covid19_1$Severe)
-No Yes
-1 16
-5
-2 27
-1
-3 10 16
-4 15
-6
-5 15 15
-> prop.table(table(covid19_1$cluster,covid19_1$Severe),margin = 1)
-1
-2
-3
-4
-5
-No
-0.76190476
-0.96428571
-0.38461538
-0.71428571
-0.50000000
-Yes
-0.23809524
-0.03571429
-0.61538462
-0.28571429
-0.50000000
 
 
 
@@ -148,14 +146,25 @@ Yes
 #### Part 5
 
 ```{r}
-aggregate(total_cases~cluster,data = covid19_1, FUN = "sum")
-aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+cbind(
+  aggregate(total_cases~cluster,data = covid19_1, FUN = "sum"),
 
+  aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+)
 ```
 
 ---
 
-```{r}
-aggregate(total_deaths~cluster,data = covid19_1, FUN = "sum")
+#### Using {tidyverse}
 
+```{r warning=FALSE,message=FALSE}
+library(tidyverse)
+covid19_1 %>% group_by(cluster)%>%
+  summarize(total_cases = sum(total_cases),
+            total_deaths = sum(total_deaths)
+            )
 ```
+
+---
+
+---

@@ -38,10 +38,10 @@ pre {
 
 [11]
 Q .4) Refer to “data_1.csv”.
-i) Write down formulae for the estimated integrated hazard and its estimated variance, using 
+1.  Write down formulae for the estimated integrated hazard and its estimated variance, using 
 the Nelson‐Aalen model.
-ii) Load the table into R. Add two new columns to the table and populate them with estimated 
+2.  Load the table into R. Add two new columns to the table and populate them with estimated 
 integrated hazard, and the estimated variance for each tj of the given data.
-iii) Produce a scatterplot showing the values of the estimated integrated hazard across time tj, 
+3.   Produce a scatterplot showing the values of the estimated integrated hazard across time tj, 
 for j = 0, 1,2, 3,…,20, together with the corresponding 90% confidence interval values.
 You need to do a proper labelling of the axes. (6)

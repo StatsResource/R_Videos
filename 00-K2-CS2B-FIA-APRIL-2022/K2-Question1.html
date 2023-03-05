@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+### Compound Poisson Distribution
+
+The annual aggregate claim amount of an insurer follows a compound Poisson 
+distribution with parameter 1,000. Individual claim amounts follow a Gamma 
+distribution with shape parameter α = 750 and rate parameter λ = 0.25. 
+
+---
+1. Generate 20,000 simulated aggregate claim values for this insurer, using a 
+random number generator seed of 914. Use the R function, &lt;tt&gt;head()&lt;/tt&gt;, to 
+display the first seven simulated claim values in your answer script. 
+
+2. Determine the mean and the standard deviation of the simulated aggregate 
+claim values from part 1. 
+
+3. Plot the empirical density function of the simulated aggregate claim values 
+from part 1, setting the x-axis range from 2,600,000 to 3,300,000 and the 
+y-axis range from 0 to 0.0000045. 
+
+4. Suggest a suitable distribution, including its parameters, that approximates the simulated aggregate claim values from part 1.  
+
+5. Generate 20,000 values from your suggested distribution in part 4 using a 
+random number generator seed of 914. Use the R function, &lt;tt&gt;head()&lt;/tt&gt;, to 
+display the first seven generated values in your answer script. 
+
+6. Plot the empirical density function of the simulated values in part 5. as a 
+different coloured line in the chart that was produced in part 3.  
+
+
+---
+
+### Part 1
+
+```r
+set.seed(914) 
+n = rpois(20000, 1000) 
+s = numeric(20000) 
+
+for(i in 1:20000) {
+  x = rgamma(n[i], shape = 750, rate = 0.25) 
+
+  s[i] = sum(x)
+  } 
+head(s, 7) 
+```
+
+```
+## [1] 2860469 2915250 2998362 3223837 2915546 2971731 3132371
+```
+
+
+---
+
+### Part 1
+
+#### Alternative Approach
+
+
+```r
+set.seed(914) 
+s = numeric(20000) 
+
+for(i in 1:20000) {
+  n = rpois(1, 1000) 
+  x = rgamma(n, shape = 750, rate = 0.25) 
+  s[i] = sum(x)
+  } 
+head(s, 7) 
+```
+
+```
+## [1] 2856968 2929369 2910782 2941784 3041930 3057008 2953528
+```
+
+---
+#### Part 2. 
+
+
+```r
+mean(s) 
+```
+
+```
+## [1] 3000283
+```
+
+The mean of the simulated claim values is 3,000,283
+
+
+```r
+sd(s) 
+```
+
+```
+## [1] 95263
+```
+
+The standard deviation of the simulated claim values is 95,263
+
+---
+
+### Part 3. 
+
+
+```r
+plot( 
+  density(s), 
+  xlim = c(2600000, 3300000), 
+  ylim = c(0, 4.5e-06), 
+  xlab = "Simulated Claims", 
+  main = "Probability Density Function",
+  sub = "Simulated Claims from a Compound Poisson Distribution") 
+```
+---
+
+### Part 3. 
+
+![](K2-Question1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+---
+
+### Part 4.
+
+Suggest a suitable distribution, including its parameters, that approximates the simulated aggregate claim values
+
+#### Normal distribution 
+
+* mean = 3,000,982 
+* standard deviation = 93,872.61  
+* 93,872.61^2 = 8,812,067,277 
+ $$ X \sim N(\mu=3,000,982, \sigma^2 = 8,812,067,277)$$
+
+---
+
+#### Part 5.
+
+20,000 values from your suggested distribution in part 4 using a 
+random number generator seed of 914.
+
+
+```r
+set.seed(914) 
+approx_dist = rnorm(20000, mean(s), sd(s)) 
+head(approx_dist, 7) 
+```
+
+```
+## [1] 2854076 3082548 2900897 2999033 3232148 2917926 2975351
+```
+
+---
+
+### Part 6.
+
+
+```r
+plot( 
+  density(s), 
+  xlim = c(2600000, 3300000),   ylim = c(0, 4.5e-06), 
+  xlab = "Simulated Claims", 
+  main = "Probability Density Functions")
+
+### Super-imposed theoretical distribution 
+
+lines( 
+density(approx_dist), 
+col = "red") 
+legend("topright", 
+legend = c("Simulated Claims", "Approximate Normal 
+Distribution"), 
+  col = c("black","red"), 
+  pch = 7)
+```
+
+---
+
+### Part 6.
+
+
+![](K2-Question1_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+---
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

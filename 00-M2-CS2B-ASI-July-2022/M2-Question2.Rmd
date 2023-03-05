@@ -39,16 +39,16 @@ pre {
 Q. 2) You have been asked to analyse the number of deaths per month in the country X from lung 
 disease over the period from Jan 2015 to Dec 2020. This information is contained in a time 
 series called “Lung_Deaths.csv”.
-i) Convert the data into a time series format representing the above period after loading it 
+1.  Convert the data into a time series format representing the above period after loading it 
 into R. (2)
-ii) Plot this time series giving appropriate labels for each axis.
-iii) Plot, on two separate graphs, the sample autocorrelation function (sample ACF) and 
+2.  Plot this time series giving appropriate labels for each axis.
+3.   Plot, on two separate graphs, the sample autocorrelation function (sample ACF) and 
 sample partial autocorrelation function (sample PACF) of the series with appropriate 
 labelling of the axes. (6)
 IAI CS2B-0722
  Page 3 of 4
-iv) Justify the presence of seasonality in the data based on (ii) and (iii) above.
-v) Apply seasonal differencing to the time series to remove the element of seasonality. (4)
-vi) Plot the ACF and PACF of this time series generated in (v) above up to lag k = 5 years, 
+4.  Justify the presence of seasonality in the data based on (2.  and (3.   above.
+5.  Apply seasonal differencing to the time series to remove the element of seasonality. (4)
+6.   Plot the ACF and PACF of this time series generated in (5.  above up to lag k = 5 years, 
 giving appropriate labels for each axis. (4)
-vii)Comment on your plots in part (vi), making reference to the stationarity.
+7.  Comment on your plots in part (6.  , making reference to the stationarity.

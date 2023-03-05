@@ -161,12 +161,9 @@ patients that received the drug with the lifetime distribution of patients who d
 #### Exercise 4
 ```{r}
 KMfit = 
-survfit( 
- 
-
-Surv(mortalitydata$Time,mortalitydata$Status)
-~Drug+Gender, 
-data = mortalitydata) 
+survfit(  Surv(mortalitydata$Time,mortalitydata$Status) ~Drug+Gender, 
+    data = mortalitydata
+    ) 
  
 print(KMfit)
 
@@ -188,46 +185,29 @@ OR:
 ```{r}
 KMfit = 
 survfit( 
- 
-
-Surv(mortalitydata$Time,mortalitydata$Status)~ 
-mortalitydata$Drug + mortalitydata$Gender) 
+  Surv(mortalitydata$Time,mortalitydata$Status)~ mortalitydata$Drug +
+    mortalitydata$Gender
+  ) 
 print(KMfit)
 
 ```
 
----
-
-
-Call: survfit(formula = Surv(mortalitydata$Time, 
-mortalitydata$Status) ~ 
- mortalitydata$Drug + mortalitydata$Gender)
-n events median
-mortalitydata$Drug=0, mortalitydata$Gender=0 1100 982 70
-mortalitydata$Drug=0, mortalitydata$Gender=1 1100 870 145
-mortalitydata$Drug=1, mortalitydata$Gender=0 1100 982 76
-mortalitydata$Drug=1, mortalitydata$Gender=1 1100 607 295
-0.95LCL 0.95UCL
-mortalitydata$Drug=0, mortalitydata$Gender=0 64 76
-mortalitydata$Drug=0, mortalitydata$Gender=1 135 158
-mortalitydata$Drug=1, mortalitydata$Gender=0 70 81
-
-
-mortalitydata$Drug=1, mortalitydata$Gender=1 273 317
 
 ---
 
 
 ```{r}
 plot( 
-KMfit, 
-xlab = "Time", 
-ylab = "Survival Function, S(t)", 
-main = "Kaplan-Meier Estimate for the four possible patient groups", 
-col = c("blue", "red", "black", "green"))
+  KMfit,
+  xlab = "Time", ylab = "Survival Function, S(t)", 
+  main = "Kaplan-Meier Estimate for the four possible patient groups", 
+  col = c("blue", "red", "black", "green")
+)
 
-legend("topright", legend = c("Male - No Drug", "Female - No Drug", "Male -Drug", "Female - Drug"), 
-pch = 7)
+legend("topright", 
+       legend = c("Male - No Drug", "Female - No Drug", 
+                  "Male -Drug", "Female - Drug"), 
+       pch = 7)
 
 
 ```

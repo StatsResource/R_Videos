@@ -79,7 +79,3 @@ degrees of- freedom outside the range of [-94.76,94.76].
 
 
 
-
-```R
-
-```

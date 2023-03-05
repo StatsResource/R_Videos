@@ -75,7 +75,10 @@ N.B. This matrix varies for differing values of $x$, and hence the process is no
 
 ---
 
+### Functions
 
+Transition Matrix is a function of age (x)
+ 
 ```{r}
 
 H2S<-function(x){ 0.007*x}
@@ -87,8 +90,6 @@ S2D<-function(x){ 0.002*(100-x)}
 
 ```
 
-
----
 
 ```{r}
 
@@ -111,11 +112,13 @@ transmat<-function(x){
 
 ---
 
+Transition Matrix at 30 Years
+
 ```{r}
 transmat(30)
 ```
 
----
+Transition Matrix at 25 Years
 
 ```{r}
 transmat(25)
@@ -124,6 +127,8 @@ transmat(25)
 ---
 
 #### Exercise 1
+
+Healthy person aged 30 will be in Sick state after 4 years.
 
 ```{r}
 
@@ -137,7 +142,6 @@ i<- 1:4
 n +i-1
 ```
 
----
 
 ```{r}
 for (i in 1:4){
@@ -146,6 +150,7 @@ for (i in 1:4){
 
 ```
 
+---
 
 ```{r}
 B
@@ -156,6 +161,9 @@ Hence the probability of Healthy person aged 30 will be in Sick state after 4 ye
 ---
 
 #### Exercise 2.
+
+
+Sick person aged 25 will be in Death state after 7 years.
 
 ```{r}
 n <- 25

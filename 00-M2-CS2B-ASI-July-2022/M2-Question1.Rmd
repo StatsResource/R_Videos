@@ -41,13 +41,13 @@ Q. 1) Given below is the PDF h(x) derived from the CDF H(x) of a GEV distributio
 CDF:
 PDF:
 Based on the historical data, the maxima value for three years are 8, 8 and 9 units
-i) Write a function in R to compute the log-likelihood of the above distribution.
-ii) Use the function in (i), to find the Maximum Likelihood Estimates (MLE) of the three 
+1.  Write a function in R to compute the log-likelihood of the above distribution.
+2.  Use the function in (1. , to find the Maximum Likelihood Estimates (MLE) of the three 
 parameters α, \beta and γ. You can use α = 6, \beta = 4 and γ = 5 as the initial estimates of the 
 parameters. 
 ---
-iii) Using the MLE parameters obtained in (ii) above, estimate the probability that maximum 
+3.   Using the MLE parameters obtained in (2.  above, estimate the probability that maximum 
 claim ‘p’ in any given year is greater than X where X = {10, 15, 20,….100}. (6)
-iv) Plot a curve of the probabilities against the maximum claim in a year and do appropriate 
+4.  Plot a curve of the probabilities against the maximum claim in a year and do appropriate 
 labelling. (4)
-v) Explain the reason associated with the shape of the curve generated in (iv).
+5.  Explain the reason associated with the shape of the curve generated in (4. .

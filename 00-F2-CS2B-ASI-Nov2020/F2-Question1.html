@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## R for Actuarial Students
+
+---
+
+
+### Mortality Investigation
+
+* Use the data file “Mortality_Investigation.csv” to answer the below questions. 
+
+* This table
+contains the details of mortality investigation performed on 100 different male lives
+between 1-Jan-2016 and 31-Dec-2018.
+
+---
+
+### Part 1
+
+Print first 6 rows of the data ensuring correct data formats for all the columns and
+calculate the proportion of the total sample died, survived and withdrew from the
+observation period.
+
+
+
+```r
+Mort_Inv &lt;- read.csv("Mortality_Investigation.csv")
+
+Mort_Inv$DoB&lt;-as.Date(Mort_Inv$DoB)
+Mort_Inv$DoJ&lt;-as.Date(Mort_Inv$DoJ)
+Mort_Inv$DoE&lt;-as.Date(Mort_Inv$DoE)
+```
+
+---
+
+
+
+```r
+head(Mort_Inv)
+```
+
+```
+##   Life        DoB        DoJ        DoE Exit_Reason
+## 1   A1 1981-12-12 2018-11-13 2018-12-31    Survived
+## 2   A2 1981-05-22 2017-10-06 2018-12-31    Survived
+## 3   A3 1978-08-11 2018-01-30 2018-12-31    Survived
+## 4   A4 1980-05-24 2016-05-12 2016-05-13  Withdrawal
+## 5   A5 1979-04-03 2017-07-25 2018-12-31    Survived
+## 6   A6 1979-11-08 2016-08-02 2017-04-14       Death
+```
+
+```r
+prop.table(table(Mort_Inv$Exit_Reason)) 
+```
+
+```
+## 
+##      Death   Survived Withdrawal 
+##       0.31       0.40       0.29
+```
+
+
+
+
+---
+
+### Part 2
+
+Compute two new columns ‘Age_At_Entry’ and ‘Age_At_Exit’ for each person (you
+can assume a completed year as 365.25 days and you can compute the age as difference
+between the dates in decimals like 35.234 years) and print the last 6 rows of the newly
+formed table.
+
+---
+### Part 2
+
+
+```r
+Mort_Inv$Age_At_Entry&lt;-round((Mort_Inv$DoJ-Mort_Inv$DoB)/365.25,4)
+Mort_Inv$Age_At_Exit&lt;-round((Mort_Inv$DoE-Mort_Inv$DoB)/365.25,4)
+tail(Mort_Inv)
+```
+
+```
+##     Life        DoB        DoJ        DoE Exit_Reason Age_At_Entry  Age_At_Exit
+## 95   A95 1981-03-28 2016-03-06 2019-11-21    Survived 34.9405 days 38.6502 days
+## 96   A96 1981-01-17 2018-04-04 2018-09-14       Death 37.2101 days 37.6564 days
+## 97   A97 1980-01-17 2016-08-29 2016-09-18       Death 36.6160 days 36.6708 days
+## 98   A98 1978-04-17 2016-06-14 2016-07-07  Withdrawal 38.1602 days 38.2231 days
+## 99   A99 1978-06-12 2017-09-05 2019-11-25    Survived 39.2334 days 41.4538 days
+## 100 A100 1980-06-29 2018-03-27 2019-10-04    Survived 37.7413 days 39.2635 days
+```
+
+
+---
+
+### Part 3
+
+Compute the average age at entry and the average age at exit of the people for whom
+“Death” was the reason of Exit. 
+
+
+
+```r
+mean(Mort_Inv$Age_At_Entry[Mort_Inv$Exit_Reason == "Death"])
+```
+
+```
+## Time difference of 37.01715 days
+```
+
+```r
+mean(Mort_Inv$Age_At_Exit[Mort_Inv$Exit_Reason == "Death"])
+```
+
+```
+## Time difference of 37.89168 days
+```
+
+
+
+---
+
+
+### Part 4
+
+If the age label used is “Age last Birthday”, then calculate the number of lives out of total 100 lives who have contributed the full year towards the
+central exposed to risk `\(E^{C}_{37}\)`
+
+
+
+
+```r
+sum((Mort_Inv$Age_At_Entry)&lt;37 &amp; Mort_Inv$Age_At_Exit&gt;38 )
+```
+
+```
+## [1] 14
+```
+
+---
+
+
+### Part 5
+
+If the age label used is “Age last Birthday”, then calculate
+the number of lives who did not contribute at all towards the central exposed to risk `\(E^{C}_{37}\)`
+
+
+
+
+
+```r
+sum((Mort_Inv$Age_At_Entry)&gt;38|Mort_Inv$Age_At_Exit&lt;37)
+```
+
+```
+## [1] 49
+```
+
+
+
+---
+
+### Part 6
+
+If the age label used is “Age last Birthday”, then calculate the total number of years of contribution to `\(E^{C}_{37}\)`
+by all the lives together (Round your
+answer to 2 digits after the decimal).
+
+
+```r
+Mort_Inv$Contribution37 &lt;- ifelse(
+  (Mort_Inv$Age_At_Exit&lt;37 |Mort_Inv$Age_At_Entry&gt; 38),
+  "No","Yes" )
+
+Mort_Inv$contribution37_Period &lt;- ifelse(
+  Mort_Inv$Contribution37 == "Yes",
+  (pmin(38,Mort_Inv$Age_At_Exit)- pmax(37,Mort_Inv$Age_At_Entry)),0)
+
+sum(Mort_Inv$contribution37_Period)
+```
+
+```
+## [1] 27.4224
+```
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

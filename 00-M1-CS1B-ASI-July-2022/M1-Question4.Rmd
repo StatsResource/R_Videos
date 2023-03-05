@@ -43,21 +43,21 @@ Q. 4) The marketing dataset contains the impact of three advertising medias
 advertising budget in thousands of dollars along with the fourth column as sales. The 
 advertising experiment has been repeated 200 times.
 The marketing data is provided in a csv file “data.csv”. 
-i) Plot the data. Analyze the trend of how sales varies with the advertising budget of all 
+1.  Plot the data. Analyze the trend of how sales varies with the advertising budget of all 
 3 advertising medias and comment on the same.
-ii) Perform a simple linear regression analysis on the data. Your answer should include 
+2.  Perform a simple linear regression analysis on the data. Your answer should include 
 summary of the data. (6)
-iii) Comment on the significance of the parameters of the model and justify your 
-observations from point (i).
+3.   Comment on the significance of the parameters of the model and justify your 
+observations from part 1 .
 
 ---
-iv) Calculate the correlation between independent and dependent variables.
-v) Fit an improved model for the model in part (ii), using your answer in part (iv). 
+4.  Calculate the correlation between independent and dependent variables.
+5.  Fit an improved model for the model in part (2. , using your answer in part (4. . 
 State the linear regression formula clearly explaining all parameters.
-vi) Which model is better between part (ii) and (v) and why?
-vii)What is the maximum sales generated? (2)
-viii) Based on the linear regression model fitted in question (v), what is the predicted 
-value for maximum sales generated in question (vii) .
-ix) What is the relative error between the estimated (prediction calculated in question 
-(viii)) and the actual sales computed in question (vii)?
+6.   Which model is better between part (2.  and (5.  and why?
+7.  What is the maximum sales generated? 
+8.    Based on the linear regression model fitted in question (5. , what is the predicted 
+value for maximum sales generated in question (7.   .
+9.  What is the relative error between the estimated (prediction calculated in question 
+(8.   ) and the actual sales computed in question (7.  ?
 ---

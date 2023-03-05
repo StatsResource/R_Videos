@@ -1,3 +1,13 @@
+---
+title: "Poisson Regression - Crabs Data Set"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(magrittr)
+```
 
 Examples of Zero-Inflated Poisson regression
 =============================================
@@ -9,17 +19,16 @@ Example 2. The state wildlife biologists want to model how many fish are being c
 ### import data
 
 
-```R
+```{r}
+
 library(ggplot2)
-```
 
-
-```R
 fishing <- read.csv("https://raw.githubusercontent.com/RWorkshop/workshopdatasets/master/fishing.csv")
+
 ```
 
 
-```R
+```{r}
 head(fishing)
 ```
 
@@ -39,7 +48,7 @@ head(fishing)
 
 
 
-```R
+```{r}
 ## histogram with x axis 
 ggplot(fishing, aes(count)) + geom_histogram()
 ```
@@ -54,7 +63,7 @@ ggplot(fishing, aes(count)) + geom_histogram()
 
 
 
-```R
+```{r}
 ## histogram with x axis in log10 scale
 ggplot(fishing, aes(count)) + geom_histogram() + scale_x_log10()
 ```
@@ -70,7 +79,7 @@ ggplot(fishing, aes(count)) + geom_histogram() + scale_x_log10()
 
 
 
-```R
+```{r}
 ## Run a Zero-Inflated Poisson Regression Analysis to predict number of fish caught
 library(pscl)
 newdata1 <- expand.grid(0:3, factor(0:1), 1:4)
@@ -80,7 +89,7 @@ newdata1 <- subset(newdata1, subset=(child<=persons))
 ```
 
 
-```R
+```{r}
 
 ## Create a Model
 m1 <- zeroinfl(count ~ child + camper | persons, data = fishing)
@@ -91,7 +100,7 @@ newdata1$phat <- predict(m1, newdata1)
 ```
 
 
-```R
+```{r}
 
 ggplot(newdata1, aes(x = child, y = phat, colour = factor(persons))) +
   geom_point() +

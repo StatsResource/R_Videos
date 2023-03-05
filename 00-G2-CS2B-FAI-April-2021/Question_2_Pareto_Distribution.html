@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistics with R
+## Statistical Modelling with R for Actuarial Students
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+2 Before answering this question, construct the function, rpareto, in R using the 
+following code: 
+
+```r
+rpareto = function(n, alpha, lambda){ 
+rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
+rp}
+```
+
+The &lt;tt&gt;rpareto()&lt;/tt&gt; function generates a random sample of size n from a two-parameter 
+Pareto distribution with parameters α and λ. 
+
+---
+
+### Part 1
+
+Generate, using rpareto, a random sample of size 25,000 from the 
+two-parameter Pareto distribution with parameters α = 3 and λ = 1, assigning 
+the simulated values to a vector called &lt;tt&gt;A_vec&lt;/tt&gt;. 
+
+You should set a random  number generator seed of 123 before generating &lt;tt&gt;A_vec&lt;/tt&gt; and use the R function, 
+&lt;tt&gt;head()&lt;/tt&gt;, to display the first eight values of &lt;tt&gt;A_vec&lt;/tt&gt; in your answer script.  
+
+
+
+```r
+#Given in Exam Paper
+
+rpareto = function(n, alpha, lambda){ 
+    rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
+    rp
+    }
+```
+
+---
+
+### Part 1
+
+
+```r
+set.seed (123) 
+ 
+
+A_vec =  rpareto(n = 25000, alpha = 3, lambda = 1) 
+ 
+
+head(A_vec, 8) 
+```
+
+```
+## [1] 0.11966335 0.67788900 0.19160373 1.04468423 1.56103061 0.01566369 0.28445342
+## [8] 1.10259132
+```
+
+---
+
+Histogram of &lt;tt&gt;A_vec&lt;/tt&gt;
+
+
+```r
+hist(A_vec,breaks=500,col="lightblue")
+```
+
+![](Question_2_Pareto_Distribution_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+
+
+
+
+---
+
+### Part 2
+
+Construct an R function, called &lt;tt&gt;A_exceed_u&lt;/tt&gt;, with two arguments, ***A*** and ***u***, that returns only the non-zero entries of a vector, ***E***, where vector ***E*** is of length 25,000, with entries defined as: 
+`$$E_i = \textrm{max}(A_i – u, 0).$$`
+
+Use the R function, &lt;tt&gt;head()&lt;/tt&gt;, to display in your answer script the first eight
+values of &lt;tt&gt;A_exceed_u&lt;/tt&gt; when &lt;tt&gt;A = A_vec&lt;/tt&gt; and &lt;tt&gt;u = 1&lt;/tt&gt;. 
+
+---
+
+### Part 2
+
+
+```r
+A_exceed_u = function(A, u){ 
+  E = pmax(A - u, 0) #pairwise-maximum
+  output = E[E!=0]   #remove 0s
+  output
+  } 
+```
+
+
+
+```r
+head( A_exceed_u(A = A_vec, u = 1), 8) 
+```
+
+```
+## [1] 0.04468423 0.56103061 0.10259132 0.85069357 0.15317919 0.80118083 0.08415856
+## [8] 3.58825415
+```
+
+---
+
+Histogram of &lt;tt&gt;A_vec&lt;/tt&gt;
+
+
+```r
+hist(A_exceed_u(A = A_vec, u = 1),breaks=500,col="lightpink")
+```
+
+![](Question_2_Pareto_Distribution_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+
+---
+
+### Part 3
+
+Construct another R function, called &lt;tt&gt;F_u&lt;/tt&gt;, with one argument, 
+A_greater_than_u, that returns a vector of length 101, containing the 
+probabilities: 
+PሺAi – u ≤ x | Ai &gt; u), where `\(x \geq 0\)`, 
+for values of x from 0 to 10 inclusive, at intervals of 0.1. 
+Use the R function, &lt;tt&gt;head()&lt;/tt&gt;, to display in your answer script the first eight 
+values of F_u when A_greater_than_u = A_exceed_u with arguments 
+A = A_vec and `\(u = 1\)`. 
+---
+
+### Part 3
+
+
+
+
+```r
+F_u =  function(A_greater_than_u) { 
+    y = vector(length = 101) 
+    for (i in 1:101) { 
+       y[i] =  length(A_greater_than_u[A_greater_than_u &lt;= 0.1 * (i-1)]) / 
+        length(A_greater_than_u) [4]
+    }
+    y
+} 
+```
+
+```r
+head(F_u(A_exceed_u(A = A_vec, u = 1)), 8) 
+```
+
+```
+## [1] NA NA NA NA NA NA NA NA
+```
+
+
+ 
+ 0.0000000 0.1463087 0.2526846 0.3439597 0.4201342 
+0.4838926 0.5362416 0.5895973 
+ 
+
+
+---
+
+### Part 4
+
+
+Plot, on a single graph, four line graphs of the values of &lt;tt&gt;F_u&lt;/tt&gt; against x for 
+the values of x specified in part (iii) when A_greater_than_u = A_exceed_u, 
+A = A_vec and u = 1, 2, 3 and 4. You should use separate colours to identify 
+each line graph and you should clearly specify which value of `\(u\)` is represented 
+by each of the four line graphs. 
+
+---
+
+### Part 5
+
+(v) Comment on the graph produced in part (iv). 
+
+---
+
+### Part 5
+
+
+```r
+x = seq(from = 0, to = 10, by = 0.1) 
+ 
+
+plot( 
+ x, 
+ y= F_u(A_greater_than_u = A_exceed_u(A = A_vec,u = 1)), 
+ type = "l", 
+ main = "Values of F_u against x for u = 1, 2, 3 and 4", 
+ col = "red", 
+ ylab = "F_u",
+ ylim = c(0,200))
+```
+
+![](Question_2_Pareto_Distribution_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+
+
+```r
+# lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
+#   A_vec, u = 2), col = "yellow") 
+# 
+# lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
+#   A_vec, u = 3), col = "blue") 
+#  
+# lines(x, F_u(A_greater_than_u = A_exceed_u(A = 
+#   A_vec, u = 4), col = "green") 
+```
+
+
+
+```r
+# legend("bottomright", 
+#  legend = c("u = 1", "u = 2", "u = 3",  "u = 4"), 
+#  col = c("red", "yellow", "blue", "green"), 
+#  pch = 7)
+```
+---
+
+### Part 5
+
+
+For all but the smallest values of x, `\(F_u(x)\)` decreases as u increases. 
+ 
+
+This is consistent with the result that if X ~ Pa(alpha, lambda), then the threshold exceedance 
+X – u | X &gt; u is distributed as `\(Pa(alpha, lambda + u)\)`. 
+ 
+
+There is some irregularity caused by sampling variation due to low data volumes above the 
+higher values of u. 
+ 
+
+As a result of this irregularity, the curves for u = 3 and u = 4 cross over for small values of x.
+
+--- 
+
+---
+
+Part (i) was very well answered. The most common errors were to fail to set the 
+random number generator seed to 123 and to output the default 6 rather than 8 values 
+using the head function.
+Part (ii) was well answered. The most common error was to output all the entries of 
+the vector E, rather than only the non-zero entries as specified in the question. 
+Candidates are reminded to read the question carefully. Candidates unfamiliar with 
+the pmax function included more extensive R code than necessary, referring to 
+individual vector components.
+Part (iii) was poorly answered. Few candidates coded the R function entirely 
+accurately. 
+Part (iv) was surprisingly very poorly answered, despite asking for a relatively
+standard chart. Candidates are reminded that where they have been unable to 
+calculate the correct data for a chart, they may still gain marks for plotting “dummy” 
+data.
+Part (v) was the least well answered question in the whole paper. Few candidates 
+provided appropriate comments. Candidates needed to focus their comments on 
+whether the behaviour of the curves was in line with what they would have expected 
+based on theoretical considerations. Comments that the curves were upward-sloping 
+did not gain credit since this is the case for any distribution function. Where incorrect 
+values were plotted in part (iv), marks were still awarded in part (v) for any 
+appropriate comments consistent with what was plotted.
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

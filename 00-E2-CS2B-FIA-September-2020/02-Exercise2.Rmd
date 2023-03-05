@@ -35,7 +35,7 @@ pre {
 ---
 
 
-CS2B S2020–3 2Before answering this question, generate the vector, X, in R using the following code:
+Before answering this question, generate the vector, X, in R using the following code:
 ```{r}
 set.seed(1027); 
 X = rexp(n=1000, rate=0.01)
@@ -44,29 +44,106 @@ X = rexp(n=1000, rate=0.01)
 The vector X represents the gross claim sizes of 1,000 claims. 
 
 ---
+
+
+### Part 1. 
 The payments are to be split between an insurance company and its reinsurer under an Excess of Loss reinsurance arrangement with a retention level M = 400. 
 
-
-(1. 
 Determine the proportion of the claims that are fully covered by the insurer. 
 
----
-(2. Generate an additional vector, Y, which is of the same length as X, such that Y represents the amounts to be paid by the insurer for each component of X.  
+```{r}
+length(X[X<=400])/1000
+```
+
+```{r}
+sum(X<=400)/1000
+
+```
 
 ---
 
-3.  Generate an additional vector, ��, which is of the same length as X, such that ��represents the amounts to be paid by the reinsurer for each component of X. 
 
-An actuary assumes that the underlying gross claims distribution follows an exponential distribution of some unknown rate \lambda. 
+### Part 2.
+
+Generate an additional vector, Y, which is of the same length as X, such that Y represents the amounts to be paid by the insurer for each component of X.  
+
+```{r}
+M = 400
+Y = pmin(X, M)
+```
+
+```{r}
+#Inspect first 20 values of Y
+
+Y[1:20]
+```
 ---
 
-The actuary needs to estimate \lambda using only the claim amounts recorded in vector Y.  
+### Part 3.
+
+Generate an additional vector, Z, which is of the same length as X, such that Z
+represents the amounts to be paid by the reinsurer for each component of X.
+
+An actuary assumes that the underlying gross claims distribution follows an exponential distribution of some unknown rate $\lambda$. 
+
+```{r}
+Z = pmax(0, X-M)
+
+#Inspect Non-Zero Values of Z
+Z[Z>0]
+```
+
+```{r}
+z = X-Y
+
+#Inspect Non-Zero Values of Z
+Z[Z>0]
+```
 
 
 ---
 
-(iv)Construct R code that calculates the log-likelihood, as a function of the parameter \lambda, given the claim amounts
- data in vector Y.  
+### Part 4.
 
---- 
-(v) Determine the value of \lambda\ at which the log-likelihood function reaches its maximum.  
+The actuary needs to estimate $\lambda$ using only the claim amounts recorded in vector Y. 
+
+Construct R code that calculates the log-likelihood, as a function of the parameter $\lambda$, given the claim amounts data in vector Y. 
+
+```{r}
+S = sum(X[X<=400])
+logLik = function(lambda){
+  -5200 * lambda + 987 * log(lambda) - lambda * S
+}
+```
+
+---
+
+### Part 4.
+
+```{r}
+nz = length(Y[Y==M])
+Y_exc_M = Y[Y<M]
+flnL = function(parameter){
+  nz*pexp(M, rate=parameter, lower.tail=FALSE,
+  log.p=TRUE)+
+  sum(dexp(Y_exc_M, rate=parameter, log=TRUE))
+}
+```
+
+---
+
+### Part 5.
+
+Determine the value of $\lambda$ at which the log-likelihood function reaches its maximum.  
+
+```{r}
+987 / (5200 + sum(X[X<=400]))
+```
+
+---
+
+```{r}
+nlm(f = function(x) - logLik(x), p = 0.01)$estimate
+```
+
+Hence, the maximum likelihood estimate of lambda = 0.01023209.

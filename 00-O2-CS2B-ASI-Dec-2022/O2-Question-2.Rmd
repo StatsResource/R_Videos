@@ -1,0 +1,137 @@
+---
+title: "Statistics with R"
+subtitle: "R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+### Survival Analysis
+
+Load the dataset “ovarian.csv” and save this as a data frame called ‘ovarian’. 
+The columns in the dataset can be defined as:
+
+* ***futime***: survival or censoring time
+* ***fustat***: censoring status
+* ***age***: in years
+* ***resid.ds***: residual disease present (1=no,2=yes)
+* ***rx***: treatment group
+* ***ecog.ps***: ECOG performance status
+
+Carry out the following analysis:
+
+```{r message=FALSE,warning=FALSE}
+library(tidyverse)
+library(survival)
+ovarian <- read_csv("ovarian.csv")
+```
+---
+
+```{r}
+ovarian %>% filter(rx==1) %>% arrange(futime)
+```
+
+---
+
+```{r}
+ovarian %>% filter(rx==2) %>% arrange(futime)
+```
+
+---
+
+### Exercises
+
+1. Compute the Cox regression using the column <tt>rx</tt> as the covariate. 
+2. Summarise the results of the regression. 
+3. Comment on the hazard ratio and statistical significance of the <tt>rx</tt> 
+4. Compute the Kaplan-Meier estimators for the two groups of <tt>rx</tt> and save the results 
+to an object called ‘KM’. 
+5. Summarise the Kaplan-Meier estimator results. 
+6. Plot the ‘KM’ results and set the colour for group 1 of <tt>rx</tt> to ‘red’ and group 2 to 
+‘green’. Add a plot label and x and y axes labels to your plot. 
+7. Comment on the KM analysis using the summary and plot results. 
+
+---
+
+### Part 1
+
+```{r}
+
+library(survival)
+
+cph1r <- coxph(Surv(futime,fustat)~rx,
+               data=ovarian)
+
+```
+
+---
+
+### Part 2
+
+```{r}
+summary(cph1r)
+```
+
+---
+
+### Part 3
+
+* The p-value of rx is 0.31 which is greater than a 
+significance level of 0.05 and hence is not a siginificant predictor
+
+* The hazard ratio indicates that an rx value of 2 has a 0.5508 or ~50%
+lower hazard rate than rx value of 1'
+
+---
+
+### Part 4
+
+```{r}
+KM <- survfit(Surv(futime,fustat)~rx,ovarian)
+KM
+```
+
+
+---
+
+### Part 5
+
+```{r}
+summary(KM)
+```
+
+---
+
+### Part 6
+
+```{r eval=FALSE}
+plot(KM,col=c("red","green"),
+        main="Kaplan-Meier Survival Curve",
+        xlab="Time",ylab="Survival Probability") 
+```
+
+---
+
+### Part 6
+
+```{r echo=FALSE}
+plot(KM,col=c("red","green"),
+        main="Kaplan-Meier Survival Curve",
+        xlab="Time",ylab="Survival Probability") 
+```
+
+---
+
+### Part 7
+
+* <tt>rx 2</tt> seems to perform better than <tt>rx 1</tt> initially upto time 353 post which 
+there is a decline in the Survival Probability. 
+
+* There is a steep decline in the numbers at risk between times 365 and 464 for rx at 2' 
+
+
+
+---

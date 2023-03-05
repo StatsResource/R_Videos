@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -71,7 +71,10 @@ N.B. This matrix varies for differing values of `\(x\)`, and hence the process i
 
 ---
 
+### Functions
 
+Transition Matrix is a function of age (x)
+ 
 
 ```r
 H2S&lt;-function(x){ 0.007*x}
@@ -80,8 +83,6 @@ S2H&lt;-function(x){ 0.006*(100-x)}
 S2D&lt;-function(x){ 0.002*(100-x)}
 ```
 
-
----
 
 
 ```r
@@ -102,6 +103,8 @@ transmat&lt;-function(x){
 
 ---
 
+Transition Matrix at 30 Years
+
 
 ```r
 transmat(30)
@@ -114,7 +117,7 @@ transmat(30)
 ## [3,] 0.00 0.00 1.00
 ```
 
----
+Transition Matrix at 25 Years
 
 
 ```r
@@ -132,6 +135,8 @@ transmat(25)
 
 #### Exercise 1
 
+Healthy person aged 30 will be in Sick state after 4 years.
+
 
 ```r
 n &lt;- 30
@@ -148,7 +153,6 @@ n +i-1
 ## [1] 30 31 32 33
 ```
 
----
 
 
 ```r
@@ -157,6 +161,7 @@ for (i in 1:4){
   }
 ```
 
+---
 
 
 ```r
@@ -167,12 +172,15 @@ B
 ##       [,1]  [,2]  [,3]
 ## [1,] 0.545 0.261 0.194
 ```
-Hence the probability of Healthy person aged 30 will be in Sick state after 4 years is 0.2608138.
+Hence the probability of Healthy person aged 30 will be in Sick state after 4 years is 0.2608.
 
 
 ---
 
 #### Exercise 2.
+
+
+Sick person aged 25 will be in Death state after 7 years.
 
 
 ```r
@@ -194,7 +202,7 @@ C
 ## [1,] 0.395 0.172 0.433
 ```
 
-Hence the probability of sick person aged 25 will be in Death state after 7 years is 0.4333386.
+Hence the probability of sick person aged 25 will be in Death state after 7 years is 0.4333.
 
 ---
 

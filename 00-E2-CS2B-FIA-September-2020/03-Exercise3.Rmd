@@ -34,46 +34,211 @@ pre {
 
 ---
 
+### Life Insurance Portfolios 
+* An analyst is investigating a life insurance portfolio data set that comprises two variables, x1 and x2, for 200 policyholders. 
 
-CS2B S2020–4 3
+* The analyst is exploring whether the 200 policyholders can be divided into two clusters (labelled A and B) based on the two variables, x1 and x2.  
 
-An analyst is investigating a life insurance portfolio data set that comprises two variables, x1 and x2, for 200 policyholders. 
-The analyst is exploring whether the 200 policyholders can be divided into two clusters (labelled A and B) based on the two variables, x1 and x2.  
-Before answering this question, generate the data set, portfolio, in R using the following code: 
+* Before answering this question, generate the data set, portfolio, in R using the following code: 
 
 ```{r}
 set.seed(2019);  
-portfolio = data.frame(x1=rnorm(200,3,1),  
-x2=scale(c(rnorm(70,4,1), rnorm(130,10,1)))) 
+portfolio <-  data.frame(
+  x1=rnorm(200,3,1),  
+  x2=scale(c(rnorm(70,4,1), rnorm(130,10,1)))) 
+```
+---
+
+```{r}
+head(portfolio)
 ```
 
+### Exercises
+
 In the first stage of the investigation, the analyst decides to assign the first 100 policyholders in the data set to cluster A, and the remaining policyholders to cluster B. 
-(i)Construct a new column in the data set, portfolio, called group_label_stage1, containing the policyholder cluster labels, defined above.
 
-(ii)Determine the coordinates (x1A, x2A) of the centre of cluster A and the coordinates (x1B, x2B) of the centre of cluster B. 
+1. Construct a new column in the data set, portfolio, called <tt>group_label_stage1</tt>, containing the policyholder cluster labels, defined above.
 
+2. Determine the coordinates (x1A, x2A) of the centre of cluster A and the coordinates (x1B, x2B) of the centre of cluster B. 
 
-(iii)Construct a new column in the data set, portfolio, called <tt>dist_A</tt> containing the Euclidean distances between the policyholders and the centre of cluster A.   
-
---- 
-(iv)Construct a new column in the data set, portfolio, called dist_B containing the Euclidean distances between the policyholders and the centre of cluster B.   
-
-The analyst decides to update the cluster labels by assigning to each policyholder the label of the cluster whose centre is nearest, according to the distances calculated in parts (iii) and (iv). 
---- 
-(v)Construct a new column in the data set, portfolio, called <tt>group_label_stage2</tt>, containing the updated policyholder cluster labels, defined above.
+3. Construct a new column in the data set, portfolio, called <tt>dist_A</tt> containing the Euclidean distances between the policyholders and the centre of cluster A.   
 
 --- 
- 
-(vi)Generate a 2x2 matrix showing the number of policyholders with each possible combination of values of <tt>group_label_stage1</tt> and <tt>group_label_stage2</tt>. 
+<ol>
+<li>Construct a new column in the data set, portfolio, called dist_B containing the Euclidean distances between the policyholders and the centre of cluster B.  </li> 
+</ol>
+The analyst decides to update the cluster labels by assigning to each policyholder the label of the cluster whose centre is nearest, according to the distances calculated in parts 3 and 4.. 
+--- 
+
+5. Construct a new column in the data set, portfolio, called <tt>group_label_stage2</tt>, containing the updated policyholder cluster labels, defined above.
+
+--- 
+
+6. Generate a 2x2 matrix showing the number of policyholders with each possible combination of values of <tt>group_label_stage1</tt> and <tt>group_label_stage2</tt>. 
+
+
+7. Comment on the matrix generated in part (vi) with reference to how the cluster labels have changed between <tt>group_label_stage1</tt> and <tt>group_label_stage2</tt>.
+
+8. Plot the column, x1,of data set, portfolio, against column, x2, (with x1 on the  x-axis and x2 on the y-axis), using two distinct colours to identify clusters Aand B according to the label, <tt>group_label_stage2</tt>. 
+
+9. The analyst decides to stop at this stage and to report <tt>group_label_stage2</tt> as the final set of cluster labels. 
+Comment on this decision. 
 
 ---
+
+
+3
+(i) 
+
+```{r}
+portfolio$group_label_stage1 <- c(rep("A", length=100),
+rep("B", length=100))
+```
+
+```{r}
+x1_A <- mean(portfolio$x1[portfolio$group_label_stage1=="A"]); x1_A
+
+
+x2_A <- mean(portfolio$x2[portfolio$group_label_stage1=="A"]); x2_A
+
+x1_B <- mean(portfolio$x1[portfolio$group_label_stage1=="B"]); x1_B
+
+x2_B <- mean(portfolio$x2[portfolio$group_label_stage1=="B"]); x2_B
+ 
+```
+```{r}
+head(portfolio)
+```
+
+```{r}
+library(dplyr)
+portfolio %>% group_by(group_label_stage1) %>% 
+  summarize(meanx1=mean(x1),
+            meanx2=mean(x2)
+            )
+```
+
+```{r}
+model1 = kmeans(portfolio[1:100,1:2],1)
+model1$centers
+```
+```{r}
+x1_A <- model1$centers[1,1]; x1_A
+x2_A <- model1$centers[1,2]; x2_A
+```
+
+```{r}
+model2 = kmeans(portfolio[101:200,1:2],1)
+model2$centers
+```
+
+```{r}
+x1_B <- model2$centers[1,1]; x1_B
+x2_B <- model2$centers[1,2]; x2_B
+```
+
+Therefore:
+the coordinates of the centre of cluster “A”, (x1_A, x2_A) = (2.926666, -0.7054048)
+
+and:
+the coordinates of the centre of cluster “B”, (x1_B, x2_B) = (2.829781, 0.7054048)
+
+---
+
+The analyst decides to update the cluster labels by assigning to each policyholder the
+label of the cluster whose centre is nearest, according to the distances calculated in
+parts (iii) and (iv).
+(v) Construct a new column in the data set, portfolio, called group_label_stage2,
+containing the updated policyholder cluster labels, defined above.
+
+(vi) Generate a 2x2 matrix showing the number of policyholders with each
+possible combination of values of group_label_stage1 and
+group_label_stage2.
 (vii)
 
-Comment on the matrix generated in part (vi) with reference to how the cluster labels have changed between <tt>group_label_stage1</tt> and <tt>group_label_stage2</tt>.
+Comment on the matrix generated in part (vi) with reference to how the cluster
+labels have changed between group_label_stage1 and group_label_stage2. 
+(viii) Plot the column, x1, of data set, portfolio, against column, x2, (with x1 on the
+x-axis and x2 on the y-axis), using two distinct colours to identify clusters A
+and B according to the label, group_label_stage2.
+
+The analyst decides to stop at this stage and to report group_label_stage2 as the final
+set of cluster labels.
+(ix)
+Comment on this decision.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+```{r}
+portfolio$dist_A <- sqrt((portfolio$x1 - x1_A)^2 +
+(portfolio$x2 - x2_A)^2) 
+
+portfolio$dist_B <- sqrt((portfolio$x1 - x1_B)^2 +
+(portfolio$x2 - x2_B)^2) 
+
+portfolio$group_label_stage2 <- rep("A", 200)
+portfolio$group_label_stage2[portfolio$dist_B <portfolio$dist_A] <- "B" 
+
+table(portfolio$group_label_stage1,portfolio$group_label_stage2)
+```
+---
+
+(vii)
+
+There are 70 policyholders whose cluster labels were originally assigned to “A” in the
+first stage of the investigation which remained unchanged after the update.
+
+There are 97 policyholders whose cluster labels were originally assigned to “B” in the
+first stage of the investigation which remained unchanged after the update.
+
+However, the labels of 30 policyholders were updated from “A” to “B”... 
+...whereas, the labels of 3 policyholders were updated from “B” to “A”. 
+
+---
+(viii) 
+
+```{r}
+col_vec <- rep("blue", 200)
+col_vec[portfolio$group_label_stage2=="B"] <- "red"
+```
+
+
+
+
+col=col_vec)
+```{r}
+plot(
+  portfolio$x1,
+  portfolio$x2,
+  main="Plot of x1 against x2 with group_label_stage2 policyholder cluster labels",
+legend("topright", legend=c("group A", "group B"),
+col=c("blue", "red"), 
+pch=1))
+
+```
+
+(ix)
+The graph in part (viii) shows that the analyst was able to reasonably identify two sets
+of clusters.
+
+However, the analyst did not check the convergence of the clustering algorithm... 
+... although, inspection of the table might suggest that the clusters are unlikely to
+change much.
 
 ---
 
-(viii)Plot the column, x1,of data set, portfolio, against column, x2, (with x1 on the  x-axis and x2 on the y-axis), using two distinct colours to identify clusters Aand B according to the label, <tt>group_label_stage2</tt>. 
+* The top three group A policyholders might possibly be better assigned to group B. 
+* The analyst could potentially improve the results by updating the centres of the
+clusters, re-calculating the distances, updating the labels and repeating this process
+until convergence (i.e. until the labels remain constant).
+
+* The analyst could implement the full kmeans algorithm to ensure convergence of the
+final clusters.
+
 ---
 
-The analyst decides to stop at this stage and to report <tt>group_label_stage2</tt> as the final set of cluster labels. (ix)Comment on this decision. [6] [Total 40] END OF PAPER 
+The analyst may want to apply feature scaling / data normalisation to the values of
+x_1 and x_2 so that each of them contributes approximately proportionately to the
+Euclidean distances and then re-run the analysis.
+
+
+---
