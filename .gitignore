@@ -62,6 +62,7 @@ acs-*.bib
 
 # cprotect
 *.cpt
+*.rdata
 
 # elsarticle (documentclass of Elsevier journals)
 *.spl
