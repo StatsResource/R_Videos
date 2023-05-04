@@ -23,39 +23,7 @@ plot(Fit1)
 ```
 
 
-```R
 
-
-Next, identify possible outliers either by looking at the diagnostic plot of the residuals
-
-Another approach is to use the \texttt{\textbf{outlierTest()}} function of the \textit{\textbf{car}} package:
-
-```
-
-
-```R
-
-#If package not installed, uncomment next line.
-#install.packages("car")
-
-library(car)
-outlierTest(Fit1)
-
-
-```
-
-
-```R
-\begin{verbatim}
-> outlierTest(Fit1)
-
-No Studentized residuals with Bonferonni p < 0.05
-Largest |rstudent|:
-    rstudent unadjusted p-value Bonferonni p
-132  2.79155          0.0059429      0.89143
-
-\end{verbatim}
-```
 
 
 ```R
