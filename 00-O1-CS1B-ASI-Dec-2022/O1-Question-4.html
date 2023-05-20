@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 4
+
+---
+
+Q. 4) Government of “Actuaria” is operating a popular jackpot lottery called “Power Ball”. The 
+game consists of two draws as given below –
+Draw 1 = Drawing 5 White Balls from a set of 69 White Balls.
+Draw 2 = Drawing 1 Red Ball (Power Ball) from a set of 26 Red Balls (Power Balls).
+After drawing 5 white balls and the power ball, a ticket is issued for INR 0.50. A specimen 
+ticket is given below –
+GOVERNMENT OF ACTUARIA
+“POWER BALL LOTTERY”
+Draw 1 – White Balls
+05 18 29 37 61
+Draw 2 – Power Ball
+21
+Ticket Price - INR 0.50
+
+
+---
+
+The Government of Actuaria publishes its draw of 5 White Balls and the Power Ball. If all 
+the 5 White Balls and the Power Ball drawn by the ticketholder exactly match with the balls 
+drawn by the Government, then the ticketholder is entitled to a jackpot. The amount of 
+jackpot is INR 2 crore. Kindly note that for white balls, the order is not considered relevant 
+while matching.
+There are other prizes available depending on the white/power balls matched 
+(notwithstanding the order for white balls). The prize money for various matches can be 
+found in the following table as per the official website of Government of Actuaria: -
+
+---
+
+Case White Balls Matched Power Ball Matched Prize Money in INR
+A 5 1 Jackpot
+B 5 0 10,00,000
+C 4 1 50,000
+D 4 0 100
+E 3 1 100
+F 3 0 7
+G 2 1 7
+H 1 1 4
+I 0 1 4
+
+---
+Let X denote number of matching draws for White Balls and Y denote number of matching 
+draws for Power Ball. 
+Under the given circumstances, hyper-geometric distribution is considered suitable to 
+calculate probabilities.
+In R, probability of matching white balls / power ball using hyper-geometric distribution is 
+determined using the dhyper function.
+For instance, under Case E, probability of matching 3 white balls is determined using the 
+following code:
+dhyper(3,m=5,n=64,k=5)
+Here the arguments of dhyper function can be explained as below –
+- x denotes the value of white balls to be matched.
+- m denotes the maximum number of successes.
+- n denotes the maximum number of failures.
+- k denotes the total number of draws.
+
+---
+
+i)
+a) Create two separate vectors w_draw and r_draw for the white balls and power ball 
+to be matched under cases A to I. (2)
+b) State the probability mass function of hyper-geometric distribution in terms of the 
+arguments x, m, n and k as defined earlier. (2)
+c) Using the vectors created in part (i)(a) and the dhyper function as illustrated earlier, 
+create two separate result vectors prob_w_draw and prob_r_draw showing the 
+probabilities of matching white balls and power ball under Cases A to I. (4)
+Probability of matching white balls is independent of the probability of matching the power 
+ball.
+d) Calculate the joint probabilities of matching white balls and power balls using result 
+vectors prob_w_draw and prob_r_draw created in part (i)(c). (2)
+e) Create a vector prize showing the prize money under cases A to I. 
+
+---
+
+f) Determine the total expected prize money pay-out using the joint probabilities 
+determined in part (i)(d) and the prize money vector created in part (i)(e). (2)
+IAI CS1B-1222
+ Page 7 of 7
+g) Assuming that there are no other costs to the Government in operating the lottery 
+expect the prize money pay-out, calculate the profits, if any, implicit in the ticket 
+price. (1)
+ii) If instead of using the hyper-geometric distribution, we decided to use the binomial 
+distribution for modelling the probabilities of matching white balls and power ball.
+a) State the probability mass function of binomial distribution in terms of arguments x, 
+m, n and k as defined earlier. 
+
+---
+
+b) Re-determine the joint probabilities using the dbinom function and arrive at the total 
+expected prize money pay-out. (4)
+iii) Point out the difference, if any, in the outcomes under part (i) and (ii). (2)
+iv) Determine the mean and variance of both the binomial distribution and hypergeometric distribution for random variable X (matching white balls) and comment on 
+the differences in the two. (3)
+v) Which distribution is more suitable to model these matching probabilities – hypergeometric or binomial? Substantiate with reasons. (2)
+
+---
+
+
+Solution 4:
+i) a) We define two data sets w_draw and r_draw corresponding to the white balls and red balls 
+to be matched for cases A to I. 
+R Code and Output:
+&gt; w_draw &lt;- c(5,5,4,4,3,3,2,1,0) # white balls to be matched corresponding to cases A to I
+&gt; r_draw &lt;- c(1,0,1,0,1,0,1,1,1) # red balls to be matched corresponding to cases A to I
+(1)
+(1)
+[2]
+b) Formula for the probability mass function of Hyper-Geometric Distribution in terms of the 
+arguments specified in the question is given below:
+P(X=x) = mCx * nC(k-x) / (m+n)Ck
+Where –
+
+--- 
+
+x = 0, 1, 2, 3, ………………
+0 &lt; p &lt; 1 
+(p = m/(m+n)) [2]
+c) Further we define variables prob_w_draw and prob_r_draw to determine the probabilities 
+under hypergeometric distribution where w_draw and r_draw will be used as input, m will be 
+the successes (5 and 1), n will be the failures (64 and 25) and k will be the number of balls 
+drawn i.e. sample size (5 and 1)
+
+---
+
+R Code and Output:
+&gt; prob_w_draw &lt;- dhyper(w_draw,m=5,n=64,k=5)
+&gt; print(prob_w_draw)
+[1] 8.897974e-08 8.897974e-08 2.847352e-05 2.847352e-05 1.793832e-03
+[6] 1.793832e-03 3.707252e-02 2.826780e-01 6.784271e-01
+&gt; prob_r_draw &lt;- dhyper(r_draw,m=1,n=25,k=1)
+&gt; print(prob_r_draw)
+[1] 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
+[7] 0.03846154 0.03846154 0.03846154
+(2)
+(2)
+[Max 4]
+d) Finally, we define prob_draw to be the multiplication of prob_w_draw and prob_r_draw 
+assuming the draws are independent of each other.
+R Code and Output:
+&gt; prob_draw = prob_w_draw * prob_r_draw # multiplication of probabilities
+&gt; print(prob_draw)
+[1] 3.422298e-09 8.555745e-08 1.095135e-06 2.737838e-05 6.899352e-05 1.724838e-03
+[7] 1.425866e-03 1.087223e-02 2.609335e-02 [2]
+e) We define another data set prize which defines the prize amounts for Cases A to I.
+R Code and Output:
+&gt; 
+&gt; prize &lt;- c(20000000,1000000,50000,100,100,7,7,4,4)
+&gt; print(prize)
+[1] 2e+07 1e+06 5e+04 1e+02 1e+02 7e+00 7e+00 4e+00 4e+00 [1]
+f) We then define amt by multiplying prob_draw with prize to arrive at the expected amount one 
+can win from the lottery / jackpot.
+R Code and Output:
+&gt; amt = prize * prob_draw
+&gt; print(amt)
+[1] 0.068445956 0.085557445 0.054756765 0.002737838 0.006899352 0.012073867
+[7] 0.009981063 0.043488918 0.104373403
+&gt; print(sum(amt))
+[1] 0.3883146 [2]
+g) Since, the expected prize amount is INR 0.39 and the prize of the lottery ticket is INR 0.50, 
+there is a profit of INR 0.11 implicit in the ticket price. [1]
+
+---
+
+ii)a) Formula for the probability mass function of Binomial Distribution in terms of the arguments 
+specified in the question is given below:
+P(X=x) = kCx * (p)x * (1-p)(k-x)
+Where –
+x = 0, 1, 2, 3, ………………
+0 &lt; p &lt; 1 
+(p = m/(m+n)) [2]
+ b) The joint probabilities and the expected prize money pay-out is re-determined using binomial 
+distribution for determining matching probabilities:
+R Code and Output:
+&gt; prob_w_draw_bin &lt;- dbinom(w_draw,5,5/69,log=FALSE)
+&gt; print(prob_w_draw_bin)
+[1] 1.998042e-06 1.998042e-06 1.278747e-04 1.278747e-04 3.273592e-03
+[6] 3.273592e-03 4.190197e-02 2.681726e-01 6.865219e-01
+&gt; prob_r_draw_bin &lt;- dbinom(r_draw,1,1/26,log=FALSE)
+&gt; print(prob_r_draw_bin)
+[1] 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
+[7] 0.03846154 0.03846154 0.03846154
+&gt; prob_draw_bin = prob_w_draw_bin * prob_r_draw_bin
+&gt; print(prob_draw_bin)
+[1] 7.684776e-08 1.921194e-06 4.918257e-06 1.229564e-04 1.259074e-04
+[6] 3.147684e-03 1.611614e-03 1.031433e-02 2.640469e-02
+&gt; amt_bin = prize * prob_draw_bin
+&gt; print(amt_bin)
+[1] 1.53695522 1.92119403 0.24591284 0.01229564 0.01259074 0.02203379
+[7] 0.01128130 0.04125733 0.10561876
+&gt; print(sum(amt_bin))
+[1] 3.90914
+(1.5)
+(1.5)
+(1)
+(1)
+[Max 4]
+iii) If we compare binomial probabilities with hyper-geometric probabilities:
+1. For the power ball, the probabilities for all cases are same under both binomial and 
+hyper-geometric distribution.
+2. For white balls, the probabilities under binomial distribution tend to be higher than 
+those under hyper-geometric distribution. 
+3. Due to this the expected pay-out determined using binomial distribution tends to be 
+on the higher side as compared to one determined using hyper-geometric distribution.
+(1)
+(1)
+(1)
+
+---
+
+iv) We use the formulae from the tables to determine the mean and variance for X using both 
+binomial and hyper-geometric distributions.
+R Code and Output:
+&gt; mean_x_hyper = 5 * 5/69
+&gt; mean_x_binom = 5 * 5/69
+&gt; print(mean_x_hyper)
+[1] 0.3623188
+&gt; print(mean_x_binom)
+[1] 0.3623188
+&gt; 
+&gt; var_x_hyper = 5*5*(69-5)*(69-5)/((69-1)*69^2)
+&gt; print(var_x_hyper)
+[1] 0.3162954
+&gt; var_x_binom = 5 * 5/69 * (1-5/69)
+&gt; print(var_x_binom)
+(1 marks for 
+mean)
+(1 marks for 
+variance)
+IAI CS1B-1222
+ Page 13 of 13
+[1] 0.3360639
+Mean is the same in both cases.
+However, variance under hyper-geometric distribution is lower as compared to the variance 
+under the binomial distribution. This is because hyper-geometric distribution is a without 
+replacement alternative of the binomial distribution. Since, after a trial, that observation is not 
+replaced, the variability in the results is reduced.
+(2 mark for 
+comment 
+on the 
+difference.)
+
+---
+
+v) In reality, for lotteries, draws are done without replacement and hence hyper-geometric 
+distribution would be more suitable in modelling matching probabilities.
+However, as the size of the population (m+n) goes on increasing, binomial distribution 
+provides a good approximation for hyper-geometric probabilities.
+(1)
+(1)
+[2]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

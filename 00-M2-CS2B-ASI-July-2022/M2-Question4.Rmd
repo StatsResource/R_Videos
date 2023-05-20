@@ -44,4 +44,60 @@ the Nelson‐Aalen model.
 integrated hazard, and the estimated variance for each tj of the given data.
 3.   Produce a scatterplot showing the values of the estimated integrated hazard across time tj, 
 for j = 0, 1,2, 3,…,20, together with the corresponding 90% confidence interval values.
-You need to do a proper labelling of the axes. (6)
+You need to do a proper labelling of the axes. 
+
+---
+
+Solution 4
+# (i)
+# Estimated Integrated Hazard:
+# Estimated variance of the estimator of the integrated hazard is calculated 
+as:
+ [3]
+ 
+---
+# (ii)
+file <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\data_1.csv")
+dj <- file$dj
+nj <- file$nj
+tj <- file$tj
+names(file)[5]<-"Censored"
+Lambda=cumsum(dj/nj)
+Var = cumsum(dj*(nj-dj)/nj^3)
+file$Lambda = Lambda
+file$Variance = Var
+file
+## j tj nj dj Censored Lambda Variance
+## 1 1 3 200 2 NA 0.01000000 0.0000495000
+## 2 2 6 198 5 NA 0.03525253 0.0001738173
+## 3 3 8 193 3 NA 0.05079657 0.0002531045
+## 4 4 11 190 2 NA 0.06132288 0.0003079230
+## 5 5 14 188 4 5 0.08259948 0.0004186884
+## 6 6 18 179 10 NA 0.13846540 0.0007133528
+## 7 7 21 169 3 NA 0.15621688 0.0008165266
+## 8 8 23 166 1 NA 0.16224098 0.0008525977
+## 9 9 24 165 1 NA 0.16830158 0.0008891060
+## 10 10 26 164 2 15 0.18049670 0.0009625597
+## 11 11 30 147 3 NA 0.20090487 0.0010985574
+## 12 12 34 144 4 NA 0.22868264 0.0012861003
+## 13 13 38 140 1 NA 0.23582550 0.0013367563
+## 14 14 39 139 2 NA 0.25021399 0.0014387812
+## 15 15 40 137 4 2 0.27941107 0.0016456761
+## 16 16 43 131 8 NA 0.34047977 0.0020833808
+## 17 17 45 123 4 4 0.37300010 0.0023391756
+## 18 18 50 115 5 NA 0.41647836 0.0027008095
+IAI CS2B-0722
+Page 10 of 14
+## 19 19 53 110 2 NA 0.43466018 0.0028630935
+## 20 20 55 108 1 NA 0.44391944 0.0029480336
+
+---
+# (iii)
+sdLambda=sqrt(Var)
+plot(c(0,tj),c(0,Lambda),xlim=c(0,55),ylim=c(0,0.5),type="s",
+ main="Nelson-Aalen estimator of the integrated hazard",
+ xlab="Time t",ylab="Integrated hazard")
+lines(tj,Lambda-1.64485*sdLambda, type="s",lty=2)
+lines(tj,Lambda+1.64485*sdLambda, type="s",lty=2)
+[6]
+[12 Marks]

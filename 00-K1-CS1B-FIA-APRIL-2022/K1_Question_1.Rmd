@@ -38,53 +38,83 @@ pre {
 
 ---
 
-1 An engineer is considering the maximum number of people who can occupy a lift. In 
-particular, the engineer wants to assess the probability of exceeding a maximum 
+### Exercise 
+
+An engineer is considering the maximum number of people who can occupy a lift. 
+
+In particular, the engineer wants to assess the probability of exceeding a maximum 
 weight when eight people are allowed to use the lift at the same time, compared to 
 nine people. 
+
 Assume that: 
- the total weight of eight people chosen at random follows a normal distribution 
+* the total weight of eight people chosen at random follows a normal distribution 
 with a mean of 560 kg and standard deviation of 57 kg 
- the total weight of nine people chosen at random follows a normal distribution 
+
+* the total weight of nine people chosen at random follows a normal distribution 
 with a mean of 630 kg and standard deviation of 61 kg.
 
 ---
 
 ### Exercises
 
-(i) Calculate the probability that the total weight of eight people exceeds 650 kg.
+A. Calculate the probability that the total weight of eight people exceeds 650 kg.
   
-(ii) Calculate the probability that the total weight of nine people exceeds 650 kg.
+B. Calculate the probability that the total weight of nine people exceeds 650 kg.
   
-(iii) Comment on your answers to parts (i) and (ii).  
-(iv) Calculate the interval for the central region containing 80% of the distribution 
+C. Comment on your answers to parts (A) and (B).  
+
+D.  Calculate the interval for the central region containing 80% of the distribution 
 of the total weight of eight people.
+
+---
+
+### Exercises
+
 Assume now that the total weight of eight people chosen at random follows a gamma 
-distribution with parameters α = 96.5220 and λ = 0.1724. 
-(v) (a) Calculate the interval for the central region containing 80% of the 
+distribution with parameters $\alpha = 96.5220$ and $\lambda = 0.1724$. 
+
+E. Calculate the interval for the central region containing 80% of the 
 distribution of the total weight of eight people in this case. 
-(b) Comment on your answers to parts (iv) and (v)(a). 
+
+F. Comment on your answers to parts (D) and (E). 
 
 
 ---
 
-Solutions for Subject CS1B – April 2022
-Q1
-(i) 
-Let X be the total weight of 8 people. By the assumption: 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560 , 572). We are 
-interested in the probability P(X > 650):
-1 - pnorm(650,560,57) 
-# 0.05717406
-The probability that the total weight of 8 people exceeds 650kg is equal to 0.05717406. 
----
+### Part A
 
-(ii)
-Let Y be the total weight of 9 people. By the assumption: 𝑌𝑌 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(630 , 612). 
+Let $X$ be the total weight of 8 people. 
 
-We are 
-interested in the probability P(Y > 650):
+By the assumption: $X \sim N(560 , 57^2)$. We are 
+interested in the probability $P(X > 650)$:
+
 ```{r}
-1 - pnorm(650,630,61) 
+# Upper Tail / Right hand side of Bell Curve
+pnorm(x=650,mean=560,sd=57,lower=FALSE) 
+```
+
+```{r}
+# Complement of LHS of Bell Curve
+1 - pnorm(x=650,mean=560,sd=57) 
+```
+
+The probability that the total weight of 8 people exceeds 650kg is equal to 0.05717406. 
+
+---
+
+### Part B
+
+Let $Y$ be the total weight of 9 people. By the assumption: $Y \sim N(630 , 61^2)$. 
+
+We are interested in the probability $P(Y > 650)$:
+
+
+```{r}
+pnorm(650,mean=630,sd=61, lower=FALSE) 
+```
+
+```{r}
+1 - pnorm(650,mean=630,sd=61) 
 ```
 
 
@@ -92,68 +122,100 @@ We get that the probability that the total weight of 9 people exceeds 650kg is m
 and is equal to 0.3715054. 
 
 ---
-(iii)
-Parts (i) & (ii) show that as more people enter the lift, the probability of exceeding 
+
+#### Exercise C
+
+* Parts (A) & (B) show that as more people enter the lift, the probability of exceeding 
 650kg increases. 
-While the probability of exceeding 650kg is small with 8 people, 
+* While the probability of exceeding 650kg is small with 8 people, 
 exceeding the maximum weight is considerably more likely with 9 people. 
 ---
 
-#### Exercise 4
+#### Exercise D
 
-(iv)
-Again, 𝑋𝑋 ~ 𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁𝑁(560, 572), where X is the total weight of 8 people. 
-In order to find the central region that contains 80% of the distribution we need to identify the 
+* Again, $X \sim N(560, 57^2)$, where $X$ is the total weight of 8 people. 
+
+* In order to find the central region that contains 80% of the distribution we need to identify the 
 10%-percentile and the 90%-percentile of X.
-We use the function “qnorm" in the code:
 
-<pre><code>
-> qnorm(0.1,560,57) 
-# 486.9516
-> qnorm(0.9,560,57) 
-# 633.0484
+* We use the function “<tt>qnorm()</tt>" in the code:
 
-</code></pre>
+```{r}
+qnorm(p=0.1,mean=560,sd=57) 
+```
 
-The requested interval is [486.9516, 633.0484]. 
+```{r}
+qnorm(0.9,560,57) 
+```
+
+
+The requested interval is **[486.9516, 633.0484]**. 
 ---
 
-#### Exercise 5
+#### Gamma Distribution
 
-(v)(a) 
-We now have 𝑌𝑌 ~ 𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺𝐺(96.5220, 0.1724), where Y is the total weight of 8 people. 
+* Shape parameter $\alpha$ - R argument is <tt>shape=</tt>.
 
-The 
-computation this time produces:
+* Rate parameter $\lambda$ - R argument is <tt>rate=</tt>.
+
+* Scale parameter is the inverse of the rate parameter - R argument is <tt>scale=</tt>.
+
+---
+
+#### Exercise E
+
+
+
+We now have $Y \sim G(96.5220, 0.1724)$, where $Y$ is the total weight of 8 people. 
+
+The calculation this time produces:
+
 ```{r}
-qgamma(0.1, 96.5220, 0.1724) 
+qgamma(p = 0.1, shape= 96.5220, rate = 0.1724) 
 
 ```
-488.195
 
-<pre><code>
-> qgamma(0.9, 96.5220, 0.1724) 
-# 634.0333
 
-</code></pre>
-and the interval is [488.195, 634.0333]. 
-(b)
+```{r}
+qgamma(p = 0.9, shape = 96.5220, rate = 0.1724) 
+```
+
+and the interval is **[488.195, 634.0333]**. 
+
 ---
 
-The intervals are very similar. 
-The mean and standard deviation of the two distributions are (approximately) equal. 
-As the first (shape) parameter of the gamma distribution is large, the distribution is close 
+Using Scale parameter
+
+```{r}
+qgamma(p = 0.1, shape= 96.5220, scale = (1/0.1724)) 
+
+```
+
+
+```{r}
+qgamma(p = 0.9, shape = 96.5220, scale = (1/0.1724)) 
+```
+
+---
+
+#### Exercise F
+
+* The intervals are very similar. 
+* The mean and standard deviation of the two distributions are (approximately) equal. 
+* As the first (shape) parameter of the gamma distribution is large, the distribution is close 
 to a normal distribution. 
----
-
-END
-
 
 ---
 
 END
 
+
 ---
+
+END
+
+---
+
 Candidates overall answered well this question. 
 In parts (i) and (ii) a common error was calculating the probability at the wrong tail, e.g. 
 using pnorm() instead of 1-pnorm().

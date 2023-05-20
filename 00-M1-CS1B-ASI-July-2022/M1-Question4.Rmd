@@ -61,3 +61,86 @@ value for maximum sales generated in question (7.   .
 9.  What is the relative error between the estimated (prediction calculated in question 
 (8.   ) and the actual sales computed in question (7.  ?
 ---
+
+Solution 4:
+marketing = read.csv("data.csv")
+data_size = dim(marketing) 
+i) plot(marketing)
+IAI CS1B-0722
+Page 6 of 7
+The last row of the plot indicates how various advertising channel budgets impact the sales. We 
+can clearly see that youtube and facebook sales increase linearly with increase in the advertising 
+budget. The newspaper (3rd plot) sales however shows no particular trend.
+[5]
+ii) > Model <- lm(sales ~ youtube + facebook + newspaper, data = marketing)
+> summary (Model)
+Call:
+lm(formula = sales ~ youtube + facebook + newspaper, data = marketing)
+Residuals:
+ Min 1Q Median 3Q Max 
+-10.5932 -1.0690 0.2902 1.4272 3.3951 
+Coefficients:
+ Estimate Std. Error t value Pr(>|t|) 
+(Intercept) 3.526667 0.374290 9.422 <2e-16 ***
+youtube 0.045765 0.001395 32.809 <2e-16 ***
+facebook 0.188530 0.008611 21.893 <2e-16 ***
+newspaper -0.001037 0.005871 -0.177 0.86 
+---
+Signif. codes: 
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 2.023 on 196 degrees of freedom
+Multiple R-squared: 0.8972, Adjusted R-squared: 0.8956 
+F-statistic: 570.3 on 3 and 196 DF, p-value: < 2.2e-16
+[6]
+iii) It can be seen that from the estimates column and from p values that, changes in the youtube 
+and facebook advertising budgets are significantly associated to changes in sales while changes in 
+the newspaper budget is not. [3]
+iv) > cor(marketing$youtube,marketing$sales)
+[1] 0.7822244
+> cor(marketing$facebook,marketing$sales)
+[1] 0.5762226
+> cor(marketing$newspaper,marketing$sales)
+[1] 0.228299
+The pairwise plot and the above correlation indicated the same conclusion on newspaper having 
+a very low / no particular trend with respect to sales. 
+[3]
+v) > Model1 <- lm(sales ~ youtube + facebook , data = marketing)
+> summary(Model1)
+IAI CS1B-0722
+Page 7 of 7
+Call:
+lm(formula = sales ~ youtube + facebook, data = marketing)
+Residuals:
+ Min 1Q Median 3Q Max 
+-10.5572 -1.0502 0.2906 1.4049 3.3994 
+Coefficients:
+ Estimate Std. Error t value Pr(>|t|) 
+(Intercept) 3.50532 0.35339 9.919 <2e-16 ***
+youtube 0.04575 0.00139 32.909 <2e-16 ***
+facebook 0.18799 0.00804 23.382 <2e-16 ***
+---
+Signif. codes: 
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 2.018 on 197 degrees of freedom
+Multiple R-squared: 0.8972, Adjusted R-squared: 0.8962 
+F-statistic: 859.6 on 2 and 197 DF, p-value: < 2.2e-16
+Sales = 3.5 + 0.045*youtube + 0.187*facebook
+[4]
+vi) Adjusted R squared for Model in part (b) and that of part (e) is 0.89, hence there is no particular 
+improvement after removing newspaper parameter. However, a model with less parameters is 
+considered better, hence we can consider Model 1 calculated in part (f) to be a good fit. [3]
+vii) > marketing[which.max(marketing$sales),]
+ youtube facebook newspaper sales
+176 332.28 58.68 50.16 32.4
+Maximum sales generated is 32.4 thousand dollars. [2]
+viii)> PredTest = predict(Model1)
+> PredTest[176]
+ 
+29.74023
+[4]
+ix) (Observed ILI - Estimated ILI)/Observed ILI
+> (32.4-29.74023)/32.4
+[1] 0.08209167
+[3]
+[33 Marks]
+*************************************

@@ -35,20 +35,95 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-[20]
 Q. 2) You have been asked to analyse the number of deaths per month in the country X from lung 
 disease over the period from Jan 2015 to Dec 2020. This information is contained in a time 
 series called “Lung_Deaths.csv”.
-1.  Convert the data into a time series format representing the above period after loading it 
-into R. (2)
+
+1.  Convert the data into a time series format representing the above period after loading it into R. 
 2.  Plot this time series giving appropriate labels for each axis.
-3.   Plot, on two separate graphs, the sample autocorrelation function (sample ACF) and 
-sample partial autocorrelation function (sample PACF) of the series with appropriate 
-labelling of the axes. (6)
-IAI CS2B-0722
- Page 3 of 4
+3.   Plot, on two separate graphs, the sample autocorrelation function (sample ACF) and sample partial autocorrelation function (sample PACF) of the series with appropriate 
+labelling of the axes. 
 4.  Justify the presence of seasonality in the data based on (2.  and (3.   above.
-5.  Apply seasonal differencing to the time series to remove the element of seasonality. (4)
+5.  Apply seasonal differencing to the time series to remove the element of seasonality. 
 6.   Plot the ACF and PACF of this time series generated in (5.  above up to lag k = 5 years, 
-giving appropriate labels for each axis. (4)
+giving appropriate labels for each axis. 
 7.  Comment on your plots in part (6.  , making reference to the stationarity.
+
+---
+
+
+Solution 2
+# (i)
+```{r}
+Lung_Deaths <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\Lung_
+Deaths.csv")
+Lung_Deaths<-ts(Lung_Deaths, start =c(2015,1), frequency = 12)
+Lung_Deaths
+```
+## Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+## 2015 3035 2552 2704 2554 2014 1655 1721 1524 1596 2074 2199 2512
+## 2016 2933 2889 2938 2497 1870 1726 1607 1545 1396 1787 2076 2837
+## 2017 2787 3891 3179 2011 1636 1580 1489 1300 1356 1653 2013 2823
+## 2018 3102 2294 2385 2444 1748 1554 1498 1361 1346 1564 1640 2293
+## 2019 2815 3137 2679 1969 1870 1633 1529 1366 1357 1570 1535 2491
+## 2020 3084 2605 2573 2143 1693 1504 1461 1354 1333 1492 1781 1915
+---
+# (ii)
+plot(Lung_Deaths, ylab = "Lung Deaths", main = "Lung deaths between 2015 and 
+2020")
+ [3]
+---
+# (iii)
+acf(Lung_Deaths, lag.max = 30,main = "ACF of Lung Deaths")
+pacf(Lung_Deaths, lag.max = 30,main = "PACF of Lung Deaths")
+ [6]
+IAI CS2B-0722
+Page 6 of 14
+---
+# There is seasonality in monthly data for which high values tend always to 
+occur in some particular months and low values tend always to occur in other 
+particular months. In this case, S = 12 (months per year) is the span of the 
+periodic seasonal behavior
+# If significant correlation persists over many lags in the ACF functions, It 
+could either be a truly random autocorrelation in the series or there is a 
+fixed effect or trend that hasn't been removed (i.e. the series is not 
+stationary). Hence non stationary data
+# Time Series of Lung Deaths is establishing seasonality which is visible 
+from highs and lows at uniform intervals of time
+# ACF is exhibiting a high positive serial correlation at Lag 1 indicating 
+the presence of seasonality in the data
+
+---
+# (v)
+diff12=diff(Lung_Deaths, lag = 12, differences=1)
+plot(diff12)
+---
+# (vi)
+acf(diff12,lag.max = 30)
+IAI CS2B-0722
+Page 7 of 14
+pacf(diff12,lag.max = 30)
+ [4]
+
+---
+# (vii)
+# One summary statistic of a stationary time series is the auto-correlation f
+unction, or the ACF
+
+# If significant correlation persists over many lags in the ACF functions, It 
+could either be a truly random autocorrelation in the series or there is a fi
+xed effect or trend that hasn't been removed (i.e. the series is not stationa
+ry). Here that is not the case and hence stationary data
+# Even after the seasonal difference, we observe significant correlation with 
+lag 12 both in the ACF and the PACF, indicating seasonal AR first order could 
+be an appropriate model for the data
+#The blue dotted lines on the ACF and PACF indicate cut-offs for significance
+.
+#For a stationary time-series the ACF should decay to zero quickly and displa
+y no signs of oscillation.
+#The ACF looks to cut out at lag 2 and does not contain any periodic oscillat
+ion so this would indicate stationarity.
+#The PACF shows no significance past lag 2. This again, indicates stationarit
+y.
+ [3]
+ [25 Marks]

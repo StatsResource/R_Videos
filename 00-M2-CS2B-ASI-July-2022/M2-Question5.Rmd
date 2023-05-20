@@ -48,3 +48,70 @@ U = ∞
 3.   Using the function in (1.  or otherwise, compute the first two moments for a non-truncated 
 normal distribution with the same µ and σ.
 4.  Compare the results generated in (2.  and (3.   with appropriate reasoning.
+
+---
+
+Solution 5
+# (i)
+trunc_logN <- function(k, mu, sig, L, U){
+ 
+ Lk <- (log(L) - mu)/sig - k*sig
+ Uk <- (log(U) - mu)/sig - k* sig
+ cumulate <- exp(k*mu+.5*k^2*sig^2) * (pnorm(Uk) - pnorm(Lk))
+ print(paste("First term:", exp(k*mu+.5*k^2*sig^2)))
+ print(paste("Phi(Uk): ", pnorm(Uk)))
+ print(paste("Phi(Lk): ", pnorm(Lk)))
+ 
+ print(paste("Final Value:", cumulate))
+ 
+}
+ [4]
+IAI CS2B-0722
+Page 11 of 14
+# (ii)
+trunc_logN(1, 1.2, 0.7, 10,Inf)
+## [1] "First term: 4.24185214282043"
+## [1] "Phi(Uk): 1"
+## [1] "Phi(Lk): 0.809246116780569"
+## [1] "Final Value: 0.809149768285661"
+trunc_logN(2, 1.2, 0.7, 10,Inf)
+## [1] "First term: 29.3707711132894"
+## [1] "Phi(Uk): 1"
+## [1] "Phi(Lk): 0.569507941751428"
+## [1] "Final Value: 12.6438837089077"
+---
+# (iii)
+# First moment of a normal distribution = mu = 1.2
+# Second moment of a normal distribution = 0.7^2+1.2^2 = 1.93
+# The question should have been "Log normal distribution" instead of normal d
+istribution
+# Assuming Lognormal distribution
+# Moments of Lognormal distribution are 
+exp(1.2+0.5*0.7^2)
+## [1] 4.241852
+exp(2*1.2+0.7^2)*(exp(0.7^2)-1)+(exp(1.2+0.5*0.7^2))^2
+## [1] 29.37077
+trunc_logN(1, 1.2, 0.7, 0,Inf)
+## [1] "First term: 4.24185214282043"
+## [1] "Phi(Uk): 1"
+## [1] "Phi(Lk): 0"
+## [1] "Final Value: 4.24185214282043"
+trunc_logN(2, 1.2, 0.7, 0,Inf)
+## [1] "First term: 29.3707711132894"
+## [1] "Phi(Uk): 1"
+## [1] "Phi(Lk): 0"
+## [1] "Final Value: 29.3707711132894"
+----
+# (iv)
+# The results are not comparable as (ii) is associated with Lognormal distrib
+ution while (iii) is associated with normal distribution
+IAI CS2B-0722
+Page 12 of 14
+# Assuming (iii) is log normal distribution
+# The mean and variance of a truncated distribution are very much lower than 
+the non-truncated because
+# (i) Beyond 10, the probabilities are very less and the actual range of valu
+es in excess of 10 is very limited
+# (ii) The consistency improves because of a narrower range and hence lower v
+ariance and second order movement
+ [3]

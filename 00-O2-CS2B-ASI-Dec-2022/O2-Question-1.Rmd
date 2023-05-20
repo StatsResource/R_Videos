@@ -1,4 +1,44 @@
- Page 2 of 4
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3
+
+---
+
+Page 2 of 4
 Q. 1) As an Actuary working for company Actuaria, you have been asked to build a loss model 
 to forecast the size of potential losses over the next year for Employers’ Liability class of 
 business. You have been provided with data for 2,164 losses in the file “CS2BQ1.csv”.
@@ -7,7 +47,10 @@ MASS
 Set the seed in R to 1234 prior to carrying out the analysis
 In order to build the model you have been asked to carry out the following analysis:
 i) Load the loss data given in the csv file in R and create a data frame with name “loss”. (1)
-ii) Find the mean and standard deviation of the loss data. (2)
+ii) Find the mean and standard deviation of the loss data. 
+
+---
+
 iii) Assuming that the loss data comes from a lognormal distribution, use the method of 
 moments to calculate the ‘mu’ and ‘sigma’ parameters of a lognormal distribution. It 
 is mandatory to compute the parameters using the “R” code only. (3)
@@ -27,7 +70,9 @@ provided and the simulated losses. (3)
 x) You have been asked to estimate the losses that would be expected to be retained 
 within a policy excess of 20,000. Create two new columns “Retained” and 
 “Transferred” to hold all the simulated losses that will be retained and not retained 
-respectively. (3)
+respectively. 
+---
+
 xi) Using the ‘quantile’ function estimate the percentiles from 0% to 100% using steps of 
 10% of the Retained and Transferred simulated losses. (3)
 xii) Combine the estimated percentiles for the Original losses, Simulated Losses, Retained 
@@ -45,8 +90,8 @@ xv) Compare the Technical Premium to the actual quote Premium of 70,000. (2)
 xvi) Plot the cumulative distribution function for the Original, Simulated, Retained and 
 Transferred Loss distributions in one plot. (4)
 
-IAI CS2B-1222
-Page 2 of 11
+---
+
 Solution.1
 > library(MASS)
 > options(scipen = 5)
@@ -62,7 +107,9 @@ ii)
 [1] 49789.86
 > EmpiricalSD
 [1] 102948.2
-(2)
+
+---
+
 iii)
 > MoMmu<-log(EmpiricalMean/(1+EmpiricalSD^2/EmpiricalMean^2)^0.5)
 > MoMsigma<-log(1+EmpiricalSD^2/EmpiricalMean^2)^0.5
@@ -70,7 +117,9 @@ iii)
 [1] 9.984059
 > MoMsigma
 [1] 1.28958
-(3)
+
+---
+
 iv)
 > #fit a lognormal distribution to the dataset using fitdistr in the MASS package
 > fitLogNormal<-fitdistr(x$Losses,"lognormal")
@@ -83,7 +132,9 @@ meanlog
 sdlog 
 1.268845 
 (3)
-v)
+
+---
+
 > 'The Mu and Sigma estimates between the Method of Moments and Method of MLE approach are 
 quite close'.
 (3)
@@ -99,7 +150,9 @@ IAI CS2B-1222
 [1] 88548.16
 (4)
 vii)
-(4)
+
+---
+
 viii)
 > 'The fit of the loss distribution is fairly good till loss values of 25,000. Beyond this the qqplot indicates
 the data is not normally distributed for larger/tail values' 
@@ -119,7 +172,9 @@ steps of 10%
 39392.2496 57282.2480 
  90% 100% 
 118552.0676 1257982.3513 
-(3)
+
+---
+
 x)
 > E<-20000
 > Retained<-pmin(E,SimL)

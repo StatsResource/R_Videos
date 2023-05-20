@@ -1,0 +1,315 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+Q. 2) An investor wants to invest in a portfolio comprising of two stocks. He is evaluating four 
+stocks for the purpose of his investment viz ABC Oil, XYZ Airways, PQR Realty and LMN 
+Bank. 
+Annual returns (%) from these stocks over the past 10 years have been tabulated below –
+Year ABC
+Oil XYZ Airways PQR Realty LMN Bank
+1 -6 8 -20 14
+2 -10 0 19 4
+3 3 -4 3 5
+4 18 10 13 15
+5 -10 20 20 19
+6 1 8 7 9
+7 3 0 -3 6
+8 -13 10 13 10
+9 -14 5 20 7
+10 13 -19 1 16
+i) Calculate the mean and standard deviation of the annual returns from each stock using 
+appropriate functions in R. (5)
+ii) Calculate the sample correlation coefficient between annual returns from various pairs 
+of stocks viz (ABC, XYZ), (ABC, PQR), (ABC, LMN), (XYZ, PQR), (XYZ, LMN), 
+(PQR, LMN). Use Pearson’s method. (3)
+IAI CS1B-1222
+ Page 3 of 7
+iii) The investor feels that in between the following pairs of stocks, there should exist a 
+perfect negative correlation –
+a) Changes in oil prices affect the prices of aviation fuel thus affecting aviation 
+profits. Thus, the investor feels that returns from ABC Oil and XYZ Airways 
+should have perfect negative correlation.
+b) He also feels that changes in interest rates lead to equal and opposite effects on 
+the profits of the real estate sector and financial services sector. Thus, he is also 
+contemplating a perfect negative correlation between returns from PQR Realty 
+and LMN Bank. 
+Calculate a 95% two-sided confidence interval for the population correlation coefficient for 
+the above two pairs using Pearson’s Method and hence test the validity of the investor’s 
+premonitions. [Hint: Use cor.test function in R] (4)
+The investor is considering two alternative investment strategies for setting up his portfolio 
+as follows –
+Strategy A: Investing 50% of his funds in ABC Oil and balance 50% in XYZ Airways.
+Strategy B: Investing 25% of his funds in LMN Bank and balance 75% in PQR Realty.
+He has asked to develop the following metrics to assist with the final choice between 
+Strategy A or Strategy B:
+Metric 1: Strategy with highest Mean Returns would be selected.
+Metric 2: Strategy with lowest Risk (Lowest Standard Deviation) would be selected.
+Metric 3: Strategy with highest “Risk-Adjusted Returns” would be selected.
+Risk-Adjusted Return = (Mean Return)/(Standard Deviation of Return)
+iv) Calculate the mean return for the above two strategies. Which strategy will be chosen 
+based on Metric 1 i.e. highest Mean Returns? (2)
+v) Investor feels that both the strategies are equally risky. Using var.test function in R 
+(two-sided), check whether variance of returns from Strategy A is equal to the variance 
+of returns from Strategy B at 10% level of significance. Your answer should clearly 
+mention the null and alternate hypothesis, the p-value and the outcome of the test. 
+[Hint: Create two new vectors for strategies A and B using the proportions given 
+earlier.] (4)
+Investor has come up with an alternative formula to calculate the standard deviation of both 
+the strategies which is dependent on the correlation coefficients calculated in part (iii). 
+Using this formula, Standard deviation for a portfolio of two stocks 1 and 2 is to be 
+calculated using the following method:
+SD(1,2) = (P1
+2
+* SD1
+2 + 2 Corr(1,2) * P1 * P2 * SD1 * SD2 + P2
+2
+* SD2
+2
+) ½ 
+Where – P1 and P2 denote the proportion of invested funds in stocks 1 and 2 respectively. 
+IAI CS1B-1222
+ Page 4 of 7
+vi) Using the confidence interval for population correlation coefficient calculated in part 
+(iii), calculate interval for the standard deviation of returns for Strategy A and Strategy 
+B using the above formula. Which strategy will you choose based on Metric 2 i.e. 
+Lowest Standard Deviation of Returns? (4)
+vii) Which strategy outperforms the other in terms of Metric 3 i.e. “Higher Risk-Adjusted 
+Returns”? Use means calculated in part (iv) and interval of standard deviations 
+calculated in part (vi) to calculate interval for risk-adjusted returns. 
+Also, compare your choices from part (iv), (vi) and (vii) and comment on the same. (2)
+
+
+##########################Solution 2
+:
+i
+)
+> abc <
+- c(
+-6,
+-10,3,18,
+-10,1,3,
+-13,
+-14,13)
+> xyz <
+- c(8,0,
+-4,10,20,8,0,10,5,
+-19)
+> pqr <
+- c(
+-20,19,3,13,20,7,
+-3,13,20,1)
+> lmn <
+- c(14,4,5,15,19,9,6,10,7,16)
+> 
+> abc_mean = mean(abc)
+> xyz_mean = mean(xyz)
+> pqr_mean = mean(pqr)
+> lmn_mean = mean(lmn)
+> 
+> print(abc_mean)
+[1]
+-1.5
+> print(pqr_mean)
+[1] 7.3
+> print(xyz_mean)
+[1] 3.8
+> print(lmn_mean)
+[1] 10.5
+> 
+> abc_sd = sd(abc)
+> xyz_sd = sd(xyz)
+> pqr_sd = sd(pqr)
+> lmn_sd = sd(lmn)
+> 
+> print(abc_sd)
+[1] 11.00757
+> print(pqr_sd)
+[1] 12.62317
+> print(xyz_sd)
+[1] 10.46476
+> print(lmn_sd)
+[1] 5.190804 [Max 5]
+ii
+)
+> r_abc_xyz = cor(abc,xyz)
+> r_abc_pqr = cor(abc,pqr)
+> r_abc_lmn = cor(abc,lmn)
+> r_xyz_pqr = cor(xyz,pqr)
+> r_xyz_lmn = cor(xyz,lmn)
+> r_pqr_lmn = cor(pqr,lmn)
+> 
+> print(r_abc_xyz)
+[1]
+-0.4456345
+> print(r_abc_pqr)
+[1]
+-0.2842739
+> print(r_abc_lmn)
+[1] 0.2634939
+> print(r_xyz_pqr)
+[1] 0.2923746
+> print(r_xyz_lmn)
+[1] 0.2577296
+> print(r_pqr_lmn)
+[1]
+-0.08393819
+[3]
+IAI CS1B-1222
+ Page 5 of 13
+iii)
+> cor.test(abc,xyz,method="pearson",alternative="two.sided",conf.level = 0.95)
+Pearson's product-moment correlation
+data: abc and xyz
+t = -1.408, df = 8, p-value = 0.1968
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+-0.8396649 0.2557513
+sample estimates:
+ cor
+-0.4456345
+> cor.test(pqr,lmn,method="pearson",alternative="two.sided",conf.level = 0.95)
+Pearson's product-moment correlation
+data: pqr and lmn
+t = -0.23825, df = 8, p-value = 0.8177
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+-0.6777458 0.5761368
+sample estimates:
+ cor
+-0.08393819
+Confidence interval for correlation coefficient between returns of ABC Oil and XYZ Airways is 
+(-0.84,0.26). Since it does not contain -1, we can say that there is no possibility of a perfect 
+negative correlation at 5% level of significance. 
+Confidence interval for correlation coefficient between returns of PQR Realty and LMN Bank 
+is (-0.68,0.58). Since it does not contain -1, we can say that there is no possibility of a perfect 
+negative correlation at 5% level of significance. 
+(1)
+(1)
+(1)
+(1)
+[4]
+iv)
+> pABC = 0.50
+> pXYZ = 0.50
+> pPQR = 0.75
+> pLMN = 0.25 
+> 
+> strat_A = pABC * abc + pXYZ * xyz
+> print(mean(strat_A))
+[1] 1.15
+> 
+> strat_B = pPQR * pqr + pLMN * lmn
+> print(mean(strat_B))
+[1] 8.1
+Since, strategy B gives higher mean returns, it would be wise to go with strategy B, if mean 
+returns is the metric to be targeted. 
+(1.5)
+(0.5)
+[2]
+v) H0: Variance of Returns from Strategy A = Variance of Returns from Strategy B
+H1: Variance of Returns from Strategy A ≠ Variance of Returns from Strategy B
+(1)
+IAI CS1B-1222
+ Page 6 of 13
+> var.test(x=strat_A,y=strat_B,conf.level = 0.90)
+F test to compare two variances
+data: strat_A and strat_B
+F = 0.35856, num df = 9, denom df = 9, p-value = 0.1426
+alternative hypothesis: true ratio of variances is not equal to 1
+90 percent confidence interval:
+0.112795 1.139835
+sample estimates:
+ratio of variances
+ 0.3585634
+Since the p-value 0.1426 > 10%, we have sufficient evidence to accept the null hypothesis at 
+the 10% level of significance. Hence, the investor’s assumption of the two strategies being 
+equally risky seems reasonable. 
+(2)
+(1)
+[4]
+vi)
+> sd_A1 = (pABC^2 * abc_sd^2 + 2 * pABC * pXYZ * abc_sd * xyz_sd * -0.83 + pXYZ^2 * xyz_s
+d^2)^(1/2)
+> sd_A2 = (pABC^2 * abc_sd^2 + 2 * pABC * pXYZ * abc_sd * xyz_sd * 0.26 + pXYZ^2 * xyz_sd
+^2)^(1/2)
+> 
+> print(sd_A1)
+[1] 3.140851
+> print(sd_A2)
+[1] 8.523165
+> sd_B1 = (pPQR^2 * pqr_sd^2 + 2 * pPQR * pLMN * pqr_sd * lmn_sd * -0.68 + pLMN^2 * lm
+n_sd^2)^(1/2)
+> sd_B2 = (pPQR^2 * pqr_sd^2 + 2 * pPQR * pLMN * pqr_sd * lmn_sd * 0.58 + pLMN^2 * lmn
+_sd^2)^(1/2)
+> 
+> print(sd_B1)
+[1] 8.637509
+> print(sd_B2)
+[1] 10.27457
+The limits for standard deviation of Strategy A are (3.14, 8,52) and the limits for standard 
+deviation of Strategy B are (8.64, 10.27). 
+Based on Metric 2, since Strategy A has lower range of standard deviation, Strategy A would 
+be selected.
+[Max 4]
+vii) We develop limits for the risk-adjusted returns under Strategies A and B using the following 
+code:
+> RAR_A1 = mean(strat_A)/sd_A1
+> RAR_A2 = mean(strat_A)/sd_A2
+> RAR_B1 = mean(strat_B)/sd_B1
+> RAR_B2 = mean(strat_B)/sd_B2
+> 
+> print(RAR_A1)
+[1] 0.3661428
+IAI CS1B-1222
+ Page 7 of 13
+> print(RAR_A2)
+[1] 0.1349264
+> print(RAR_B1)
+[1] 0.9377704
+> print(RAR_B2)
+[1] 0.788354
+Based on the above the limits for Risk-Adjusted Return for Strategy A are (0.13,0.37) and limits 
+for Strategy B are (0.79,0.94). Since Strategy B gives higher risk-adjusted returns, we should go 
+for Strategy B using Metric 3. 
+Strategy B gives higher returns and has higher risk, but it eventually ends up giving higher risk 
+adjusted returns (i.e. more returns per unit of risk) as compared to Strategy A.
+(1)
+(1)
+[2]

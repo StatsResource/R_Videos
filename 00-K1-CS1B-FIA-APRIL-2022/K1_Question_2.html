@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## Introduction to R for Actuarial Students
+]
 
 ---
 
@@ -34,61 +38,25 @@ pre {
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
 
-* Question 1
+* Question 2
 
 ---
-CS1B A2022–3 
-2 (i) (a) 
 
-Simulate a sample of 100 values from a Beta distribution with 
-parameters `\(a = 3\)`, `\(b = 1\)`. Use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to 
+#### Exercise 
+
+A. Simulate a sample of 100 values from a ***Beta*** distribution with 
+parameters `\(a = 3\)`, `\(b = 1\)`.
+Use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to 
 initialise the random number generator, before you start the simulation. 
-(b) Plot a histogram of the sample simulated in part (i)(a). 
-(c) Comment on the shape of the histogram produced in part (i)(b). 
+
+B. Plot a histogram of the sample simulated in part (A). 
+
+C. Comment on the shape of the histogram produced in part (B). 
 
 ---
 
-(ii) (a) Perform 1,000 repetitions of the simulation in part (i)(a). 
-You should compute and store the value of the mean of the sample for each 
-repetition. 
+#### Part (A)
 
-Use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the 
-random number generator, before you start the simulation. 
-(b) Plot a histogram of the 1,000 sample means computed in part (ii)(a). 
-
----
-
-(c) Comment on the shape of the histogram produced in part (ii)(b) by 
-referring to a fundamental statistical property.  
-For the remaining parts of the question consider the following small sample of data 
-(given here in R code): 
-&lt;pre&gt;&lt;code&gt;
-y &lt;- c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1) 
-&lt;/code&gt;&lt;/pre&gt;
-(iii) Determine a 90% confidence interval for the population mean of these data, 
-stating any assumptions that you make. [3] 
-(iv) Determine an estimate of the standard error of the sample mean using these 
-data.  
-
----
-
-(v) Determine an estimate of the standard error of the sample mean using 
-bootstrap with a bootstrap sample size of 10,000. 
-
-Use the command 
-&lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random number generator, before you 
-start the bootstrap sampling. 
-
-(vi) (a) Determine a bootstrap 90% confidence interval for the population 
-mean of the y data using the same bootstrap sample as in part (v). 
-(b) Comment on the two confidence intervals produced in parts (iii) and 
-(vi)(a). 
- 
-
----
-
-Q2
-(i)(a)
 R code:
 
 
@@ -97,8 +65,12 @@ set.seed(12345)
 x = rbeta(100,3,1) 
 ```
 
-(b)
+---
+
+#### Part (B)
+
 R code:
+
 
 ```r
 hist(x, main="Histogram of 100 values from Beta(3,1) distribution") 
@@ -108,11 +80,29 @@ hist(x, main="Histogram of 100 values from Beta(3,1) distribution")
 
 ---
 
-(c)
+#### Part (c)
 The histogram is heavily skewed. 
 This is consistent with the skewness of a Beta(3,1) distribution, which is negative for 
 (𝛼𝛼 &gt; 𝛽𝛽), see “Formula and Tables …”, page 13. 
 
+
+---
+
+#### Exercises
+
+D. Perform 1,000 repetitions of the simulation in part (A). 
+You should compute and store the value of the mean of the sample for each 
+repetition. 
+
+Recall: Use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the 
+random number generator, before you start the simulation. 
+
+E. Plot a histogram of the 1,000 sample means computed in part (D). 
+
+F. Comment on the shape of the histogram produced in part (E) by 
+referring to a fundamental statistical property.  
+
+---
 
 ---
 
@@ -134,23 +124,26 @@ xbar[i] = mean(x)
 ---
 
 
-Alternative code may be used. For example, without using a loop:
 
 
 ---
 
-using &lt;tt&gt;replicate()&lt;/tt&gt;
+### using &lt;tt&gt;replicate()&lt;/tt&gt;
+
+
+Alternative code may be used. For example, without using a loop:
 
 
 ```r
 set.seed(12345)
 
-xbar &lt;- replicate(1000,mean(rbeta(100,3,1)))
+xbar &lt;- replicate(1000,
+                  mean(rbeta(100,3,1)) )
 ```
 
 ---
 
-
+#### Part (E)
 
 
 ```r
@@ -162,15 +155,56 @@ hist(xbar, main="Histogram of sample mean")
 ---
 
 
-#### Part (b)
 
-(c)
-The distribution of the sample mean is roughly symmetrical. 
-This demonstrates the CLT where the distribution of the sample mean is
+#### Part (F)
+
+
+* The distribution of the sample mean is roughly symmetrical. 
+* This demonstrates the CLT where the distribution of the sample mean is
 approximately normal for large sample size. 
 
 
 ---
+
+
+
+--- 
+
+#### Exercises
+
+
+
+For the remaining parts of the question consider the following small sample of data 
+(given here in R code): 
+
+&lt;pre&gt;&lt;code&gt;
+y &lt;- c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1) 
+&lt;/code&gt;&lt;/pre&gt;
+
+G. Determine a 90% confidence interval for the population mean of these data, 
+stating any assumptions that you make. 
+
+H. Determine an estimate of the standard error of the sample mean using these 
+data.  
+
+---
+
+I. Determine an estimate of the standard error of the sample mean using 
+bootstrap with a bootstrap sample size of 10,000. 
+
+Use the command 
+&lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random number generator, before you 
+start the bootstrap sampling. 
+
+J. Determine a bootstrap 90% confidence interval for the population 
+mean of the y data using the same bootstrap sample as in part (v). 
+
+K. Comment on the two confidence intervals produced in parts (iii) and 
+(vi)(a). 
+ 
+
+---
+
 
 
 #### Part (c)
@@ -209,7 +243,7 @@ t.test(y, conf.level =0.90)
 
 
 ```r
-mean(y)-qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
+mean(y)-qt(0.95, length(y)-1) * sd(y)/sqrt(length(y))
 ```
 
 ```
@@ -217,7 +251,7 @@ mean(y)-qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
 ```
 
 ```r
-mean(y)+qt(0.95, length(y)-1)*sd(y)/sqrt(length(y))
+mean(y)+qt(0.95, length(y)-1) * sd(y)/sqrt(length(y))
 ```
 
 ```
@@ -234,7 +268,8 @@ CI is given by (2.125, 3.795)
 R code:
 
 ```r
-se.t = sd(y)/sqrt(length(y)); se.t 
+se.t = sd(y)/sqrt(length(y))
+se.t 
 ```
 
 ```
@@ -295,16 +330,13 @@ boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1
 ##   5%  95% 
 ## 2.27 3.69
 ```
-# 2.27 3.69 
+
 The 90% CI is (2.27, 3.69). 
 ```
 
 ---
 
-
-(b)
-The CI is now narrower; 
-this suggests that the data may not be from a Normal distribution 
+The CI is now narrower; this suggests that the data may not be from a Normal distribution 
 and the statistic 𝑋𝑋�−𝜇𝜇
 𝑆𝑆
 √𝑛𝑛 � may not follow a 𝑡𝑡9 distribution, as suggested in part (iii). 
@@ -358,6 +390,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

@@ -46,6 +46,8 @@ Below is the decision tree as shown:
 
 ---
 
+### Exercises
+
 i) Write a function in R to decide whether a surgery is needed or not based on the value of 
 three parameters. Denote Surgery required as 1 and Surgery not required as 0. (3)
 ii) Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 
@@ -106,20 +108,9 @@ model=apply(decisionData,1,f)
 model
 ```
 
----
-
-## [1] 1 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 1 1 0 0 0 
-0 0 1
-## [39] 0 0 1 0 0 0 0 0 0 1 0 0
 
 ---
-##[1] 0 1 0 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1 1 1 
-1 0 0 0 0 1 1 0 1 0 1 0 0 0
-##[1] 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
-0 0 1 1 0 0 0 0 0 0 0 0 1 1
-## [1] 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 1 0 1 0 0 0 0
----
+
 #### Part (iv)
 
 ```{r}
@@ -152,27 +143,25 @@ precision
 recall=(TP/(TP+FN))
 recall
 
-## [1] 0.3478261
+
 f1=(2*precision*recall)/(precision+recall)
 f1 
-## [1] 0.4444444
+
 ```
 
 ---
 #### Part (v)
-# Lower precision value indicates the presence of larger number of False posi
-tives
-# Lower recall value indicates the presence of larger number of False negativ
-es
-# This test is not really effective at correctly identifying individuals who 
-require Surgery
----
 
-# F1 tells how precise your classifier is (how many instances it classifies c
+*  Lower precision value indicates the presence of larger number of False posi
+tives
+* Lower recall value indicates the presence of larger number of False negativ
+es
+* This test is not really effective at correctly identifying individuals who 
+require Surgery
+* F1 tells how precise your classifier is (how many instances it classifies c
 orrectly), as well as how robust it is (it does not miss a significant number 
 of instances)
-# Low F1 score indicates that the model can be modified to increase its perfo
-rmance
+* Low F1 score indicates that the model can be modified to increase its performance
 
 ---
 

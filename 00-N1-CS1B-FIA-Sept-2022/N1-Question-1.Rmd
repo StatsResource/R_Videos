@@ -1,0 +1,121 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 4
+
+---
+
+1 A Systems Actuary is developing an automated application to replace a 
+time-consuming manual process. It is assumed that the number of errors, X, under this 
+automated application process follows a Poisson distribution with mean 6. The 
+Actuary wants to perform an analysis on the error rate for the automated process, 
+using the sample mean X. 
+Use the command set.seed(2022) to initialise the random number generator. 
+(i) Determine an estimate for the mean and variance of the sample mean X by 
+implementing 5,000 Monte Carlo repetitions, each involving a sample of size 
+150 from the assumed Poisson distribution. You should save the Monte Carlo 
+X values for later use. 
+
+---
+
+The Actuary recalls that a Normal approximation can be used, by referring to the 
+central limit theorem. 
+(ii) Write down the approximate distribution of X, by using the central limit 
+theorem.  
+(iii) Compare the approximation in part (ii) with your answer to part (i).  
+The Actuary wants to justify using the Normal approximation by comparing all the 
+quantiles in one go of X and the Normal distribution, using a QQ plot. 
+
+---
+### Exercises
+(iv) Construct a QQ plot for X and the Normal distribution, using the Monte Carlo 
+X values produced in part (i). [3] 
+(v) Comment on the plot from part (iv). [4] 
+ [Total 16] 
+CS1B S2022–3 
+
+---
+
+Q1
+(i)
+set.seed(2022)
+x_bar <- rep(0,5000) 
+for (i in 1:5000) 
++ {x <- rpois(150,6) [2]
++ x_bar[i] <- mean(x)} 
+mean(x_bar) 
+ 5.999752 
+> var(x_bar) 
+ 0.03958983 
+(ii)
+From the Central Limit Theorem, the distribution of the sample means will be
+approximately:
+𝑁𝑁 �6, 6
+150� , i. e. 𝑁𝑁(6 , 0.04) 
+(iii)
+The mean and variance from part (i) are very close to the approximate Normal 
+distribution in part (ii) 
+
+---
+
+(iv)
+qqnorm(x_bar) [2]
+qqline(x_bar)
+CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
+CS1B S2022 © Institute and Faculty of Actuaries
+
+
+---
+
+(v)
+
+The QQ plot shows that the quantiles of x_bar and the Normal distribution are very 
+similar 
+Therefore, the Normal distribution is a good approximation for x_bar 
+x_bar has a slightly lighter upper tail than the Normal distribution 
+x_bar also has a slightly lighter lower tail than the Normal distribution 
+The approximation will improve with larger sample sizes 
+[Mars available 5, maximum 4]
+[Total 16]
+
+---
+This question was answered well by most candidates. 
+There were some errors in specifying the variance in part (ii).
+In part (iv), well prepared candidates were able to produce a QQ plot along with 
+reasonable comments. A common error in part (iv) was using random values rather than 
+the quantiles of the distribution to produce the plot.
+In part (v), a relatively small proportion of candidates were able to identify and interpret 
+differences in the tails.

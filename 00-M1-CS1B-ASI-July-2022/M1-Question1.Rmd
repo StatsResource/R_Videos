@@ -62,5 +62,35 @@ mean 6 and standard deviation 4. What is the probability that Z takes on a value
 between -1 and 3?
 ---
 
+---
+Solution 1:
+i) X ~ Poisson (15)
+ppois(10, 15)
+[1] 0.1184644
+
+---
+
+ii) X ~ NB(5,0.2)
+dnbinom(65,5,0.2)
+[1] 0.00013892
+[5]
+iii) X ~ Binom (100,0.5)
+qbinom(0.9, 100, 0.5)
+[1] 56
+
+---
+
+iv) X ~ Geometric (0.2)
+dgeom(x=3, prob=0.2)
+[1] 0.1024
+[4]
+v) X ~ Exp(1/1000)
+1 - pexp(2000, 0.001)
+[1] 0.1353353
+
+---
+vi) X ~ N(6,16)
+pnorm(3, 6, 4) - pnorm(-1, 6, 4)
+[1] 0.1865682
 
 ---

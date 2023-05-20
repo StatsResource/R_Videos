@@ -47,29 +47,25 @@ of comparison.
 
 #### Exercises
 
-i) Write down the formulae for the estimated integrated hazard and the estimated variance of 
+A. Write down the formulae for the estimated integrated hazard and the estimated variance of 
 this estimator, using the Nelson-Aalen model. 
 
-ii) Find the estimated integrated hazard and the estimated variance of this estimator for the 
+B. Find the estimated integrated hazard and the estimated variance of this estimator for the 
 given data for each time $t_j$. 
 
-
----
-
-
-iii) Produce a scatter plot in R along with corresponding 95% confidence intervals for the 
+C. Produce a scatter plot in R along with corresponding 95% confidence intervals for the 
 Nelson-Aalen model. Paste the plot in the answer.
 
-iv) Compute the survival function according to the Kaplan Meier estimate. 
+D. Compute the survival function according to the Kaplan Meier estimate. 
 
-v) Demonstrate numerically the validity of the inequality relationship between the survival 
+E. Demonstrate numerically the validity of the inequality relationship between the survival 
 function using the Nelson Aalen model and the Kaplan Meier model using the data in this 
 study. 
 
 
 ---
 
-#### Part  (i)
+#### Part  (A)
 For the Nelson‐Aalen model the estimated integrated hazard is calculated as:
 
 ---
@@ -80,7 +76,7 @@ calculated as:
  
 --- 
 
-#### Part (b)
+#### Part (B)
 
 ```{r}
 data = read.csv("CS2B_Mar22_Dataset3.csv")
@@ -171,4 +167,6 @@ sum(data$Survival_KM<data$Survival_NA)
 Since all the values are true, the inequality is proved
 
 
+---
 
+---

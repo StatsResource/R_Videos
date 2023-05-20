@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3
+
+---
+
+### Exercise
+
+Consider a sample of 10,000 car insurance policies sold to drivers who have had a 
+driving licence for no more than 5 years. The data are given in the file 
+&lt;tt&gt;CarInsurance.Rdata&lt;/tt&gt;, which contains the following four variables: 
+
+* age: a factor taking the values 0 for young and 1 for old; this refers to the age of 
+the policyholder. 
+* LY: the number of years the policyholder has had a driving licence before the start 
+of the current year. 
+* NCD: the number of years the policyholder has had a no claims discount before the 
+start of the current year. 
+* claims: the number of claims the policyholder submitted during the current year. 
+It has been suggested that drivers belonging to the old age category have more years 
+of no claims discount than younger drivers. 
+
+---
+
+### Load the Data
+
+
+
+
+```r
+load("CarInsurance.Rdata")
+ls()
+```
+
+```
+## [1] "age"    "claims" "LY"     "NCD"
+```
+
+---
+
+#### Exercises 
+
+A. Plot two histograms for the number of years with no claims discount, one for 
+young policyholders and another for old policyholders. 
+
+B. Comment on the suggestion that drivers belonging to the old age category 
+have more years of no claims discount than young drivers, using the 
+histograms from part (A).  
+
+C. Calculate the proportion of policyholders with more than 2 years of no claims discount among 
+young policyholders. 
+
+D. Calculate the proportion of policyholders with more than 2 years of no claims discount among old 
+policyholders. 
+
+---
+
+#### Part (A)
+
+Plot histograms for no claims discount years:
+
+
+```r
+NCD_old = NCD[age==1] 
+NCD_young = NCD[age==0] 
+
+hist(NCD_old, prob=TRUE, breaks = c(0,1,2,3,4,5)) 
+```
+
+![](K1_Question_3_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+hist(NCD_young, prob=TRUE, breaks = c(0,1,2,3,4,5)) 
+```
+
+![](K1_Question_3_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+Alternative R code (this produces more accurate plots):
+
+
+```r
+hist(NCD_young, breaks=seq(-0.5,5.5,by=1))
+
+hist(NCD_old, breaks=seq(-0.5,5.5,by=1))
+```
+
+---
+
+#### Part (B)
+The distribution for old policyholders is more concentrated on the right, 
+so the number of years of NCD seems to be higher for old policyholders. 
+
+---
+
+#### Part (C)
+
+Calculate proportions:
+
+
+```r
+prop_young = sum(NCD_young &gt; 2)/length(NCD_young) 
+prop_young
+```
+
+```
+## [1] 0.573615
+```
+
+
+```r
+prop_young = mean(NCD_young &gt; 2)
+prop_young
+```
+
+```
+## [1] 0.573615
+```
+
+
+Proportion is 0.5736150 
+
+---
+
+Alternative R code:
+
+
+```r
+length(NCD_young[NCD_young&gt;2])/length(NCD_young)
+```
+
+```
+## [1] 0.573615
+```
+
+
+```r
+prop_old = sum(NCD_old &gt; 2)/length(NCD_old) 
+prop_old
+```
+
+```
+## [1] 0.9704187
+```
+Proportion is 0.9704187 
+---
+
+Alternative R code:
+
+
+```r
+length(NCD_old[NCD_old&gt;2])/length(NCD_old)
+```
+
+```
+## [1] 0.9704187
+```
+
+---
+
+#### Exercises
+
+E. Test the hypothesis that the proportion of policyholders with more than 2 
+years of no claims discount is equal in both groups (young and old 
+policyholders). 
+
+---
+
+#### Part (E)
+
+Test the hypothesis that prop of NCD &gt;2 is equal for young and old, against alternative that 
+proportions are not equal: 
+
+
+```r
+NCDgreaterTwo = c(sum(NCD_young &gt; 2), sum(NCD_old &gt; 2)) 
+YoungOld = c(length(NCD_young), length(NCD_old)) 
+```
+
+---
+
+#### Part E
+
+Two-sample test for equality of proportions:
+
+
+```r
+prop.test(NCDgreaterTwo, YoungOld, correct=F) 
+```
+
+```
+## 
+## 	2-sample test for equality of proportions without continuity correction
+## 
+## data:  NCDgreaterTwo out of YoungOld
+## X-squared = 1924, df = 1, p-value &lt; 2.2e-16
+## alternative hypothesis: two.sided
+## 95 percent confidence interval:
+##  -0.4103664 -0.3832408
+## sample estimates:
+##    prop 1    prop 2 
+## 0.5736150 0.9704187
+```
+
+
+The `\(p\)`-value is very small, therefore we reject the null hypothesis of equal proportions. 
+
+---
+
+### Exercises
+
+An analyst assumes that the number of claims per year has a Poisson distribution. The 
+analyst wishes to fit a generalised linear model (GLM) to the observed claim counts 
+using age,LY and NCD as explanatory variables. 
+
+
+F. Fit a GLM to the claim counts with age, LY and NCD as the main effect 
+explanatory variables.
+
+
+----
+
+
+#### Part (F)
+
+
+
+```r
+glm(claims ~ factor(age) + LY + NCD, family = poisson) 
+```
+
+```
+## 
+## Call:  glm(formula = claims ~ factor(age) + LY + NCD, family = poisson)
+## 
+## Coefficients:
+##  (Intercept)  factor(age)1            LY           NCD  
+##     0.467231     -0.009214     -0.113913     -0.095156  
+## 
+## Degrees of Freedom: 9999 Total (i.e. Null);  9996 Residual
+## Null Deviance:	    11570 
+## Residual Deviance: 11020 	AIC: 23100
+```
+
+```r
+summary(glm(claims ~ age + LY + NCD, family = poisson)) 
+```
+
+```
+## 
+## Call:
+## glm(formula = claims ~ age + LY + NCD, family = poisson)
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.467231   0.034983  13.356  &lt; 2e-16 ***
+## age         -0.009214   0.033348  -0.276    0.782    
+## LY          -0.113913   0.021145  -5.387 7.16e-08 ***
+## NCD         -0.095156   0.019703  -4.829 1.37e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 11574  on 9999  degrees of freedom
+## Residual deviance: 11015  on 9996  degrees of freedom
+## AIC: 23104
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+---
+
+
+To simplify the integration of the model into business processes, an insurer wishes to 
+use only models with at most two explanatory variables. 
+
+G. Determine which two explanatory variables (out of age, LY and NCD) should 
+be used in a GLM for the claim counts if only two explanatory variables are 
+allowed. 
+
+H. Comment on the comparison of the fit of the various candidate models.  
+
+---
+
+#### Part (G)
+
+We need to fit the three possible models with two variables each and compare the AIC 
+values:
+
+
+```r
+glm(claims ~ LY + NCD, family = poisson)$aic
+```
+
+```
+## [1] 23102.41
+```
+
+```r
+# 23102.41 
+glm(claims ~ age+LY, family = poisson)$aic
+```
+
+```
+## [1] 23125.08
+```
+
+```r
+# 23125.08 
+glm(claims ~ age+NCD, family = poisson)$aic
+```
+
+```
+## [1] 23131.97
+```
+
+```r
+# 23131.97 
+```
+
+Model LY + NCD has the smallest AIC value and should be preferred. 
+
+---
+
+#### Part (H)
+
+The AIC for model LY + NCD (23102) is slightly lower than the AIC for
+age + LY + NCD (23104), but the AIC values are very close. 
+We would prefer model LY + NCD as it also involves fewer variables (it is a smaller 
+model). 
+---
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
