@@ -59,24 +59,29 @@ The modeller wants to fit a GLM with the Claim_number as the response variable
 and is deciding whether to fit the GLM using a Poisson or Normal distribution. 
 
 ---
-(i) Fit a GLM, using a Normal distribution, that treats age as a numerical variable 
+
+#### Exercises 
+
+A. Fit a GLM, using a Normal distribution, that treats age as a numerical variable 
 and the remaining three covariates as factors, calling this model_g. Your 
 answer should include the estimated value, standard error and p-value of each 
 parameter in the model. 
----
 
-(ii) (a) Fit a GLM, using the Poisson distribution, that treats age as a 
+B.  Fit a GLM, using the Poisson distribution, that treats age as a 
 numerical variable and the remaining three covariates as factors, 
 calling this model_p. 
 Your answer should include the estimated value, standard error and 
 p-value of each parameter in the model. 
-(b) Justify which model the modeller should use, using your answers to 
+
+C. Justify which model the modeller should use, using your answers to 
 parts (i) and (ii)(a). 
 (c) Comment on the dependence of the number of reported claims on 
 Pre_existing_health_condition based on your answers to 
 parts (ii)(a) and (ii)(b). 
 
 ---
+
+#### Exercises 
 
 The modeller has fitted the GLM using a Poisson distribution and now wants to 
 investigate which of the three factors should be selected in the model, by using a 
@@ -88,14 +93,15 @@ considered:
 * model_p4: removes Gender, Pre_exisiting_health_condition and Region from <tt>model_p</tt> 
 ---
 
-(iii) Compare the values of the Akaike’s Information Criterion for the four models 
+D. Compare the values of the Akaike’s Information Criterion for the four models 
 <tt>model_p</tt>, <tt>model_p</tt>2, <tt>model_p</tt>3 and <tt>model_p</tt>4. 
 ---
 
-(iv) (a) Comment on your answer to part (iii). 
+E. Comment on your answer to part (iii). 
 (b) Comment on the differences between the process in part (iii) and the 
 full backward selection method. 
- [3] 
+
+---
 The modeller suggests refining the fitted GLM (<tt>model_p</tt>) by also including the 
 interactions between the variables: Age, Region and 
 Pre_existing_health_condition. 

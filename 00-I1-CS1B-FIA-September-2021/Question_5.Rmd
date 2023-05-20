@@ -60,15 +60,17 @@ to part (i).
 
 The standard assumptions for a two-sided test of the hypothesis of equal means in two 
 populations are that the populations: 
- (A1) follow Normal distributions 
- (A2) have equal variances. 
+
+* (A1) follow Normal distributions 
+* (A2) have equal variances. 
+
 The analyst suspects that those assumptions may not be satisfied, and they are 
 therefore interested in learning about the true significance level for such tests when 
 assumptions (A1) and (A2) do not necessarily hold. 
 With two independent samples, given a particular choice of the significance level, α, 
 the true significance level for a two-sided test of the hypothesis of equal means can be 
 calculated as 
-αtrue ൌ 𝑃ሺ|test statistic| ൒ critical pointሻ,
+$$αtrue ൌ 𝑃ሺ|test statistic| ൒ critical pointሻ,$$
 where the critical point is the α/2 quantile of an appropriate distribution.
 
 ---
@@ -84,13 +86,14 @@ n=20
 N=8000 
 nrej=0 
 for (i in 1:N) { # 
-x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # 
-ts=t.test(x, y, var.equal=TRUE)$stat # 
-df = n+m-2 # 
-if (abs(ts)>=qt(1-alpha/2, df)) # 
-nrej=nrej+1 # 
-} 
-alpha_est=nrej/N # 
+	x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # 
+	ts=t.test(x, y, var.equal=TRUE)$stat # 
+	df = n+m-2 # 
+	if (abs(ts)>=qt(1-alpha/2, df)) # 
+		nrej=nrej+1 # 
+	} 
+	alpha_est=nrej/N # 
+}
 ```
 
 Note that the code provided above lacks best practice of including appropriate 
@@ -129,17 +132,22 @@ parts (iv), (v)(a) and (v)(b), stating your conclusions.
 
 Q5
 (i)
+```{r}
 load("onebedflat.RData")
-t.stat = t.test(City1, City2, var.equal=TRUE)$stat [1½]
+t.stat = t.test(City1, City2, var.equal=TRUE)$stat
 t.stat
--6.010694 [½]
+```
+-6.010694 
+---
+
 (ii)
 The p-value of the test is:
-(pt(-6.010694, 48))*2 [1]
-So, the p-value is 2.414801e-07 . [1]
-The p-value is less than 1%, [1]
-therefore the flat prices are not the same for the two cities 
+(pt(-6.010694, 48))*2 
+So, the p-value is 2.414801e-07 . 
+The p-value is less than 1%, therefore the flat prices are not the same for the two cities 
 (iii)
+
+```{r}
 set.seed(123) # Set seed to allow replication of answers 
 alpha = 0.1
 m=20
@@ -157,3 +165,8 @@ nrej=nrej+1 # Count number of rejections
 }
 alpha_est=nrej/N # Compute estimated significance level as proportion of
 rejections when H0 is true
+```
+
+---
+
+---
