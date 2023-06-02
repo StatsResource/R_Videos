@@ -38,10 +38,14 @@ pre {
 
 ---
 
+### Regression Exercises
+
 Q. 1) An Actuarial student fits following simple regression model to the data
-yi = alpha + beta * xi + ei ; i =1 to 12
-where ei are independent normal random variables with mean 0 and variance sigma2
-Use following 12 data points for x and y 
+$$yi = alpha + beta * xi + ei $$ for $i =1 to 12$
+
+where $e_i$ are independent normal random variables with mean 0 and variance sigma2
+
+* Use following 12 data points for x and y 
 where y is response variable while x is explanatory variable
 
 ```{r]
@@ -54,25 +58,32 @@ predict, anova - to answer parts of this question.
 
 ---
 
-i) Calculate Sxx, Sxy and Syy. 
-ii) Calculate alpha, beta and sigma2
-using results in part (i). 
-iii) Calculate fitted values of y using results in part (ii). 
-iv) Calculate residuals using results of earlier parts and Calculate mean and variance of 
+
+### Exercises 
+A. Calculate Sxx, Sxy and Syy. 
+
+B. Calculate alpha, beta and sigma2
+using results in part (A). 
+
+C. Calculate fitted values of y using results in part (B).
+
+D. Calculate residuals using results of earlier parts and Calculate mean and variance of 
 residuals and comment on the result. 
-v) Calculate 95% confidence interval for beta and comment if we can conclude that beta 
-is not zero stating the Null and alternate hypothesis. Calculate 95% confidence interval 
-for sigma2
+
+E. Calculate 95% confidence interval for beta and comment if we can conclude that beta is not zero stating the Null and alternate hypothesis. Calculate 95% confidence interval 
+for sigma2. Note: Candidates are expected to find tabulated value using R.
 .
 
 --- 
  
-Note: Candidates are expected to find tabulated value using R. 
-vi) State SSTOT and Calculate SSREG and SSRES. Hence calculate the proportion of 
+ 
+
+F. State SSTOT and Calculate SSREG and SSRES. Hence calculate the proportion of 
 variability explained by the model using SSREG and SSRES and comment on the result. 
 Calculate adjusted R2
 and compare it with R^2 to explain result. 
-vii)Calculate mean predicted response when $x=52$ and 95% confidence interval for the 
+
+G. Calculate mean predicted response when $x=52$ and 95% confidence interval for the 
 same. Note: Candidates are expected to find tabulated value using R. 
 
 ---
@@ -82,7 +93,7 @@ same. Note: Candidates are expected to find tabulated value using R.
 
 ### Solution 1:
 
-#### PArt i) 
+#### PArt (A) 
 
 ```{r}
 x = c(5,10,15,20,25,30,35,40,45,50,55,60)
@@ -103,7 +114,7 @@ x_sq=x*x
 x_sq
 ```
 
-[1] 25 100 225 400 625 900 1225 1600 2025 2500 3025 3600
+
 ```{r}
 y_sq=y*y
 xy=x*y
@@ -229,6 +240,8 @@ var(e)*11/10
 
 ---
 
+### Part (E)
+
 v) 95% confidence interval for beta
 Ho: Beta is zero (i.e. no linear relationship between x and y)
 H1: Beta is not equal to zero
@@ -247,6 +260,7 @@ qt(p=0.025, lower.tail = T, df=10)
 ```
 
 Being symmetric distribution, 97.5% point would be 2.228139
+
 ```{r}
 sqrt(sigmasq/Sxx)
 ```
@@ -256,10 +270,10 @@ sqrt(sigmasq/Sxx)
 Hence, endpoints of CI would be
 
 ```{r}
-end1=beta+sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10)
+end1 <- beta+ (sqrt(sigmasq/Sxx)*qt(p=0.025, lower.tail = T, df=10))
 end1
-
 ```
+
 ---
 
 ```{r}
@@ -271,9 +285,9 @@ end2
 ```
 ---
 
-Hence 95% Confidence interval for beta is (0.5751, 0.8319)
-As confidence interval for beta does not include zero, we can reject null hypothesis (viz. beta=0) and 
-Hence, can conclude that beta is not equal to zero at 5% level.
+* Hence 95% Confidence interval for beta is (0.5751, 0.8319)
+* As confidence interval for beta does not include zero, we can reject null hypothesis (viz. beta=0) and 
+* Hence, can conclude that beta is not equal to zero at 5% level.
 95% CI for sigma^2
 (n-2)sigmacap^2/ sigma^2 ~ Chi sq distribution with 10 degrees of freedom
 
@@ -300,12 +314,15 @@ End points of CI would be
 
 ---
 
+```{r}
 sigmasqend1=(12-2)*sigmasq/chitenend1
 sigmasqend2=(12-2)*sigmasq/chitenend2
 sigmasqend1
-[1] 36.55907
+# [1] 36.55907
 sigmasqend2
-[1] 5.795307
+# [1] 5.795307
+```
+
 Hence 95% Confidence interval for sigma^2 is (5.795,36.559)
 
 ```
@@ -345,11 +362,11 @@ adj_Rsq
 
 ---
 
-* Adjusted R^2 (93.08%) is lower than R^2 (93.71%) as adjusted R square penalises for extra predictors 
+* Adjusted $R^2$ (93.08%) is lower than R^2 (93.71%) as adjusted R square penalises for extra predictors 
 and 
 hence is better suited to assess the adequacy of the model (or for comparison between models) 
 compared to just using R^2 for model comparison as 
-* R^2 cannot decrease on addition of more explanatory variables which can be undesirable (as it may 
+* $R^2$ cannot decrease on addition of more explanatory variables which can be undesirable (as it may 
 promote too many explanatory variables though not adding significant improvement in the predicted 
 value)
 
@@ -371,15 +388,22 @@ Emean52
 ---
   
 Expected value of mean predicted response is 47.718 when x=52
+
+```{r}
 varofmean52=((1/12)+(52-meanx)^2/Sxx)*sigmasq
 varofmean52
+```
+
 [1] 2.251822
+```{r}
 mean52end1=Emean52+qt(p=0.025, lower.tail = T, df=10)*sqrt(varofmean52)
 mean52end2=Emean52-qt(0.025,lower.tail = T, df=10)*sqrt(varofmean52)
 mean52end1
 [1] 44.37462
 mean52end2
 [1] 51.06174
+```
+
 Hence 95% confidence interval for the mean predicted response is (44.3746,51.0617)
 
 ---

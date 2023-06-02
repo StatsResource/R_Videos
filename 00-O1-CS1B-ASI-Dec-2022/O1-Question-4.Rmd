@@ -78,15 +78,18 @@ H 1 1 4
 I 0 1 4
 
 ---
-Let X denote number of matching draws for White Balls and Y denote number of matching 
+
+* Let X denote number of matching draws for White Balls and Y denote number of matching 
 draws for Power Ball. 
-Under the given circumstances, hyper-geometric distribution is considered suitable to 
+* Under the given circumstances, hyper-geometric distribution is considered suitable to 
 calculate probabilities.
-In R, probability of matching white balls / power ball using hyper-geometric distribution is 
+* In R, probability of matching white balls / power ball using hyper-geometric distribution is 
 determined using the dhyper function.
-For instance, under Case E, probability of matching 3 white balls is determined using the 
+* For instance, under Case E, probability of matching 3 white balls is determined using the 
 following code:
+```{r}
 dhyper(3,m=5,n=64,k=5)
+```
 Here the arguments of dhyper function can be explained as below –
 - x denotes the value of white balls to be matched.
 - m denotes the maximum number of successes.
@@ -117,8 +120,7 @@ e) Create a vector prize showing the prize money under cases A to I.
 
 f) Determine the total expected prize money pay-out using the joint probabilities 
 determined in part (i)(d) and the prize money vector created in part (i)(e). (2)
-IAI CS1B-1222
- Page 7 of 7
+
 g) Assuming that there are no other costs to the Government in operating the lottery 
 expect the prize money pay-out, calculate the profits, if any, implicit in the ticket 
 price. (1)
@@ -146,9 +148,11 @@ Solution 4:
 i) a) We define two data sets w_draw and r_draw corresponding to the white balls and red balls 
 to be matched for cases A to I. 
 R Code and Output:
+
+```{r}
 > w_draw <- c(5,5,4,4,3,3,2,1,0) # white balls to be matched corresponding to cases A to I
 > r_draw <- c(1,0,1,0,1,0,1,1,1) # red balls to be matched corresponding to cases A to I
-
+```
 ---
 
 ### Part B

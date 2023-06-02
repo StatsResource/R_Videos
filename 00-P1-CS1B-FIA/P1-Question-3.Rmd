@@ -1,0 +1,68 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3
+---
+
+
+3 The file <tt>heights.RData</tt> contains an R data frame (heights) that consists of a 
+random sample of heights of mothers (mother.height), fathers 
+(father.height) and their daughters (daughter.height) in inches. 
+
+#### Exercises
+
+(i) Draw a scatterplot for each pair of data. 
+(ii) Comment on the relationships between the pairs of data by referring to the 
+plots from part (i). 
+(iii) Fit a multiple linear regression model with the daughters’ height as the 
+response variable and mothers’ and fathers’ height as the explanatory 
+variables. Your answer should show a summary of the output and the fitted 
+equation. 
+
+---
+(iv) Assess the effect of each explanatory variable on the dependent variable by 
+referring to the R output from part (iii). [4] 
+(v) Plot the residuals of the model fitted in part (iii) using a graph that is 
+appropriate for checking if the estimated errors are independent of the 
+explanatory variables. [5] 
+(vi) Comment on the fit of the model by referring to the plot from part (v). 
+A suggestion is made that when the mother’s height is 61 inches and the father’s 
+height is 63 inches, their daughter’s height should be 67.5 inches. 
+(vii) Comment on whether this claim is likely by using an appropriate 95% 
+predictive interval of the daughter’s height based on the fitted model. 
+
+
+---

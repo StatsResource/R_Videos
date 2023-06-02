@@ -1,0 +1,70 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+2 Consider a sample of 1,000 insurance policies. For each policy, there is a record of 
+whether the policyholder has submitted at least one claim during the last 6-month 
+period, the age of the policyholder and the duration of the policy. The number of 
+policies, X, with one or more submitted claims is modelled as a random variable with 
+a Binomial distribution X ~ Binomial(1000, p). 
+(i) State the underlying assumptions that lead to the choice of a Binomial 
+distribution for X. [2] 
+Use the command load("CS1policies.Rdata") to load the observed data into 
+R. This will create a data frame called CS1policies with three entries in your R 
+workspace. You can check the names of the entries with names(CS1policies): 
+ age: age of the policyholder in years 
+ duration: duration of the policy in months 
+ claimed: takes the values 0 (no claim in 6-month period) or 1 (at least one claim 
+in 6-month period). 
+An Actuary wishes to fit different Generalised Linear Models (GLMs) to the data, 
+assuming that the number of policies with one or more submitted claims has a 
+Binomial distribution and the link function of the GLM is the logit function. 
+(ii) Fit a GLM to the data such that p depends on the age of the policyholder and 
+report the estimated parameter values. [5] 
+(iii) Fit a GLM to the data such that p depends on the duration of the policy and 
+report the estimated parameter values. [5] 
+(iv) Compare the fit of the models in parts (ii) and (iii) using the deviance and 
+the Akaike’s Information Criterion (AIC). [3] 
+(v) Fit a GLM to the data, such that p depends on both the age of the policyholder 
+and the duration of the policy, and report the estimated parameter values. [5] 
+(vi) Comment on which of the three models in parts (ii), (iii) and (v) is most 
+appropriate, justifying your answer. [2] 
+ [Total 22] 
+ 
+CS1B A2023–4 

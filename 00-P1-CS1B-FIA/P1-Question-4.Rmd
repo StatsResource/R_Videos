@@ -1,0 +1,103 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+4 The table below shows the total claim amounts (£1,000s) per year, Xij, over a 5-year 
+period for five insurance companies’ critical illness book of business. 
+Year, j 
+2016 2017 2018 2019 2020 
+Insurance 
+company, i
+A 5,000 2,720 3,170 2,950 6,300 
+B 3,680 3,360 3,900 2,910 8,020 
+C 880 800 550 620 1,890 
+D 6,150 3,880 5,780 5,220 7,100 
+E 1,100 970 1,900 2,300 3,430 
+---
+
+The data can be entered into R in matrix form using the following code: 
+claims <- 
+matrix(c(5000,3680,880,6150,1100,2720,3360,800,3880,970, 
+3170,3900,550,5780,1900,2950,2910,620,5220,2300,6300, 
+8020,1890,7100,3430),nrow=5,ncol=5) 
+
+
+(i) Calculate, using Empirical Bayes Creditability Theory (EBCT) Model 1, the 
+following: 
+(a) Eሾmሺϑሻሿ [2] 
+(b) Varሾmሺϑሻሿ [3] 
+(c) Eሾs2ሺϑሻሿ [2] 
+
+---
+
+(ii) Calculate the expected claim amount for Company E, using your answers from 
+part (i). [3] 
+The table below shows additional information that has been provided showing the 
+number of claims, Pij, over a 5-year period for the five insurance companies. 
+Year, j 
+2016 2017 2018 2019 2020 
+Insurance 
+company, i
+A 580 540 490 500 650 
+B 440 460 360 390 510 
+C 180 160 170 120 220 
+D 990 1,000 880 930 1,100 
+E 210 200 175 170 130 
+The data can be entered into R in matrix form using the following code: 
+```{r}
+volumes <- 
+matrix(c(580,440,180,990,210,540,460,160,1000,200,490, 
+360,170,880,175,500,390,120,930,170,650,510,220, 
+1100,130),nrow=5,ncol=5) 
+```
+
+---
+
+(iii) Calculate, using EBCT Model 2, the following: 
+(a) Eሾmሺϑሻሿ [7] 
+(b) Varሾmሺϑሻሿ [4] 
+(c) Eሾs2ሺϑሻሿ [3] 
+(iv) Calculate the expected claim amount for Company E, using your answers from 
+part (iii), assuming that the number of claims for Company E in the following 
+year remains at 130. [3] 
+(v) Comment on the difference between models EBCT Model 1 and EBCT 
+Model 2 applied in earlier parts, by comparing your answers in parts (ii) 
+and (iv). [2] 
+ [Total 29] 
+END OF PAPER 

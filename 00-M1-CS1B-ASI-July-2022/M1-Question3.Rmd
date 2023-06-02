@@ -64,8 +64,12 @@ Solution 3:
 i)
 H0: Annual average rainfall of Belgium and Iran are same
 H1: Annual average rainfall of Belgium and Iran are not same
+
 Iran <- c(128,125,133,104,146,132,125,118,129,124)
 Belgium <- c(160,128,169,105,151,164,162,177,185,150,182,158,156,123,141,176,162,172)
+
+---
+
 var.test(Iran, Belgium)
 F test to compare two variances
 data: Iran and Belgium
@@ -96,15 +100,27 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
 mean of x mean of y 
 126.4000 156.7222
+---
+
+#### Conclusion
+
 Since, P-value<0.05 we reject the null hypothesis and can conclude that both cities have different amount 
 of rainfall with 95% confidence.
 
 ---
+
+### Exercise C
+
 iii) Confidence interval can be read from part b
 95 percent confidence interval:
 -42.79403 -17.85041
-[2]
-iv) The confidence interval (-42.8,-17.8) does not contain 0, therefore the assumption of equal means is 
+
+---
+
+### Exercise D
+
+* The confidence interval (-42.8,-17.8) does not contain 0. 
+* Therefore the assumption of equal means is 
 not true. This result is in line with the conclusion in part (b). 
-[3]
-[17 Marks]
+
+---

@@ -1,0 +1,58 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+1 (i) Simulate 10,000 values from a N(0,1) distribution using an appropriate R 
+command. You should save the generated values in R for later use. [1] 
+(ii) Simulate 10,000 values from a χ4
+2 distribution using an appropriate R 
+command. You should save the generated values in R for later use. [2] 
+(iii) Discuss the main disadvantage of using the inverse transform method for 
+simulating values from a chi-square distribution. [3] 
+(iv) Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
+and (ii), explaining your answer. 
+You should save the generated values in R for later use. [5] 
+(v) Simulate 10,000 values from a t20 distribution by modifying your R code from 
+parts (i), (ii) and (iv) where necessary. 
+You should save the generated values in R for later use. [5] 
+(vi) Demonstrate an important property of the t distribution by presenting and 
+comparing two appropriate plots of the values simulated in parts (iv) and (v). 
+ [6] 
+ [Total 22] 
+CS1B A2023–3 

@@ -2,21 +2,24 @@ O1-Question-1.Rmd
 
 Q. 1) The Gym instructor participated in global survey of weights used for biceps curl machine. 
 You are required to help him analyse the data to share the results.
-i) Load the data “weights.csv” into R and print the summary of the data. (2)
-ii) Obtain a 90% confidence interval for the standard deviation of weights lifted by Males
+
+#### Exercises
+
+A. Load the data “weights.csv” into R and print the summary of the data. (2)
+B. Obtain a 90% confidence interval for the standard deviation of weights lifted by Males
 (M). (3)
-iii) Assuming that the weights follow normal distribution with mean and standard deviation 
+C. Assuming that the weights follow normal distribution with mean and standard deviation 
 of data provided for Males.
 Test the Hypothesis that µ=12 kgs in R and obtain the p-value using pnorm or 
-otherwise. (3)
-iv) Further, assuming that the weights follow normal distribution with mean and standard 
+otherwise. 
+D. Further, assuming that the weights follow normal distribution with mean and standard 
 deviation of data provided for Females (F).
-Test the Hypothesis that µ=7 kgs in R and obtain the p-value using pnorm or otherwise. (4)
-v) Additionally, generate datasets for Males and Females of size 10. Use set.seed(2022)
+Test the Hypothesis that $\mu=7$ kgs in R and obtain the p-value using <tt>pnorm()</tt> or otherwise.
+E. Additionally, generate datasets for Males and Females of size 10. Use set.seed(2022)
 to set seed value for generating sample data. 
 Perform paired t test to test the hypothesis that average weights used by Females are 5 
 kgs less than weights used by Males.
-Comment whether average weights used by Females is less than 5kgs or not. (4)
+Comment whether average weights used by Females is less than 5kgs or not. 
 
 
 #################################################################################
@@ -32,9 +35,16 @@ Mode :character Median :10.00 Median :17.00
  Max. :16.00 Max. :34.00
 (1)
 (1)
-[2]
-ii) > weight_M <- subset(data$Weights, data$Gender == "M" , select = c(data$Weights), drop = 
+
+---
+
+ii) > 
+
+```{r}
+weight_M <- subset(data$Weights, data$Gender == "M" , select = c(data$Weights), drop = 
 FALSE)
+```
+
 Alternate:
 M_subset<-data[data$Gender=="M",]
 weight_M <- M_subset$Weights
@@ -51,8 +61,11 @@ Marks given for other valid alternate solutions.
 (0.5)
 (0.5)
 (1)
-[3]
+---
+
 iii) > mum<-12
+
+```{r}
 > xbarm <-mean(weight_M)
 > nm <- length(weight_M)
 > Statisticm <- ((xbarm-mum)/(sm/sqrt(nm)))
@@ -61,6 +74,10 @@ iii) > mum<-12
 > 1- pnorm(Statisticm)
 [1] 0.0004905918
 p- value <5%, there is no significant evidence to accept the null hypothesis
+```
+
+---
+
 Alternate:
 One Sample t-test
 data: weight_M
@@ -72,15 +89,8 @@ sample estimates:
 mean of x 
 12.73148
 p- value = .001332 <5%, there is no significant evidence to accept the null hypothesis
-(0.5)
-(0.5)
-(0.5)
-(1)
-(1)
-[Max 3]
-(2)
-(0.5)
-(1)
+
+---
 [Max 3]
 iv) > weight_F <- subset(data$Weights, data$Gender == "F" , select = c(data$Weights), drop = 
 FALSE)
@@ -100,6 +110,8 @@ IAI CS1B-1222
 [1] 3.517459
 > pnorm(Statisticf)
 [1] 0.0002178499
+
+---
 p- value <5%, there is no significance evidence to accept the null hypothesis
 Alternate:
 F_subset<-data[data$Gender=="F",]
@@ -116,16 +128,11 @@ mean of x
 7.703704
 The required p value is 0.0006407.
 p- value <5%, there is no significance evidence to accept the null hypothesis
-(0.5)
-(0.5)
-(0.5)
-(0.5)
-(0.5)
-(1)
-(1)
-(2)
-(1)
-[Max 4]
+
+----
+
+### Part (E)
+
 v) > set.seed(2022)
 > male<-c(rnorm(10,mum,sm))
 > female<-c(rnorm(10,muf,sf))
@@ -143,17 +150,10 @@ alternative hypothesis: true mean difference is less than 5
 sample estimates:
 mean difference 
  3.684693
+
+---
+
 Since p-value >5%,there is no strong evidence to reject null hypothesis
 The average weights used by females is 3.7kg lesser than weights used by male
-(1)
-(0.5)
-(2)
-(0.5)
-(0.5)
-[Max 4]
-IAI CS1B
--1222
- Page
-4 of 13
-[16 Marks
-]
+
+---

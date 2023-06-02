@@ -34,57 +34,35 @@ pre {
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
 
-* Question 4
+* Question 3
 
 ---
 
-[24]
-Q. 3) A company wants to launch a new product PA to provide special health cover. Under this 
-health cover, the company will pay customer INR 5000 for each claim. They have asked an 
-Actuary to derive price for the product for different segment of customers.
-The Actuary has collected a sample data, named “PA_Data”, for 20 customers showing 
+### Health Cover
+
+A company wants to launch a new product PA to provide special health cover. 
+* Under this health cover, the company will pay customer INR 5000 for each claim. 
+* They have asked an Actuary to derive price for the product for different segment of customers.
+* The Actuary has collected a sample data, named “***PA_Data***”, for 20 customers showing 
 number of claims (Claim) made by each customer along with the Gender, Age and Health
-condition (Diabetic or not) of the customer. 
-Actuary assumes that the response variable – number of claims (Claim) follows Poisson 
+condition (Diabetic or not) of the customer.
+* Actuary assumes that the response variable – number of claims (Claim) follows Poisson 
 distribution. 
+
+---
+
+### Exercises
 i) Load the “PA_Data” datset and fit the Poisson Generalised Linear Model (GLM) to 
 the dataset, specified by the following parameter of R code for GLM: 
 Claim ~ Gender*Health + Age
- Include summary of the fitted model and label the model as Model1. (4)
+ Include summary of the fitted model and label the model as Model1. 
 ii) Write down the linear predictor for the model given in part (i) (i.e. Model1). Explain 
 all the terms clearly. (3)
 iii) Comment on the significance of the parameters of the fitted model in part (i) (i.e. 
-Model1). Also state the scaled deviance and compute Log Likelihood of the model. (4)
-iv) Fit another model (labelled as Model2) specified by following R code:
- Claim~Health+Age
- Demonstrate that Model2 outperforms the model defined in part (i). (2)
-v) Examine the significance of Model2 and fit an improved model. Label this model as 
-Model3. Also justify why Model3 is an improvement. (5)
-vi) Compute the price for the product for below customers using Model2.
-Note that Price is equal to expected aggregate claim amount per customer. (In other 
-words, expected claim amount * expected number of claims) 
-Customer Age Health Gender
-Student1 30 Diabetic Male
-Actuary2 50 Non-Diabetic Female
-Which customer price will be higher under the models. Provide the reason for the same. (7)
+Model1). Also state the scaled deviance and compute Log Likelihood of the model. 
 
 ---
 
-Company is planning modification to the product to make it affordable and attractive. Under 
-this modification, INR 6000 will be paid for 1st claim and then INR 4000 for 2nd claim 
-onwards. 
-Hint: Under this product, essentially INR 4000 amount is paid for each claim plus additional 
-INR 2000 amount if there are claim(s). 
-vii)
-a) Compute the price under this modification for Student1 and Actuary2 (as per details 
-given in part (vi) for Model3.
-b) Compare and explain why price for Student1 is lower for modified product whereas 
-for Actuary2 is higher.
-(6) 
-(2)
-[33]
-
----
 
 [24 Marks]
 Solution 3:
@@ -135,34 +113,47 @@ Alt: 0.17452 + .06235X1 -1.31680X2 + .02248X3 -.10401X1X2
 (0.5)
 (0.5)
 [Max 3]
-IAI CS1B-1222
- Page 8 of 13
-iii)
-iv)
-v)
+
+
+---
+
+### Part (C)
+
 > #iii.
-> # Gender is not significant
-> # Health Condition is significant
-> # Age is not significant
-> # Interaction term between Gender and Health condition is not significant
+
+* Gender is not significant
+*  Health Condition is significant
+* Age is not significant
+*  Interaction term between Gender and Health condition is not significant
+
 > #Scaled deviance = 13.179
 > #AIC = - 2LogL(Model) + 2*Parameters
 > #LogL(Model) = Parameters - AIC/2 
 > 
-> L<- 4- model1$aic/2
-> L
-[1] -27.07302
-> 
-> #Log Likelihood of Model1 is -27.07302
 
 ---
 
-> #iv.
-> model2<-glm(Claim~Health+Age,family=poisson(lin="log"),data=PA)
-> 
-> model2$aic < model1$aic
-[1] TRUE
-> # Model 2 AIC is lower than Model 1 showing Model2 outperforms Model1
+```{r}
+L<- 4- model1$aic/2
+L
+# [1] -27.07302
+```
+Log Likelihood of Model1 is -27.07302
+
+---
+
+### Part (C)
+
+```{r}
+model2<-glm(Claim~Health+Age,family=poisson(lin="log"),data=PA)
+
+model2$aic < model1$aic
+
+# Model 2 AIC is lower than Model 1 showing Model2 outperforms Model1
+```
+
+---
+
 > #v.
 > summary(model2)
 Call:
@@ -183,9 +174,51 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 Residual deviance: 13.201 on 17 degrees of freedom
 AIC: 58.168
 Number of Fisher Scoring iterations: 5
-> #Age is not significant and thus can be dropped to improve the model
+
+Age is not significant and thus can be dropped to improve the model
 Give full marks in case reached to same conclusion using alternate methods.
 (0.5)
+
+
+
+
+---
+
+
+iv) Fit another model (labelled as Model2) specified by following R code:
+ Claim~Health+Age
+ Demonstrate that Model2 outperforms the model defined in part (i). (2)
+v) Examine the significance of Model2 and fit an improved model. Label this model as 
+Model3. Also justify why Model3 is an improvement. (5)
+vi) Compute the price for the product for below customers using Model2.
+Note that Price is equal to expected aggregate claim amount per customer. (In other 
+words, expected claim amount * expected number of claims) 
+Customer Age Health Gender
+Student1 30 Diabetic Male
+Actuary2 50 Non-Diabetic Female
+Which customer price will be higher under the models. Provide the reason for the same. (7)
+
+---
+
+
+### Exercises
+
+Company is planning modification to the product to make it affordable and attractive. Under 
+this modification, INR 6000 will be paid for 1st claim and then INR 4000 for 2nd claim 
+onwards. 
+Hint: Under this product, essentially INR 4000 amount is paid for each claim plus additional 
+INR 2000 amount if there are claim(s). 
+vii)
+a) Compute the price under this modification for Student1 and Actuary2 (as per details 
+given in part (vi) for Model3.
+b) Compare and explain why price for Student1 is lower for modified product whereas 
+for Actuary2 is higher.
+(6) 
+(2)
+[33]
+
+---
+
 (1)
 (0.5)
 (0.5)
@@ -203,8 +236,11 @@ Give full marks in case reached to same conclusion using alternate methods.
 #### Part 6
 
 vi)
+```{r}
 > model3<-glm(Claim~Health,family=poisson(lin="log"),data=PA)
+
 > summary(model3)
+```
 Call:
 glm(formula = Claim ~ Health, family = poisson(lin = "log"), 
  data = PA)
@@ -227,6 +263,9 @@ Number of Fisher Scoring iterations: 5
 > 
 > # Under Model 3. AIC reduced from 58.17 to 57.40
 > 
+
+---
+
 > #vi.
 > Student1<- data.frame(Gender ="M",Health ="Diabetic",Age=30)
 > Actuary2<- data.frame(Gender ="F",Health ="NonDiabetic",Age=50)
@@ -270,13 +309,16 @@ Number of Fisher Scoring iterations: 5
 vii) a)
  b)
 > #vii. a.
-> 
+
+```{r}
 > Student1_mean=predict.glm(model3,newdata = Student1,type= "response")
 > Actuary2_mean=predict.glm(model3,newdata = Actuary2,type= "response")
 > 
 > #price in case of modified product is
 > # 4000* expected number of claims + 2000 * probability of 1 or more claim.
-> 
+
+```
+
 > #price of Student1:
 > 
 > #compute probability of 0 
@@ -299,19 +341,11 @@ vii) a)
 > # for Student1, reduction of payment lead to more saving than 
 > # extra payment for 1st claim and thus, less price
 > 
+
+---
+
 > Actuary2_mean
  1 
 0.75 
 > #Whereas for Actuary2, expected claims are 0.75 close to 1.
 > #thus, more payment expected for Actuary2 resulting in higher price.
-(0.5)
-(0.5)
-(0.5)
-(1.5)
-(2)
-(1)
-(1)
-[Max 6]
-(1)
-(1)
-[Max 2]

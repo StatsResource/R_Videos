@@ -70,9 +70,13 @@ b) He also feels that changes in interest rates lead to equal and opposite effec
 the profits of the real estate sector and financial services sector. Thus, he is also 
 contemplating a perfect negative correlation between returns from PQR Realty 
 and LMN Bank. 
+---
+
 Calculate a 95% two-sided confidence interval for the population correlation coefficient for 
 the above two pairs using Pearson’s Method and hence test the validity of the investor’s 
 premonitions. [Hint: Use cor.test function in R] (4)
+
+--- 
 The investor is considering two alternative investment strategies for setting up his portfolio 
 as follows –
 Strategy A: Investing 50% of his funds in ABC Oil and balance 50% in XYZ Airways.
@@ -83,6 +87,9 @@ Metric 1: Strategy with highest Mean Returns would be selected.
 Metric 2: Strategy with lowest Risk (Lowest Standard Deviation) would be selected.
 Metric 3: Strategy with highest “Risk-Adjusted Returns” would be selected.
 Risk-Adjusted Return = (Mean Return)/(Standard Deviation of Return)
+
+---
+
 iv) Calculate the mean return for the above two strategies. Which strategy will be chosen 
 based on Metric 1 i.e. highest Mean Returns? (2)
 v) Investor feels that both the strategies are equally risky. Using var.test function in R 
@@ -91,6 +98,9 @@ of returns from Strategy B at 10% level of significance. Your answer should clea
 mention the null and alternate hypothesis, the p-value and the outcome of the test. 
 [Hint: Create two new vectors for strategies A and B using the proportions given 
 earlier.] (4)
+
+---
+
 Investor has come up with an alternative formula to calculate the standard deviation of both 
 the strategies which is dependent on the correlation coefficients calculated in part (iii). 
 Using this formula, Standard deviation for a portfolio of two stocks 1 and 2 is to be 
@@ -146,18 +156,22 @@ i
 > print(abc_mean)
 [1]
 -1.5
+
+--- 
+
 > print(pqr_mean)
 [1] 7.3
 > print(xyz_mean)
 [1] 3.8
 > print(lmn_mean)
 [1] 10.5
-> 
-> abc_sd = sd(abc)
-> xyz_sd = sd(xyz)
-> pqr_sd = sd(pqr)
-> lmn_sd = sd(lmn)
-> 
+
+```{r} 
+abc_sd = sd(abc)
+xyz_sd = sd(xyz)
+pqr_sd = sd(pqr)
+lmn_sd = sd(lmn)
+```
 > print(abc_sd)
 [1] 11.00757
 > print(pqr_sd)
@@ -165,7 +179,11 @@ i
 > print(xyz_sd)
 [1] 10.46476
 > print(lmn_sd)
-[1] 5.190804 [Max 5]
+[1] 5.190804 
+
+
+---
+
 ii
 )
 > r_abc_xyz = cor(abc,xyz)
@@ -191,8 +209,9 @@ ii
 [1]
 -0.08393819
 [3]
-IAI CS1B-1222
- Page 5 of 13
+
+---
+
 iii)
 > cor.test(abc,xyz,method="pearson",alternative="two.sided",conf.level = 0.95)
 Pearson's product-moment correlation
@@ -214,17 +233,18 @@ alternative hypothesis: true correlation is not equal to 0
 sample estimates:
  cor
 -0.08393819
+
+---
+
 Confidence interval for correlation coefficient between returns of ABC Oil and XYZ Airways is 
 (-0.84,0.26). Since it does not contain -1, we can say that there is no possibility of a perfect 
 negative correlation at 5% level of significance. 
 Confidence interval for correlation coefficient between returns of PQR Realty and LMN Bank 
 is (-0.68,0.58). Since it does not contain -1, we can say that there is no possibility of a perfect 
 negative correlation at 5% level of significance. 
-(1)
-(1)
-(1)
-(1)
-[4]
+
+---
+
 iv)
 > pABC = 0.50
 > pXYZ = 0.50
@@ -246,7 +266,9 @@ returns is the metric to be targeted.
 v) H0: Variance of Returns from Strategy A = Variance of Returns from Strategy B
 H1: Variance of Returns from Strategy A ≠ Variance of Returns from Strategy B
 (1)
-IAI CS1B-1222
+
+---
+
  Page 6 of 13
 > var.test(x=strat_A,y=strat_B,conf.level = 0.90)
 F test to compare two variances
@@ -258,6 +280,9 @@ alternative hypothesis: true ratio of variances is not equal to 1
 sample estimates:
 ratio of variances
  0.3585634
+ 
+---
+
 Since the p-value 0.1426 > 10%, we have sufficient evidence to accept the null hypothesis at 
 the 10% level of significance. Hence, the investor’s assumption of the two strategies being 
 equally risky seems reasonable. 
