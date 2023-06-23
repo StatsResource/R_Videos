@@ -56,6 +56,8 @@ ARMA(1,1)
 ARMA(2,0) 
   
 ---
+
+#### Exercises
 (iv) Explain, using the results from part (iii), which of the fitted models is the most 
 appropriate for modelling the data set x. [2] 
 (v) Comment on your answer to part (iv). 
@@ -76,9 +78,15 @@ x and y in parts (iv) and (ix), respectively.
 
 ---
 Q2
+
+```{r}
 set.seed(12456)
 x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
+
+```
 (i)
+
+```{r}
 acf(x, 
 main = "Sample ACF of 100 Simulated Values from an ARMA(2,0) 
 model") 
@@ -86,8 +94,11 @@ model")
 pacf(x, 
 main ="Sample PACF of 100 Simulated Values from an
 ARMA(2,0) model”) 
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+```
+
 ---
+
+
 
 (ii)
 EITHER:
@@ -97,8 +108,8 @@ OR:
 The ACF decreases to zero more slowly than might be expected from an ARMA(2,0)
 process 
 THEN:
-But the PACF seems to cut off after lag 1. 
-We might expect the PACF of an ARMA(2,0) process to cut off after lag 2 
+* But the PACF seems to cut off after lag 1. 
+* We might expect the PACF of an ARMA(2,0) process to cut off after lag 2 
 However, given the small sample size and the fact that this process is close to being nonstationary, the two plots are not out-of-line with expectations. 
 
 ---

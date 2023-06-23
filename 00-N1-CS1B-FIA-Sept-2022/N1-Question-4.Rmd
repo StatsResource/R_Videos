@@ -56,6 +56,10 @@ job.type 1 = geneticist, 2 = civil engineer, 3 = statistician,
 job.location Big city = 0, small city = 1 
 age Age in years 
 experience Relevant job experience in years 
+
+---
+
+
 (i) Write down the categorical and the numerical variables in the data. [2] 
 (ii) Plot a scatter graph between each pair of the numerical variables using your 
 answer to part (i). [3] 
@@ -68,6 +72,10 @@ below 9.86 is significantly different from the proportion of female
 employees with current salary below 9.86. [11] 
 [Hint: salary.current[gender==0] gives a vector of current salary for 
 males.] 
+
+---
+
+
 (v) Determine the median, mean and variance of the current yearly salary for each 
 of the job types in job.type. [6] 
 [Hint: salary.current[job.type==1] gives a vector of current 
@@ -77,9 +85,8 @@ current salary are significantly different.
 (b) Test at the 5% level whether the mean current salary for big-city 
 employees is greater than the mean current salary for small-city 
 employees. 
- [10] 
- [Total 37] 
-END OF PAPER 
+
+---
 
 
 Q4
@@ -87,8 +94,7 @@ Q4
 load("employee.RData")
 (i)
 Categorical variables: gender, job.type and job.location 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
-CS1B S2022 © Institute and Faculty of Actuaries
+
 Numerical variables: salary.current, salary.start, age and experience 
 (ii)
 Scattergraphs between each pair of continous variables:
@@ -97,6 +103,8 @@ age, experience)
 pairs(data_continuous) 
 or 
 plot(data_continuous)
+
+---
 
 (iii)
 The first column shows the relationship between salary.current and the other continuous 
@@ -107,9 +115,7 @@ there appears to be a weak negative linear relationship between current salary a
 employee age and the employee experience 
 age has an increasing relationship with salary at the very start but then it becomes 
 unclear 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
-CS1B S2022 © Institute and Faculty of Actuaries
-[Marks available 3, maximum 2]
+
 
 ---
 
@@ -126,6 +132,11 @@ mean(salary.current)
 summary(salary.current)
 Min. 1st Qu. Median Mean 3rd Qu. Max.
 8.780 9.175 9.365 9.478 9.863 10.630
+
+
+---
+
+
 (b) 
 We use the following notation:
 p1: proportion of male employees with current salary values below 9.86 

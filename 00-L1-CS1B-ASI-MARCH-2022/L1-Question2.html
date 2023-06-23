@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## Introduction to R for Actuarial Students
+]
 
 ---
 
@@ -71,10 +75,11 @@ normal distribution
 ---
 
 #### Exercises
-vii)Assuming the log amount (i.e. log of claim amount) follows a Normal distribution, test 
+7. Assuming the log amount (i.e. log of claim amount) follows a Normal distribution, test 
 if mean of log amount is greater than 10 at 90% level of confidence. State the 
 hypothesis and conclusion clearly. 
-viii) Assess whether the policyholder experience (i.e. ***Cust_Exp***) changes with more 
+
+8. Assess whether the policyholder experience (i.e. ***Cust_Exp***) changes with more 
 number of claims. Create contingency table and perform test to check the above 
 assertion. State the hypothesis clearly. 
 
@@ -142,9 +147,27 @@ table(policydata$Claim)
 ```
 
 ---
+
+```r
 #Alternative, if dplyr installed
-#count(policydata,Claim)
+count(policydata,Claim)
+```
+
+```
+##   Claim   n
+## 1     0 458
+## 2     1 149
+## 3     2  36
+## 4     3   7
+```
+
+```r
 print("458 Policies don't have any claim")
+```
+
+```
+## [1] "458 Policies don't have any claim"
+```
 [1] "458 Policies don't have any claim"
 
 ii)
@@ -153,7 +176,7 @@ ii)
 hist(policydata$Claim)
 ```
 
-![](L1-Question2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](L1-Question2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ```r
 #poisson and negative binomial distribution
@@ -251,7 +274,7 @@ qqnorm(lx)
 qqline(lx)
 ```
 
-![](L1-Question2_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+![](L1-Question2_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
 vi)
@@ -462,6 +485,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

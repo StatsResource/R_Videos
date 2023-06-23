@@ -36,7 +36,7 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-CS2B A2022–4 
+
 3 An international pensions provider is interested in quantifying the force of mortality at 
 certain ages for a particular country, for the period from 1 January 2017 through to 
 1 January 2020. The ‘CS2B_A22_Qu_3_Data.csv’ file contains mortality data from a 
@@ -107,6 +107,8 @@ read.csv(file = "CS2B_A22_Qu_3_Data.csv", head = TRUE)
 ```
 
 ---
+
+```{r}
 graduation$zx1 = (graduation$Deaths - graduation$Exposure * 
 graduation$Graduation1) / sqrt(graduation$Exposure * 
 graduation$Graduation1) [1½]
@@ -117,10 +119,11 @@ graduation$Graduation2)
 graduation$zx3 = (graduation$Deaths - graduation$Exposure * 
 graduation$Graduation3) / sqrt(graduation$Exposure * 
 graduation$Graduation3) 
+```
 
 ---
 
-
+```{r}
 head(graduation[, 7:9], 7) 
  zx1 zx2 zx3
 1 -0.4532486 2.08008602 0.077224448
@@ -130,7 +133,11 @@ head(graduation[, 7:9], 7)
 5 0.5517038 0.72246846 0.351202375
 6 0.2811644 -0.07163144 0.002057777
 7 -0.5559179 -1.34146800 -0.839474197 
+```
+
 ---
+
+```{r}
 (ii)
 EITHER:
 ```{r}
@@ -139,7 +146,10 @@ chisq = sum(graduation$zx1^2)
 chisq[2] = sum(graduation$zx2^2) 
 chisq[3] = sum(graduation$zx3^2)
 ```
---- 
+
+---
+
+```{r} 
 df = c(36, 37, 35) 
 1 - pchisq(chisq, df = df) [1½]
  7.002971e-02 5.582300e-08 7.128381e-02 
@@ -156,8 +166,12 @@ chisq3 = sum(graduation$zx3^2)
 THEN:
 The p-value for graduation 1 is 0.07003
 The p-value for graduation 2 is 5.582e-08
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
+```
+
 ---
+
+```{r}
+
 The p-value for graduation 3 is 0.07128 
 
 ---
@@ -192,6 +206,12 @@ pos
 neg 
  19 21 20 
 OR:
+
+```
+
+---
+
+```{r}
 pos1 = length(graduation$zx1[graduation$zx1 0]) 
 pos2 = length(graduation$zx2[graduation$zx2 0]) 
 pos3 = length(graduation$zx3[graduation$zx3 0]) 
@@ -226,7 +246,11 @@ pos_z = (graduation[, j + 6] 0) * 1
 groups[j] = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
- [3½]
+```
+
+---
+
+```{r}
 + pos_z * 1} [2]
 groups 
  11 5 11 
@@ -237,6 +261,12 @@ sum(
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
  [3½]
 + pos_z * 1 [2]
+
+```
+
+---
+
+```{r}
 pos_z = (graduation$zx2 0) * 1
 groups2 =
 sum(

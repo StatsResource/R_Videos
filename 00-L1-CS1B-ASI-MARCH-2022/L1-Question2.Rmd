@@ -71,10 +71,11 @@ normal distribution
 ---
 
 #### Exercises
-vii)Assuming the log amount (i.e. log of claim amount) follows a Normal distribution, test 
+7. Assuming the log amount (i.e. log of claim amount) follows a Normal distribution, test 
 if mean of log amount is greater than 10 at 90% level of confidence. State the 
 hypothesis and conclusion clearly. 
-viii) Assess whether the policyholder experience (i.e. ***Cust_Exp***) changes with more 
+
+8. Assess whether the policyholder experience (i.e. ***Cust_Exp***) changes with more 
 number of claims. Create contingency table and perform test to check the above 
 assertion. State the hypothesis clearly. 
 
@@ -123,9 +124,11 @@ table(policydata$Claim)
 ```
 
 ---
+```{r}
 #Alternative, if dplyr installed
-#count(policydata,Claim)
+count(policydata,Claim)
 print("458 Policies don't have any claim")
+```
 [1] "458 Policies don't have any claim"
 
 ii)
