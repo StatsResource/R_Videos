@@ -51,22 +51,44 @@ responses to the new product.
 (i) Identify the distribution of X and its parameters.  
 Out of 160 clients who responded independently to the survey, 101 gave a positive 
 response for the new product. 
+
+---
+
+Q2
+(i)
+𝑋𝑋 follows a Binomial (𝑛𝑛, 𝜃𝜃) distribution, where 𝑛𝑛 is the number of clients surveyed 
+and 𝜃𝜃 is the probability of getting a positive approval of the product from a client 
+CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
+
+
 The probability of obtaining a positive response for the product is denoted by θ and a 
 Beta prior distribution with parameters ሺα, βሻ is assumed for θ. The posterior 
 distribution of θ is proportional to: 
 fሺθ|xሻ ∝ θx + α –1ሺ1 – θሻn – x + β – 1, 
 where x is the number of positive responses obtained out of n clients surveyed. 
-(ii) Specify the posterior distribution of θ with its parameters. [2] 
+(ii) Specify the posterior distribution of θ with its parameters. 
 (iii) Comment on the prior distribution of θ in relation to the posterior distribution. 
+  
+---
+
+(ii)
+The posterior distribution of 𝜃𝜃 is Beta with parameters
+𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and 𝑛𝑛 − 𝑥𝑥 + 𝛽𝛽 = 59 + 𝛽𝛽 . 
+(iii)
+The prior and posterior are of the same family. So, we have a conjugate prior 
   
 ---
   
 (iv) State the parameter values for which the prior is a Uniform(0, 1) distribution. 
   
 (v) (a) Plot the prior density of θ with the parameters obtained in part (iv). Set 
-the maximum limit of the y axis to 12. [2] 
+the maximum limit of the y axis to 12. 
 (b) Plot the posterior distribution of θ on the same graph as above. 
 [Hint: you may find the lines function useful.] 
+
+---
+
+
 An Analyst consulted by the company suggests that based on previous experience, a 
 Beta prior with parameters ሺ40, 24ሻ is more appropriate. 
 (vi) Plot the new prior and posterior distributions of θ on the same graph from 
@@ -84,25 +106,13 @@ is, Uniform(0, 1) and Beta with parameters (40, 24). [4]
 CS1B S2022–4 
 
 
----
-
-Q2
-(i)
-𝑋𝑋 follows a Binomial (𝑛𝑛, 𝜃𝜃) distribution, where 𝑛𝑛 is the number of clients surveyed 
-and 𝜃𝜃 is the probability of getting a positive approval of the product from a client 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
-CS1B S2022 © Institute and Faculty of Actuaries
-(ii)
-The posterior distribution of 𝜃𝜃 is Beta with parameters
-𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and 𝑛𝑛 − 𝑥𝑥 + 𝛽𝛽 = 59 + 𝛽𝛽 . [2]
-(iii)
-The prior and posterior are of the same family. So, we have a conjugate prior 
 
 ---
 
 (iv)
 Beta(1, 1) is the same as a Uniform(0,1) distribution: 𝛼𝛼 = 1, 𝛽𝛽 = 1 
 (v)(a)
+```{r}
 n = 160
 x = 101
 alpha = 1
@@ -110,20 +120,29 @@ beta = 1
 p = seq(0,1, by=0.01) 
 plot(p, dbeta(p, alpha, beta), ylab="density", type ="l",
 ylim = c(0,12), main = "Plot for the prior density of θ") 
-
+```
 ---
 (b) 
+
+```{r}
+plot(p, dbeta(p, alpha, beta), ylab="density", type ="l",
+ylim = c(0,12), main = "Plot for the prior density of θ") 
 lines(p, dbeta(p, x+alpha, n-x+beta), type ="l", col="red") 
 legend(0.,12, c("Prior U(0,1)", 
 "Posterior"),lty=c(1,1),col=c("black", "red")) 
+```
 
 ---
 
-(vi)
-```{r}
+### Part (6)
+
+```{r eval = FALSE}
 alpha1 = 40
 beta1 = 24
 p = seq(0,1, by=0.01)
+plot(p, dbeta(p, alpha, beta), ylab="density", type ="l",
+ylim = c(0,12), main = "Plot for the prior density of θ") 
+
 lines(p, dbeta(p, alpha1, beta1), col="blue") 
 lines(p, dbeta(p, x+alpha1, n-x+beta1), type ="l", 
 col="brown") 
@@ -134,25 +153,55 @@ legend(0.,12, c("U(0,1)", "Beta(102,60)", "Beta(40, 24)",
 
 ---
 
+
+```{echo=FALSE}
+alpha1 = 40
+beta1 = 24
+p = seq(0,1, by=0.01)
+plot(p, dbeta(p, alpha, beta), ylab="density", type ="l",
+ylim = c(0,12), main = "Plot for the prior density of θ") 
+
+lines(p, dbeta(p, alpha1, beta1), col="blue") 
+lines(p, dbeta(p, x+alpha1, n-x+beta1), type ="l", 
+col="brown") 
+legend(0.,12, c("U(0,1)", "Beta(102,60)", "Beta(40, 24)", 
+"Beta(141,83)"),lty=c(1,1),col=c("black", "red", "blue", 
+"brown"))
+```
+
+---
+
+### Part (7)
+
 (vii)
 The Beta(40, 24) prior contains more information than the uniform (0, 1) prior 
 and this is reflected in the posterior densities obtained as the posterior in (vi) is narrower 
 than the one in (v) 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
-CS1B S2022 © Institute and Faculty of Actuaries
+
+---
+
 (viii)(a) 
-Using the Uniform(0, 1) prior:
+```{r}
+#Using the Uniform(0, 1) prior:
 1 - pbeta(3/5, x+alpha, n-x+beta) 
 0.7840908 
+```
+---
+
+
 Using the Beta(40, 24) prior:
+```{r}
 1 - pbeta(3/5, x+alpha1, n-x+beta1) 
-0.8199189 
+```
+
+#0.8199189 
 
 ---
 (b) 
-The Beta(40, 24) prior provides a slightly higher posterior probability than the proportion of 
+
+* The Beta(40, 24) prior provides a slightly higher posterior probability than the proportion of 
 clients positively perceiving the new product 
-As the difference between the two priors is considerable and the difference between the 
+* As the difference between the two priors is considerable and the difference between the 
 two posteriors is small, we can conclude that most information is coming from the data rather 
 than the priors  
 
