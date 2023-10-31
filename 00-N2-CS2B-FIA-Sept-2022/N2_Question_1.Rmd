@@ -1,0 +1,72 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+1 Before answering this question, the following R code should be run:
+```{r}
+set.seed(912)
+y=arima.sim(list(order=c(0,1,0)),n=400)
+fit=arima(y,order=c(1,0,0))
+fit
+```
+
+(i) Comment briefly, in your own words, on each line of R code above. 
+(ii) (a) State the standard error of the ar1 parameter estimate in the fit object
+created by the R code above.
+(b) Determine the corresponding 95% confidence interval.
+
+(iii) Comment on your answer to part (ii). 
+(iv) Calculate the predicted values using the model fit, the future values of y for
+ten steps ahead. 
+(v) Generate, and display in your answer script, a matrix, A, of dimension
+10 × 2, which contains the predicted values in part (iv) together with the
+corresponding standard errors. 
+(vi) Construct R code to generate a plot that contains the time series data
+y, together with the ‘ten steps ahead’ predictions from part (iv) and their 95%
+prediction intervals. 
+(vii) Construct R code to display, next to each other, the sample AutoCorrelation
+Function (sample ACF) and sample Partial AutoCorrelation Function (sample
+PACF) for the data set y. 
+(viii) Construct R code to display, next to each other, the sample ACF and sample
+PACF for the residuals of the model fit. 
+(ix) Comment on the graphical output of parts (vii) and (viii). 
+(x) Perform the Ljung and Box portmanteau test for the residuals of the model
+fit with four, six and twelve lags. 
+(xi) Comment, based on your answers to parts (ix) and (x), on whether there is
+enough evidence to conclude that the model fit is appropriate. 
+

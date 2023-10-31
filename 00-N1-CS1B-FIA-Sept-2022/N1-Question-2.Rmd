@@ -58,7 +58,7 @@ Q2
 (i)
 𝑋𝑋 follows a Binomial (𝑛𝑛, 𝜃𝜃) distribution, where 𝑛𝑛 is the number of clients surveyed 
 and 𝜃𝜃 is the probability of getting a positive approval of the product from a client 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
+---
 
 
 The probability of obtaining a positive response for the product is denoted by θ and a 
@@ -102,8 +102,6 @@ probability that θ is higher than 60%.
 (viii) (a) Calculate the probability Pሺθ > 0.6 | Xሻ in the case of both priors; that 
 is, Uniform(0, 1) and Beta with parameters (40, 24). [4] 
 (b) Comment on your answer to part (viii)(a). [2] 
- [Total 20] 
-CS1B S2022–4 
 
 
 

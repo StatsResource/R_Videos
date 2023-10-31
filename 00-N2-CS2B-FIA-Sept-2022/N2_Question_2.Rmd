@@ -1,0 +1,89 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+CS2B S2022–3
+2 Before answering this question, the survival package should be loaded into R with the
+following code:
+install.packages("survival")
+library(survival)
+The government of Country U has asked a non-profit organization to study possible
+adverse effects of a new vaccine administered to individuals, with particular reference
+to the possibility of blood clots within the first 28 days of receipt of a vaccine.
+Before answering this question, the ‘CS2B_S22_Qu_2_Data.csv’ file should be
+loaded into R and assigned to a data frame called ‘data’. This .csv file contains the
+data from an investigation for 2,400 individuals. The file contains the following six
+variables:
+Life: patient identifier (integers 1, 2, … 2,400)
+Drug: indicator (1 = received vaccine, 0 = did not receive vaccine)
+Age: indicator (0 = age less than or equal to 50, 1 = age greater than 50)
+co_morbidity: indicator (1 = individual has another chronic disease at the time of
+receipt of vaccination, 0 = no chronic disease)
+Status: indicator (0 = censoring due to the end of period, 1 = censoring due to death
+(reason unknown), 2 = admission to hospital due to blood clots within 28 days of
+receipt of vaccine, 3 = admission to hospital due to reasons other than blood clots
+within 28 days of receipt of vaccine)
+Time: duration in days at which admission to hospital/censoring occurred (integers
+with a range of 0–28; 0 = day of vaccination).
+(i) Comment on whether the censoring in this investigation is likely to be
+non-informative. [3]
+(ii) Construct a table named ‘data_main’, which is the same as ‘data’ but with a
+new column added. The newly added column should be named ‘ST’ and
+should contain the values:
+*  0 if ‘Status’ in ‘data’ is 0 or 1 or 3
+*  1 if ‘Status’ in ‘data’ is 2.
+Display the last 20 rows of ‘data_main’. [6]
+(iii) Plot the Kaplan–Meier survival functions required to analyse the effect of
+vaccination on blood clots assuming that censoring is non-informative. You
+should plot both survival functions on the same axes, using separate colours to
+identify each survival function. You should use a range from 0.97 to 1 on the
+y-axis. [9]
+(iv) Comment on your plot from part (iii). 
+
+---
+
+Analysts in the organization have decided to analyse further by using Cox’s
+proportional hazards model and by adding covariates into the investigation.
+The following decisions were made:
+*  Significance of covariates would be tested with interactions.
+*  At least two covariates would be used.
+*  Two covariates to be compulsorily used are vaccine indicator and age.
+They are now deciding to add one more covariate: co-morbidity.
+(v) Test the hypothesis, using the likelihood ratio statistic, that co-morbidity has
+no effect on blood clots allowing for vaccine indicator and age, stating the null
+and alternative hypotheses and using the Breslow method for tie handling.
+

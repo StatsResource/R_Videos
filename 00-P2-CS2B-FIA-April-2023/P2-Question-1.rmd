@@ -1,0 +1,96 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+1 Before answering this question, the ‘markovchain’ R package should be loaded
+into R using the following code:
+install.packages("markovchain")
+library(markovchain)
+A three-state Markov chain model consisting of healthy (‘H’), sick (‘S’), and dead
+(‘D’) states has the following weekly transition probabilities:
+pHH = 0.98
+pHS = 0.019
+pHD = 0.001
+pSS = 0.75
+pSH = 0.2
+pSD = 0.05
+(i) Construct a ‘markovchain’ object for the transition matrix for the above
+Markov chain model, calling it ‘transitions_markov’. 
+(ii) Calculate the probability that, given a life is healthy now, the life will be sick
+at time 2 weeks. 
+(iii) Calculate the probability that, given a life is healthy now, the life will be sick
+at some point in the next 52 weeks. [3]
+(iv) Calculate the probability that, given a life is healthy now, the life will remain
+healthy for the entire year. [1]
+A new, highly contagious disease has become prevalent in the country and it is
+proposed that the HSD model above be amended to model the effects of this disease.
+Lives become ill for a period of time and then either recover or die. Once recovered, a
+life is deemed immune and cannot become ill again.
+It has been decided to use a Markov jump model instead of a chain model. The
+Markov model consists of four states: healthy (‘H’), sick (‘S’), recovered (‘R’) and a
+dead (‘D’) state. The following daily transition rates have been estimated from a
+recent investigation:
+μSD = 4%
+μSR = 13%
+
+---
+
+The rate from healthy to infected, μHS, is equal to b multiplied by it where b is a
+constant and it is the proportion of lives in the sick state at time t. All other transition
+rates are zero.
+(v) Explain why it may be preferable to set μHS = b it (as above), rather than using
+a constant value (as has been done for the other rates). [1]
+(vi) Give an example of a scenario that would be expected to result in a
+particularly high value of b. 
+CS2B A2023–3
+The proposed value of b is 0.3, and it is assumed that at time 0, 1% of the population
+are in the sick state and the remaining 99% are in the healthy state.
+(vii) Using this revised model and a step length of 0.01 days, calculate the
+occupancy probabilities in each of the four states from t = 0.01 to t = 100 days
+inclusive. You should output your answers for each value of t to successive
+rows of a matrix called ‘mat_ans’. [11]
+(viii) Plot a graph showing the probabilities in part (vii) with suitably labelled axes
+and making clear which plot components correspond to which state. [5]
+(ix) Calculate the probability that a life healthy at time 0 is sick after:
+(a) 5 days.
+(b) 30 days.
+[3]
+(x) Calculate the expected present value of a daily rate of £1 payable while sick
+using a force of interest of 6% p.a. [4]
+[Total 34]
+CS2B A2023–4

@@ -47,34 +47,20 @@ can load the file with load("mile_records.Rdata").
 
 ---
 
-(i) Plot record.time as a function of record.date.  
-(ii) Calculate the Pearson’s correlation coefficient between the two data sets.  
-(iii) Fit a linear regression model to the data using record.time as the response 
+A. Plot record.time as a function of <tt>record.date</tt>.  
+
+B. Calculate the Pearson’s correlation coefficient between the two data sets.  
+
+C. Fit a linear regression model to the data using <tt>record.time</tt> as the response 
 variable and record.date as the only explanatory variable. State the 
 estimated intercept and slope of the regression line. 
 
----
 
-(iv) Plot the regression line by adding it to the plot from part (i).  
-(v) Perform a statistical test in order to test the null hypothesis that the slope of 
-the regression line in part (iv) is zero, against a suitable alternative using the 
-output of the fitted model from part (iii).  
-(vi) Comment on the relationship between the two variables.  
-For simplicity, you can assume that 1 year has 365 days. 
-(vii) Estimate the expected time in seconds of the world record 100 years after the 
-most recent record in this data set. 
+
+(D.) Plot the regression line by adding it to the plot from part A.  
 
 ---
 
-(viii) Calculate the number of years (from the most recent record) in which you 
-expect the world record to be 2 minutes, based on your fitted model from 
-part (iii).  
-(ix) Comment on the suitability of the linear regression model for modelling 
-record.time as a function of record.date.  
- [Total 27] 
- 
- 
----
 
 Q3
 # load data
@@ -83,8 +69,7 @@ load("mile_records.Rdata")
 plot(record.date, record.time, ylab="New World Record Times 
 (seconds)", xlab="Days since 31.05.1913",main="Plot for 
 mile_records data set") 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
-CS1B S2022 © Institute and Faculty of Actuaries
+
 
 (ii)
 cor(record.date, record.time) 
@@ -98,6 +83,28 @@ and the slope is -0.001076
 abline(model) 
 CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
 CS1B S2022 © Institute and Faculty of Actuaries
+---
+
+(E.) Perform a statistical test in order to test the null hypothesis that the slope of 
+the regression line in part D. is zero, against a suitable alternative using the 
+output of the fitted model from part C.  
+(F.) Comment on the relationship between the two variables.  
+For simplicity, you can assume that 1 year has 365 days. 
+(G.) Estimate the expected time in seconds of the world record 100 years after the 
+most recent record in this data set. 
+
+---
+
+(H.) Calculate the number of years (from the most recent record) in which you 
+expect the world record to be 2 minutes, based on your fitted model from 
+part (iii).  
+(ix) Comment on the suitability of the linear regression model for modelling 
+record.time as a function of record.date.  
+
+ 
+ 
+---
+
 
 (v)
 H0: beta = 0, versus H1: beta ≠ 0  
@@ -118,36 +125,51 @@ Multiple R-squared: 0.9772, Adjusted R-squared: 0.9764
 F-statistic: 1284 on 1 and 30 DF, p-value: < 2.2e-16
 P-value is very small (i.e. p-value: < 2.2e-16) 
 So conclude that negative slope is significant 
+---
+
 (vi)
-The plot clearly shows a negative relationship between days since May 1913 and the 
+
+* The plot clearly shows a negative relationship between days since May 1913 and the 
 current one-mile world record. 
-The correlation coefficient is very close to -1, and the slope is negative and significant, 
+
+* The correlation coefficient is very close to -1, and the slope is negative and significant, 
 confirming the relationship 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
-CS1B S2022 © Institute and Faculty of Actuaries
-However, the response variable cannot increase with time (it is a world record). 
-So we cannot observe a positive relationship, meaning that the above results are to be 
+
+* However, the response variable cannot increase with time (it is a world record). 
+
+* So we cannot observe a positive relationship, meaning that the above results are to be 
 expected 
+
+--- 
+
 (vii)
 x = record.date[32]+365*100 
 predict(model, data.frame(record.date=x)) 
 # Or
 coefficients(model) + coefficients(model)*x
 181.66 seconds 
+---
 (viii)
 twoMinuteDate = (120 -
 coefficients(model))/coefficients(model) 
 twoMinuteDate = twoMinuteDate - record.date[32] 
 twoMinuteDate/365 
 This gives: 256.97 years. 
+---
 (ix)
-The model is suitable for modelling the past observations, and we would also consider 
+
+* The model is suitable for modelling the past observations, and we would also consider 
 this a good model for predicting records in the near future as the model is significant, 𝑅𝑅2
-is close to one and the correlation is clearly negative. We have no reason to assume that 
+is close to one and the correlation is clearly negative. 
+
+* We have no reason to assume that 
 the linear relationship will break down in the near future 
-However, in the long run the model predicts unrealistically low times for the one mile run, 
+
+* However, in the long run the model predicts unrealistically low times for the one mile run, 
 eventually predicting even negative times 
-[Total 27]
+
+---
+
 The quality of answers given in this question was mixed.
 Part (i) was well answered generally, but marks were lost for not providing appropriate 
 annotation on the plot. 

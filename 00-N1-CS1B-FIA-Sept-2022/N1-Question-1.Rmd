@@ -61,14 +61,17 @@ quantiles in one go of X and the Normal distribution, using a QQ plot.
 
 ---
 ### Exercises
-(iv) Construct a QQ plot for X and the Normal distribution, using the Monte Carlo 
-X values produced in part (1). 
-(v) Comment on the plot from part (4). 
+
+D. Construct a QQ plot for X and the Normal distribution, using the Monte Carlo 
+X values produced in part A. 
+
+E. Comment on the plot from part D. 
 
 ---
 
 Q1
-(i)
+
+### Part (A)(i)
 ```{r}
 set.seed(2022)
 x_bar <- rep(0,5000) 
@@ -80,22 +83,27 @@ mean(x_bar)
 ````
 > var(x_bar) 
  0.03958983 
-(ii)
+
 
 ---
 
-
+### Part (B)
 From the Central Limit Theorem, the distribution of the sample means will be
 approximately:
 𝑁𝑁 �6, 6
 150� , i. e. $𝑁(6 , 0.04) $
+
+---
+
+### Part (C)
+
 (iii)
 The mean and variance from part (i) are very close to the approximate Normal 
 distribution in part (ii) 
 
 ---
 
-(iv)
+### Part (D)
 
 ```{r}
 qqnorm(x_bar) 
@@ -106,14 +114,18 @@ qqline(x_bar)
 
 ---
 
-### Part (5)
+### Part (E)
 
-* The QQ plot shows that the quantiles of x_bar and the Normal distribution are very 
+* The QQ plot shows that the quantiles of <tt>x_bar</tt> and the Normal distribution are very 
 similar 
-* Therefore, the Normal distribution is a good approximation for x_bar 
-* x_bar has a slightly lighter upper tail than the Normal distribution 
-* x_bar also has a slightly lighter lower tail than the Normal distribution 
+* Therefore, the Normal distribution is a good approximation for <tt>x_bar</tt>
+* <tt>x_bar</tt> has a slightly lighter upper tail than the Normal distribution 
+* <tt>x_bar</tt> also has a slightly lighter lower tail than the Normal distribution 
 * The approximation will improve with larger sample sizes 
+
+---
+
+END
 
 ---
 

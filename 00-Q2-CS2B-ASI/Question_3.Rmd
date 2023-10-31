@@ -1,0 +1,123 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+Solution 3:
+library(survival)
+## Warning: package 'survival' was built under R version 4.0.5
+crackers<-read.csv("D:\\Crackers.csv")
+(i)
+KMfit = survfit(Surv(crackers$Time, crackers$Status) ~ 1, conf.int = 0.95)
+plot(KMfit,xlab = "Time",ylab = "Survival Function",main = "Kaplan-Meier Esti
+mate with 95% internval")
+[1 Mark for using Surv function, 2 marks for survfit function, 3 marks for 
+the correct plot with appropriate labels.]
+
+(ii) summary(KMfit, time = 365)$surv
+## [1] 0.3095438
+# OR
+min(KMfit$surv)
+## [1] 0.3095438
+
+IAI CS2B-0523
+Page 10 of 11
+(iii)
+KMfit =survfit(Surv(crackers$Time,crackers$Status)~Green+Male,data = crackers
+)
+plot(KMfit,col = c("blue", "red", "black", "green"), xlab = "Time",ylab = "Su
+rvival Function",main = "Kaplan-Meier Estimate with 95% internval")
+legend("bottomleft",legend = c("Female - No Green", "Male - No Green", "Femal
+e - Green", "Male - Green"),col = c("blue", "red", "black", "green"),pch = 7)
+[8]
+(iv) 
+# Males are more susceptible to respiratory disorders in general compared to 
+Females. Females have a better survival function
+# The green crackers has a positive effect and increased the survival for bot
+h males and females
+ [1 Mark for each valid reason, Max 2]
+(v) 
+coxph(Surv(Time, Status) ~ Green + Male, data = crackers,ties="breslow")
+## Call:
+## coxph(formula = Surv(Time, Status) ~ Green + Male, data = crackers, 
+## ties = "breslow")
+## 
+## coef exp(coef) se(coef) z p
+## Green -0.71233 0.49050 0.05716 -12.463 <2e-16
+## Male 0.53867 1.71372 0.05429 9.922 <2e-16
+## 
+## Likelihood ratio test=284.6 on 2 df, p=< 2.2e-16
+## n= 2500, number of events= 1452
+IAI CS2B-0523
+Page 11 of 11
+
+(vi)
+# The results suggest that Green crackers reduces the respiratory disorder ra
+te of the workers by around 51% irrespective of males and females
+# The results also suggests the hazard rate of males is 71% more than that of 
+the females
+# The interaction effect is not clearly visible as the decrease in hazard rat
+e is similar among males and females.
+# The p-values of both the coefficients are less than 0.05 indicating that bo
+th the effects are statistically significant at 5%.
+[1 Mark for each valid point, Max 4]
+(vii)
+mod<-coxph(Surv(Time, Status) ~ Green * Male, data = crackers,ties="breslow")
+
+(viii) 
+female_hazard_red<-1-exp(mod$coefficients[1])
+female_hazard_red
+## Green 
+## 0.571342
+male_hazard_red<-1-exp(mod$coefficients[1]+mod$coefficients)
+male_hazard_red
+## Green 
+## 0.3158954
+# The green crackers reduce the respiratory disorder hazard rate of females 
+by 1-0.42866 = 57%
+# The green crackers reduce the respiratory disorder rate of males by 1-1.595
+92*0.42866 = 31.5%
+
+(ix) The green crackers reduced in a reduction in respiratory disorder for b
+oth males and females though the decrease was slightly lesser in case of male
+s
+# The p-value of the interaction effect is >0.05 indicating that the interact
+ion effect is not statistically significant.
+
+(x) Both the results are communicating that the green crackers reduce the res
+piratory disorders
+

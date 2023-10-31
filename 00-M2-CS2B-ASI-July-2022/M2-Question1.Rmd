@@ -55,18 +55,7 @@ labelling. (4)
 
 ---
 
-Institute of Actuaries of India
-Subject CS2B – Risk Modelling and 
-Survival Analysis (Paper B)
-July 2022 Examination
-INDICATIVE SOLUTION
-Introduction
-The indicative solution has been written by the Examiners with the aim of helping candidates. The 
-solutions given are only indicative. It is realized that there could be other points as valid answers and 
-examiner have given credit for any alternative approach or interpretation which they consider to be 
-reasonable.
-IAI CS2B-0722
-Page 2 of 14
+
 options(warn=-1)
 Solution.1
 # (i) 
@@ -76,7 +65,9 @@ fMLE <- function(params) {
  lnf<-log(f)
  sum(-lnf)
 }
- [3]
+
+---
+
 # (ii)
 maxima <- c(8,8,9)
 alpha<-6; beta<-4; gamma<-5
@@ -99,7 +90,9 @@ MLE
 ## 
 ## $iterations
 ## [1] 26
-[4]
+
+---
+
 # (iii)
 alpha <- MLE$estimate[1]
 beta <- MLE$estimate[2]
@@ -112,8 +105,9 @@ for (i in seq(10,100,5)) {
 }
 output <- matrix(NA, nrow = 19, ncol = 2)
 output<-as.data.frame(output)
-IAI CS2B-0722
-Page 3 of 14
+
+---
+
 names(output)<-c("X","p")
 output$X<-seq(10,100,5)
 output$p<-probs
@@ -142,14 +136,13 @@ output
 # (iv)
 plot(output, type = "l", xlab = "X", ylab = "p", main = "Probability of maxim
 um claim exceeding a threshold X")
- [4]
-IAI CS2B-0722
-Page 4 of 14
-# (v) 
-# If gamma is positive, the distribution is a Freschet distribution
-# The Freschet distribution has a long, power-law tail that slowly converges 
+
+---
+
+####  Part E
+* If gamma is positive, the distribution is a Freschet distribution
+* The Freschet distribution has a long, power-law tail that slowly converges 
 to 1. 1-CDF slowly converges to zero
-# The probability of a maximum loss exceeding a given threshold always 
+* The probability of a maximum loss exceeding a given threshold always 
 increases inversely with Threshold
- [3]
-[20 Marks]
+

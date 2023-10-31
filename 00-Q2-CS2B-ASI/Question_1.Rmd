@@ -1,0 +1,138 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+Solution 1:
+Corn_Prices<-read.csv("D:\\Monthly_corn.csv")
+(i) Close<-ts(Corn_Prices$Close,start = c(2017,1),frequency=12)
+
+
+```{r}
+plot(Close, ylab = "Corn Monthly prices", 
+	main = "Monthly plot of corn prices")
+
+```
+
+
+---
+
+### Part C
+
+The series is not stationary as it appears to be trending upwards with 
+time. The mean at different periods appears not to be constant For periods be
+tween 2017 to 2020, it appeared to be stationary.
+
+---
+
+### Part D
+
+(iv) acf(Close, main = "ACF", xlab = "Lags", ylab = "Serial Correlation", la
+g.max=60)
+
+
+```{r}
+pacf(Close, main = "PACF", xlab = "Lags", ylab = "Serial Correlation", lag.ma
+x=60)
+```
+
+
+---
+
+(v) If a series is stationary, the ACF should decay to zero quickly and sho
+uld not display any oscillation.The series is not stationary because auto cor
+relation function is not decaying to zero quickly. Also, if the number of lag
+s is increased, oscillation is also observed, hence cannot be stationary
+
+---
+
+(vi) Create another time series "monthly_returns" by using the formula log(P
+t/Pt-1), where Pt and Pt-1 correspond to the closing prices of month t and t1 respectively.
+returns<-diff(log(Close))
+ 
+(vii) acf(returns, main = "ACF", xlab = "Lags", ylab = "Serial Correlation", 
+lag.max=60)
+[1 for the plot, 0.5 for proper labeling of title and axes]
+pacf(returns, main = "PACF", xlab = "Lags", ylab = "Serial Correlation", lag.
+max=60)
+
+(viii) The monthly returns appear stationary. If a series is stationary, the A
+CF should decay to zero quickly and should not display any oscillation.
+ 
+(ix) The most appropriate ARMA will be ARMA (0,0) as the ACF and PACF do not 
+show significance at any of the lags [1]
+(x) library(forecast)
+## Warning: package 'forecast' was built under R version 4.0.5
+## Registered S3 method overwritten by 'quantmod':
+## method from
+## as.zoo.data.frame zoo
+
+
+m1<-arima(returns,order = c(0,0,0))
+m2<-arima(returns,order = c(1,0,0))
+m3<-arima(returns,order = c(0,0,1))
+m4<-arima(returns,order = c(1,0,1))
+m1$aic
+## [1] -164.6838
+m2$aic
+## [1] -163.5281
+m3$aic
+## [1] -163.3079
+m4$aic
+## [1] -165.2896
+auto.arima(returns)
+## Series: returns 
+## ARIMA(0,0,0)(1,0,0)[12] with zero mean 
+## 
+## Coefficients:
+## sar1
+## 0.2548
+## s.e. 0.1120
+## 
+## sigma^2 estimated as 0.005687: log likelihood=86.37
+## AIC=-168.74 AICc=-168.58 BIC=-164.14
+# ARMA (1,1) has the lowest AIC.
+[0.5 for fitting each of the four models, 2 for identifying the best model]
+
+---
+
+(xi) The deviation is observed because seasonality is not considered in the 
+model. ACF is actually demonstrating a small significant serial correlation a
+t lag 12, which might give rise to seasonal ARMA. 
+# If we are forcefully fitting non seasonal models to a seasonal data, the di
+screpancy is possible.
+ [1 mark for each valid observation, Max 2]
+[24 Marks]

@@ -1,0 +1,130 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+3 Before answering this question, the R packages for calculating and plotting Recursive
+Partitioning and Regression Trees should be loaded into R using the following code:
+install.packages("rpart")
+install.packages("rpart.plot")
+library(rpart)
+library(rpart.plot)
+An insurance company is considering introducing a simplified underwriting process
+for a health insurance product. The company is considering using monthly benefit
+amount and another feature, ‘Feature1’, as criteria for determining which customers
+are eligible for the simplified process. There is a further feature, ‘Feature2’, which the
+company is prohibited by local regulations from using as a criterion.
+In order to illustrate the issues involved in setting the eligibility criteria for the
+simplified process, an Actuary engaged by the company generates a specimen data set
+by making the following assumptions about the business mix:
+ For a given customer, Feature1 takes the values 0 and 1 with equal probability.
+ For a given customer, independently of Feature1, Feature2 takes the values 0 and
+1 with equal probability.
+ For a given customer, independently of Feature1, the benefit amount, ‘Benefit’, is
+such that its logarithm is Normally distributed with mean 7.5 and standard
+deviation 0.5 if Feature2 = 0, and Normally distributed with mean 7 and standard
+deviation 0.5 if Feature2 = 1.
+ The variable ‘Outcome’ indicates whether full medical underwriting would reveal
+issues requiring the proposal to be declined or accepted with a premium loading.
+For a given customer, this variable takes the value 0, representing a proposal that
+would be accepted at standard premium rates, with probability:
+o 0.95 if Feature1 and Feature2 are both 0.
+o 0.8 if Feature1 and Feature2 are both 1.
+o 0.9 if one of Feature1 and Feature2 is 0 and the other is 1.
+Otherwise, this variable takes the value 1, representing a proposal that would be
+declined or accepted with a premium loading.
+(i) Generate a 100,000 × 5 matrix, A, in which:
+ the first, second and fifth columns consist of independent observations
+from the uniform distribution on [0,1]. You should set a random number
+generator seed of 123 before generating the observations in the first
+column.
+ the third column consists of independent observations from the lognormal
+distribution of Benefit given that Feature2 = 0.
+ the fourth column consists of independent observations from the
+lognormal distribution of Benefit given that Feature2 = 1.
+CS2B A2023–7
+Use the R function head to display the first six rows of A in your answer
+script. [6]
+Let Aij denote the (i,j) entry of A.
+(ii) Generate a matrix, B, with 100,000 rows and four columns, Feature1,
+Feature2, Benefit and Outcome, in which, in the ith row:
+ Feature1, Feature2 and Outcome are equal to 0 if Ai1, Ai2 or Ai5,
+respectively are less than the appropriate probability, and 1 otherwise.
+ Benefit is equal to either Ai3 or Ai4 as appropriate.
+Use the R function head to display the first six rows of data in your answer
+script. [9]
+The Actuary uses a regression tree to split the hypothetical customers in the matrix B
+by Feature1 and Benefit, with the view that those customers in nodes with low
+probabilities of an adverse outcome under full medical underwriting, would be
+eligible for the simplified process. The Actuary uses the following R code to plot the
+tree:
+tree = rpart(formula = Outcome ~ Feature1 + Benefit,
+data = data.frame(B), control = rpart.control(cp = 2e-4,
+maxdepth = 2, minbucket = 5000))
+rpart.plot(tree)
+(iii) Plot the regression tree object, called ‘tree’, using the R code above. [1]
+(iv) Comment on the conclusions the Actuary should draw from the regression tree
+‘tree’. [5]
+The Actuary creates a further regression tree by weighting each customer, i, in the
+matrix B as follows:
+􀰭
+􀰮􁈺􀯪􀰬􀳔􀬾􀯪􀰭􀳔􁈻
+𝑤􀯜
+where:
+ w0i is the probability density from the lognormal distribution for the actual value
+of Benefit for the ith customer and Feature2 = 0.
+ w1i is the probability density from the lognormal distribution for the actual value
+of Benefit for the ith customer and Feature2 = 1.
+ wi is the probability density from the lognormal distribution for the actual values
+of Benefit and Feature2 for the ith customer.
+(v) Explain the rationale for this choice of weights. 
+CS2B A2023–8
+(vi) Generate a vector, ‘Weight’, containing the weights as defined above. Use the
+R function head to display the first six entries of Weight in your answer
+script. [5]
+The Actuary uses the following R code to plot the revised tree, ‘tree2’:
+tree2 = rpart(formula = Outcome ~ Feature1 + Benefit,
+data = data.frame(B), weights = Weight,
+control = rpart.control(cp = 2e-4, maxdepth = 2,
+minbucket = 5000))
+rpart.plot(tree2)
+(vii) Plot the revised regression tree object, called ‘tree2’, using the R code above.
+[1]
+(viii) Comment on the practical suitability of this method of determining the
+eligibility criteria for the simplified underwriting process for this product. [4]
+[Total 33]
+END OF PAPER

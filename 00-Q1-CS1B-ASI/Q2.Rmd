@@ -1,0 +1,283 @@
+Solution 2:
+i) i
+.
+Sales<-read.csv(<>) (1)
+ > mean(Sales$Value)
+[1] 1307.167
+(1)
+[2]
+ii) i
+a) a
+.
+cor(Sales$Value,Sales$City,method = "kendall")
+[1] -0.2130327
+[1]
+b) b
+.
+r<-cor(Sales$Value,Sales$Age)
+> r*sd(Sales$Value)*sd(Sales$Age)
+[1] -278.5169
+(1)
+(1)
+Alternate:
+cov(sales$Value,sales$Age)
+[1] -278.5169
+Credit is given if Kendall covariance is computed.
+(1.5)
+(0.5)
+[2]
+iii) i
+a) a
+.
+plot(Sales$Value,Sales$Age) (1)
+IAI CS1B-0523
+ Page 4 of 9
+(1)
+# No trend (showing linear relationship) is visible from the scatter plot.
+# Most likely it indicates that correlation is zero.
+(1)
+[3]
+b) b
+.
+> cor.test(Sales$Value,Sales$Age)
+Pearson's product-moment correlation
+data: Sales$Value and Sales$Age
+t = -0.95277, df = 58, p-value = 0.3447
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+-0.3665088 0.1340120
+sample estimates:
+ cor 
+-0.1241369
+(1)
+(1) 
+for CI
+Confidence Interval is ( -0.367,0.134)
+Since 0 lies in the confidence interval, we cannot reject the hypothesis that correlation coefficient 
+= 0. 
+(1)
+[3]
+iv)
+a) Since correlation between Value and Age is (close to) 0, age can be excluded. a (2)
+b) b
+.
+> model1<-lm(data = Sales,Value~Device+City+Age)
+> summary(model1)
+Call:
+lm(formula = Value ~ Device + City + Age, data = Sales)
+Residuals:
+ Min 1Q Median 3Q Max 
+-768.21 -239.97 -19.05 236.74 959.32 
+Coefficients:
+ Estimate Std. Error t value Pr(>|t|) 
+(Intercept) 2887.26 378.29 7.632 3.12e-10 ***
+DeviceMobile -1022.97 110.18 -9.284 6.28e-13 ***
+City -135.98 100.03 -1.359 0.1795 
+Age -26.25 13.41 -1.958 0.0552 . 
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(1)
+(1)
+IAI CS1B-0523
+ Page 5 of 9
+Residual standard error: 377 on 56 degrees of freedom
+Multiple R-squared: 0.6388, Adjusted R-squared: 0.6195 
+F-statistic: 33.01 on 3 and 56 DF, p-value: 2.019e-12
+Device = 1 for Mobile and 0 for Laptop. Parameter for this variable is significant.
+Alternate : Device is significant
+Age and City are not significant …
+…….since p-value > 0.05. 
+Age is expected to insignificant per the earlier analysis.
+(0.5)
+(1)
+(0.5)
+(0.5)
+[Max 4]
+c) c
+.
+model2<-lm(data = Sales,Value~Device)
+> 
+> anova(model1,model2)
+Analysis of Variance Table
+Model 1: Value ~ Device + City + Age
+Model 2: Value ~ Device
+ Res.Df RSS Df Sum of Sq F Pr(>F) 
+1 56 7958529 
+2 58 8716151 -2 -757622 2.6655 0.07838 .
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(1)
+(1)
+H0: β (City) = β (Age) =0 against H1: atleast one of β (City) or β (Age) is non-zero.
+In model 2, there are 2 less parameters thus -2 degrees of freedom in Anova analysis
+p-value >0.05 showing we can’t reject H0: β (City) = β (Age) =0. 
+This indicates neither of the covariates have strong relationship with Order value. 
+(1)
+(1)
+(1)
+(0.5)
+[Max 5]
+d) d
+.
+summary(model2)
+Call:
+lm(formula = Value ~ Device, data = Sales)
+Residuals:
+ Min 1Q Median 3Q Max 
+-810.9 -240.1 -8.7 271.6 889.1 
+Coefficients:
+ Estimate Std. Error t value Pr(>|t|) 
+(Intercept) 2056.47 94.02 21.873 < 2e-16 ***
+DeviceMobile -1045.54 111.06 -9.414 2.77e-13 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 387.7 on 58 degrees of freedom
+Multiple R-squared: 0.6044, Adjusted R-squared: 0.5976 
+F-statistic: 88.62 on 1 and 58 DF, p-value: 2.77e-13
+> # Value = 2056.47 - 1045.54 X Device, 
+ where Device= 1 for Mobile else 0
+Alternate:
+> # Value = 2056.47 - 1045.54 X Device Mobile 
+(1)
+(1.5)
+(0.5)
+(2)
+[Max 3]
+IAI CS1B-0523
+ Page 6 of 9
+v) .
+a) a
+.
+confint(model2,level=.95)
+ 2.5 % 97.5 %
+(Intercept) 1868.268 2244.6737
+DeviceMobile -1267.855 -823.2257
+> # C.I. (-1267.8,-823.2)
+(1)
+(1)
+[2]
+b) b
+.
+> residual<-model2$residuals
+> n<-length(residual)
+> varhat<-var(residual)
+> (n-2)*varhat/qchisq(c(0.975,.025),58)
+[1] 105867.1 220588.2
+> # C.I. (105867,220588)
+(1)
+(0.5)
+(1.5)
+(2)
+(1)
+[Max 5]
+vi) .
+a) a
+.
+m<-mean(Sales$Order)
+> m
+[1] 2.383333
+(1)
+(1)
+ Mu hat = 2.383
+[2]
+b) b
+.
+table(Sales$Order)
+0 1 2 3 4 5 7 
+8 13 13 8 12 5 1
+(1)
+(1)
+[2]
+c) c
+.
+a<-as.numeric(table(Sales$Order))
+#using above table, combine order 5 and 5+
+a[6]=sum(a[6:7])
+a<-a[-7] #to remove 5+ as combine above
+e<-dpois(c(0:4),m)
+sum(e)
+[1] 0.9062099
+e[6]<-1 - sum(e)
+sum(e)
+[1] 1
+(1)
+(1)
+(0.5)
+(1)
+(0.5)
+(1) 
+(1)
+chisq.test(x=a,p=e)
+Chi-squared test for given probabilities
+data: a
+X-squared = 6.0026, df = 5, p-value = 0.306
+(2)
+Since p-value is greater than 0.05 , we can reject the hypothesis that number of order follows 
+poisson distribution.
+(1)
+[Max 8]
+vii) .
+a) a
+.
+glm2<-glm(data=Sales,Order~Device,family=poisson(link="log"))
+> summary(glm2)
+Call:
+glm(formula = Order ~ Device, family = poisson(lin = "log"), 
+(2)
+(1)
+IAI CS1B-0523
+ Page 7 of 9
+ data = Sales)
+Deviance Residuals: 
+ Min 1Q Median 3Q Max 
+-2.4495 -0.6149 0.0000 0.5491 1.9652 
+Coefficients:
+ Estimate Std. Error z value Pr(>|z|) 
+(Intercept) -0.1942 0.2673 -0.726 0.468 
+DeviceMobile 1.2928 0.2814 4.594 4.34e-06 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+ Null deviance: 81.185 on 59 degrees of freedom
+Residual deviance: 51.570 on 58 degrees of freedom
+AIC: 199.88
+Number of Fisher Scoring iterations: 5 [3]
+b) b
+.
+Log link function is used in above model. (0.5)
+Log link implied log mu = linear predictor. Inverting to mu leads to mu = exp(linear predictor).
+Exponent will make sure mu always remain greater than 0, an essential feature for poisson 
+distribution with mean mu. (1.5)
+[2]
+viii) .
+a) a
+.
+Customers<- data.frame(Device =c("Mobile","Mobile"),Age =c(18,28), City = c(1,2))
+> predict.glm(glm2,newdata = Customers,type= "response")
+1 2 
+3 3
+(1.5)
+(2)
+(0.5)
+[4]
+b) b
+.
+Only device is used in the model and for both customers, device is same and thus, the predicted 
+value is same for both customers. [2]
+ix) Channel <-data.frame(Device =c("Mobile","Laptop"))
+> pred_order <- predict.glm(glm2,newdata = Channel,type= "response")
+> pred_value <- predict(model2,newdata = Channel)
+> 
+> totalvalue<-pred_order * pred_value
+> totalvalue
+ 1 2 
+3032.791 1693.564 
+> #total value for Mobile = 3032.8
+> # and for Laptop = 1693.6
+(1.5)
+(1.5)
+(1)
+(1.5)
+(1)
+[Max 6]
+[61 Marks]

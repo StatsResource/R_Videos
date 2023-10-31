@@ -1,0 +1,111 @@
+Solution 3:
+i) i
+.
+#m1x0 = E[X] and 
+#m2x0=E[x^2] and var = E[x^2] - E[x]^2 >> m2x0 = var + E[x]^2 
+prior_mean=60
+prior_sd=5
+(0.5)
+(0.5)
+IAI CS1B-0523
+ Page 8 of 9
+m1x0= prior_mean
+m2x0 = prior_sd^2 + prior_mean^2
+(0.5)
+(1)
+> m1x0
+[1] 60
+> m2x0
+[1] 3625
+(0.5)
+(0.5)
+[Max 3]
+ii) .
+a) a
+.
+# theta follows N(prior mean,prior variance)
+# Random Variable X follows N(theta,variance)
+# posterior distribution of theta follows Normal with
+# post mean = (n*sample mean/variance +prior mean/prior variance)/
+# (n/variance + 1/prior variance)
+(0.5)
+(1.5)
+#post variance = 1/(n/variance + 1/prior variance) (1)
+Max 2
+n<-5
+sample_mean<- 340/5
+sdev<-20
+ 
+post_mean = (n*sample_mean/sdev^2 + prior_mean/prior_sd^2)/(n/sdev^2 + 1/prior_sd^2)
+post_var= 1/(n/sdev^2 + 1/prior_sd^2)
+(2)
+(1)
+> post_mean
+[1] 61.90476
+> post_var
+[1] 19.04762
+> sqrt(post_var)
+[1] 4.364358
+(0.5)
+(0.5)
+(0.5)
+[Max 6]
+b) b
+.
+sample2_mean<-3400/50
+n2<-50
+post2_mean = (n2*sample2_mean/sdev^2 + prior_mean/prior_sd^2)/(n2/sdev^2 + 1/prior_sd^2)
+post2_var= 1/(n2/sdev^2 + 1/prior_sd^2)
+(0.5)
+(1.5)
+(0.5)
+> post2_mean
+[1] 66.06061
+> post2_var
+[1] 6.060606
+> sqrt(post2_var)
+[1] 2.46183
+(0.5)
+(0.5)
+[Max 3]
+iii) .
+a) a
+.
+x<-60+seq(-3,3,by=0.2)*5
+y<-dnorm(x,mean=60,sd=5)
+plot(x,y,ylim=c(0,.2)) [1]
+b) b
+.
+px1<-post_mean+seq(-3,3,by=0.2)*sqrt(post_var)
+py1<-dnorm(px1,mean=post_mean,sd=sqrt(post_var))
+lines(px1,py1)
+(0.5)
+(0.5)
+(1)
+[2]
+c) c
+.
+px2<-post2_mean+seq(-3,3,by=0.2)*sqrt(post2_var)
+py2<-dnorm(px2,mean=post2_mean,sd=sqrt(post2_var))
+lines(px2,py2)
+(0.5)
+(0.5)
+(1)
+IAI CS1B-0523
+ Page 9 of 9
+[2]
+d) d
+.
+(1)
+The posterior distribution with sample size =5 is close to prior distribution. There is slight shift to 
+mean towards sample mean and similar dispersion. 
+(1)
+When the sample size increased, the posterior distribution moves towards sample mean and 
+dispersion. 
+More weight is given to sample where sample is big. Further, the variation reduced with larger 
+sample size. 
+(1)
+(1)
+[Max 3]
+[20 Marks]
+*****************

@@ -87,10 +87,13 @@ calculate probabilities.
 determined using the dhyper function.
 * For instance, under Case E, probability of matching 3 white balls is determined using the 
 following code:
+
 ```{r}
 dhyper(3,m=5,n=64,k=5)
 ```
+
 Here the arguments of dhyper function can be explained as below –
+
 - x denotes the value of white balls to be matched.
 - m denotes the maximum number of successes.
 - n denotes the maximum number of failures.
@@ -110,6 +113,9 @@ create two separate result vectors prob_w_draw and prob_r_draw showing the
 probabilities of matching white balls and power ball under Cases A to I. (4)
 Probability of matching white balls is independent of the probability of matching the power 
 ball.
+
+---
+
 d) Calculate the joint probabilities of matching white balls and power balls using result 
 vectors prob_w_draw and prob_r_draw created in part (i)(c). (2)
 e) Create a vector prize showing the prize money under cases A to I. 
@@ -150,8 +156,8 @@ to be matched for cases A to I.
 R Code and Output:
 
 ```{r}
-> w_draw <- c(5,5,4,4,3,3,2,1,0) # white balls to be matched corresponding to cases A to I
-> r_draw <- c(1,0,1,0,1,0,1,1,1) # red balls to be matched corresponding to cases A to I
+w_draw <- c(5,5,4,4,3,3,2,1,0) # white balls to be matched corresponding to cases A to I
+r_draw <- c(1,0,1,0,1,0,1,1,1) # red balls to be matched corresponding to cases A to I
 ```
 ---
 
@@ -178,14 +184,19 @@ drawn i.e. sample size (5 and 1)
 ---
 
 R Code and Output:
-> prob_w_draw <- dhyper(w_draw,m=5,n=64,k=5)
-> print(prob_w_draw)
- 8.897974e-08 8.897974e-08 2.847352e-05 2.847352e-05 1.793832e-03
+
+```{r}
+prob_w_draw <- dhyper(w_draw,m=5,n=64,k=5)
+print(prob_w_draw)
+```
+8.897974e-08 8.897974e-08 2.847352e-05 2.847352e-05 1.793832e-03
 [6] 1.793832e-03 3.707252e-02 2.826780e-01 6.784271e-01
-> prob_r_draw <- dhyper(r_draw,m=1,n=25,k=1)
-> print(prob_r_draw)
- 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
-[7] 0.03846154 0.03846154 0.03846154
+
+```{r}
+prob_r_draw <- dhyper(r_draw,m=1,n=25,k=1)
+print(prob_r_draw)
+```
+
 
 ---
 
@@ -194,10 +205,17 @@ R Code and Output:
 d) Finally, we define prob_draw to be the multiplication of prob_w_draw and prob_r_draw 
 assuming the draws are independent of each other.
 R Code and Output:
-> prob_draw = prob_w_draw * prob_r_draw # multiplication of probabilities
-> print(prob_draw)
+
+```{r}
+prob_draw = prob_w_draw * prob_r_draw # multiplication of probabilities
+print(prob_draw)
+```
+
  3.422298e-09 8.555745e-08 1.095135e-06 2.737838e-05 6.899352e-05 1.724838e-03
 [7] 1.425866e-03 1.087223e-02 2.609335e-02 [2]
+
+---
+
 e) We define another data set prize which defines the prize amounts for Cases A to I.
 R Code and Output:
 > 
