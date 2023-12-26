@@ -143,8 +143,7 @@ pred<-predict(model,test_Data,type = "class")
 
 # (v)
 summary(pred) 
-IAI CS2B-0921
-Page 13 of 13
+
 ## No Yes 
 ## 89 11
 

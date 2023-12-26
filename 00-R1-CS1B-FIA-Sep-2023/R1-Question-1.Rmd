@@ -1,0 +1,86 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+
+1 (i) Simulate 10,000 samples from an Exp(3) distribution, each of size n = 10,
+using the inverse transform method. You should save the generated values in
+R for later use.
+You must use the command set.seed(3202) to initialise the random
+number generator, before you start the simulation. 
+(ii) Plot a histogram of the means of the samples generated in part (i), using an
+appropriate option in R for plotting the histogram on the probability density
+scale. 
+(iii) Plot the Probability Density Function (PDF) of the sampling distribution of the
+sample mean, under the Central Limit Theorem (CLT), corresponding to the
+samples generated in part (i). The graph of the PDF should be superimposed
+on the histogram produced in part (ii). [7]
+(iv) Comment on the sampling distribution of the sample mean and the application
+of the CLT in this case based on your answers to parts (ii) and (iii). 
+
+
+Q1
+(i)
+R code:
+set.seed(3202)
+n = 10; theta = 3
+m1 = matrix(0,nrow=10^4,ncol=n) # Initialise matrix, each sample in a row
+for (i in 1:10^4){ [½]
+u = runif(n,0,1) 
+m= - log(1-u)/theta # Generate samples in rows 
+m1[i,] = m [½]
+}
+(ii)
+R Code:
+xbar.a = apply(m1,1,mean) 
+hist(xbar.a,freq=F,main="Sampling distribution of Xbar") 
+
+(iii)
+Using the CLT, the sampling distribution should be N(1/3, 1/90). [2]
+R code:
+x.grid = seq(0,1,length=1000) 
+lines(x.grid,dnorm(x.grid,1/3,sqrt(1/90))) [2]
+
+
+
+The curve shows the exact pdf of the sampling distribution. 
+(iv)
+The sampling distribution is relatively asymmetrical compared to the normal. 
+The CLT does not work very well here 
+as the sample size is small (n = 10). 

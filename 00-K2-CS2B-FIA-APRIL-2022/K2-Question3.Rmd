@@ -70,31 +70,9 @@ c
 for each of the graduations. 
 Use the R function, head(), to display the first seven values of columns zx1, 
 zx2 and zx3 ONLY in your answer script. [6] 
-(ii) Determine, using R, the p-value of the chi-square goodness-of-fit test for each 
-of the three graduations given that the numbers of degrees of freedom are as 
-follows: 
-Graduation 1 2 3 
-Degrees of freedom 36 37 35 
---- 
-(iii) Comment on your results in part (ii), with reference to the suitability of the 
-three graduations for the observed mortality rates. [6] 
-(iv) Determine, using R, the numbers of positive and negative deviations for each 
-of the three graduations. 
 
-(v) Determine, using R, the numbers of groups of positive deviations for each of 
-the three graduations. 
-(vi) Determine, using R, the p-value of the grouping of signs test for each of the 
-three graduations. 
-[Hint: If you are using the binomial coefficients ൫
-n
-r
-൯ in your calculations, 
-these may be obtained in R as choose(n, r).] [9] 
-(vii) Comment on whether your conclusions in part (iii) have changed in light of 
-the results in part (vi). [2] 
- [Total 51] 
-END OF PAPER 
 ---
+
 
 Q3
 (i)
@@ -123,6 +101,33 @@ graduation$Graduation3)
 
 ---
 
+(ii) Determine, using R, the p-value of the chi-square goodness-of-fit test for each 
+of the three graduations given that the numbers of degrees of freedom are as 
+follows: 
+Graduation 1 2 3 
+Degrees of freedom 36 37 35 
+--- 
+(iii) Comment on your results in part (ii), with reference to the suitability of the 
+three graduations for the observed mortality rates. [6] 
+(iv) Determine, using R, the numbers of positive and negative deviations for each 
+of the three graduations. 
+
+(v) Determine, using R, the numbers of groups of positive deviations for each of 
+the three graduations. 
+(vi) Determine, using R, the p-value of the grouping of signs test for each of the 
+three graduations. 
+[Hint: If you are using the binomial coefficients ൫
+n
+r
+൯ in your calculations, 
+these may be obtained in R as choose(n, r).] [9] 
+(vii) Comment on whether your conclusions in part (iii) have changed in light of 
+the results in part (vi).  
+
+---
+
+
+
 ```{r}
 head(graduation[, 7:9], 7) 
  zx1 zx2 zx3
@@ -143,7 +148,7 @@ EITHER:
 ```{r}
 chisq = vector(length = 3) 
 chisq = sum(graduation$zx1^2) 
-chisq[2] = sum(graduation$zx2^2) 
+chisq = sum(graduation$zx2^2) 
 chisq[3] = sum(graduation$zx3^2)
 ```
 
@@ -157,6 +162,11 @@ OR:
 chisq1 = sum(graduation$zx1^2) 
 chisq2 = sum(graduation$zx2^2) 
 chisq3 = sum(graduation$zx3^2) 
+
+````
+
+---
+
 1 - pchisq(chisq1, df = 36) [1½]
  0.07002971 
 1 - pchisq(chisq2, df = 37) 
@@ -176,18 +186,19 @@ The p-value for graduation 3 is 0.07128
 
 ---
 (iii)
-Based on the p-values, there is enough evidence to reject graduation 2 at the 5% significance 
+
+* Based on the p-values, there is enough evidence to reject graduation 2 at the 5% significance 
 level but not graduations 1 and 3 
-Since graduation 2 does not fit the rates well, the parameter that was removed from 
+* Since graduation 2 does not fit the rates well, the parameter that was removed from 
 graduation 1 to give this graduation is statistically significant and should be added
-back in [2]
-The results do not support the need for the additional parameter in graduation 3
+back in 
+* The results do not support the need for the additional parameter in graduation 3
 compared with graduation 1. 
-For graduation 3 the improvement in fit approximately balances out the lost
+* For graduation 3 the improvement in fit approximately balances out the lost
 degree of freedom. 
-Although graduations 1 and 3 appear suitable based on the chi-square test, they
+* Although graduations 1 and 3 appear suitable based on the chi-square test, they
 may be unsuitable for other reasons 
-Any appropriate example, e.g. small consistent bias, a few large outliers, or clumps
+* Any appropriate example, e.g. small consistent bias, a few large outliers, or clumps
 of deviations of the same sign 
 
 ---
@@ -196,10 +207,10 @@ EITHER:
 pos = vector(length = 3) 
 neg = vector(length = 3) 
 pos = length(graduation$zx1[graduation$zx1 0]) 
-pos[2] = length(graduation$zx2[graduation$zx2 0]) 
+pos = length(graduation$zx2[graduation$zx2 0]) 
 pos[3] = length(graduation$zx3[graduation$zx3 0]) 
 neg = length(graduation$zx1[graduation$zx1 < 0]) 
-neg[2] = length(graduation$zx2[graduation$zx2 < 0]) 
+neg = length(graduation$zx2[graduation$zx2 < 0]) 
 neg[3] = length(graduation$zx3[graduation$zx3 < 0]) 
 pos 
  22 20 21 
@@ -251,7 +262,7 @@ duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1)
 ---
 
 ```{r}
-+ pos_z * 1} [2]
++ pos_z * 1} 
 groups 
  11 5 11 
 OR:
@@ -260,7 +271,7 @@ groups1 =
 sum( 
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
  [3½]
-+ pos_z * 1 [2]
++ pos_z * 1 
 
 ```
 
@@ -299,7 +310,7 @@ groups[j] =
 sum( 
 duplicated(c(which(pos_z == 1) - 1,
 which(pos_z == 0))) * 1) [3½]
-+ pos_z * 1 [2]
++ pos_z * 1 
 }
 groups 
 ```
@@ -311,7 +322,7 @@ groups1 =
 sum( 
 duplicated(c(which(pos_z == 1) - 1,
 which(pos_z == 0))) * 1) [3½]
-+ pos_z * 1 [2]
++ pos_z * 1 
 pos_z = (graduation$zx2 0) * 1
 groups2 =
 sum(

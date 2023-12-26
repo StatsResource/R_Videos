@@ -36,6 +36,41 @@ pre {
 
 ---
 
+Page 2 of 5
+Q. 1)
+The data set “Monthly_Corn.csv” contains monthly average closing prices and the volume of corn traded on the Chicago Mercantile Exchange from January 2017 to March 2023. Load the data into R.
+i) Create a time series of the closing price by using an appropriate R function.
+(1)
+ii) Plot this series, labelling each axis appropriately.
+(2)
+iii) Based on visual inspection of the series, comment on whether the series is stationary or not.
+(1)
+iv) Plot the Auto-Correlation Function (ACF) and Partial Auto-Correlation Function (PACF) of the closing prices, labelling each axis appropriately.
+(4)
+v) Comment on the stationarity of the closing price by observing the plots in part (iv).
+(2)
+vi) Create another time series “monthly_returns” by using the formula log(Pt/Pt-1), where Pt and Pt-1 correspond to the closing prices of month t and t-1 respectively.
+(2)
+vii) Plot the ACF and PACF of the monthly returns series, labelling each axis appropriately.
+(3)
+viii) Comment on the stationarity of the monthly returns by observing the plots in part (vii).
+(2)
+ix) Based on the ACF and PACF of the returns series obtained in part (vii), identify the most appropriate ARMA model to be fitted to the series.
+(1)
+x) Fit the following four ARMA models to the returns series:
+a) ARMA(0,0),
+b) ARMA (0,1),
+c) ARMA (1,0) and
+d) ARMA (1,1)
+and identify the model with the least Akaike Information Criteria (AIC) value.
+(4)
+xi) Compare the result in part (ix) and part (x) and give a suitable explanation for any deviation observed.
+(2)
+[24]
+
+---
+
+
 Solution 1:
 Corn_Prices<-read.csv("D:\\Monthly_corn.csv")
 (i) Close<-ts(Corn_Prices$Close,start = c(2017,1),frequency=12)
@@ -93,7 +128,7 @@ max=60)
 CF should decay to zero quickly and should not display any oscillation.
  
 (ix) The most appropriate ARMA will be ARMA (0,0) as the ACF and PACF do not 
-show significance at any of the lags [1]
+show significance at any of the lags 
 (x) library(forecast)
 ## Warning: package 'forecast' was built under R version 4.0.5
 ## Registered S3 method overwritten by 'quantmod':
@@ -106,13 +141,13 @@ m2<-arima(returns,order = c(1,0,0))
 m3<-arima(returns,order = c(0,0,1))
 m4<-arima(returns,order = c(1,0,1))
 m1$aic
-## [1] -164.6838
+##  -164.6838
 m2$aic
-## [1] -163.5281
+##  -163.5281
 m3$aic
-## [1] -163.3079
+##  -163.3079
 m4$aic
-## [1] -165.2896
+##  -165.2896
 auto.arima(returns)
 ## Series: returns 
 ## ARIMA(0,0,0)(1,0,0)[12] with zero mean 

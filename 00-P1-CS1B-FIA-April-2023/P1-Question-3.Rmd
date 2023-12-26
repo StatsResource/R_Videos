@@ -66,3 +66,65 @@ predictive interval of the daughter’s height based on the fitted model.
 
 
 ---
+
+Q3
+(i) R code:
+plot(heights, main = "Scatterplot of the heights of the daughter, mother and father") 
+
+(ii) The scatterplots suggest a (strong) positive and roughly linear relationship between mothers’ and daughters’ height. 
+The relationship between fathers’ and daughters’ height seems weaker 
+There is no association between mothers’ and fathers’ height. 
+(iii) R code:
+mod1 = lm(daughter.height ~ mother.height + father.height) 
+summary(mod1)
+CS1B - Actuarial Statistics - Core Principles - April 2023 - Examiners’ report
+CS1B A2023 © Institute and Faculty of Actuaries
+#Residuals:
+# Min 1Q Median 3Q Max
+#-3.8805 -0.6942 0.5915 0.8651 3.3138
+#
+#Coefficients:
+# Estimate Std. Error t value Pr(>|t|)
+#(Intercept) 7.4543 10.8804 0.685 0.503
+#mother.height 0.7072 0.1289 5.488 4e-05 ***
+#father.height 0.1636 0.1266 1.293 0.213
+#---
+#Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#
+#Residual standard error: 1.94 on 17 degrees of freedom
+#Multiple R-squared: 0.6752, Adjusted R-squared: 0.637
+#F-statistic: 17.67 on 2 and 17 DF, p-value: 7.057e-05 
+The fitted equation is
+𝑦𝑦􀷜=7.454+0.707 𝑀𝑀𝑀𝑀𝑀𝑀ℎ𝑒𝑒𝑟𝑟′𝑠𝑠 ℎ𝑒𝑒𝑒𝑒𝑒𝑒ℎ𝑡 +0.164 𝐹𝐹𝐹𝐹𝐹 ℎ𝑒𝑒𝑟𝑟′𝑠𝑠 ℎ𝑒𝑒𝑒𝑒𝑒𝑒ℎ𝑡 
+(iv) Mother’s height has a positive [½]
+significant positive effect on daughter’s height (p-value = 4e-05). [1½]
+On the other hand, although daughters’ height also increases with father’s height, [½]
+the effect is not significant (p-value = 0.213). [1½]
+(v) R code:
+mod1.residuals = residuals(mod1)
+# Or
+# mod1.residuals = resid(mod1)
+mod1.fitted = fitted(mod1)
+#Or
+# mod1.fitted = fitted.values(mod1)
+plot(mod1.fitted,mod1.residuals, main = “Residuals of the fitted multiple regression model”) [3]
+Alternative code: plot(mod1,1)
+CS1B - Actuarial Statistics - Core Principles - April 2023 - Examiners’ report
+CS1B A2023 © Institute and Faculty of Actuaries
+
+(vi) There seem to be doubts about the assumption of constant variance, with residuals around fitted values 62-64 showing higher variation. 
+Also, although there seems to be random variation around zero, there is a larger number of positive residuals, indicating possible underestimation. 
+(vii) R code:
+newdata = data.frame(mother.height=61, father.height=63)
+predict(mod1,newdata,interval="predict",level=0.95) 
+The 95% prediction interval (56.4, 65.4) 
+So, a daughter’s height of 67.5 inches seems unlikely, based on the fitted model. 
+[Total 27]
+Part (i): Well answered. A common error was not including annotations on the plot.
+Part (ii): Overall well answered. Some candidates failed to identify all 3 relevant points of the relationships shown in the plots.
+Part (iii): Well answered generally. A number of candidates failed to state the fitted equation.
+Part (iv): Mixed answers. A common error was not referring explicitly to the p-values or the positive effect.
+Part (v): Overall very well answered. A common error was plotting the residuals against an index, without reference to the explanatory variables or fitted values.
+Part (vi): Mixed answers. In a number of cases comments were unclear, but most candidates provided some valid comments.
+Part (vii): Well answered generally.
+CS1B - Actuarial Statistics - Core Principles - April 2023 - Examiners’ report

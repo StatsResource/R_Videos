@@ -1,50 +1,92 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 CS2B S2022–5
 3 The dataset ‘CS2B_S22_Qu_3_Data.csv’ contains the following four variables: mpg,
 disp, qsec, hp.
 You are tasked to build a regression model to explain the response, hp, in terms of the
 features mpg, disp and qsec. Thus, the model must be in the form:
-yi = β0 + β1*mpgi + β2*dispi + β3*qseci + εi
-where β0, β1, β2 and β3 are the regression parameters and ε represents the error term.
+yi = $\beta$0 + $\beta$1*mpgi + $\beta$2*dispi + $\beta$3*qseci + εi
+where $\beta$0, $\beta$1, $\beta$2 and $\beta$3 are the regression parameters and ε represents the error term.
 This model can be written compactly as:
-y = X β + ε
+y = X $\beta$ + ε
 where y is the vector containing the response data and X is the design matrix.
+
+---
+
 (i) Write R code to load the dataset ‘CS2B_S22_Qu_3_Data.csv’ into R, create
 the design matrix, X, including column headings and display the first six rows
 of this design matrix.
 [Note: The X you create must be of the type ‘matrix’.] 
 You would like to fit the above model by minimizing the following:
-||y – X β||2 +
-λ
-2 ||β||2
-It can be shown that, for a given value of λ, the estimate βλ of β that minimises the
+||y – X $\beta$||2 +
+$\lambda$
+2 ||$\beta$||2
+It can be shown that, for a given value of $\lambda$, the estimate $\beta$$\lambda$ of $\beta$ that minimises the
 expression above is such that:
-􁈺Xt X + λ*I􁈻 βλ = Xt y
+􁈺Xt X + $\lambda$*I􁈻 $\beta$$\lambda$ = Xt y
 where I is the identity matrix and Xt is the transpose of X.
-(ii) State the name of this modelling approach. [1]
-(iii) Construct an R function, ridge_fit, that takes as inputs the value of λ, the
+(ii) State the name of this modelling approach. 
+(iii) Construct an R function, ridge_fit, that takes as inputs the value of $\lambda$, the
 vector of response data and the design matrix, and then returns the value of
-βλ = 􁈺Xt X + λ*I􁈻–1 Xt y.
+$\beta$$\lambda$ = 􁈺Xt X + $\lambda$*I􁈻–1 Xt y.
 [Hint: The R function solve can be used to compute the inverse of a matrix.
 That is, for a given invertible matrix, M, its inverse, M–1, can be computed in
 R by running the following code: solve(M).] [6]
-(iv) Calculate and display the value of the vector β2 (i.e. the value of vector βλ for
-λ = 2). 
-(v) Construct R code to compute the values of the vectors βλ and store them into
-successive rows of a matrix named matrix_LAMBDA, for λ = i/10, where
+(iv) Calculate and display the value of the vector $\beta$2 (i.e. the value of vector $\beta$$\lambda$ for
+$\lambda$ = 2). 
+(v) Construct R code to compute the values of the vectors $\beta$$\lambda$ and store them into
+successive rows of a matrix named matrix_LAMBDA, for $\lambda$ = i/10, where
 i = 0, 1, 2, ..., 10,000. 
-CS2B S2022–6
-(vi) Display the top six rows of matrix_LAMBDA. [1]
-You would like to select the best value of λ. A senior statistician suggests that you
+
+--- 
+
+(vi) Display the top six rows of matrix_LAMBDA. 
+You would like to select the best value of $\lambda$. A senior statistician suggests that you
 should base your selection on a statistical information criterion. However, most
 statistical information criteria depend on the so-called effective dimension of the
 model. For this task, it can be shown that the effective dimension is the sum of the
-diagonal elements of the following matrix: X(XtX + λ*I)–1Xt.
+diagonal elements of the following matrix: X(XtX + $\lambda$*I)–1Xt.
 (vii) Construct an R function called dim_fit that takes as inputs the design
-matrix and the value of λ, and then returns the corresponding effective
+matrix and the value of $\lambda$, and then returns the corresponding effective
 dimension. [6]
 (viii) Construct R code to compute the values of the effective dimensions and store
-them in a vector called vector_dim, for λ = i/10, where
+them in a vector called vector_dim, for $\lambda$ = i/10, where
 i = 0, 1, 2, ..., 10,000. 
-(ix) Plot the effective dimension as a function of λ. 
+(ix) Plot the effective dimension as a function of $\lambda$. 
 (x) Comment on your plot from part (ix). 
 

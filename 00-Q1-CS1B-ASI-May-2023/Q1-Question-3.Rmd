@@ -1,3 +1,43 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
 Solution 3:
 i) i
 .
@@ -19,7 +59,9 @@ m2x0 = prior_sd^2 + prior_mean^2
 [1] 3625
 (0.5)
 (0.5)
-[Max 3]
+
+---
+
 ii) .
 a) a
 .
@@ -28,8 +70,9 @@ a) a
 # posterior distribution of theta follows Normal with
 # post mean = (n*sample mean/variance +prior mean/prior variance)/
 # (n/variance + 1/prior variance)
-(0.5)
-(1.5)
+
+---
+
 #post variance = 1/(n/variance + 1/prior variance) (1)
 Max 2
 n<-5

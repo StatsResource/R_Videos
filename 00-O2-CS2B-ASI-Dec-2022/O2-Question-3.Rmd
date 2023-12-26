@@ -90,6 +90,13 @@ ii)
 w (3)
 iv)
 
+
+iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
+current value). Plot the lag as a red line added to the existing plot. 
+
+iv) Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
+value and 20 future values. Plot the lag as a blue line added to the existing plot. 
+
 ```{r}
 > # Smoothed symmetrically:
 > # average of current sample, 20 future samples, and 20 past samples (blue)
@@ -99,12 +106,5 @@ iv)
 > lines(x, y_sym, col="blue") 
 
 ```
-
----
-
- Page 10 of 11
- 
- (4)
-[13 Marks]
 
 ---

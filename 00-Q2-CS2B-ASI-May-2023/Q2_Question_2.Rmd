@@ -36,6 +36,55 @@ pre {
 
 ---
 
+Q. 2)
+The dataset “CSK.csv” contains details of 38 players who represented the team Chennai Super Kings (CSK) in the Indian Premier League (IPL) in more than 15 games as of 2022.
+The details of the variables are as follows:
+Bat_Avg: Batting Average of the Player
+Bat_SR: Batting Strike Rate of the Player
+Bound_Sixes: Percentage of the total runs scored in the form of boundaries and sixes
+Bowl_Avg: Bowling Average
+Bowl_Econ: Bowling Economy
+Bowl_SR: Bowling Strike Rate
+Initial_Class: Initial classification (Initially the players are classified as either “Batsman” or “Bowler” based on the historical performance
+IAI CS2B-0523
+Page 3 of 5
+Load the data into R and name the data frame as “CSK”.
+Use the following code
+rownames(CSK)<-CSK$Player
+CSK$Player<-NULL
+Perform feature scaling of all the numerical columns
+CSK[,1:6]<-scale(CSK[,1:6])
+i) Compute the mean value of all the scaled columns for Batsman and Bowler.
+(3)
+ii) Comment on the characteristics of different features based on the mean values for Batsman and the Bowler.
+(2)
+iii) Consider the mean values of Batsman and Bowler as the cluster centroids for the next iteration.
+a) Compute the Euclidean distance between the batsman cluster centroid and each observation and store the distances in a new variable “D1” of the data frame CSK.
+(4)
+b) Compute the Euclidean distance between the bowler cluster centroid and each observation and store the distances in a new variable “D2” of the data frame CSK.
+(4)
+iv) Assign a new cluster category (Batsman or Bowler) to each player (create a new column called “Iteration1” to the CSK data frame) based on which of the two distances are lower.
+(3)
+v) Compute the proportion of cluster transfers that occurred after the first iteration.
+(2)
+vi) Repeat the steps (i), (iii) and (iv) for another iteration using the new cluster memberships of each of the players and assign the new cluster category to each player after the second iteration (create a column called “Iteration2”).
+(10)
+vii) The players who were a part of two different categories in Iteration 1 and Iteration 2 are called as “Allrounders”. Identify the players who can be categorized as “Allrounders” in the CSK team.
+(2)
+viii) Your friend suggested that you can use “k-means” function to do the clustering of batsman and bowler groups.
+You need to execute the k-means clustering to create two clusters based on the six attributes of each player. Before executing the k-means clustering function, it is mandatory to set the seed value to 100 using set.seed(100). Print the cluster means of the two clusters formed.
+(3)
+ix) Add the k-means cluster memberships to the CSK data frame. Rename cluster 1 as “Batsman” and cluster 2 as “Bowler”.
+(2)
+x) Identify the names of the players who are differently classified between Iteration 2 and the k-means cluster.
+(2)
+IAI CS2B-0523
+
+xi) Comment on the reason for difference in classifications between Iteration 2 and k-means cluster.
+(2)
+
+---
+
 Solution 2:
 CSK<-read.csv("D:\\CSK.csv")
 rownames(CSK)<-CSK$Player
@@ -71,7 +120,7 @@ for (i in 1:38) {
 newD1
 IAI CS2B-0523
 Page 7 of 11
-## [1] 2.434718 1.729955 2.997824 1.568778 3.348392 2.958461 2.311089 2.4109
+##  2.434718 1.729955 2.997824 1.568778 3.348392 2.958461 2.311089 2.4109
 48
 ## [9] 1.772017 1.799161 1.791762 1.729785 2.272338 3.004869 1.710662 5.6257
 47
@@ -81,7 +130,7 @@ Page 7 of 11
 04
 ## [33] 2.974695 2.349785 2.502810 1.633570 1.549088 1.203394
 newD2
-## [1] 2.5460797 3.6709312 0.7248067 3.9317258 0.7657979 1.5270051 2.2706863
+##  2.5460797 3.6709312 0.7248067 3.9317258 0.7657979 1.5270051 2.2706863
 ## [8] 1.2766249 2.3503867 4.4885763 4.3502845 4.4537767 2.4004672 1.1346542
 ## [15] 4.4894753 3.1527952 4.4756309 1.6133179 2.1024193 3.5411385 1.6613139
 ## [22] 1.1997969 4.3415921 2.3017138 2.0161058 0.8954538 2.9284766 1.1502851
@@ -98,7 +147,7 @@ CSK$D2<-newD2
 ## Batsman 19 3
 ## Bowler 2 14
 sum(CSK$Initial_Class!=CSK$Iteration1)/nrow(CSK)
-## [1] 0.1315789
+##  0.1315789
 
 (vi) CSK<-CSK[,c(1:7,10)] 
 cent<-stats::aggregate(.~Iteration1,data = CSK[,-7], FUN = "mean") 
@@ -133,7 +182,7 @@ table(CSK$Iteration1,CSK$Iteration2)
 mputing D2 and 2 Marks for assigning the player to “Batsman or “Bowler” categ
 ory, Max 10]
 (vii) rownames(CSK)[CSK$Iteration1!=CSK$Iteration2]
-## [1] "MM Ali" "RA Jadeja" "JA Morkel"
+##  "MM Ali" "RA Jadeja" "JA Morkel"
 
 (viii) 
 set.seed(100)
@@ -157,7 +206,7 @@ table(CSK$Iteration2,CSK$cluster)
 rownames(CSK)[CSK$Iteration2!=CSK$cluster]
 IAI CS2B-0523
 Page 9 of 11
-## [1] "SM Curran" "MS Gony" "SK Raina" "DR Smith"
+##  "SM Curran" "MS Gony" "SK Raina" "DR Smith"
 (xi) After few more iterations, the convergence of iteration 2 with the kmea
 ns cluster solution will occur.
  [1 mark for each valid point, Max 2]

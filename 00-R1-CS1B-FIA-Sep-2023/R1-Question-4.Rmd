@@ -1,0 +1,98 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 4
+
+---
+
+
+4 A coin used by a referee before the start of a football game is suspected to be unfair.
+The hypothesis of a fair coin is tested by tossing the coin 200 times. The coin is then
+declared fair if between 85 and 115 tosses (both inclusive) are heads, otherwise the
+hypothesis of fair coin is rejected.
+(i) (a) Calculate the exact probability, to two decimal places, of rejecting the
+hypothesis of fair coin when it is actually true, using the test above. [5]
+(b) Calculate an approximate probability, to two decimal places, of
+rejecting the hypothesis of fair coin when it is actually true, using the
+test above and a normal approximation. [5]
+(c) Comment on your results to parts (i)(a) and (i)(b). 
+(ii) Calculate the exact probability, to four decimal places, of not rejecting the
+hypothesis of the coin being fair when the actual probability of heads is equal
+to 0.7. [4]
+(iii) Calculate the power of the test, to four decimal places, for the probability of
+heads taking values from 0.1 to 0.9 with a 0.01 step. You are not required to
+print the results. [4]
+[Hint: you might find the seq() command useful.]
+(iv) Plot the power of the test against the probability of heads values in part (iii).
+
+(v) Comment on the plot in part (iv). [2]
+
+
+Q4
+(i)(a)
+The probability of heads or tail for a fair coin is 0.5. [½]
+round(1 - pbinom(115,200,0.5) + pbinom(84,200,0.5),2) [4]
+# Answer is 0.03 [½]
+The probability of rejecting the hypothesis of fair coin when it is actually correct is
+0.03.
+(b)
+As the sample size 𝑛𝑛 is large, the binomial distribution can be approximated by the normal distribution with mean 𝑛𝑛𝑛𝑛 and variance 𝑛𝑛𝑛𝑛(1−𝑝 ) using CLT. 
+Applying continuity correction, the probability of rejecting the hypothesis of fair
+coin when it is actually correct, is calculated as:
+round(1 - pnorm((115.5 - 100)/sqrt(50)) + pnorm((84.5-100)/sqrt(50)), 2) [3½]
+Answer is: 0.03 [½]
+(c)
+We obtain the same answer and conclude the approximation works well. 
+(ii)
+A coin is judged fair if in a single sample of 200 tosses, between 85 and 115
+(inclusive) heads occur, with 𝑝 =0.7 here:
+round(pbinom(115, 200, 0.7) - pbinom(84, 200, 0.7),4) [3]
+Parts (i)-(iii) were very well answered in general.
+The answers in part (iv) varied, with a number of candidates giving unclear comments.
+
+
+# 0.0001 
+(iii)
+p = seq(0.1, 0.9, 0.01) 
+pow = round(1 - (pbinom(115, 200, p) - pbinom(84, 200, p)),4) [3]
+(iv)
+plot(p,pow, type="l", ylab = "Power of test", xlab = "probability", main="Power of test") [2]
+
+(v)
+The power of the test increases as we get away from the fair coin probability. 
+This is consistent with the definition of the power of a test since the ability to reject
+the null hypothesis of coin being fair should be higher when the hypothesis should
+be rejected. 

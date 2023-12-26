@@ -154,10 +154,13 @@ Gamma_alpha
 ```{r}
 # Histogram
 hist(Motorclaim$CLAIM,breaks = 35,freq = FALSE) 
+
 #Superimpose Normal distribution
 curve(dnorm(x,mean = Normal_mu,sd = Normal_sigma),from = min(Motorclaim$CLAIM), to = 
 max(Motorclaim$CLAIM), add = TRUE, col= "blue") 
+
 #Superimpose Log Normal distribution
+
 curve(dlnorm(x,meanlog = LogNormal_mu,sdlog = LogNormal_sigma),from = 
 min(Motorclaim$CLAIM), to = max(Motorclaim$CLAIM), add = TRUE, col= "green") 
 

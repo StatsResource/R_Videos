@@ -1,0 +1,194 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+Q. 2)
+You are a Research Analyst and working on a short term assignment. Your professor provided dance data (dance.csv) containing scores of 20 contestants of a famous dance show and asked you to perform the following tasks.
+i) Using read.csv load the data and use head command to view the first few rows of the data.
+No need to paste the output of head command.
+(2)
+dance.csv contains following fields:
+- Judges: It indicates the score provided by judges
+- Audience: It indicates the sum of scores provided by audience
+IAI CS1B-1123
+Page 3 of 6
+- Final: It indicates the final score of the contestant
+ii) Plot a scatterplot for each pair of data.
+Make sure to paste the scatterplot in your answer scripts.
+(4)
+iii) Using scatterplot of part (ii), comment on the relationship between the pairs of data.
+(3)
+iv) Fit a multiple linear regression model with
+- Final score as response variable and
+- Judges and Audience score as explanatory variables.
+a) Store the model as m1.
+(2)
+b) Show summary of the output and also write the equation of the fitted model.
+(4)
+c) Compute confidence interval of all parameters.
+(3)
+d) Comment on the significance of the each explanatory variable either referring to above confidence interval or other statistics.
+(3)
+You published the report showing the above results and reference data on your research website. After few months, a journalist accused the dance show of ignoring audience scores and cited your report.
+The sponsors of dance show stated that incomplete data is used for analysis as audience score depends upon the number of audiences provided scores. They shared supplement data providing the number of audiences for each participant.
+v) Using the following code to load the number of audiences for 20 contestants
+audience.count<-c(110,100,90,120,100,100,100,100,110,110,100,
+100,110,90,100,110,120,120,100,100)
+Also, verify total count is equal to 2090.
+(2)
+vi) Compute the new audience score by dividing the sum of score provided by audience (“Audience”) with audience count (“audience.count”).
+Store as Audience2 and make sure to attach to the dance data.
+Please don’t paste Audience2 values.
+(2)
+vii) Perform correlation test to check whether any correlation exits between final score and new audience score.
+(3)
+viii) Fit a new multiple linear regression model with
+- Final score as response variable and
+- Judges and New Audience score as explanatory variables.
+Store this model as m2 and show the summary of the output.
+(3)
+IAI CS1B-1123
+Page 4 of 6
+ix) Using a suitable statistic from part (iv.b) and (viii). outputs, compare models m1 and m2 and suggest which model is better.
+Please write the figures of the statistic while answering.
+(3)
+[34]
+
+
+Solution 2:
+i)
+dance<-read.csv("dance.csv")
+head(dance)
+[2]
+ii)
+plot(dance)
+[4]
+iii)
+Judges score and Final score seems to have a linear relationship
+Audience score is quite scattered and doesn't show any strong linear relationship with either Judges or Final score
+[3]
+iv)
+a)
+b)
+m1<-lm(Final~Judges+Audience,data=dance)
+> summary(m1)
+Call:
+lm(formula = Final ~ Judges + Audience, data = dance)
+Residuals:
+Min 1Q Median 3Q Max
+-5.2783 -0.7971 0.1841 1.6334 3.7680
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)
+(Intercept) 10.617827 15.129865 0.702 0.492
+Judges 0.720273 0.128870 5.589 3.26e-05 ***
+Audience 0.001449 0.001294 1.120 0.278
+[2]
+IAI CS1B-1123
+Page 5 of 8
+c)
+d)
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 2.604 on 17 degrees of freedom
+Multiple R-squared: 0.6601, Adjusted R-squared: 0.6201
+F-statistic: 16.51 on 2 and 17 DF, p-value: 0.0001038
+Final = 10.617827 + 0.720273 * Judges + 0.001449 *Audience
+> confint(m1)
+2.5 % 97.5 %
+(Intercept) -21.3033977 42.5390512
+Judges 0.4483811 0.9921649
+Audience -0.0012812 0.0041793
+>
+> #Judges score seems significant since confidence interval doesn't contain 0.
+Sum of audience score doesn’t seem significant sine it contains 0.
+Alternate:
+> #P-value is <.01 for judges score showing significance.
+[4]
+[3]
+[3]
+v)
+audience.count<-c(110,100,90,120,100,100,100,100,110,110,100,
+100,110,90,100,110,120,120,100,100)
+sum(audience.count)
+[1] 2090
+[2]
+vi)
+dance$Audience2<-dance$Audience/audience.count
+[2]
+vii)
+> cor.test(dance$Final,dance$Audience2)
+Pearson's product-moment correlation
+data: dance$Final and dance$Audience2
+t = 4.9045, df = 18, p-value = 0.0001142
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+0.4716109 0.8982071
+sample estimates:
+cor
+0.7562948
+> #correlation between audience score and final score is quite high
+[3]
+viii)
+m2<-lm(Final~Judges+Audience2,data=dance)
+> summary(m2)
+Call:
+lm(formula = Final ~ Judges + Audience2, data = dance)
+Residuals:
+Min 1Q Median 3Q Max
+-1.9408 -1.0269 0.1129 1.0466 1.6075
+Coefficients:
+IAI CS1B-1123
+Page 6 of 8
+Estimate Std. Error t value Pr(>|t|)
+(Intercept) 1.20323 5.84491 0.206 0.839
+Judges 0.56604 0.06545 8.648 1.24e-07 ***
+Audience2 0.42002 0.05366 7.827 4.91e-07 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 1.258 on 17 degrees of freedom
+Multiple R-squared: 0.9207, Adjusted R-squared: 0.9114
+F-statistic: 98.73 on 2 and 17 DF, p-value: 4.39e-10
+[3]
+ix)
+#Adjusted R-square =0.9114 for model2 vs 0.6201 for model1.
+#This indicates model 2 is better
+Alternate:
+# R square can be used
+[3]
+[34 Marks]

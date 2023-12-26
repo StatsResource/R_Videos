@@ -1,0 +1,149 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+Q. 3)
+An analyst fitted various models on the data containing claims information of 20 policies and shared the output to conduct analysis.
+Output 1:
+Call:
+glm(formula = Claim ~ 1, family = poisson(lin = "log"), data = q3)
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.8439 -0.8975 -0.1791 0.3925 2.5561
+Coefficients:
+Estimate Std. Error z value Pr(>|z|)
+(Intercept) 0.5306 0.1715 3.094 0.00197 **
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+Null deviance: 30.147 on 19 degrees of freedom
+Residual deviance: 30.147 on 19 degrees of freedom
+AIC: 71.114
+Number of Fisher Scoring iterations: 5
+i) Write the equation of the fitted model using Output 1 as above and specify which distribution is used to model the response variable.
+(2)
+ii) Using output 1, show that the sample mean of the response variable is 1.7 (when rounded to one decimal place).
+(2)
+Output 2:
+Call:
+glm(formula = Claim ~ Gender + Health - 1, family = poisson(lin = "log"),
+data = q3)
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.22474 -0.81754 -0.07119 0.27453 1.44149
+Coefficients:
+Estimate Std. Error z value Pr(>|z|)
+GenderF 1.1394 0.3490 3.265 0.001096 **
+GenderM 1.1394 0.2216 5.143 2.71e-07 ***
+HealthNonDiabetic -1.4271 0.3939 -3.623 0.000291 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+IAI CS1B-1123
+Page 5 of 6
+(Dispersion parameter for poisson family taken to be 1)
+Null deviance: 38.229 on 20 degrees of freedom
+Residual deviance: 14.436 on 17 degrees of freedom
+AIC: 59.403
+Number of Fisher Scoring iterations: 5
+iii) Write the equation of the fitted model using Output 2.
+Make sure to define the explanatory (categorical) variables.
+(4)
+iv) Output 2 doesn’t have an intercept as a coefficient unlike output1. Please provide the reason for the same by comparing glm R formulas.
+(2)
+v) Compare output 1 and output 2, and suggest which model is better using suitable statistics.
+(2)
+vi) Compute log likelihood of the model given in output 2.
+(3)
+vii) Claim follows Poisson distribution. Test for the parameter to be equal to 1.5 at 1% level of significance.
+Hint: Use outputs and various sub-parts to determine x for poisson test.
+(5)
+[20]
+
+
+Solution 3:
+i)
+log(y) = 0.5306
+poisson distribution is used to model response variable.
+[2]
+ii)
+> Claim.mean<-round(exp(.5306),1)
+> Claim.mean
+[1] 1.7
+[2]
+iii)
+log(y) = 1.1394 * GenderF + 1.1394 * GenderM -1.4271 *HealthNonDiabetic
+where GenderF =1 if Gender = F else 0
+GenderM =1 if Gender = M else 0
+HealthNonDiabetic =1 if Health= NonDiabetic else 0
+[Max 4]
+iv)
+For model 2, “-1” is used in Glm R formula to not take the intercepts while fitting the model.
+Thus, no intercept exits.
+[2]
+v)
+AIC (=59.4) of model 2 which is lower than AIC (71.1) of model 1. This indicates that model 2 is better.
+[2]
+vi)
+#AIC = - 2LogL(Model) + 2*Parameters
+> #LogL(Model) = Parameters - AIC/2
+> aic<-59.403
+> par<-3
+>
+> L<- par - aic/2
+> L
+[1] -26.7015
+[Max 3]
+vii)
+#Total claims = Mean claims * Total policies
+> x<-Claim.mean*20
+> poisson.test(x=X,T=20,r=1.5,conf.level = 0.99)
+Exact Poisson test
+IAI CS1B-1123
+Page 7 of 8
+data: X time base: 20
+number of events = 34, time base = 20, p-value = 0.4639
+alternative hypothesis: true event rate is not equal to 1.5
+99 percent confidence interval:
+1.042837 2.605372
+sample estimates:
+event rate
+1.7
+>
+> # We cannot reject the null hypothesis that parameter is equal to 1.5.
+[Max 5]

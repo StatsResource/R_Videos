@@ -1,3 +1,41 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+options(scipen = 2, digits = 3) #set to two decimal 
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 [13]
 Q. 4) Consider the Dataset “fraud.csv”. There are two feature variables (1) State and (2) 
 Sum_insured indicating the geography of the insured and the size of the sum insured for 
@@ -15,8 +53,8 @@ C3 as a proportion of total claims from medium sum insured policies from C3. (3)
 vi) Compare the results obtained in (iv) and (v) with suitable explanation. (2)
 vii) Provide two major limitations of computing the probability of a fraudulent claim using 
 this method. (2)
-[20]
-********************************
+
+---
 
 Solution.4
 > fraud <- read.csv("C:/ fraud.csv", stringsAsFactors=TRUE)
@@ -30,17 +68,20 @@ ii)
 > y<-sum(fraud$State == "C3"& fraud$Sum_insured =="Medium")/nrow(fraud)
 > y
 [1] 0.199 
-(3)
+
+
+---
+
 iii)
 >fraud_claims<-fraud[fraud$Fraudulent=="Yes",]
 >z<-sum(fraud_claims$State=="C3"&fraud_claims$Sum_insured =="Medium")/nrow(fraud_claims)
 > z
 [1] 0.4035088 
-(4)
+
+
+---
 iv)
 > prob<-x*z/y
-IAI CS2B-1222
- Page 11 of 11
 > prob
  Yes 
 0.1155779 
@@ -58,6 +99,4 @@ vii)
 >'(b) If your test data set has a categorical variable of a category that wasn not present in the training 
 data set, the Naive Bayes model will assign it zero probability and will not be able to make any 
 predictions in this regard'
-(2)
-[20 Marks]
-**********************
+

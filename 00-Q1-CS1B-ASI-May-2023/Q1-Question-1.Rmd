@@ -1,3 +1,43 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
 
 Solution 1:
 i) i
@@ -19,7 +59,8 @@ gam<-qgamma(u,1,1/2)
 sum(chi-gam)
 [1] 0
 (1)
-(0.5)
+---
+
 We know the property that if X ~ Gamma(α,ʎ) then 2ʎX has χ2 distribution with 2α degrees of 
 freedom.
 We have X ~ χ2 with 2 degrees of freedom.
@@ -31,7 +72,9 @@ This is why both samples are same.
 (1)
 (0.5)
 (0.5)
-[Max 3]
+
+---
+
 iv) .
 a) hist(chi, main ="Histogram of chi square distribution sample") a (1)
 (1)

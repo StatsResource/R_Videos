@@ -37,8 +37,7 @@ pre {
 
 ---
 
- [Total 24] 
-CS2B A2022–3 
+
 2 Before answering this question, the data set 𝑥, representing n = 100 observations from 
 an ARMA(2,0) model, must be generated in R using the following code: 
 set.seed(12456) 
@@ -47,7 +46,7 @@ x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
 autocorrelation function (sample PACF) for the data set 𝑥. [3] 
 (ii) Comment on the general features of the two plots in part (i) with emphasis on 
 how they compare to the theoretical behaviour of the corresponding functions 
-for an ARMA(2,0) process. [2] 
+for an ARMA(2,0) process.  
 (iii) Fit the following three models to the generated data set 𝑥, displaying their 
 Akaike Information Criterion (AIC) values in the R output in your answer 
 script: 
@@ -59,11 +58,11 @@ ARMA(2,0)
 
 #### Exercises
 (iv) Explain, using the results from part (iii), which of the fitted models is the most 
-appropriate for modelling the data set x. [2] 
+appropriate for modelling the data set x.  
 (v) Comment on your answer to part (iv). 
 (vi) Explain, with reasons, how the value of n in the R code for generating data set 
 x may be changed to ensure that the ARMA(2,0) model becomes the best 
-fitting model. [2] 
+fitting model.  
 (vii) Generate a new data set, y, using your suggested change to the value of n in 
 part (vi). Set the same random number generator seed as above before 
 generating y. 
@@ -114,14 +113,28 @@ However, given the small sample size and the fact that this process is close to 
 
 ---
 (iii)
+
+```{r}
 fitx10 = arima(x, order = c(1,0,0)) 
 fitx10$aic 
  305.4467 
+ 
+```
+
+```{r} 
 fitx11 = arima(x, order = c(1,0,1)); fitx11$aic 
- 307.4325 
+ 307.4325
+```
+
+
+```{r} 
 fitx20 = arima(x, order = c(2,0,0)); fitx20$aic 
- 307.4309 
-(iv)
+ 307.4309
+```
+
+---
+ 
+#### Part (d)
 The preferred model here is ARMA(1,0) 
 as the AIC value is the lowest 
 ---
@@ -137,9 +150,14 @@ not ARMA(2,0)
 (vi)
 We could increase the value of n in the R code (to say 1,000) 
 which would reduce the sampling uncertainty of the observations 
+
+---
+
 (vii)
+```{r}
 set.seed(12456) 
 y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2))) [1½]
+```
 
 ---
 
@@ -173,6 +191,9 @@ Coefficients:
 s.e. 0.0309 0.0309 0.4064
 sigma^2 estimated as 1.014: log likelihood = -1426.62,
 aic = 2861.24 
+
+---
+
 For data set y, the best fitting model is the “true” model 
 Whereas the best fitting model for data set x is not the “true” model 
 

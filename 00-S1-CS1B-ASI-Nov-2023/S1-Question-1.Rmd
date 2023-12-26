@@ -1,0 +1,149 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+Q. 1)
+i) Hotel room prices in Mumbai are normally distributed with a mean of Rs. 5400 and standard deviation of Rs. 900, whereas prices in Kolkata are normally distributed with a mean of Rs. 3600 and standard deviation of Rs. 1500. Compute the probability that a hotel room price in Mumbai is atleast twice the price in Kolkata. Note that the hotel prices in Mumbai and Kolkata are independent of each other.
+Store mean and sd values as x.mean, x.sd, y.mean,y.sd,etc.
+Hint: p**** is a useful function to ascertain CDF.
+(5)
+ii)
+a) Show that the population mean and standard deviation of “differences in hotel prices between Mumbai and Kolkata” (i.e., Mumbai hotel prices – Kolkata hotel Prices) are 1800 and 1749.86.
+(3)
+b) Generate a sample of size 50 for the ” differences in hotel prices between Mumbai and Kolkata”.
+(2)
+c) Draw qqplot and qqline for the sample generated and comment on the results.
+(4)
+Store population mean and standard deviation of differences as dif.mean and dif.sd
+Make sure to set the seed value to 1234 i.e use set.seed(1234) before generating the sample.
+Store the sample as dif.sample
+Don’t paste the sample
+iii) Test using 5% significance level whether the mean of “difference in hotel prices” is less than 1375 based on the sample generated in part (ii).
+a) Perform z-test and comment.
+(5)
+b) Perform t-test (assuming population is not known) and comment.
+(3)
+Please ensure to include test conclusion.
+iv)
+a) Generate another sample but with size=1000 and store as dif.sample2.
+(1)
+b) Draw qqplot and qqline for the sample generated in (iv.a) and comment on the results.
+(3)
+[26]
+
+
+Page 2 of 8
+Solution 1:
+i)
+> #X~N(5400,900^2)
+> x.mean=5400
+> x.sd=900
+> #Y~N(3600,1500^2)
+> y.mean= 3600
+> y.sd=1500
+> #P(X>2Y) = P(X-2Y>0)
+> # X-2Y ~ N(x.mean - 2y.mean, x.sd^2+4y.sd^2)
+>
+> f.mean<-x.mean - 2*y.mean
+> f.var <- x.sd^2+4*y.sd^2
+>
+> 1-pnorm(0,mean=f.mean,sd=sqrt(f.var))
+[1] 0.2827485
+[Max 5]
+ii)
+a)
+b)
+> > dif.mean<-x.mean - y.mean
+> dif.mean
+[1] 1800
+>
+> dif.sd <-sqrt(x.sd^2+y.sd^2)
+> dif.sd
+[1] 1749.286
+> set.seed(1234)
+> dif.sample<-rnorm(50,dif.mean,dif.sd)
+[3]
+[2]
+c)
+qnorm(dif.sample)
+qqline(dif.sample)
+
+---
+
+#### Conclusion 
+
+Above results indicates that despite sample generated from normal distribution it doesn’t seem to
+
+align with normality probably due to low sample size and high variability.
+iii)
+a)
+> sample.mean<-mean(dif.sample)
+> sample.mean
+[1] 1007.481
+> z<- (sample.mean - 1375)/(dif.sd/sqrt(50))
+> pnorm(z)
+[1] 0.06869143
+Since p-value is >0.05 we cannot reject the null hypothesis and thus, don’t have sufficient evidence to say that mean is less than 1375.
+
+---
+
+b)
+t.test(dif.sample, mu=1375, alternative = "less")
+One Sample t-test
+data: dif.sample
+t = -1.6786, df = 49, p-value = 0.0498
+alternative hypothesis: true mean is less than 1375
+95 percent confidence interval:
+-Inf 1374.558
+sample estimates:
+mean of x
+1007.481
+Since p-value is < 0.05 we can reject the null hypothesis and can imply that mean is less than 1375.
+[3]
+iv)
+a)
+b)
+dif.sample2<-rnorm(1000,dif.mean,dif.sd)
+qqnorm(dif.sample2)
+qqline(dif.sample2)
+With larger sample size, it indicates normality.
+[1]
+[3]
+[26 Marks]
+IAI CS1B-1123
+Page 4 of 8

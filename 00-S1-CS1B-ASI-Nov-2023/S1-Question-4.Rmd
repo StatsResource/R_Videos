@@ -1,0 +1,160 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+Q. 4)
+The table below shows the total claim number (cancellations) per year, Xij, for 4 travel companies over last 4 years.
+Years,j
+1
+2
+3
+4
+Travel Companies, i
+Make
+455
+458
+587
+531
+Ease
+251
+322
+292
+340
+Go
+309
+246
+217
+120
+Clear
+400
+426
+470
+547
+i) Using Empirical Bayes Credibility Theory (EBCT) Model 1, compute the following
+a) Copy the below code to load the data:
+q4<-matrix(c(455,251,309,400,
+458,322,246,426,
+587,292,217,470,
+531,340,120,547),
+ncol=4,nrow=4)
+(1)
+b) E[m(θ)]
+(2)
+c) E[s2(θ)]
+(2)
+d) Var[m(θ)]
+(3)
+e) Z
+(2)
+IAI CS1B-1123
+Page 6 of 6
+ii) Using part (i), calculate the expected claim number for Go and Clear.
+(3)
+iii) What additional information is required to use EBCT Model 2.
+(2)
+iv) Travel company “Ease” launched a membership program last year providing full refund on cancellations. Number of cancellations believed to follow binomial distribution with parameters n=3 and 0.20.
+Number of cancellations in last year on 150 memberships are as follows:
+Cancellations
+0
+1
+2
+3
+Members
+61
+71
+15
+3
+Carry out goodness of fit test for the binomial model specified for number of cancellations on each membership.
+(5)
+[20]
+****************************
+
+[20 Marks]
+Solution 4:
+i)
+q4<-matrix(c(455,251,309,400,
+458,322,246,426,
+587,292,217,470,
+531,340,120,547),
+ncol=4,nrow=4)
+n<-ncol(q4)
+m<-mean(rowMeans(q4))
+s<-mean(apply(q4,1,var))
+v<-var(rowMeans(q4)) - mean(apply(q4,1,var))/n
+Z<- n/(n+s/v)
+n
+[1] 4
+> m
+[1] 373.1875
+> s
+[1] 3967.854
+> v
+[1] 16843.22
+> Z
+[1] 0.9443816
+[1+2+2+3+2]
+ii)
+Z*rowMeans(q4[3:4,])+(1-Z)*m
+[1] 231.3532 455.8799
+[3]
+iii)
+Risk Volumes are required to apply EBCT2
+[2]
+iv)
+obs<-c(61,71,15,3)
+>
+> #Combine 2 and 3 since value of 3 is less than 5
+> obs.comb<-c(61,71,15 + 3)
+>
+> p<-0.2
+> exp<-dbinom(c(0:1),3,p)
+> exp[3]<-1-pbinom(1,3,p)
+> sum(exp)
+[1] 1
+>
+IAI CS1B-1123
+Page 8 of 8
+> chisq.test(x=obs.comb,p=exp)
+Chi-squared test for given probabilities
+data: obs.comb
+X-squared = 6.7371, df = 2, p-value = 0.03444
+Since p-value <0.5, we have sufficient evidence to reject the null hypothesis that cancellation follows bin(3,0.2)
+[Max 5]
+[20 Marks]
+***********************

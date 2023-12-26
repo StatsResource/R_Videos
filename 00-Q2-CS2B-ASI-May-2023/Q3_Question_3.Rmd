@@ -36,6 +36,46 @@ pre {
 
 ---
 
+[39]
+Q. 3)
+The village “Patasnagar” is very famous for manufacturing crackers for Diwali. Most of the people in that village work with one of two manufacturing firms “Patake” and “Tapake” for their livelihood. It has been observed that the people in this village are highly exposed to respiratory disorders due to unfriendly working conditions. A research firm was able to convince the Patake’s management to manufacture “green crackers” on an experimental basis from 1-Jan-2022 and funded for the expenses involved for setting up the equipment. Tapake did not listen to the request of the research firm and continued with the same type of crackers in 2022. The research firm started monitoring the villagers for 365 days from 1-Jan-22 to 31-Dec-22. The details of the observations are tabulated in “Crackers.csv”.
+There are five variables in the dataset
+VillagerID: The ID of each villager
+Green: The value is 1, if the villager works with Patake and 0 otherwise.
+Male: The value is 1, if the villager is a male worker and 0 for a female worker
+Status: The value is 1, if the villager is exposed to respiratory disorder in 2022 and stopped working for the year. The value is 0, if the villager did not get exposed to the disorder and survived the entire 2022 or has left the village in between and got censored.
+Use the “survival” library to work with this question.
+Load the data into R and name the data frame as “crackers”.
+i) Consider the entire data. Plot the Kaplan-Meier (KM) survival function estimate for all villagers, including 95% confidence interval of the estimate by appropriately naming the axes.
+(6)
+ii) Using the output of part (i), compute the probability that a villager survived from getting the respiratory disorder at the end of the investigation period.
+(2)
+iii) Consider the four groups of villagers:
+a) Males producing green crackers,
+b) Males producing non-green crackers,
+c) Females producing green crackers,
+d) Females producing non-green crackers.
+Plot the KM survival estimates without any confidence intervals for these four groups in a single plot. Use different coloured lines for each plot and give a proper legend to understand the same.
+(8)
+iv) Comment on the plots developed in part (iii).
+(2)
+v) Instead of using the KM method, use the Cox proportional hazard model (CoxPH) with two covariates (Green and Male) without their interaction term, and respiratory disorder as the event. Any ties can be handled using Breslow method. Paste the results.
+(4)
+vi) Comment on the effects of “Green” and “Male” (Gender) on the respiratory disorders based on the results obtained in part (v).
+(4)
+IAI CS2B-0523
+Page 5 of 5
+vii) Add the Green-Gender (Male) interaction effect to the Cox proportional hazards model of part (v) and paste the results.
+(4)
+viii) Compute the reduction/increase of disorder hazard rate for males and females by using the result of part (vii).
+(3)
+ix) Comment on the interaction effect of Green and Male on the respiratory disorders based on the results obtained in part (vii).
+(2)
+x) Compare and comment on the results obtained using KM and CoxPH models.
+(2)
+[37]
+*******************
+
 
 Solution 3:
 library(survival)
@@ -49,10 +89,10 @@ mate with 95% internval")
 the correct plot with appropriate labels.]
 
 (ii) summary(KMfit, time = 365)$surv
-## [1] 0.3095438
+##  0.3095438
 # OR
 min(KMfit$surv)
-## [1] 0.3095438
+##  0.3095438
 
 IAI CS2B-0523
 Page 10 of 11
@@ -99,11 +139,11 @@ th the effects are statistically significant at 5%.
 mod<-coxph(Surv(Time, Status) ~ Green * Male, data = crackers,ties="breslow")
 
 (viii) 
-female_hazard_red<-1-exp(mod$coefficients[1])
+female_hazard_red<-1-exp(mod$coefficients)
 female_hazard_red
 ## Green 
 ## 0.571342
-male_hazard_red<-1-exp(mod$coefficients[1]+mod$coefficients)
+male_hazard_red<-1-exp(mod$coefficients+mod$coefficients)
 male_hazard_red
 ## Green 
 ## 0.3158954

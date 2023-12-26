@@ -111,16 +111,21 @@ ii)
 ---
 
 iii)
+
+```{r}
 > MoMmu<-log(EmpiricalMean/(1+EmpiricalSD^2/EmpiricalMean^2)^0.5)
 > MoMsigma<-log(1+EmpiricalSD^2/EmpiricalMean^2)^0.5
 > MoMmu
 [1] 9.984059
 > MoMsigma
 [1] 1.28958
+```
 
 ---
 
 iv)
+
+```{r}
 > #fit a lognormal distribution to the dataset using fitdistr in the MASS package
 > fitLogNormal<-fitdistr(x$Losses,"lognormal")
 > mu1<-fitLogNormal$estimate[1]
@@ -131,7 +136,8 @@ meanlog
 > sigma1
 sdlog 
 1.268845 
-(3)
+
+```
 
 ---
 
@@ -139,24 +145,27 @@ sdlog
 quite close'.
 (3)
 vi)
+
+
+```{r}
 > #Simulate losses from a lognormal distribution using the mu and sigma estimated above
 > SimL<-rlnorm(n=1000,mu,sigma)
 > #calculate the mean and sd for the simulated distribution
 > mean(SimL)
 [1] 47238.53
 > sd(SimL)
-IAI CS2B-1222
- Page 3 of 11
-[1] 88548.16
-(4)
-vii)
 
+[1] 88548.16
+```
 ---
 
 viii)
 > 'The fit of the loss distribution is fairly good till loss values of 25,000. Beyond this the qqplot indicates
 the data is not normally distributed for larger/tail values' 
 (3)
+
+---
+
 ix)
 > #using the quantile function calculate the loss percentiles for every percentile from 0 to 100% with 
 steps of 10%

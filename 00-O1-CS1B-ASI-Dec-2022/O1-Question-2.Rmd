@@ -34,7 +34,7 @@ pre {
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
 
-* Question 1
+* Question 2
 
 ---
 
@@ -54,13 +54,18 @@ Oil XYZ Airways PQR Realty LMN Bank
 8 -13 10 13 10
 9 -14 5 20 7
 10 13 -19 1 16
+
+---
+
 i) Calculate the mean and standard deviation of the annual returns from each stock using 
 appropriate functions in R. (5)
 ii) Calculate the sample correlation coefficient between annual returns from various pairs 
 of stocks viz (ABC, XYZ), (ABC, PQR), (ABC, LMN), (XYZ, PQR), (XYZ, LMN), 
 (PQR, LMN). Use Pearson’s method. (3)
 IAI CS1B-1222
- Page 3 of 7
+
+---
+
 iii) The investor feels that in between the following pairs of stocks, there should exist a 
 perfect negative correlation –
 a) Changes in oil prices affect the prices of aviation fuel thus affecting aviation 
@@ -262,15 +267,20 @@ Since, strategy B gives higher mean returns, it would be wise to go with strateg
 returns is the metric to be targeted. 
 (1.5)
 (0.5)
-[2]
-v) H0: Variance of Returns from Strategy A = Variance of Returns from Strategy B
-H1: Variance of Returns from Strategy A ≠ Variance of Returns from Strategy B
-(1)
 
 ---
 
- Page 6 of 13
-> var.test(x=strat_A,y=strat_B,conf.level = 0.90)
+v) 
+
+H0: Variance of Returns from Strategy A = Variance of Returns from Strategy B
+H1: Variance of Returns from Strategy A ≠ Variance of Returns from Strategy B
+
+---
+
+```{r}
+var.test(x=strat_A,y=strat_B,conf.level = 0.90)
+```
+
 F test to compare two variances
 data: strat_A and strat_B
 F = 0.35856, num df = 9, denom df = 9, p-value = 0.1426
@@ -282,6 +292,8 @@ ratio of variances
  0.3585634
  
 ---
+
+#### conclusion
 
 Since the p-value 0.1426 > 10%, we have sufficient evidence to accept the null hypothesis at 
 the 10% level of significance. Hence, the investor’s assumption of the two strategies being 

@@ -39,6 +39,7 @@ Q. 4)
 The CDC and EISS detect influenza activity through clinical data including Influenza-like
 Illness (ILI) physician visits on weekly basis. The objective of this question is to estimate
 influenza-like illness (ILI) activity using Google web search logs.
+
 The csv file FluTrain.csv aggregates this data from January 1, 2004 until December 31, 2011
 as follows:
 
@@ -53,21 +54,23 @@ queries).
 
 #### Exercises
 
-i)
-Plot a histogram of the dependent variable, ILI. Comment on the shape of the
-distribution. (3)
-ii) Plot the natural logarithm of ILI versus Queries. What does the plot suggest? 
-iii) Fit a linear regression model for dependent variable log(ILI). Summarize it. 
-iv) State the formula of the model fitted in part (iii), explaining all the terms used. 
-v) Calculate R-squared and the correlation between the independent and dependent
+A. Plot a histogram of the dependent variable, ILI. Comment on the shape of the
+distribution. 
+B. Plot the natural logarithm of ILI versus Queries. What does the plot suggest? 
+C. Fit a linear regression model for dependent variable log(ILI). Summarize it. 
+D. State the formula of the model fitted in part (iii), explaining all the terms used. 
+E. Calculate R-squared and the correlation between the independent and dependent
 variable. What is the relationship between the two values? 
 
 ---
-Looking at the time period 2004-2011, which week corresponds to the highest
-percentage of ILI-related physician visits? (4)
-Based on the linear regression model fitted in question (iii), what is the estimate for
+
+F. Looking at the time period 2004-2011, which week corresponds to the highest
+percentage of ILI-related physician visits? 
+
+G. Based on the linear regression model fitted in question (iii), what is the estimate for
 the percentage of ILI-related physician visits for the week computed in question (vi)?
-What is the relative error between the estimate (prediction calculated in question (vii))
+
+H. What is the relative error between the estimate (prediction calculated in question (vii))
 and the actual observed value for the week computed in question (vi)? (4)
 vi)
 vii)
@@ -93,6 +96,7 @@ FluTrain <- read.csv("FluTrain.csv")
 ```{r}
 str(FluTrain)
 ```
+
 ---
 
 
@@ -116,7 +120,7 @@ i.e. more the number of the Google search queries, higher the number of ILI-rela
 
 ---
 
-### Exercise 3
+### Part C
 
 ```{r}
 FluTrend1 = lm(log(ILI) ~ Queries, data = FluTrain)
@@ -126,7 +130,7 @@ summary (FluTrend1)
 
 ---
 
-### Exercise 4
+### Part D
 
 ```{r}
 coef(FluTrend1)
@@ -139,7 +143,7 @@ where x is the google search queries and y is the percentage of ILI related phys
 
 ---
 
-### Exercise 5
+### Part E
 
 From the R output, R-squared value is 0.709. 
 

@@ -1,0 +1,75 @@
+[30]
+Q. 4)
+A bank in the country Actuaria is recruiting employees for different sections. Initially, it is compulsory to work for Marketing section for one year. After working for one year, they can either move to Administration or Training sections. On exactly April 1st they have the choice of moving to any other sections. Probability of moving from one section to another is dependent on the age last birthday.
+From the historical data it is evident that the transition probability of a person aged ‘x’ last birthday on April 1st is as per the following table:
+Marketing
+Administration
+Training
+Marketing
+1- 0.0025*x-0.0075*x
+0.0025*x
+0.0075*x
+Administration
+0.003*x
+1- 0.003*x - 0.004*x
+0.004*x
+Training
+0.001*x
+0.003*x
+1- 0.001*x - 0.003*x
+i) Create a vector with the state space of the Markov Chain using R Code. You should paste the results in your answer.
+(1)
+ii) Consider two persons aged 30 last birthday and aged 40 last birthday respectively who are currently in marketing section. Construct transition matrices of the section change probabilities. You should paste the results to your answer.
+(3)
+iii) Create a Markov Chain objects with the state space equal to your vector in part (i) and transition matrices from part (ii). You should paste the results to your answer.
+(R package for Markov Chains may be loaded and used for the same).
+(3)
+iv) Calculate the probability of transition for the following employees who are currently in Marketing section:
+a) an employee with age 30 last birthday moving into Training section in three years.
+b) an employee with age 40 last birthday moving into Training section in five years.
+(2)
+IAI CS2B-1123
+Page 5 of 5
+v) Plot the transition probability matrices in part (iv) for age 40 years.
+(1)
+vi) Set a seed of 250. Simulate sequences of 250 states using markovchainSequence function for both persons in part (ii). Compute the frequency of the states.
+(3)
+vii) Use a bar chart to plot the relative frequency of the states (for age 30) and label the chart appropriately.
+(2)
+[15]
+*************************
+
+Solution 4:
+i)
+> Employment <- c("Marketing","Admin","Training") > Employment [1] "Marketing" "Admin" "Training"
+[1]
+ii) > M2A<-function(x){0.0025*x} > M2T<-function(x){0.0075*x} > A2M<-function(x){0.003*x} > A2T<-function(x){0.004*x} > T2M<-function(x){0.001*x} > T2A<-function(x){0.003*x} > EmploymentTransition<-function(x){ + M<-matrix(0,nrow=3,ncol=3) + M[1,1]<-1-M2A(x)-M2T(x) + M[1,2]<-M2A(x) + M[1,3]<-M2T(x) + M[2,1]<-A2M(x) + M[2,2]<-1-A2M(x)-A2T(x) + M[2,3]<-A2T(x) + M[3,1]<-T2M(x) + M[3,2]<-T2A(x) + M[3,3]<-1-T2M(x)-T2A(x) + M + }
+> x<-30 > Employmentchange_age30<-EmploymentTransition(x) > Employmentchange_age30 [,1] [,2] [,3] [1,] 0.70 0.075 0.225 [2,] 0.09 0.790 0.120 [3,] 0.03 0.090 0.880
+> y<-40 > Employmentchange_age40<-EmploymentTransition(y) > Employmentchange_age40 [,1] [,2] [,3] [1,] 0.60 0.10 0.30 [2,] 0.12 0.72 0.16 [3,] 0.04 0.12 0.84
+[3]
+iii) > install.packages("markovchain")
+> library(markovchain) > MCobject_age30<-new("markovchain",states=Employment,byrow=T,transitionMatrix=Employmentchange_age30,name="Markovchain_age30")
+> MCobject_age30 Markovchain_age30 A 3 - dimensional discrete Markov Chain defined by the following states: Marketing, Admin, Training The transition matrix (by rows) is defined as follows: Marketing Admin Training Marketing 0.70 0.075 0.225 Admin 0.09 0.790 0.120 Training 0.03 0.090 0.880
+IAI CS2B-1123
+Page 14 of 15
+> MCobject_age40<-new("markovchain",states=Employment,byrow=T,transitionMatrix=Employmentchange_age40,name="Markovchain_age40") > MCobject_age40
+Markovchain_age40 A 3 - dimensional discrete Markov Chain defined by the following states: Marketing, Admin, Training The transition matrix (by rows) is defined as follows: Marketing Admin Training Marketing 0.60 0.10 0.30 Admin 0.12 0.72 0.16 Training 0.04 0.12 0.84
+[3]
+iv) a) > n<-30 > B<-c(1,0,0) > for(i in 1:3){B=B%*%EmploymentTransition(n+i-1)} > B [,1] [,2] [,3] [1,] 0.3625932 0.1791008 0.458306
+So the required probability in 3 years is 45.8306%
+b) > n<-40 > B<-c(1,0,0) > for(i in 1:5){B=B%*%EmploymentTransition(n+i-1)} > B
+[,1] [,2] [,3]
+[1,] 0.1681993 0.2658399 0.5659607
+So the required probability in 5 years is 56.59607%.
+[2]
+v) > plot(MCobject_age40)
+[1]
+vi) > set.seed(250)
+IAI CS2B-1123
+Page 15 of 15
+> seq_age30<-markovchainSequence(250,MCobject_age30) > #frequeny of the terms person aged 30 > table(seq_age30) Seq_age30 Admin Marketing Training 68 32 150 > seq_age40<-markovchainSequence(250,MCobject_age40) > #frequeny of the terms person aged 40 > table(seq_age40) seq_age40 Admin Marketing Training 67 34 149
+[3]
+vii) > library(lattice) > barchart(prop.table(table(seq_age30)),xlab="Relative frequency", ylab="Section",main="Relative Frequency of States")
+[2]
+[15 Marks]
+*********************
