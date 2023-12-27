@@ -45,6 +45,9 @@ GENDER: Gender of the Insured
 AGE: Age of the Insured
 CLAIM_AMOUNT: Amount of health claim paid by the Insurer
 Refer to the data set “HealthClaims.csv”.
+
+--- 
+
 i) Fit a linear regression model to the data with “CLAIM_AMOUNT” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
 Provide your interpretation of the model by explaining R-Squared, Adjusted R-Squared & p-value of the model. Identify the significant variables in the prediction of claim “CLAIM_AMOUNT”.
 (10)
@@ -56,9 +59,9 @@ iv) Your manager has also suggested you to include the interaction effects betwe
 (10)
 v) One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (i) and (iv).
 (8)
-[35]
-**********************
+
 ---
+
 Solution 7:
 i) # Fitting Linear Regression Model
 R Code:
@@ -98,8 +101,12 @@ Residual standard error: 55350 on 1420 degrees of freedom
 Multiple R-squared: 0.7275, Adjusted R-squared: 0.7246 
 F-statistic: 252.8 on 15 and 1420 DF, p-value: < 2.2e-16
  
+--- 
 R code:
+
+```{r}
 anova(model)
+```
 R Output:
 Analysis of Variance Table
 Response: CLAIM_AMOUNT
@@ -109,21 +116,25 @@ PROFESSION 3 8.6687e+12 2.8896e+12 943.124 < 2.2e-16 ***
 GENDER 1 1.1570e+11 1.1570e+11 37.763 1.036e-09 ***
 AGE 1 6.2585e+11 6.2585e+11 204.271 < 2.2e-16 ***
 Residuals 1420 4.3506e+12 3.0638e+09 
----
+
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 
 ---
 
-R-Squared : 72.75% of the variation of the claim amount is explained by geographical region, 
+* R-Squared : 72.75% of the variation of the claim amount is explained by geographical region, 
 profession, gender and age 
-Adjusted R- Squared: 72.46% is used to compare with the other models . Adjusted R-Squared is 
+* Adjusted R- Squared: 72.46% is used to compare with the other models . Adjusted R-Squared is 
 used to compare the goodness of fit for regression models that contain different number of 
-independent variables. The model which maximises the ‘adjusted R2
+independent variables. 
+* The model which maximises the ‘adjusted R2
 statistics can be regarded 
 in some sense as the best model. 
 p-value of the model is < 2.2e-16 which is less than 0.05, hence the null hypothesis that “there 
 is no significant relationship between independent variable and dependent variable” is rejected 
 at 5% level of significance. 
+
+---
+
 P-value of the coefficients: Some of the dependent variables appeared to be insignificant 
 although the overall model is significant. As Geographical region 1, Profession Agriculture and 
 Gender female are insignificant hence clubbed in the intercept itself. It is also observed that 
@@ -137,8 +148,14 @@ from zero (10)
 
 ---
 
+### Part (B)
+
 ii) R Code:
+
+```{r}
 confint(model,level=0.95) 
+```
+
 R output: 
  2.5 % 97.5 %
 (Intercept) -56261.888 -8712.970
@@ -157,12 +174,15 @@ PROFESSIONSelfemployed 7573.347 23638.179
 PROFESSIONService 149803.318 177585.265
 GENDERM -19489.519 -7623.148
 AGE 2439.328 3215.450 (3)
+
 ---
 
 iii) R code:
+
+```{r}
 qqnorm(model$residuals) 
+```
  
-Output:
 
 ---
  
@@ -170,11 +190,15 @@ If the residuals are normally distributed, it is expected the Q-Q plot to be alo
 Here it is not , indicating residuals are not forming normal distribution. Hence linear regression 
 may not be a good fit to the data 
  
-(4)
+--- 
+
 iv) R Code:
 model2 = lm(CLAIM_AMOUNT~.+GEOGRAPHY:PROFESSION + PROFESSION:GENDER + GENDER: 
 GEOGRAPHY,data = Data_claim)
 summary(model2) 
+
+---
+
 Output:
 Call:
 lm(formula = CLAIM_AMOUNT ~ . + GEOGRAPHY:PROFESSION + PROFESSION:GENDER + 
@@ -197,8 +221,7 @@ GEOGRAPHYREGION 10 -8309.3 17192.1 -0.483 0.62894
 GEOGRAPHYREGION 11 -18947.6 16282.5 -1.164 0.24476 
 PROFESSIONBusiness 308385.3 15720.6 19.617 < 2e-16 ***
 PROFESSIONSelfemployed 30126.2 20435.0 1.474 0.14064 
-IAI CS1B-0921
-Page 13 of 15
+
 PROFESSIONService 249218.9 42323.2 5.888 4.89e-09 ***
 GENDERM -43175.6 14519.3 -2.974 0.00299 ** 
 AGE 3281.3 150.7 21.770 < 2e-16 ***
@@ -271,12 +294,14 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 ---
 
 Comments:
- R-Squared and Adjusted R-Squared improved and hence model is a better fit compared 
+* R-Squared and Adjusted R-Squared improved and hence model is a better fit compared 
 to the initial model 
- Interaction effect between geographical region and profession, profession and gender, 
+* Interaction effect between geographical region and profession, profession and gender, 
 gender and geographical region along with their main effects emerged out to be 
 significant as demonstrated by ANOVA table 
-(10)
+
+---
+
 v) R code:
 model3 = lm(log(CLAIM_AMOUNT)~.,data = Data_claim)
 summary(model3) 
@@ -301,16 +326,16 @@ GEOGRAPHYREGION 10 0.0540411 0.0590215 0.916 0.36002
 GEOGRAPHYREGION 11 -0.0345033 0.0571059 -0.604 0.54581 
 PROFESSIONBusiness 0.8217253 0.0320661 25.626 < 2e-16 ***
 PROFESSIONSelfemployed 0.1956622 0.0195963 9.985 < 2e-16 ***
-IAI CS1B-0921
-Page 15 of 15
 PROFESSIONService 0.8736364 0.0338891 25.779 < 2e-16 ***
 GENDERM -0.0889058 0.0144749 -6.142 1.06e-09 ***
 AGE 0.0536827 0.0009467 56.703 < 2e-16 ***
----
+
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 Residual standard error: 0.2649 on 1420 degrees of freedom
 Multiple R-squared: 0.9227, Adjusted R-squared: 0.9219 
 F-statistic: 1130 on 15 and 1420 DF, p-value: < 2.2e-16
+
+--
 R code:
 anova(model3)
 Analysis of Variance Table
@@ -323,11 +348,11 @@ AGE 1 225.62 225.616 3215.24 < 2.2e-16 ***
 Residuals 1420 99.64 0.070 
 ---
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+---
+
 Key differences:
  R-Squared and Adjusted R-Squared increased to above 90% and hence model is a better 
 fit compared to the earlier models 
  The significance level of few factor coefficients changed when compared with the model 
 in (i) however ANOVA table shows there is no change in number of significant variables 
-(8)
-[35 Marks]
-*********************

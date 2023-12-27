@@ -177,21 +177,6 @@ data.
 
 ---
 
-I. Determine an estimate of the standard error of the sample mean using 
-bootstrap with a bootstrap sample size of 10,000. 
-
-Use the command 
-<tt>set.seed(12345)</tt> to initialise the random number generator, before you 
-start the bootstrap sampling. 
-
-J. Determine a bootstrap 90% confidence interval for the population 
-mean of the y data using the same bootstrap sample as in part (v). 
-
-K. Comment on the two confidence intervals produced in parts (iii) and 
-(vi)(a). 
- 
-
----
 
 
 
@@ -256,6 +241,22 @@ ybar.sim[i] = mean(y.sim)
 se.boot = sd(ybar.sim); se.boot 
 
 ```
+
+
+
+---
+I. Determine an estimate of the standard error of the sample mean using 
+bootstrap with a bootstrap sample size of 10,000. 
+
+Use the command 
+<tt>set.seed(12345)</tt> to initialise the random number generator, before you 
+start the bootstrap sampling. 
+
+J. Determine a bootstrap 90% confidence interval for the population 
+mean of the y data using the same bootstrap sample as in part (v). 
+
+K. Comment on the two confidence intervals produced in parts (iii) and 
+(vi)(a). 
 
 ---
 

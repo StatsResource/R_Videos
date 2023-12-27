@@ -48,14 +48,14 @@ Students are required to provide hypothesis, R code, Output and conclusion
 
 ---
 
-i) Assuming that the premiums are normally distributed, carry out a statistical test to 
+A. Assuming that the premiums are normally distributed, carry out a statistical test to 
 check equal variance assumption so that it is appropriate to apply a two-sample t 
 test to these data. 
  Use R code – var.test 
-ii) Test whether the level of premiums charged by Company1 and Company2 are 
+B. Test whether the level of premiums charged by Company1 and Company2 are 
 same.
  Use R code – t.test (use var.equal =TRUE) 
-iii) The average premium charged by Company2 in the previous year was INR 1500. 
+C. The average premium charged by Company2 in the previous year was INR 1500. 
 Test whether Company2 appears to have increased its premiums since the previous 
 year.
  Use R code -t.test (#one sided) 
@@ -65,7 +65,7 @@ year.
 
 ---
 
-#### Exercise 1
+#### Exercise A
 
 i) H0 – Company1 and Company2 having equal variance (i.e., ratio of variance =1)
 H1 – There is a difference in variance between Company1 and Company2.
@@ -94,7 +94,11 @@ have enough evidence to reject H0 at 5% significance level.
 variance at 5% significance level. 
 
 ---
-ii) H0 – No difference in mean premium charged by Company1 and Company2. 
+ii) 
+
+### Part B
+
+H0 – No difference in mean premium charged by Company1 and Company2. 
 H1 – difference in mean premium charged by Company1 and Company2.
 
 ```{r}
@@ -104,16 +108,15 @@ t.test(Company1, Company2, var.equal = TRUE, conf=0.95)
 ---
 #### Conclusion 
 
-As the confidence interval for the difference in mean premium includes 0, we do 
-not have enough evidence to reject H0 at 5% significance level. Hence, we can conclude that 
-there is no difference between mean premium charged by Company1 and Company2 at 5% 
-significance level. 
+* As the confidence interval for the difference in mean premium includes 0, we do not have enough evidence to reject H0 at 5% significance level.
+* Hence, we can conclude that there is no difference between mean premium charged by Company1 and Company2 at 5% significance level. 
 
 
 ---
 
 iii) H0 – mean premium charged by Company2 is INR 1500. 
 H1 – mean premium charged by Company2 is greater than 1500.
+
 ```{r}
 t.test(Company2, mu=1500, alternative= c("greater"), conf=0.95)
 ```
@@ -129,22 +132,23 @@ mean of x
 
 ---
  
-Conclusion – As the confidence interval for the mean premium does not include 1500, at 5% 
+* Conclusion – As the confidence interval for the mean premium does not include 1500, at 5% 
 significance level we have enough evidence to reject null hypothesis. 
 (p-value less than 5% also confirms that we have enough evidence to reject null hypothesis at 
 5% significance level).
-Hence, we can conclude that the mean premium charged by Company2 is greater than INR 1500 
+* Hence, we can conclude that the mean premium charged by Company2 is greater than INR 1500 
 at 5% significance level. 
 
 ---
 
-#### Exercise 4
+#### Exercise D
 
-iv) It was found that out of sample of 200 policies of Company1 and 100 policies of 
+* It was found that out of sample of 200 policies of Company1 and 100 policies of 
 Company2 sold at the start of the year, 60 policies of Company1 and 50 policies of 
-Company2 resulted in claim. Carry out a hypothesis test for the difference in 
+Company2 resulted in claim. 
+* Carry out a hypothesis test for the difference in 
 proportions.
- Use R code – prop.test (use correct=FALSE)
+* Use R code – prop.test (use correct=FALSE)
 
  
 ---
@@ -179,7 +183,7 @@ Company1 and Company2 at 5% significance level.
 
 
 --- 
-#### Exercise 5
+#### Exercise E
 
 v) Company2 wants to study the claim frequency between group1 policies having 
 premium less than INR 1500 and remaining policyholders. There were 65 claims 
@@ -216,10 +220,9 @@ rate ratio
 
 ---
 
-Conclusion – As the confidence interval for the ratio does not include 1, at 2.5% significance level 
+* Conclusion – As the confidence interval for the ratio does not include 1, at 2.5% significance level 
 we have enough evidence to reject null hypothesis. 
 (p-value less than 2.5% also confirms that we have enough evidence to reject null hypothesis at 
 2.5% significance level).
-Hence, we can conclude that the claim frequency of group1 (having premium less than INR 1500) 
-is less than other groups in Company2. (4)
-[20 Marks]
+* Hence, we can conclude that the claim frequency of group1 (having premium less than INR 1500) 
+is less than other groups in Company2. 

@@ -35,6 +35,99 @@ pre {
 }
 ```
 
+Q. 5)
+(Students can copy the R code as provided file ‘Reference_RCode’)
+IAI CS1B-0921
+Page 3 of 5
+Claim payment data (Year 1 to Year 4) in INR Crores
+Year 1
+Year 2
+Year 3
+Year 4
+Insurer A
+112
+130
+178
+150
+Insurer B
+38
+50
+80
+68
+Insurer C
+89
+127
+210
+150
+Insurer D
+70
+75
+77
+80
+i) Analyse the data using EBCT Model 1 and calculate the expected total claim payment to be made by each insurer (A, B, C and D) in the Year 5 by replacing question marks‘?’ with appropriate function in the R Code shared in file “Reference_RCode”.
+(2)
+ii) You are now required to calculate the expected total claim payment to be made by each insurer (A, B, C, D and E) in year 5, when additional data of insurer E is made available to you (By using EBCT Model 1).
+Additional claim payment data for Insurer E in INR Crores
+Year 1
+Year 2
+Year 3
+Year 4
+Insurer E
+73
+87
+113
+112
+a) Provide the new R code so that ‘data’ includes insurer E and calculate the expected claim payment to be paid by each insurer in year 5.
+(2)
+b) Comment on the values of Z and ‘s/v’ ratio in part (ii) compared to part (i).
+(3)
+c) Comment on the change in expected claim payment for insurers A, B C and D in year 5 in part (ii) compared to part (i).
+(3)
+iii) Your manager is not happy with results based on EBCT 1 model. He has now provided you additional information about volume measure for these 5 insurers over Year 1 to Year 5.
+Volume measure (Year 1 to Year 5)
+Year 1
+Year 2
+Year 3
+Year 4
+Year 5
+Insurer A
+165
+186
+198
+200
+210
+Insurer B
+51
+63
+78
+83
+91
+Insurer C
+119
+159
+219
+188
+192
+Insurer D
+108
+112
+122
+133
+144
+Insurer E
+103
+116
+126
+151
+181
+Analyse the data using EBCT Model 2 to calculate the expected total claim payment to be made by each insurer (A, B, C, D and E) in Year 5.
+a) Complete the reference R Code (by replacing question marks‘?’ with appropriate function for data and zi, where data is as used in part (ii) to arrive at the ‘claims5i’ which represents the estimated claim payment for each insurer in Year 5.
+(2)
+
+b) Comment on change in expected claim payment for insurer A, B, C, D and E in year 5 in part (iii) compared to part (ii).
+(3)
+
+
 ---
 
 Year 1 * Year 2 * Year 3 * Year 4 * 
@@ -46,6 +139,8 @@ Insurer  D * 70 * 75 * 77 * 80 *
 
 ---
 Solution 5:
+
+```{r}
 i) data=matrix(c(112,38,89,70,130,50,127,75,178,80,210,77,150,68,150,80),4,4)
  
 n <- ncol(data)
@@ -54,6 +149,8 @@ s <- mean(apply(data,1,var))
 v <- var(rowMeans(data))-mean(apply(data,1,var))/n
 Z <- n/(n+s/v)
 Z*rowMeans(data)+(1-Z)*m
+```
+
 [1] 138.08805 64.47793 139.41039 79.02364
 Expected total claim payment from 
 *  insurer A is INR 138.09 Crores
@@ -78,7 +175,7 @@ As required for other parts
 ---
 
 ii) a) R Code
- 
+```{r}
 data=matrix(c(112,38,89,70,73,130,50,127,75,87,178,80,210,77,113,150,68,150,80,112),5,4)
 #no change in other code from part i
 n <- ncol(data)
@@ -87,23 +184,23 @@ s <- mean(apply(data,1,var))
 v <- var(rowMeans(data))-mean(apply(data,1,var))/n
 Z <- n/(n+s/v)
 Z*rowMeans(data)+(1-Z)*m
+```
 
 ---
 
 
 [1] 137.11712 65.12725 138.41035 79.35279 97.24249
-Expected total claim payment from
-*  insurer A is INR 137.12 Crores (reduced compared to part i)
-*  insurer B is INR 65.13 Crores (increased compared to part i)
 
 --- 
 
 
+Expected total claim payment from
+*  insurer A is INR 137.12 Crores (reduced compared to part i)
+*  insurer B is INR 65.13 Crores (increased compared to part i)
 *  insurer C is USD 138.41 Million (reduced compared to part i)
 *  insurer D is USD 79.35 Million (increased compared to part i)
 *  insurer E is USD 97.24 Million (newly added insurer)
-(1 Mark for correct data and 1 mark for identifying the correct claim amount for each 
-insurer)
+
 required for other parts
 ```{r}
 > n
@@ -156,7 +253,7 @@ Z*individual average + (1-Z) * total average
 
 *  Total average ‘m’ has reduced in part ii compared to part i as average of insurer E is lower 
 than total average (m = 105.25) in part i
-(0.5 mark for comment on ‘m’)
+
 *  Expected claim payment for insurers A and C has reduced in part ii; as lower weight to individual experience compared to part i (A and C have experienced higher claim payments in 
 the past and their average is higher than the total average of 5 insurers 103.45 - value of ‘m’ as calculated above) brings down the total expected value for these insurers towards 103.45
 

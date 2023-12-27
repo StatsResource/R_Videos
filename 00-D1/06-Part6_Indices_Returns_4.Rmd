@@ -52,28 +52,25 @@ head(indices)
 ---
 
 
+#### Exercises
+E. Plot the residuals of the fitted model and identify which month is the most significant
+outlier in the residuals. 
+
+F. Comment on the appropriateness of the model fitted. 
+
+---
+
+### Part E
+
+Plot the residuals of Model
+
 ```{r}
-v) Plot the residuals of the fitted model and identify which month is the most significant
-outlier in the residuals. (4)
-
-vi) Comment on the appropriateness of the model fitted. (2)
-
-
-Your actuarial friend has suggested that the current model can be improved by removing the
-variables which do not impact the direction of Sensex returns at 95% confidence level and
-refitting the GLM with ‘logit’ link function.
-
+plot(model1$residuals)
 ```
 
+---
 
 ```{r}
-##  TRUE
-v)
-Plot the residuals of Model
-plot(model1$residuals)
-
-Page 11 of 13IAI
-
 which(model1$residuals==min(model1$residuals))
 ## 41
 ## 41
@@ -82,15 +79,16 @@ indices$Month[which(model1$residuals==min(model1$residuals))]
 ##  Jun-09
 ## 164 Levels: Apr-06 Apr-07 Apr-08 Apr-09 Apr-10 Apr-11 Apr-12 ... Sep
 -19
-
+```
 
 
 ---
 
-vi)
+#### Part F
+
 Interpretation
 
- As the residual deviance came down significantly from Null Deviance of
+* As the residual deviance came down significantly from Null Deviance of
 223.21 to 32.90, the variables are able to classify the direction appropriately
 
 
@@ -100,23 +98,24 @@ Hence the standard errors may not be appropriate
 
 *  As this data is a time series data serial correlation between the observations need to be considered and the model may have to be fitted after removing serial correlation.
 
-
-
-```
-
-----
-
-vii) Update the model fitted in (ii) above, as suggested by your friend and display the summary
-of the model.
-
-
-viii) Compare the models in (ii) and (vii) using an appropriate test and comment on the
-difference in the residual deviances between the two models.
-
 ---
 
-vii)
+### Exercises
+
+* Your actuarial friend has suggested that the current model can be improved by removing the
+variables which do not impact the direction of Sensex returns at 95% confidence level and
+refitting the GLM with ‘logit’ link function.
+
+G. Update the model fitted in (ii) above, as suggested by your friend and display the summary
+of the model.
+
+H. Compare the models in (ii) and (vii) using an appropriate test and comment on the
+difference in the residual deviances between the two models.
+
+I. 
 Remove the variables that do not impact the model
+
+---
 
 ```{r}
 
@@ -128,6 +127,7 @@ summary(model2)
 
 
 ```
+
 ---
   
 viii)
@@ -183,6 +183,8 @@ degrees of freedom
 degrees of freedom
 Number of Fisher Scoring iterations: 10
 
+---
+
 anova(model1,model2,test = "Chisq")
 ##
 ##
@@ -209,17 +211,13 @@ Resid. Df Resid. Dev Df
 Deviance Pr(>Chi)
 -0.74102
 0.9462
-Interpretation
-
-
-
-
 
 ---
 
 
-p-value of the comparison is 0.94 > 0.05 thus not rejecting the null hypothesis of no significant difference between the two models. 
+Interpretation
 
-So the model did not improve significantly based on the friend's suggestion
+* p-value of the comparison is 0.94 > 0.05 thus not rejecting the null hypothesis of no significant difference between the two models. 
 
-\end{document}
+* So the model did not improve significantly based on the friend's suggestion
+

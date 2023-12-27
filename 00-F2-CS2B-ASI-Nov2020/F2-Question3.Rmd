@@ -10,50 +10,41 @@ output:
 ---
 
 
-Q. 3)
-(7)
-[27]
-(4)
-[22]
-The number of claims in a year on an individual policy follows a Poisson distribution with
-a parameter of 0.75. Individual claim amounts follow a Gamma distribution with parameters
-(shape parameter α = 2 and rate parameter \lambda = 20,000). Set seed value of 100.
+
+* The number of claims in a year on an individual policy follows a Poisson distribution with
+a parameter of 0.75.
+* Individual claim amounts follow a Gamma distribution with parameters
+(shape parameter α = 2 and rate parameter \lambda = 20,000). 
+* Set seed value of 100.
 
 
 ---
 
-i)
-Simulate claims for 10,000 policies and create a frequency distribution of the number
-of claims made on a policy per year.
-(4)
 
-ii) Simulate the claim amounts for each claim and compute the aggregate claim amounts
+### Exercises
+
+A. Simulate claims for 10,000 policies and create a frequency distribution of the number
+of claims made on a policy per year.
+
+B. Simulate the claim amounts for each claim and compute the aggregate claim amounts
 for each policy. Create a histogram of the aggregated claim amounts with proper
 labelling and legends.
-iii) Compute the mean and variance of the aggregated claim amounts by using the method
+
+C. Compute the mean and variance of the aggregated claim amounts by using the method
 of moments of the compound Poisson distribution. 
 
 
 ---
 
-Part (b)
-An insurer plans to go for an aggregate excess of loss reinsurance policy. The insurer wants
-to evaluate the expected cost for the retention limits from 50,000 to 100,000 in steps of
-5,000.
+```{r echo=FALSE}
+# There was a typo in the question. It should have been rate parameter is 1/20000 or scale parameter should have been 20000
+# In case the students follow either one of the approaches, full marks will be awarded.
+#Solution Assuming rate parameter = 20000
+```
 
-iv) Compute expected costs for the insurer and the reinsurer for each of the retention limits. 
-v) The insurer decides to set a maximum retention limit where the mean cost to the insurer
-is not more than 75% of the mean aggregated claims. Identify the maximum possible
-retention limit based on the computations of (iv) and the proportion of total claims to
-be handled by the reinsurer. 
-vi) Based on that limit, compute the standard deviation and coefficient of skewness of the
-costs to the reinsurer.
+## Solutions
 
----
-
-
-Solution 3:
-i)
+### Part (A)
 
 ```{r}
 set.seed(100)
@@ -62,17 +53,11 @@ table(freq)
 ```
 
 
----
 
-# There was a typo in the question. It should have been rate parameter is
-1/20000 or scale parameter should have been 20000
-# In case the students follow either one of the approaches, full marks will be
-awarded.
-#Solution Assuming rate parameter = 20000
 
 ---
 
-## Part (b)
+### Part (b)
 
 ```{r}
 AggclaimAmount<-c()
@@ -95,7 +80,7 @@ hist(AggclaimAmount, breaks =30,
 
 ---
 
-## Part (c)
+### Part (C)
 
 ```{r}
 mean_poisson<-0.75
@@ -116,31 +101,50 @@ var_aggregate
 
 ---
 
+---
+
+### Exercises
+Part (b)
+
+An insurer plans to go for an aggregate excess of loss reinsurance policy. The insurer wants
+to evaluate the expected cost for the retention limits from 50,000 to 100,000 in steps of
+5,000.
+
+D. Compute expected costs for the insurer and the reinsurer for each of the retention limits. 
+E. The insurer decides to set a maximum retention limit where the mean cost to the insurer
+is not more than 75% of the mean aggregated claims. Identify the maximum possible
+retention limit based on the computations of (iv) and the proportion of total claims to
+be handled by the reinsurer. 
+F. Based on that limit, compute the standard deviation and coefficient of skewness of the
+costs to the reinsurer.
+
+---
 
 ## Part (d)
 
 ```{r}
 mean_claims_I<-c()
 mean_claims_R<-c()
+
 for (i in seq(50000,100000,5000)) {
-mean_claims_R<-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
-mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
+	mean_claims_R<-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
+	mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
 }
 ```
 
 ---
-# Mean Costs to the Insurers
+
 
 ```{r}
+
+# Mean Costs to the Insurers
 mean_claims_I
 ```
 
- 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-
-05
-[7] 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05 7.395992e-05
-# Mean Costs to the Reinsurer
+```{r}
+# Mean Costs to the Insurers
 mean_claims_R
- 0 0 0 0 0 0 0 0 0 0 0
+```
 
 
 ---
@@ -149,11 +153,11 @@ v)
 mean_agg_cost<-mean(AggclaimAmount)
 # 75% of the Aggregate claims cost
 mean_Cost_Insurer<-mean_agg_cost*0.75
-# 75% of the Aggregate claims cost = 5.546994e-05
-# Retention limits should be much lesser than the limits specified in part (iv)
-# Can be recalculated by considering a different range from 0.0001 to 0.0002
-# If the student does not compute this range but mentions that no values from the range are applicable,
-then full marks should be awarded.
+
+* 75% of the Aggregate claims cost = 5.546994e-05
+* Retention limits should be much lesser than the limits specified in part (iv)
+* Can be recalculated by considering a different range from 0.0001 to 0.0002
+* If the student does not compute this range but mentions that no values from the range are applicable, then full marks should be awarded.
 
 ---
 
@@ -161,8 +165,8 @@ then full marks should be awarded.
 mean_claims_I<-c()
 mean_claims_R<-c()
 for (i in seq(0.0001,0.0002,0.00001)) {
-mean_claims_R<-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
-mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
+	mean_claims_R<-c(mean_claims_R,mean(pmax(AggclaimAmount-i,0)))
+	mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
 }
 ```
 
@@ -171,14 +175,10 @@ mean_claims_I<-c(mean_claims_I,mean(pmin(AggclaimAmount,i)))
 ```{r}
 mean_claims_I
 ```
- 4.201910e-05 4.482882e-05 4.740955e-05 4.979510e-05 5.198747e-05 5.400000e-
-05
-[7] 5.584620e-05 5.751952e-05 5.904900e-05 6.044518e-05 6.170202e-05
-mean_claims_R
- 3.194081e-05 2.913110e-05 2.655037e-05 2.416482e-05 2.197244e-05 1.995992e-
-05
-[7] 1.811371e-05 1.644040e-05 1.491091e-05 1.351474e-05 1.225790e-05
 
+```{r}
+mean_claims_R
+```
 
 ---
 
@@ -186,6 +186,9 @@ mean_claims_R
 Retention_Limit<-0.00015
 
 Reinsurer_Claims<-pmax(AggclaimAmount-Retention_Limit,0)
+```
+
+```{r}
 #Proportion of Claims to be taken up by the reinsurer
 sum(Reinsurer_Claims>0)/10000
 ```
@@ -209,6 +212,7 @@ SD_Retention
  5.991976e-05
 
 ---
+
 ```{r}
 Skew_Retention<-mean((Reinsurer_Claims-mean(Reinsurer_Claims))^3)/(sd(Reinsurer_Claims))^3
 Skew_Retention

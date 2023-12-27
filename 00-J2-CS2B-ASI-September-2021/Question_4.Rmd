@@ -69,7 +69,7 @@ seasonal difference.
 
 Solution 4:
 
-```{r}
+```{r echo=FALSE}
 library(tseries)
 ## Warning: package 'tseries' was built under R version 4.0.5
 ## Registered S3 method overwritten by 'quantmod':
@@ -81,7 +81,7 @@ library(forecast)
 
 ---
 
-# (i)
+### (i)
 
 ```{r}
 
@@ -90,10 +90,10 @@ a<-ts(sunspots,frequency = 12)
 plot(a, main = "Time series of plots")
 
 ```
+
 ---
 
-```{r eval = FALSE}
-#(ii)
+### Part (B)
 
 ```{r}
 par(mfrow=c(1,2))
@@ -149,7 +149,7 @@ s getting weaker"
 ---
 
 ```{r}
-# (v)
+
 s<-diff(a, lag=12,differences=1)
 head(s,12) 
 ```
@@ -174,4 +174,5 @@ there is seasonality in the dataset'
  "The cyclical trend with more variations at the longer time lags, \nth
 ere is seasonality in the dataset" 
 ```
+
 ---

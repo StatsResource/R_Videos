@@ -95,7 +95,7 @@ rev(X)
 X
 ```
 
-#### which,max and which.min()
+#### which.max and which.min()
 
 ```{r}
 which.min(X)

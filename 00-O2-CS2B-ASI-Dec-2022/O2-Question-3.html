@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Statistics with R
 ]
 .subtitle[
-## Statistical Modelling with R for Actuarial Students
+## Introduction to R for Actuarial Students
 ]
 
 ---
@@ -31,181 +31,141 @@ pre {
 }
 &lt;/style&gt;
 
-***CS2B – Risk Modelling and Survival Analysis ***
+* Introduction to R for Actuarial Students
 
+* CS1B Curriculum
 
-* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
 
-* Time Series. Probability Distributions, Survival Analysis
-
----
-
-### Question 4
-
-The ‘sunspot’ dataset contains the monthly mean relative sunspot numbers from 1749 to 1983. 
-Collected at Swiss Federal Observatory, Zurich until 1960, then Tokyo Astronomical 
-Observatory. Please import this dataset from the ‘datasets’ package in R.
-Libraries required:
-‘tseries’
-‘forecast’
+* Question 4
 
 ---
 
-#### Exercises 
-1. Plot the timeseries with frequency = 12, giving appropriate labels for each axis and paste 
-the chart into your answer sheet. 
+Q. 3) Set the simulation seed to 1234 prior to carrying out the analysis.
 
-2.  Plot the sample Auto-correlation Function (ACF) and the sample Partial Auto-Correlation 
-Function (PACF) of the data, giving appropriate labels for the x and y axes. 
+i) Create a vector of values from 1 to 1000 and store in a variable ‘x’. Create another 
+vector ‘y’ by using the rule: y = sin(x/40)+ε, where ε is a normal random variable with 
+a mean of 0 and a standard deviation of 0.1. 
 
-3.   Estimate the ACF and PACF values at each lag. 
+ii) Plot the x and y as a line and add grey colour to the line. Add gridlines to the plot. 
 
-4.   Comment on the ACF based on the charts and values computed in (2.  and (iii). 
+iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
+current value). Plot the lag as a red line added to the existing plot. 
 
-5.  Calculate the simple seasonal difference with period 12. Print the top 12 values of the 
-seasonal difference. 
-
-6.  Decompose the trend, seasonality and randomness of the data. Plot the decomposed values.
-
-7. Comment on the general features of your chart. 
+iv) Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
+value and 20 future values. Plot the lag as a blue line added to the existing plot. 
 
 ---
 
-Solution 4:
-
-
-```
-## Registered S3 method overwritten by 'quantmod':
-##   method            from
-##   as.zoo.data.frame zoo
-```
-
----
-
-### (i)
-
+Solution.3
+i)
 
 ```r
-data(sunspots)
-a&lt;-ts(sunspots,frequency = 12)
-plot(a, main = "Time series of plots")
+#Generate time series
+set.seed(1234)
+x &lt;- 1:1000
+y &lt;- sin(x/40) + rnorm(1000,sd=.1) 
+
+#(3 
+#w (4)
 ```
-
-![](Question_4_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
-
 ---
 
-### Part (B)
-
+ii)
 
 ```r
-par(mfrow=c(1,2))
-acf(a,main="Sample ACF")
-pacf(a,main="Sample PACF")
+# Plot the unsmoothed data (gray)
+plot(x, y, type="l", col=grey(.5))
+# add gridlines
+grid() 
 ```
 
-![](Question_4_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](O2-Question-3_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
 ---
 
-#### Part (B)
+### Part C
 
-![](Question_4_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
+current value). Plot the lag as a red line added to the existing plot. 
 
----
 
-
-#### Part  (C)
-
+* Applies linear filtering to a univariate time series or to each series separately of a multivariate time series.
 
 ```r
-acf(a,plot = FALSE)
+# Smoothed with lag:
+# average of current sample and 39 previous samples (red)
+f40 &lt;- rep(1/40, 40)
+f40
 ```
 
 ```
-## 
-## Autocorrelations of series 'a', by lag
-## 
-## 0.0000 0.0833 0.1667 0.2500 0.3333 0.4167 0.5000 0.5833 0.6667 0.7500 0.8333 
-##  1.000  0.922  0.890  0.875  0.864  0.850  0.836  0.819  0.805  0.797  0.778 
-## 0.9167 1.0000 1.0833 1.1667 1.2500 1.3333 1.4167 1.5000 1.5833 1.6667 1.7500 
-##  0.756  0.734  0.710  0.686  0.663  0.632  0.602  0.569  0.542  0.512  0.480 
-## 1.8333 1.9167 2.0000 2.0833 2.1667 2.2500 2.3333 2.4167 2.5000 2.5833 2.6667 
-##  0.451  0.426  0.391  0.367  0.334  0.298  0.264  0.233  0.204  0.173  0.147 
-## 2.7500 2.8333 
-##  0.115  0.083
+##  [1] 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025
+## [13] 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025
+## [25] 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025
+## [37] 0.025 0.025 0.025 0.025
 ```
+---
 
+![](O2-Question-3_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
+---
 
+![](O2-Question-3_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ---
 
 
 ```r
-pacf(a,plot = FALSE)
+y_lag &lt;- stats::filter(y, filter= f40, sides=1)
+lines(x, y_lag, col="red") 
 ```
 
-```
-## 
-## Partial autocorrelations of series 'a', by lag
-## 
-## 0.0833 0.1667 0.2500 0.3333 0.4167 0.5000 0.5833 0.6667 0.7500 0.8333 0.9167 
-##  0.922  0.272  0.189  0.135  0.064  0.044 -0.005  0.014  0.046 -0.045 -0.058 
-## 1.0000 1.0833 1.1667 1.2500 1.3333 1.4167 1.5000 1.5833 1.6667 1.7500 1.8333 
-## -0.059 -0.077 -0.056 -0.046 -0.099 -0.075 -0.102 -0.037 -0.055 -0.054 -0.013 
-## 1.9167 2.0000 2.0833 2.1667 2.2500 2.3333 2.4167 2.5000 2.5833 2.6667 2.7500 
-##  0.014 -0.068  0.045 -0.034 -0.050 -0.029 -0.019  0.012 -0.006  0.026 -0.017 
-## 2.8333 
-## -0.039
+
 ```
 
 ---
 
-### PArt 4
 
-'The ACF indicates that there is correlation between an observation and
-the past observations. There is a correlation beyond 2.5 years but it keeps g
-etting weaker'
+w (3)
+iv)
 
- "The ACF indicates that there is correlation between an observation and the past observations. There is a correlation beyond 2.5 years but it keep
-s getting weaker" 
 
 
 ---
+
+iv) Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
+value and 20 future values. Plot the lag as a blue line added to the existing plot. 
 
 
 ```r
-s&lt;-diff(a, lag=12,differences=1)
-head(s,12) 
+# Smoothed symmetrically:
+# average of current sample, 20 future samples, and 20 past samples (blue)
+f41 &lt;- rep(1/41,41)
+f41
 ```
 
 ```
-##     Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
-## 2  15.3  13.3  19.2  32.6   5.0  16.5  -9.4  36.7  15.3  -9.8 -95.3  -9.8
+##  [1] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
+##  [7] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
+## [13] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
+## [19] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
+## [25] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
+## [31] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
+## [37] 0.02439024 0.02439024 0.02439024 0.02439024 0.02439024
 ```
+
 
 ---
 
 
-#### PArt 6
+![](O2-Question-3_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 
 ```r
-# (vi)
-f&lt;-decompose(a)
-plot(f)
-```
-
-![](Question_4_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
-
----
-
- (vii)
-'The cyclical trend with more variations at the longer time lags, 
-there is seasonality in the dataset'
- "The cyclical trend with more variations at the longer time lags, \nth
-ere is seasonality in the dataset" 
+y_sym &lt;- stats::filter(y, f41, sides=2)
+lines(x, y_sym, col="blue") 
 ```
 
 ---

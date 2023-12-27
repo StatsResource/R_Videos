@@ -56,54 +56,106 @@ value and 20 future values. Plot the lag as a blue line added to the existing pl
 
 Solution.3
 i)
-> #Generate time series
-> set.seed(1234)
-> x <- 1:1000
-> y <- sin(x/40) + rnorm(1000,sd=.1) (3 
-w (4)
+```{r}
+#Generate time series
+set.seed(1234)
+x <- 1:1000
+y <- sin(x/40) + rnorm(1000,sd=.1) 
 
+#(3 
+#w (4)
+```
 ---
 
 ii)
-> # Plot the unsmoothed data (gray)
-> plot(x, y, type="l", col=grey(.5))
-> # add gridlines
-> grid() 
-(3 
+```{r}
+# Plot the unsmoothed data (gray)
+plot(x, y, type="l", col=grey(.5))
+# add gridlines
+grid() 
+```
 
 ---
 
 ### Part C
-> # Smoothed with lag:
-> # average of current sample and 39 previous samples (red)
-> f40 <- rep(1/40, 40)
-> f40
-[1] 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 
-0.025 0.025 0.025 0.025
-[21] 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 
-0.025 0.025 0.025 0.025 0.025
-> y_lag <- filter(y, f40, sides=1)
-> lines(x, y_lag, col="red") 
+
+iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
+current value). Plot the lag as a red line added to the existing plot. 
+
+
+* Applies linear filtering to a univariate time series or to each series separately of a multivariate time series.
+```{r}
+# Smoothed with lag:
+# average of current sample and 39 previous samples (red)
+f40 <- rep(1/40, 40)
+f40
 ```
 ---
+
+```{r echo=FALSE}
+# Plot the unsmoothed data (gray)
+plot(x, y, type="l", col=grey(0.5))
+# add gridlines
+grid() 
+```
+
+---
+
+```{r echo=FALSE}
+# Plot the unsmoothed data (gray)
+plot(x, y, type="l", col=grey(0.5))
+y_lag <- stats::filter(y, filter= f40, sides=1)
+lines(x, y_lag, col="red") 
+# add gridlines
+grid() 
+```
+
+---
+
+```{r eval=FALSE}
+y_lag <- stats::filter(y, filter= f40, sides=1)
+lines(x, y_lag, col="red") 
+```
+
+
+```
+
+---
+
 
 w (3)
 iv)
 
 
-iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
-current value). Plot the lag as a red line added to the existing plot. 
+
+---
 
 iv) Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
 value and 20 future values. Plot the lag as a blue line added to the existing plot. 
 
 ```{r}
-> # Smoothed symmetrically:
-> # average of current sample, 20 future samples, and 20 past samples (blue)
-> f41 <- rep(1/41,41)
-> f41
-> y_sym <- filter(y, f41, sides=2)
-> lines(x, y_sym, col="blue") 
+# Smoothed symmetrically:
+# average of current sample, 20 future samples, and 20 past samples (blue)
+f41 <- rep(1/41,41)
+f41
+```
+
+
+---
+
+
+```{r echo=FALSE}
+# Plot the unsmoothed data (gray)
+plot(x, y, type="l", col=grey(0.5))
+y_sym <- stats::filter(y, f41, sides=2)
+lines(x, y_sym, col="blue") 
+# add gridlines
+grid() 
+```
+
+```{r eval=FALSE}
+y_sym <- stats::filter(y, f41, sides=2)
+lines(x, y_sym, col="blue") 
 
 ```
 

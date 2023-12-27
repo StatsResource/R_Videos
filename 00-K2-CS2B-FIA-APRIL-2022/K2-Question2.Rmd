@@ -42,6 +42,11 @@ pre {
 an ARMA(2,0) model, must be generated in R using the following code: 
 set.seed(12456) 
 x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
+
+---
+
+### Exercises
+
 (i) Plot the sample autocorrelation function (sample ACF) and sample partial 
 autocorrelation function (sample PACF) for the data set 𝑥. [3] 
 (ii) Comment on the general features of the two plots in part (i) with emphasis on 
@@ -89,7 +94,11 @@ x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
 acf(x, 
 main = "Sample ACF of 100 Simulated Values from an ARMA(2,0) 
 model") 
+```
 
+---dfrt
+
+```{r}
 pacf(x, 
 main ="Sample PACF of 100 Simulated Values from an
 ARMA(2,0) model”) 
@@ -109,7 +118,7 @@ process
 THEN:
 * But the PACF seems to cut off after lag 1. 
 * We might expect the PACF of an ARMA(2,0) process to cut off after lag 2 
-However, given the small sample size and the fact that this process is close to being nonstationary, the two plots are not out-of-line with expectations. 
+However, given the small sample size and the fact that this process is close to being non-stationary, the two plots are not out-of-line with expectations. 
 
 ---
 (iii)
@@ -156,7 +165,7 @@ which would reduce the sampling uncertainty of the observations
 (vii)
 ```{r}
 set.seed(12456) 
-y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2))) [1½]
+y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2))) 
 ```
 
 ---

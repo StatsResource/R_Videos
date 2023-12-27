@@ -95,6 +95,9 @@ b)
 > dif.sd <-sqrt(x.sd^2+y.sd^2)
 > dif.sd
 [1] 1749.286
+
+---
+
 > set.seed(1234)
 > dif.sample<-rnorm(50,dif.mean,dif.sd)
 [3]
@@ -123,7 +126,13 @@ Since p-value is >0.05 we cannot reject the null hypothesis and thus, don’t ha
 ---
 
 b)
+
+```{r}
 t.test(dif.sample, mu=1375, alternative = "less")
+```
+
+---
+
 One Sample t-test
 data: dif.sample
 t = -1.6786, df = 49, p-value = 0.0498
@@ -134,7 +143,9 @@ sample estimates:
 mean of x
 1007.481
 Since p-value is < 0.05 we can reject the null hypothesis and can imply that mean is less than 1375.
-[3]
+
+---
+
 iv)
 a)
 b)
@@ -142,8 +153,5 @@ dif.sample2<-rnorm(1000,dif.mean,dif.sd)
 qqnorm(dif.sample2)
 qqline(dif.sample2)
 With larger sample size, it indicates normality.
-[1]
-[3]
-[26 Marks]
-IAI CS1B-1123
-Page 4 of 8
+
+---
