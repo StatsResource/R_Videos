@@ -58,40 +58,54 @@ print the results. [4]
 [Hint: you might find the seq() command useful.]
 (iv) Plot the power of the test against the probability of heads values in part (iii).
 
-(v) Comment on the plot in part (iv). [2]
+(v) Comment on the plot in part (iv). 
 
+---
+
+### Part 
 
 Q4
 (i)(a)
-The probability of heads or tail for a fair coin is 0.5. [½]
-round(1 - pbinom(115,200,0.5) + pbinom(84,200,0.5),2) [4]
-# Answer is 0.03 [½]
+The probability of heads or tail for a fair coin is 0.5. 
+round(1 - pbinom(115,200,0.5) + pbinom(84,200,0.5),2) 
+# Answer is 0.03 
 The probability of rejecting the hypothesis of fair coin when it is actually correct is
 0.03.
 (b)
+---
+
+### Part 
 As the sample size 𝑛𝑛 is large, the binomial distribution can be approximated by the normal distribution with mean 𝑛𝑛𝑛𝑛 and variance 𝑛𝑛𝑛𝑛(1−𝑝 ) using CLT. 
 Applying continuity correction, the probability of rejecting the hypothesis of fair
 coin when it is actually correct, is calculated as:
-round(1 - pnorm((115.5 - 100)/sqrt(50)) + pnorm((84.5-100)/sqrt(50)), 2) [3½]
-Answer is: 0.03 [½]
+round(1 - pnorm((115.5 - 100)/sqrt(50)) + pnorm((84.5-100)/sqrt(50)), 2) 
+Answer is: 0.03 
 (c)
 We obtain the same answer and conclude the approximation works well. 
+---
+
+### Part 
 (ii)
 A coin is judged fair if in a single sample of 200 tosses, between 85 and 115
 (inclusive) heads occur, with 𝑝 =0.7 here:
-round(pbinom(115, 200, 0.7) - pbinom(84, 200, 0.7),4) [3]
+round(pbinom(115, 200, 0.7) - pbinom(84, 200, 0.7),4) 
 Parts (i)-(iii) were very well answered in general.
 The answers in part (iv) varied, with a number of candidates giving unclear comments.
 
 
 # 0.0001 
+---
+
+### Part 
 (iii)
 p = seq(0.1, 0.9, 0.01) 
 pow = round(1 - (pbinom(115, 200, p) - pbinom(84, 200, p)),4) [3]
 (iv)
 plot(p,pow, type="l", ylab = "Power of test", xlab = "probability", main="Power of test") [2]
 
-(v)
+---
+
+### Part  (v)
 The power of the test increases as we get away from the fair coin probability. 
 This is consistent with the definition of the power of a test since the ability to reject
 the null hypothesis of coin being fair should be higher when the hypothesis should

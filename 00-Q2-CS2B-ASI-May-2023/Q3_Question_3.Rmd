@@ -49,7 +49,7 @@ Load the data into R and name the data frame as “crackers”.
 i) Consider the entire data. Plot the Kaplan-Meier (KM) survival function estimate for all villagers, including 95% confidence interval of the estimate by appropriately naming the axes.
 (6)
 ii) Using the output of part (i), compute the probability that a villager survived from getting the respiratory disorder at the end of the investigation period.
-(2)
+
 iii) Consider the four groups of villagers:
 a) Males producing green crackers,
 b) Males producing non-green crackers,
@@ -58,21 +58,21 @@ d) Females producing non-green crackers.
 Plot the KM survival estimates without any confidence intervals for these four groups in a single plot. Use different coloured lines for each plot and give a proper legend to understand the same.
 (8)
 iv) Comment on the plots developed in part (iii).
-(2)
+
 v) Instead of using the KM method, use the Cox proportional hazard model (CoxPH) with two covariates (Green and Male) without their interaction term, and respiratory disorder as the event. Any ties can be handled using Breslow method. Paste the results.
-(4)
+
 vi) Comment on the effects of “Green” and “Male” (Gender) on the respiratory disorders based on the results obtained in part (v).
-(4)
+
 IAI CS2B-0523
 Page 5 of 5
 vii) Add the Green-Gender (Male) interaction effect to the Cox proportional hazards model of part (v) and paste the results.
-(4)
+
 viii) Compute the reduction/increase of disorder hazard rate for males and females by using the result of part (vii).
-(3)
+
 ix) Comment on the interaction effect of Green and Male on the respiratory disorders based on the results obtained in part (vii).
-(2)
+
 x) Compare and comment on the results obtained using KM and CoxPH models.
-(2)
+
 [37]
 *******************
 

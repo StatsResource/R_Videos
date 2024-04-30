@@ -54,9 +54,9 @@ Markov chain model, calling it ‘transitions_markov’.
 (ii) Calculate the probability that, given a life is healthy now, the life will be sick
 at time 2 weeks. 
 (iii) Calculate the probability that, given a life is healthy now, the life will be sick
-at some point in the next 52 weeks. [3]
+at some point in the next 52 weeks. 
 (iv) Calculate the probability that, given a life is healthy now, the life will remain
-healthy for the entire year. [1]
+healthy for the entire year. 
 A new, highly contagious disease has become prevalent in the country and it is
 proposed that the HSD model above be amended to model the effects of this disease.
 Lives become ill for a period of time and then either recover or die. Once recovered, a
@@ -74,7 +74,7 @@ The rate from healthy to infected, μHS, is equal to b multiplied by it where b 
 constant and it is the proportion of lives in the sick state at time t. All other transition
 rates are zero.
 (v) Explain why it may be preferable to set μHS = b it (as above), rather than using
-a constant value (as has been done for the other rates). [1]
+a constant value (as has been done for the other rates). 
 (vi) Give an example of a scenario that would be expected to result in a
 particularly high value of b. 
 CS2B A2023–3
@@ -85,12 +85,141 @@ occupancy probabilities in each of the four states from t = 0.01 to t = 100 days
 inclusive. You should output your answers for each value of t to successive
 rows of a matrix called ‘mat_ans’. [11]
 (viii) Plot a graph showing the probabilities in part (vii) with suitably labelled axes
-and making clear which plot components correspond to which state. [5]
+and making clear which plot components correspond to which state. 
 (ix) Calculate the probability that a life healthy at time 0 is sick after:
 (a) 5 days.
 (b) 30 days.
-[3]
+
 (x) Calculate the expected present value of a daily rate of £1 payable while sick
-using a force of interest of 6% p.a. [4]
+using a force of interest of 6% p.a. 
 [Total 34]
 CS2B A2023–4
+---
+
+
+Q1 (i) transitions<-matrix(c(0.98, 0.019,0.001,0.2,0.75, 0.05,0,0,1),byrow=TRUE,nrow=3,dimnames=list (c("healthy","sick", "dead"), c("healthy","sick","dead"))) 
+(transitions_markov <- new("markovchain", transition
+Matrix=transitions)) 
+A 3-dimensional discrete Markov Chain defined by the following states:
+healthy, sick, dead
+The transition matrix (by rows) is defined as follows:
+healthy sick dead
+healthy 0.98 0.019 0.001
+sick 0.20 0.750 0.050
+dead 0.00 0.000 1.000
+(ii) c(1,0,0)*transitions_markov^2 
+healthy sick dead
+[1,] 0.9642 0.03287 0.00293 
+The probability that the life will be sick at t=2 weeks is 3.287% 
+(iii)
+transitions_sick<-matrix(c(0.98, 0.019,0.001,0,1, 0,0,0,1),byrow=TRUE,nrow=3, dimnames=list(c("healthy","sick","dead"),c("healthy",
+"sick","dead"))) 
+transitions_sickmarkov <- new("markovchain", transitionMatrix=transitions_sick) 
+c(1,0,0)*transitions_sickmarkov^52 
+healthy sick dead
+[1,] 0.3497486 0.6177389 0.03251257 
+the probability that the life will be sick at some point in the next 52 weeks is
+61.77% 
+(iv)
+0.98^52
+The probability a healthy life will have remained healthy for the entire year is
+34.97% 
+(v)
+It is reasonable to assume that the rate at which healthy lives become ill is
+proportional to the number of lives which are infectious.
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+or other similar reasonable comment about the nature of this transition 
+(vi) b reflects measures imposed for transmissivity e.g. masks, social distancing, lockdowns. A high b weak measures i.e. no masks, no social distancing [2]
+(vii) calculation of occupancy probabilities
+#initial populations
+s<-.01
+h<-.99
+r<-0
+dead<-0 
+b<-.3 
+#par value
+#daily rates
+k<-.13 
+j<-.04 
+#just set up 4x4
+days<-100 
+dt1=0.01 
+#in days
+no_steps<-days/dt1 
+#100 days
+mat_ans<-matrix(0,no_steps,4) 
+for (qq in 1:no_steps) { 
+mu12=b*s
+#mu12=b*s, or try constant rate
+mu13=0
+mu14=0 
+mu21=0
+mu23=k #recovery rate
+mu24=j #death rate 
+mu31=0.0
+mu32=0.0
+mu34<-0 
+mu43<-0
+mu41=0
+mu42=0 
+mu11=-mu12-mu13-mu14
+mu22=-mu21-mu23-mu24
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+mu33=-mu32-mu31-mu34
+mu44=-mu42-mu41-mu43 
+t_rates=c(mu11,mu12,mu13,mu14,mu21,mu22,mu23,mu24,mu31, mu32,mu33,mu34,mu41,mu42,mu43,mu44) 
+gen_matrix=matrix(t_rates,4,4,byrow=TRUE) 
+Po=c(h,s,r,dead) 
+#starting proportions at each loop
+P_dt =diag(4) + gen_matrix*dt1 
+#gets prob matrix each loop
+occ_probs=Po%*%P_dt 
+#occupancy probs end of each period given starting states
+h<-occ_probs
+s<-occ_probs[2]
+r<-occ_probs[3]
+dead<-occ_probs[4] 
+mat_ans[qq,]<-occ_probs 
+#posts answers in matrix for plotting
+(viii)
+#plots
+x = seq(from = 1/100, to = 100, by = 1/100) 
+plot(x,mat_ans[,1],ylim=c(0,max(mat_ans)),col=1,lwd=3, lty=1,xlab="",ylab="",type="l",main="HSRD model") 
+lines(x,mat_ans[,2],lwd=1,lty=1) 
+#sick
+lines(x,mat_ans[,3],lwd=1,lty=2) 
+#recovered
+lines(x,mat_ans[,4],lwd=1,lty=3) 
+# dead
+legend(x="topright",legend = c("healthy","sick", "recovered","dead"),lwd = c(3,1,1,1),lty = c(1,1,2,3)) 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+
+(ix)(a)
+mat_ans[5/dt1,2] 
+ 0.01860525 
+The probability that a life healthy at time 0 is sick after 5 days is 0.01860525 
+(b) mat_ans[30/dt1,2] 
+ 0.1171159 
+The probability that a life healthy at time 0 is sick after 30 days is 0.1171159 
+(x)
+yyy<-mat_ans[,2] 
+sum(0.01*yyy*exp(-0.06*seq(1,10000)/36500)) [2]
+ 4.227194 
+The required expected present value is £4.23 
+
+---
+
+[Total 34]
+This question on the application of Markov processes to survival analysis in R was not well answered. Candidates need to be ready to use R to solve problems and simply learning R commands will not be sufficient. Many candidates failed to see that a new matrix was required in part (iii).
+Part (vii) was not well answered. Alternative methods for generating the mat_ans matrix are possible here and can obtain full marks. In general marks were be awarded in ½ mark increments for a wide variety of approaches in the following 5 stages to a solution for this part:
+step 1 - parameterising the solution using figures given in the question (max 2 marks)
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+step 2 - setting the time sequence and initiating the loop (max 2 marks)
+step 3 - calculating the mu values (max 3 marks)
+step 4 - converting the mu’s into probabilities (max 3 marks)
+step 5 - outputting the matrix (1 mark)
+Similarly for part (x) a wide variety of approaches to incorporating an interest rate element were given full credit.

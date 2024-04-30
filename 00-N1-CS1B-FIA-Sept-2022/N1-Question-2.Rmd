@@ -34,7 +34,7 @@ pre {
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
 
-* Question 4
+* Question 2
 
 ---
 
@@ -56,8 +56,8 @@ response for the new product.
 
 Q2
 (i)
-𝑋𝑋 follows a Binomial (𝑛𝑛, 𝜃𝜃) distribution, where 𝑛𝑛 is the number of clients surveyed 
-and 𝜃𝜃 is the probability of getting a positive approval of the product from a client 
+𝑋𝑋 follows a Binomial (𝑛𝑛, \theta) distribution, where 𝑛𝑛 is the number of clients surveyed 
+and \theta is the probability of getting a positive approval of the product from a client 
 ---
 
 
@@ -72,14 +72,14 @@ where x is the number of positive responses obtained out of n clients surveyed.
 ---
 
 (ii)
-The posterior distribution of 𝜃𝜃 is Beta with parameters
-𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and 𝑛𝑛 − 𝑥𝑥 + 𝛽𝛽 = 59 + 𝛽𝛽 . 
+The posterior distribution of \theta is Beta with parameters
+𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and 𝑛𝑛 − 𝑥𝑥 + \beta  = 59 + \beta  . 
 (iii)
 The prior and posterior are of the same family. So, we have a conjugate prior 
   
 ---
   
-(iv) State the parameter values for which the prior is a Uniform(0, 1) distribution. 
+(iv) State the parameter values for which the prior is a <tt>Uniform(0, 1)</tt> distribution. 
   
 (v) (a) Plot the prior density of θ with the parameters obtained in part (iv). Set 
 the maximum limit of the y axis to 12. 
@@ -100,15 +100,15 @@ part (v).
 The company will put the new product on the market only if there is a high 
 probability that θ is higher than 60%. 
 (viii) (a) Calculate the probability Pሺθ > 0.6 | Xሻ in the case of both priors; that 
-is, Uniform(0, 1) and Beta with parameters (40, 24). [4] 
-(b) Comment on your answer to part (viii)(a). [2] 
+is, Uniform(0, 1) and Beta with parameters (40, 24).  
+(b) Comment on your answer to part (viii)(a).  
 
 
 
 ---
 
 (iv)
-Beta(1, 1) is the same as a Uniform(0,1) distribution: 𝛼𝛼 = 1, 𝛽𝛽 = 1 
+Beta(1, 1) is the same as a Uniform(0,1) distribution: 𝛼𝛼 = 1, \beta  = 1 
 (v)(a)
 ```{r}
 n = 160

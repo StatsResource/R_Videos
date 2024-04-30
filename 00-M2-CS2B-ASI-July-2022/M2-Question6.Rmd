@@ -73,13 +73,17 @@ the rules given below:
 6.   Compute the error rate in clustering by comparing the initial grouping with the clusters 
 created.
 7.  Comment on the possible reasons for misclassification in the clustering.
-[20]
-********************
+
+---
 
  [12 Marks]
-Solution 6
+### Part A
+
+```{r}
 Cricket <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\Cricket.c
 sv")
+
+```
 # (i)
 runs_avg <- aggregate(Runs~Init_group, data = Cricket, FUN = "mean")
 runs_avg
@@ -87,22 +91,37 @@ runs_avg
 ## 1 Alrounder 143.66667
 ## 2 Batsman 213.91892
 ## 3 Bowler 16.44444
+---
+
+```{r}
 wickets_avg <- aggregate(Wickets~Init_group, data = Cricket, FUN = "mean")
 wickets_avg
 ## Init_group Wickets
 ## 1 Alrounder 4.3095238
 ## 2 Batsman 0.2432432
 ## 3 Bowler 9.0138889
- [3]
+```
+
+----
 # (ii)
+
+```{r}
 Cricket1 <-Cricket
 Cricket1<-Cricket1[,4:7]
- [2]
+```
+
+---
+
 # (iii)
+
+```{r}
 Cricket1 = as.data.frame(scale (Cricket1))
 set.seed(100)
 clust_Cricket<-kmeans(Cricket1,3)
 clust_Cricket
+
+```
+
 ## K-means clustering with 3 clusters of sizes 39, 62, 87
 ## 
 ## Cluster means:
@@ -113,8 +132,7 @@ clust_Cricket
 ## 
 ## Clustering vector:
 ## [1] 3 2 3 3 3 2 1 3 2 3 2 3 2 3 3 2 2 1 3 3 2 1 3 1 2 3 3 3 3 3 2 3 2 2 
-IAI CS2B-0722
-Page 13 of 14
+
 3 1 2
 ## [38] 3 3 2 1 2 2 3 3 2 3 3 2 3 1 2 3 2 3 3 1 2 2 1 1 3 3 1 3 3 2 1 1 3 3 
 2 3 3
@@ -135,16 +153,28 @@ Page 13 of 14
 ## [1] "cluster" "centers" "totss" "withinss" "tot.withi
 nss"
 ## [6] "betweenss" "size" "iter" "ifault"
- [4]
+
+---
+
 # (iv)
 Cricket$Clust_Membership <-clust_Cricket$cluster
- [2]
+
+---
+
 # (v)
-Cricket$Clust_Membership <-factor(Cricket$Clust_Membership, labels = c("Bowle
-r","Batsman","Alrounder"))
- [3]
+
+```{r}
+Cricket$Clust_Membership <-factor(Cricket$Clust_Membership, 
+	labels = c("Bowler","Batsman","Alrounder"))
+```
+
+---
 # (vi)
+
+```{r}
 table(Cricket$Clust_Membership,Cricket$Init_group)
+
+```
 ## 
 ## Alrounder Batsman Bowler
 ## Bowler 7 0 32
@@ -153,14 +183,15 @@ table(Cricket$Clust_Membership,Cricket$Init_group)
 error<- (32+11+24+23)/nrow(Cricket)
 error
 ## [1] 0.4787234
- [3]
+
+---
+
 # (vii)
 # Possible reasons
 # 1. Many batsman in realty might have played very few matches and scored ver
 y few runs. They might not have got classified as batsmen by the cluster
 # 2. Similarly many bowlers also
-IAI CS2B-0722
-Page 14 of 14
+
 # 3. When there were only 42 players who were alrounders in the real data, cl
 uster considered 87 as alrounders because the players who do not fall into ba
 tsmen and bowers were treated as alrounders
@@ -168,6 +199,9 @@ tsmen and bowers were treated as alrounders
 # Rather than considering all players, if we would have considered players wh
 o played a minimum number of matches, the clustering accuracy would have impr
 oved significantly
- [3]
- [20 Marks]
-************************
+
+---
+
+BLANK
+
+---

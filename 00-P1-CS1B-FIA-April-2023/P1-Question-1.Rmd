@@ -44,13 +44,13 @@ command. You should save the generated values in R for later use.
 2 distribution using an appropriate R 
 command. You should save the generated values in R for later use.  
 (iii) Discuss the main disadvantage of using the inverse transform method for 
-simulating values from a chi-square distribution. [3] 
+simulating values from a chi-square distribution.  
 (iv) Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
 and (ii), explaining your answer. 
-You should save the generated values in R for later use. [5] 
+You should save the generated values in R for later use.  
 (v) Simulate 10,000 values from a t20 distribution by modifying your R code from 
 parts (i), (ii) and (iv) where necessary. 
-You should save the generated values in R for later use. [5] 
+You should save the generated values in R for later use.  
 (vi) Demonstrate an important property of the t distribution by presenting and 
 comparing two appropriate plots of the values simulated in parts (iv) and (v). 
  [6] 
@@ -62,11 +62,16 @@ CS1B A2023–3
 
 Q1
 (i) R code:
+```{r}
 norm.val = rnorm(10000) 
+```
 (ii) R code:
 chisq4.val = rchisq(10000,4) 
 (iii) The main disadvantage of the inverse transform method is the necessity to have an explicit expression for the inverse of the distribution function, which is not available for the chi-square distribution. 
 The use of the method would require numerical methods for inverting the cdf. 
+
+---
+
 (iv) A random variable having the t_n distribution can be simulated as
 Z / sqrt(Y/n) 
 where Z ~ N(0,1) and Y ~ 𝜒𝜒𝑛𝑛2 
@@ -78,6 +83,8 @@ norm.val = rnorm(10000)
 [Or, use same values from (i)]
 chisq20.val = rchisq(10000,20) 
 t20.val = norm.val/sqrt(chisq20.val/20) 
+---
+
 (vi) R code:
 (vii)
 par(mfrow=c(1,2))
@@ -87,7 +94,12 @@ Histograms are shown below:
 CS1B - Actuarial Statistics - Core Principles - April 2023 - Examiners’ report
 CS1B A2023 © Institute and Faculty of Actuaries
 The histograms illustrate that the t distribution approaches the standard normal distribution as the number of the degrees of freedom increases. 
-[Total 22]
+
+---
+
+
+---
+
 Parts (i), (ii): Very well answered. A small number of candidates used runif() in (i).
 Part (iii): Candidates’ comments were often unclear. Many candidates failed to mention the need to use numerical methods.
 Part (iv): Mostly well answered. A common error was failing to mention the required independence.

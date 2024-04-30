@@ -45,16 +45,23 @@ considered, one from each population. The first sample consists of nA = 900 regi
 cars, while the second sample consists of nB = 1,200 registered cars. The type of each
 car (electric or not) is assumed to be independent of the type of other cars in the
 samples.
+
+### Exercises 
 (i) Simulate the two samples in R assuming that the proportion of electric cars in
 population A is 0.02, while in population B it is 0.025, and save the simulated
 samples for later use.
 You must use the command set.seed(12345) to initialise the random
 number generator, before you start the simulation. [2]
+
+---
+
 The true proportions of electric cars in the two populations are unknown to the
 researcher, and the researcher wants to estimate them.
+
+
 (ii) Determine an equal-tailed 99% confidence interval for the difference in the
 true proportions of electric cars in the two populations A and B, using your
-sample data. [5]
+sample data. 
 Based on previous knowledge, the researcher believes that the proportion of electric
 cars in population A is lower than the proportion of electric cars in population B.
 (iii) Perform a hypothesis test to investigate this belief using your sample data. In
@@ -64,25 +71,27 @@ necessary steps:
 approximation.
 *  Compute the p-value of the test.
 *  State your conclusion based on the calculated p-value.
-[9]
-[Total 16]
 
-
-[Total 16]
+--- 
 Q2
 (i)
 Simulate samples:
+```{r}
 set.seed(12345)
 data.A = rbinom(900,1,0.020)
 data.B = rbinom(1200,1,0.025)
 #data.A; data.B [2]
+```
 (ii)
+```{r}
 n.A = length(data.A); n.B = length(data.B)
 thetahat.A = sum(data.A)/n.A
 thetahat.B = sum(data.B)/n.B
 thetahat.A; thetahat.B
 # 0.02111111
 # 0.02916667 [2]
+
+```
 Parts (i)-(iii) were well answered in general. A common error in part (i) was not using properly the inverse transform method as the question asked.
 Part (iv) was not well answered, with comments often being vague or not consistent with the graphs plotted earlier.
 
@@ -117,6 +126,7 @@ Conclusion:
 We do not have evidence against the null hypothesis of equal proportions 
 at level 12.4% 
 so we do not reject it. 
-[Total 16]
+
+
 
 

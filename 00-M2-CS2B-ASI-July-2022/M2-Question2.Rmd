@@ -95,6 +95,7 @@ periodic seasonal behavior
 could either be a truly random autocorrelation in the series or there is a 
 fixed effect or trend that hasn't been removed (i.e. the series is not 
 stationary). Hence non stationary data
+
 * Time Series of Lung Deaths is establishing seasonality which is visible 
 from highs and lows at uniform intervals of time
 * ACF is exhibiting a high positive serial correlation at Lag 1 indicating 
@@ -102,15 +103,22 @@ the presence of seasonality in the data
 
 ---
 # (v)
+
+```{r}
 diff12=diff(Lung_Deaths, lag = 12, differences=1)
 plot(diff12)
+
+````
+
 ---
 # (vi)
+
+```{r}
 acf(diff12,lag.max = 30)
 IAI CS2B-0722
 Page 7 of 14
 pacf(diff12,lag.max = 30)
- [4]
+````
 
 ---
 # (vii)

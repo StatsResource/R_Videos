@@ -51,14 +51,14 @@ company is prohibited by local regulations from using as a criterion.
 In order to illustrate the issues involved in setting the eligibility criteria for the
 simplified process, an Actuary engaged by the company generates a specimen data set
 by making the following assumptions about the business mix:
- For a given customer, Feature1 takes the values 0 and 1 with equal probability.
- For a given customer, independently of Feature1, Feature2 takes the values 0 and
+* For a given customer, Feature1 takes the values 0 and 1 with equal probability.
+* For a given customer, independently of Feature1, Feature2 takes the values 0 and
 1 with equal probability.
- For a given customer, independently of Feature1, the benefit amount, ‘Benefit’, is
+* For a given customer, independently of Feature1, the benefit amount, ‘Benefit’, is
 such that its logarithm is Normally distributed with mean 7.5 and standard
 deviation 0.5 if Feature2 = 0, and Normally distributed with mean 7 and standard
 deviation 0.5 if Feature2 = 1.
- The variable ‘Outcome’ indicates whether full medical underwriting would reveal
+* The variable ‘Outcome’ indicates whether full medical underwriting would reveal
 issues requiring the proposal to be declined or accepted with a premium loading.
 For a given customer, this variable takes the value 0, representing a proposal that
 would be accepted at standard premium rates, with probability:
@@ -68,23 +68,23 @@ o 0.9 if one of Feature1 and Feature2 is 0 and the other is 1.
 Otherwise, this variable takes the value 1, representing a proposal that would be
 declined or accepted with a premium loading.
 (i) Generate a 100,000 × 5 matrix, A, in which:
- the first, second and fifth columns consist of independent observations
+* the first, second and fifth columns consist of independent observations
 from the uniform distribution on [0,1]. You should set a random number
 generator seed of 123 before generating the observations in the first
 column.
- the third column consists of independent observations from the lognormal
+* the third column consists of independent observations from the lognormal
 distribution of Benefit given that Feature2 = 0.
- the fourth column consists of independent observations from the
+* the fourth column consists of independent observations from the
 lognormal distribution of Benefit given that Feature2 = 1.
-CS2B A2023–7
+
 Use the R function head to display the first six rows of A in your answer
-script. [6]
+script. 
 Let Aij denote the (i,j) entry of A.
 (ii) Generate a matrix, B, with 100,000 rows and four columns, Feature1,
 Feature2, Benefit and Outcome, in which, in the ith row:
- Feature1, Feature2 and Outcome are equal to 0 if Ai1, Ai2 or Ai5,
+* Feature1, Feature2 and Outcome are equal to 0 if Ai1, Ai2 or Ai5,
 respectively are less than the appropriate probability, and 1 otherwise.
- Benefit is equal to either Ai3 or Ai4 as appropriate.
+* Benefit is equal to either Ai3 or Ai4 as appropriate.
 Use the R function head to display the first six rows of data in your answer
 script. [9]
 The Actuary uses a regression tree to split the hypothetical customers in the matrix B
@@ -96,26 +96,26 @@ tree = rpart(formula = Outcome ~ Feature1 + Benefit,
 data = data.frame(B), control = rpart.control(cp = 2e-4,
 maxdepth = 2, minbucket = 5000))
 rpart.plot(tree)
-(iii) Plot the regression tree object, called ‘tree’, using the R code above. [1]
+(iii) Plot the regression tree object, called ‘tree’, using the R code above. 
 (iv) Comment on the conclusions the Actuary should draw from the regression tree
-‘tree’. [5]
+‘tree’. 
 The Actuary creates a further regression tree by weighting each customer, i, in the
 matrix B as follows:
 􀰭
 􀰮􁈺􀯪􀰬􀳔􀬾􀯪􀰭􀳔􁈻
 𝑤􀯜
 where:
- w0i is the probability density from the lognormal distribution for the actual value
+* w0i is the probability density from the lognormal distribution for the actual value
 of Benefit for the ith customer and Feature2 = 0.
- w1i is the probability density from the lognormal distribution for the actual value
+* w1i is the probability density from the lognormal distribution for the actual value
 of Benefit for the ith customer and Feature2 = 1.
- wi is the probability density from the lognormal distribution for the actual values
+* wi is the probability density from the lognormal distribution for the actual values
 of Benefit and Feature2 for the ith customer.
 (v) Explain the rationale for this choice of weights. 
 CS2B A2023–8
 (vi) Generate a vector, ‘Weight’, containing the weights as defined above. Use the
 R function head to display the first six entries of Weight in your answer
-script. [5]
+script. 
 The Actuary uses the following R code to plot the revised tree, ‘tree2’:
 tree2 = rpart(formula = Outcome ~ Feature1 + Benefit,
 data = data.frame(B), weights = Weight,
@@ -123,8 +123,104 @@ control = rpart.control(cp = 2e-4, maxdepth = 2,
 minbucket = 5000))
 rpart.plot(tree2)
 (vii) Plot the revised regression tree object, called ‘tree2’, using the R code above.
-[1]
+
 (viii) Comment on the practical suitability of this method of determining the
-eligibility criteria for the simplified underwriting process for this product. [4]
+eligibility criteria for the simplified underwriting process for this product. 
 [Total 33]
 END OF PAPER
+
+--- Q3
+install.packages("rpart")
+install.packages("rpart.plot")
+library(rpart)
+library(rpart.plot)
+(i) set.seed(123) 
+A = matrix(nrow = 100000, ncol = 5) 
+A[,1] = runif(n = 100000) 
+A[,2] = runif(n = 100000) 
+A[,3] = rlnorm(n = 100000, meanlog = 7.5, sdlog = 0.5) 
+A[,4] = rlnorm(n = 100000, meanlog = 7, sdlog = 0.5) 
+A[,5] = runif(n = 100000) 
+head(A) 
+[,1] [,2] [,3] [,4] [,5]
+[1,] 0.2875775 0.60240988 2064.197 1267.1684 0.4708851
+[2,] 0.7883051 0.02285169 4515.963 728.4591 0.8977670
+[3,] 0.4089769 0.82056246 1755.152 512.0199 0.7615472
+[4,] 0.8830174 0.03656945 1760.574 884.9737 0.6478515
+[5,] 0.9404673 0.23504938 2250.600 703.6842 0.5329256
+[6,] 0.0455565 0.87053886 3528.840 1001.6978 0.8526255 
+(ii)
+Feature1 = ifelse(A[,1] < 0.5, 0, 1) [2]
+Feature2 = ifelse(A[,2] < 0.5, 0, 1) 
+Benefit = ifelse(Feature2 == 0, A[,3], A[,4]) 
+Outcome0prob = ifelse(Feature1 == 0 & Feature2 == 0,
+0.95, ifelse(Feature1 == 1 & Feature2 == 1, 0.8, 0.9)) [2]
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+Outcome = ifelse(A[,5] < Outcome0prob, 0, 1) 
+B = cbind(Feature1, Feature2, Benefit, Outcome) 
+head(B) 
+Feature1 Feature2 Benefit Outcome
+[1,] 0 1 1267.1684 0
+[2,] 1 0 4515.9630 0
+[3,] 0 1 512.0199 0
+[4,] 1 0 1760.5743 0
+[5,] 1 0 2250.5999 0
+[6,] 0 1 1001.6978 0
+
+(iii)
+tree = rpart(formula = Outcome ~ Feature1 + Benefit,
+data = data.frame(B), control = rpart.control(cp = 2e-4,
+maxdepth = 2, minbucket = 5000))
+rpart.plot(tree) 
+
+(iv)
+The tree is showing that customers with higher benefit amounts should be eligible
+for the simplified underwriting process in preference to those with lower benefit
+amounts 
+This has arisen because customers with low benefit amounts are more likely to have Feature2 = 1 
+and hence to have a higher probability of an adverse outcome under the existing underwriting process 
+For benefit amount to affect underwriting decisions in this way is inconsistent with
+the spirit of the regulation prohibiting the use of Feature2 as an underwriting criterion 
+The tree is therefore unsuitable for practical use 
+(v)
+In the data set B, observations appear with a likelihood based on the distribution of Benefit conditional on the actual values of Feature2 
+With the specified weights, observations effectively appear with a likelihood based
+on the unconditional distribution of Benefit, without regard to the values of Feature2 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+(1 mark for any remark that relates use of weights to the Features)
+(vi) Weight = vector(length = 100000) 
+for(i in 1:100000) { 
+w0i = dlnorm(Benefit[i], meanlog = 7.5, sdlog = 0.5) 
+w1i = dlnorm(Benefit[i], meanlog = 7, sdlog = 0.5) 
+wi = ifelse(Feature2[i] == 0, w0i, w1i) 
+Weight[i] = (w0i + w1i) / 2 / wi 
+}
+head(Weight) 
+ 1.117407 5.642813 4.281520 1.281643 1.777311 1.488022 
+(vii)
+tree2 = rpart(formula = Outcome ~ Feature1 + Benefit,
+data = data.frame(B), weights = Weight,
+control = rpart.control(cp = 2e-4, maxdepth = 2, minbucket = 5000))
+rpart.plot(tree2) 
+
+(viii)
+The weighting has successfully eliminated the dependency on Benefit arising from
+the confounding feature Feature2 
+In practice, there will be many more features in the data and trees as simple as tree
+and tree2 are unlikely to be used 
+In practice, there will be greater complexity in assessing whether the effect of a given feature is due to a confounding feature such as Feature2 which is not allowed to be
+used as a criterion 
+The application of judgement is therefore likely to be required, rather than directly
+using the output of the rpart algorithm 
+For the same probability of an adverse outcome of full medical underwriting, the simplified process is in practice less likely to be appropriate for large benefit amounts, because of the greater financial impact of an inappropriate decision 
+One method of allowing for this would be to use Benefit * Outcome in place of
+Outcome in constructing tree2 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+In practice, the large number of available features is likely to mean that a more sophisticated algorithm, such as the random forest or gradient boosting algorithm, is appropriate 
+General comments about the application of decision trees [1 per point, maximum 2]
+Discussion of alternatives to log Normal weights 
+[Marks available 10, maximum 4]
+[Total 33]

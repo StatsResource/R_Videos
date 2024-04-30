@@ -10,11 +10,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-library(knitr)
-library(dplyr)
-library(janitor)
+knitr::opts_chunk$set\beta echo = TRUE)
+library\beta magrittr)
+library\beta knitr)
+library\beta dplyr)
+library\beta janitor)
 
 
 ```
@@ -41,9 +41,9 @@ pre {
 
 CS1B S2022–5 
 4 An Analyst is asked to produce a report on the existing imbalance in salary in jobs 
-related to Science, Technology, Engineering and Maths (STEM). The Analyst 
+related to Science, Technology, Engineering and Maths \beta STEM). The Analyst 
 considers a sample of 100 employees in STEM-related jobs. For each of these 
-employees, information is provided on starting and current salary (in units of £5,000), 
+employees, information is provided on starting and current salary \beta in units of £5,000), 
 gender, type of job and job location, the employee’s age and their relevant experience. 
 The data is given in the file named employee.RData. After loading the data into R, 
 the data frame data_employee, with its variables listed below, will be available. 
@@ -60,29 +60,29 @@ experience Relevant job experience in years
 ---
 
 
-(i) Write down the categorical and the numerical variables in the data. [2] 
-(ii) Plot a scatter graph between each pair of the numerical variables using your 
-answer to part (i). [3] 
-(iii) Comment on the relationship between the current salary and the remaining 
-numerical variables. [2] 
-(iv) (a) Calculate the lower quartile, median, upper quartile and the mean for 
-the current yearly salary. [3] 
-(b) Test whether the proportion of male employees with current salary 
+\beta i) Write down the categorical and the numerical variables in the data.  
+\beta ii) Plot a scatter graph between each pair of the numerical variables using your 
+answer to part A.  
+\beta iii) Comment on the relationship between the current salary and the remaining 
+numerical variables.  
+\beta iv) \beta a) Calculate the lower quartile, median, upper quartile and the mean for 
+the current yearly salary.  
+\beta b) Test whether the proportion of male employees with current salary 
 below 9.86 is significantly different from the proportion of female 
-employees with current salary below 9.86. [11] 
-[Hint: salary.current[gender==0] gives a vector of current salary for 
+employees with current salary below 9.86. 
+[Hint: <tt>salary.current[gender==0]</tt> gives a vector of current salary for 
 males.] 
 
 ---
 
 
-(v) Determine the median, mean and variance of the current yearly salary for each 
-of the job types in job.type. [6] 
-[Hint: salary.current[job.type==1] gives a vector of current 
+\beta v) Determine the median, mean and variance of the current yearly salary for each 
+of the job types in job.type.  
+[Hint: <tt>salary.current[job.type==1]</tt> gives a vector of current 
 salary for geneticists.] 
-(vi) (a) Test at the 5% level whether the mean starting salary and the mean 
+\beta vi) \beta a) Test at the 5% level whether the mean starting salary and the mean 
 current salary are significantly different. 
-(b) Test at the 5% level whether the mean current salary for big-city 
+\beta b) Test at the 5% level whether the mean current salary for big-city 
 employees is greater than the mean current salary for small-city 
 employees. 
 
@@ -91,22 +91,22 @@ employees.
 
 Q4
 # load data
-load("employee.RData")
-(i)
+load\beta "employee.RData")
+\beta i)
 Categorical variables: gender, job.type and job.location 
 
 Numerical variables: salary.current, salary.start, age and experience 
-(ii)
+\beta ii)
 Scattergraphs between each pair of continous variables:
-data_continuous <- data.frame(salary.current, salary.start, 
+data_continuous <- data.frame\beta salary.current, salary.start, 
 age, experience) 
-pairs(data_continuous) 
+pairs\beta data_continuous) 
 or 
-plot(data_continuous)
+plot\beta data_continuous)
 
 ---
 
-(iii)
+\beta iii)
 The first column shows the relationship between salary.current and the other continuous 
 variables. We can see that:
 there appears to be a positive linear relationship between the current and the starting 
@@ -119,17 +119,17 @@ unclear
 
 ---
 
-(iv)(a) 
+\beta iv)\beta a) 
 The lower quartile, median, upper quartile of salary.current are given as:
-quantile(salary.current, c(0.25,0.5,0.75)) 
+quantile\beta salary.current, c\beta 0.25,0.5,0.75)) 
 25% 50% 75% 
 9.1750 9.3650 9.8625 
 and the mean:
  
-mean(salary.current) 
+mean\beta salary.current) 
 # 9.4778
 ## Alternatively, candidates can use the function summary
-summary(salary.current)
+summary\beta salary.current)
 Min. 1st Qu. Median Mean 3rd Qu. Max.
 8.780 9.175 9.365 9.478 9.863 10.630
 
@@ -137,7 +137,7 @@ Min. 1st Qu. Median Mean 3rd Qu. Max.
 ---
 
 
-(b) 
+\beta b) 
 We use the following notation:
 p1: proportion of male employees with current salary values below 9.86 
 p2: proportion of female employees with values below 9.86
@@ -149,10 +149,10 @@ cmale<- salary.current[gender==0]
 Those less than the upper quartile:
 qmale<- cmale[cmale <9.86] 
 Number of male employees with current salary lower than the upper quartile:
-x1<- length(qmale) ; x1 
+x1<- length\beta qmale) ; x1 
 # 26
 Number of male employees:
-n1<- length(cmale); n1 
+n1<- length\beta cmale); n1 
 # 51
 Current salary for female employees:
 cfemale<- salary.current[gender==1] 
@@ -161,15 +161,18 @@ qfemale<- cfemale[cfemale <9.86]
 ---
 
 Number of female employees with current salary lower than the upper quartile:
-x2<- length(qfemale) ; x2 
+x2<- length\beta qfemale) ; x2 
 # 48
 Number of female employees:
-n2<- length(cfemale); n2 
+n2<- length\beta cfemale); n2 
 # 49
+
+---
+
 Perform test:
-prop.test(c(x1,x2), c(n1 , n2 ), alternative = "two.sided" )[2]
+prop.test\beta c\beta x1,x2), c\beta n1 , n2 ), alternative = "two.sided" )
 2-sample test for equality of proportions with continuity correction
-data: c(x1, x2) out of c(n1, n2)
+data: c\beta x1, x2) out of c\beta n1, n2)
 X-squared = 26.276, df = 1, p-value = 2.959e-07
 alternative hypothesis: two.sided
 95 percent confidence interval:
@@ -177,23 +180,28 @@ alternative hypothesis: two.sided
 sample estimates:
 prop 1 prop 2 
 0.5098039 0.9795918
+
+---
+
 The p-value is less than 0.05, therefore reject 𝐻𝐻0. The proportion of males with current
 salary below 9.86 is significantly different from the proportion of female employees with 
 current salary below 9.86 
 
 ---
 
-(v)
+\beta v)
 The median, mean and variances of salary.current for each of the job type in job.type can
 be given as follows:
-Median<- rep(0,5)
-Mean<- rep(0,5)
-Var<- rep(0,5
-for(i in 1:5){
-Median[i]<- median(salary.current[job.type==i] )
-Mean[i]<- mean(salary.current[job.type ==i] )
-Var[i]<- var(salary.current[job.type ==i] )
-} [3]
+```{r}
+Median<- rep\beta 0,5)
+Mean<- rep\beta 0,5)
+Var<- rep\beta 0,5
+for\beta i in 1:5){
+Median[i]<- median\beta salary.current[job.type==i] )
+Mean[i]<- mean\beta salary.current[job.type ==i] )
+Var[i]<- var\beta salary.current[job.type ==i] )
+} 
+```
 ## Median
 # 9.180 9.285 9.410 10.160 10.030 
 ## Mean
@@ -204,11 +212,15 @@ Var[i]<- var(salary.current[job.type ==i] )
 
 ---
 
-(vi) (a) 
+\beta vi) \beta a) 
 
 𝐻𝐻0: Mean starting salaries and the current salaries are equal
 𝐻𝐻1: Mean starting salaries and the current salaries are not equal. 
-t.test(salary.start,salary.current, paired = TRUE) [2]
+
+```{r}
+t.test\beta salary.start,salary.current, paired = TRUE) 
+```
+
 #Results 
 Paired t-test
 data: salary.start and salary.current
@@ -222,14 +234,18 @@ mean of the differences
 The p-value is less than 0.05; therefore we reject 𝐻𝐻0 and conclude that the current salary
 is significantly different from the starting salary 
 ---
-(b) 
+\beta b) 
 We define two vectors of current salaries for big- and small-city employees:
 salary.current_bcity<- salary.current[job.location==0]
 salary.current_scity <- salary.current[job.location==1] 
 𝐻𝐻0: Mean starting salaries for big and small city employees are equal
 𝐻𝐻1: Mean starting salaries for big city employee > small city employee 
-t.test(salary.current_bcity, salary.current_scity,alternative= 
+
+```{r}
+t.test\beta salary.current_bcity, salary.current_scity,alternative= 
 "greater") 
+
+```
 # Results 
 Welch Two Sample t-test
 data: salary.current_bcity and salary.current_scity
@@ -240,6 +256,11 @@ alternative hypothesis: true difference in means is greater than 0
 sample estimates:
 mean of x mean of y 
 9.572297 9.208846
+
+
+---
+
+
 We obtain a p-value<0.05, and therefore reject 𝐻𝐻0 at 5%. We conclude that the current
 salary for big-city employees is greater than that for small-city employees 
 [Total 37]
@@ -251,9 +272,9 @@ BLANK
 ---
 
 This question was answered well in general.
-The computations in parts (iv) and (v) can be performed in a number of alternative ways 
+The computations in parts \beta iv) and \beta v) can be performed in a number of alternative ways 
 in R, and credit was given as appropriate when alternative R code was presented. 
-Many candidates failed to provide a fully correct answer in part (iv)(b), where a number 
+Many candidates failed to provide a fully correct answer in part \beta iv)\beta b), where a number 
 of errors were found in the calculations.
-In parts (vi)(a), (vi)(b) a number of candidates failed to state the hypotheses of the tests 
+In parts \beta vi)\beta a), \beta vi)\beta b) a number of candidates failed to state the hypotheses of the tests 
 and complete conclusions.

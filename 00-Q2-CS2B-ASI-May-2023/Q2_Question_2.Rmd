@@ -46,42 +46,48 @@ Bowl_Avg: Bowling Average
 Bowl_Econ: Bowling Economy
 Bowl_SR: Bowling Strike Rate
 Initial_Class: Initial classification (Initially the players are classified as either “Batsman” or “Bowler” based on the historical performance
-IAI CS2B-0523
-Page 3 of 5
+
+---
+
 Load the data into R and name the data frame as “CSK”.
 Use the following code
+
+```{r}
 rownames(CSK)<-CSK$Player
 CSK$Player<-NULL
+
+```
+
 Perform feature scaling of all the numerical columns
 CSK[,1:6]<-scale(CSK[,1:6])
 i) Compute the mean value of all the scaled columns for Batsman and Bowler.
-(3)
+
 ii) Comment on the characteristics of different features based on the mean values for Batsman and the Bowler.
-(2)
+
 iii) Consider the mean values of Batsman and Bowler as the cluster centroids for the next iteration.
 a) Compute the Euclidean distance between the batsman cluster centroid and each observation and store the distances in a new variable “D1” of the data frame CSK.
-(4)
+
 b) Compute the Euclidean distance between the bowler cluster centroid and each observation and store the distances in a new variable “D2” of the data frame CSK.
-(4)
+
 iv) Assign a new cluster category (Batsman or Bowler) to each player (create a new column called “Iteration1” to the CSK data frame) based on which of the two distances are lower.
-(3)
+
 v) Compute the proportion of cluster transfers that occurred after the first iteration.
-(2)
+
 vi) Repeat the steps (i), (iii) and (iv) for another iteration using the new cluster memberships of each of the players and assign the new cluster category to each player after the second iteration (create a column called “Iteration2”).
 (10)
 vii) The players who were a part of two different categories in Iteration 1 and Iteration 2 are called as “Allrounders”. Identify the players who can be categorized as “Allrounders” in the CSK team.
-(2)
+
 viii) Your friend suggested that you can use “k-means” function to do the clustering of batsman and bowler groups.
 You need to execute the k-means clustering to create two clusters based on the six attributes of each player. Before executing the k-means clustering function, it is mandatory to set the seed value to 100 using set.seed(100). Print the cluster means of the two clusters formed.
-(3)
+
 ix) Add the k-means cluster memberships to the CSK data frame. Rename cluster 1 as “Batsman” and cluster 2 as “Bowler”.
-(2)
+
 x) Identify the names of the players who are differently classified between Iteration 2 and the k-means cluster.
-(2)
+
 IAI CS2B-0523
 
 xi) Comment on the reason for difference in classifications between Iteration 2 and k-means cluster.
-(2)
+
 
 ---
 

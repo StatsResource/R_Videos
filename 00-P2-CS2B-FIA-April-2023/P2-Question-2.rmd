@@ -40,8 +40,8 @@ pre {
 2 A life insurance company has issued a 1-year group insurance policy covering 10,000
 employees categorized into four age bands of 2,500 employees each.
 The following amounts are paid upon each death under the policy:
- Death from pandemic diseases mentioned in the policy document: £80,000.
- Death from cause other than above: £40,000.
+* Death from pandemic diseases mentioned in the policy document: £80,000.
+* Death from cause other than above: £40,000.
 The premium charged for each group was estimated as the mean of a compound
 binomial distribution.
 The ‘CS2B_A23_Qu_2_Data.csv’ file contains the following data for each group:
@@ -54,7 +54,7 @@ loaded into R and assigned to a data frame called ‘Prem’.
 (i) Calculate the premium that company would have charged under each of the
 groups, ignoring expenses and profit margin, assigning your output to a vector
 called ‘Prem_charged’ and displaying ‘Prem_charged’ in your answer script.
-[6]
+
 The head of the department wishes to project the actual claims over the next year
 using random numbers.
 (ii) Generate a sample of size 2,500 under each of the above groups from a
@@ -63,12 +63,12 @@ employees using the expected probability of death from the table ‘Prem’. You
 should output your results to a data frame called ‘Tab_R’ consisting of four
 column vectors ‘G1_R’to ‘G4_R’. The random number generator seed to be
 used is 123.
-Use the summary() function to display your results. [6]
+Use the summary() function to display your results. 
 (iii) Generate a data frame ‘Tab_U’ of observations from the Uniform(0,1)
 distribution, consisting of four column vectors, ‘G1_U’ to ‘G4_U’, with 2,500
 components each. The random number generator seed to be used is 300. Use
-the R function head(), to display the first six rows of ‘Tab_U’. [4]
-CS2B A2023–5
+the R function head(), to display the first six rows of ‘Tab_U’. 
+---
 (iv) Generate a data frame ‘Tab_V’, consisting of four column vectors ‘G1_V’ to
 ‘G4_V’, with 2,500 components each, representing claim amounts under each
 group.
@@ -78,13 +78,136 @@ proportion of pandemic deaths specified in the table ‘Prem’ for the relevant
 group, or 40,000 otherwise.
 Use the summary() function to display your results. [8]
 (v) Calculate the aggregate claim amount under each group, displaying your
-output as a vector. [3]
+output as a vector. 
 (vi) Calculate the projected profit or loss under each group and the policy as a
 whole. 
 One of the employees suggests that the premium rate charged should be based on the
 actual claims obtained from part (v) above.
 (vii) Comment on the validity of the employee’s suggestion, assuming that the
 distribution used, the parameters used and the methodology adopted are
-reasonable. [4]
+reasonable. 
 [Total 33]
 CS2B A2023–6
+
+
+Q2
+(i)
+Prem<-read.table("CS2B_A23_Qu_2_Data.csv", TRUE, ",") 
+Prem_charged= 
+2500* 
+(Prem$Mort*Prem$p_dth*80000 
++Prem$Mort*(1-Prem$p_dth)*40000) 
+Prem_charged 
+ 187500 260000 640000 080000 
+(ii)
+set.seed(123) 
+Tab_R<- data.frame(cbind(G1_R=rbinom(2500,1,Prem$Mort),G2_ R=rbinom(2500,1,Prem$Mort[2]),G3_R=rbinom(2500,1,Prem$ Mort[3]),G4_R=rbinom(2500,1,Prem$Mort[4]))) [4½]
+summary(Tab_R) 
+Or
+set.seed(123) 
+G1_R=rbinom(2500,1,Prem$Mort) 
+G2_R=rbinom(2500,1,Prem$Mort[2]) 
+G3_R=rbinom(2500,1,Prem$Mort[3]) 
+G4_R=rbinom(2500,1,Prem$Mort[4]) 
+Tab_R<- data.frame(cbind(G1_R,G2_R,G3_R,G4_R)) 
+summary(Tab_R) 
+Or
+set.seed(123) 
+B = matrix(nrow = 2500, ncol = 4) 
+for (i in 1:4) { 
+q = Prem$Mort[i] 
+B[ ,i] = rbinom(2500,1, q ) 
+}
+Tab_R=data.frame (G1_R=B[,1] , G2_R=B[,2], G3_R =B[,3], G4_R=B[,4] ) 
+summary(Tab_R) 
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+G1_R G2_R G3_R G4_R
+Min. :0.0000 Min. :0.000 Min. :0.0000 Min. :0.0000
+1st Qu.:0.0000 1st Qu.:0.000 1st Qu.:0.0000 1st Qu.:0.0000
+Median :0.0000 Median :0.000 Median :0.0000 Median :0.0000
+Mean :0.0016 Mean :0.002 Mean :0.0028 Mean :0.0068
+3rd Qu.:0.0000 3rd Qu.:0.000 3rd Qu.:0.0000 3rd Qu.:0.0000
+Max. :1.0000 Max. :1.000 Max. :1.0000 Max. :1.0000 
+(The function “rbern” is not a part of the base R installation. However, if the candidate installs “Rlab” package and uses “rbern” function, full marks are to be awarded assuming no other errors)
+
+```{r}
+install.packages("Rlab")
+library("Rlab")
+set.seed(123) 
+Tab_R<- data.frame(cbind(G1_R=rbern(2500,Prem$Mort),G2_R=rbern(2500,Prem $Mort[2]),G3_R=rbern(2500,Prem$Mort[3]),G4_R=rbern(2500,Prem$Mort[4])) [4½]
+summary(Tab_R) 
+```
+G1_ R G2_ R G3_ R G4_R
+Min. :0.0000 Min. :0.000 Min. :0.0000 Min. :0.0000
+1st Qu.:0.0000 1st Qu.:0.000 1st Qu.:0.0000 1st Qu.:0.0000
+Median :0.0000 Median :0.000 Median :0.0000 Median :0.0000
+Mean :0.0016 Mean :0.002 Mean :0.0028 Mean :0.0068
+3rd Qu.:0.0000 3rd Qu.:0.000 3rd Qu.:0.0000 3rd Qu.:0.0000
+Max. :1.0000 Max. :1.000 Max. :1.0000 Max. :1.0000 
+
+
+--- 
+(ii)
+set.seed(300) 
+U = matrix(runif(10000), ncol = 4) [2]
+Tab_U=data.frame (G1_U=U[,1] , G2_U=U[,2], G3_U =U[,3], G4_U=U[,4] ) 
+head(Tab_U) 
+Or
+set.seed(300) 
+U = matrix(nrow = 2500, ncol = 4) 
+for (j in 1:4) { 
+U[ ,j] = runif(2500) 
+}
+Tab_U=data.frame (G1_U=U[,1] , G2_U=U[,2], G3_U =U[,3], G4_U=U[,4] ) 
+head(Tab_U) 
+G1_U G2_U G3_U G4_U
+1 0.9152467 0.9633111 0.4436952 0.4876556
+2 0.7633293 0.5037355 0.3548937 0.9567698
+3 0.8056856 0.8878896 0.5736878 0.3526416
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+4 0.7337780 0.3721702 0.5864507 0.8759781
+5 0.6820679 0.6179086 0.8117664 0.5643849
+6 0.0120303 0.3733971 0.4308092 0.2999071 
+(iv)
+M = matrix(nrow = 2500, ncol = 4)
+dth1 =80000 
+dth2 =40000 
+for (i in 1:4) { 
+M[,i] = 
+Tab_R[,i] * 
+ifelse( 
+Tab_U[,i]<= Prem$p_dth[i], 
+dth1, 
+dth2) 
+}
+Tab_V=data.frame (G1_V=M[,1] , G2_V=M[,2], G3_V =M[,3], G4_V=M[,4] ) 
+summary(Tab_V) 
+G1_V G2_V G3_V G4_V
+Min. : 0 Min. : 0 Min. : 0 Min. : 0
+1st Qu.: 0 1st Qu.: 0 1st Qu.: 0 1st Qu.: 0
+Median : 0 Median : 0 Median : 0 Median : 0
+Mean : 96 Mean : 96 Mean : 192 Mean : 464
+3rd Qu.: 0 3rd Qu.: 0 3rd Qu.: 0 3rd Qu.: 0Max. :80000Max. :80000 Max. :80000 Max. :80000 
+(v)
+Aggregate<- c(sum(Tab_V$G1_V) , sum(Tab_V$G2_V), sum(Tab_V$G3_V), sum(Tab_V$G4_V) ) 
+Aggregate 
+1,] 240000 240000 480000 1160000 
+(vi)
+Prem_charged-Aggregate 
+ -52500 20000 160000-80000 
+sum(Prem_charged-Aggregate) 
+ 47500 
+(vii)
+The employee‘s suggestion is not valid 
+as the aggregate claim amount in part (v) under each group represents one sample 
+The above process would have to be performed many times, and averages taken, to
+obtain reasonable premium rates 
+[Total 33]
+CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2023 - Examiners’ report
+CS2B A2023 © Institute and Faculty of Actuaries
+This question was well answered, and the average mark was considerably higher than that for the other two questions on the paper.
+In part (i) some candidates forgot to multiply by 2500 policies to produce total premiums and instead calculated premiums per policy.
+In part (ii) use of rbern rather than rbinom gained full marks if applied correctly. Candidates are reminded to include the code for setting the seed value in these simulations questions. The examiners understand that where a candidate has the seed but needs to run their code more than once to get a correct answer then the numerical values produced will be different to those above. Candidates are not penalised for this.
+In part (vii) marks were awarded for a range of sensible arguments in support of the correct conclusion.

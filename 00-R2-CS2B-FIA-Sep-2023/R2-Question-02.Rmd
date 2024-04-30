@@ -1,0 +1,209 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+
+
+2 The data file ‘CS2B_S23_Q2_Data.csv’ contains historical data of two time series
+over the past 1,000 months.
+(i) Extract the data into a table named ‘data’ assigning the second and third
+column to X and Y, respectively. Display the first five entries of X. [3]
+(ii) Plot X and Y in a single chart suitably naming the variables. [5]
+(iii) Plot the sample autocorrelation and sample partial autocorrelation functions,
+for both X and Y. [3]
+(iv) Comment on the stationarity of both X and Y with reference to the plots in
+(iii) above. 
+(v) Determine the number of times X and Y have to be differenced (parameter d)
+in order to convert them into a stationary series by calculating the sample
+variance of the differenced process at d = 0, 1, 2 and 3. [14]
+An analyst infers that X and Y are cointegrated. They define:
+𝑍􀯧 􀵌 𝑌 􀵆 𝑏𝑋
+where [1, −b] is called the cointegrating vector.
+The relationship between X and Y is then described by a linear regression:
+𝑌 􀵌 𝑎 􀵅 𝑏𝑋 􀵅 𝑒 􀯧
+where 𝑒􀯧 is the residual.
+(vi) Determine the values of a and b in the equation for Y above. [3]
+(vii) Comment on the analyst’s inference, without using R, if we assume 𝑒􀯧 is a
+white noise. 
+(viii) Comment on the analyst’s inference, without using R, if we assume 𝑒􀯧 is not
+a white noise. [3]
+
+
+---
+
+
+Q2
+(i)
+data = read.csv(file="CS2B_S23_Q2_Data.csv", head=TRUE) 
+X<-data[,2]
+Y<-data[,3] 
+head(X,5) 
+ 0.0000000 0.1836433 0.5050501 1.2480126 2.7618762 
+(ii)
+plot(data$Time,X, xlab = "Time", type= "l", ylab = "X /Y", col = c("blue"), main = "Comparison of X and Y time series " ) [2½]
+lines(Y, col = c("red" )) 
+legend("topleft", col = c("blue","red"), legend = c("X", "Y"),pch =7 ) 
+
+This question was reasonably well answered.
+In part (iii) setting x as age minus mean(age) works as well as manually setting the range -40 to 40.
+Candidates are reminded that relevant graph titles and axis labels are required for full marks in plots like those in parts (iv) and (vi). Where the x axis is age or time this is particularly important.
+A number of candidates took a different approach to part (vii) taking the material from the Core Reading on the limitations of the Chi-squared test and suggesting additional statistical tests, and this gained full marks.
+With data to 2020 this question includes the period of the COVID-19 pandemic and as in the solution to (v) above the examiners would expect candidates to be able to relate survival modelling results to the pandemic where appropriate.
+0
+200
+400
+600
+800
+1000
+-15
+-10
+-5
+0
+5
+10
+15
+Comparison of X and Y time series
+Time
+X /Y
+X
+Y
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+(iii)
+par(mfrow=c(2,2))
+acf(X) 
+pacf(X) 
+acf(Y) 
+pacf(Y) 
+
+(iv)
+In the case of a stationary time series, SACFs ultimately must converge towards zero exponentially fast which is not the case for SACFs of both X and Y. 
+Hence X and Y are not stationary 
+(v)
+n = length(X)
+X1= rep(NA,n-1)
+X2= rep(NA,n-2)
+X3= rep(NA,n-3) [2]
+for(i in 1 :length(X1)){ X1[i] = X[i+1] - X[i]} [2]
+i= 1
+for(j in 1:length(X2)) {X2[j] = X1[j+1] - X1[j]} 
+i= 1
+for(i in 1 :length(X3)){ X3[i] = X2[i+1] - X2[i]} 
+var_sr<- c(var(X),var(X1),var(X2),var(X3)) [2]
+0510152025300.00.20.40.60.81.0LagACFSeries X0510152025300.00.20.40.60.81.0LagPartial ACFSeries X0510152025300.00.20.40.60.81.0LagACFSeries Y0510152025300.00.20.40.60.81.0LagPartial ACFSeries Y
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+var_sr
+1] 54.376104 1.055890 2.072943 6.206855 
+n = length(Y)
+Y1= rep(NA,n-1)
+Y2= rep(NA,n-2)
+Y3= rep(NA,n-3) 
+for(i in 1 :length(Y1)){ Y1[i] = Y[i+1] - Y[i]} 
+i= 1
+for(j in 1:length(Y2)) {Y2[j] = Y1[j+1] - Y1[j]} 
+i= 1
+for(i in 1 :length(Y3)){ Y3[i] = Y2[i+1] - Y2[i]} 
+var_LT<- c(var(Y),var(Y1),var(Y2),var(Y3)) 
+var_LT
+ 79.979362 1.155266 2.357361 6.988118 
+It is normally the case that sample variance first decreases with ‘d’ until stationarity is achieved and then starts to increase. 
+Sample variance is lowest at d = 1 under X and Y. 
+Hence the X and Y have to be differenced once. 
+> var(X)
+ 54.37610384
+> var(diff(X))
+ 1.055890354
+> var(diff(X, differences = 2))
+ 2.072942932
+> var(diff(X, differences = 3))
+ 6.20685507
+> var(Y)
+ 79.97936178
+> var(diff(Y))
+ 1.155266085
+> var(diff(Y, differences = 2))
+ 2.357361092
+> var(diff(Y, differences = 3))
+ 6.988117921
+(vi)
+M<- lm(Y ~X) [1½]
+summary(M) 
+or
+summary(M)$coefficients; summary(M)$coefficients[2] 
+Call:
+lm(formula = Y ~ X)
+Residuals:
+Min 1Q Median 3Q Max
+-11.689 -4.428 -1.084 3.414 18.335
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.27658 0.19059 -1.451 0.147
+X 0.90145 0.02568 35.101 <2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 5.986 on 998 degrees of freedom
+Multiple R-squared: 0.5525, Adjusted R-squared: 0.552
+F-statistic: 1232 on 1 and 998 DF, p-value: < 2.2e-16
+Therefore, a= -0.27658 , b = 0.90145 
+[Marks available 4, maximum 3]
+(vii)
+Y and X are I (1) time series. 
+Substituting Y into Z_t gives Z_t = a+ et 
+Zt becomes stationary as ‘et’ is the simplest case of stationarity 
+Hence Zt is co-integrated 
+with co-integration vector [1, -0.90145]
+(viii)
+Residuals process ‘et’ could still be stationary even though it is not a white noise 
+Further analysis has to be done to check whether Zt is stationary 
+‘et’ not being a white noise would mean that the regression fit is not good 
+meaning relation between Y and X may not be linear 
+requiring a revised co-integrating relation 
+resulting in changing the co-integrating vector 
+It is also possible that there is no co-integrating relation between X and Y 
+Therefore, we cannot say anything on the inference 
+[Marks available 8, maximum 3]
+[Total 35]
+This question was well answered.
+A number of candidates produced a scatter plot in part (ii) and whilst a line graph is more natural for time series data, a fully labelled scatter plot gained full marks.
+In part (v) setting up a “for-loop” in R, whilst perhaps the most efficient method, was not required here given the relatively small number of variance calculations needed and candidates that repeated their calculation five times without the loop gained full credit. Similarly, alternative methods that used the diff() function were acceptable.
+The part where answers were weakest was (viii) with many candidates assuming that because stationarity followed from the scenario in (vii) it did not in part (viii) whereas the correct answer is more nuanced.
+---
+CS2B S2023 © Institute and Faculty of Actuaries

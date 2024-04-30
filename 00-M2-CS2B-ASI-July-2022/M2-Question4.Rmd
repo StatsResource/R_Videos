@@ -63,6 +63,7 @@ file <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\data_1.csv")
 dj <- file$dj
 nj <- file$nj
 tj <- file$tj
+
 names(file)[5]<-"Censored"
 Lambda=cumsum(dj/nj)
 Var = cumsum(dj*(nj-dj)/nj^3)
@@ -94,12 +95,33 @@ file
 ## 20 20 55 108 1 NA 0.44391944 0.0029480336
 
 ---
-# (iii)
-```{r}
+
+### Part C
+
+```{r eval=FALSE}
 sdLambda=sqrt(Var)
+
 plot(c(0,tj),c(0,Lambda),xlim=c(0,55),ylim=c(0,0.5),type="s",
  main="Nelson-Aalen estimator of the integrated hazard",
  xlab="Time t",ylab="Integrated hazard")
+
+lines(tj,Lambda-1.64485*sdLambda, type="s",lty=2)
+lines(tj,Lambda+1.64485*sdLambda, type="s",lty=2)
+```
+
+
+---
+
+### Part C
+
+```{r echo=FALSE}
+sdLambda=sqrt(Var)
+
+plot(c(0,tj),c(0,Lambda),
+ xlim=c(0,55),ylim=c(0,0.5),type="s",
+ main="Nelson-Aalen estimator of the integrated hazard",
+ xlab="Time t",ylab="Integrated hazard")
+
 lines(tj,Lambda-1.64485*sdLambda, type="s",lty=2)
 lines(tj,Lambda+1.64485*sdLambda, type="s",lty=2)
 ```

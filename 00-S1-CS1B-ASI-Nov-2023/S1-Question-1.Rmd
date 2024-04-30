@@ -53,6 +53,9 @@ Store population mean and standard deviation of differences as dif.mean and dif.
 Make sure to set the seed value to 1234 i.e use set.seed(1234) before generating the sample.
 Store the sample as dif.sample
 Don’t paste the sample
+
+---
+
 iii) Test using 5% significance level whether the mean of “difference in hotel prices” is less than 1375 based on the sample generated in part (ii).
 a) Perform z-test and comment.
 (5)
@@ -84,7 +87,8 @@ i)
 >
 > 1-pnorm(0,mean=f.mean,sd=sqrt(f.var))
 [1] 0.2827485
-[Max 5]
+
+----
 ii)
 a)
 b)

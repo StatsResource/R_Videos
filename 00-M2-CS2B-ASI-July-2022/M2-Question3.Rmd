@@ -38,9 +38,11 @@ pre {
 [25]
 Q. 3) The number of customers arriving to a grocery store can be modelled by a Poisson process 
 with rate of 30 customers per hour.
-1.  Find the probability that there are 2 customers between 10:00 AM and 10:15 AM. (2)
+
+#### Exercises 
+A.  Find the probability that there are 2 customers between 10:00 AM and 10:15 AM. 
 2.  Find the probability that there are 7 customers between 11:00 AM and 11:20 AM
-and 15 customers between 11:20 AM and 12 noon. (4)
+and 15 customers between 11:20 AM and 12 noon. (
 3.   Prepare a probability distribution table for different number of customers (0, 1, 2…20) at 
 any given 10 minute time interval. (5)
 
@@ -51,7 +53,15 @@ Solution 3
 dpois(2,7.5)
 ## [1] 0.0155555
  [2]
+ 
+---
+
 # (ii)
+
+* Assume Independent Events
+* **A**:  7 customers between 11:00 AM and 11:20 AM
+* **B**:  15 customers between 11:20 AM and 12 noon
+
 dpois(7,10)*dpois(15,20)
 ## [1] 0.004652489
  [4]
@@ -61,12 +71,14 @@ dpois(7,10)*dpois(15,20)
 # (iii)
 probs<-c()
 for (i in 0:20) {
- p<-dpois(i,5)
- probs<-c(probs,p)
+   p <- dpois(i,5)
+   probs<-c(probs,p)
 }
+
 output <- matrix(NA, nrow = 21, ncol = 2)
 output<-as.data.frame(output)
 names(output)<-c("Customers","Probability")
+
 output$Customers<-0:20
 output$Probability<-probs
 output
@@ -96,3 +108,8 @@ output
 ## 21 20 2.641211e-07
 
 ---
+
+
+```{r}
+ppois(0:20,5)
+```
