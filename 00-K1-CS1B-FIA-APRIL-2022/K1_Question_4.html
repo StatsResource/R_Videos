@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+[Total 30]
+CS1B A2022–5 
+
+### QUESTION 4
+4 An actuary produces the following summary of claim amounts and number of policies 
+sold for four of her insurance clients in the past 5 years. 
+ Year 1 Year 2 Year 3 Year 4 Year 5
+Insurer A 
+Claims 
+(£m) 56.2 60.7 62.0 69.1 59.6 
+Policies 1,079 1,221 1,728 1,769 1,812 
+Insurer B 
+Claims 
+(£m) 18.3 18.7 18.6 18.9 19.2 
+Policies 697 624 588 615 520 
+Insurer C 
+Claims 
+(£m) 130.4 110.3 123.2 129.6 124.4 
+Policies 2,896 2,601 2,757 2,923 2,842 
+Insurer D 
+Claims 
+(£m) 63.2 67.3 43.2 47.0 42.1 
+Policies 1,321 765 721 743 730 
+
+---
+
+The policies expected to be sold in the next year are as follows: 
+Year 6
+* Insurer A 1,920 
+* Insurer B 575 
+* Insurer C 2,820 
+* Insurer D 798 
+
+The data for years 1 to 5 are given in the file &lt;tt&gt;claims.Rdata&lt;/tt&gt;, which contains the 
+claims data (claims_matrix) and the policies data (policies_matrix). 
+
+---
+
+#### Exercises 
+
+(i) Calculate estimates of E[m,θ] E[s2,θ] and Var[ሺθሻ] under the 
+assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. 
+
+(ii) Calculate the credibility factors Zi. 
+(iii) Calculate the expected claim amounts for each of the four insurers in year 6.
+
+
+---
+First set up the calculations required for the EBCT 2 model:
+
+
+
+```r
+load("claims.Rdata")
+n&lt;-ncol(policies_matrix) 
+N&lt;-nrow(policies_matrix) 
+X&lt;-claims_matrix/policies_matrix 
+X
+```
+
+```
+##            [,1]       [,2]       [,3]       [,4]       [,5]
+## [1,] 0.05208526 0.04971335 0.03587963 0.03906162 0.03289183
+## [2,] 0.02625538 0.02996795 0.03163265 0.03073171 0.03692308
+## [3,] 0.04502762 0.04240677 0.04468625 0.04433801 0.04377199
+## [4,] 0.04784254 0.08797386 0.05991678 0.06325707 0.05767123
+```
+
+---
+
+
+
+
+```r
+Xibar&lt;-rowSums(claims_matrix)/rowSums(policies_matrix)
+Xibar
+```
+
+```
+## [1] 0.04042581 0.03078187 0.04407590 0.06140187
+```
+
+```r
+# 0.04042581 0.03078187 0.04407590 0.06140187 
+Pi &lt;-rowSums(policies_matrix)
+Pi
+```
+
+```
+## [1]  7609  3044 14019  4280
+```
+
+---
+
+
+
+
+```r
+P &lt;-sum(Pi)
+P
+```
+
+```
+## [1] 28952
+```
+
+```r
+# 28952 
+Pstar &lt;-sum(Pi*(1-Pi/P))/(N*n-1)
+Pstar
+```
+
+```
+## [1] 1011.12
+```
+
+```r
+# 1011.12 
+m &lt;-sum(claims_matrix)/P
+s&lt;-mean(rowSums(policies_matrix*(X-Xibar)^2)/(n-1))
+m
+```
+
+```
+## [1] 0.04428019
+```
+
+So, E[m(theta)] = 0.04428019 
+
+---
+
+
+
+
+```r
+s
+```
+
+```
+## [1] 0.07732984
+```
+
+```r
+# 0.07732984
+#E[s^2(theta)] = 0.07732984 
+v&lt;-(sum(rowSums(policies_matrix*(X-m)^2))/(n*N-1)-s)/Pstar
+v
+```
+
+```
+## [1] 8.801906e-05
+```
+
+```r
+# 8.801906e-05
+#Var[m(theta)] = 8.801906e-05 
+```
+
+---
+
+#### Part (ii)
+
+Now calculate the credibility factors:
+
+
+```r
+Zi&lt;-Pi/(Pi+s/v) 
+Zi
+```
+
+```
+## [1] 0.8964887 0.7760242 0.9410267 0.8296892
+```
+
+```r
+# 0.8964887 0.7760242 0.9410267 0.8296892
+```
+Credibility factors are: (0.8964887, 0.7760242, 0.9410267, 0.8296892) 
+
+
+---
+
+#### Part (iii)
+Then calculate the credibility premiums per unit of risk volume:
+
+
+```r
+premiums &lt;- Zi*Xibar +(1-Zi)*m 
+```
+
+---
+
+
+
+
+```r
+premiums
+```
+
+```
+## [1] 0.04082478 0.03380516 0.04408794 0.05848586
+```
+
+```r
+# 0.04082478 0.03380516 0.04408794 0.05848586 
+year6sales &lt;- c(1920, 575, 2820, 798) 
+```
+Finally calculate the credibility premium by multiplying by the sales for the upcoming year:
+
+
+```r
+premiums*year6sales 
+```
+
+```
+## [1]  78.38358  19.43797 124.32800  46.67172
+```
+
+```r
+# 78.38358 19.43797 124.32800 46.67172
+```
+Therefore, the expected payout for the insurers in the coming year is as follows:
+Insurer A: £78.4m, Insurer B: £19.4m, Insurer C: £124.3m, Insurer D: £46.7m 
+---
+
+#### END
+
+---
+
+Candidates overall answered well this question.
+Candidates demonstrated this kind of calculations had been well practised. Some 
+numerical slips were common, however candidates who showed intermediate steps were 
+able to pick up most of the available partial marks.
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -61,33 +61,44 @@ v) Calculate the mean, standard deviation and skewness of the block maxima.
 
 vi) Write a function in R to compute the log-likelihood of the above distribution.
 
+Hint : Use the following PDF function to compute the log likelihood.
+
 ---
 
-Hint : Use the following PDF function to compute the log likelihood.
+
 
 vii) Find the maximum likelihood estimate of the parameters of the above distribution. Use mean, standard deviation and skewness calculated above as the initial estimates of the parameters.
 
 viii) Superimpose a Generalized Extreme Value distribution on the block maxima using the estimates of the parameters calculated above in part (vii).
 
 ix) Calculate the hazard rate for the block maxima and plot the graph of Hazard rate against block maxima and comment on the graph.
-(4)
+
 x) Calculate the mean residual life for the block maxima and plot the graph of mean residual life against block maxima. Comment on the graph.
-(5)
+
 
 ---
 
 Solution 2:
 i)
-<code for reading the input data file> e.g. Claims <- read.csv(‘path’/Claims.csv")
+<code for reading the input data file> e.g. 
+
+```{r}
+Claims <- read.csv("Claims.csv")
 Claims$block <-(Claims$Claim_number-1) %/% 5 +1
 blockmax <- aggregate(Claims ~ block, Claims, max)
-blockmax block Claims 1 1 104 2 2 94 3 3 218 4 4 235 5 5 140 6 6 84 7 7 213 8 8 222 9 9 128 10 10 247 11 11 152 12 12 202 13 13 193 14 14 201 15 15 180 16 16 291 17 17 243 18 18 163 19 19 267 20 20 203
+blockmax 
+```
+
+block Claims 1 1 104 2 2 94 3 3 218 4 4 235 5 5 140 6 6 84 7 7 213 8 8 222 9 9 128 10 10 247 11 11 152 12 12 202 13 13 193 14 14 201 15 15 180 16 16 291 17 17 243 18 18 163 19 19 267 20 20 203
 [2]
 ---
 
-ii) hist(blockmax$Claims, xlab = "Claims", main = "Histogram of block maxima")
+### Part B 
 
-[2]
+```{r}
+hist(blockmax$Claims, 
+     xlab = "Claims", main = "Histogram of block maxima")
+```
 
 ---
 
@@ -95,27 +106,85 @@ ii) hist(blockmax$Claims, xlab = "Claims", main = "Histogram of block maxima")
 
 iii) hist(blockmax$Claims, xlab = "Claims", main = "Histogram of block maxima", freq = FALSE) lines(density(blockmax$Claims), col = "blue")
 [2]
-iv) library(MASS) est <- fitdistr(blockmax$Claims, "weibull", lower = 0) est shape scale 3.8973242 209.3505841 ( 0.7069667) ( 12.6163461)
+
+---
+iv) 
+
+```{r}
+library(MASS) 
+est <- fitdistr(blockmax$Claims, "weibull", lower = 0) 
+est 
+```
+
+shape scale 3.8973242 209.3505841 ( 0.7069667) ( 12.6163461)
 c = est$estimate["scale"]^ (-est$estimate["shape"]) > c scale 9.011579e-10 > g = est$estimate["shape"]
 
 --- 
 
 > g shape 3.897324
 [3]
-v) alpha = mean(blockmax$Claims) alpha [1] 189 beta = sd(blockmax$Claims) beta [1] 57.78271 gamma = skewness(blockmax$Claims) gamma [1] -0.273219
+
+---
+
+v) 
+
+
+```{r}
+alpha = mean(blockmax$Claims) 
+alpha 
+```
+
+[1] 189 
+
+```{r}
+beta = sd(blockmax$Claims)
+beta 
+
+```
+
+[1] 57.78271 gamma = skewness(blockmax$Claims) gamma [1] -0.273219
 
 
 ---
 ### Part F
-vi) MLE = function(x){f <- 1/x[2]*(1+x[3]*(blockmax$Claims - x[1])/x[2])^(-1-1/x[3])*exp(-(1+x[3]*(blockmax$Claims- x[1])/x[2])^(-1/x[3])) lnf <- log(f) sum(-lnf) }
-[2]
-vii) p = c(alpha,beta,gamma) MLE(p) [1] 110.3667
+vi) 
+
+```{r}
+MLE = function(x){
+    f <- 1/x[2]*(1+x[3]*(blockmax$Claims - x[1])/x[2])^(-1-1/x[3])*exp(-(1+x[3]*(blockmax$Claims- x[1])/x[2])^(-1/x[3])) 
+
+    lnf <- log(f) 
+
+sum(-lnf) #
+}
+
+```
+----
+vii) 
+
+```{r}p = c(alpha,beta,gamma) MLE(p) [1] 110.3667
 f_MLE <- nlm(MLE,p)
+
+```
+
 f_MLE $minimum [1] 108.4947 $estimate [1] 173.0482986 59.5496685 -0.4257482 $gradient [1] -2.207406e-07 -7.863145e-07 -5.439915e-05 $code [1] 1 $iterations [1] 33
-[2]
-viii) GEV <- function(x,a,b,c){f = 1/b * (1+c*(x-a)/b)^-(1+1/c)*exp(-((1+c*(x-a)/b)^(-1/c)))} 
+
+---
+
+viii) 
+
+```{r}
+GEV <- function(x,a,b,c){f = 1/b * (1+c*(x-a)/b)^-(1+1/c)*exp(-((1+c*(x-a)/b)^(-1/c)))} 
+```
+
+
+```{r}
 fit = GEV(blockmax$Claims,f_MLE$estimate[1],f_MLE$estimate[2],f_MLE$estimate[3]) 
-fit [1] 0.002216593 0.001752716 0.006657504 0.005922606 0.004311508 0.001356100 0.006776331 
+fit 
+
+```
+
+[1] 0.002216593 0.001752716 0.006657504 0.005922606 0.004311508 0.001356100 0.006776331 
 [8] 0.006529717 0.003563970 0.005131517 0.005053503 0.006876667 0.006798624 0.006874941 
 [15] 0.006456144 0.001361035 0.005416809 0.005683342 0.003474704 0.006876611
 

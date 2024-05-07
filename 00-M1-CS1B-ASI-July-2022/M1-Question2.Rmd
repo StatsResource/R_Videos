@@ -45,15 +45,22 @@ following counts:
 31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24
 Assume that the Poisson distribution with unknown parameter lambda describes the 
 variability from each of the grid squares. 
+
+---
+
+#### Exercises
+
 1.  Calculate Q1, Q3 and Inter-quartile range.
 2.  Plot histogram of sample data and label it appropriately.
 3.   Use the method of maximum likelihood to estimate the parameter lambda.
 4.  Test the hypothesis whether the mean fiber count is equal to 25. Comment on the 
 results.
+
 ---
-5.  Calculate the standard error of parameter lambda. (2)
+
+5.  Calculate the standard error of parameter lambda. 
 6.   Calculate the 90% confidence interval for standard error.
-IAI CS1B-0722
+
 
 7.  Calculate the probability of fiber count exceeding 30, with the help of Central Limit 
 Theorem.
@@ -61,7 +68,12 @@ Theorem.
 ---
 
 Solution 2:
-i) count <- c(31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24)
+i) 
+
+```{r}
+count <- c(31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24)
+```
+
 > quantile(count,0.25)
 25% 
 20 
@@ -70,18 +82,37 @@ i) count <- c(31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,
 28.5 
 > IQR(count)
 [1] 8.5
-[4]
-ii) hist(count)
-IAI CS1B-0722
-Page 3 of 7
-[3]
-iii) lambda.hat=mean(x)
+
+
+---
+ii) 
+
+```{r}
+hist(count)
+```
+
+---
+
+iii) 
+
+```{r}
+lambda.hat=mean(count)
 print(lambda.hat)
+```
+
 [1] 24.91304
-[3]
+
+
+---
+
 iv) Ho: The mean fiber count is 25
 H1: Mean fiber count is not equal to 25
-> t.test(count,mu=25)
+
+```{r}
+t.test(count,mu=25)
+
+```
+
 One Sample t-test
 data: count
 t = -0.076034, df = 22, p-value = 0.9401
@@ -91,20 +122,39 @@ alternative hypothesis: true mean is not equal to 25
 sample estimates:
 mean of x 
 24.91304
-Based on the p-value the null hypothesis Ho that “the mean fiber count is 25” cannot be rejected. Also 25 
-lies within the 95% confidence interval.
-[5]
-v) lambda.hat.sterror=sqrt(lambda.hat/length(x))
+
+* Based on the p-value the null hypothesis Ho that “the mean fiber count is 25” cannot be rejected. 
+* Also 25 lies within the 95% confidence interval.
+
+
+---
+
+v) 
+
+```{r}
+lambda.hat.sterror=sqrt(lambda.hat/length(count))
 print(lambda.hat.sterror)
+
+```
 [1] 1.040757
-[2]
-IAI CS1B-0722
-Page 4 of 7
-vi) lambda.CI.Limits=lambda.hat + c(-1,1)*qnorm(.95)*lambda.hat.sterror
+
+---
+
+
+vi) 
+
+```{r}
+lambda.CI.Limits=lambda.hat + c(-1,1)*qnorm(.95)*lambda.hat.sterror
 print(lambda.CI.Limits)
+```
+
 [1] 23.20115 26.62494
-[3]
+
+
+---
+
 vii) > pnorm(30,lambda.hat,sqrt(lambda.hat),lower.tail = FALSE)
 [1] 0.1540622
-[4]
-[24 Marks]
+
+
+---

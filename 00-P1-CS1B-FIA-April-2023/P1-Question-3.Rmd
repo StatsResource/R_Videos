@@ -38,7 +38,7 @@ pre {
 ---
 
 
-3 The file <tt>heights.RData</tt> contains an R data frame (heights) that consists of a 
+3 The file <tt>heights.RData</ttcontains an R data frame (heights) that consists of a 
 random sample of heights of mothers (mother.height), fathers 
 (father.height) and their daughters (daughter.height) in inches. 
 
@@ -49,7 +49,10 @@ random sample of heights of mothers (mother.height), fathers
 plots from part A. 
 (iii) Fit a multiple linear regression model with the daughters’ height as the 
 response variable and mothers’ and fathers’ height as the explanatory 
-variables. Your answer should show a summary of the output and the fitted 
+variables. 
+
+
+Your answer should show a summary of the output and the fitted 
 equation. 
 
 ---
@@ -89,8 +92,7 @@ summary(mod1)
 
 ---
 
-CS1B - Actuarial Statistics - Core Principles - April 2023 - Examiners’ report
-CS1B A2023 © Institute and Faculty of Actuaries
+
 #Residuals:
 # Min 1Q Median 3Q Max
 #-3.8805 -0.6942 0.5915 0.8651 3.3138

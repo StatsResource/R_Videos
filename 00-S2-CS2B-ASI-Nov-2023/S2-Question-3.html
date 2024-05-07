@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+
+Q. 3)
+You are working in Country “XYZ”, for an organisation which works standard tables for mortality rates. Your colleague has collected the data and calculated the mortality rates. Two sets of graduation on the data have been performed.
+The data file “Std_Table.csv” contains mortality data from a recent mortality investigation. The deaths and exposure data are all in respect of period 1 April 2022 to 31 March 2023 inclusive. The file contains the following variable.
+Age : Age last birthday x
+Deaths : Number of observed deaths at age x
+Exposure : Central exposed to risk at age x
+Graduation 1 : Central mortality rate at age x, mx, derived from graduation 1
+Graduation 2 : Central mortality rate at age x, mx, derived from graduation 2
+Due to unavailability of your colleague, your head of department has asked you to perform following steps and conduct the tests.
+
+---
+
+i) Calculate individual standardise deviation Zx for each of the graduations. Display first 10 values of the data.
+
+ii) Calculate the third differences of graduated quantities for both the graduations and comment on the smoothness of each graduation. Paste first 10 values of the third differences column in your data.
+
+iii) Comment on the goodness of fit using chi square test for each of the graduations given that members of degree of freedom are as follows:
+Graduation 1
+Graduation 2
+46
+47
+
+
+
+iv) Determine number of positive and negative derivatives for each graduation.
+
+v) Carry out a 2-tailed sign test using a null hypothesis that P ~ Binomial (m,1/2) using R, where m is the age.
+
+vi) Determine the number of groups of positive deviations for each of the graduation.
+
+vii) Determine p value of the grouping of signs test for each graduation.
+Hint: Function choose(n,r) in R for binomial coefficient may be used.
+
+viii) Perform a serial correlation test for each of the graduation at lag 1.
+
+ix) Perform cumulative deviations test on of the graduation and comment on the bias of the graduation rates.
+
+x) Based on the finding of your above tests, comment on graduation rates to be published.
+
+
+---
+
+Solution 3:
+i)
+&lt;code for reading the input data file&gt; e.g. 
+Std_Table &lt;- read.csv(‘path’/Std_Table.csv") Std_Table$Exmux_1 = Std_Table$Exposure * Std_Table$Graduation_1 Std_Table$Exmux_2 = Std_Table$Exposure * Std_Table$Graduation_2 Std_Table$zx_1 = (Std_Table$Deaths - Std_Table$Exmux_1)/(sqrt(Std_Table$Exmux_1)) Std_Table$zx_2 = (Std_Table$Deaths - Std_Table$Exmux_2)/(sqrt(Std_Table$Exmux_2))
+IAI CS2B-1123
+Page 11 of 15
+head(Std_Table, 10) # A tibble: 10 × 9 Age Exposure Deaths Graduation_1 Graduation_2 Exmux_1 Exmux_2 zx_1 zx_2 &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; 1 30 70000 39 0.000388 0.000555 27.2 38.8 2.27 0.0241 2 31 69747 43 0.000429 0.000623 29.9 43.5 2.39 -0.0686 3 32 68140 34 0.000474 0.000488 32.3 33.3 0.299 0.130 4 33 68744 31 0.000524 0.000432 36.0 29.7 -0.837 0.239 5 34 66852 23 0.000579 0.000486 38.7 32.5 -2.52 -1.66 6 35 69230 50 0.00064 0.000596 44.3 41.3 0.855 1.36 7 36 61580 48 0.000708 0.000685 43.6 42.2 0.667 0.896 8 37 67582 43 0.000782 0.000713 52.8 48.2 -1.35 -0.747 9 38 68363 48 0.000865 0.000709 59.1 48.5 -1.45 -0.0674 10 39 65914 47 0.000956 0.000733 63.0 48.3 -2.02 -0.189
+
+---
+
+### Part B
+
+ii) diff_1 = data.frame(grad_1 = diff(Std_Table$Graduation_1),grad_2 = diff(Std_Table$Graduation_2))
+diff_2 = data.frame(grad_1 = diff(diff_1$grad_1),grad_2 = diff(diff_1$grad_2))
+diff_3 = data.frame(grad_1 = diff(diff_2$grad_1),grad_2 = diff(diff_2$grad_2))
+head(diff_3, 10) grad_1 grad_2 1 1.000000e-06 0.000282 2 -2.710505e-19 0.000031 3 1.000000e-06 -0.000054 4 1.000000e-06 -0.000077 5 -1.000000e-06 -0.000040 6 3.000000e-06 0.000029 7 -1.000000e-06 0.000060 8 1.000000e-06 0.000046 9 3.000000e-06 0.000012 10 -1.000000e-06 -0.000026
+The third differences are larger for Graduation 2 than for Graduation 1 and they progress in less regular manner and hence Graduation 2 is not as smooth as Graduation 1.
+
+---
+
+### Part C
+
+iii) chisq = vector(length = 2) chisq[1] = sum(Std_Table$zx_1^2) chisq[2] = sum(Std_Table$zx_2^2) df = c(46,47) 1 - pchisq(chisq, df = df) [1] 1.332268e-15 0.000000e+00
+The p-value for graduation 1 is 1.332268e-15
+The p-value for graduation 2 is 0.000000e+00
+Graduation-2 is overfitted as observed the respective p-value.
+[3]
+iv) positive = vector(length = 2) &gt; negative = vector(length = 2) &gt; positive[1] = length(Std_Table$zx_1[Std_Table$zx_1 &gt; 0]) &gt; positive[2] = length(Std_Table$zx_2[Std_Table$zx_2 &gt; 0]) &gt; negative[1] = length(Std_Table$zx_1[Std_Table$zx_1 &lt; 0]) &gt; negative[2] = length(Std_Table$zx_2[Std_Table$zx_2 &lt; 0]) &gt; positive [1] 38 30 &gt; negative [1] 23 31
+
+---
+
+### Part E
+v)
+For Graduation 1 we have more positive values
+IAI CS2B-1123
+Page 12 of 15
+So p value is
+2 * P(P&gt;=38) = 2* [1 – P(P &lt;=37)] 2 * (1 - pbinom(37, size = 61, prob = 0.5)) [1] 0.07217744
+For Graduation 2 we have more negative values
+So p value is
+2 * P(P&lt;=30)
+2 * pbinom(30, size = 61, prob = 0.5) [1] 1
+
+---
+
+vi) groups = vector(length = 2)
+for(j in 1:2){
+positive_z = (Std_Table[, j+7]&gt;0)*1 + groups[j] = sum(duplicated(c(which(positive_z == 1) - 1, which(positive_z == 0 )))*1) + positive_z[1]*1} groups [1] 12 14
+
+---
+vii) pvalue = vector(length = 2)
+for (j in 1:2){pvalue[j]=0 + for (k in 1 : groups[j]){pvalue[j]= pvalue[j]+choose(positive[j]-1,k-1)* choose(negative[j]+1,k)/choose(positive[j]+negative[j], positive[j])}} pvalue [1] 0.09281982 0.26299014
+
+---
+
+viii) scf = vector(length = 2) m = length(Std_Table$Age)
+for (j in 1:2) {scf[j] = (cor(Std_Table[1:m-1,j+7],Std_Table[2:m,j+7])*1)*sqrt(m)}
+scf [1] 1.2153759212 -0.0003617506
+For Graduation 1 , p value is less than 1.6449, the upper 5% point of standard normal distribution so there is no evidence of grouping of deviations of the same sign.
+For Graduation 2, the p – value is negative and close to 0, indicating nearby values of Zx tend to have opposite values.
+
+---
+
+ix) cdt = vector(length = 2)
+for (j in 1:2) {cdt[j] = (sum(Std_Table$Deaths) - sum(Std_Table[,j+5]))/sqrt(sum(Std_Table[,j+5]))} &gt; cdt [1] 3.767196 -30.221501
+Graduation 1 p value is higher than 2.5% points of N(0,1) i.e. 1.96, there is sufficient evidence to reject null hypothesis. Therefore, there is bias in the Graduated rates 1.
+Graduation 2 has high magnitude of negative test statistic that means, the bias in graduated rates is too high.
+
+---
+
+### Part J
+
+Based on above tests,
+• Graduation 1 is smoother than Graduation 2
+• Both the graduation passes the goodness of fit, but Graduation 2 seems to be overfitted
+• Signs test indicates slightly higher positive signs for Graduation 1 as compared to Graduation 2, however p value for both the Graduation passes the test and thus the rates are not biased.
+• Grouping of signs test &amp; Serial correlation test shows no evidence of grouping of deviations of the same sign.
+• Both the graduation has biasedness as having large positive or negative deviation. However, the biasedness seems to be too high for Graduation 2.
+• Thus, both the graduation are good fit, however, Graduation 2 is slightly overfitted and less smooth and thus I would suggest Graduation 1 to be published.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

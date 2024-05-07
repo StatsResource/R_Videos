@@ -65,10 +65,11 @@ Policies 1,321 765 721 743 730
 
 The policies expected to be sold in the next year are as follows: 
 Year 6
-Insurer A 1,920 
-Insurer B 575 
-Insurer C 2,820 
-Insurer D 798 
+* Insurer A 1,920 
+* Insurer B 575 
+* Insurer C 2,820 
+* Insurer D 798 
+
 The data for years 1 to 5 are given in the file <tt>claims.Rdata</tt>, which contains the 
 claims data (claims_matrix) and the policies data (policies_matrix). 
 
@@ -76,7 +77,7 @@ claims data (claims_matrix) and the policies data (policies_matrix).
 
 #### Exercises 
 
-(i) Calculate estimates of Eሾmሺθሻሿ, Eሾs2ሺθሻሿ and Varሾmሺθሻሿ, under the 
+(i) Calculate estimates of E[m,θ] E[s2,θ] and Var[ሺθሻ] under the 
 assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. 
 
 (ii) Calculate the credibility factors Zi. 
@@ -115,15 +116,15 @@ Pi
 
 
 ```{r}
-> P <-sum(Pi)
-> P
+P <-sum(Pi)
+P
 # 28952 
-> Pstar <-sum(Pi*(1-Pi/P))/(N*n-1)
-> Pstar
+Pstar <-sum(Pi*(1-Pi/P))/(N*n-1)
+Pstar
 # 1011.12 
-> m <-sum(claims_matrix)/P
-> s<-mean(rowSums(policies_matrix*(X-Xibar)^2)/(n-1))
-> m
+m <-sum(claims_matrix)/P
+s<-mean(rowSums(policies_matrix*(X-Xibar)^2)/(n-1))
+m
 ```
 
 So, E[m(theta)] = 0.04428019 
@@ -134,13 +135,13 @@ So, E[m(theta)] = 0.04428019
 
 ```{r}
 
-> s
+s
 # 0.07732984
-E[s^2(theta)] = 0.07732984 
-> v<-(sum(rowSums(policies_matrix*(X-m)^2))/(n*N-1)-s)/Pstar
-> v
+#E[s^2(theta)] = 0.07732984 
+v<-(sum(rowSums(policies_matrix*(X-m)^2))/(n*N-1)-s)/Pstar
+v
 # 8.801906e-05
-Var[m(theta)] = 8.801906e-05 
+#Var[m(theta)] = 8.801906e-05 
 
 ```
 
@@ -152,8 +153,8 @@ Now calculate the credibility factors:
 
 ```{r}
 
-> Zi<-Pi/(Pi+s/v) 
-> Zi
+Zi<-Pi/(Pi+s/v) 
+Zi
 # 0.8964887 0.7760242 0.9410267 0.8296892
 ```
 Credibility factors are: (0.8964887, 0.7760242, 0.9410267, 0.8296892) 
@@ -173,14 +174,14 @@ premiums <- Zi*Xibar +(1-Zi)*m
 
 
 ```{r}
-> premiums
+premiums
 # 0.04082478 0.03380516 0.04408794 0.05848586 
-> year6sales <- c(1920, 575, 2820, 798) 
+year6sales <- c(1920, 575, 2820, 798) 
 ```
 Finally calculate the credibility premium by multiplying by the sales for the upcoming year:
 
 ```{r}
-> premiums*year6sales 
+premiums*year6sales 
 # 78.38358 19.43797 124.32800 46.67172
 ```
 Therefore, the expected payout for the insurers in the coming year is as follows:

@@ -52,26 +52,36 @@ distribution.
 ---
 
 ### Exercises
-i) Load the “PA_Data” datset and fit the Poisson Generalised Linear Model (GLM) to 
+
+A.  Load the “PA_Data” datset and fit the Poisson Generalised Linear Model (GLM) to 
 the dataset, specified by the following parameter of R code for GLM: 
 Claim ~ Gender*Health + Age
  Include summary of the fitted model and label the model as Model1. 
-ii) Write down the linear predictor for the model given in part (i) (i.e. Model1). Explain 
-all the terms clearly. (3)
-iii) Comment on the significance of the parameters of the fitted model in part (i) (i.e. 
+
+B.  Write down the linear predictor for the model given in part (i) (i.e. Model1). Explain 
+all the terms clearly.
+
+C.  Comment on the significance of the parameters of the fitted model in part (i) (i.e. 
 Model1). Also state the scaled deviance and compute Log Likelihood of the model. 
 
 ---
 
-
-[24 Marks]
-Solution 3:
+### Part A 
 i)
 ii)
-> #i.
-> PA<-read.csv("PA_Data.csv")
-> model1<-glm(Claim~Gender*Health+Age,family=poisson(lin="log"),data=PA)
-> summary(model1)
+#i.
+```{r}
+PA<-read.csv("PA_Data.csv")
+model1<-glm(Claim~Gender*Health+Age,family=poisson(lin="log"),data=PA)
+```
+
+---
+
+
+```{r}
+summary(model1)
+```
+
 Call:
 glm(formula = Claim ~ Gender * Health + Age, family = poisson(lin = "log"), 
  data = PA)
@@ -92,44 +102,37 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 Residual deviance: 13.179 on 15 degrees of freedom
 AIC: 62.146
 Number of Fisher Scoring iterations: 5
-> 
-> #linear predictor for Model 1 is
-> # a+b1X1+b2X2+b3X3+b4X1X2 where 
+
+
+--- 
+
+* linear predictor for Model 1 is
+*  a+b1X1+b2X2+b3X3+b4X1X2 where 
 Alt: 0.17452 + .06235X1 -1.31680X2 + .02248X3 -.10401X1X2
-> # X1 = 0 for Female Gender and 1 for Male Gender
-> # X2 = 0 for Diabetic and 1 for Non Diabetic
-> # X3 is Age
-> # X1X2 indicates interaction term between Gender and Health Condition
+* X1 = 0 for Female Gender and 1 for Male Gender
+* X2 = 0 for Diabetic and 1 for Non Diabetic
+* X3 is Age
+* X1X2 indicates interaction term between Gender and Health Condition
 
 ---
 
-(1)
-(2)
-(1)
-[Max 4]
-(1)
-(1)
-(1)
-(0.5)
-(0.5)
-[Max 3]
 
 
 ---
 
 ### Part (C)
 
-> #iii.
+#iii.
 
 * Gender is not significant
 *  Health Condition is significant
 * Age is not significant
 *  Interaction term between Gender and Health condition is not significant
 
-> #Scaled deviance = 13.179
-> #AIC = - 2LogL(Model) + 2*Parameters
-> #LogL(Model) = Parameters - AIC/2 
-> 
+#Scaled deviance = 13.179
+#AIC = - 2LogL(Model) + 2*Parameters
+#LogL(Model) = Parameters - AIC/2 
+
 
 ---
 
@@ -154,8 +157,12 @@ model2$aic < model1$aic
 
 ---
 
-> #v.
-> summary(model2)
+#v.
+
+```{r}
+summary(model2)
+```
+
 Call:
 glm(formula = Claim ~ Health + Age, family = poisson(lin = "log"), 
  data = PA)
@@ -187,16 +194,19 @@ Give full marks in case reached to same conclusion using alternate methods.
 
 iv) Fit another model (labelled as Model2) specified by following R code:
  Claim~Health+Age
- Demonstrate that Model2 outperforms the model defined in part (i). (2)
+ Demonstrate that Model2 outperforms the model defined in part (i).
 v) Examine the significance of Model2 and fit an improved model. Label this model as 
-Model3. Also justify why Model3 is an improvement. (5)
+Model3. Also justify why Model3 is an improvement. 
+
+---
+
 vi) Compute the price for the product for below customers using Model2.
 Note that Price is equal to expected aggregate claim amount per customer. (In other 
 words, expected claim amount * expected number of claims) 
 Customer Age Health Gender
 Student1 30 Diabetic Male
 Actuary2 50 Non-Diabetic Female
-Which customer price will be higher under the models. Provide the reason for the same. (7)
+Which customer price will be higher under the models. Provide the reason for the same. 
 
 ---
 
@@ -208,28 +218,18 @@ this modification, INR 6000 will be paid for 1st claim and then INR 4000 for 2nd
 onwards. 
 Hint: Under this product, essentially INR 4000 amount is paid for each claim plus additional 
 INR 2000 amount if there are claim(s). 
+
+---
+
 vii)
 a) Compute the price under this modification for Student1 and Actuary2 (as per details 
 given in part (vi) for Model3.
 b) Compare and explain why price for Student1 is lower for modified product whereas 
 for Actuary2 is higher.
-(6) 
-(2)
-[33]
+
 
 ---
 
-(1)
-(0.5)
-(0.5)
-(0.5)
-(2)
-[Max 4]
-(1)
-(1.5)
-[Max 2]
-(1)
-(1.5)
 
 --- 
 
@@ -237,9 +237,9 @@ for Actuary2 is higher.
 
 vi)
 ```{r}
-> model3<-glm(Claim~Health,family=poisson(lin="log"),data=PA)
+model3<-glm(Claim~Health,family=poisson(lin="log"),data=PA)
 
-> summary(model3)
+summary(model3)
 ```
 Call:
 glm(formula = Claim ~ Health, family = poisson(lin = "log"), 
@@ -258,94 +258,96 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 Residual deviance: 14.436 on 18 degrees of freedom
 AIC: 57.403
 Number of Fisher Scoring iterations: 5
-> model3$aic < model2$aic
+model3$aic < model2$aic
 [1] TRUE
-> 
-> # Under Model 3. AIC reduced from 58.17 to 57.40
-> 
+
+# Under Model 3. AIC reduced from 58.17 to 57.40
+
 
 ---
 
-> #vi.
-> Student1<- data.frame(Gender ="M",Health ="Diabetic",Age=30)
-> Actuary2<- data.frame(Gender ="F",Health ="NonDiabetic",Age=50)
-> 
-> # Price = 5000 * expected number of claims
-> # Price of student1 is 12240.06 for Model 2 and 15625 for Model 3 
-> 5000*predict.glm(model2,newdata = Student1,type= "response")
+#vi.
+
+```{r}
+Student1<- data.frame(Gender ="M",Health ="Diabetic",Age=30)
+Actuary2<- data.frame(Gender ="F",Health ="NonDiabetic",Age=50)
+```
+
+```{r}
+# Price = 5000 * expected number of claims
+# Price of student1 is 12240.06 for Model 2 and 15625 for Model 3 
+5000*predict.glm(model2,newdata = Student1,type= "response")
+
+```
+
  1 
 12240.06 
-> 5000*predict.glm(model3,newdata = Student1,type= "response")
+5000*predict.glm(model3,newdata = Student1,type= "response")
  1 
 15625 
-> # Price of Actuary2 is 4797.457 for Model 2 and 3750 for Model 3 
-> 5000*predict.glm(model2,newdata = Actuary2,type= "response")
+# Price of Actuary2 is 4797.457 for Model 2 and 3750 for Model 3 
+5000*predict.glm(model2,newdata = Actuary2,type= "response")
  1 
 4797.457 
-> 5000*predict.glm(model3,newdata = Actuary2,type= "response")
+5000*predict.glm(model3,newdata = Actuary2,type= "response")
  1 
 3750 
-> 
-> #Under both models, Student1 price is coming higher.
-> #Since student is diabetic. Under both models, health condition
-> # is significant and for non-diabetic, parameter value is negative
-> #implying lower claims for non-diabetic
-> 
-(1.5)
-(1)
-[Max 5]
-(1)
-(0.5)
-(1)
-(1)
-(0.5)
-(0.5)
-(0.5)
-(2)
-[Max 7]
+
+
+
+---
+
+
+* Under both models, Student1 price is coming higher.
+* Since student is diabetic. Under both models, health condition is significant and for non-diabetic, parameter value is negative implying lower claims for non-diabetic
 
 ---
 
 vii) a)
  b)
-> #vii. a.
+#vii. a.
 
 ```{r}
-> Student1_mean=predict.glm(model3,newdata = Student1,type= "response")
-> Actuary2_mean=predict.glm(model3,newdata = Actuary2,type= "response")
-> 
-> #price in case of modified product is
-> # 4000* expected number of claims + 2000 * probability of 1 or more claim.
+Student1_mean=predict.glm(model3,newdata = Student1,type= "response")
+Actuary2_mean=predict.glm(model3,newdata = Actuary2,type= "response")
+
+#price in case of modified product is
+# 4000* expected number of claims + 2000 * probability of 1 or more claim.
 
 ```
 
-> #price of Student1:
-> 
-> #compute probability of 0 
-> sp0<-dpois(0,Student1_mean)
-> 
-> 4000*Student1_mean + 2000*(1-sp0)
+#price of Student1:
+
+#compute probability of 0 
+sp0<-dpois(0,Student1_mean)
+
+4000*Student1_mean + 2000*(1-sp0)
  1 
 14412.13 
-> 
-> #price for Actuary2
-> ap0<-dpois(0,Actuary2_mean)
-> 4000*Actuary2_mean + 2000*(1-ap0)
+
+#price for Actuary2
+ap0<-dpois(0,Actuary2_mean)
+4000*Actuary2_mean + 2000*(1-ap0)
  1 
 4055.267 
-> #vii. b.
-> Student1_mean
- 1 
-3.125 
-> #For student1, expected claims are 3.125. Since, more claims are expected
-> # for Student1, reduction of payment lead to more saving than 
-> # extra payment for 1st claim and thus, less price
-> 
 
 ---
 
-> Actuary2_mean
+#vii. b.
+Student1_mean
+ 1 
+3.125 
+#For student1, expected claims are 3.125. Since, more claims are expected
+# for Student1, reduction of payment lead to more saving than 
+# extra payment for 1st claim and thus, less price
+
+
+---
+
+Actuary2_mean
  1 
 0.75 
-> #Whereas for Actuary2, expected claims are 0.75 close to 1.
-> #thus, more payment expected for Actuary2 resulting in higher price.
+#Whereas for Actuary2, expected claims are 0.75 close to 1.
+#thus, more payment expected for Actuary2 resulting in higher price.
+
+---

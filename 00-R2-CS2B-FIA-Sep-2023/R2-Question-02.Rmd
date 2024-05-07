@@ -45,7 +45,10 @@ over the past 1,000 months.
 column to X and Y, respectively. Display the first five entries of X. [3]
 (ii) Plot X and Y in a single chart suitably naming the variables. [5]
 (iii) Plot the sample autocorrelation and sample partial autocorrelation functions,
-for both X and Y. [3]
+for both X and Y. 
+
+---
+
 (iv) Comment on the stationarity of both X and Y with reference to the plots in
 (iii) above. 
 (v) Determine the number of times X and Y have to be differenced (parameter d)
@@ -57,6 +60,9 @@ where [1, −b] is called the cointegrating vector.
 The relationship between X and Y is then described by a linear regression:
 𝑌 􀵌 𝑎 􀵅 𝑏𝑋 􀵅 𝑒 􀯧
 where 𝑒􀯧 is the residual.
+
+---
+
 (vi) Determine the values of a and b in the equation for Y above. [3]
 (vii) Comment on the analyst’s inference, without using R, if we assume 𝑒􀯧 is a
 white noise. 
@@ -67,17 +73,36 @@ a white noise. [3]
 ---
 
 
+---
+
 Q2
 (i)
+
+```{r}
 data = read.csv(file="CS2B_S23_Q2_Data.csv", head=TRUE) 
 X<-data[,2]
 Y<-data[,3] 
+```
+
+```{r}
 head(X,5) 
+
+```
  0.0000000 0.1836433 0.5050501 1.2480126 2.7618762 
+
+---
+
 (ii)
-plot(data$Time,X, xlab = "Time", type= "l", ylab = "X /Y", col = c("blue"), main = "Comparison of X and Y time series " ) [2½]
+
+```{r}
+plot(data$Time,X, xlab = "Time", type= "l", ylab = "X /Y", col = c("blue"), main = "Comparison of X and Y time series " ) 
 lines(Y, col = c("red" )) 
 legend("topleft", col = c("blue","red"), legend = c("X", "Y"),pch =7 ) 
+
+```
+
+
+---
 
 This question was reasonably well answered.
 In part (iii) setting x as age minus mean(age) works as well as manually setting the range -40 to 40.

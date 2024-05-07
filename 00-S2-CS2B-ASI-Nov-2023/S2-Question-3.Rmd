@@ -82,42 +82,58 @@ x) Based on the finding of your above tests, comment on graduation rates to be p
 
 Solution 3:
 i)
-<code for reading the input data file> e.g. 
+<code for reading the input data filee.g. 
 Std_Table <- read.csv(‘path’/Std_Table.csv") Std_Table$Exmux_1 = Std_Table$Exposure * Std_Table$Graduation_1 Std_Table$Exmux_2 = Std_Table$Exposure * Std_Table$Graduation_2 Std_Table$zx_1 = (Std_Table$Deaths - Std_Table$Exmux_1)/(sqrt(Std_Table$Exmux_1)) Std_Table$zx_2 = (Std_Table$Deaths - Std_Table$Exmux_2)/(sqrt(Std_Table$Exmux_2))
 IAI CS2B-1123
 Page 11 of 15
-head(Std_Table, 10) # A tibble: 10 × 9 Age Exposure Deaths Graduation_1 Graduation_2 Exmux_1 Exmux_2 zx_1 zx_2 <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> 1 30 70000 39 0.000388 0.000555 27.2 38.8 2.27 0.0241 2 31 69747 43 0.000429 0.000623 29.9 43.5 2.39 -0.0686 3 32 68140 34 0.000474 0.000488 32.3 33.3 0.299 0.130 4 33 68744 31 0.000524 0.000432 36.0 29.7 -0.837 0.239 5 34 66852 23 0.000579 0.000486 38.7 32.5 -2.52 -1.66 6 35 69230 50 0.00064 0.000596 44.3 41.3 0.855 1.36 7 36 61580 48 0.000708 0.000685 43.6 42.2 0.667 0.896 8 37 67582 43 0.000782 0.000713 52.8 48.2 -1.35 -0.747 9 38 68363 48 0.000865 0.000709 59.1 48.5 -1.45 -0.0674 10 39 65914 47 0.000956 0.000733 63.0 48.3 -2.02 -0.189
+head(Std_Table, 10) # A tibble: 10 × 9 Age Exposure Deaths Graduation_1 Graduation_2 Exmux_1 Exmux_2 zx_1 zx_2 <dbl<dbl<dbl<dbl<dbl<dbl<dbl<dbl<dbl1 30 70000 39 0.000388 0.000555 27.2 38.8 2.27 0.0241 2 31 69747 43 0.000429 0.000623 29.9 43.5 2.39 -0.0686 3 32 68140 34 0.000474 0.000488 32.3 33.3 0.299 0.130 4 33 68744 31 0.000524 0.000432 36.0 29.7 -0.837 0.239 5 34 66852 23 0.000579 0.000486 38.7 32.5 -2.52 -1.66 6 35 69230 50 0.00064 0.000596 44.3 41.3 0.855 1.36 7 36 61580 48 0.000708 0.000685 43.6 42.2 0.667 0.896 8 37 67582 43 0.000782 0.000713 52.8 48.2 -1.35 -0.747 9 38 68363 48 0.000865 0.000709 59.1 48.5 -1.45 -0.0674 10 39 65914 47 0.000956 0.000733 63.0 48.3 -2.02 -0.189
 
 ---
 
 ### Part B
 
-ii) diff_1 = data.frame(grad_1 = diff(Std_Table$Graduation_1),grad_2 = diff(Std_Table$Graduation_2))
+ii) 
+diff_1 = data.frame(grad_1 = diff(Std_Table$Graduation_1),grad_2 = diff(Std_Table$Graduation_2))
 diff_2 = data.frame(grad_1 = diff(diff_1$grad_1),grad_2 = diff(diff_1$grad_2))
 diff_3 = data.frame(grad_1 = diff(diff_2$grad_1),grad_2 = diff(diff_2$grad_2))
 head(diff_3, 10) grad_1 grad_2 1 1.000000e-06 0.000282 2 -2.710505e-19 0.000031 3 1.000000e-06 -0.000054 4 1.000000e-06 -0.000077 5 -1.000000e-06 -0.000040 6 3.000000e-06 0.000029 7 -1.000000e-06 0.000060 8 1.000000e-06 0.000046 9 3.000000e-06 0.000012 10 -1.000000e-06 -0.000026
+
+
+---
+
 The third differences are larger for Graduation 2 than for Graduation 1 and they progress in less regular manner and hence Graduation 2 is not as smooth as Graduation 1.
 
 ---
 
 ### Part C
 
-iii) chisq = vector(length = 2) chisq[1] = sum(Std_Table$zx_1^2) chisq[2] = sum(Std_Table$zx_2^2) df = c(46,47) 1 - pchisq(chisq, df = df) [1] 1.332268e-15 0.000000e+00
+iii) chisq = vector(length = 2) chisq[1] = sum(Std_Table$zx_1^2) chisq[2] = sum(Std_Table$zx_2^2) df = c(46,47) 
+
+1 - pchisq(chisq, df = df) 
+[1] 1.332268e-15 0.000000e+00
 The p-value for graduation 1 is 1.332268e-15
 The p-value for graduation 2 is 0.000000e+00
 Graduation-2 is overfitted as observed the respective p-value.
 [3]
-iv) positive = vector(length = 2) > negative = vector(length = 2) > positive[1] = length(Std_Table$zx_1[Std_Table$zx_1 > 0]) > positive[2] = length(Std_Table$zx_2[Std_Table$zx_2 > 0]) > negative[1] = length(Std_Table$zx_1[Std_Table$zx_1 < 0]) > negative[2] = length(Std_Table$zx_2[Std_Table$zx_2 < 0]) > positive [1] 38 30 > negative [1] 23 31
+iv) positive = vector(length = 2) negative = vector(length = 2) 
+positive[1] = length(Std_Table$zx_1[Std_Table$zx_1 0]) 
+positive[2] = length(Std_Table$zx_2[Std_Table$zx_2 0]) 
+negative[1] = length(Std_Table$zx_1[Std_Table$zx_1 < 0]) 
+negative[2] = length(Std_Table$zx_2[Std_Table$zx_2 < 0]) 
+positive 
+[1] 38 30 
+negative 
+[1] 23 31
 
 ---
 
 ### Part E
 v)
 For Graduation 1 we have more positive values
-IAI CS2B-1123
-Page 12 of 15
+
 So p value is
 2 * P(P>=38) = 2* [1 – P(P <=37)] 2 * (1 - pbinom(37, size = 61, prob = 0.5)) [1] 0.07217744
+
 For Graduation 2 we have more negative values
 So p value is
 2 * P(P<=30)
@@ -138,13 +154,22 @@ for (j in 1:2){pvalue[j]=0 + for (k in 1 : groups[j]){pvalue[j]= pvalue[j]+choos
 viii) scf = vector(length = 2) m = length(Std_Table$Age)
 for (j in 1:2) {scf[j] = (cor(Std_Table[1:m-1,j+7],Std_Table[2:m,j+7])*1)*sqrt(m)}
 scf [1] 1.2153759212 -0.0003617506
+
+---
+
 For Graduation 1 , p value is less than 1.6449, the upper 5% point of standard normal distribution so there is no evidence of grouping of deviations of the same sign.
 For Graduation 2, the p – value is negative and close to 0, indicating nearby values of Zx tend to have opposite values.
 
 ---
 
-ix) cdt = vector(length = 2)
-for (j in 1:2) {cdt[j] = (sum(Std_Table$Deaths) - sum(Std_Table[,j+5]))/sqrt(sum(Std_Table[,j+5]))} > cdt [1] 3.767196 -30.221501
+ix) 
+
+cdt = vector(length = 2)
+for (j in 1:2) {
+	cdt[j] = (sum(Std_Table$Deaths) - sum(Std_Table[,j+5]))/sqrt(sum(Std_Table[,j+5]))} 
+cdt 
+[1] 3.767196 -30.221501
+
 Graduation 1 p value is higher than 2.5% points of N(0,1) i.e. 1.96, there is sufficient evidence to reject null hypothesis. Therefore, there is bias in the Graduated rates 1.
 Graduation 2 has high magnitude of negative test statistic that means, the bias in graduated rates is too high.
 

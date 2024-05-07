@@ -43,6 +43,9 @@ pre {
 The hypothesis of a fair coin is tested by tossing the coin 200 times. The coin is then
 declared fair if between 85 and 115 tosses (both inclusive) are heads, otherwise the
 hypothesis of fair coin is rejected.
+
+---
+
 (i) (a) Calculate the exact probability, to two decimal places, of rejecting the
 hypothesis of fair coin when it is actually true, using the test above. 
 (b) Calculate an approximate probability, to two decimal places, of
@@ -57,7 +60,7 @@ to 0.7.
 (iii) Calculate the power of the test, to four decimal places, for the probability of
 heads taking values from 0.1 to 0.9 with a 0.01 step. You are not required to
 print the results. 
-[Hint: you might find the seq() command useful.]
+[Hint: you might find the <tt>seq()</tt> command useful.]
 (iv) Plot the power of the test against the probability of heads values in part (iii).
 
 (v) Comment on the plot in part (iv). 
@@ -69,10 +72,15 @@ print the results.
 Q4
 (i)(a)
 The probability of heads or tail for a fair coin is 0.5. 
+```{r}
 round(1 - pbinom(115,200,0.5) + pbinom(84,200,0.5),2) 
+```
 # Answer is 0.03 
-The probability of rejecting the hypothesis of fair coin when it is actually correct is
+
+
+* The probability of rejecting the hypothesis of fair coin when it is actually correct is
 0.03.
+
 (b)
 ---
 
@@ -80,7 +88,11 @@ The probability of rejecting the hypothesis of fair coin when it is actually cor
 As the sample size 𝑛𝑛 is large, the binomial distribution can be approximated by the normal distribution with mean 𝑛𝑛𝑛𝑛 and variance 𝑛𝑛𝑛𝑛(1−𝑝 ) using CLT. 
 Applying continuity correction, the probability of rejecting the hypothesis of fair
 coin when it is actually correct, is calculated as:
+
+```{r}
 round(1 - pnorm((115.5 - 100)/sqrt(50)) + pnorm((84.5-100)/sqrt(50)), 2) 
+```
+
 Answer is: 0.03 
 (c)
 We obtain the same answer and conclude the approximation works well. 
@@ -100,20 +112,29 @@ The answers in part (iv) varied, with a number of candidates giving unclear comm
 
 ### Part 
 (iii)
+
+```{r}
 p = seq(0.1, 0.9, 0.01) 
-pow = round(1 - (pbinom(115, 200, p) - pbinom(84, 200, p)),4) [3]
+pow = round(1 - (pbinom(115, 200, p) - pbinom(84, 200, p)),4)
+
+```
+
 
 ---
 
 ### Part 
 (iv)
 
+```{r}
 plot(p,pow, type="l", ylab = "Power of test", xlab = "probability", main="Power of test") 
+
+```
 
 ---
 
 ### Part  (v)
-The power of the test increases as we get away from the fair coin probability. 
-This is consistent with the definition of the power of a test since the ability to reject
+
+* The power of the test increases as we get away from the fair coin probability. 
+* This is consistent with the definition of the power of a test since the ability to reject
 the null hypothesis of coin being fair should be higher when the hypothesis should
 be rejected. 

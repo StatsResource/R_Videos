@@ -130,7 +130,7 @@ iv)
 a)
 b)
 m1<-lm(Final~Judges+Audience,data=dance)
-> summary(m1)
+summary(m1)
 Call:
 lm(formula = Final ~ Judges + Audience, data = dance)
 Residuals:
@@ -153,16 +153,16 @@ Residual standard error: 2.604 on 17 degrees of freedom
 Multiple R-squared: 0.6601, Adjusted R-squared: 0.6201
 F-statistic: 16.51 on 2 and 17 DF, p-value: 0.0001038
 Final = 10.617827 + 0.720273 * Judges + 0.001449 *Audience
-> confint(m1)
+confint(m1)
 2.5 % 97.5 %
 (Intercept) -21.3033977 42.5390512
 Judges 0.4483811 0.9921649
 Audience -0.0012812 0.0041793
 >
-> #Judges score seems significant since confidence interval doesn't contain 0.
+#Judges score seems significant since confidence interval doesn't contain 0.
 Sum of audience score doesn’t seem significant sine it contains 0.
 Alternate:
-> #P-value is <.01 for judges score showing significance.
+#P-value is <.01 for judges score showing significance.
 [4]
 
 ---
@@ -210,7 +210,7 @@ alternative hypothesis: true correlation is not equal to 0
 sample estimates:
 cor
 0.7562948
-> #correlation between audience score and final score is quite high
+#correlation between audience score and final score is quite high
 
 ---
 
@@ -219,7 +219,7 @@ cor
 viii)
 ```{r}
 m2<-lm(Final~Judges+Audience2,data=dance)
-> summary(m2)
+summary(m2)
 ```
 Call:
 lm(formula = Final ~ Judges + Audience2, data = dance)

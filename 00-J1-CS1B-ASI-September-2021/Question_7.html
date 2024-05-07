@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 7
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+Q.7)
+You are working as an Actuarial analyst in a medium size health insurance company in India. Your manager has asked you to analyse the claim amounts paid data of the past six months.
+You have received the data set “HealthClaims.csv” from the claims department of your company with the following explanations of the data fields
+
+
+* GEOGRAPHY: The geographical region of residence of the Insured
+* PROFESSION: Profession of the Insured
+* GENDER: Gender of the Insured
+* AGE: Age of the Insured
+* CLAIM_AMOUNT: Amount of health claim paid by the Insurer
+
+Refer to the data set “HealthClaims.csv”.
+
+--- 
+
+#### Exercises
+
+i) Fit a linear regression model to the data with “CLAIM_AMOUNT” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
+Provide your interpretation of the model by explaining R-Squared, Adjusted R-Squared &amp; p-value of the model. Identify the significant variables in the prediction of claim “CLAIM_AMOUNT”.
+
+ii) Determine 95% confidence intervals for the parameters of the regression model.
+
+iii) Plot “QQ plot of the residuals” and comment on applicability of linear regression model.
+
+iv) Your manager has also suggested you to include the interaction effects between Geography and Profession, Profession and Gender, Gender and Geography as additional explanatory variables to the set of independent variables taken in (i) for the purpose of improvement of the model. Comment on the suitability of inclusion of interaction effects for the purpose of improvement of the model.
+
+v) One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (i) and (iv).
+
+
+---
+
+Solution 7:
+i) # Fitting Linear Regression Model
+R Code:
+
+
+```r
+Data_claim = read.csv('HealthClaims.csv')
+model = lm(CLAIM_AMOUNT~.,data = Data_claim)
+summary(model) 
+```
+
+```
+## 
+## Call:
+## lm(formula = CLAIM_AMOUNT ~ ., data = Data_claim)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -155636  -22909    1558   19047  546017 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            -32487.4    12119.7  -2.681 0.007435 ** 
+## GEOGRAPHYREGION 02     -34130.3     9237.3  -3.695 0.000228 ***
+## GEOGRAPHYREGION 03     -18468.4    10664.6  -1.732 0.083534 .  
+## GEOGRAPHYREGION 04     -17925.8     9866.1  -1.817 0.069441 .  
+## GEOGRAPHYREGION 05     -18160.8     9895.2  -1.835 0.066668 .  
+## GEOGRAPHYREGION 06       1325.1    10558.3   0.125 0.900146    
+## GEOGRAPHYREGION 07     -30443.9    11716.4  -2.598 0.009463 ** 
+## GEOGRAPHYREGION 08     -57724.8     8801.0  -6.559 7.57e-11 ***
+## GEOGRAPHYREGION 09     -10506.6    11595.9  -0.906 0.365056    
+## GEOGRAPHYREGION 10      30219.2    12332.9   2.450 0.014394 *  
+## GEOGRAPHYREGION 11     -14969.7    11932.6  -1.255 0.209858    
+## PROFESSIONBusiness     158911.2     6700.4  23.717  &lt; 2e-16 ***
+## PROFESSIONSelfemployed  15605.8     4094.8   3.811 0.000144 ***
+## PROFESSIONService      163694.3     7081.3  23.116  &lt; 2e-16 ***
+## GENDERM                -13556.3     3024.6  -4.482 7.99e-06 ***
+## AGE                      2827.4      197.8  14.292  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 55350 on 1420 degrees of freedom
+## Multiple R-squared:  0.7275,	Adjusted R-squared:  0.7246 
+## F-statistic: 252.8 on 15 and 1420 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+R Output:
+Call:
+lm(formula = CLAIM_AMOUNT ~ ., data = Data_claim)
+Residuals:
+ Min 1Q Median 3Q Max 
+-155636 -22909 1558 19047 546017 
+Coefficients:
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) -32487.4 12119.7 -2.681 0.007435 ** 
+GEOGRAPHYREGION 02 -34130.3 9237.3 -3.695 0.000228 ***
+GEOGRAPHYREGION 03 -18468.4 10664.6 -1.732 0.083534 . 
+GEOGRAPHYREGION 04 -17925.8 9866.1 -1.817 0.069441 . 
+GEOGRAPHYREGION 05 -18160.8 9895.2 -1.835 0.066668 . 
+GEOGRAPHYREGION 06 1325.1 10558.3 0.125 0.900146 
+GEOGRAPHYREGION 07 -30443.9 11716.4 -2.598 0.009463 ** 
+GEOGRAPHYREGION 08 -57724.8 8801.0 -6.559 7.57e-11 ***
+GEOGRAPHYREGION 09 -10506.6 11595.9 -0.906 0.365056 
+GEOGRAPHYREGION 10 30219.2 12332.9 2.450 0.014394 * 
+GEOGRAPHYREGION 11 -14969.7 11932.6 -1.255 0.209858 
+PROFESSIONBusiness 158911.2 6700.4 23.717 &lt; 2e-16 ***
+PROFESSIONSelfemployed 15605.8 4094.8 3.811 0.000144 ***
+PROFESSIONService 163694.3 7081.3 23.116 &lt; 2e-16 ***
+GENDERM -13556.3 3024.6 -4.482 7.99e-06 ***
+AGE 2827.4 197.8 14.292 &lt; 2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 55350 on 1420 degrees of freedom
+Multiple R-squared: 0.7275, Adjusted R-squared: 0.7246 
+F-statistic: 252.8 on 15 and 1420 DF, p-value: &lt; 2.2e-16
+ 
+--- 
+R code:
+
+
+```r
+anova(model)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: CLAIM_AMOUNT
+##              Df     Sum Sq    Mean Sq F value    Pr(&gt;F)    
+## GEOGRAPHY    10 2.2059e+12 2.2059e+11  71.997 &lt; 2.2e-16 ***
+## PROFESSION    3 8.6687e+12 2.8896e+12 943.124 &lt; 2.2e-16 ***
+## GENDER        1 1.1570e+11 1.1570e+11  37.763 1.036e-09 ***
+## AGE           1 6.2585e+11 6.2585e+11 204.271 &lt; 2.2e-16 ***
+## Residuals  1420 4.3506e+12 3.0638e+09                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+R Output:
+Analysis of Variance Table
+Response: CLAIM_AMOUNT
+ Df Sum Sq Mean Sq F value Pr(&gt;F) 
+GEOGRAPHY 10 2.2059e+12 2.2059e+11 71.997 &lt; 2.2e-16 ***
+PROFESSION 3 8.6687e+12 2.8896e+12 943.124 &lt; 2.2e-16 ***
+GENDER 1 1.1570e+11 1.1570e+11 37.763 1.036e-09 ***
+AGE 1 6.2585e+11 6.2585e+11 204.271 &lt; 2.2e-16 ***
+Residuals 1420 4.3506e+12 3.0638e+09 
+
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+---
+
+#### Explanation
+
+* R-Squared : 72.75% of the variation of the claim amount is explained by geographical region, 
+profession, gender and age 
+* Adjusted R- Squared: 72.46% is used to compare with the other models . Adjusted R-Squared is 
+used to compare the goodness of fit for regression models that contain different number of 
+independent variables. 
+* The model which maximises the ‘adjusted R2
+statistics can be regarded 
+in some sense as the best model. 
+p-value of the model is &lt; 2.2e-16 which is less than 0.05, hence the null hypothesis that “there 
+is no significant relationship between independent variable and dependent variable” is rejected 
+at 5% level of significance. 
+
+---
+
+* P-value of the coefficients: Some of the dependent variables appeared to be insignificant 
+although the overall model is significant. 
+
+* As Geographical region 1, Profession Agriculture and 
+Gender female are insignificant hence clubbed in the intercept itself. It is also observed that 
+Geographical region 10 has a positive coefficient and Geographical region 2 has negative 
+coefficient indicating that claim paid for Geographical region 2 is significantly lower than 
+Geographical region 10. Similarly claim paid for profession business is much higher compared 
+to profession self-employed. 
+
+* From ANOVA table, it can be concluded that all the variables are significant in terms of claim 
+paid as the p values of all the parameters are less than 0.05 so they are all significantly different 
+from zero 
+
+---
+
+### Part (B)
+
+ii) R Code:
+
+
+```r
+confint(model,level=0.95) 
+```
+
+```
+##                             2.5 %     97.5 %
+## (Intercept)            -56261.888  -8712.970
+## GEOGRAPHYREGION 02     -52250.448 -16010.129
+## GEOGRAPHYREGION 03     -39388.438   2451.580
+## GEOGRAPHYREGION 04     -37279.438   1427.815
+## GEOGRAPHYREGION 05     -37571.441   1249.937
+## GEOGRAPHYREGION 06     -19386.522  22036.649
+## GEOGRAPHYREGION 07     -53427.302  -7460.556
+## GEOGRAPHYREGION 08     -74989.181 -40460.356
+## GEOGRAPHYREGION 09     -33253.405  12240.270
+## GEOGRAPHYREGION 10       6026.559  54411.771
+## GEOGRAPHYREGION 11     -38377.145   8437.686
+## PROFESSIONBusiness     145767.428 172054.915
+## PROFESSIONSelfemployed   7573.347  23638.179
+## PROFESSIONService      149803.318 177585.265
+## GENDERM                -19489.519  -7623.148
+## AGE                      2439.328   3215.450
+```
+
+R output: 
+ 2.5 % 97.5 %
+(Intercept) -56261.888 -8712.970
+GEOGRAPHYREGION 02 -52250.448 -16010.129
+GEOGRAPHYREGION 03 -39388.438 2451.580
+GEOGRAPHYREGION 04 -37279.438 1427.815
+GEOGRAPHYREGION 05 -37571.441 1249.937
+GEOGRAPHYREGION 06 -19386.522 22036.649
+GEOGRAPHYREGION 07 -53427.302 -7460.556
+GEOGRAPHYREGION 08 -74989.181 -40460.356
+GEOGRAPHYREGION 09 -33253.405 12240.270
+GEOGRAPHYREGION 10 6026.559 54411.771
+GEOGRAPHYREGION 11 -38377.145 8437.686
+PROFESSIONBusiness 145767.428 172054.915
+PROFESSIONSelfemployed 7573.347 23638.179
+PROFESSIONService 149803.318 177585.265
+GENDERM -19489.519 -7623.148
+AGE 2439.328 3215.450 (3)
+
+---
+
+iii) R code:
+
+
+```r
+qqnorm(model$residuals) 
+```
+
+![](Question_7_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+ 
+
+---
+ 
+If the residuals are normally distributed, it is expected the Q-Q plot to be along the diagonal. 
+Here it is not , indicating residuals are not forming normal distribution. Hence linear regression 
+may not be a good fit to the data 
+ 
+--- 
+
+iv) R Code:
+
+
+```r
+model2 = lm(CLAIM_AMOUNT~.+GEOGRAPHY:PROFESSION + PROFESSION:GENDER + GENDER: 
+GEOGRAPHY,data = Data_claim)
+summary(model2) 
+```
+
+```
+## 
+## Call:
+## lm(formula = CLAIM_AMOUNT ~ . + GEOGRAPHY:PROFESSION + PROFESSION:GENDER + 
+##     GENDER:GEOGRAPHY, data = Data_claim)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -194405  -12955   -1034   10489  302012 
+## 
+## Coefficients: (3 not defined because of singularities)
+##                                            Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                                -64594.5    14131.6  -4.571 5.29e-06
+## GEOGRAPHYREGION 02                         -31544.8    13652.9  -2.310  0.02101
+## GEOGRAPHYREGION 03                         -28731.6    16539.4  -1.737  0.08258
+## GEOGRAPHYREGION 04                         -20891.3    14966.3  -1.396  0.16297
+## GEOGRAPHYREGION 05                         -32366.2    14299.3  -2.263  0.02376
+## GEOGRAPHYREGION 06                         -18604.1    15100.7  -1.232  0.21816
+## GEOGRAPHYREGION 07                         -29002.4    15235.1  -1.904  0.05716
+## GEOGRAPHYREGION 08                         -33692.9    12994.4  -2.593  0.00962
+## GEOGRAPHYREGION 09                         -24352.8    18909.3  -1.288  0.19801
+## GEOGRAPHYREGION 10                          -8309.3    17192.1  -0.483  0.62894
+## GEOGRAPHYREGION 11                         -18947.6    16282.5  -1.164  0.24476
+## PROFESSIONBusiness                         308385.3    15720.6  19.617  &lt; 2e-16
+## PROFESSIONSelfemployed                      30126.2    20435.0   1.474  0.14064
+## PROFESSIONService                          249218.9    42323.2   5.888 4.89e-09
+## GENDERM                                    -43175.6    14519.3  -2.974  0.00299
+## AGE                                          3281.3      150.7  21.770  &lt; 2e-16
+## GEOGRAPHYREGION 02:PROFESSIONBusiness     -103364.5    16534.2  -6.252 5.41e-10
+## GEOGRAPHYREGION 03:PROFESSIONBusiness      -61296.8    23584.0  -2.599  0.00945
+## GEOGRAPHYREGION 04:PROFESSIONBusiness      -63068.3    19388.6  -3.253  0.00117
+## GEOGRAPHYREGION 05:PROFESSIONBusiness      -29786.4    18110.5  -1.645  0.10026
+## GEOGRAPHYREGION 06:PROFESSIONBusiness     -172656.7    43119.4  -4.004 6.56e-05
+## GEOGRAPHYREGION 07:PROFESSIONBusiness            NA         NA      NA       NA
+## GEOGRAPHYREGION 08:PROFESSIONBusiness     -223496.4    15218.8 -14.686  &lt; 2e-16
+## GEOGRAPHYREGION 09:PROFESSIONBusiness      -47277.9    20406.5  -2.317  0.02066
+## GEOGRAPHYREGION 10:PROFESSIONBusiness      135659.4    24962.1   5.435 6.48e-08
+## GEOGRAPHYREGION 11:PROFESSIONBusiness            NA         NA      NA       NA
+## GEOGRAPHYREGION 02:PROFESSIONSelfemployed  -14904.8    20843.9  -0.715  0.47469
+## GEOGRAPHYREGION 03:PROFESSIONSelfemployed   -5376.4    22863.8  -0.235  0.81413
+## GEOGRAPHYREGION 04:PROFESSIONSelfemployed   -1332.0    21623.4  -0.062  0.95089
+## GEOGRAPHYREGION 05:PROFESSIONSelfemployed    -715.2    21573.5  -0.033  0.97356
+## GEOGRAPHYREGION 06:PROFESSIONSelfemployed    2571.7    23542.6   0.109  0.91303
+## GEOGRAPHYREGION 07:PROFESSIONSelfemployed    2053.5    23634.2   0.087  0.93077
+## GEOGRAPHYREGION 08:PROFESSIONSelfemployed  -21048.6    20323.1  -1.036  0.30053
+## GEOGRAPHYREGION 09:PROFESSIONSelfemployed    3725.3    25207.1   0.148  0.88253
+## GEOGRAPHYREGION 10:PROFESSIONSelfemployed   -1907.5    25341.3  -0.075  0.94001
+## GEOGRAPHYREGION 11:PROFESSIONSelfemployed  -10631.8    26202.1  -0.406  0.68498
+## GEOGRAPHYREGION 02:PROFESSIONService       -91701.8    44213.1  -2.074  0.03826
+## GEOGRAPHYREGION 03:PROFESSIONService       -32757.7    46667.3  -0.702  0.48283
+## GEOGRAPHYREGION 04:PROFESSIONService       108004.4    47768.4   2.261  0.02391
+## GEOGRAPHYREGION 05:PROFESSIONService       -39108.5    48885.0  -0.800  0.42384
+## GEOGRAPHYREGION 06:PROFESSIONService        93708.9    44227.6   2.119  0.03429
+## GEOGRAPHYREGION 07:PROFESSIONService             NA         NA      NA       NA
+## GEOGRAPHYREGION 08:PROFESSIONService      -174071.2    42916.8  -4.056 5.27e-05
+## GEOGRAPHYREGION 09:PROFESSIONService       -24666.4    46726.3  -0.528  0.59766
+## GEOGRAPHYREGION 10:PROFESSIONService       108119.5    47621.0   2.270  0.02334
+## GEOGRAPHYREGION 11:PROFESSIONService        30088.2    46092.1   0.653  0.51400
+## PROFESSIONBusiness:GENDERM                 -69347.9     8414.3  -8.242 3.91e-16
+## PROFESSIONSelfemployed:GENDERM             -11465.1     5210.5  -2.200  0.02794
+## PROFESSIONService:GENDERM                  -35812.2     8955.2  -3.999 6.70e-05
+## GEOGRAPHYREGION 02:GENDERM                  48893.3    15503.6   3.154  0.00165
+## GEOGRAPHYREGION 03:GENDERM                  47556.3    17387.1   2.735  0.00632
+## GEOGRAPHYREGION 04:GENDERM                  29240.4    16539.5   1.768  0.07730
+## GEOGRAPHYREGION 05:GENDERM                  47373.9    16304.1   2.906  0.00372
+## GEOGRAPHYREGION 06:GENDERM                  31561.7    17303.9   1.824  0.06837
+## GEOGRAPHYREGION 07:GENDERM                  41765.9    18709.7   2.232  0.02575
+## GEOGRAPHYREGION 08:GENDERM                  47600.7    14846.0   3.206  0.00138
+## GEOGRAPHYREGION 09:GENDERM                  36413.1    20344.7   1.790  0.07370
+## GEOGRAPHYREGION 10:GENDERM                   9577.3    19749.4   0.485  0.62779
+## GEOGRAPHYREGION 11:GENDERM                  31022.5    19076.4   1.626  0.10413
+##                                              
+## (Intercept)                               ***
+## GEOGRAPHYREGION 02                        *  
+## GEOGRAPHYREGION 03                        .  
+## GEOGRAPHYREGION 04                           
+## GEOGRAPHYREGION 05                        *  
+## GEOGRAPHYREGION 06                           
+## GEOGRAPHYREGION 07                        .  
+## GEOGRAPHYREGION 08                        ** 
+## GEOGRAPHYREGION 09                           
+## GEOGRAPHYREGION 10                           
+## GEOGRAPHYREGION 11                           
+## PROFESSIONBusiness                        ***
+## PROFESSIONSelfemployed                       
+## PROFESSIONService                         ***
+## GENDERM                                   ** 
+## AGE                                       ***
+## GEOGRAPHYREGION 02:PROFESSIONBusiness     ***
+## GEOGRAPHYREGION 03:PROFESSIONBusiness     ** 
+## GEOGRAPHYREGION 04:PROFESSIONBusiness     ** 
+## GEOGRAPHYREGION 05:PROFESSIONBusiness        
+## GEOGRAPHYREGION 06:PROFESSIONBusiness     ***
+## GEOGRAPHYREGION 07:PROFESSIONBusiness        
+## GEOGRAPHYREGION 08:PROFESSIONBusiness     ***
+## GEOGRAPHYREGION 09:PROFESSIONBusiness     *  
+## GEOGRAPHYREGION 10:PROFESSIONBusiness     ***
+## GEOGRAPHYREGION 11:PROFESSIONBusiness        
+## GEOGRAPHYREGION 02:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 03:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 04:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 05:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 06:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 07:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 08:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 09:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 10:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 11:PROFESSIONSelfemployed    
+## GEOGRAPHYREGION 02:PROFESSIONService      *  
+## GEOGRAPHYREGION 03:PROFESSIONService         
+## GEOGRAPHYREGION 04:PROFESSIONService      *  
+## GEOGRAPHYREGION 05:PROFESSIONService         
+## GEOGRAPHYREGION 06:PROFESSIONService      *  
+## GEOGRAPHYREGION 07:PROFESSIONService         
+## GEOGRAPHYREGION 08:PROFESSIONService      ***
+## GEOGRAPHYREGION 09:PROFESSIONService         
+## GEOGRAPHYREGION 10:PROFESSIONService      *  
+## GEOGRAPHYREGION 11:PROFESSIONService         
+## PROFESSIONBusiness:GENDERM                ***
+## PROFESSIONSelfemployed:GENDERM            *  
+## PROFESSIONService:GENDERM                 ***
+## GEOGRAPHYREGION 02:GENDERM                ** 
+## GEOGRAPHYREGION 03:GENDERM                ** 
+## GEOGRAPHYREGION 04:GENDERM                .  
+## GEOGRAPHYREGION 05:GENDERM                ** 
+## GEOGRAPHYREGION 06:GENDERM                .  
+## GEOGRAPHYREGION 07:GENDERM                *  
+## GEOGRAPHYREGION 08:GENDERM                ** 
+## GEOGRAPHYREGION 09:GENDERM                .  
+## GEOGRAPHYREGION 10:GENDERM                   
+## GEOGRAPHYREGION 11:GENDERM                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 40270 on 1380 degrees of freedom
+## Multiple R-squared:  0.8598,	Adjusted R-squared:  0.8542 
+## F-statistic: 153.9 on 55 and 1380 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+Output:
+Call:
+lm(formula = CLAIM_AMOUNT ~ . + GEOGRAPHY:PROFESSION + PROFESSION:GENDER + 
+ GENDER:GEOGRAPHY, data = Data_claim)
+Residuals:
+ Min 1Q Median 3Q Max 
+-194405 -12955 -1034 10489 302012 
+Coefficients: (3 not defined because of singularities)
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) -64594.5 14131.6 -4.571 5.29e-06 ***
+GEOGRAPHYREGION 02 -31544.8 13652.9 -2.310 0.02101 * 
+GEOGRAPHYREGION 03 -28731.6 16539.4 -1.737 0.08258 . 
+GEOGRAPHYREGION 04 -20891.3 14966.3 -1.396 0.16297 
+GEOGRAPHYREGION 05 -32366.2 14299.3 -2.263 0.02376 * 
+GEOGRAPHYREGION 06 -18604.1 15100.7 -1.232 0.21816 
+GEOGRAPHYREGION 07 -29002.4 15235.1 -1.904 0.05716 . 
+GEOGRAPHYREGION 08 -33692.9 12994.4 -2.593 0.00962 ** 
+GEOGRAPHYREGION 09 -24352.8 18909.3 -1.288 0.19801 
+GEOGRAPHYREGION 10 -8309.3 17192.1 -0.483 0.62894 
+GEOGRAPHYREGION 11 -18947.6 16282.5 -1.164 0.24476 
+PROFESSIONBusiness 308385.3 15720.6 19.617 &lt; 2e-16 ***
+PROFESSIONSelfemployed 30126.2 20435.0 1.474 0.14064 
+
+PROFESSIONService 249218.9 42323.2 5.888 4.89e-09 ***
+GENDERM -43175.6 14519.3 -2.974 0.00299 ** 
+AGE 3281.3 150.7 21.770 &lt; 2e-16 ***
+GEOGRAPHYREGION 02:PROFESSIONBusiness -103364.5 16534.2 -6.252 5.41e-10 ***
+GEOGRAPHYREGION 03:PROFESSIONBusiness -61296.8 23584.0 -2.599 0.00945 ** 
+GEOGRAPHYREGION 04:PROFESSIONBusiness -63068.3 19388.6 -3.253 0.00117 ** 
+GEOGRAPHYREGION 05:PROFESSIONBusiness -29786.4 18110.5 -1.645 0.10026 
+GEOGRAPHYREGION 06:PROFESSIONBusiness -172656.7 43119.4 -4.004 6.56e-05 ***
+GEOGRAPHYREGION 07:PROFESSIONBusiness NA NA NA NA 
+GEOGRAPHYREGION 08:PROFESSIONBusiness -223496.4 15218.8 -14.686 &lt; 2e-16 ***
+GEOGRAPHYREGION 09:PROFESSIONBusiness -47277.9 20406.5 -2.317 0.02066 * 
+GEOGRAPHYREGION 10:PROFESSIONBusiness 135659.4 24962.1 5.435 6.48e-08 ***
+GEOGRAPHYREGION 11:PROFESSIONBusiness NA NA NA NA 
+GEOGRAPHYREGION 02:PROFESSIONSelfemployed -14904.8 20843.9 -0.715 0.47469 
+GEOGRAPHYREGION 03:PROFESSIONSelfemployed -5376.4 22863.8 -0.235 0.81413 
+GEOGRAPHYREGION 04:PROFESSIONSelfemployed -1332.0 21623.4 -0.062 0.95089 
+GEOGRAPHYREGION 05:PROFESSIONSelfemployed -715.2 21573.5 -0.033 0.97356 
+GEOGRAPHYREGION 06:PROFESSIONSelfemployed 2571.7 23542.6 0.109 0.91303 
+GEOGRAPHYREGION 07:PROFESSIONSelfemployed 2053.5 23634.2 0.087 0.93077 
+GEOGRAPHYREGION 08:PROFESSIONSelfemployed -21048.6 20323.1 -1.036 0.30053 
+GEOGRAPHYREGION 09:PROFESSIONSelfemployed 3725.3 25207.1 0.148 0.88253 
+GEOGRAPHYREGION 10:PROFESSIONSelfemployed -1907.5 25341.3 -0.075 0.94001 
+GEOGRAPHYREGION 11:PROFESSIONSelfemployed -10631.8 26202.1 -0.406 0.68498 
+GEOGRAPHYREGION 02:PROFESSIONService -91701.8 44213.1 -2.074 0.03826 * 
+GEOGRAPHYREGION 03:PROFESSIONService -32757.7 46667.3 -0.702 0.48283 
+GEOGRAPHYREGION 04:PROFESSIONService 108004.4 47768.4 2.261 0.02391 * 
+GEOGRAPHYREGION 05:PROFESSIONService -39108.5 48885.0 -0.800 0.42384 
+GEOGRAPHYREGION 06:PROFESSIONService 93708.9 44227.6 2.119 0.03429 * 
+GEOGRAPHYREGION 07:PROFESSIONService NA NA NA NA 
+GEOGRAPHYREGION 08:PROFESSIONService -174071.2 42916.8 -4.056 5.27e-05 ***
+GEOGRAPHYREGION 09:PROFESSIONService -24666.4 46726.3 -0.528 0.59766 
+GEOGRAPHYREGION 10:PROFESSIONService 108119.5 47621.0 2.270 0.02334 * 
+GEOGRAPHYREGION 11:PROFESSIONService 30088.2 46092.1 0.653 0.51400 
+PROFESSIONBusiness:GENDERM -69347.9 8414.3 -8.242 3.91e-16 ***
+PROFESSIONSelfemployed:GENDERM -11465.1 5210.5 -2.200 0.02794 * 
+PROFESSIONService:GENDERM -35812.2 8955.2 -3.999 6.70e-05 ***
+GEOGRAPHYREGION 02:GENDERM 48893.3 15503.6 3.154 0.00165 ** 
+GEOGRAPHYREGION 03:GENDERM 47556.3 17387.1 2.735 0.00632 ** 
+GEOGRAPHYREGION 04:GENDERM 29240.4 16539.5 1.768 0.07730 . 
+GEOGRAPHYREGION 05:GENDERM 47373.9 16304.1 2.906 0.00372 ** 
+GEOGRAPHYREGION 06:GENDERM 31561.7 17303.9 1.824 0.06837 . 
+GEOGRAPHYREGION 07:GENDERM 41765.9 18709.7 2.232 0.02575 * 
+GEOGRAPHYREGION 08:GENDERM 47600.7 14846.0 3.206 0.00138 ** 
+GEOGRAPHYREGION 09:GENDERM 36413.1 20344.7 1.790 0.07370 . 
+GEOGRAPHYREGION 10:GENDERM 9577.3 19749.4 0.485 0.62779 
+GEOGRAPHYREGION 11:GENDERM 31022.5 19076.4 1.626 0.10413 
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 40270 on 1380 degrees of freedom
+Multiple R-squared: 0.8598, Adjusted R-squared: 0.8542 
+F-statistic: 153.9 on 55 and 1380 DF, p-value: &lt; 2.2e-16
+
+---
+
+anova(model3) 
+Analysis of Variance Table
+Response: CLAIM_AMOUNT
+ Df Sum Sq Mean Sq F value Pr(&gt;F) 
+GEOGRAPHY 10 2.2059e+12 2.2059e+11 136.0055 &lt; 2.2e-16 ***
+PROFESSION 3 8.6687e+12 2.8896e+12 1781.5995 &lt; 2.2e-16 ***
+GENDER 1 1.1570e+11 1.1570e+11 71.3357 &lt; 2.2e-16 ***
+AGE 1 6.2585e+11 6.2585e+11 385.8770 &lt; 2.2e-16 ***
+GEOGRAPHY:PROFESSION 27 1.9432e+12 7.1969e+10 44.3731 &lt; 2.2e-16 ***
+PROFESSION:GENDER 3 1.2973e+11 4.3244e+10 26.6624 &lt; 2.2e-16 ***
+GEOGRAPHY:GENDER 10 3.9538e+10 3.9538e+09 2.4378 0.007001 ** 
+Residuals 1380 2.2382e+12 1.6219e+09 
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+---
+
+Comments:
+* R-Squared and Adjusted R-Squared improved and hence model is a better fit compared 
+to the initial model 
+* Interaction effect between geographical region and profession, profession and gender, 
+gender and geographical region along with their main effects emerged out to be 
+significant as demonstrated by ANOVA table 
+
+---
+
+v) R code:
+model3 = lm(log(CLAIM_AMOUNT)~.,data = Data_claim)
+summary(model3) 
+Output:
+Call:
+lm(formula = log(CLAIM_AMOUNT) ~ ., data = Data_claim)
+Residuals:
+ Min 1Q Median 3Q Max 
+-0.86313 -0.18493 -0.00393 0.17478 1.02901 
+Coefficients:
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) 8.4529628 0.0580014 145.737 &lt; 2e-16 ***
+GEOGRAPHYREGION 02 -0.1408025 0.0442069 -3.185 0.00148 ** 
+GEOGRAPHYREGION 03 -0.0774399 0.0510375 -1.517 0.12941 
+GEOGRAPHYREGION 04 -0.0889472 0.0472161 -1.884 0.05979 . 
+GEOGRAPHYREGION 05 -0.0829154 0.0473553 -1.751 0.08018 . 
+GEOGRAPHYREGION 06 0.0231982 0.0505290 0.459 0.64623 
+GEOGRAPHYREGION 07 -0.0654231 0.0560714 -1.167 0.24349 
+GEOGRAPHYREGION 08 -0.3693971 0.0421191 -8.770 &lt; 2e-16 ***
+GEOGRAPHYREGION 09 -0.0568913 0.0554943 -1.025 0.30546 
+GEOGRAPHYREGION 10 0.0540411 0.0590215 0.916 0.36002 
+GEOGRAPHYREGION 11 -0.0345033 0.0571059 -0.604 0.54581 
+PROFESSIONBusiness 0.8217253 0.0320661 25.626 &lt; 2e-16 ***
+PROFESSIONSelfemployed 0.1956622 0.0195963 9.985 &lt; 2e-16 ***
+PROFESSIONService 0.8736364 0.0338891 25.779 &lt; 2e-16 ***
+GENDERM -0.0889058 0.0144749 -6.142 1.06e-09 ***
+AGE 0.0536827 0.0009467 56.703 &lt; 2e-16 ***
+
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 0.2649 on 1420 degrees of freedom
+Multiple R-squared: 0.9227, Adjusted R-squared: 0.9219 
+F-statistic: 1130 on 15 and 1420 DF, p-value: &lt; 2.2e-16
+
+--
+R code:
+anova(model3)
+Analysis of Variance Table
+Response: log(CLAIM_AMOUNT)
+ Df Sum Sq Mean Sq F value Pr(&gt;F) 
+GEOGRAPHY 10 246.08 24.608 350.69 &lt; 2.2e-16 ***
+PROFESSION 3 706.84 235.613 3357.70 &lt; 2.2e-16 ***
+GENDER 1 11.25 11.255 160.39 &lt; 2.2e-16 ***
+AGE 1 225.62 225.616 3215.24 &lt; 2.2e-16 ***
+Residuals 1420 99.64 0.070 
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+---
+
+Key differences:
+ R-Squared and Adjusted R-Squared increased to above 90% and hence model is a better 
+fit compared to the earlier models 
+ The significance level of few factor coefficients changed when compared with the model 
+in (i) however ANOVA table shows there is no change in number of significant variables 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

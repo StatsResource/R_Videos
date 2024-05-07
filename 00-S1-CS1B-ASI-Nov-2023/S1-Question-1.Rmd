@@ -73,38 +73,49 @@ b) Draw qqplot and qqline for the sample generated in (iv.a) and comment on the 
 Page 2 of 8
 Solution 1:
 i)
-> #X~N(5400,900^2)
-> x.mean=5400
-> x.sd=900
-> #Y~N(3600,1500^2)
-> y.mean= 3600
-> y.sd=1500
-> #P(X>2Y) = P(X-2Y>0)
-> # X-2Y ~ N(x.mean - 2y.mean, x.sd^2+4y.sd^2)
+
+```{r}
+#X~N(5400,900^2)
+x.mean=5400
+x.sd=900
+#Y~N(3600,1500^2)
+y.mean= 3600
+y.sd=1500
+#P(X>2Y) = P(X-2Y>0)
+# X-2Y ~ N(x.mean - 2y.mean, x.sd^2+4y.sd^2)
+```
+
+
+---
+
+```{r}
+f.mean<-x.mean - 2*y.mean
+f.var <- x.sd^2+4*y.sd^2
 >
-> f.mean<-x.mean - 2*y.mean
-> f.var <- x.sd^2+4*y.sd^2
->
-> 1-pnorm(0,mean=f.mean,sd=sqrt(f.var))
+1-pnorm(0,mean=f.mean,sd=sqrt(f.var))
 [1] 0.2827485
+```
 
 ----
 ii)
 a)
 b)
-> > dif.mean<-x.mean - y.mean
-> dif.mean
+dif.mean<-x.mean - y.mean
+dif.mean
 [1] 1800
 >
-> dif.sd <-sqrt(x.sd^2+y.sd^2)
-> dif.sd
+dif.sd <-sqrt(x.sd^2+y.sd^2)
+dif.sd
 [1] 1749.286
 
 ---
 
-> set.seed(1234)
-> dif.sample<-rnorm(50,dif.mean,dif.sd)
+set.seed(1234)
+dif.sample<-rnorm(50,dif.mean,dif.sd)
 [3]
+
+
+--- 
 
 c)
 qnorm(dif.sample)
@@ -117,14 +128,20 @@ qqline(dif.sample)
 Above results indicates that despite sample generated from normal distribution it doesn’t seem to
 
 align with normality probably due to low sample size and high variability.
+
+---
+
 iii)
 a)
-> sample.mean<-mean(dif.sample)
-> sample.mean
+sample.mean<-mean(dif.sample)
+sample.mean
 [1] 1007.481
-> z<- (sample.mean - 1375)/(dif.sd/sqrt(50))
-> pnorm(z)
+z<- (sample.mean - 1375)/(dif.sd/sqrt(50))
+pnorm(z)
 [1] 0.06869143
+
+---
+
 Since p-value is >0.05 we cannot reject the null hypothesis and thus, don’t have sufficient evidence to say that mean is less than 1375.
 
 ---
@@ -146,16 +163,22 @@ alternative hypothesis: true mean is less than 1375
 sample estimates:
 mean of x
 1007.481
-Since p-value is < 0.05 we can reject the null hypothesis and can imply that mean is less than 1375.
+
+
+* Since p-value is < 0.05 we can reject the null hypothesis and can imply that mean is less than 1375.
 
 ---
 
 iv)
 a)
 b)
+
+```{r}
 dif.sample2<-rnorm(1000,dif.mean,dif.sd)
 qqnorm(dif.sample2)
 qqline(dif.sample2)
+```
+
 With larger sample size, it indicates normality.
 
 ---

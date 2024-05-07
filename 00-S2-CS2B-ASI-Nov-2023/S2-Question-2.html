@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+
+
+
+* Question 1
+---
+
+### Exercises
+
+Q. 2)
+Consider the data file “Claims.csv” of claim amounts in 000’s in respect of a commercial property portfolio over a period of 10 years.
+i) Calculate the block maxima for these claims using block sizes of 5 claims and paste the output.
+
+ii) Plot a histogram of the block maxima and label the diagram.
+
+iii) Plot an empirical density function in the same graph as in part (ii) above.
+
+---
+
+iv) Fit a Weibull distribution on the block maxima and calculate the estimates of the parameters of the Weibull distribution.
+
+v) Calculate the mean, standard deviation and skewness of the block maxima.
+
+vi) Write a function in R to compute the log-likelihood of the above distribution.
+
+---
+
+Hint : Use the following PDF function to compute the log likelihood.
+
+vii) Find the maximum likelihood estimate of the parameters of the above distribution. Use mean, standard deviation and skewness calculated above as the initial estimates of the parameters.
+
+viii) Superimpose a Generalized Extreme Value distribution on the block maxima using the estimates of the parameters calculated above in part (vii).
+
+ix) Calculate the hazard rate for the block maxima and plot the graph of Hazard rate against block maxima and comment on the graph.
+
+x) Calculate the mean residual life for the block maxima and plot the graph of mean residual life against block maxima. Comment on the graph.
+
+
+---
+
+Solution 2:
+i)
+&lt;code for reading the input data file&gt; e.g. 
+
+
+```r
+Claims &lt;- read.csv("Claims.csv")
+Claims$block &lt;-(Claims$Claim_number-1) %/% 5 +1
+blockmax &lt;- aggregate(Claims ~ block, Claims, max)
+blockmax 
+```
+
+```
+##    block Claims
+## 1      1    104
+## 2      2     94
+## 3      3    218
+## 4      4    235
+## 5      5    140
+## 6      6     84
+## 7      7    213
+## 8      8    222
+## 9      9    128
+## 10    10    247
+## 11    11    152
+## 12    12    202
+## 13    13    193
+## 14    14    201
+## 15    15    180
+## 16    16    291
+## 17    17    243
+## 18    18    163
+## 19    19    267
+## 20    20    203
+```
+
+block Claims 1 1 104 2 2 94 3 3 218 4 4 235 5 5 140 6 6 84 7 7 213 8 8 222 9 9 128 10 10 247 11 11 152 12 12 202 13 13 193 14 14 201 15 15 180 16 16 291 17 17 243 18 18 163 19 19 267 20 20 203
+[2]
+---
+
+### Part B 
+
+
+```r
+hist(blockmax$Claims, 
+     xlab = "Claims", main = "Histogram of block maxima")
+```
+
+![](S2-Question-2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+### Part C
+
+iii) hist(blockmax$Claims, xlab = "Claims", main = "Histogram of block maxima", freq = FALSE) lines(density(blockmax$Claims), col = "blue")
+[2]
+
+---
+iv) 
+
+
+```r
+library(MASS) 
+```
+
+```
+## 
+## Attaching package: 'MASS'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+```
+
+```r
+est &lt;- fitdistr(blockmax$Claims, "weibull", lower = 0) 
+est 
+```
+
+```
+##       shape         scale   
+##     3.8973242   209.3505841 
+##  (  0.7069667) ( 12.6163461)
+```
+
+shape scale 3.8973242 209.3505841 ( 0.7069667) ( 12.6163461)
+c = est$estimate["scale"]^ (-est$estimate["shape"]) &gt; c scale 9.011579e-10 &gt; g = est$estimate["shape"]
+
+--- 
+
+&gt; g shape 3.897324
+[3]
+
+---
+
+v) 
+
+
+
+```r
+alpha = mean(blockmax$Claims) 
+alpha 
+```
+
+```
+## [1] 189
+```
+
+[1] 189 beta = sd(blockmax$Claims) beta [1] 57.78271 gamma = skewness(blockmax$Claims) gamma [1] -0.273219
+
+
+---
+### Part F
+vi) MLE = function(x){f &lt;- 1/x[2]*(1+x[3]*(blockmax$Claims - x[1])/x[2])^(-1-1/x[3])*exp(-(1+x[3]*(blockmax$Claims- x[1])/x[2])^(-1/x[3])) lnf &lt;- log(f) sum(-lnf) }
+[2]
+vii) p = c(alpha,beta,gamma) MLE(p) [1] 110.3667
+f_MLE &lt;- nlm(MLE,p)
+f_MLE $minimum [1] 108.4947 $estimate [1] 173.0482986 59.5496685 -0.4257482 $gradient [1] -2.207406e-07 -7.863145e-07 -5.439915e-05 $code [1] 1 $iterations [1] 33
+[2]
+viii) GEV &lt;- function(x,a,b,c){f = 1/b * (1+c*(x-a)/b)^-(1+1/c)*exp(-((1+c*(x-a)/b)^(-1/c)))} 
+fit = GEV(blockmax$Claims,f_MLE$estimate[1],f_MLE$estimate[2],f_MLE$estimate[3]) 
+fit [1] 0.002216593 0.001752716 0.006657504 0.005922606 0.004311508 0.001356100 0.006776331 
+[8] 0.006529717 0.003563970 0.005131517 0.005053503 0.006876667 0.006798624 0.006874941 
+[15] 0.006456144 0.001361035 0.005416809 0.005683342 0.003474704 0.006876611
+
+---
+
+### Part G
+
+ix) h = dweibull(blockmax$Claims,g,est$estimate["scale"])/(1-pweibull(blockmax$Claims,g,est$estimate["scale"])) h [1] 0.002452262 0.001829610 0.020933123 0.026020746 0.005802246 0.001320774 0.019572126 [8] 0.022065445 0.004475462 0.030059810 0.007363354 0.016784861 0.014708485 0.016545242 [15] 0.012017747 0.048335279 0.028670960 0.009015548 0.037666671 0.017026742
+plot(m,blockmax$Claims)
+
+---
+The hazard function is an increasing function of x. An increasing hazard function indicates lighter tail.
+[4]
+
+---
+
+### Part J
+x) Sy = function(y,g,b){(1-pweibull(y,g,b))} int = integrate(Sy,0, Inf, g, est$estimate[“scale”]) ex = int$value/Sy(blockmax$Claims,g,est$estimate[“scale”]) plot(ex,blockmax$Claims)
+The mean residual life function is an increasing function of x. An increasing mean residual function indicates a lighter tail.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

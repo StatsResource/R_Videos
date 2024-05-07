@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="M1-Question4_files/header-attrs-2.25/header-attrs.js"></script>
+    <link href="M1-Question4_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="M1-Question4_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+[17]
+Q. 4) The marketing dataset contains the impact of three advertising medias 
+(youtube, facebook and newspaper) on sales. The first three columns are the 
+advertising budget in thousands of dollars along with the fourth column as sales. The 
+advertising experiment has been repeated 200 times.
+The marketing data is provided in a csv file “data.csv”. 
+1.  Plot the data. Analyze the trend of how sales varies with the advertising budget of all 
+3 advertising medias and comment on the same.
+2.  Perform a simple linear regression analysis on the data. Your answer should include 
+summary of the data. 
+3.   Comment on the significance of the parameters of the model and justify your 
+observations from part 1 .
+
+---
+4.  Calculate the correlation between independent and dependent variables.
+5.  Fit an improved model for the model in part (2. , using your answer in part (4. . 
+State the linear regression formula clearly explaining all parameters.
+6.   Which model is better between part (2.  and (5.  and why?
+7.  What is the maximum sales generated? 
+8.Based on the linear regression model fitted in question (5. , what is the predicted 
+value for maximum sales generated in question (7.   .
+9.  What is the relative error between the estimated (prediction calculated in question 
+(8.   ) and the actual sales computed in question (7.  ?
+---
+
+Solution 4:
+
+
+
+```r
+marketing = read.csv("data.csv")
+data_size = dim(marketing) 
+```
+
+---
+i) 
+
+
+```r
+plot(marketing)
+```
+
+![](M1-Question4_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+The last row of the plot indicates how various advertising channel budgets impact the sales. We 
+can clearly see that youtube and facebook sales increase linearly with increase in the advertising 
+budget. The newspaper (3rd plot) sales however shows no particular trend.
+
+
+---
+
+ii) 
+
+
+```r
+Model &lt;- lm(sales ~ youtube + facebook + newspaper, data = marketing)
+summary (Model)
+```
+
+```
+## 
+## Call:
+## lm(formula = sales ~ youtube + facebook + newspaper, data = marketing)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.5932  -1.0690   0.2902   1.4272   3.3951 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.526667   0.374290   9.422   &lt;2e-16 ***
+## youtube      0.045765   0.001395  32.809   &lt;2e-16 ***
+## facebook     0.188530   0.008611  21.893   &lt;2e-16 ***
+## newspaper   -0.001037   0.005871  -0.177     0.86    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.023 on 196 degrees of freedom
+## Multiple R-squared:  0.8972,	Adjusted R-squared:  0.8956 
+## F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16
+```
+
+Call:
+lm(formula = sales ~ youtube + facebook + newspaper, data = marketing)
+Residuals:
+ Min 1Q Median 3Q Max 
+-10.5932 -1.0690 0.2902 1.4272 3.3951 
+Coefficients:
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) 3.526667 0.374290 9.422 &lt;2e-16 ***
+youtube 0.045765 0.001395 32.809 &lt;2e-16 ***
+facebook 0.188530 0.008611 21.893 &lt;2e-16 ***
+newspaper -0.001037 0.005871 -0.177 0.86 
+---
+Signif. codes: 
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 2.023 on 196 degrees of freedom
+Multiple R-squared: 0.8972, Adjusted R-squared: 0.8956 
+F-statistic: 570.3 on 3 and 196 DF, p-value: &lt; 2.2e-16
+
+---
+
+iii) 
+
+* It can be seen that from the estimates column and from p values that, changes in the youtube 
+and facebook advertising budgets are significantly associated to changes in sales while changes in 
+the newspaper budget is not.
+
+---
+
+iv) 
+
+&gt; cor(marketing$youtube,marketing$sales)
+[1] 0.7822244
+&gt; cor(marketing$facebook,marketing$sales)
+[1] 0.5762226
+&gt; cor(marketing$newspaper,marketing$sales)
+[1] 0.228299
+
+
+* The pairwise plot and the above correlation indicated the same conclusion on newspaper having 
+a very low / no particular trend with respect to sales. 
+
+---
+
+v) &gt; 
+
+
+```r
+Model1 &lt;- lm(sales ~ youtube + facebook , data = marketing)
+summary(Model1)
+```
+
+```
+## 
+## Call:
+## lm(formula = sales ~ youtube + facebook, data = marketing)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.5572  -1.0502   0.2906   1.4049   3.3994 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.50532    0.35339   9.919   &lt;2e-16 ***
+## youtube      0.04575    0.00139  32.909   &lt;2e-16 ***
+## facebook     0.18799    0.00804  23.382   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.018 on 197 degrees of freedom
+## Multiple R-squared:  0.8972,	Adjusted R-squared:  0.8962 
+## F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16
+```
+
+Call:
+lm(formula = sales ~ youtube + facebook, data = marketing)
+Residuals:
+ Min 1Q Median 3Q Max 
+-10.5572 -1.0502 0.2906 1.4049 3.3994 
+Coefficients:
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) 3.50532 0.35339 9.919 &lt;2e-16 ***
+youtube 0.04575 0.00139 32.909 &lt;2e-16 ***
+facebook 0.18799 0.00804 23.382 &lt;2e-16 ***
+---
+Signif. codes: 
+0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 2.018 on 197 degrees of freedom
+Multiple R-squared: 0.8972, Adjusted R-squared: 0.8962 
+F-statistic: 859.6 on 2 and 197 DF, p-value: &lt; 2.2e-16
+Sales = 3.5 + 0.045*youtube + 0.187*facebook
+
+
+---
+
+vi) Adjusted R squared for Model in part (b) and that of part (e) is 0.89, hence there is no particular 
+improvement after removing newspaper parameter. However, a model with less parameters is 
+considered better, hence we can consider Model 1 calculated in part (f) to be a good fit. 
+
+---
+
+vii) &gt; marketing[which.max(marketing$sales),]
+ youtube facebook newspaper sales
+176 332.28 58.68 50.16 32.4
+Maximum sales generated is 32.4 thousand dollars. 
+
+---
+
+viii)&gt; PredTest = predict(Model1)
+&gt; PredTest[176]
+ 
+29.74023
+
+
+---
+
+ix) (Observed ILI - Estimated ILI)/Observed ILI
+&gt; (32.4-29.74023)/32.4
+[1] 0.08209167
+
+---
+
+
+BLANK
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

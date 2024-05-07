@@ -78,7 +78,7 @@ ppois(X, Lambda)
 
 ### Exercise 2 
 
-#### $P(X > x)$
+#### $P(X x)$
 
 ```{r}
 ppois(X, Lambda, lower.tail = FALSE)

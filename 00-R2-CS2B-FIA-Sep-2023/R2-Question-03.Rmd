@@ -47,6 +47,9 @@ of a group of pensioners aged from 55 to 90. The data is contained in the file c
 (i) Construct R code to load the dataset into R, assign it to a dataframe called
 ‘dataset1’, and display the last eight rows. [2]
 Mortality rates are calculated as the ratio of ‘DeathCount’ by ‘PopulationSize’.
+
+---
+
 (ii) Construct R code to add a new column called ‘logRate’ containing the
 logarithm of the mortality rates, to the dataframe dataset1. 
 The company would like to use this data to estimate mortality rates beyond age 90.
@@ -58,7 +61,10 @@ The Residual Sum of Squares (RSS) is given by:
 RSS 􀵌 Σ􀬽􀬴 􁈺logRate 􀵆 α 􀵆 β𝑥􁈻􀬶
 􀯫􀭀􀬹􀬹
 (iii) Construct R code to determine, to five decimal places, the estimate of the
-intercept and slope parameters that minimises the RSS. [3]
+intercept and slope parameters that minimises the RSS. 
+
+---
+
 (iv) Plot the fitted model together with the logarithm of the observed mortality
 rates as a function of age on the same graph. 
 (v) Comment on the plot in (iv) above. 
@@ -72,15 +78,16 @@ for p = 1,2,3,4,5 and where α􀯞 are parameters to be estimated.
 (vi) Construct R code to fit these five models to the data and store the
 corresponding RSS into a dataframe called ‘output_rss’ such that the first
 column of output_rss contains the values of p and the second column
-contains the values of the RSS. [8]
+contains the values of the RSS. 
+
+---
 (vii) State which is the best model (among the five models) according to RSS. 
 CS2B S2023–5
 (viii) Construct R code that uses the best model to forecast the logarithm of the
 mortality rates from age 91 to 110 and print your forecast values. [7]
 (ix) Comment on this forecast and the appropriateness of using RSS for model
-selection. [2]
-[Total 29]
-END OF PAPER
+selection. 
+
 
 ---
 
@@ -88,8 +95,12 @@ END OF PAPER
 
 Q3
 (i)
-dataset1 = read.csv(“CS2B_S23_Q3_Pensioners.csv”) 
+
+```{r}
+dataset1 = read.csv("CS2B_S23_Q3_Pensioners.csv") 
 tail(dataset1, 8) 
+
+```
 Age PopulationSize DeathCount
 29 83 407 98
 30 84 388 107
@@ -99,26 +110,49 @@ Age PopulationSize DeathCount
 34 88 269 122
 35 89 247 124
 36 90 234 128 
+
+---
+
 (ii)
+
+```{r}
 dataset1$logRate = log(dataset1$DeathCount/dataset1$PopulationSize) 
+```
+
+---
+
 (iii)
-model = lm( logRate ~ Age, data=dataset1) [1½]
+
+```{r}
+model = lm( logRate ~ Age, data=dataset1)
 round( coef(model), 5) 
+
+```
+
+<pre><code>
 (Intercept) Age
 -10.24444 0.10604
-The intercept is -10.24444 and the slope is 0.10604 
+</code></pre>
+
+* The intercept is -10.24444 and the slope is 0.10604 
 (Alternative with use of the nlm()function is also acceptable)
+
+
+---
+
 (iv)
+
+```{r}
 plot( 
 dataset1$logRate~dataset1$Age, 
 xlab = "Age", 
-ylab="log(Mortality rate)", 
-main= "Fitted vs observed mortality rates" 
-lines( model$fitted.values ~ dataset1$Age ) [1½]
----
-CS2B S2023 © Institute and Faculty of Actuaries
+ylab= "log(Mortality rate)", 
+main= "Fitted vs observed mortality rates" )
+lines( model$fitted.values ~ dataset1$Age ) 
+```
 
-[Marks available 5, maximum 4]
+---
+
 (v)
 Comment on this graph:
 Mortality rate increases exponentially with age 

@@ -71,26 +71,60 @@ ix) Construct the Autocorrelation Function (ACF) and sample Partial Autocorrelat
 x) Comment on the graphical outputs of part (iii) and part (ix).
 
 xi) Perform the Ljung and Box Portmanteau test for the residuals of the model with lag of 4, 6, 12 and comment whether the model is an appropriate fit.
-(5)
-[28]
+
 
 ---
 
 Page 2 of 15
 Solution 1:
-i) set.seed(100) observations <- arima.sim(list(order = c(1,1,1), ar = 0.9, ma = 0.2), n = 500) plot(observations, main = "Line chart of time series observation")
-[3]
+i) 
+
+```{r}
+set.seed(100) 
+observations <- arima.sim(
+  list(order = c(1,1,1), ar = 0.9, ma = 0.2), n = 500)
+
+#plot(observations, 
+#     main = "Line chart of time series observation")
+
+```
+
+
+---
+
 ii)
 • The data is not stationary as we observe that the values are changing with time
 • Downward trend is observed in the data and an upward trend towards the end, which indicates the data being non stationary
 • Mean and Standard Deviation are different at different points in time , mean is not constant.
-[2]
-iii) acf(observations, main = "ACF")
+
+iii) 
+
+```{r}
+acf(observations, main = "ACF")
 pacf(observations, main = "PACF")
-IAI CS2B-1123
-Page 3 of 15
-[2]
-iv) x = 1:501 leastsquarefit <- lm(observations~x) leastsquarefit$coefficients (Intercept) x 10.0453231 -0.3941461 plot(observations, main = "Line chart of time series observation") abline(leastsquarefit)
+```
+
+
+---
+
+
+iv) 
+
+```{r}
+x = 1:501 
+```
+
+```{r}
+leastsquarefit <- lm(observations~x) 
+leastsquarefit$coefficients 
+```
+
+(Intercept) x 10.0453231 -0.3941461 
+
+```{r}
+plot(observations, main = "Line chart of time series observation") 
+abline(leastsquarefit)
+```
 
 ---
 
@@ -111,13 +145,39 @@ The residuals are not stationary as the ACF values are decaying very slowly.
 ---
 
 ### Part F
-vi) fit1 = arima(observations, order= c(1,0,0)) fit1 Call: arima(x = observations, order = c(1, 0, 0))
+vi) 
 
-Coefficients: ar1 intercept 0.9997 -89.3179 s.e. 0.0004 85.5509 sigma^2 estimated as 5.091: log likelihood = -1122.25, aic = 2250.5
-fit2 = arima(observations, order= c(3,0,0)) fit2 Call: arima(x = observations, order = c(3, 0, 0)) Coefficients: ar1 ar2 ar3 intercept 2.0064 -1.1350 0.1278 -89.0734 s.e. 0.0443 0.0864 0.0444 46.5760 sigma^2 estimated as 1.01: log likelihood = -718.61, aic = 1447.22
+```{r}
+fit1 = arima(observations, order= c(1,0,0)) 
+fit1 
+#Call: arima(x = observations, order = c(1, 0, 0))
+```
+
+Coefficients: ar1 intercept 0.9997 -89.3179 s.e. 0.0004 85.5509 sigma^2 estimated as 5.091: log likelihood = -1122.25, aic = 
+2250.5
+
+---
+
+fit2 = arima(observations, order= c(3,0,0)) 
+fit2 
+
+Call: arima(x = observations, order = c(3, 0, 0)) Coefficients: ar1 ar2 ar3 intercept 2.0064 -1.1350 0.1278 -89.0734 s.e. 0.0443 0.0864 0.0444 46.5760 sigma^2 estimated as 1.01: log likelihood = -718.61, aic = 1447.22
+
+---
+
 fit3 = arima(observations, order= c(1,0,1)) fit4 Call: arima(x = observations, order = c(1, 0, 1)) Coefficients: ar1 ma1 intercept 0.9996 0.7731 -89.3280 s.e. 0.0006 0.0210 83.2395 sigma^2 estimated as 2.128: log likelihood = -904.58, aic = 1817.16
-[3]
-vii) fit1$coef[1] - qnorm(0.975)*sqrt(fit1$var.coef[1,1]) ar1 0.998827 fit1$coef[1] + qnorm(0.975)*sqrt(fit1$var.coef[1,1]) ar1 1.000529
+
+---
+
+
+vii) 
+```{r}
+fit1$coef[1] - qnorm(0.975)*sqrt(fit1$var.coef[1,1]) 
+#ar1 
+#0.998827 
+fit1$coef[1] + qnorm(0.975)*sqrt(fit1$var.coef[1,1]) 
+#ar1 1.000529
+```
 The confidence interval is ( 0.998827 , 1.000529 )
 
 

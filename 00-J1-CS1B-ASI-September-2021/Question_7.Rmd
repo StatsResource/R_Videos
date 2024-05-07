@@ -37,37 +37,43 @@ pre {
 Q.7)
 You are working as an Actuarial analyst in a medium size health insurance company in India. Your manager has asked you to analyse the claim amounts paid data of the past six months.
 You have received the data set “HealthClaims.csv” from the claims department of your company with the following explanations of the data fields
-IAI CS1B-0921
-Page 5 of 5
-GEOGRAPHY: The geographical region of residence of the Insured
-PROFESSION: Profession of the Insured
-GENDER: Gender of the Insured
-AGE: Age of the Insured
-CLAIM_AMOUNT: Amount of health claim paid by the Insurer
+
+
+* GEOGRAPHY: The geographical region of residence of the Insured
+* PROFESSION: Profession of the Insured
+* GENDER: Gender of the Insured
+* AGE: Age of the Insured
+* CLAIM_AMOUNT: Amount of health claim paid by the Insurer
+
 Refer to the data set “HealthClaims.csv”.
 
 --- 
 
+#### Exercises
+
 i) Fit a linear regression model to the data with “CLAIM_AMOUNT” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
 Provide your interpretation of the model by explaining R-Squared, Adjusted R-Squared & p-value of the model. Identify the significant variables in the prediction of claim “CLAIM_AMOUNT”.
-(10)
+
 ii) Determine 95% confidence intervals for the parameters of the regression model.
-(3)
+
 iii) Plot “QQ plot of the residuals” and comment on applicability of linear regression model.
-(4)
+
 iv) Your manager has also suggested you to include the interaction effects between Geography and Profession, Profession and Gender, Gender and Geography as additional explanatory variables to the set of independent variables taken in (i) for the purpose of improvement of the model. Comment on the suitability of inclusion of interaction effects for the purpose of improvement of the model.
-(10)
+
 v) One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (i) and (iv).
-(8)
+
 
 ---
 
 Solution 7:
 i) # Fitting Linear Regression Model
 R Code:
+
+```{r}
 Data_claim = read.csv('HealthClaims.csv')
 model = lm(CLAIM_AMOUNT~.,data = Data_claim)
 summary(model) 
+```
 
 ---
 
@@ -107,6 +113,7 @@ R code:
 ```{r}
 anova(model)
 ```
+
 R Output:
 Analysis of Variance Table
 Response: CLAIM_AMOUNT
@@ -120,6 +127,8 @@ Residuals 1420 4.3506e+12 3.0638e+09
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 
 ---
+
+#### Explanation
 
 * R-Squared : 72.75% of the variation of the claim amount is explained by geographical region, 
 profession, gender and age 
@@ -135,16 +144,19 @@ at 5% level of significance.
 
 ---
 
-P-value of the coefficients: Some of the dependent variables appeared to be insignificant 
-although the overall model is significant. As Geographical region 1, Profession Agriculture and 
+* P-value of the coefficients: Some of the dependent variables appeared to be insignificant 
+although the overall model is significant. 
+
+* As Geographical region 1, Profession Agriculture and 
 Gender female are insignificant hence clubbed in the intercept itself. It is also observed that 
 Geographical region 10 has a positive coefficient and Geographical region 2 has negative 
 coefficient indicating that claim paid for Geographical region 2 is significantly lower than 
 Geographical region 10. Similarly claim paid for profession business is much higher compared 
 to profession self-employed. 
-From ANOVA table, it can be concluded that all the variables are significant in terms of claim 
+
+* From ANOVA table, it can be concluded that all the variables are significant in terms of claim 
 paid as the p values of all the parameters are less than 0.05 so they are all significantly different 
-from zero (10)
+from zero 
 
 ---
 
@@ -193,9 +205,12 @@ may not be a good fit to the data
 --- 
 
 iv) R Code:
+
+```{r}
 model2 = lm(CLAIM_AMOUNT~.+GEOGRAPHY:PROFESSION + PROFESSION:GENDER + GENDER: 
 GEOGRAPHY,data = Data_claim)
 summary(model2) 
+```
 
 ---
 

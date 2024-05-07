@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+
+
+2 The data file ‘CS2B_S23_Q2_Data.csv’ contains historical data of two time series
+over the past 1,000 months.
+(i) Extract the data into a table named ‘data’ assigning the second and third
+column to X and Y, respectively. Display the first five entries of X. [3]
+(ii) Plot X and Y in a single chart suitably naming the variables. [5]
+(iii) Plot the sample autocorrelation and sample partial autocorrelation functions,
+for both X and Y. 
+
+---
+
+(iv) Comment on the stationarity of both X and Y with reference to the plots in
+(iii) above. 
+(v) Determine the number of times X and Y have to be differenced (parameter d)
+in order to convert them into a stationary series by calculating the sample
+variance of the differenced process at d = 0, 1, 2 and 3. [14]
+An analyst infers that X and Y are cointegrated. They define:
+𝑍􀯧 􀵌 𝑌 􀵆 𝑏𝑋
+where [1, −b] is called the cointegrating vector.
+The relationship between X and Y is then described by a linear regression:
+𝑌 􀵌 𝑎 􀵅 𝑏𝑋 􀵅 𝑒 􀯧
+where 𝑒􀯧 is the residual.
+
+---
+
+(vi) Determine the values of a and b in the equation for Y above. [3]
+(vii) Comment on the analyst’s inference, without using R, if we assume 𝑒􀯧 is a
+white noise. 
+(viii) Comment on the analyst’s inference, without using R, if we assume 𝑒􀯧 is not
+a white noise. [3]
+
+
+---
+
+
+---
+
+Q2
+(i)
+
+
+```r
+data = read.csv(file="CS2B_S23_Q2_Data.csv", head=TRUE) 
+X&lt;-data[,2]
+Y&lt;-data[,3] 
+```
+
+
+```r
+head(X,5) 
+```
+
+```
+## [1] 0.0000000 0.1836433 0.5050501 1.2480126 2.7618762
+```
+ 0.0000000 0.1836433 0.5050501 1.2480126 2.7618762 
+
+---
+
+(ii)
+
+
+```r
+plot(data$Time,X, xlab = "Time", type= "l", ylab = "X /Y", col = c("blue"), main = "Comparison of X and Y time series " ) 
+lines(Y, col = c("red" )) 
+legend("topleft", col = c("blue","red"), legend = c("X", "Y"),pch =7 ) 
+```
+
+![](R2-Question-02_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+
+---
+
+This question was reasonably well answered.
+In part (iii) setting x as age minus mean(age) works as well as manually setting the range -40 to 40.
+Candidates are reminded that relevant graph titles and axis labels are required for full marks in plots like those in parts (iv) and (vi). Where the x axis is age or time this is particularly important.
+A number of candidates took a different approach to part (vii) taking the material from the Core Reading on the limitations of the Chi-squared test and suggesting additional statistical tests, and this gained full marks.
+With data to 2020 this question includes the period of the COVID-19 pandemic and as in the solution to (v) above the examiners would expect candidates to be able to relate survival modelling results to the pandemic where appropriate.
+0
+200
+400
+600
+800
+1000
+-15
+-10
+-5
+0
+5
+10
+15
+Comparison of X and Y time series
+Time
+X /Y
+X
+Y
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+(iii)
+par(mfrow=c(2,2))
+acf(X) 
+pacf(X) 
+acf(Y) 
+pacf(Y) 
+
+(iv)
+In the case of a stationary time series, SACFs ultimately must converge towards zero exponentially fast which is not the case for SACFs of both X and Y. 
+Hence X and Y are not stationary 
+(v)
+n = length(X)
+X1= rep(NA,n-1)
+X2= rep(NA,n-2)
+X3= rep(NA,n-3) [2]
+for(i in 1 :length(X1)){ X1[i] = X[i+1] - X[i]} [2]
+i= 1
+for(j in 1:length(X2)) {X2[j] = X1[j+1] - X1[j]} 
+i= 1
+for(i in 1 :length(X3)){ X3[i] = X2[i+1] - X2[i]} 
+var_sr&lt;- c(var(X),var(X1),var(X2),var(X3)) [2]
+0510152025300.00.20.40.60.81.0LagACFSeries X0510152025300.00.20.40.60.81.0LagPartial ACFSeries X0510152025300.00.20.40.60.81.0LagACFSeries Y0510152025300.00.20.40.60.81.0LagPartial ACFSeries Y
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+var_sr
+1] 54.376104 1.055890 2.072943 6.206855 
+n = length(Y)
+Y1= rep(NA,n-1)
+Y2= rep(NA,n-2)
+Y3= rep(NA,n-3) 
+for(i in 1 :length(Y1)){ Y1[i] = Y[i+1] - Y[i]} 
+i= 1
+for(j in 1:length(Y2)) {Y2[j] = Y1[j+1] - Y1[j]} 
+i= 1
+for(i in 1 :length(Y3)){ Y3[i] = Y2[i+1] - Y2[i]} 
+var_LT&lt;- c(var(Y),var(Y1),var(Y2),var(Y3)) 
+var_LT
+ 79.979362 1.155266 2.357361 6.988118 
+It is normally the case that sample variance first decreases with ‘d’ until stationarity is achieved and then starts to increase. 
+Sample variance is lowest at d = 1 under X and Y. 
+Hence the X and Y have to be differenced once. 
+&gt; var(X)
+ 54.37610384
+&gt; var(diff(X))
+ 1.055890354
+&gt; var(diff(X, differences = 2))
+ 2.072942932
+&gt; var(diff(X, differences = 3))
+ 6.20685507
+&gt; var(Y)
+ 79.97936178
+&gt; var(diff(Y))
+ 1.155266085
+&gt; var(diff(Y, differences = 2))
+ 2.357361092
+&gt; var(diff(Y, differences = 3))
+ 6.988117921
+(vi)
+M&lt;- lm(Y ~X) [1½]
+summary(M) 
+or
+summary(M)$coefficients; summary(M)$coefficients[2] 
+Call:
+lm(formula = Y ~ X)
+Residuals:
+Min 1Q Median 3Q Max
+-11.689 -4.428 -1.084 3.414 18.335
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+Coefficients:
+Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept) -0.27658 0.19059 -1.451 0.147
+X 0.90145 0.02568 35.101 &lt;2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 5.986 on 998 degrees of freedom
+Multiple R-squared: 0.5525, Adjusted R-squared: 0.552
+F-statistic: 1232 on 1 and 998 DF, p-value: &lt; 2.2e-16
+Therefore, a= -0.27658 , b = 0.90145 
+[Marks available 4, maximum 3]
+(vii)
+Y and X are I (1) time series. 
+Substituting Y into Z_t gives Z_t = a+ et 
+Zt becomes stationary as ‘et’ is the simplest case of stationarity 
+Hence Zt is co-integrated 
+with co-integration vector [1, -0.90145]
+(viii)
+Residuals process ‘et’ could still be stationary even though it is not a white noise 
+Further analysis has to be done to check whether Zt is stationary 
+‘et’ not being a white noise would mean that the regression fit is not good 
+meaning relation between Y and X may not be linear 
+requiring a revised co-integrating relation 
+resulting in changing the co-integrating vector 
+It is also possible that there is no co-integrating relation between X and Y 
+Therefore, we cannot say anything on the inference 
+[Marks available 8, maximum 3]
+[Total 35]
+This question was well answered.
+A number of candidates produced a scatter plot in part (ii) and whilst a line graph is more natural for time series data, a fully labelled scatter plot gained full marks.
+In part (v) setting up a “for-loop” in R, whilst perhaps the most efficient method, was not required here given the relatively small number of variance calculations needed and candidates that repeated their calculation five times without the loop gained full credit. Similarly, alternative methods that used the diff() function were acceptable.
+The part where answers were weakest was (viii) with many candidates assuming that because stationarity followed from the scenario in (vii) it did not in part (viii) whereas the correct answer is more nuanced.
+---
+CS2B S2023 © Institute and Faculty of Actuaries
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

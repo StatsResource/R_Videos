@@ -76,7 +76,10 @@ appropriate, justifying your answer.
 
 Q2 (i) We need to assume that the 1,000 policies are independent 
 and that the probability to claim in a six-month period is the same for all policyholders 
-(ii) model1 = glm(claimed ~ age, data = CS1policies, family = binomial) 
+(ii) 
+```{r}
+model1 = glm(claimed ~ age, data = CS1policies, family = binomial) 
+```
 #OR
 #model1 <- glm(claimed~age, family = "binomial" (link = #"logit"))
 summary(model1) 
@@ -89,8 +92,11 @@ Histogram of t4.valt4.valFrequency-10-5051015010003000Histogram of t20.vat20.val
 ### Part C
 
 (iii)
+
+```{r}
 model2 = glm(claimed ~ duration, data = CS1policies, family = binomial) 
 summary(model2 ) 
+```
 intercept = 0.390062, 
 slope (duration) = -0.027608 
 

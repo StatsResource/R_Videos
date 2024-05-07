@@ -42,15 +42,23 @@ pre {
 Solution 1:
 i) i
 .
+
+```{r}
 set.seed(052023)
 u<-runif(150)
 round(mean(u),2)
+```
 [1] 0.52
 This shows sample mean ~0.52.
-(1)
-(1)
-[2]
-ii) chi< i -qchisq(u,2) [2]
+
+---
+
+ii) 
+
+```{r}
+chi <- i -qchisq(u,2) 
+```
+
 iii) i
 i
 i
@@ -61,17 +69,15 @@ sum(chi-gam)
 (1)
 ---
 
-We know the property that if X ~ Gamma(α,ʎ) then 2ʎX has χ2 distribution with 2α degrees of 
+We know the property that if $X ~ Gamma(α,ʎ)$ then 2ʎX has χ2 distribution with 2α degrees of 
 freedom.
-We have X ~ χ2 with 2 degrees of freedom.
-Above can be written as (2ʎX/2ʎ) ~ χ2 with 2α degrees of freedom where α=1,ʎ =1/2
+* We have X ~ χ2 with 2 degrees of freedom.
+* Above can be written as (2ʎX/2ʎ) ~ χ2 with 2α degrees of freedom where α=1,ʎ =1/2
 Thus,
 X ~ Gamma(α,ʎ) with α=1,ʎ =1/2
 X ~ Gamma(1,1/2)
 This is why both samples are same.
-(1)
-(0.5)
-(0.5)
+
 
 ---
 

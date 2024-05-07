@@ -46,7 +46,7 @@ The marketing data is provided in a csv file “data.csv”.
 1.  Plot the data. Analyze the trend of how sales varies with the advertising budget of all 
 3 advertising medias and comment on the same.
 2.  Perform a simple linear regression analysis on the data. Your answer should include 
-summary of the data. (6)
+summary of the data. 
 3.   Comment on the significance of the parameters of the model and justify your 
 observations from part 1 .
 
@@ -63,17 +63,35 @@ value for maximum sales generated in question (7.   .
 ---
 
 Solution 4:
+
+
+```{r}
 marketing = read.csv("data.csv")
 data_size = dim(marketing) 
-i) plot(marketing)
-IAI CS1B-0722
-Page 6 of 7
+
+```
+
+---
+i) 
+
+```{r}
+plot(marketing)
+```
+
 The last row of the plot indicates how various advertising channel budgets impact the sales. We 
 can clearly see that youtube and facebook sales increase linearly with increase in the advertising 
 budget. The newspaper (3rd plot) sales however shows no particular trend.
-[5]
-ii) > Model <- lm(sales ~ youtube + facebook + newspaper, data = marketing)
-> summary (Model)
+
+
+---
+
+ii) 
+
+```{r}
+Model <- lm(sales ~ youtube + facebook + newspaper, data = marketing)
+summary (Model)
+```
+
 Call:
 lm(formula = sales ~ youtube + facebook + newspaper, data = marketing)
 Residuals:
@@ -91,23 +109,39 @@ Signif. codes:
 Residual standard error: 2.023 on 196 degrees of freedom
 Multiple R-squared: 0.8972, Adjusted R-squared: 0.8956 
 F-statistic: 570.3 on 3 and 196 DF, p-value: < 2.2e-16
-[6]
-iii) It can be seen that from the estimates column and from p values that, changes in the youtube 
+
+---
+
+iii) 
+
+* It can be seen that from the estimates column and from p values that, changes in the youtube 
 and facebook advertising budgets are significantly associated to changes in sales while changes in 
-the newspaper budget is not. [3]
-iv) > cor(marketing$youtube,marketing$sales)
+the newspaper budget is not.
+
+---
+
+iv) 
+
+> cor(marketing$youtube,marketing$sales)
 [1] 0.7822244
 > cor(marketing$facebook,marketing$sales)
 [1] 0.5762226
 > cor(marketing$newspaper,marketing$sales)
 [1] 0.228299
-The pairwise plot and the above correlation indicated the same conclusion on newspaper having 
+
+
+* The pairwise plot and the above correlation indicated the same conclusion on newspaper having 
 a very low / no particular trend with respect to sales. 
-[3]
-v) > Model1 <- lm(sales ~ youtube + facebook , data = marketing)
-> summary(Model1)
-IAI CS1B-0722
-Page 7 of 7
+
+---
+
+v) > 
+
+```{r}
+Model1 <- lm(sales ~ youtube + facebook , data = marketing)
+summary(Model1)
+```
+
 Call:
 lm(formula = sales ~ youtube + facebook, data = marketing)
 Residuals:
@@ -125,22 +159,36 @@ Residual standard error: 2.018 on 197 degrees of freedom
 Multiple R-squared: 0.8972, Adjusted R-squared: 0.8962 
 F-statistic: 859.6 on 2 and 197 DF, p-value: < 2.2e-16
 Sales = 3.5 + 0.045*youtube + 0.187*facebook
-[4]
+
+
+---
+
 vi) Adjusted R squared for Model in part (b) and that of part (e) is 0.89, hence there is no particular 
 improvement after removing newspaper parameter. However, a model with less parameters is 
-considered better, hence we can consider Model 1 calculated in part (f) to be a good fit. [3]
+considered better, hence we can consider Model 1 calculated in part (f) to be a good fit. 
+
+---
+
 vii) > marketing[which.max(marketing$sales),]
  youtube facebook newspaper sales
 176 332.28 58.68 50.16 32.4
-Maximum sales generated is 32.4 thousand dollars. [2]
+Maximum sales generated is 32.4 thousand dollars. 
+
+---
+
 viii)> PredTest = predict(Model1)
 > PredTest[176]
  
 29.74023
-[4]
+
+
+---
+
 ix) (Observed ILI - Estimated ILI)/Observed ILI
 > (32.4-29.74023)/32.4
 [1] 0.08209167
-[3]
-[33 Marks]
-*************************************
+
+---
+
+
+BLANK

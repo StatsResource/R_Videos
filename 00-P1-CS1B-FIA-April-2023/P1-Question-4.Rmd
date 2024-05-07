@@ -107,43 +107,46 @@ Note the answers shown here are in units of 1,000s (or 1,000,000s for variances)
 
 ### Part A
 
-> n = ncol(claims)
+n = ncol(claims)
 (i)(a)
-> m <- mean(rowMeans(claims)) 
+m <- mean(rowMeans(claims)) 
  3,383.2 
 (i)(b)
-> v <- var(rowMeans(claims)) - mean(apply(claims,1,var))/n [2½]
+v <- var(rowMeans(claims)) - mean(apply(claims,1,var))/n [2½]
  3,232,667 
 (i)(c)
-> s <- mean(apply(claims,1,var)) 
+s <- mean(apply(claims,1,var)) 
  1,887,450 
+ 
+---
+
 (ii)
-> Z <- n/(n+s/v) 
+Z <- n/(n+s/v) 
  0.8954367 or 89.54%
-> Z * rowMeans(claims)+(1-Z)*m 
+Z * rowMeans(claims)+(1-Z)*m 
  3960.578 4270.399 1202.633 5391.485 2090.906
 Estimated claims amount for company E is 2,090.91. 
 
 ---
 
 (iii)(a)
-> n <- ncol(claims)
-> N <- nrow(claims) 
-> X <- claims/volumes 
-> Xi_bar <- rowSums(claims)/rowSums(volumes) 
-> Pi <- rowSums(volumes) 
-> P <- sum(Pi) 
-> P_star <- sum(Pi*(1-Pi/P))/(N*n-1) 
-> m2 <- sum(claims)/P 
+n <- ncol(claims)
+N <- nrow(claims) 
+X <- claims/volumes 
+Xi_bar <- rowSums(claims)/rowSums(volumes) 
+Pi <- rowSums(volumes) 
+P <- sum(Pi) 
+P_star <- sum(Pi*(1-Pi/P))/(N*n-1) 
+m2 <- sum(claims)/P 
  7.319775 
 (b)
-> v2 <- (sum(rowSums(volumes*(X-m2)^2))/(N*n-1) - mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1)))/P_star 
+v2 <- (sum(rowSums(volumes*(X-m2)^2))/(N*n-1) - mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1)))/P_star 
  3.151102 
 
 ---
 
 (iii)(c)
-> 
+
 
 ```{r}
 s2 <- mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1)) 
@@ -153,10 +156,10 @@ s2 <- mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1))
 ---
 
 (iv)
-> Zi <- Pi/(Pi+s2/v2)
+Zi <- Pi/(Pi+s2/v2)
  0.6662620 0.6097364 0.3807366 0.7799425 0.3902952
 or 39.03% credibility factor for company E.
-> Zi*Xi_bar + (1-Zi)*m2 
+Zi*Xi_bar + (1-Zi)*m2 
  7.304668 9.030223 6.656035 6.088278 8.740714
 Therefore the premium (i.e. expected claims) for company E in the coming year will be: 8.740714 * 130 = 1,136.29 
 
