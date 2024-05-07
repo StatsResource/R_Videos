@@ -51,7 +51,7 @@ samples.
 population A is 0.02, while in population B it is 0.025, and save the simulated
 samples for later use.
 You must use the command set.seed(12345) to initialise the random
-number generator, before you start the simulation. [2]
+number generator, before you start the simulation. 
 
 ---
 
@@ -80,7 +80,7 @@ Simulate samples:
 set.seed(12345)
 data.A = rbinom(900,1,0.020)
 data.B = rbinom(1200,1,0.025)
-#data.A; data.B [2]
+#data.A; data.B 
 ```
 (ii)
 ```{r}
@@ -89,7 +89,7 @@ thetahat.A = sum(data.A)/n.A
 thetahat.B = sum(data.B)/n.B
 thetahat.A; thetahat.B
 # 0.02111111
-# 0.02916667 [2]
+# 0.02916667 
 
 ```
 Parts (i)-(iii) were well answered in general. A common error in part (i) was not using properly the inverse transform method as the question asked.
@@ -103,6 +103,7 @@ ci.theta.diff = (thetahat.A-thetahat.B) + c(-1,1)*qnorm(0.995)*ese.diff
 ci.theta.diff
 # -0.025631365 0.009520254 
 The 99% CI for the difference in proportions is [-0.025631365, 0.009520254] 
+---
 (iii)
 Hypotheses:
 H0: theta_A = theta_B v. H1: theta_A < theta_B 
@@ -116,17 +117,23 @@ ese.diff.H0
 stat.diff = (thetahat.A-thetahat.B)/ese.diff.H0
 stat.diff
 # -1.154163
+
+---
+
 The value of the statistic is -1.154163 
 P-value:
 pvalue.diff =[ pnorm(stat.diff)
 pvalue.diff
 # 0.1242166
-The p-value of the test is 0.1242166 [2]
+The p-value of the test is 0.1242166 
 Conclusion:
 We do not have evidence against the null hypothesis of equal proportions 
 at level 12.4% 
 so we do not reject it. 
 
+---
 
+
+---
 
 

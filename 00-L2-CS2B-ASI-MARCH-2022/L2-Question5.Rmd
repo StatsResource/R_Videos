@@ -65,8 +65,8 @@ study.
 
 ---
 
-#### Part  (A)
-For the Nelson‐Aalen model the estimated integrated hazard is calculated as:
+#### Part (A)
+For the Nelson-Aalen model the estimated integrated hazard is calculated as:
 
 ---
 

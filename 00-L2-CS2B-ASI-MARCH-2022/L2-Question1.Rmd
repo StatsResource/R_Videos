@@ -50,12 +50,16 @@ Below is the decision tree as shown:
 
 i) Write a function in R to decide whether a surgery is needed or not based on the value of 
 three parameters. Denote Surgery required as 1 and Surgery not required as 0. (3)
+
 ii) Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 
-iii) Load CS2B_Mar22_Dataset1.csv file into R and name it as decisionData. This data 
+
+iii) Load <tt>CS2B_Mar22_Dataset1.csv<tt> file into R and name it as decisionData. This data 
 contains the three parameter values for 50 patients and the actual decision taken with 
 respect to the surgery. Apply the function created in (i) to this data. Paste the output after 
 applying the function in your answer sheet. 
+
 iv) Compare the predicted and actual decisions by computing precision, recall and F1 score. 
+
 v) Comment on the results obtained in (iv). 
 
 ---
@@ -65,11 +69,11 @@ Solution 1:
 library(moments)
 # i)
 f=function(x){
- ifelse(x[1]>150 & x[2]>50,ifelse(x[3]>300,1,0),0)
+ ifelse(x[1]>150 & x>50,ifelse(x[3]>300,1,0),0)
 }
 #OR
 f=function(x){
-ifelse(x[1]>150 & x[2]>50,0,ifelse(x[3]>300,1,0))
+ifelse(x[1]>150 & x>50,0,ifelse(x[3]>300,1,0))
 }
 
 ```
@@ -79,11 +83,11 @@ ifelse(x[1]>150 & x[2]>50,0,ifelse(x[3]>300,1,0))
 ```{r}
 #OR
 f=function(x){
-ifelse(x[1]>150 & x[2]>50,ifelse(x[3]>300,0,1),0)
+ifelse(x[1]>150 & x>50,ifelse(x[3]>300,0,1),0)
 }
 #OR
 f=function(x){
-ifelse(x[1]>150 & x[2]>50,0,ifelse(x[3]>300,0,1))
+ifelse(x[1]>150 & x>50,0,ifelse(x[3]>300,0,1))
 }
 ```
 
@@ -150,17 +154,18 @@ f1
 ```
 
 ---
+
 #### Part (v)
 
-*  Lower precision value indicates the presence of larger number of False posi
-tives
-* Lower recall value indicates the presence of larger number of False negativ
-es
-* This test is not really effective at correctly identifying individuals who 
-require Surgery
-* F1 tells how precise your classifier is (how many instances it classifies c
-orrectly), as well as how robust it is (it does not miss a significant number 
+*  Lower precision value indicates the presence of larger number of False positives
+
+* Lower recall value indicates the presence of larger number of False negatives
+
+* This test is not really effective at correctly identifying individuals who require Surgery
+
+* F1 tells how precise your classifier is (how many instances it classifies correctly), as well as how robust it is (it does not miss a significant number 
 of instances)
+
 * Low F1 score indicates that the model can be modified to increase its performance
 
 ---

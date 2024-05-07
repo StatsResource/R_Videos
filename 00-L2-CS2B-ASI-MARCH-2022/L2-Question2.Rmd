@@ -37,27 +37,43 @@ pre {
 
 ---
 [15]
-Q. 2) An Actuary tried to predict the COVID-19 evolution by using Markov chain which involved 
+Q. 2) 
+
+An Actuary tried to predict the COVID-19 evolution by using Markov chain which involved 
 modelling transitions from one state to another according to a transition probability matrix. 
 These predictions are expected to help the authorities to set up adequate protocols for 
 managing the post-confinement due to COVID-19.
 There are five states in the model namely Infected, Quarantined, Hospitalised, Recovered and 
 Death which are measured at the end of each week.
 ---
-The ‘CS2B_Mar22_Dataset2.csv’ file contains the recorded weekly transitions between 
-different states. Each row contains a pair of State_From and State_To where State_From 
+
+#### Data Set 
+
+* The <tt>‘CS2B_Mar22_Dataset2.csv’</tt> file contains the recorded weekly transitions between 
+different states. 
+* Each row contains a pair of State_From and State_To where State_From 
 denotes the starting state and State_To denotes the state after a week’s transition. 
-The following notation has been used:
-I-Infected, Q-Quarantined, H-Hospitalised, R-Recovered, D-Death
-Those states which have no transition to any another state can be assumed to be absorbing.
+* The following notation has been used:
+ I-Infected, 
+ Q-Quarantined, 
+ H-Hospitalised, 
+ R-Recovered, 
+ D-Death
+* Those states which have no transition to any another state can be assumed to be absorbing.
 ---
+
 Load ‘CS2B_Mar22_Dataset2.csv’ file into R and name it as coviddata.
-i) Using transition pair data, compute the transition probabilities between each state. (6)
-ii) Find out the absorbing states in the model. (2)
-iii) Create Markov chain model named “covid19” in R with the respective state space and 
+
+#### Exercises 
+
+A. Using transition pair data, compute the transition probabilities between each state. (6)
+B. Find out the absorbing states in the model. 
+C. Create Markov chain model named “covid19” in R with the respective state space and 
 transition probability matrix. Plot this model and paste the plot into your answer sheet. 
-(Use library-markovchain) (4)
+(Use library-markovchain) 
+
 ---
+
 Parameter 1>150 and Parameter 2 >50
 Parameter 
 3>300
@@ -68,7 +84,7 @@ Required
 Surgery not
 required
 ---
- Page 3 of 4
+
 iv) Using the Markov chain, given that the individual is infected, compute the probability that:
 a) He will be in quarantine after a week 
 b) He will either be in hospital or in quarantine after two weeks 
@@ -78,9 +94,6 @@ Estimate the number of people who will be (a) Quarantined (b) Hospitalized (c) R
 and (d) Died out of the current 20,000 quarantined and 10,000 hospitalised individuals. 
 (Answer to nearest whole number, Assume 13 weeks in a quarter)
 vi) Comment on your results obtained in (v). 
-[25]
-
-Q. 3) An AR
 
 ---
 Solution 2:
@@ -142,8 +155,13 @@ library(markovchain)
 ## Version: 0.8.5-4
 ## Date: 2021-01-07
 ## BugReport: https://github.com/spedygiorgio/markovchain/issues
-covid19=new("markovchain",states=c("H","I","Q", "D","R"),
- transitionMatrix=transition_matrix)
+```
+
+
+```{r}
+covid19 <- new("markovchain",states=c("H","I","Q", "D","R"),
+    transitionMatrix=transition_matrix)
+
 covid19
 
 ```
@@ -167,7 +185,7 @@ plot(covid19)
 # (iv)
 # (a)
 ---
-Page 6 of 14
+
 ```{r}
 initialstate=c(0,1,0,0,0)
 afterweek=initialstate*(covid19)
@@ -193,6 +211,7 @@ p1
 ```
 ---
 
+```{r}
 ## [1] 0.38 (2)
 # (c)
 afterthreeweeks=initialstate*(covid19*covid19*covid19)
@@ -207,6 +226,10 @@ p2
 # Long term probability (after 13 weeks)
 # Quarantined People
 
+```
+
+---
+
 ```{r}
 initial_Q = c(0,0,1,0,0)
 after_quarter = initial_Q*(covid19^13)
@@ -219,7 +242,7 @@ Hospitalized = 20000*after_quarter[1]+10000*after_quarter1[1]
 
 ```
 ---
-Page 7 of 14
+
 ```{r}
 round(Recovered,0)
 ## [1] 26071
@@ -233,10 +256,10 @@ round(Quarantined,0)
 
 ---
 
-#### Part (6)
+#### Part F.
 
-In the long run, everyone needs to reach a steady state probabilities. 
-As there are two absorbing states, one of the two is the destination
-The other states are completely zeroes
+* In the long run, everyone needs to reach a steady state probabilities. 
+* As there are two absorbing states, one of the two is the destination
+* The other states are completely zeroes
 
 ---

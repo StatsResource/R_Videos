@@ -44,17 +44,19 @@ The hypothesis of a fair coin is tested by tossing the coin 200 times. The coin 
 declared fair if between 85 and 115 tosses (both inclusive) are heads, otherwise the
 hypothesis of fair coin is rejected.
 (i) (a) Calculate the exact probability, to two decimal places, of rejecting the
-hypothesis of fair coin when it is actually true, using the test above. [5]
+hypothesis of fair coin when it is actually true, using the test above. 
 (b) Calculate an approximate probability, to two decimal places, of
 rejecting the hypothesis of fair coin when it is actually true, using the
-test above and a normal approximation. [5]
+test above and a normal approximation.
 (c) Comment on your results to parts (i)(a) and (i)(b). 
+---
+
 (ii) Calculate the exact probability, to four decimal places, of not rejecting the
 hypothesis of the coin being fair when the actual probability of heads is equal
-to 0.7. [4]
+to 0.7. 
 (iii) Calculate the power of the test, to four decimal places, for the probability of
 heads taking values from 0.1 to 0.9 with a 0.01 step. You are not required to
-print the results. [4]
+print the results. 
 [Hint: you might find the seq() command useful.]
 (iv) Plot the power of the test against the probability of heads values in part (iii).
 
@@ -100,8 +102,13 @@ The answers in part (iv) varied, with a number of candidates giving unclear comm
 (iii)
 p = seq(0.1, 0.9, 0.01) 
 pow = round(1 - (pbinom(115, 200, p) - pbinom(84, 200, p)),4) [3]
+
+---
+
+### Part 
 (iv)
-plot(p,pow, type="l", ylab = "Power of test", xlab = "probability", main="Power of test") [2]
+
+plot(p,pow, type="l", ylab = "Power of test", xlab = "probability", main="Power of test") 
 
 ---
 

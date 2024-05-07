@@ -49,19 +49,24 @@ This dataset has 50 observations of two variables:
 *  The second variable ‘dist’ is stopping distance, in feet.
 (i) Fit a linear regression model to the data using stopping distance as the
 response variable and speed as the only explanatory variable, stating the
-estimated intercept and slope of the regression line. [2]
+estimated intercept and slope of the regression line. 
 The actuary wants to predict the stopping distances for the following ten speed values:
 6 7 16 22 28 33 40 42 57 64
+
+
+---
+
 (ii) Estimate the ten expected stopping distances, based on your fitted model from
-part (i). [5]
+part (i). 
 The actuary is concerned about the uncertainty around the mean predictions.
 (iii) Calculate ten confidence intervals, one for each of the expected stopping
-distances in part (ii), using a 90% confidence level. [4]
+distances in part (ii), using a 90% confidence level. 
 (iv) (a) State the interpretation of the 90% confidence interval for the stopping
 distances for cars with speed 64 mph, using your answer to part (iii).
 (b) Comment on the suitability of the linear regression model, based on the
 confidence intervals obtained in part (iii).
-[2]
+
+---
 
 
 Q3
@@ -80,14 +85,17 @@ Coefficients:
 ---
 
 (ii)
-> data_predict <- data.frame(speed = c(6,7,16,22,28,33,40,42,57,64)) [2]
-> predict(model,newdata=data_predict) [2]
+> data_predict <- data.frame(speed = c(6,7,16,22,28,33,40,42,57,64)) 
+> predict(model,newdata=data_predict) 
 1 2 3 4 5 6
 6.015358 9.947766 45.339445 68.933898 92.528350 112.190394
 7 8 9 10
 139.717255 147.582073 206.568204 234.095066 
+
+---
+
 (iii)
-> predict(model,newdata=data_predict, interval="confidence",level=0.90) [3]
+> predict(model,newdata=data_predict, interval="confidence",level=0.90) 
 fit lwr upr
 1 6.015358 -1.482803 13.51352
 2 9.947766 3.050136 16.84540
@@ -95,6 +103,9 @@ fit lwr upr
 4 68.933898 63.063300 74.80450
 5 92.528350 83.019704 102.03700
 6 112.190394 99.393826 124.98696
+
+---
+
 Part (i) was well answered in general. A common error was using rbinom(1, n, p), therefore not producing the detailed sample.
 In part (ii) there were mixed answers with various errors.
 Answers in part (iii) were also mixed, with common errors including not stating correctly, or at all, the hypotheses, parameter errors and not providing a clear conclusion.
@@ -104,10 +115,12 @@ Answers in part (iii) were also mixed, with common errors including not stating 
 8 147.582073 128.688793 166.47535
 9 206.568204 177.348219 235.78819
 10 234.095066 200.029446 268.16069 
+
+---
+
 (iv)(a)
 The CI is constructed such that with repeated sampling, 90% of the obtained intervals will contain the true unknown mean stopping distance of cars travelling at 64 mph. 
 (b)
-For speed 6mph the model gives a CI with negative lower endpoint. [½]
+For speed 6mph the model gives a CI with negative lower endpoint. 
 A linear model, predicting negative stopping distance values, may not be
-appropriate. [½]
-[Total 13]
+appropriate. 

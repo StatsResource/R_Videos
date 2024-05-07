@@ -104,7 +104,7 @@ Solution 3:
 i)
 log(y) = 0.5306
 poisson distribution is used to model response variable.
-[2]
+
 ii)
 > Claim.mean<-round(exp(.5306),1)
 > Claim.mean
@@ -125,7 +125,7 @@ HealthNonDiabetic =1 if Health= NonDiabetic else 0
 iv)
 For model 2, “-1” is used in Glm R formula to not take the intercepts while fitting the model.
 Thus, no intercept exits.
-[2]
+
 v)
 AIC (=59.4) of model 2 which is lower than AIC (71.1) of model 1. This indicates that model 2 is better.
 

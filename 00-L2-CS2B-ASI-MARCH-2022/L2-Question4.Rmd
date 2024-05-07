@@ -41,10 +41,10 @@ pre {
 Q. 4) A random variable Z which represents claim amount in insurance is lognormally distributed 
 with parameters μ=10 and σ2= 4.
 i) Compute
-a) Likelihood that the claim will be of 5000. (to 2 significant figures) (2)
-b) Probability that the claim pay-out will be greater than 5000 (to 2 significant figures) (2)
-c) Maximum claim pay-out in the confidence interval [0.9,0.99] (3)
-d) Median of Z (2)
+a) Likelihood that the claim will be of 5000. (to 2 significant figures) 
+b) Probability that the claim pay-out will be greater than 5000 (to 2 significant figures)
+c) Maximum claim pay-out in the confidence interval [0.9,0.99] 
+d) Median of Z 
 e) Interquartile range of Z 
 ---
 
@@ -116,11 +116,20 @@ qlnorm(0.75,mu,sqrt(var))-qlnorm(0.25,mu,sqrt(var))
 
 ---
 
+### Part 2
+
+Generate a random sample of 100 observed claim amounts using seed value equal to 50 
+from this distribution. 
 
 ```{r}
 set.seed(50)
 a=rlnorm(100,mu,sqrt(var))
 ```
+
+---
+
+
+#### Mean and Median 
 
 ```{r}
 mean(a)

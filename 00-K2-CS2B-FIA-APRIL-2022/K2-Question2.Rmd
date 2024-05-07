@@ -40,18 +40,25 @@ pre {
 
 2 Before answering this question, the data set 𝑥, representing n = 100 observations from 
 an ARMA(2,0) model, must be generated in R using the following code: 
+```{r}
 set.seed(12456) 
 x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
+```
 
 ---
 
 ### Exercises
 
 (i) Plot the sample autocorrelation function (sample ACF) and sample partial 
-autocorrelation function (sample PACF) for the data set 𝑥. [3] 
-(ii) Comment on the general features of the two plots in part (i) with emphasis on 
+autocorrelation function (sample PACF) for the data set 𝑥. 
+(ii) Comment on the general features of the two plots in Part A. with emphasis on 
 how they compare to the theoretical behaviour of the corresponding functions 
 for an ARMA(2,0) process.  
+
+---
+
+
+---
 (iii) Fit the following three models to the generated data set 𝑥, displaying their 
 Akaike Information Criterion (AIC) values in the R output in your answer 
 script: 
@@ -68,14 +75,17 @@ appropriate for modelling the data set x.
 (vi) Explain, with reasons, how the value of n in the R code for generating data set 
 x may be changed to ensure that the ARMA(2,0) model becomes the best 
 fitting model.  
-(vii) Generate a new data set, y, using your suggested change to the value of n in 
-part (vi). Set the same random number generator seed as above before 
+
+---
+
+G. Generate a new data set, y, using your suggested change to the value of n in 
+part F. Set the same random number generator seed as above before 
 generating y. 
-(viii) Fit the three models to the new data set y, displaying their AIC values in the R 
-output in your answer script. [3] 
-(ix) Explain, using the results from part (viii), why the ARMA(2,0) model is the 
+H. Fit the three models to the new data set y, displaying their AIC values in the R 
+output in your answer script. 
+I. Explain, using the results from part (viii), why the ARMA(2,0) model is the 
 most appropriate model for modelling data set y.  
-(x) Comment on the differences between the suggested models fitted for data sets 
+J. Comment on the differences between the suggested models fitted for data sets 
 x and y in parts (iv) and (ix), respectively. 
 
 
@@ -177,8 +187,12 @@ fity11 = arima(y, order = c(1,0,1)); fity11$aic
  2861.953 
 fity20 = arima(y, order = c(2,0,0)); fity20$aic 
  2861.243 
+ 
+---
+ 
 (ix)
-The preferred model here is ARMA(2,0) as the AIC value is the lowest 
+
+* The preferred model here is ARMA(2,0) as the AIC value is the lowest 
 
 ---
 (x)
@@ -208,14 +222,16 @@ Whereas the best fitting model for data set x is not the “true” model
 
 ---
 
-This is what we expected as the more observations we have the more likely it is that
+* This is what we expected as the more observations we have the more likely it is that
 the “true” model is the best fit 
-The estimated AR parameters for data set y are close to the real values of 0.7 and 0.2 
-The estimated error variance sigma^2 is closer to the real value of 1 for data set y
+* The estimated AR parameters for data set y are close to the real values of 0.7 and 0.2 
+*The estimated error variance sigma^2 is closer to the real value of 1 for data set y
 than for data set x. 
-The estimated intercept term is closer to the real value of zero for data set y than
+* The estimated intercept term is closer to the real value of zero for data set y than
 for data set x. 
-These observations on the estimated error variance and intercept term are to be
+* These observations on the estimated error variance and intercept term are to be
 expected given that the data volume is higher in data set y than in data set x 
 and given that the fitted model matches the true model for data set y but not for
 data set x 
+
+---

@@ -113,7 +113,7 @@ dance<-read.csv("dance.csv")
 head(dance)
 ```
 
-[2]
+
 ii)
 ```{r}
 plot(dance)
@@ -141,7 +141,7 @@ Estimate Std. Error t value Pr(>|t|)
 (Intercept) 10.617827 15.129865 0.702 0.492
 Judges 0.720273 0.128870 5.589 3.26e-05 ***
 Audience 0.001449 0.001294 1.120 0.278
-[2]
+
 
 ---
 
