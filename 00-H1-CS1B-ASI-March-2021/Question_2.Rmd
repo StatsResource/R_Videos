@@ -62,14 +62,14 @@ max(x)
 Plot the posterior probability density function of x using answer from Part 1. 
 
 
-```{r eval=FLASE}
+```{r eval=FALSE}
 y<-dnorm(x,mean = priormean,sd=priorsd)
 plot(x,y,type = "l")
 ```
 
 ---
 
-```{r echo=FLASE}
+```{r echo=FALSE}
 y<-dnorm(x,mean = priormean,sd=priorsd)
 plot(x,y,type = "l")
 ```
@@ -125,7 +125,7 @@ sd(z)
 ---
 
 ### Part 6
-#
+
 
 Calculate the 95% confidence interval for systolic blood pressure using the posterior 
 distribution. 

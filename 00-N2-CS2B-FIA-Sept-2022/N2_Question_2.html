@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+CS2B S2022–3
+2 Before answering this question, the survival package should be loaded into R with the
+following code:
+install.packages("survival")
+library(survival)
+The government of Country U has asked a non-profit organization to study possible
+adverse effects of a new vaccine administered to individuals, with particular reference
+to the possibility of blood clots within the first 28 days of receipt of a vaccine.
+Before answering this question, the ‘CS2B_S22_Qu_2_Data.csv’ file should be
+loaded into R and assigned to a data frame called ‘data’. This .csv file contains the
+data from an investigation for 2,400 individuals. The file contains the following six
+variables:
+Life: patient identifier (integers 1, 2, … 2,400)
+Drug: indicator (1 = received vaccine, 0 = did not receive vaccine)
+Age: indicator (0 = age less than or equal to 50, 1 = age greater than 50)
+co_morbidity: indicator (1 = individual has another chronic disease at the time of
+receipt of vaccination, 0 = no chronic disease)
+Status: indicator (0 = censoring due to the end of period, 1 = censoring due to death
+(reason unknown), 2 = admission to hospital due to blood clots within 28 days of
+receipt of vaccine, 3 = admission to hospital due to reasons other than blood clots
+within 28 days of receipt of vaccine)
+Time: duration in days at which admission to hospital/censoring occurred (integers
+with a range of 0–28; 0 = day of vaccination).
+(i) Comment on whether the censoring in this investigation is likely to be
+non-informative. [3]
+(ii) Construct a table named ‘data_main’, which is the same as ‘data’ but with a
+new column added. The newly added column should be named ‘ST’ and
+should contain the values:
+*  0 if ‘Status’ in ‘data’ is 0 or 1 or 3
+*  1 if ‘Status’ in ‘data’ is 2.
+Display the last 20 rows of ‘data_main’. [6]
+(iii) Plot the Kaplan–Meier survival functions required to analyse the effect of
+vaccination on blood clots assuming that censoring is non-informative. You
+should plot both survival functions on the same axes, using separate colours to
+identify each survival function. You should use a range from 0.97 to 1 on the
+y-axis. [9]
+(iv) Comment on your plot from part (iii). 
+
+---
+
+Analysts in the organization have decided to analyse further by using Cox’s
+proportional hazards model and by adding covariates into the investigation.
+The following decisions were made:
+*  Significance of covariates would be tested with interactions.
+*  At least two covariates would be used.
+*  Two covariates to be compulsorily used are vaccine indicator and age.
+They are now deciding to add one more covariate: co-morbidity.
+(v) Test the hypothesis, using the likelihood ratio statistic, that co-morbidity has
+no effect on blood clots allowing for vaccine indicator and age, stating the null
+and alternative hypotheses and using the Breslow method for tie handling.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

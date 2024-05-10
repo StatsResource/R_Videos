@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -86,11 +86,14 @@ This is consistent with the skewness of a Beta(3,1) distribution, which is negat
 (𝛼𝛼 &gt; 𝛽𝛽), see “Formula and Tables …”, page 13. 
 
 
+
+
 ---
 
 #### Exercises
 
 D. Perform 1,000 repetitions of the simulation in part (A). 
+
 You should compute and store the value of the mean of the sample for each 
 repetition. 
 
@@ -104,9 +107,7 @@ referring to a fundamental statistical property.
 
 ---
 
----
-
-#### Part (b)
+### Part (D)
 
 R code:
 
@@ -120,8 +121,6 @@ x = rbeta(100,3,1)
 xbar[i] = mean(x) 
 }
 ```
-
----
 
 
 
@@ -166,10 +165,6 @@ approximately normal for large sample size.
 
 ---
 
-
-
---- 
-
 #### Exercises
 
 
@@ -189,21 +184,6 @@ data.
 
 ---
 
-I. Determine an estimate of the standard error of the sample mean using 
-bootstrap with a bootstrap sample size of 10,000. 
-
-Use the command 
-&lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random number generator, before you 
-start the bootstrap sampling. 
-
-J. Determine a bootstrap 90% confidence interval for the population 
-mean of the y data using the same bootstrap sample as in part (v). 
-
-K. Comment on the two confidence intervals produced in parts (iii) and 
-(vi)(a). 
- 
-
----
 
 
 
@@ -302,6 +282,22 @@ se.boot = sd(ybar.sim); se.boot
 ## [1] 0.4318923
 ```
 
+
+
+---
+I. Determine an estimate of the standard error of the sample mean using 
+bootstrap with a bootstrap sample size of 10,000. 
+
+Use the command 
+&lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random number generator, before you 
+start the bootstrap sampling. 
+
+J. Determine a bootstrap 90% confidence interval for the population 
+mean of the y data using the same bootstrap sample as in part (v). 
+
+K. Comment on the two confidence intervals produced in parts (iii) and 
+(vi)(a). 
+
 ---
 
 Bootstrap standard error of sample mean = 0.432. 
@@ -320,7 +316,9 @@ sd(replicate(10000, mean(sample(y, replace = T))))
 ---
 
 (vi)(a)
+
 We can use the output from part (v) and the R code:
+
 
 ```r
 boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1 
@@ -332,7 +330,6 @@ boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1
 ```
 
 The 90% CI is (2.27, 3.69). 
-```
 
 ---
 
@@ -342,6 +339,10 @@ and the statistic 𝑋𝑋�−𝜇𝜇
 √𝑛𝑛 � may not follow a 𝑡𝑡9 distribution, as suggested in part (iii). 
 
 ---
+
+
+END
+
 
 ---
     </textarea>

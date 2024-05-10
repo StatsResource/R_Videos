@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+4 The table below shows the total claim amounts (£1,000s) per year, Xij, over a 5-year 
+period for five insurance companies’ critical illness book of business. 
+Year, j 
+2016 2017 2018 2019 2020 
+Insurance 
+company, i
+A 5,000 2,720 3,170 2,950 6,300 
+B 3,680 3,360 3,900 2,910 8,020 
+C 880 800 550 620 1,890 
+D 6,150 3,880 5,780 5,220 7,100 
+E 1,100 970 1,900 2,300 3,430 
+---
+
+The data can be entered into R in matrix form using the following code: 
+
+
+```r
+claims &lt;-  matrix(  
+        c(5000,3680,880,6150,1100,
+          2720,3360,800,3880,970, 
+          3170,3900,550,5780,1900,
+		      2950,2910,620,5220,2300,
+		      6300, 8020,1890,7100,3430),nrow=5,ncol=5) 
+```
+
+---
+
+## Exercises
+
+(i) Calculate, using ***Empirical Bayes Creditability Theory (EBCT)*** Model 1, the 
+following: 
+(a) E(mሺϑ)  
+(b) Var(mሺϑ)  
+(c) E(s2ሺϑ)  
+
+---
+
+Part B Calculate the expected claim amount for Company E, using your answers from 
+part (i).  
+The table below shows additional information that has been provided showing the 
+number of claims, Pij, over a 5-year period for the five insurance companies. 
+Year, j 
+2016 2017 2018 2019 2020 
+Insurance 
+company, i
+A 580 540 490 500 650 
+B 440 460 360 390 510 
+C 180 160 170 120 220 
+D 990 1,000 880 930 1,100 
+E 210 200 175 170 130 
+The data can be entered into R in matrix form using the following code: 
+
+```r
+volumes &lt;- 
+matrix(c(580,440,180,990,210,540,460,160,1000,200,490, 
+360,170,880,175,500,390,120,930,170,650,510,220, 
+1100,130),nrow=5,ncol=5) 
+```
+
+---
+
+Part C Calculate, using EBCT Model 2, the following: 
+(a) E(mሺϑ)  
+(b) Var(mሺϑ)  
+(c) E(s2ሺϑ)  
+Part D Calculate the expected claim amount for Company E, using your answers from 
+part Part C, assuming that the number of claims for Company E in the following 
+year remains at 130.  
+Part E Comment on the difference between models EBCT Model 1 and EBCT 
+Model 2 applied in earlier parts, by comparing your answers in parts Part B 
+and Part D.  
+
+---
+
+Q4
+Note the answers shown here are in units of 1,000s (or 1,000,000s for variances).
+
+### Part A
+
+```r
+n = ncol(claims)
+```
+
+(i)(a)
+
+```r
+m &lt;- mean(rowMeans(claims)) 
+```
+
+ 3,383.2 
+(i)(b)
+
+```r
+v &lt;- var(rowMeans(claims)) - mean(apply(claims,1,var))/n 
+```
+
+ 3,232,667 
+(i)(c)
+
+```r
+s &lt;- mean(apply(claims,1,var)) 
+```
+ 1,887,450 
+ 
+---
+
+Part B
+Z &lt;- n/(n+s/v) 
+ 0.8954367 or 89.54%
+Z * rowMeans(claims)+(1-Z)*m 
+ 3960.578 4270.399 1202.633 5391.485 2090.906
+Estimated claims amount for company E is 2,090.91. 
+
+---
+
+Part C(a)
+
+```r
+n &lt;- ncol(claims)
+N &lt;- nrow(claims) 
+X &lt;- claims/volumes 
+Xi_bar &lt;- rowSums(claims)/rowSums(volumes) 
+Pi &lt;- rowSums(volumes) 
+P &lt;- sum(Pi) 
+```
+
+
+```r
+P_star &lt;- sum(Pi*(1-Pi/P))/(N*n-1) 
+m2 &lt;- sum(claims)/P 
+```
+
+---
+
+# 7.319775 
+(b)
+
+```r
+v2 &lt;- (sum(rowSums(volumes*(X-m2)^2))/(N*n-1) - mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1)))/P_star 
+```
+
+ 3.151102 
+
+---
+
+Part C(c)
+
+
+
+```r
+s2 &lt;- mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1)) 
+```
+ 4356.445 
+
+---
+
+Part D
+
+```r
+Zi &lt;- Pi/(Pi+s2/v2)
+```
+
+ 0.6662620 0.6097364 0.3807366 0.7799425 0.3902952
+or 39.03% credibility factor for company E.
+
+
+```r
+Zi*Xi_bar + (1-Zi)*m2 
+```
+
+```
+## [1] 7.304668 9.030223 6.656035 6.088278 8.740714
+```
+ 7.304668 9.030223 6.656035 6.088278 8.740714
+
+* Therefore the premium (i.e. expected claims) for company E in the coming year will be: 8.740714 * 130 = 1,136.29 
+
+---
+Part E
+The expected claim amount for company E is lower using EBCT model 2. 
+EBCT model 2 allows for the number of claims (volumes), 
+which has been declining 
+
+---
+
+---
+
+Part (i): Very well answered overall. In (b) and (c) a small number of candidates gave confused answers between v and s.
+Part Part B: Very well answered overall. A number of candidates did not mention explicitly the figure for company E.
+Part Part C: Very well answered overall. As in part (i), a small number of candidates showed confused answers between v and s.
+Part Part D: Well answered generally, with some small calculation errors. As in part Part B, some candidates did not mention explicitly the figure for company E.
+Part Part E: This part was not well answered. A number of candidates did not attempt it, but most candidates received partial credit for providing some valid comments.
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

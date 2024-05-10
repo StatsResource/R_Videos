@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+
+2 Before answering this question, the data set 𝑥, representing n = 100 observations from 
+an ARMA(2,0) model, must be generated in R using the following code: 
+
+```r
+set.seed(12456) 
+x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
+```
+
+---
+
+### Exercises
+
+(i) Plot the sample autocorrelation function (sample ACF) and sample partial 
+autocorrelation function (sample PACF) for the data set 𝑥. 
+(ii) Comment on the general features of the two plots in Part A. with emphasis on 
+how they compare to the theoretical behaviour of the corresponding functions 
+for an ARMA(2,0) process.  
+
+---
+
+
+---
+Part C Fit the following three models to the generated data set 𝑥, displaying their 
+Akaike Information Criterion (AIC) values in the R output in your answer 
+script: 
+ARMA(1,0) 
+ARMA(1,1) 
+ARMA(2,0) 
+  
+---
+
+#### Exercises
+Part D Explain, using the results from part Part C, which of the fitted models is the most 
+appropriate for modelling the data set x.  
+Part E Comment on your answer to part Part D. 
+Part F Explain, with reasons, how the value of n in the R code for generating data set 
+x may be changed to ensure that the ARMA(2,0) model becomes the best 
+fitting model.  
+
+---
+
+G. Generate a new data set, y, using your suggested change to the value of n in 
+part F. Set the same random number generator seed as above before 
+generating y. 
+H. Fit the three models to the new data set y, displaying their AIC values in the R 
+output in your answer script. 
+I. Explain, using the results from part (viii), why the ARMA(2,0) model is the 
+most appropriate model for modelling data set y.  
+J. Comment on the differences between the suggested models fitted for data sets 
+x and y in parts Part D and (ix), respectively. 
+
+
+
+---
+Q2
+
+
+```r
+set.seed(12456)
+x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
+```
+(i)
+
+
+```r
+acf(x, 
+main = "Sample ACF of 100 Simulated Values from an ARMA(2,0) 
+model") 
+```
+
+![](K2-Question2_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+
+```r
+pacf(x,  main ="Sample PACF of 100 Simulated Values from anARMA(2,0) model") 
+```
+
+![](K2-Question2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+
+
+(ii)
+EITHER:
+The ACF is decreasing (exponentially) to zero 
+which is in line with the theoretical behaviour of an ARMA(2,0) process 
+OR:
+The ACF decreases to zero more slowly than might be expected from an ARMA(2,0)
+process 
+THEN:
+* But the PACF seems to cut off after lag 1. 
+* We might expect the PACF of an ARMA(2,0) process to cut off after lag 2 
+However, given the small sample size and the fact that this process is close to being non-stationary, the two plots are not out-of-line with expectations. 
+
+---
+Part C
+
+
+```r
+fitx10 = arima(x, order = c(1,0,0)) 
+fitx10$aic 
+```
+
+```
+## [1] 305
+```
+
+```r
+ 305.4467 
+```
+
+```
+## [1] 305
+```
+
+
+```r
+fitx11 = arima(x, order = c(1,0,1)); fitx11$aic 
+```
+
+```
+## [1] 307
+```
+
+```r
+ 307.4325
+```
+
+```
+## [1] 307
+```
+
+
+
+```r
+fitx20 = arima(x, order = c(2,0,0)); fitx20$aic 
+```
+
+```
+## [1] 307
+```
+
+```r
+ 307.4309
+```
+
+```
+## [1] 307
+```
+
+---
+ 
+#### Part (d)
+The preferred model here is ARMA(1,0) 
+as the AIC value is the lowest 
+---
+Part E
+
+We might have expected the ARMA(2,0) model to be the best fit as that is the “true”
+model that x was generated from 
+However, the number of observations of x is quite small 
+and so sampling uncertainty has produced a better fitting / forecasting model that is
+not ARMA(2,0) 
+
+---
+Part F
+We could increase the value of n in the R code (to say 1,000) 
+which would reduce the sampling uncertainty of the observations 
+
+---
+
+(vii)
+
+```r
+set.seed(12456) 
+y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2))) 
+```
+
+---
+
+(viii)
+fity10 = arima(y, order = c(1,0,0)); fity10$aic 
+ 2904.756 
+fity11 = arima(y, order = c(1,0,1)); fity11$aic 
+ 2861.953 
+fity20 = arima(y, order = c(2,0,0)); fity20$aic 
+ 2861.243 
+ 
+---
+ 
+(ix)
+
+* The preferred model here is ARMA(2,0) as the AIC value is the lowest 
+
+---
+(x)
+fitx10
+Call:
+arima(x = x, order = c(1, 0, 0))
+Coefficients:
+ ar1 intercept
+ 0.9530 -1.0632
+s.e. 0.0279 1.9238
+sigma^2 estimated as 1.142: log likelihood = -149.72, 
+aic = 305.45 
+fity20
+Call:
+arima(x = y, order = c(2, 0, 0))
+Coefficients:
+ ar1 ar2 intercept
+ 0.7116 0.2112 0.2409
+s.e. 0.0309 0.0309 0.4064
+sigma^2 estimated as 1.014: log likelihood = -1426.62,
+aic = 2861.24 
+
+---
+
+For data set y, the best fitting model is the “true” model 
+Whereas the best fitting model for data set x is not the “true” model 
+
+---
+
+* This is what we expected as the more observations we have the more likely it is that
+the “true” model is the best fit 
+* The estimated AR parameters for data set y are close to the real values of 0.7 and 0.2 
+*The estimated error variance sigma^2 is closer to the real value of 1 for data set y
+than for data set x. 
+* The estimated intercept term is closer to the real value of zero for data set y than
+for data set x. 
+* These observations on the estimated error variance and intercept term are to be
+expected given that the data volume is higher in data set y than in data set x 
+and given that the fitted model matches the true model for data set y but not for
+data set x 
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

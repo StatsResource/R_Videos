@@ -10,10 +10,6 @@ output:
 ---
 
 
-Solution 3:
-IAI CS2B-0921
-Page 5 of 13
-
 
 ```{r}
 library(markovchain)
@@ -73,9 +69,9 @@ plot(markov2)
 
 
 
-#### PArt 4
-```{r}
+### Part D
 
+```{r}
 summary(markov2)
 
 ```
@@ -87,29 +83,18 @@ summary(markov2)
 ```{r}
 
 steadyStates(markov2)
-## Pass Shoot Dribble
-## [1,] 0.5047619 0.1809524 0.3142857
-#(v)
-#(a)
 
 ```
 
 ---
 
-#### Part 5
+#### Part E
 
 ```{r}
 
 
 markov2^2
-## Unnamed Markov chain^2 
-## A 3 - dimensional discrete Markov Chain defined by the following states: 
-## Pass, Shoot, Dribble 
-## The transition matrix (by rows) is defined as follows: 
-## Pass Shoot Dribble
-## Pass 0.48 0.19 0.33
-## Shoot 0.53 0.14 0.33
-## Dribble 0.53 0.19 0.28
+
 
 ```
 
@@ -120,17 +105,10 @@ After 2 plays the probability is 0.48
 After 5 plays the probability is 0.50475
 
 ```{r}
-#(b)
+
 markov2^5
-## Unnamed Markov chain^5 
-## A 3 - dimensional discrete Markov Chain defined by the following states: 
-## Pass, Shoot, Dribble 
-## The transition matrix (by rows) is defined as follows: 
-## Pass Shoot Dribble
-## Pass 0.50475 0.18075 0.31450
-## Shoot 0.50525 0.18100 0.31375
-## Dribble 0.50450 0.18125 0.31425
 ```
+
 
 ---
 
@@ -138,27 +116,25 @@ markov2^5
 
 ```{r}
 
-
-#(vi)
 set.seed(100)
 seq<-markovchainSequence(100,markov2)
 #Frequency of the terms
 table(seq)
-## seq
-## Dribble Pass Shoot 
-## 37 51 12 [4M]
+
 ```
 ---
 
-#### Part (g)
+#### Part G.
 
 ```{r}
 #(vii)
 library(lattice)
-## Warning: package 'lattice' was built under R version 4.0.5
+
 barchart(prop.table(table(seq)))
-# OR
+
 ```
+
+#### Part G.
 
 ---
 

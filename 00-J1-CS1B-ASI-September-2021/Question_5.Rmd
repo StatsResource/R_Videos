@@ -37,8 +37,7 @@ pre {
 
 Q. 5)
 (Students can copy the R code as provided file ‘Reference_RCode’)
-IAI CS1B-0921
-Page 3 of 5
+
 Claim payment data (Year 1 to Year 4) in INR Crores
 Year 1
 Year 2
@@ -69,9 +68,9 @@ Insurer D
 
 #### Exercises
 
-i) Analyse the data using EBCT Model 1 and calculate the expected total claim payment to be made by each insurer (A, B, C and D) in the Year 5 by replacing question marks‘?’ with appropriate function in the R Code shared in file “Reference_RCode”.
+Part A Analyse the data using EBCT Model 1 and calculate the expected total claim payment to be made by each insurer (A, B, C and D) in the Year 5 by replacing question marks‘?’ with appropriate function in the R Code shared in file “Reference_RCode”.
 
-ii) You are now required to calculate the expected total claim payment to be made by each insurer (A, B, C, D and E) in year 5, when additional data of insurer E is made available to you (By using EBCT Model 1).
+B.  You are now required to calculate the expected total claim payment to be made by each insurer (A, B, C, D and E) in year 5, when additional data of insurer E is made available to you (By using EBCT Model 1).
 Additional claim payment data for Insurer E in INR Crores
 Year 1
 Year 2
@@ -84,11 +83,11 @@ Insurer E
 112
 a) Provide the new R code so that ‘data’ includes insurer E and calculate the expected claim payment to be paid by each insurer in year 5.
 
-b) Comment on the values of Z and ‘s/v’ ratio in part (ii) compared to part (i).
+b) Comment on the values of Z and ‘s/v’ ratio in part B  compared to Part A.
 
-c) Comment on the change in expected claim payment for insurers A, B C and D in year 5 in part (ii) compared to part (i).
+c) Comment on the change in expected claim payment for insurers A, B C and D in year 5 in part B compared to Part A.
 
-iii) Your manager is not happy with results based on EBCT 1 model. He has now provided you additional information about volume measure for these 5 insurers over Year 1 to Year 5.
+C. Your manager is not happy with results based on EBCT 1 model. He has now provided you additional information about volume measure for these 5 insurers over Year 1 to Year 5.
 Volume measure (Year 1 to Year 5)
 Year 1
 Year 2
@@ -130,10 +129,10 @@ Insurer E
 
 Analyse the data using EBCT Model 2 to calculate the expected total claim payment to be made by each insurer (A, B, C, D and E) in Year 5.
 
-a) Complete the reference R Code (by replacing question marks‘?’ with appropriate function for data and zi, where data is as used in part (ii) to arrive at the ‘claims5i’ which represents the estimated claim payment for each insurer in Year 5.
+a) Complete the reference R Code (by replacing question marks‘?’ with appropriate function for data and zi, where data is as used in part (B.  to arrive at the ‘claims5i’ which represents the estimated claim payment for each insurer in Year 5.
 
-b) Comment on change in expected claim payment for insurer A, B, C, D and E in year 5 in part (iii) compared to part (ii).
-(3)
+b) Comment on change in expected claim payment for insurer A, B, C, D and E in year 5 in part (C. compared to part (B. .
+
 
 
 ---
@@ -155,7 +154,7 @@ n <- ncol(data)
 m <- mean(rowMeans(data))
 s <- mean(apply(data,1,var))
 v <- var(rowMeans(data))-mean(apply(data,1,var))/n
-Z <- n/(n+s/v)
+Z <- n/(n+s/Part E
 
 ```
 
@@ -200,7 +199,7 @@ Z
 
 ### Part (B)
 
-ii) a) R Code
+B.  a) R Code
 ```{r}
 data=matrix(c(112,38,89,70,73,130,50,127,75,87,178,80,210,77,113,150,68,150,80,112),5,4)
 
@@ -210,7 +209,7 @@ n <- ncol(data)
 m <- mean(rowMeans(data))
 s <- mean(apply(data,1,var))
 v <- var(rowMeans(data))-mean(apply(data,1,var))/n
-Z <- n/(n+s/v)
+Z <- n/(n+s/Part E
 
 Z*rowMeans(data)+(1-Z)*m
 ```
@@ -220,10 +219,10 @@ Z*rowMeans(data)+(1-Z)*m
 
 
 Expected total claim payment from
-*  insurer A is INR 137.12 Crores (reduced compared to part i)
-*  insurer B is INR 65.13 Crores (increased compared to part i)
-*  insurer C is USD 138.41 Million (reduced compared to part i)
-*  insurer D is USD 79.35 Million (increased compared to part i)
+*  insurer A is INR 137.12 Crores (reduced compared to part Part A
+*  insurer B is INR 65.13 Crores (increased compared to part Part A
+*  insurer C is USD 138.41 Million (reduced compared to part Part A
+*  insurer D is USD 79.35 Million (increased compared to part Part A
 *  insurer E is USD 97.24 Million (newly added insurer)
 
 required for other parts
@@ -247,12 +246,12 @@ Z
 Provide the new R code so that ‘data’ includes insurer E and calculate the expected 
 claim payment to be paid by each insurer in year 5. 
 
-b) Comment on the values of Z and ‘s/v’ ratio in part (ii) compared to part (i). 
+b) Comment on the values of Z and ‘s/v’ ratio in part (B.  compared to Part A. 
 
 c) Comment on the change in expected claim payment for insurers A, B C and D in 
-year 5 in part (ii) compared to part (i). 
+year 5 in part (B.  compared to Part A. 
 
-iii) Your manager is not happy with results based on EBCT 1 model. 
+C. Your manager is not happy with results based on EBCT 1 model. 
 He has now provided you additional information about volume measure for these 5 insurers over Year 1 to Year 5.
 
 ---
@@ -265,7 +264,7 @@ increasing Z.
 * var[m(theta)] has reduced significantly (i.e. ‘v’ in the R code used above) - this has an effect 
 of reducing Z.
 *  Overall the ratio - ‘s’ / ‘v’ is 0.54 in part i; ‘s’ / ‘v’ increases to 0.64 in part ii – as value of 
-denominator (in the calculation of Z = n/ (n + (s/v))) has increased in part ii compared to part 
+denominator (in the calculation of Z = n/ (n + (s/Part E)) has increased in part ii compared to part 
 i – hence, credibility factor Z has reduced in part ii compared to part i. 
 
 
@@ -291,7 +290,7 @@ insurers towards 103.45.
 ---
 
 #### Exercise 3
-iii) a) Use data as used in part ii
+C. a) Use data as used in part ii
 
 
 ```{r}
@@ -307,16 +306,16 @@ X <- data/volume #claim payment per unit of volume measure
 ```{r}
 Xibar <- rowSums(data)/rowSums(volume)
 Pi <- rowSums(volume) #volume measure for each insurer
-P <- sum(Pi)
+P <- sum(PPart A
 Pstar <- sum(Pi*(1-Pi/P))/(N*n-1)
 m <- sum(data)/P #average claim payment per unit volume measure across all insurers
 s <- mean(rowSums(volume*(X-Xibar)^2)/(n-1))
 v <- (sum(rowSums(volume*(X-m)^2))/(n*N-1)-s)/Pstar
-zi <- Pi/(Pi+s/v) #credibility factor for each insurer
+zi <- Pi/(Pi+s/Part E #credibility factor for each insurer
 ```
 
 ```{r}
-credibilityi <- zi*Xibar+(1-zi)*m #expected claim payment per unit of volume measure
+credibilityi <- zi*Xibar+(1-zPart A*m #expected claim payment per unit of volume measure
 volume5i <- matrix(c(210,91,192,144,181),5,1) #’volume5i’ is Year 5 volume measure 
 #okay to have 1,5 instead of 5,1 in volume5i (row , column interchange)
 claims5i <- credibilityi*volume5i #claims5i is the expected claim payment in year 5 

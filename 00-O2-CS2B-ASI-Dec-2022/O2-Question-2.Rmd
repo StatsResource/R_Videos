@@ -31,26 +31,26 @@ ovarian <- read_csv("ovarian.csv")
 ---
 
 ```{r}
-ovarian %>% filter(rx==1) %>% arrange(futime)
+ovarian %% filter(rx==1) %% arrange(futime)
 ```
 
 ---
 
 ```{r}
-ovarian %>% filter(rx==2) %>% arrange(futime)
+ovarian %% filter(rx==2) %% arrange(futime)
 ```
 
 ---
 
 ### Exercises
 
-1. Compute the Cox regression using the column <tt>rx</tt> as the covariate. 
+1. Compute the Cox regression using the column <ttrx</tt as the covariate. 
 2. Summarise the results of the regression. 
-3. Comment on the hazard ratio and statistical significance of the <tt>rx</tt> 
-4. Compute the Kaplan-Meier estimators for the two groups of <tt>rx</tt> and save the results 
+3. Comment on the hazard ratio and statistical significance of the <ttrx</tt 
+4. Compute the Kaplan-Meier estimators for the two groups of <ttrx</tt and save the results 
 to an object called ‘KM’. 
 5. Summarise the Kaplan-Meier estimator results. 
-6. Plot the ‘KM’ results and set the colour for group 1 of <tt>rx</tt> to ‘red’ and group 2 to 
+6. Plot the ‘KM’ results and set the colour for group 1 of <ttrx</tt to ‘red’ and group 2 to 
 ‘green’. Add a plot label and x and y axes labels to your plot. 
 7. Comment on the KM analysis using the summary and plot results. 
 
@@ -127,7 +127,7 @@ plot(KM,col=c("red","green"),
 
 ### Part 7
 
-* <tt>rx 2</tt> seems to perform better than <tt>rx 1</tt> initially upto time 353 post which 
+* <ttrx 2</tt seems to perform better than <ttrx 1</tt initially upto time 353 post which 
 there is a decline in the Survival Probability. 
 
 * There is a steep decline in the numbers at risk between times 365 and 464 for rx at 2' 

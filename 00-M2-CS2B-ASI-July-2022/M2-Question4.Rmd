@@ -49,14 +49,14 @@ You need to do a proper labelling of the axes.
 ---
 
 Solution 4
-# (i)
+# (Part A
 # Estimated Integrated Hazard:
 # Estimated variance of the estimator of the integrated hazard is calculated 
 as:
  [3]
  
 ---
-# (ii)
+# (iPart A
 
 ```{r}
 file <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\data_1.csv")

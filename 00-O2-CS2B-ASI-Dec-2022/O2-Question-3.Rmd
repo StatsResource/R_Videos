@@ -40,22 +40,22 @@ pre {
 
 Q. 3) Set the simulation seed to 1234 prior to carrying out the analysis.
 
-i) Create a vector of values from 1 to 1000 and store in a variable ‘x’. Create another 
+Part A Create a vector of values from 1 to 1000 and store in a variable ‘x’. Create another 
 vector ‘y’ by using the rule: y = sin(x/40)+ε, where ε is a normal random variable with 
 a mean of 0 and a standard deviation of 0.1. 
 
-ii) Plot the x and y as a line and add grey colour to the line. Add gridlines to the plot. 
+Part BPlot the x and y as a line and add grey colour to the line. Add gridlines to the plot. 
 
-iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
+Part CCreate a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
 current value). Plot the lag as a red line added to the existing plot. 
 
-iv) Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
+Part D Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
 value and 20 future values. Plot the lag as a blue line added to the existing plot. 
 
 ---
 
 Solution.3
-i)
+Part A
 ```{r}
 #Generate time series
 set.seed(1234)
@@ -67,7 +67,7 @@ y <- sin(x/40) + rnorm(1000,sd=.1)
 ```
 ---
 
-ii)
+iPart A
 ```{r}
 # Plot the unsmoothed data (gray)
 plot(x, y, type="l", col=grey(.5))
@@ -79,7 +79,7 @@ grid()
 
 ### Part C
 
-iii) Create a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
+Part CCreate a vector to capture the ‘y’ values with a lag of the past 40 values (including the 
 current value). Plot the lag as a red line added to the existing plot. 
 
 
@@ -124,13 +124,13 @@ lines(x, y_lag, col="red")
 
 
 w (3)
-iv)
+Part D
 
 
 
 ---
 
-iv) Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
+Part D Create a vector to capture the ‘y’ values with a lag of the past 20 values, the current 
 value and 20 future values. Plot the lag as a blue line added to the existing plot. 
 
 ```{r}

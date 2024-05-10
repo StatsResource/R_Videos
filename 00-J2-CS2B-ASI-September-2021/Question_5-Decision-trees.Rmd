@@ -97,7 +97,7 @@ test_Data <- DTData[(round(0.7*332,0)+1):332,]
 ```
 ---
 
-#### Part 2
+### Part 2
 
 # (ii)
 ```{r}
@@ -113,7 +113,7 @@ model
 
 ---
 
-#### Part 3
+### Part 3
   
 ```{r}  
 par(mfrow = c(1,1))
@@ -126,7 +126,7 @@ text(model)
 ```
 ---
 
-#### Part 4
+### Part 4
 
 ```{r}
 #(iv)
@@ -137,7 +137,7 @@ pred<-predict(model,test_Data,type = "class")
 ---
 
 
-#### Part 5
+### Part 5
 
 ```{r}
 
@@ -151,7 +151,7 @@ summary(pred)
 
 ---
 
-#### Part 6
+### Part 6
 
 ```{r}
 # (vi)
@@ -176,7 +176,7 @@ type2_Error
 ```
 ---
 
-#### Part 7
+### Part 7
 
 * Accuracy is 75%. The null accuracy is 70% if all the observations would have been classified to "No" class.
 

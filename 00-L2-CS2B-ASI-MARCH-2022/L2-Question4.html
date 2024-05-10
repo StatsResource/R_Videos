@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## Statistical Modelling with R for Actuarial Students
+]
 
 ---
 
@@ -37,14 +41,16 @@ pre {
 
 ---
 
-[20]
 Q. 4) A random variable Z which represents claim amount in insurance is lognormally distributed 
 with parameters μ=10 and σ2= 4.
+
+#### Exercises
+
 i) Compute
-a) Likelihood that the claim will be of 5000. (to 2 significant figures) (2)
-b) Probability that the claim pay-out will be greater than 5000 (to 2 significant figures) (2)
-c) Maximum claim pay-out in the confidence interval [0.9,0.99] (3)
-d) Median of Z (2)
+a) Likelihood that the claim will be of 5000. (to 2 significant figures) 
+b) Probability that the claim pay-out will be greater than 5000 (to 2 significant figures)
+c) Maximum claim pay-out in the confidence interval [0.9,0.99] 
+d) Median of Z 
 e) Interquartile range of Z 
 ---
 
@@ -59,7 +65,7 @@ the plot into your answer sheet.
 
 
 ---
-[20 Marks]
+
 Solution 4:
 # i)
 # a)
@@ -80,10 +86,11 @@ dlnorm(5000,mu,sqrt(var))
 ## [1] 0.0000303
 ```
 
-```r
-## [1] 3.030741e-05
-# The likelihood that the claim will be of 5000 is 0.000030
+The likelihood that the claim will be of 5000 is 0.000030
 
+
+
+```r
 # b)
 1-plnorm(5000,mu,sqrt(var))
 ```
@@ -94,9 +101,9 @@ dlnorm(5000,mu,sqrt(var))
 
 ```r
 ## [1] 0.7707756
-# probability that the claim payout will be greater than 5000 is 0.77
 ```
 
+* The probability that the claim payout will be greater than 5000 is 0.77
 ---
 
 
@@ -109,8 +116,9 @@ qlnorm(0.9,mu,sqrt(var))
 ## [1] 285816
 ```
 
+
+
 ```r
-## [1] 285815.9
 qlnorm(0.99,mu,sqrt(var))
 ```
 
@@ -122,30 +130,58 @@ qlnorm(0.99,mu,sqrt(var))
 ## [1] 2309856
 ```
 
-maximum claim payout in the confidence interval [0.9,0.99] is [285815.9, 23
-09856]
+* The maximum claim payout in the confidence interval [0.9,0.99] is `\([285815.9, 2309856]\)`
 
 ---
 
-# d) 
+### Part D 
+
+
+```r
 qlnorm(0.5,mu,sqrt(var))
-## [1] 22026.47
-#Median of Z is 22026.47
- (2)
+```
+
+```
+## [1] 22026
+```
+
+* The Median of `\(Z\)` is 22026.47
+
+
+
+```r
 # e)
 qlnorm(0.75,mu,sqrt(var))-qlnorm(0.25,mu,sqrt(var))
+```
+
+```
+## [1] 79163
+```
+
+```r
 ## [1] 79162.81
-# Interquartile range for Z is 79162.81
+```
+
+
+* The Interquartile range for `\(Z\)` is 79162.81
 
 ---
 
-# ii)
-a)
+### Part 2
+
+Generate a random sample of 100 observed claim amounts using seed value equal to 50 
+from this distribution. 
+
 
 ```r
 set.seed(50)
 a=rlnorm(100,mu,sqrt(var))
 ```
+
+---
+
+
+#### Mean and Median 
 
 
 ```r
@@ -169,6 +205,8 @@ median(a)
 ## [1] 22785.05
 ```
 ---
+
+* Standard Deviation and Skewness
 
 
 ```r
@@ -203,9 +241,18 @@ sk(a)
 
 ---
 
+
+
+```r
 # (b)
 hist(a, freq = FALSE,xlim = c(0,100000),ylim = c(0,0.00001))
+```
+
+![](L2-Question4_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+```r
 #hist(a,freq = FALSE)
+```
 
 ---
     </textarea>
@@ -254,6 +301,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

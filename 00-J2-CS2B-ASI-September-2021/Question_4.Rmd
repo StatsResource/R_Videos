@@ -138,15 +138,18 @@ pacf(a,plot = FALSE)
 
 ### PArt 4
 
-'The ACF indicates that there is correlation between an observation and
-the past observations. There is a correlation beyond 2.5 years but it keeps g
-etting weaker'
+'The ACF indicates that there is correlation between an observation and the past observations. 
 
- "The ACF indicates that there is correlation between an observation and the past observations. There is a correlation beyond 2.5 years but it keep
-s getting weaker" 
+There is a correlation beyond 2.5 years but it keeps getting weaker'
+
+ "The ACF indicates that there is correlation between an observation and the past observations. 
+ 
+There is a correlation beyond 2.5 years but it keeps getting weaker" 
 
 
 ---
+
+### Part E
 
 ```{r}
 
@@ -157,10 +160,10 @@ head(s,12)
 ---
 
 
-#### PArt 6
+### Part F
 
 ```{r}
-# (vi)
+
 f<-decompose(a)
 plot(f)
 
@@ -168,7 +171,8 @@ plot(f)
 
 ---
 
- (vii)
+### Part G
+
 'The cyclical trend with more variations at the longer time lags, 
 there is seasonality in the dataset'
  "The cyclical trend with more variations at the longer time lags, \nth

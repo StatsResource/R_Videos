@@ -37,9 +37,11 @@ pre {
 
 ---
 
-[20]
 Q. 4) A random variable Z which represents claim amount in insurance is lognormally distributed 
 with parameters μ=10 and σ2= 4.
+
+#### Exercises
+
 i) Compute
 a) Likelihood that the claim will be of 5000. (to 2 significant figures) 
 b) Probability that the claim pay-out will be greater than 5000 (to 2 significant figures)
@@ -72,7 +74,7 @@ var = 4
 
 ```{r}
 dlnorm(5000,mu,sqrt(var))
-## [1] 3.030741e-05
+
 ```
 
 The likelihood that the claim will be of 5000 is 0.000030
@@ -82,37 +84,46 @@ The likelihood that the claim will be of 5000 is 0.000030
 # b)
 1-plnorm(5000,mu,sqrt(var))
 ## [1] 0.7707756
-# probability that the claim payout will be greater than 5000 is 0.77
+
 ```
 
+* The probability that the claim payout will be greater than 5000 is 0.77
 ---
 
 ```{r}
 # c)
 qlnorm(0.9,mu,sqrt(var))
-## [1] 285815.9
+```
+
+
+```{r}
 qlnorm(0.99,mu,sqrt(var))
 ## [1] 2309856
 
 ```
 
-maximum claim payout in the confidence interval [0.9,0.99] is [285815.9, 23
-09856]
+* The maximum claim payout in the confidence interval [0.9,0.99] is $[285815.9, 2309856]$
 
 ---
 
-# d) 
+### Part D 
+
+```{r}
 qlnorm(0.5,mu,sqrt(var))
-## [1] 22026.47
-#Median of Z is 22026.47
+```
+
+* The Median of $Z$ is 22026.47
 
 
 ```{r}
 # e)
 qlnorm(0.75,mu,sqrt(var))-qlnorm(0.25,mu,sqrt(var))
 ## [1] 79162.81
-# Interquartile range for Z is 79162.81
+
 ```
+
+
+* The Interquartile range for $Z$ is 79162.81
 
 ---
 

@@ -59,7 +59,7 @@ for an ARMA(2,0) process.
 
 
 ---
-(iii) Fit the following three models to the generated data set 𝑥, displaying their 
+Part C Fit the following three models to the generated data set 𝑥, displaying their 
 Akaike Information Criterion (AIC) values in the R output in your answer 
 script: 
 ARMA(1,0) 
@@ -69,10 +69,10 @@ ARMA(2,0)
 ---
 
 #### Exercises
-(iv) Explain, using the results from part (iii), which of the fitted models is the most 
+Part D Explain, using the results from part Part C, which of the fitted models is the most 
 appropriate for modelling the data set x.  
-(v) Comment on your answer to part (iv). 
-(vi) Explain, with reasons, how the value of n in the R code for generating data set 
+Part E Comment on your answer to part Part D. 
+Part F Explain, with reasons, how the value of n in the R code for generating data set 
 x may be changed to ensure that the ARMA(2,0) model becomes the best 
 fitting model.  
 
@@ -86,7 +86,7 @@ output in your answer script.
 I. Explain, using the results from part (viii), why the ARMA(2,0) model is the 
 most appropriate model for modelling data set y.  
 J. Comment on the differences between the suggested models fitted for data sets 
-x and y in parts (iv) and (ix), respectively. 
+x and y in parts Part D and (ix), respectively. 
 
 
 
@@ -106,12 +106,10 @@ main = "Sample ACF of 100 Simulated Values from an ARMA(2,0)
 model") 
 ```
 
----dfrt
+---
 
 ```{r}
-pacf(x, 
-main ="Sample PACF of 100 Simulated Values from an
-ARMA(2,0) model”) 
+pacf(x,  main ="Sample PACF of 100 Simulated Values from anARMA(2,0) model") 
 ```
 
 ---
@@ -131,7 +129,7 @@ THEN:
 However, given the small sample size and the fact that this process is close to being non-stationary, the two plots are not out-of-line with expectations. 
 
 ---
-(iii)
+Part C
 
 ```{r}
 fitx10 = arima(x, order = c(1,0,0)) 
@@ -157,7 +155,7 @@ fitx20 = arima(x, order = c(2,0,0)); fitx20$aic
 The preferred model here is ARMA(1,0) 
 as the AIC value is the lowest 
 ---
-(v)
+Part E
 
 We might have expected the ARMA(2,0) model to be the best fit as that is the “true”
 model that x was generated from 
@@ -166,7 +164,7 @@ and so sampling uncertainty has produced a better fitting / forecasting model th
 not ARMA(2,0) 
 
 ---
-(vi)
+Part F
 We could increase the value of n in the R code (to say 1,000) 
 which would reduce the sampling uncertainty of the observations 
 

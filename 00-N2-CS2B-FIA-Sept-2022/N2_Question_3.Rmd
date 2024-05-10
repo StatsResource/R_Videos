@@ -66,7 +66,10 @@ vector of response data and the design matrix, and then returns the value of
 $\beta$$\lambda$ = 􁈺Xt X + $\lambda$*I􁈻–1 Xt y.
 [Hint: The R function solve can be used to compute the inverse of a matrix.
 That is, for a given invertible matrix, M, its inverse, M–1, can be computed in
-R by running the following code: solve(M).] [6]
+R by running the following code: solve(M).] 
+
+---
+
 (iv) Calculate and display the value of the vector $\beta$2 (i.e. the value of vector $\beta$$\lambda$ for
 $\lambda$ = 2). 
 (v) Construct R code to compute the values of the vectors $\beta$$\lambda$ and store them into
@@ -75,15 +78,18 @@ i = 0, 1, 2, ..., 10,000.
 
 --- 
 
-(vi) Display the top six rows of matrix_LAMBDA. 
+(vi) Display the top six rows of <tt>matrix_LAMBDA</tt>. 
 You would like to select the best value of $\lambda$. A senior statistician suggests that you
 should base your selection on a statistical information criterion. However, most
 statistical information criteria depend on the so-called effective dimension of the
 model. For this task, it can be shown that the effective dimension is the sum of the
 diagonal elements of the following matrix: X(XtX + $\lambda$*I)–1Xt.
-(vii) Construct an R function called dim_fit that takes as inputs the design
+
+---
+
+(vii) Construct an R function called <tt>dim_fit</tt> that takes as inputs the design
 matrix and the value of $\lambda$, and then returns the corresponding effective
-dimension. [6]
+dimension. 
 (viii) Construct R code to compute the values of the effective dimensions and store
 them in a vector called vector_dim, for $\lambda$ = i/10, where
 i = 0, 1, 2, ..., 10,000. 

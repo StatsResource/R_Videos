@@ -72,17 +72,17 @@ mean and standard deviation of the simulated values.
 ### Exercises
 
 <ol start="5">
-  <li> Plot a histogram of ‘<b><i>WeibullSim</i></b>’ and ‘<b><i>LognormalSim</i></b>’ showing the frequencies and paste 
+  <li> Plot a histogram of ‘<tt>WeibullSim</tt>’ and ‘<tt>LognormalSim</tt>’ showing the frequencies and paste 
 the plot into your answer.</li>
 <p>
-  <li>Plot the probability density function for ‘<b><i>WeibullSim</i></b>’ and ‘<b><i>LognormalSim</i></b>’ as a line plot.</li>
+  <li>Plot the probability density function for ‘<tt>WeibullSim</tt>’ and ‘<tt>LognormalSim</tt>’ as a line plot.</li>
 </ol>
 
 
  
 
 
-  * Set the <b><i>WeibullSim</i></b> line to color ‘red’ and the <b><i>LognormalSim</i></b> line to color ‘green’.
+  * Set the <tt>WeibullSim</tt> line to color ‘red’ and the <tt>LognormalSim</tt> line to color ‘green’.
   * Set the y-axis limits from 0 to 0.00001.
 
 Hint: Use the density function in R to estimate densities of your simulated values. 

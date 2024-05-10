@@ -51,22 +51,22 @@ Refer to the data set “HealthClaims.csv”.
 
 #### Exercises
 
-i) Fit a linear regression model to the data with “CLAIM_AMOUNT” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
+Part A Fit a linear regression model to the data with “CLAIM_AMOUNT” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
 Provide your interpretation of the model by explaining R-Squared, Adjusted R-Squared & p-value of the model. Identify the significant variables in the prediction of claim “CLAIM_AMOUNT”.
 
-ii) Determine 95% confidence intervals for the parameters of the regression model.
+B.  Determine 95% confidence intervals for the parameters of the regression model.
 
-iii) Plot “QQ plot of the residuals” and comment on applicability of linear regression model.
+C. Plot “QQ plot of the residuals” and comment on applicability of linear regression model.
 
-iv) Your manager has also suggested you to include the interaction effects between Geography and Profession, Profession and Gender, Gender and Geography as additional explanatory variables to the set of independent variables taken in (i) for the purpose of improvement of the model. Comment on the suitability of inclusion of interaction effects for the purpose of improvement of the model.
+D. Your manager has also suggested you to include the interaction effects between Geography and Profession, Profession and Gender, Gender and Geography as additional explanatory variables to the set of independent variables taken in (Part A for the purpose of improvement of the model. Comment on the suitability of inclusion of interaction effects for the purpose of improvement of the model.
 
-v) One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (i) and (iv).
+E. One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (Part A and (D..
 
 
 ---
 
 Solution 7:
-i) # Fitting Linear Regression Model
+Part A # Fitting Linear Regression Model
 R Code:
 
 ```{r}
@@ -160,9 +160,9 @@ from zero
 
 ---
 
-### Part (B)
+### Part B
 
-ii) R Code:
+#### R Code:
 
 ```{r}
 confint(model,level=0.95) 
@@ -189,7 +189,9 @@ AGE 2439.328 3215.450 (3)
 
 ---
 
-iii) R code:
+### Part C. 
+
+R code:
 
 ```{r}
 qqnorm(model$residuals) 
@@ -204,7 +206,9 @@ may not be a good fit to the data
  
 --- 
 
-iv) R Code:
+### Part D. 
+
+#### R Code:
 
 ```{r}
 model2 = lm(CLAIM_AMOUNT~.+GEOGRAPHY:PROFESSION + PROFESSION:GENDER + GENDER: 
@@ -291,20 +295,10 @@ F-statistic: 153.9 on 55 and 1380 DF, p-value: < 2.2e-16
 
 ---
 
+```{r}
 anova(model3) 
-Analysis of Variance Table
-Response: CLAIM_AMOUNT
- Df Sum Sq Mean Sq F value Pr(>F) 
-GEOGRAPHY 10 2.2059e+12 2.2059e+11 136.0055 < 2.2e-16 ***
-PROFESSION 3 8.6687e+12 2.8896e+12 1781.5995 < 2.2e-16 ***
-GENDER 1 1.1570e+11 1.1570e+11 71.3357 < 2.2e-16 ***
-AGE 1 6.2585e+11 6.2585e+11 385.8770 < 2.2e-16 ***
-GEOGRAPHY:PROFESSION 27 1.9432e+12 7.1969e+10 44.3731 < 2.2e-16 ***
-PROFESSION:GENDER 3 1.2973e+11 4.3244e+10 26.6624 < 2.2e-16 ***
-GEOGRAPHY:GENDER 10 3.9538e+10 3.9538e+09 2.4378 0.007001 ** 
-Residuals 1380 2.2382e+12 1.6219e+09 
----
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+```
+
 
 ---
 
@@ -317,38 +311,15 @@ significant as demonstrated by ANOVA table
 
 ---
 
-v) R code:
+Part E 
+
+R code:
+
+```{r}
 model3 = lm(log(CLAIM_AMOUNT)~.,data = Data_claim)
 summary(model3) 
-Output:
-Call:
-lm(formula = log(CLAIM_AMOUNT) ~ ., data = Data_claim)
-Residuals:
- Min 1Q Median 3Q Max 
--0.86313 -0.18493 -0.00393 0.17478 1.02901 
-Coefficients:
- Estimate Std. Error t value Pr(>|t|) 
-(Intercept) 8.4529628 0.0580014 145.737 < 2e-16 ***
-GEOGRAPHYREGION 02 -0.1408025 0.0442069 -3.185 0.00148 ** 
-GEOGRAPHYREGION 03 -0.0774399 0.0510375 -1.517 0.12941 
-GEOGRAPHYREGION 04 -0.0889472 0.0472161 -1.884 0.05979 . 
-GEOGRAPHYREGION 05 -0.0829154 0.0473553 -1.751 0.08018 . 
-GEOGRAPHYREGION 06 0.0231982 0.0505290 0.459 0.64623 
-GEOGRAPHYREGION 07 -0.0654231 0.0560714 -1.167 0.24349 
-GEOGRAPHYREGION 08 -0.3693971 0.0421191 -8.770 < 2e-16 ***
-GEOGRAPHYREGION 09 -0.0568913 0.0554943 -1.025 0.30546 
-GEOGRAPHYREGION 10 0.0540411 0.0590215 0.916 0.36002 
-GEOGRAPHYREGION 11 -0.0345033 0.0571059 -0.604 0.54581 
-PROFESSIONBusiness 0.8217253 0.0320661 25.626 < 2e-16 ***
-PROFESSIONSelfemployed 0.1956622 0.0195963 9.985 < 2e-16 ***
-PROFESSIONService 0.8736364 0.0338891 25.779 < 2e-16 ***
-GENDERM -0.0889058 0.0144749 -6.142 1.06e-09 ***
-AGE 0.0536827 0.0009467 56.703 < 2e-16 ***
+```
 
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-Residual standard error: 0.2649 on 1420 degrees of freedom
-Multiple R-squared: 0.9227, Adjusted R-squared: 0.9219 
-F-statistic: 1130 on 15 and 1420 DF, p-value: < 2.2e-16
 
 --
 R code:
@@ -370,4 +341,4 @@ Key differences:
  R-Squared and Adjusted R-Squared increased to above 90% and hence model is a better 
 fit compared to the earlier models 
  The significance level of few factor coefficients changed when compared with the model 
-in (i) however ANOVA table shows there is no change in number of significant variables 
+in (Part A however ANOVA table shows there is no change in number of significant variables 

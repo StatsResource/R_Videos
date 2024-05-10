@@ -78,11 +78,14 @@ This is consistent with the skewness of a Beta(3,1) distribution, which is negat
 (𝛼𝛼 > 𝛽𝛽), see “Formula and Tables …”, page 13. 
 
 
+
+
 ---
 
 #### Exercises
 
 D. Perform 1,000 repetitions of the simulation in part (A). 
+
 You should compute and store the value of the mean of the sample for each 
 repetition. 
 
@@ -96,9 +99,7 @@ referring to a fundamental statistical property.
 
 ---
 
----
-
-#### Part (b)
+### Part (D)
 
 R code:
 
@@ -111,8 +112,6 @@ x = rbeta(100,3,1)
 xbar[i] = mean(x) 
 }
 ```
-
----
 
 
 
@@ -153,10 +152,6 @@ approximately normal for large sample size.
 
 
 ---
-
-
-
---- 
 
 #### Exercises
 
@@ -274,14 +269,15 @@ sd(replicate(10000, mean(sample(y, replace = T))))
 ---
 
 (vi)(a)
+
 We can use the output from part (v) and the R code:
+
 ```{r}
 boot.ci.1 = quantile(ybar.sim, c(0.05,0.95)); boot.ci.1 
 
 ```
 
 The 90% CI is (2.27, 3.69). 
-```
 
 ---
 
@@ -291,5 +287,9 @@ and the statistic 𝑋𝑋�−𝜇𝜇
 √𝑛𝑛 � may not follow a 𝑡𝑡9 distribution, as suggested in part (iii). 
 
 ---
+
+
+END
+
 
 ---

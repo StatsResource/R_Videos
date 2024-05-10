@@ -50,6 +50,21 @@ surgical operation (two levels; 0: no; 1: yes).
 1–4 for comorbidities A–D).
 *  Age: the median age of patients in a particular group.
 
+
+---
+
+```{r}
+rm(list=ls())
+load("medical_data.Rdata")
+ls()
+```
+
+
+```{r}
+class(Age)
+```
+
+
 ---
 
 (i) Plot the admission rates against Age, while also distinguishing between
@@ -79,7 +94,7 @@ admission rates, based on the output of the model fitted in part (iv).
 effect, in addition to the other three variables included in part (iv). You should
 use the logarithmic link function in the model. 
 (vii) Comment on the impact of all four variables on the admission rates, based on
-the output of the model fitted in part (vi). [4]
+the output of the model fitted in part (vi). 
 (viii) Determine which of the two models fitted in parts (iv) and (vi), should be
 preferred for investigating the dependence of admission rates on the available
 variables. 

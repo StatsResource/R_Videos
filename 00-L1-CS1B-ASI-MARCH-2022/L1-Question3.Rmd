@@ -38,12 +38,12 @@ pre {
 
 ---
 
-[35]
-Q. 3) A General Insurance company is trying to analyse the two-wheeler motor insurance claims 
-reported over last one quarter.
+A General Insurance company is trying to analyse the two-wheeler motor insurance claims reported over last one quarter.
+
 The data is provided herewith the file MotorClaim.csv which contains the following fields
-POLICY: Policy Number
-CLAIM : Amount of claim reported for a policy
+
+* POLICY: Policy Number
+* CLAIM : Amount of claim reported for a policy
 
 
 ---
@@ -79,6 +79,7 @@ data.
 E. Assuming Gamma distribution to be the right fit to the data, simulate 20,000 values of 
 claim amounts using the Gamma distribution based on the parameter estimates 
 obtained in part (i) and print first 10 values of claim amounts. (Set seed to 2022)
+
 F. Generate 700 different random samples of size 400 from the simulated data obtained 
 in part (v) and compute sample mean for each of the samples. (Set seed to 2022)
 G. Plot the histogram of sample means generated from part (vi) and comment on the 
@@ -208,14 +209,24 @@ c("blue","green","red","yellow"))
 ### Part C 
  
 iii)
+
+```{r}
 # Quantiles 
 # Actual Claim Data
 quantile(Motorclaim$CLAIM,c(0.05,0.25,0.5,0.75,0.95)) 
+
+```
+
  5% 25% 50% 75% 95% 
 1324.561 1934.876 3631.070 7870.028 21246.913 
  
+
+```{r}
 # Normal Distribution
 qnorm(c(0.05,0.25,0.5,0.75,0.95),mean = Normal_mu,sd = Normal_sigma) 
+
+```
+
 [1] -5134.494 1644.976 6357.314 11069.653 17849.123 
 ---
 

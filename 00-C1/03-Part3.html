@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,24 +11,28 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## R for Actuarial Students
+]
 
 ---
 
 
 
 
-*   Use the command \texttt{set.seed(2019)} to initialise the random number generator.
+*   Use the command &lt;tt&gt;set.seed(2019)&lt;tt&gt; to initialise the random number generator.
 
-*   When you execute any R code, make sure you run the entire R script including the line \texttt{set.seed(2019)} .
+*   When you execute any R code, make sure you run the entire R script including the line &lt;tt&gt;set.seed(2019)&lt;tt&gt; .
 
 ```r
 sample(1:6,10,replace=TRUE)
 ```
 
 ```
-##  [1] 1 6 6 3 2 6 4 3 6 6
+##  [1] 4 3 2 2 3 4 4 3 5 1
 ```
 
 ```r
@@ -40,15 +44,12 @@ sample(1:6,10,replace=TRUE)
 ##  [1] 1 5 2 5 5 1 5 4 3 2
 ```
 
-`\begin{center}
-\includegraphics[scale=0.5]{00-C1/images/00-C1-Q3-Setseed.png}* 
-\end{center}`
 
 
 ---
 
-Exercise 1
-===============================
+### Exercise 1
+
 
 Consider a random sample `\(X_1 , \ldots , X_n\)` from an Exponential distribution with parameter `\(\lambda\)` and define 
 $$ Y = \sum^{n}_{i=1} X_i $$
@@ -58,7 +59,7 @@ State the distribution of `\(Y\)`, giving all the parameters of the distribution
 
 ---
 
-Theory
+### Theory
 
 *   The sum of `\(n\)` exponential ($\lambda$) random variables is a gamma ($n, \lambda$) random variable.
 *   The rate parameter is usually denoted as `\(\beta\)` for the Gamma Distribution, i.e. gamma ($n, \beta$) 
@@ -113,14 +114,10 @@ var(X)
 ## [1] 85.43497
 ```
 
----
-
-\includegraphics[scale=0.5]{00-C1/images/00-C1-Q3-2.png}
 
 ---
 
-Exercise 2
-=========================
+### Exercise 2
 
 Perform simulation of a sample `\(x_1 , ..., x_n\)` with sample size n = 15 from an
 exponential distribution with parameter `\(\lambda = 2\)`.
@@ -171,8 +168,7 @@ sum(X)
 
 
 
-Exercise 3
-===================================
+### Exercise 3
 
 Calculate the value of Y for the sample in part 2.
 
@@ -184,8 +180,8 @@ Y = sum(X)
 
 ---
 
-Exercise 4
-=======================
+### Exercise 4
+
 Perform 1,000 repetitions of parts 2 and 3 to obtain a Bootstrap sample
 `\(y_1 , ..., y_B\)` from the random variable Y with B = 1,000.
 
@@ -375,6 +371,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

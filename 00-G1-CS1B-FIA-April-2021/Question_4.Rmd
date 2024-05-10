@@ -1,0 +1,219 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+A statistician wants to model the number of passengers boarding a bus from a bus stop close to a student residential area. They can think of three explanatory variables: 
+
+* Route which route it is (at 8 am or 9 am),
+* Semester - if it is during the semester or not, and the 
+* Temperature temperature (temp) in degrees Celsius. 
+
+---
+
+* The statistician has data for 20 days, given in 
+the file named CS1passenger.RData, and believes that the response variable 
+(Passengers) follows a Poisson distribution. After loading the data into R, the data 
+frame data_passenger with all variables (Passengers, route, 
+semester, temp) will be available. 
+
+
+---
+
+```{r}
+PassengerData <- read.csv("PassengerData.csv")
+head(PassengerData)
+```
+
+
+---
+
+###  Exercise 1
+
+State the linear predictor corresponding to models specified with the following R code, explaining all relevant terms: 
+
+a. temp+semester 
+b. temp*semester 
+c. temp*semester + route 
+
+
+---
+
+### Part 2
+
+Fit a Poisson Generalised Linear Model (GLM) to the data set for the 
+model. Label this model as Model1. Your answer should 
+include a summary of the fitted model. Comment on the significance of the parameters of the model. 
+
+---
+(i)
+load("CS1passenger.RData")
+Linear predictor for modelling:
+(a) 𝛼𝛼𝑖𝑖+𝛽𝛽×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
+(b) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, 𝛽𝛽𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
+(c) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, 𝛽𝛽𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
+Alternative answer:
+(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2 , where 𝑥𝑥1 is temperature and 𝑥𝑥2=0 (nonSemester), 𝑥𝑥2=1 (Semester)
+(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2 , where 𝑥𝑥1and 𝑥𝑥2 as above
+(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2+𝑏𝑏3𝑥𝑥3 , where 𝑥𝑥3=0 (8am), 𝑥𝑥3=1 (9am)]
+
+---
+
+(ii)(a)
+Model1<- glm(Passengers~temp*semester + route, family=poisson(link="log"))
+summary(Model1) 
+Call:
+glm(formula = Passengers ~ temp * semester + route, family = poisson(link = "log"))
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.8128 -0.6263 -0.1566 0.5162 1.3991
+Coefficients:
+Estimate Std. Error z value Pr(|z|)
+(Intercept) 0.40210 0.31155 1.291 0.1968
+temp -0.07878 0.03576 -2.203 0.0276 *
+semestersemester 0.53514 0.46691 1.146 0.2517 
+route9am 0.17370 0.44520 0.390 0.6964
+temp:semestersemester 0.10779 0.05741 1.878 0.0604 .
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+A number of candidates did not attempt this question, or only attempted part (i).
+For candidates that attempted it, the overall performance was mixed. In part (iii) many candidates plotted the graphs using the simulated values from part (i)(b) or using inappropriate plots, which led to difficulty later in the question.
+
+Null deviance: 30.406 on 19 degrees of freedom
+Residual deviance: 13.833 on 15 degrees of freedom
+AIC: 62.187
+(b)
+Temperature (temp) is significant 
+Semester is not significant 
+Route is not significant 
+The interaction between temperature (temp) and semester is not significant at 5% significance level 
+but it is close to being significant 
+
+---
+
+### Part 3
+
+ Fit an improved model for the model in part (ii)(a), using your answer 
+in part (ii)(b). Label this model as Model2. 
+(b) Justify why Model2 improves Model1 by referring to the R output. 
+You are given a new model (Model3), specified by the following R code: 
+
+---
+
+
+```{r}
+Model3 <- glm(Passengers~temp+temp:semester,data=PassengerData,family=poisson(link="log"))
+```
+
+(iii)(a)
+Model2<- update(Model1,~.-route) 
+Or,
+Model2 <- glm(Passengers~temp*semester,family="poisson" (link = "log"))
+summary(Model2)
+Call:
+glm(formula = Passengers ~ temp + semester + temp:semester, family = poisson(link = "log"))
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.84542 -0.66323 -0.06209 0.43732 1.34790
+Coefficients:
+Estimate Std. Error z value Pr(|z|)
+(Intercept) 0.44284 0.29121 1.521 0.1283
+temp -0.07452 0.03387 -2.200 0.0278 *
+semestersemester 0.54602 0.46390 1.177 0.2392
+temp:semestersemester 0.10012 0.05316 1.883 0.0597 .
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+Null deviance: 30.406 on 19 degrees of freedom
+Residual deviance: 13.982 on 16 degrees of freedom
+AIC: 60.336
+
+(b)
+The AIC has fallen from 62.187 to 60.336 - so new model has improved the initial model 
+
+
+---
+
+### Part 4
+
+Demonstrate that Model3 outperforms the models defined in 
+parts (i)(a) and (i)(b). 
+(b) Comment on your answer in part (iv)(a). 
+
+---
+
+
+(iv)(a)
+Model3<- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
+Modela<- glm(Passengers~temp+ semester,family=poisson(link="log")) 
+Modelb<- glm(Passengers~temp*semester,family=poisson(link="log")) 
+Model3$aic
+59.65976 
+Modela$aic
+62.03591 
+
+Modelb$aic
+60.33588 
+Model3 has the lowest AIC compared with the other models. We conclude that Model3 outperforms the other models considered here 
+(b)
+Model3 doesn’t include both of the main effects. Despite this, the model still suits the data well 
+
+
+---
+### Part 5
+Draw a suitable plot, for the residuals of Model3, for checking the 
+model’s validity. Comment on the plot. 
+
+
+---
+
+### Part 6
+Calculate the predicted number of passengers for an 8 am route during the 
+semester at a temperature of 0 degree Celsius, using Model3. [4] 
+
+---
+
+(v)(a)
+ plot(Model3,1) 
+
+(b)
+The residuals plot shows no patterns - exhibiting a fairly random scatter around zero with constant variance and no outliers 
+The plot suggests that the model is appropriate 
+(vi)
+predict(Model3, data.frame(temp=0,semester="semester",route="8am"),type = "response") [3]
+Predicted number is: 1.866568 
+[Total 35]
+
+---

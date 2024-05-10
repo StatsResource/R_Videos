@@ -52,21 +52,29 @@ E 1,100 970 1,900 2,300 3,430
 ---
 
 The data can be entered into R in matrix form using the following code: 
-claims <- 
-matrix(c(5000,3680,880,6150,1100,2720,3360,800,3880,970, 
-3170,3900,550,5780,1900,2950,2910,620,5220,2300,6300, 
-8020,1890,7100,3430),nrow=5,ncol=5) 
 
-
-(i) Calculate, using Empirical Bayes Creditability Theory (EBCT) Model 1, the 
-following: 
-(a) Eሾmሺϑሻሿ  
-(b) Varሾmሺϑሻሿ  
-(c) Eሾs2ሺϑሻሿ  
+```{r}
+claims <-  matrix(  
+        c(5000,3680,880,6150,1100,
+          2720,3360,800,3880,970, 
+          3170,3900,550,5780,1900,
+		      2950,2910,620,5220,2300,
+		      6300, 8020,1890,7100,3430),nrow=5,ncol=5) 
+```
 
 ---
 
-(ii) Calculate the expected claim amount for Company E, using your answers from 
+## Exercises
+
+(i) Calculate, using ***Empirical Bayes Creditability Theory (EBCT)*** Model 1, the 
+following: 
+(a) E(mሺϑ)  
+(b) Var(mሺϑ)  
+(c) E(s2ሺϑ)  
+
+---
+
+Part B Calculate the expected claim amount for Company E, using your answers from 
 part (i).  
 The table below shows additional information that has been provided showing the 
 number of claims, Pij, over a 5-year period for the five insurance companies. 
@@ -89,16 +97,16 @@ matrix(c(580,440,180,990,210,540,460,160,1000,200,490,
 
 ---
 
-(iii) Calculate, using EBCT Model 2, the following: 
-(a) Eሾmሺϑሻሿ  
-(b) Varሾmሺϑሻሿ  
-(c) Eሾs2ሺϑሻሿ  
-(iv) Calculate the expected claim amount for Company E, using your answers from 
-part (iii), assuming that the number of claims for Company E in the following 
+Part C Calculate, using EBCT Model 2, the following: 
+(a) E(mሺϑ)  
+(b) Var(mሺϑ)  
+(c) E(s2ሺϑ)  
+Part D Calculate the expected claim amount for Company E, using your answers from 
+part Part C, assuming that the number of claims for Company E in the following 
 year remains at 130.  
-(v) Comment on the difference between models EBCT Model 1 and EBCT 
-Model 2 applied in earlier parts, by comparing your answers in parts (ii) 
-and (iv).  
+Part E Comment on the difference between models EBCT Model 1 and EBCT 
+Model 2 applied in earlier parts, by comparing your answers in parts Part B 
+and Part D.  
 
 ---
 
@@ -106,21 +114,31 @@ Q4
 Note the answers shown here are in units of 1,000s (or 1,000,000s for variances).
 
 ### Part A
-
+```{r}
 n = ncol(claims)
+```
+
 (i)(a)
+```{r}
 m <- mean(rowMeans(claims)) 
+```
+
  3,383.2 
 (i)(b)
-v <- var(rowMeans(claims)) - mean(apply(claims,1,var))/n [2½]
+```{r}
+v <- var(rowMeans(claims)) - mean(apply(claims,1,var))/n 
+```
+
  3,232,667 
 (i)(c)
+```{r}
 s <- mean(apply(claims,1,var)) 
+```
  1,887,450 
  
 ---
 
-(ii)
+Part B
 Z <- n/(n+s/v) 
  0.8954367 or 89.54%
 Z * rowMeans(claims)+(1-Z)*m 
@@ -129,23 +147,35 @@ Estimated claims amount for company E is 2,090.91.
 
 ---
 
-(iii)(a)
+Part C(a)
+```{r}
 n <- ncol(claims)
 N <- nrow(claims) 
 X <- claims/volumes 
 Xi_bar <- rowSums(claims)/rowSums(volumes) 
 Pi <- rowSums(volumes) 
 P <- sum(Pi) 
+```
+
+```{r}
 P_star <- sum(Pi*(1-Pi/P))/(N*n-1) 
 m2 <- sum(claims)/P 
- 7.319775 
+```
+
+---
+
+# 7.319775 
 (b)
+```{r}
 v2 <- (sum(rowSums(volumes*(X-m2)^2))/(N*n-1) - mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1)))/P_star 
+
+```
+
  3.151102 
 
 ---
 
-(iii)(c)
+Part C(c)
 
 
 ```{r}
@@ -155,16 +185,23 @@ s2 <- mean(rowSums(volumes*(X-Xi_bar)^2)/(n-1))
 
 ---
 
-(iv)
+Part D
+```{r}
 Zi <- Pi/(Pi+s2/v2)
+```
+
  0.6662620 0.6097364 0.3807366 0.7799425 0.3902952
 or 39.03% credibility factor for company E.
+
+```{r}
 Zi*Xi_bar + (1-Zi)*m2 
+```
  7.304668 9.030223 6.656035 6.088278 8.740714
-Therefore the premium (i.e. expected claims) for company E in the coming year will be: 8.740714 * 130 = 1,136.29 
+
+* Therefore the premium (i.e. expected claims) for company E in the coming year will be: 8.740714 * 130 = 1,136.29 
 
 ---
-(v)
+Part E
 The expected claim amount for company E is lower using EBCT model 2. 
 EBCT model 2 allows for the number of claims (volumes), 
 which has been declining 
@@ -174,9 +211,9 @@ which has been declining
 ---
 
 Part (i): Very well answered overall. In (b) and (c) a small number of candidates gave confused answers between v and s.
-Part (ii): Very well answered overall. A number of candidates did not mention explicitly the figure for company E.
-Part (iii): Very well answered overall. As in part (i), a small number of candidates showed confused answers between v and s.
-Part (iv): Well answered generally, with some small calculation errors. As in part (ii), some candidates did not mention explicitly the figure for company E.
-Part (v): This part was not well answered. A number of candidates did not attempt it, but most candidates received partial credit for providing some valid comments.
+Part Part B: Very well answered overall. A number of candidates did not mention explicitly the figure for company E.
+Part Part C: Very well answered overall. As in part (i), a small number of candidates showed confused answers between v and s.
+Part Part D: Well answered generally, with some small calculation errors. As in part Part B, some candidates did not mention explicitly the figure for company E.
+Part Part E: This part was not well answered. A number of candidates did not attempt it, but most candidates received partial credit for providing some valid comments.
 
 ---

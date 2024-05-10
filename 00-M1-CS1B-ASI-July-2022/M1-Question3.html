@@ -98,23 +98,13 @@ var.test(Iran, Belgium)
 ##           0.258022
 ```
 
----
 
-F test to compare two variances
-data: Iran and Belgium
-F = 0.25802, num df = 9, denom df = 17, p-value = 0.04385
-alternative hypothesis: true ratio of variances is not equal to 1
-95 percent confidence interval:
-0.0864436 0.9602591
-sample estimates:
-ratio of variances 
- 0.258022
 Since p-value &lt; 0.05 we fail the variance test thus we reject the null hypothesis that both have equal 
 variance
 
 ---
 
-ii)
+### Part B
 
 
 ```r
@@ -135,17 +125,6 @@ t.test(Iran, Belgium, var.equal = FALSE)
 ##  126.4000  156.7222
 ```
 
-OUTPUT
-data: Iran and Belgium
-t = -4.9984, df = 25.904, p-value = 3.407e-05
-alternative hypothesis: true difference in means is not equal to 0
-
-95 percent confidence interval:
--42.79403 -17.85041
-sample estimates:
-mean of x mean of y 
-126.4000 156.7222
----
 
 #### Conclusion
 
@@ -156,8 +135,9 @@ of rainfall with 95% confidence.
 
 ### Exercise C
 
-iii) Confidence interval can be read from part b
-95 percent confidence interval:
+* Confidence interval can be read from part B
+
+* 95 percent confidence interval:
 -42.79403 -17.85041
 
 ---
@@ -166,7 +146,9 @@ iii) Confidence interval can be read from part b
 
 * The confidence interval (-42.8,-17.8) does not contain 0. 
 * Therefore the assumption of equal means is 
-not true. This result is in line with the conclusion in part (b). 
+not true. 
+
+* This result is in line with the conclusion in part (b). 
 
 ---
     </textarea>

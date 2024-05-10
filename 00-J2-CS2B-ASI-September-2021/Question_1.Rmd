@@ -71,13 +71,12 @@ logistic(X)
 ---
 
 #### Exercise 2
-<pre><code>
+```{r eval=FALSE}
 plot(logistic,
   xlim = c(-10,10), 
   main = "Logistic Function", 
   ylab = "y=1/(1+exp(-x))")
-</code></pre>
-
+```
 ---
 
 ```{r echo=FALSE}

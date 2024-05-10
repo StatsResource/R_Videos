@@ -49,14 +49,14 @@ any given 10 minute time interval. (5)
 ---
 
 Solution 3
-# (i) 
+### Part A 
 dpois(2,7.5)
 ## [1] 0.0155555
  [2]
  
 ---
 
-# (ii)
+# Part B
 
 * Assume Independent Events
 * **A**:  7 customers between 11:00 AM and 11:20 AM
@@ -68,12 +68,15 @@ dpois(7,10)*dpois(15,20)
  
 ---
  
-# (iii)
+# Part C
+
+```{r}
 probs<-c()
 for (i in 0:20) {
    p <- dpois(i,5)
    probs<-c(probs,p)
 }
+```
 
 output <- matrix(NA, nrow = 21, ncol = 2)
 output<-as.data.frame(output)

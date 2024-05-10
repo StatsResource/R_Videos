@@ -1,4 +1,4 @@
----
+ ---
 title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
@@ -119,8 +119,7 @@ str(policydata)
 ```{r}
 #a
 table(policydata$Claim)
-# 0 1 2 3 
-# 458 149 36 7 
+ 
 ```
 
 ---
@@ -131,7 +130,8 @@ print("458 Policies don't have any claim")
 ```
 [1] "458 Policies don't have any claim"
 
-ii)
+
+### Exercise 2
 ```{r}
 hist(policydata$Claim)
 #poisson and negative binomial distribution
@@ -141,7 +141,6 @@ hist(policydata$Claim)
 
 
 #### Exercise 3
-iii)
 
 ```{r}
 poisson.test(x=sum(policydata$Claim),T=length(policydata$Policy))
@@ -149,19 +148,12 @@ poisson.test(x=sum(policydata$Claim),T=length(policydata$Policy))
 
 ---
 
-Exact Poisson test
-data: sum(policydata$Claim) time base: length(policydata$Policy)
-number of events = 242, time base = 650, p-value < 2.2e-16
-alternative hypothesis: true event rate is not equal to 1
-95 percent confidence interval:
-0.3268739 0.4222903
-sample estimates:
-event rate 
-0.3723077 
+
 #0.35 is more suitable value of parameter since it lies between confidence interval.
 
 ---
-iv)
+
+### Exercise 4
 
 ```{r}
 lx=log(policydata$Amount[policydata$Amount>0])
@@ -190,7 +182,8 @@ Frequency
 
 ---
 
-v)
+### Exercise 5
+
 ```{r}
 par(mfrow=c(2,1))
 hist(lx)
@@ -201,9 +194,12 @@ qqline(lx)
 ---
 vi)
 
-From Histogram and QQPlot it seems log amount closely follows normal distribution.
-To add, the mean and median are very close indicating symmtery. One of the characterstics of Z. 
-Hence,Claim amount might be following log normal distribution. 
+* From Histogram and QQPlot it seems log amount closely follows normal distribution.
+
+* To add, the mean and median are very close indicating symmtery. One of the characterstics of Z. 
+
+
+* Hence,Claim amount might be following log normal distribution. 
 
 ---
 vii)
@@ -223,6 +219,9 @@ alternative hypothesis: true mean is greater than 10
 sample estimates:
 mean of x 
 Histogram of lx
+
+---
+
 lx Frequency
 6 8 10 12 14
 0 10 20 30 40
@@ -237,7 +236,8 @@ Sample Quantiles
 
 
 ---
-viii)
+
+### Exercise 8
 
 ```{r}
 ct=table(policydata$Claim,policydata$Cust_Exp)
@@ -266,6 +266,8 @@ In chisq.test(ct) : Chi-squared approximation may be incorrect
 ---
 ix)
 
+### Exercise 9
+
 There are cells where the number of observations are less than 5. (1)
 
 ---
@@ -290,14 +292,19 @@ X-squared = 43.514, df = 2, p-value = 3.557e-10
 # Hence, it can concluded that policyholder's experience gets worse as 
 claim count increases
 ---
-(5)
-xi)
+
+
+### Exercise 11
+
+```{r}
 summary(policydata$Amount)
-########################
-Page 9 of 13
+```
+
  Min. 1st Qu. Median Mean 3rd Qu. Max. 
  0 0 0 29501 3232 1848069 
+
 ---
+
 policydata$large= ifelse(policydata$Amount >100000,1,0)
 x = sum(policydata$large)
 n = length(policydata$Amount[policydata$Amount>0])

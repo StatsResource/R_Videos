@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## R for Actuarial Students
+]
+
+---
+
+
+
+The data given in the file policies_data.RData show the numbers of policies
+(n.policies) by sex of policyholder (sex.code; 1 for male, 2 for female)
+and class of business (class.code; 5 different classes) from a certain insurance
+portfolio.
+(i)
+(a)
+Construct a plot of the logarithm of the number of policies (on the y
+axis) against the class of business.
+(b)
+Comment on the relationship in the data based on your plot in
+part (i)(a).
+
+---
+
+In the plot produced in part (i) we can distinguish between male and female
+policyholders. The plot is shown below, with “M” and “F” showing male and female
+policyholders respectively:
+(ii)
+Comment on the relationship in the data based on this plot.
+
+---
+
+For the remainder of the question you will need to ensure that the sex and class
+variables are treated as categorical variables (factors). You can use the following R
+code:
+class.code = as.factor(class.code)
+sex.code = as.factor(sex.code)
+
+---
+
+(iii) Fit a generalised linear model analysis to the data, using a Poisson distribution,
+with the numbers of policies as the response variable and the class of business
+as the only factor. Your answer should include estimates of the parameters,
+corresponding p-values and a brief interpretation of their effect.
+
+
+
+---
+
+### Exercise 1
+
+
+Q5
+(i)
+(a)
+
+```r
+load("policies_data.RData")
+plot(log(n.policies) ~ class.code, pch=19,main = "Number
+of policies against class of business")
+```
+
+![](05-part5_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+---
+
+(b)
+There seems to be some dependence of number of claims on class of business
+S 2019
+
+with lower numbers for classes 4 and 5.
+The relationship is not clear though.
+
+---
+
+Exercise 2
+===========
+
+(ii) It now seems that the number of claims also depends on the gender of policyholders.
+
+The numbers are generally higher for males.
+
+
+---
+
+Exercise 3
+===========
+
+(iii) R code:
+
+
+```r
+class.code = as.factor(class.code)
+sex.code = as.factor(sex.code)
+glm1 = glm(n.policies ~ class.code, family = "poisson")
+```
+
+---
+
+Exercise 3
+===========
+
+
+
+```r
+summary(glm1)
+```
+
+```
+## 
+## Call:
+## glm(formula = n.policies ~ class.code, family = "poisson")
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   3.7257     0.1098  33.943   &lt;2e-16 ***
+## class.code2   0.1029     0.1514   0.680   0.4965    
+## class.code3   0.2540     0.1463   1.736   0.0825 .  
+## class.code4  -0.2917     0.1679  -1.738   0.0822 .  
+## class.code5  -0.3935     0.1729  -2.275   0.0229 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 36.761  on 9  degrees of freedom
+## Residual deviance: 14.256  on 5  degrees of freedom
+## AIC: 79.136
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+#Coefficients:
+#
+Estimate
+# (Intercept)
+3.7257
+# class.code2
+0.1029
+# class.code3
+0.2540
+# class.code4 -0.2917
+# class.code5 -0.3935
+Pr(&gt;|z|)
+&lt;2e-16
+0.4965
+0.0825
+0.0822
+0.0229
+
+---
+
+*
+Parameter estimates and their p-values are shown above.
+Business class 1 is used as the baseline category (intercept level).
+
+The effect of class 5 on the number of policies appears to be significantly different
+from that of class 1, and there is some (weak) evidence that classes 3 and 4 also have
+a different effect.
+
+
+---
+
+(iv) Fit a second Poisson generalised linear model analysis to the data, using the
+numbers of policies as the response variable and both the class of business and
+the sex of the policyholders as factors. Your answer should include estimates
+of the parameters, corresponding p-values and a brief interpretation of their
+effect.
+
+---
+
+(v) Determine, using the deviance, which of the two models used in parts (iii)
+and (iv) provides a better fit to the data. Your answer should include the null
+hypothesis, the p-value of the relevant test and a clear conclusion.
+
+(vi) Calculate the predicted number of policies for male policyholders when the
+class of business is 2, based on the model chosen in part (v).
+
+---
+
+
+  
+
+```r
+glm2 = glm(n.policies ~ class.code + sex.code, family =
+"poisson")
+
+summary(glm2)
+```
+
+```
+## 
+## Call:
+## glm(formula = n.policies ~ class.code + sex.code, family = "poisson")
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   3.8611     0.1180  32.732  &lt; 2e-16 ***
+## class.code2   0.1029     0.1514   0.680  0.49648    
+## class.code3   0.2540     0.1463   1.736  0.08248 .  
+## class.code4  -0.2917     0.1679  -1.738  0.08225 .  
+## class.code5  -0.3935     0.1729  -2.275  0.02288 *  
+## sex.code2    -0.2921     0.1011  -2.890  0.00386 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 36.7607  on 9  degrees of freedom
+## Residual deviance:  5.8163  on 4  degrees of freedom
+## AIC: 72.696
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+
+
+Numbers of policies depend on both business class and gender of policyholder.
+
+---
+
+
+Business class 5 has the strongest effect on number of policies when compared to
+class 1, and this effect is negative (reducing number of policies). Male policyholders
+give the baseline here, so being female has a significant negative effect on number of
+policies.
+
+(v)
+The null hypothesis is that the second model (including both factors) is not an
+improvement over the first model.
+
+---
+
+R code:
+
+
+
+```r
+anova(glm1,glm2,test = "Chisq") 
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: n.policies ~ class.code
+## Model 2: n.policies ~ class.code + sex.code
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)   
+## 1         5    14.2560                        
+## 2         4     5.8163  1   8.4397 0.003671 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+#Model 1: n.policies ~ class.code
+#Model 2: n.policies ~ class.code + sex.code
+```
+
+# Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+#1
+5
+14.2560
+#2
+4
+5.8163 1
+8.4397 0.003671 ** 
+The p-value is 0.003671. 
+Therefore we have strong evidence against the null hypothesis. We conclude that the
+second model gives significant improvement.
+
+---
+
+(vi)
+R code:
+
+
+```r
+predict(glm2, data.frame(class.code="2", sex.code="1"),
+type="response")
+```
+
+```
+##     1 
+## 52.67
+```
+
+Based on model 2 we predict 52.67 policies.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

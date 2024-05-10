@@ -55,7 +55,7 @@ normal distribution with the same µ and σ.
 ---
 
 Solution 5
-# (i)
+# (Part A
 
 ```{r}
 trunc_logN <- function(k, mu, sig, L, U){
@@ -75,7 +75,7 @@ trunc_logN <- function(k, mu, sig, L, U){
 ---
 
 
-# (ii)
+# Part B
 ```{r}
 trunc_logN(1, 1.2, 0.7, 10,Inf)
 ## [1] "First term: 4.24185214282043"
@@ -95,7 +95,7 @@ trunc_logN(2, 1.2, 0.7, 10,Inf)
 
 
 ### Part C
-# (iii)
+
 *  First moment of a normal distribution = mu = 1.2
 * Second moment of a normal distribution = 0.7^2+1.2^2 = 1.93
 * The question should have been "Log normal distribution" instead of normal distribution
@@ -126,12 +126,11 @@ trunc_logN(2, 1.2, 0.7, 0,Inf)
 
 #### Part D
 
-* The results are not comparable as (ii) is associated with Lognormal distribution while (iii) is associated with normal distribution
-* Assuming (iii) is log normal distribution
+* The results are not comparable as (Part B) is associated with Lognormal distribution while (Part C) is associated with normal distribution
+* Assuming (Part C) is log normal distribution
 * The mean and variance of a truncated distribution are very much lower than the non-truncated because
-# (i) Beyond 10, the probabilities are very less and the actual range of valu
+* (Part A) Beyond 10, the probabilities are very less and the actual range of valu
 es in excess of 10 is very limited
-# (ii) The consistency improves because of a narrower range and hence lower v
-ariance and second order movement
+* (Part BThe consistency improves because of a narrower range and hence lower variance and second order movement
 
 ---

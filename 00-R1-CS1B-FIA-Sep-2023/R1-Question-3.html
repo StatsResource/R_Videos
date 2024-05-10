@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+3 A data science actuary wants to build a linear regression model for cars that will
+predict the stopping distance based on their speed.
+The actuary will work on the dataset that already exists in R known as ‘Cars’, which
+can be initialised using the following code:
+data("cars")
+attach(cars)
+This dataset has 50 observations of two variables:
+*  The first variable ‘speed’ is speed, in miles per hour (mph).
+*  The second variable ‘dist’ is stopping distance, in feet.
+(i) Fit a linear regression model to the data using stopping distance as the
+response variable and speed as the only explanatory variable, stating the
+estimated intercept and slope of the regression line. 
+The actuary wants to predict the stopping distances for the following ten speed values:
+6 7 16 22 28 33 40 42 57 64
+
+
+---
+
+(ii) Estimate the ten expected stopping distances, based on your fitted model from
+part (i). 
+The actuary is concerned about the uncertainty around the mean predictions.
+(iii) Calculate ten confidence intervals, one for each of the expected stopping
+distances in part (ii), using a 90% confidence level. 
+(iv) (a) State the interpretation of the 90% confidence interval for the stopping
+distances for cars with speed 64 mph, using your answer to part (iii).
+(b) Comment on the suitability of the linear regression model, based on the
+confidence intervals obtained in part (iii).
+
+---
+
+
+Q3
+#Initialise the dataset.
+data("cars")
+attach(cars)
+
+---
+
+(i)
+
+
+```r
+model = lm(dist~speed, data = cars) 
+model
+```
+
+```
+## 
+## Call:
+## lm(formula = dist ~ speed, data = cars)
+## 
+## Coefficients:
+## (Intercept)        speed  
+##     -17.579        3.932
+```
+
+
+Call:
+lm(formula = dist ~ speed, data = cars)
+Coefficients:
+(Intercept) speed
+-17.579 3.932 
+
+---
+
+(ii)
+
+
+```r
+data_predict &lt;- data.frame(speed = c(6,7,16,22,28,33,40,42,57,64))
+```
+
+
+
+```r
+predict(model,newdata=data_predict) 
+```
+
+```
+##          1          2          3          4          5          6          7 
+##   6.015358   9.947766  45.339445  68.933898  92.528350 112.190394 139.717255 
+##          8          9         10 
+## 147.582073 206.568204 234.095066
+```
+
+6.015358 9.947766 45.339445 68.933898 92.528350 112.190394
+7 8 9 10
+139.717255 147.582073 206.568204 234.095066 
+
+---
+
+(iii)
+
+
+```r
+predict(model,newdata=data_predict, interval="confidence",level=0.90) 
+```
+
+```
+##           fit        lwr       upr
+## 1    6.015358  -1.482803  13.51352
+## 2    9.947766   3.050136  16.84540
+## 3   45.339445  41.667593  49.01130
+## 4   68.933898  63.063300  74.80450
+## 5   92.528350  83.019704 102.03700
+## 6  112.190394  99.393826 124.98696
+## 7  139.717255 122.189498 157.24501
+## 8  147.582073 128.688793 166.47535
+## 9  206.568204 177.348219 235.78819
+## 10 234.095066 200.029446 268.16069
+```
+
+fit lwr upr
+1 6.015358 -1.482803 13.51352
+2 9.947766 3.050136 16.84540
+3 45.339445 41.667593 49.01130
+4 68.933898 63.063300 74.80450
+5 92.528350 83.019704 102.03700
+6 112.190394 99.393826 124.98696
+
+---
+
+Part (i) was well answered in general. A common error was using rbinom(1, n, p), therefore not producing the detailed sample.
+In part (ii) there were mixed answers with various errors.
+Answers in part (iii) were also mixed, with common errors including not stating correctly, or at all, the hypotheses, parameter errors and not providing a clear conclusion.
+
+
+7 139.717255 122.189498 157.24501
+8 147.582073 128.688793 166.47535
+9 206.568204 177.348219 235.78819
+10 234.095066 200.029446 268.16069 
+
+---
+
+(iv)(a)
+
+* The CI is constructed such that with repeated sampling, 90% of the obtained intervals will contain the true unknown mean stopping distance of cars travelling at 64 mph. 
+(b)
+
+* For speed 6mph the model gives a CI with negative lower endpoint. 
+* A linear model, predicting negative stopping distance values, may not be
+appropriate. 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -170,3 +170,170 @@ by the prior distribution.
 (c) Compare your answer in part (vii)(b) with your answer in part (vi). 
 
 ---
+
+Q3
+(i)(a)
+p = c(0.1, 0.2, 0.3, 0.4, 0.5) 
+gp=c(0.5, 0.2, 0.2, 0.05, 0.05) 
+mean_A=sum(p*gp)
+mean_A
+# 0.195 
+>sd_A = sqrt(sum(gp*p^2)-mean_A^2)
+>sd_A
+# 0.1160819 
+(b)
+samples_beta = rbeta(10000, 3, 12) 
+(c)
+mean_N = mean(samples_beta)
+mean_N
+# 0.2012128 
+sd_N = sd(samples_beta)
+sd_N
+# 0.09913621 
+(d)
+The first and second moments of the two priors are very similar 
+The two prior beliefs are similar despite one being based on a continuous distribution and the other on a discrete distribution 
+(ii)
+Read the data in:
+load("BinaryTrain.RData")
+p = seq(0, 1, by = 0.01)
+dens = p^(2+sum(y))*(1-p)^(11+length(y)-sum(y))
+plot(p, dens, type = "l", ylab ="",xlab="p") [3]
+Or,
+curve(x^(2+sum(y))*(1-x)^(11+length(y)-sum(y)))
+Parts (i)-(iii) were generally well answered. Plots in part (i) were varied, with a number of candidates not using reasonable axis labels (or no axis at all), while comments were often missing in (i)(b). A common error in part (ii) was to omit the PAIRED = TRUE parameter, as the question requested. Answers in (iv), (v) were mixed with a range of comments.
+CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
+CS1B A2021 © Institute and Faculty of Actuaries
+
+(iii)
+Prior distribution
+plot(p, dbeta(p, 3, 12), type = "l", ylim =c(0, 14), ylab ="") 
+Or,
+curve(dbeta(x, 3, 12), type="l",ylim=c(0, 14), ylab ="", xlab="p")
+
+0.00.20.40.60.81.00e+001e-512e-513e-51p
+CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
+CS1B A2021 © Institute and Faculty of Actuaries
+(iv)(a)
+x = p
+curve(dbeta(x, 3+sum(y), 12+length(y)-sum(y)), type = "l", add=TRUE, col="red")
+
+Or,
+>lines(p, dbeta(p,3+sum(y),12+length(y)-sum(y)),col="red")
+
+(b)
+Clearly, the posterior is much narrower than the prior. 
+(c)
+The posterior distribution is more affected by the data than by the prior. 
+(v)
+90% interval for p
+qbeta(c(0.05, 0.95), 3+sum(y), 12+length(y)-sum(y)) 
+# 0.1910197 0.2861843
+90% interval for p is (0.191, 0.286). 
+(vi)
+1 - pbeta(0.25, 3+sum(y), 12+length(y)-sum(y)) 
+# 0.3216195
+
+(vii)(a)
+z = rbeta(10000, 3+sum(y), 12+length(y)-sum(y))  (b)
+sum(z>0.25)/10000 
+# 0.3271 
+CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
+CS1B A2021 © Institute and Faculty of Actuaries
+Or,
+length(z[z>0.25])/length(z)
+(c) As expected the proportion is very similar to the answer in (vi). 
+[Total 28]
+Q4
+(i)
+load("CS1passenger.RData")
+Linear predictor for modelling:
+(a) 𝛼𝛼𝑖𝑖+𝛽𝛽×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
+(b) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, 𝛽𝛽𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
+(c) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, 𝛽𝛽𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
+Alternative answer:
+(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2 , where 𝑥𝑥1 is temperature and 𝑥𝑥2=0 (nonSemester), 𝑥𝑥2=1 (Semester)
+(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2 , where 𝑥𝑥1and 𝑥𝑥2 as above
+(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2+𝑏𝑏3𝑥𝑥3 , where 𝑥𝑥3=0 (8am), 𝑥𝑥3=1 (9am)]
+(ii)(a)
+>Model1<- glm(Passengers~temp*semester + route, family=poisson(link="log"))
+>summary(Model1) 
+Call:
+glm(formula = Passengers ~ temp * semester + route, family = poisson(link = "log"))
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.8128 -0.6263 -0.1566 0.5162 1.3991
+Coefficients:
+Estimate Std. Error z value Pr(>|z|)
+(Intercept) 0.40210 0.31155 1.291 0.1968
+temp -0.07878 0.03576 -2.203 0.0276 *
+semestersemester 0.53514 0.46691 1.146 0.2517 
+route9am 0.17370 0.44520 0.390 0.6964
+temp:semestersemester 0.10779 0.05741 1.878 0.0604 .
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+A number of candidates did not attempt this question, or only attempted part (i).
+For candidates that attempted it, the overall performance was mixed. In part (iii) many candidates plotted the graphs using the simulated values from part (i)(b) or using inappropriate plots, which led to difficulty later in the question.
+CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
+CS1B A2021 © Institute and Faculty of Actuaries
+Null deviance: 30.406 on 19 degrees of freedom
+Residual deviance: 13.833 on 15 degrees of freedom
+AIC: 62.187
+(b)
+Temperature (temp) is significant 
+Semester is not significant 
+Route is not significant 
+The interaction between temperature (temp) and semester is not significant at 5% significance level 
+but it is close to being significant 
+(iii)(a)
+>Model2<- update(Model1,~.-route) 
+Or,
+Model2 <- glm(Passengers~temp*semester,family="poisson" (link = "log"))
+>summary(Model2)
+Call:
+glm(formula = Passengers ~ temp + semester + temp:semester, family = poisson(link = "log"))
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.84542 -0.66323 -0.06209 0.43732 1.34790
+Coefficients:
+Estimate Std. Error z value Pr(>|z|)
+(Intercept) 0.44284 0.29121 1.521 0.1283
+temp -0.07452 0.03387 -2.200 0.0278 *
+semestersemester 0.54602 0.46390 1.177 0.2392
+temp:semestersemester 0.10012 0.05316 1.883 0.0597 .
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+Null deviance: 30.406 on 19 degrees of freedom
+Residual deviance: 13.982 on 16 degrees of freedom
+AIC: 60.336
+
+(b)
+The AIC has fallen from 62.187 to 60.336 - so new model has improved the initial model 
+(iv)(a)
+>Model3<- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
+>Modela<- glm(Passengers~temp+ semester,family=poisson(link="log")) 
+>Modelb<- glm(Passengers~temp*semester,family=poisson(link="log")) 
+>Model3$aic
+59.65976 
+>Modela$aic
+62.03591 
+
+>Modelb$aic
+60.33588 
+Model3 has the lowest AIC compared with the other models. We conclude that Model3 outperforms the other models considered here 
+(b)
+Model3 doesn’t include both of the main effects. Despite this, the model still suits the data well 
+(v)(a)
+plot(Model3,1) 
+
+(b)
+The residuals plot shows no patterns - exhibiting a fairly random scatter around zero with constant variance and no outliers 
+The plot suggests that the model is appropriate 
+(vi)
+>predict(Model3, data.frame(temp=0,semester="semester",route="8am"),type = "response") [3]
+Predicted number is: 1.866568 
+[Total 35]
+CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
+CS1B A2021 © Institute and Faculty of Actuaries

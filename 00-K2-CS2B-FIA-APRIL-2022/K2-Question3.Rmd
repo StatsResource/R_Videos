@@ -39,23 +39,33 @@ pre {
 
 3 An international pensions provider is interested in quantifying the force of mortality at 
 certain ages for a particular country, for the period from 1 January 2017 through to 
-1 January 2020. The ‘CS2B_A22_Qu_3_Data.csv’ file contains mortality data from a 
-recent mortality investigation. The deaths and exposure data are all in respect of the 
-period 1 January 2020 to 31 December 2020 inclusive. The file contains the following 
+1 January 2020. 
+
+The ‘CS2B_A22_Qu_3_Data.csv’ file contains mortality data from a 
+recent mortality investigation. 
+* The deaths and exposure data are all in respect of the 
+period 1 January 2020 to 31 December 2020 inclusive. 
+* The file contains the following 
 six variables: 
-Age Age last birthday, x, in single ages from 55 to 95 inclusive 
-Deaths Number of observed deaths at age x, Dx
-Exposure Central exposed to risk at age x, Ex
+
+* Age Age last birthday, x, in single ages from 55 to 95 inclusive 
+* Deaths Number of observed deaths at age x, Dx
+* Exposure Central exposed to risk at age x, Ex
 c (measured in years) 
 Graduation1 Central mortality rate at age x, mx, derived from graduation method 1 
 Graduation2 Central mortality rate at age x, mx, derived from graduation method 2 
 Graduation3 Central mortality rate at age x, mx, derived from graduation method 3 
+
 The graduation methods are set out below: 
 Graduation 1 Graduation by parametric formula 
 Graduation 2 Graduation obtained by removing one parameter from the formula 
 underlying Graduation 1 
 Graduation 3 Graduation obtained by adding one parameter to the formula 
 underlying Graduation 1 
+
+---
+
+### Preparation 
 Before answering this question, the ‘CS2B_A22_Qu_3_Data.csv’ file should be 
 loaded into R and assigned to a data frame called graduation. 
 
@@ -73,11 +83,7 @@ zx2 and zx3 ONLY in your answer script. [6]
 
 ---
 
-
-Q3
-(i)
-CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
----
+### Part A
 
 ```{r}
 graduation = 
@@ -89,7 +95,8 @@ read.csv(file = "CS2B_A22_Qu_3_Data.csv", head = TRUE)
 ```{r}
 graduation$zx1 = (graduation$Deaths - graduation$Exposure * 
 graduation$Graduation1) / sqrt(graduation$Exposure * 
-graduation$Graduation1) [1½]
+graduation$Graduation1) 
+
 graduation$zx2 = (graduation$Deaths - graduation$Exposure *
 graduation$Graduation2) / sqrt(graduation$Exposure * 
 graduation$Graduation2) 
@@ -107,22 +114,24 @@ follows:
 Graduation 1 2 3 
 Degrees of freedom 36 37 35 
 --- 
-(iii) Comment on your results in part (ii), with reference to the suitability of the 
-three graduations for the observed mortality rates. [6] 
-(iv) Determine, using R, the numbers of positive and negative deviations for each 
+Part C Comment on your results in part (ii), with reference to the suitability of the 
+three graduations for the observed mortality rates. 
+Part D Determine, using R, the numbers of positive and negative deviations for each 
 of the three graduations. 
 
-(v) Determine, using R, the numbers of groups of positive deviations for each of 
+E. Determine, using R, the numbers of groups of positive deviations for each of 
 the three graduations. 
-(vi) Determine, using R, the p-value of the grouping of signs test for each of the 
+
+F. Determine, using R, the p-value of the grouping of signs test for each of the 
 three graduations. 
 [Hint: If you are using the binomial coefficients ൫
 n
 r
 ൯ in your calculations, 
-these may be obtained in R as choose(n, r).] [9] 
-(vii) Comment on whether your conclusions in part (iii) have changed in light of 
-the results in part (vi).  
+these may be obtained in R as choose(n, r).] 
+
+(vii) Comment on whether your conclusions in part Part C have changed in light of 
+the results in part Part F.  
 
 ---
 
@@ -156,7 +165,7 @@ chisq[3] = sum(graduation$zx3^2)
 
 ```{r} 
 df = c(36, 37, 35) 
-1 - pchisq(chisq, df = df) [1½]
+1 - pchisq(chisq, df = df) 
  7.002971e-02 5.582300e-08 7.128381e-02 
 OR:
 chisq1 = sum(graduation$zx1^2) 
@@ -167,7 +176,7 @@ chisq3 = sum(graduation$zx3^2)
 
 ---
 
-1 - pchisq(chisq1, df = 36) [1½]
+1 - pchisq(chisq1, df = 36) 
  0.07002971 
 1 - pchisq(chisq2, df = 37) 
  5.5823e-08 
@@ -185,7 +194,8 @@ The p-value for graduation 2 is 5.582e-08
 The p-value for graduation 3 is 0.07128 
 
 ---
-(iii)
+
+#### Part C
 
 * Based on the p-values, there is enough evidence to reject graduation 2 at the 5% significance 
 level but not graduations 1 and 3 
@@ -202,8 +212,9 @@ may be unsuitable for other reasons
 of deviations of the same sign 
 
 ---
-(iv)
+Part D
 EITHER:
+```{r}
 pos = vector(length = 3) 
 neg = vector(length = 3) 
 pos = length(graduation$zx1[graduation$zx1 0]) 
@@ -212,13 +223,16 @@ pos[3] = length(graduation$zx3[graduation$zx3 0])
 neg = length(graduation$zx1[graduation$zx1 < 0]) 
 neg = length(graduation$zx2[graduation$zx2 < 0]) 
 neg[3] = length(graduation$zx3[graduation$zx3 < 0]) 
+
+```
+
 pos 
  22 20 21 
 neg 
  19 21 20 
 OR:
 
-```
+
 
 ---
 
@@ -249,28 +263,32 @@ Graduation 2 has 20 positive and 21 negative deviations.
 Graduation 3 has 21 positive and 20 negative deviations. 
 
 ---
-(v)
+
+### Part E
 EITHER:
+
+```{r}
 groups = vector(length = 3) 
 for(j in 1:3){ 
 pos_z = (graduation[, j + 6] 0) * 1 
 groups[j] = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
++ pos_z * 1} 
+groups 
 ```
 
 ---
 
 ```{r}
-+ pos_z * 1} 
-groups 
+
  11 5 11 
 OR:
 pos_z = (graduation$zx1 0) * 1 
 groups1 = 
 sum( 
 duplicated(c(which(pos_z == 1) - 1, which(pos_z == 0))) * 1) 
- [3½]
+
 + pos_z * 1 
 
 ```
@@ -347,7 +365,7 @@ Graduation 2 has 5 groups of positive deviations.
 Graduation 3 has 11 groups of positive deviations. 
 CS2B - Risk Modelling and Survival Analysis - Core Principles - April 2022 - Examiners’ report
 ---
-(vi)
+Part F
 EITHER:
 pval = vector(length = 3) 
 for(j in 1:3){ 
@@ -385,6 +403,6 @@ The p-value for graduation 1 is 0.6845
 The p-value for graduation 2 is 0.0004066
 The p-value for graduation 3 is 0.6787 
 (vii)
-The conclusions in part (iii) remain unchanged 
+The conclusions in part Part C remain unchanged 
 as the p-values calculated under the grouping of signs test support the conclusions
-in part (iii) 
+in part Part C 

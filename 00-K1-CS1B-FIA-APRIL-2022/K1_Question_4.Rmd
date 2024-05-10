@@ -1,3 +1,4 @@
+
 ---
 title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
@@ -77,10 +78,10 @@ claims data (claims_matrix) and the policies data (policies_matrix).
 
 #### Exercises 
 
-(i) Calculate estimates of E[m,θ] E[s2,θ] and Var[ሺθሻ] under the 
-assumptions of the Empirical Bayes Credibility Theory (EBCT) Model 2. 
+A. Calculate estimates of E[m,θ] E[s2,θ] and Var[ሺθሻ] under the 
+assumptions of the ***Empirical Bayes Credibility Theory (EBCT)*** Model 2. 
 
-(ii) Calculate the credibility factors Zi. 
+B. Calculate the credibility factors $Z_i$. 
 (iii) Calculate the expected claim amounts for each of the four insurers in year 6.
 
 
@@ -119,6 +120,10 @@ Pi
 P <-sum(Pi)
 P
 # 28952 
+```
+
+
+```{r}
 Pstar <-sum(Pi*(1-Pi/P))/(N*n-1)
 Pstar
 # 1011.12 
@@ -127,7 +132,7 @@ s<-mean(rowSums(policies_matrix*(X-Xibar)^2)/(n-1))
 m
 ```
 
-So, E[m(theta)] = 0.04428019 
+So, $E[m(theta)] = 0.04428019 $
 
 ---
 
@@ -162,7 +167,8 @@ Credibility factors are: (0.8964887, 0.7760242, 0.9410267, 0.8296892)
 
 ---
 
-#### Part (iii)
+### Part C.
+
 Then calculate the credibility premiums per unit of risk volume:
 
 ```{r}
@@ -192,9 +198,9 @@ Insurer A: £78.4m, Insurer B: £19.4m, Insurer C: £124.3m, Insurer D: £46.7m
 
 ---
 
-Candidates overall answered well this question.
-Candidates demonstrated this kind of calculations had been well practised. Some 
-numerical slips were common, however candidates who showed intermediate steps were 
+* Candidates overall answered well this question.
+* Candidates demonstrated this kind of calculations had been well practised. 
+* Some numerical slips were common, however candidates who showed intermediate steps were 
 able to pick up most of the available partial marks.
 
 ---

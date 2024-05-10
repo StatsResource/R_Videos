@@ -35,9 +35,9 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-Q. 2) You have been asked to analyse the number of deaths per month in the country X from lung 
+Q. 2) You have been asked to analyse the number of deaths per month in the country $X$ from lung 
 disease over the period from Jan 2015 to Dec 2020. This information is contained in a time 
-series called “Lung_Deaths.csv”.
+series called <tt>Lung_Deaths.csv<tt>.
 
 1.  Convert the data into a time series format representing the above period after loading it into R. 
 2.  Plot this time series giving appropriate labels for each axis.
@@ -52,11 +52,16 @@ giving appropriate labels for each axis.
 ---
 
 
-Solution 2
-# (i)
+### Part A
 ```{r}
 Lung_Deaths <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\Lung_
 Deaths.csv")
+```
+
+
+
+```{r}
+
 Lung_Deaths<-ts(Lung_Deaths, start =c(2015,1), frequency = 12)
 Lung_Deaths
 ```
@@ -78,7 +83,7 @@ plot(Lung_Deaths, ylab = "Lung Deaths", main = "Lung deaths between 2015 and
 ```
 
 ---
-# (iii)
+# (iiPart A
 
 ```{r}
 acf(Lung_Deaths, lag.max = 30,main = "ACF of Lung Deaths")
@@ -102,7 +107,7 @@ from highs and lows at uniform intervals of time
 the presence of seasonality in the data
 
 ---
-# (v)
+### Part E
 
 ```{r}
 diff12=diff(Lung_Deaths, lag = 12, differences=1)
@@ -111,34 +116,36 @@ plot(diff12)
 ````
 
 ---
-# (vi)
+### Part F
 
 ```{r}
 acf(diff12,lag.max = 30)
-IAI CS2B-0722
-Page 7 of 14
+```
+
+
+```{r}
 pacf(diff12,lag.max = 30)
 ````
 
 ---
-# (vii)
-# One summary statistic of a stationary time series is the auto-correlation f
-unction, or the ACF
 
-* If significant correlation persists over many lags in the ACF functions, It 
-could either be a truly random autocorrelation in the series or there is a fi
-xed effect or trend that hasn't been removed (i.e. the series is not stationa
-ry). Here that is not the case and hence stationary data
+### Part G
+
+* One summary statistic of a stationary time series is the auto-correlation function, or the ACF
+
+* If significant correlation persists over many lags in the ACF functions, It could either be a truly random autocorrelation in the series or there is a fixed effect or trend that hasn't been removed (i.e. the series is not stationary). Here that is not the case and hence stationary data
+
+
 * Even after the seasonal difference, we observe significant correlation with 
 lag 12 both in the ACF and the PACF, indicating seasonal AR first order could 
 be an appropriate model for the data
-*The blue dotted lines on the ACF and PACF indicate cut-offs for significance
-.
-#For a stationary time-series the ACF should decay to zero quickly and displa
-y no signs of oscillation.
-#The ACF looks to cut out at lag 2 and does not contain any periodic oscillat
-ion so this would indicate stationarity.
+
+* The blue dotted lines on the ACF and PACF indicate cut-offs for significance.
+
+#For a stationary time-series the ACF should decay to zero quickly and display no signs of oscillation.
+
+#The ACF looks to cut out at lag 2 and does not contain any periodic oscillation so this would indicate stationarity.
 #The PACF shows no significance past lag 2. This again, indicates stationarit
 y.
- [3]
- [25 Marks]
+
+---

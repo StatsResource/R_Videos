@@ -58,7 +58,7 @@ labelling. (4)
 
 options(warn=-1)
 Solution.1
-# (i) 
+### Part A 
 fMLE <- function(params) {
  f<- 1/params[2]*(1+params[3]*(maxima-params[1])/params[2])^(-1-1/params[3
 ])*exp(- (1+params[3]*(maxima-params[1])/params[2])^(-1/params[3]))
@@ -68,7 +68,7 @@ fMLE <- function(params) {
 
 ---
 
-# (ii)
+# Part B
 maxima <- c(8,8,9)
 alpha<-6; beta<-4; gamma<-5
 p<-c(alpha,beta,gamma)
@@ -93,7 +93,7 @@ MLE
 
 ---
 
-# (iii)
+# Part C
 alpha <- MLE$estimate[1]
 beta <- MLE$estimate[2]
 gamma <- MLE$estimate[3]
@@ -133,7 +133,7 @@ output
 ## 18 95 0.2806827
 ## 19 100 0.2776403
 [6]
-# (iv)
+### Part D
 plot(output, type = "l", xlab = "X", ylab = "p", main = "Probability of maxim
 um claim exceeding a threshold X")
 

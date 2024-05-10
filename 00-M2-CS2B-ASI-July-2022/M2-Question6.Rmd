@@ -58,7 +58,7 @@ Perform a feature scaling on Cricket1 by executing the following code
 ```{r}
 Cricket1 = as.data.frame(scale (Cricket1))
 ```
-After scaling, set a seed value of 100 using the following code <tt>set.seed(100)</tt>.
+After scaling, set a seed value of 100 using the following code <ttset.seed(100)</tt.
 
 --=
 3.   Execute k-means clustering algorithm on “Cricket1” and assign it to a variable 
@@ -84,7 +84,7 @@ Cricket <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\Cricket.c
 sv")
 
 ```
-# (i)
+### Part A
 runs_avg <- aggregate(Runs~Init_group, data = Cricket, FUN = "mean")
 runs_avg
 ## Init_group Runs
@@ -103,16 +103,17 @@ wickets_avg
 ```
 
 ----
-# (ii)
+
+### Part B
 
 ```{r}
-Cricket1 <-Cricket
-Cricket1<-Cricket1[,4:7]
+Cricket1 <- Cricket
+Cricket1 <- Cricket1[,4:7]
 ```
 
 ---
 
-# (iii)
+### Part C
 
 ```{r}
 Cricket1 = as.data.frame(scale (Cricket1))
@@ -156,12 +157,16 @@ nss"
 
 ---
 
-# (iv)
+### Part D
+
+```{r}
 Cricket$Clust_Membership <-clust_Cricket$cluster
+```
+
 
 ---
 
-# (v)
+### Part E
 
 ```{r}
 Cricket$Clust_Membership <-factor(Cricket$Clust_Membership, 
@@ -169,7 +174,7 @@ Cricket$Clust_Membership <-factor(Cricket$Clust_Membership,
 ```
 
 ---
-# (vi)
+### Part F
 
 ```{r}
 table(Cricket$Clust_Membership,Cricket$Init_group)
@@ -186,7 +191,7 @@ error
 
 ---
 
-# (vii)
+# Part G
 # Possible reasons
 # 1. Many batsman in realty might have played very few matches and scored ver
 y few runs. They might not have got classified as batsmen by the cluster

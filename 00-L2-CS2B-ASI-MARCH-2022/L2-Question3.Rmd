@@ -41,27 +41,31 @@ MA(2,2) time series Zt is defined by the following equation
 $$Zt=2 + 0.8Zt-1 + 0.1Zt-2 + et + 0.4et-1 + 0.1et-2$$ , where et are white noise terms which are IID 
 random variables with mean 0 and σ2= 7
 
-i) Simulate 300 observations of the above time series using seed value equal to 100 and plot 
+
+#### Exerices 
+A.  Simulate 300 observations of the above time series using seed value equal to 100 and plot 
 it giving appropriate labels for each axis. Paste the plot into your answer sheet. 
-ii) Using the data simulated in (i), compute the mean and standard deviation of 
-a) The entire series
-b) The first 150 observations of the series
-c) The last 150 observations of the series 
+
+B. Using the data simulated in Part A, compute the mean and standard deviation of 
+i) The entire series
+ii) The first 150 observations of the series
+iii) The last 150 observations of the series 
 
 ---
 
-iii) Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF) of 
+C. Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF) of 
 the simulated data in (i), giving appropriate labels for each axis. Paste the plots into your 
 answer sheet. 
 
-iv) Comment on the stationarity of data from (ii) and (iii) above. 
-v) Comment whether ARMA(2,2) can be inferred from the ACF and PACF plots. 
+D.  Comment on the stationarity of data from (ii) and (iii) above. 
+
+E. Comment whether ARMA(2,2) can be inferred from the ACF and PACF plots. 
 
 ---
 
-### Solution :
+## Solution :
 
-#### Part (i)
+### Part A
 
 ```{r}
 set.seed(100) 
@@ -75,8 +79,8 @@ plot(z, xlab = "Time",
 
 ---
   
-#### Part (ii)
-#### (a)
+### Part B
+#### (i)
 
 ```{r}
 mean (z)
@@ -88,7 +92,7 @@ sd(z)
 
 ---
 
-#### (b)
+#### (ii)
 
 ```{r}
 mean(z[1:150])
@@ -100,7 +104,7 @@ sd(z[1:150])
 ---
 
 ```{r}
-# (c)
+
 mean(z[151:300])
 ## [1] 2.362919
 sd(z[151:300])
@@ -110,39 +114,46 @@ sd(z[151:300])
 ---
 
 ```{r}
-# (iii)
-acf(z, xlab = "Lag", ylab = "ACF of Simulated Values from an ARMA(2,2) Time S
-eries", main = "ACF") 
+
+acf(z, xlab = "Lag", 
+  ylab = "ACF of Simulated Values from an ARMA(2,2) Time Series", 
+main = "ACF") 
 
 ```
 
 ---
 
 ```{r}
-pacf(z, xlab = "Lag", ylab = "Partial ACF of Simulated Values from an ARMA(2,
-2) Time Series", main = "PACF")
+pacf(z, xlab = "Lag", 
+     ylab = "Partial ACF of Simulated Values from an ARMA(2,2) Time Series", 
+     main = "PACF")
 ```
 
 ---
-#### Part (iv)
+#### Part D.
 
-* The series appears stationary as there are no obvious trends or cycles in t
-he graph of the series and it appears to have constant mean. 
-*  However, from (ii), it appears that mean of the two subsets of the data is 
+* The series appears stationary as there are no obvious trends or cycles in the graph of the series and it appears to have constant mean. 
+*  However, from Part B, it appears that mean of the two subsets of the data is 
 very different.
 * Working with a larger subset takes the mean values closer to constant thus 
 revealing in stationarity. 
+
 * For a stationary time series, the ACF will drop to zero relatively quickly, 
 while the ACF of non-stationary data decreases slowly 
-# Hence, we confirm that the series is stationary
+* Hence, we confirm that the series is stationary
 
 ---
 
-#### Part (v)
+#### Part E.
 
 * PACF becomes insignificant after two lags and ACF goes gradually to zero in
 dicating the strong presence of AR(2)process compared to an ARMA (2,2) models
- In ARMA(2,2) model, we should observe, ACF and PACF to gradually go down to 
+* In ARMA(2,2) model, we should observe, ACF and PACF to gradually go down to 
 zero after a few lags
+
+---
+
+END 
+---
 
 ---

@@ -36,67 +36,93 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-[13]
+
 Q. 4) Consider the Dataset “fraud.csv”. There are two feature variables (1) State and (2) 
 Sum_insured indicating the geography of the insured and the size of the sum insured for 
-1000 different life insurance policy claims. You are asked to perform the following 
+1000 different life insurance policy claims. 
+
+You are asked to perform the following 
 computations:
-i) Compute the number of fraudulent claims as a proportion of total number of claims. (2)
-ii) Compute the proportion of total claims associated with a medium sum insured policy 
+
+---
+
+### Exercises
+
+Part A.  Compute the number of fraudulent claims as a proportion of total number of claims. 
+Part B. Compute the proportion of total claims associated with a medium sum insured policy 
 from state C3, based on the data provided. (3)
-iii) Given the claim is a fraudulent claim compute the proportion of claims to be associated 
+Part C . Given the claim is a fraudulent claim compute the proportion of claims to be associated 
 with a medium sum insured policy from state C3, based on the data provided. (4)
-iv) Using the results in (i), (ii) and (iii) compute the probability of a fraudulent claim given 
-that a new claim comes from state C3 and has a medium sum insured. (4)
-v) Compute the proportion of fraudulent claims from medium sum insured policies from 
+
+Part D Using the results in (Part A, (Part Band (Part Ccompute the probability of a fraudulent claim given 
+that a new claim comes from state C3 and has a medium sum insured. 
+
+---
+
+Part E Compute the proportion of fraudulent claims from medium sum insured policies from 
 C3 as a proportion of total claims from medium sum insured policies from C3. (3)
-vi) Compare the results obtained in (iv) and (v) with suitable explanation. (2)
-vii) Provide two major limitations of computing the probability of a fraudulent claim using 
+Part F Compare the results obtained in (Part D and (Part E with suitable explanation. (2)
+Part GProvide two major limitations of computing the probability of a fraudulent claim using 
 this method. (2)
 
 ---
 
 Solution.4
-> fraud <- read.csv("C:/ fraud.csv", stringsAsFactors=TRUE)
-i) 
-> x<-prop.table(table(fraud$Fraudulent))[2]
-> x
+```{r}
+fraud <- read.csv("fraud.csv", stringsAsFactors=TRUE)
+```
+
+### Part A 
+```{r}
+x<-prop.table(table(fraud$Fraudulent))[2]
+x
+```
+
  Yes 
 0.057 
-(2)
-ii)
-> y<-sum(fraud$State == "C3"& fraud$Sum_insured =="Medium")/nrow(fraud)
-> y
+
+---
+
+Part B
+y<-sum(fraud$State == "C3"& fraud$Sum_insured =="Medium")/nrow(fraud)
+y
 [1] 0.199 
 
 
 ---
 
-iii)
->fraud_claims<-fraud[fraud$Fraudulent=="Yes",]
->z<-sum(fraud_claims$State=="C3"&fraud_claims$Sum_insured =="Medium")/nrow(fraud_claims)
-> z
-[1] 0.4035088 
+Part C
+```{r}
+fraud_claims<-fraud[fraud$Fraudulent=="Yes",]
+
+z<-sum(fraud_claims$State=="C3"&fraud_claims$Sum_insured =="Medium")/nrow(fraud_claims)
+ z
+```
+
+ [1] 0.4035088 
 
 
 ---
-iv)
-> prob<-x*z/y
-> prob
+Part D
+prob<-x*z/y
+prob
  Yes 
 0.1155779 
-(4)
-v) 
-> subset2<-fraud[fraud$Sum_insured=="Medium"&fraud$State == "C3",]
-> sum(subset2$Fraudulent == "Yes")/nrow(subset2)
+
+
+---
+
+Part E 
+subset2<-fraud[fraud$Sum_insured=="Medium"&fraud$State == "C3",]
+sum(subset2$Fraudulent == "Yes")/nrow(subset2)
 [1] 0.1155779 
 (3)
-vi)
-> 'The values need to be equal as this is an application of Bayes Theorem' 
+Part F
+'The values need to be equal as this is an application of Bayes Theorem' 
 (2)
-vii)
->'(a) Assumes that all the variables are independent' 
->'(b) If your test data set has a categorical variable of a category that wasn not present in the training 
+vPart B
+'(a) Assumes that all the variables are independent' 
+'(b) If your test data set has a categorical variable of a category that wasn not present in the training 
 data set, the Naive Bayes model will assign it zero probability and will not be able to make any 
 predictions in this regard'
 

@@ -33,10 +33,15 @@ pre {
   overflow-x: scroll;
 }
 ```
-Q. 6) You are investigating the level of premium charged by two companies for certain group. 
-Random samples of 10 policies from Company1 and Company2 are compared. Below R 
+Q. 6) 
+
+You are investigating the level of premium charged by two companies for certain group. 
+Random samples of 10 policies from Company1 and Company2 are compared. 
+
+The following Below R 
 code provides the premiums charged by Company1 and Company2 in current year for 
 10 sample policies.
+
 ```{r}
  Company1 <- c(1350,1790,1500,1150,2100,2350,1550,1800,1650,1450)
  Company2 <- c(1500,1200,1300,1700,1800,2400,1450,1950,1850,2100)
@@ -67,7 +72,7 @@ year.
 
 #### Exercise A
 
-i) H0 – Company1 and Company2 having equal variance (i.e., ratio of variance =1)
+Part A H0 – Company1 and Company2 having equal variance (i.e., ratio of variance =1)
 H1 – There is a difference in variance between Company1 and Company2.
 
 ```{r}
@@ -94,7 +99,7 @@ have enough evidence to reject H0 at 5% significance level.
 variance at 5% significance level. 
 
 ---
-ii) 
+B.  
 
 ### Part B
 
@@ -114,7 +119,7 @@ t.test(Company1, Company2, var.equal = TRUE, conf=0.95)
 
 ---
 
-iii) H0 – mean premium charged by Company2 is INR 1500. 
+C. H0 – mean premium charged by Company2 is INR 1500. 
 H1 – mean premium charged by Company2 is greater than 1500.
 
 ```{r}
@@ -155,7 +160,7 @@ proportions.
 
 #### Part 4
 
-iv) H0 – There is no difference in proportion of (policies that result in) claim between Company1 and 
+H0 – There is no difference in proportion of (policies that result in) claim between Company1 and 
 Company2.
 
 H1 – There is difference in proportion of (policies that result in) claim between Company1 and 
@@ -185,19 +190,22 @@ Company1 and Company2 at 5% significance level.
 --- 
 #### Exercise E
 
-v) Company2 wants to study the claim frequency between group1 policies having 
+Part E Company2 wants to study the claim frequency between group1 policies having 
 premium less than INR 1500 and remaining policyholders. There were 65 claims 
 out of 250 policies of group1 and 45 claims out of 110 other policies in a year. 
 
 Assuming number of claims having Poisson distribution, test at 2.5% level whether 
 the ratio of claim frequency between group1 and other policyholders is less than 1.
- Use R code – poisson.test (#one sided) (4)
+ Use R code – poisson.test (#one sided)
  
 ---
 
-v) H0 – There is no difference in ratio of claim frequency between group1 and other groups in 
+Part E 
+
+H0 – There is no difference in ratio of claim frequency between group1 and other groups in 
 Company2. 
 H1 – Claim frequency of group1 is less than other groups in Company2.
+
 ```{r echo=FALSE}
 poisson.test(c(65,45),c(250,110), conf=.975, alternative="less")
 ```

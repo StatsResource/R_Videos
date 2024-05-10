@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## Statistical Modelling with R for Actuarial Students
+]
 
 ---
 
@@ -38,47 +42,51 @@ pre {
 ---
 
 MA(2,2) time series Zt is defined by the following equation
-Zt=2 + 0.8Zt-1 + 0.1Zt-2 + et + 0.4et-1 + 0.1et-2 , where et are white noise terms which are IID 
+`$$Zt=2 + 0.8Zt-1 + 0.1Zt-2 + et + 0.4et-1 + 0.1et-2$$` , where et are white noise terms which are IID 
 random variables with mean 0 and σ2= 7
-i) Simulate 300 observations of the above time series using seed value equal to 100 and plot 
-it giving appropriate labels for each axis. Paste the plot into your answer sheet. (4)
-ii) Using the data simulated in (i), compute the mean and standard deviation of 
-a) The entire series
-b) The first 150 observations of the series
-c) The last 150 observations of the series (6)
-iii) Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF) of 
-the simulated data in (i), giving appropriate labels for each axis. Paste the plots into your 
-answer sheet. (4)
-iv) Comment on the stationarity of data from (ii) and (iii) above. (3)
-v) Comment whether ARMA(2,2) can be inferred from the ACF and PACF plots. (3)
+
+
+#### Exerices 
+A.  Simulate 300 observations of the above time series using seed value equal to 100 and plot 
+it giving appropriate labels for each axis. Paste the plot into your answer sheet. 
+
+B. Using the data simulated in Part A, compute the mean and standard deviation of 
+i) The entire series
+ii) The first 150 observations of the series
+iii) The last 150 observations of the series 
 
 ---
- [25 Marks]
-Solution 3:
-(i)
+
+C. Plot the Autocorrelation function (ACF) and Partial Autocorrelation function (PACF) of 
+the simulated data in (i), giving appropriate labels for each axis. Paste the plots into your 
+answer sheet. 
+
+D.  Comment on the stationarity of data from (ii) and (iii) above. 
+
+E. Comment whether ARMA(2,2) can be inferred from the ACF and PACF plots. 
+
+---
+
+## Solution :
+
+### Part A
 
 
 ```r
 set.seed(100) 
 z=2+arima.sim(n=300,list(ar=c(0.8,0.1),ma=c(0.4,0.1),sd=7^0.5))
-plot(z, xlab = "Time", ylab = "Simulated Values from an ARMA(2,2) Time Series
-", main = "Time Series Plot")
+
+plot(z, xlab = "Time", 
+  ylab = "Simulated Values from an ARMA(2,2) Time Series", 
+  main = "Time Series Plot")
 ```
 
 ![](L2-Question3_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
-```r
-(4)
-```
-
-```
-## [1] 4
-```
-
 ---
   
-# (ii)
-# (a)
+### Part B
+#### (i)
 
 
 ```r
@@ -100,10 +108,11 @@ sd(z)
 
 ```r
 ## [1] 5.865453
-# (b)
 ```
 
 ---
+
+#### (ii)
 
 
 ```r
@@ -131,7 +140,6 @@ sd(z[1:150])
 
 
 ```r
-# (c)
 mean(z[151:300])
 ```
 
@@ -156,9 +164,9 @@ sd(z[151:300])
 
 
 ```r
-# (iii)
-acf(z, xlab = "Lag", ylab = "ACF of Simulated Values from an ARMA(2,2) Time S
-eries", main = "ACF") 
+acf(z, xlab = "Lag", 
+  ylab = "ACF of Simulated Values from an ARMA(2,2) Time Series", 
+main = "ACF") 
 ```
 
 ![](L2-Question3_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
@@ -167,32 +175,39 @@ eries", main = "ACF")
 
 
 ```r
-pacf(z, xlab = "Lag", ylab = "Partial ACF of Simulated Values from an ARMA(2,
-2) Time Series", main = "PACF")
+pacf(z, xlab = "Lag", 
+     ylab = "Partial ACF of Simulated Values from an ARMA(2,2) Time Series", 
+     main = "PACF")
 ```
 
 ![](L2-Question3_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ---
-# (iv)
+#### Part D.
 
-* The series appears stationary as there are no obvious trends or cycles in t
-he graph of the series and it appears to have constant mean. 
-*  However, from (ii), it appears that mean of the two subsets of the data is 
+* The series appears stationary as there are no obvious trends or cycles in the graph of the series and it appears to have constant mean. 
+*  However, from Part B, it appears that mean of the two subsets of the data is 
 very different.
 * Working with a larger subset takes the mean values closer to constant thus 
 revealing in stationarity. 
+
 * For a stationary time series, the ACF will drop to zero relatively quickly, 
 while the ACF of non-stationary data decreases slowly 
-# Hence, we confirm that the series is stationary
+* Hence, we confirm that the series is stationary
 
 ---
 
-# (v)
- PACF becomes insignificant after two lags and ACF goes gradually to zero in
+#### Part E.
+
+* PACF becomes insignificant after two lags and ACF goes gradually to zero in
 dicating the strong presence of AR(2)process compared to an ARMA (2,2) models
- In ARMA(2,2) model, we should observe, ACF and PACF to gradually go down to 
+* In ARMA(2,2) model, we should observe, ACF and PACF to gradually go down to 
 zero after a few lags
+
+---
+
+END 
+---
 
 ---
     </textarea>
@@ -241,6 +256,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

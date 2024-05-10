@@ -38,14 +38,15 @@ pre {
 parameterised as f (x) = le–lx (x > 0, l > 0).
 The rate l has a Gamma prior distribution with parameters $a$ and $s$. 
 
-A Bayesian credibility model provides that the posterior mean of 1/l can be expressed as
+* A Bayesian credibility model provides that the posterior mean of 1/l can be expressed as
 Z3x + (1– Z)3
 s
 α – 1
 , where Z = n
 α + n – 1
 with n being the number of past waiting times observed.
-Assume that the parameters of the prior Gamma distribution are $a = 5$ and $s = 1$.
+
+* Assume that the parameters of the prior Gamma distribution are $a = 5$ and $s = 1$.
 
 
 ---
@@ -86,7 +87,7 @@ head(pml)
 mean(pml)
 ```
 A point estimate is given as the mean of the produced estimates, i.e.
-#mean(pml) [2]
+#mean(pml) 
 which gives 0.248. 
 ---
 ### Exercise 2
@@ -94,7 +95,7 @@ which gives 0.248.
 Determine an estimate of the posterior mean of $1/l$ and the value of x when
 n = 1,000, by implementing M = 3,000 Monte Carlo repetitions. 
 
-This time we use the same code as in (i) but we are recording the mean of 𝑥𝑥 for the case 𝑛𝑛 =
+This time we use the same code as in (i) but we are recording the mean of x for the case n =
 1000.
 
 ```{r}
@@ -133,12 +134,11 @@ With this new run, both estimates are equal to 0.245.
 ### Exercise 3
 
 Plot the histograms of the samples of the posterior mean of $1/l$ and of x
-obtained in part (ii).
+obtained in Part 2.
 
 
 ```{r eval=FALSE}
-hist(pml, main = "Histogram of posterior means", 
- xlab = "Posterior means")
+hist(pml, main = "Histogram of posterior means", xlab = "Posterior means")
 hist(mx, main ="Histogram of the distribution of the means of x", 
 xlab = "mean of x")
 
@@ -172,15 +172,17 @@ The distributions look identical.
 
 ### Exercise 5
 
-(v) Comment on the behaviour of the credibility model as n increases, relating
-your answer to your findings in part (iv). 
+Comment on the behaviour of the credibility model as n increases, relating
+your answer to your findings in Exercise 4. 
 
 #### Conclusion
 
-We should expect that the distributions are the same, [2]
-since the credibility factor 𝑍𝑍 tends to 1 as 𝑛𝑛 increases and therefore the posterior mean of 1⁄𝜆𝜆
-becomes 𝑥𝑥̅.
+We should expect that the distributions are the same, 
+since the credibility factor $Z$ tends to 1 as $n$ increases and therefore the posterior mean of 1⁄𝜆𝜆
+becomes $\bar{x}$.
 
 ---
+
+END
 
 ---

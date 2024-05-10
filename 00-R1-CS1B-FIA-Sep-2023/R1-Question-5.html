@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 5
+
+---
+5 A medical study examines the dependence of Intensive Care Unit (ICU) admission
+rates on a numbers of risk factors, for patients with a certain medical condition. The
+data are available in the file ‘medical_data.RData’, which contains the following
+variables for 16 groups of patients:
+*  Rate: the rate of admission to ICU in a particular group of patients.
+*  History: the medical history of the patients in a particular group (two levels;
+0: short; 1: long).
+*  Operation: indicator showing if patients in a particular group have had a recent
+surgical operation (two levels; 0: no; 1: yes).
+*  Comorbidity: an index of existing comorbidities in a particular group (four levels;
+1–4 for comorbidities A–D).
+*  Age: the median age of patients in a particular group.
+
+
+---
+
+
+```r
+rm(list=ls())
+load("medical_data.Rdata")
+ls()
+```
+
+```
+## [1] "Age"          "Comorbidity"  "History"      "medical_data" "Operation"   
+## [6] "Rate"
+```
+
+
+
+```r
+class(Age)
+```
+
+```
+## [1] "integer"
+```
+
+
+---
+
+(i) Plot the admission rates against Age, while also distinguishing between
+different History levels on your graph. 
+[Hint: you can use the points(…) command in R. Also, make sure that all
+16 rates are shown in your graph, by adjusting the axes limits if necessary,
+e.g. use xlim, ylim in R.]
+(ii) Plot the admission rates against Age, while also distinguishing between
+different Operation levels on your graph. 
+[Hint: See hint in part (i).]
+
+---
+
+(iii) Comment on the impact of the variables History, Operation and Age on the
+admission rates, based on your graphs from parts (i) and (ii).
+(iv) Fit a normal Generalised Linear Model (GLM) to the data to investigate the
+dependence of admission rates on the three following variables: History,
+Operation and Age (when these variables are only included as main effects in
+the model).
+You should use the logarithmic link function in the model. 
+(v) Comment on the impact of the variables History, Operation and Age on the
+admission rates, based on the output of the model fitted in part (iv).
+
+--- 
+ 
+(vi) Fit a normal GLM to the data, including the variable Comorbidity as a main
+effect, in addition to the other three variables included in part (iv). You should
+use the logarithmic link function in the model. 
+(vii) Comment on the impact of all four variables on the admission rates, based on
+the output of the model fitted in part (vi). 
+(viii) Determine which of the two models fitted in parts (iv) and (vi), should be
+preferred for investigating the dependence of admission rates on the available
+variables. 
+
+---
+
+(ix) Calculate the predicted rate of admission to ICU for a group of patients with:
+*  short medical history.
+*  no recent surgical operation.
+*  comorbidity B.
+*  median age 62.
+The prediction should be based on the preferred model from part (viii). 
+(x) Comment on a disadvantage of the GLMs used in parts (iv) and (vi), in terms
+of predicting admission rates.
+
+---
+
+Q5
+(i)
+R code:
+Parts (i)-(iv) were answered reasonably well, with common errors including incorrect parameterisations for the binomial distributions involved.
+Part (v) was not well answered with a number of candidates not attempting it.
+
+
+```r
+plot(Age[History==0],Rate[History==0],pch=19,xlim=c(41,75),ylim=c(0.03,0.10),xlab="Age",ylab="Rate", main="Admission rates against age") 
+points(Age[History==1],Rate[History==1],pch=19, col =
+"red") 
+```
+
+![](R1-Question-5_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+Black bullets: History = 0; red bullets: History = 1. 
+(ii)
+R code:
+
+
+```r
+plot(Age[Operation==0],Rate[Operation==0],pch=19,xlim=c(41,
+75),ylim=c(0.03, 0.10),xlab="Age",ylab="Rate") 
+points(Age[Operation==1],Rate[Operation==1],pch=19, col = "red") 
+```
+
+![](R1-Question-5_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+Black bullets: Operation = 0; red bullets: operation = 1. 
+(iii)
+Age seems to have a clear increasing effect on rates. 
+The effects of History and Operation are not clear. 
+(iv)
+R code:
+m1 = glm(Rate ~ History + Operation + Age, family = gaussian(link="log")) 
+summary(m1)
+#Call:
+#glm(formula = Rate ~ History + Operation + Age, family = gaussian(link = "log"))
+#
+#Deviance Residuals:
+# Min 1Q Median 3Q Max
+#-0.0096278 -0.0027215 -0.0004823 0.0030534 0.0165070
+#
+#Coefficients:
+# Estimate Std. Error t value Pr(&gt;|t|)
+#(Intercept) -4.232037 0.184121 -22.985 2.73e-11 ***
+#History1 0.008975 0.051115 0.176 0.864
+#Operation1 0.010137 0.061309 0.165 0.871
+#Age 0.025690 0.002616 9.822 4.35e-07 ***
+#---
+#Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#
+#(Dispersion parameter for gaussian family taken to be 4.6878e-05)
+#
+# Null deviance: 0.00738638 on 15 degrees of freedom
+#Residual deviance: 0.00056253 on 12 degrees of freedom
+#AIC: -108.68 
+
+---
+
+(v)
+History does not have a significant impact since p-value is large (0.864). 
+Operation does not have a significant impact since p-value is large (0.871). 
+Age has a highly significant 
+positive effect since p-value is very small, 4.35e-07. 
+
+---
+
+(vi)
+R code:
+m2 = glm(Rate ~ History + Operation + Age + Comorbidity, family = gaussian(link="log")) 
+summary(m2)
+
+
+#Call:
+#glm(formula = Rate ~ History + Operation + Age + Comorbidity,
+# family = gaussian(link = "log"))
+##
+#Deviance Residuals:
+# Min 1Q Median 3Q Max
+#-0.005923 -0.002551 -0.001152 0.002753 0.006639
+#
+#Coefficients:
+# Estimate Std. Error t value Pr(&gt;|t|)
+#(Intercept) -4.203456 0.151308 -27.781 4.93e-10 ***
+#History1 0.005103 0.041287 0.124 0.9044
+#Operation1 0.006746 0.050478 0.134 0.8966
+#Age 0.027170 0.002302 11.803 8.86e-07 ***
+#Comorbidity2 -0.182506 0.058996 -3.094 0.0129 *
+#Comorbidity3 -0.149206 0.059872 -2.492 0.0343 *
+#Comorbidity4 -0.125286 0.059462 -2.107 0.0644 .
+#---
+#Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#
+#(Dispersion parameter for gaussian family taken to be 2.927809e-05)
+#
+# Null deviance: 0.0073864 on 15 degrees of freedom
+#Residual deviance: 0.0002635 on 9 degrees of freedom
+#AIC: -114.82 
+
+---
+(vii)
+As before, History and Operation do not have a significant impact, while age still
+has a highly significant positive effect. [1½]
+Comorbidity has significant impact, 
+with levels 2-3 (comorbidities B-C) having a significant reducing effect as
+compared to level 1 (baseline, comorbidity A) 
+and level 4 (comorbidity D) having a marginally (non-)significant negative impact. 
+
+---
+
+(viii)
+The model with the 4 covariates in part (vi) should be preferred, 
+as it has smaller AIC. 
+(ix)
+Predicted link function value is:
+- 4.203456 - 0.182506 + 0.027170 * 62
+= -2.701422 
+and predicted value is:
+exp(-2.701422) = 0.06711001 
+
+---
+(x)
+The used GLM has a logarithmic link,
+which implies that predicted rates can be above 1. 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

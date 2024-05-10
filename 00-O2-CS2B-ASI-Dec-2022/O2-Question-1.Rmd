@@ -41,30 +41,40 @@ pre {
 Page 2 of 4
 Q. 1) As an Actuary working for company Actuaria, you have been asked to build a loss model 
 to forecast the size of potential losses over the next year for Employers’ Liability class of 
-business. You have been provided with data for 2,164 losses in the file “CS2BQ1.csv”.
+business. 
+
+
+You have been provided with data for 2,164 losses in the file “CS2BQ1.csv”.
 Library required:
 MASS
 Set the seed in R to 1234 prior to carrying out the analysis
-In order to build the model you have been asked to carry out the following analysis:
-i) Load the loss data given in the csv file in R and create a data frame with name “loss”. (1)
-ii) Find the mean and standard deviation of the loss data. 
 
 ---
 
-iii) Assuming that the loss data comes from a lognormal distribution, use the method of 
+
+---
+
+
+In order to build the model you have been asked to carry out the following analysis:
+Part A Load the loss data given in the csv file in R and create a data frame with name “loss”. (1)
+Part BFind the mean and standard deviation of the loss data. 
+
+---
+
+Part CAssuming that the loss data comes from a lognormal distribution, use the method of 
 moments to calculate the ‘mu’ and ‘sigma’ parameters of a lognormal distribution. It 
 is mandatory to compute the parameters using the “R” code only. (3)
-iv) Fit a lognormal distribution using method of Maximum Likelihood Estimation. You 
+Part D Fit a lognormal distribution using method of Maximum Likelihood Estimation. You 
 should use an appropriate function from the MASS package for fitting the distribution. 
 Create 2 variables “mu1” and “sigma1” to read the parameters of the distribution that 
 has been fit. (3)
-v) Compare the parameters estimated approaches in part (iii) and part (iv) above and 
+Part E Compare the parameters estimated approaches in part (Part Cand part (Part D above and 
 comment on any differences. (3)
-vi) Simulate 1,000 losses from a lognormal distribution using the mu1 and sigma1.
+Part F Simulate 1,000 losses from a lognormal distribution using the mu1 and sigma1.
 Estimate the Simulated Mean and Standard deviation. (4)
-vii) Create a ‘qqplot’ of the simulated losses against the actual losses and plot an ‘abline’ 
+Part GCreate a ‘qqplot’ of the simulated losses against the actual losses and plot an ‘abline’ 
 between 0 and 1 with appropriate labelling. (4)
-viii) Comment on the fit of the loss distribution based on the qqplot. (3)
+Part HComment on the fit of the loss distribution based on the qqplot. (3)
 ix) Compute the percentiles from 0% to 100% using steps of 10% of the original loss data 
 provided and the simulated losses. (3)
 x) You have been asked to estimate the losses that would be expected to be retained 
@@ -73,109 +83,135 @@ within a policy excess of 20,000. Create two new columns “Retained” and
 respectively. 
 ---
 
-xi) Using the ‘quantile’ function estimate the percentiles from 0% to 100% using steps of 
+xPart A Using the ‘quantile’ function estimate the percentiles from 0% to 100% using steps of 
 10% of the Retained and Transferred simulated losses. (3)
-xii) Combine the estimated percentiles for the Original losses, Simulated Losses, Retained 
+xPart BCombine the estimated percentiles for the Original losses, Simulated Losses, Retained 
 and Transferred losses into a data frame with the first column showing the percentiles 
 (i.e. 0%, 10% and so on). (3)
-xiii) Comment on the percentile distributions and differences across them. (2)
-xiv) Based on the estimated percentiles, you have been asked to estimate a technical price 
+xPart CComment on the percentile distributions and differences across them. (2)
+xPart D Based on the estimated percentiles, you have been asked to estimate a technical price 
 using the following formula:
 IAI CS2B-1222
  Page 3 of 4
 𝑇𝑒𝑐ℎ𝑛𝑖𝑐𝑎𝑙 𝑃𝑟𝑒𝑚𝑖𝑢𝑚
 = 𝑀𝑒𝑎𝑛 𝑜𝑓 𝑇𝑟𝑎𝑛𝑠𝑓𝑒𝑟𝑟𝑒𝑑 𝐿𝑜𝑠𝑠𝑒𝑠
 + 90𝑡ℎ 𝑃𝑒𝑟𝑐𝑒𝑛𝑡𝑖𝑙𝑒 𝑜𝑓 𝑇𝑟𝑎𝑛𝑠𝑓𝑒𝑟𝑟𝑒𝑑 𝐿𝑜𝑠𝑠 𝑑𝑖𝑠𝑡𝑟𝑖𝑏𝑢𝑡𝑖𝑜𝑛 ∗ 10% (2)
-xv) Compare the Technical Premium to the actual quote Premium of 70,000. (2)
-xvi) Plot the cumulative distribution function for the Original, Simulated, Retained and 
+xPart E Compare the Technical Premium to the actual quote Premium of 70,000. (2)
+xPart F Plot the cumulative distribution function for the Original, Simulated, Retained and 
 Transferred Loss distributions in one plot. (4)
 
 ---
 
 Solution.1
-> library(MASS)
-> options(scipen = 5)
-> #set seed to 1234
-> set.seed(1234)
-i)
-> x<-read.csv("CS2BQ1.csv") (1)
-ii)
-> #Find mean and sd
-> EmpiricalMean<-mean(x$Losses)
-> EmpiricalSD<-sd(x$Losses)
-> EmpiricalMean
+```{r}
+library(MASS)
+options(scipen = 5)
+#set seed to 1234
+set.seed(1234)
+```
+
+### Part A
+
+```{r}
+x<-read.csv("CS2BQ1.csv") 
+```
+
+---
+
+### Part B
+
+```{r}
+#Find mean and sd
+EmpiricalMean<-mean(x$Losses)
+EmpiricalSD<-sd(x$Losses)
+```
+
+EmpiricalMean
 [1] 49789.86
-> EmpiricalSD
+EmpiricalSD
 [1] 102948.2
 
 ---
 
-iii)
+Part C
 
 ```{r}
-> MoMmu<-log(EmpiricalMean/(1+EmpiricalSD^2/EmpiricalMean^2)^0.5)
-> MoMsigma<-log(1+EmpiricalSD^2/EmpiricalMean^2)^0.5
-> MoMmu
-[1] 9.984059
-> MoMsigma
-[1] 1.28958
+MoMmu<-log(EmpiricalMean/(1+EmpiricalSD^2/EmpiricalMean^2)^0.5)
+MoMsigma<-log(1+EmpiricalSD^2/EmpiricalMean^2)^0.5
+MoMmu
+# [1] 9.984059
+MoMsigma
+# [1] 1.28958
 ```
 
 ---
 
-iv)
+Part D
 
 ```{r}
-> #fit a lognormal distribution to the dataset using fitdistr in the MASS package
-> fitLogNormal<-fitdistr(x$Losses,"lognormal")
-> mu1<-fitLogNormal$estimate[1]
-> sigma1<-fitLogNormal$estimate[2]
-> mu1
-meanlog 
+#fit a lognormal distribution to the dataset using fitdistr in the MASS package
+fitLogNormal<-fitdistr(x$Losses,"lognormal")
+mu1<-fitLogNormal$estimate[1]
+sigma1<-fitLogNormal$estimate[2]
+```
+
+
+```{r}
+mu1
+#meanlog 
+```
+
 9.989917 
-> sigma1
+sigma1
 sdlog 
 1.268845 
 
-```
 
 ---
 
-> 'The Mu and Sigma estimates between the Method of Moments and Method of MLE approach are 
-quite close'.
+The Mu and Sigma estimates between the Method of Moments and Method of MLE approach are 
+quite close.
+
 (3)
-vi)
+Part F
 
 
 ```{r}
-> #Simulate losses from a lognormal distribution using the mu and sigma estimated above
-> SimL<-rlnorm(n=1000,mu,sigma)
-> #calculate the mean and sd for the simulated distribution
-> mean(SimL)
+#Simulate losses from a lognormal distribution using the mu and sigma estimated above
+SimL<-rlnorm(n=1000,mu1,sigma1)
+#calculate the mean and sd for the simulated distribution
+mean(SimL)
+```
+
 [1] 47238.53
-> sd(SimL)
+sd(SimL)
 
 [1] 88548.16
-```
+
 ---
 
-viii)
-> 'The fit of the loss distribution is fairly good till loss values of 25,000. Beyond this the qqplot indicates
+vPart C
+'The fit of the loss distribution is fairly good till loss values of 25,000. Beyond this the qqplot indicates
 the data is not normally distributed for larger/tail values' 
-(3)
+
 
 ---
 
 ix)
-> #using the quantile function calculate the loss percentiles for every percentile from 0 to 100% with 
+#using the quantile function calculate the loss percentiles for every percentile from 0 to 100% with 
 steps of 10%
-> Empirical<-quantile(x$Losses,probs = seq(0, 1, 0.1))
-> Simulated<-quantile(SimL,probs = seq(0, 1, 0.1))
-> Empirical
+
+```{r}
+Empirical<-quantile(x$Losses,probs = seq(0, 1, 0.1))
+Simulated<-quantile(SimL,probs = seq(0, 1, 0.1))
+Empirical
+
+```
+
  0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% 
  384.0 4522.9 7587.8 11050.5 15884.4 22200.0 29871.6 41800.1 63515.2 106102.3 
 1638436.0 
-> Simulated
+Simulated
  0% 10% 20% 30% 40% 50% 60% 70% 80% 
  293.1955 4677.5738 7429.3605 11021.5122 15189.9273 20731.8091 27842.9382 
 39392.2496 57282.2480 
@@ -185,33 +221,37 @@ steps of 10%
 ---
 
 x)
-> E<-20000
-> Retained<-pmin(E,SimL)
-> Transferred<-SimL-Retained
-(3)
-xi)
-> #quantiles for retained and transferred losses
-> RetainedPercentile<-quantile(Retained,probs = seq(0, 1, 0.1))
+E<-20000
+Retained<-pmin(E,SimL)
+Transferred<-SimL-Retained
+
+---
+
+xPart A
+#quantiles for retained and transferred losses
+RetainedPercentile<-quantile(Retained,probs = seq(0, 1, 0.1))
 IAI CS2B-1222
  Page 4 of 11
-> TransferredPercentile<-quantile(Transferred,probs = seq(0, 1, 0.1))
-> RetainedPercentile
+TransferredPercentile<-quantile(Transferred,probs = seq(0, 1, 0.1))
+RetainedPercentile
  0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% 
  293.1955 4677.5738 7429.3605 11021.5122 15189.9273 20000.0000 20000.0000 20000.0000 
 20000.0000 20000.0000 20000.0000 
-> TransferredPercentile
+TransferredPercentile
  0% 10% 20% 30% 40% 50% 60% 70% 80% 
  0.0000 0.0000 0.0000 0.0000 0.0000 731.8091 7842.9382 19392.2496 
 37282.2480 
  90% 100% 
  98552.0676 1237982.3513 
-(3)
-xii)
-> #Combine the quantiles for Empirical, Simulated, Retained and Transferred losses into a data frame 
+
+---
+
+xPart B
+#Combine the quantiles for Empirical, Simulated, Retained and Transferred losses into a data frame 
 with the first column 
-> #reflecting the quantile value
->c<-as.data.frame(cbind(seq(0,1,0.1),Empirical,Simulated,RetainedPercentile,TransferredPercentile))
-> c
+#reflecting the quantile value
+c<-as.data.frame(cbind(seq(0,1,0.1),Empirical,Simulated,RetainedPercentile,TransferredPercentile))
+c
  % Empirical Simulated RetainedPercentile TransferredPercentile
 0% 0.0 384.0 293.1955 293.1955 0.0000
 10% 0.1 4522.9 4677.5738 4677.5738 0.0000
@@ -225,25 +265,27 @@ with the first column
 90% 0.9 106102.3 118552.0676 20000.0000 98552.0676
 100% 1.0 1638436.0 1257982.3513 20000.0000 1237982.3513 
 (3)
-xiii)
+xPart C
 'Comment on the difference in percentile loss values
 There are differences at the higher percentiles with the simulated losses being higher than the empirical
 this reflects the lack of empirical data related to larger losses. The retained losses get capped at 20k 
 at the 50th percentile suggesting that 1 out of 2 claims will get capped by the current policy Excess.' 
-(2)
-xiv)
-> LossVolatility<-quantile(Transferred,0.9)
-> TechnicalPremium<-(mean(Transferred)+LossVolatility*0.1)
-> TechnicalPremium
+
+---
+
+xPart D
+LossVolatility<-quantile(Transferred,0.9)
+TechnicalPremium<-(mean(Transferred)+LossVolatility*0.1)
+TechnicalPremium
  90% 
 42229.48
 (2)
-xv)
-> Premium<-70000
-> EfficiencyRatio<-TechnicalPremium/Premium
-> 'The Actual Premium is higher than the Technical Premium and the efficiency ratio is 60%.' 
+xPart E
+Premium<-70000
+EfficiencyRatio<-TechnicalPremium/Premium
+'The Actual Premium is higher than the Technical Premium and the efficiency ratio is 60%.' 
 (2)
-xvi)
+xPart F
 IAI CS2B-1222
  Page 5 of 11
 (4)

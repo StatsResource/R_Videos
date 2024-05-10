@@ -68,24 +68,24 @@ Theorem.
 ---
 
 Solution 2:
-i) 
+Part A 
 
 ```{r}
 count <- c(31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24)
 ```
 
-> quantile(count,0.25)
+ quantile(count,0.25)
 25% 
 20 
-> quantile(count,0.75)
+ quantile(count,0.75)
 75% 
 28.5 
-> IQR(count)
+ IQR(count)
 [1] 8.5
 
 
 ---
-ii) 
+Part B
 
 ```{r}
 hist(count)
@@ -93,7 +93,7 @@ hist(count)
 
 ---
 
-iii) 
+Part C
 
 ```{r}
 lambda.hat=mean(count)
@@ -105,7 +105,7 @@ print(lambda.hat)
 
 ---
 
-iv) Ho: The mean fiber count is 25
+Part D Ho: The mean fiber count is 25
 H1: Mean fiber count is not equal to 25
 
 ```{r}
@@ -129,31 +129,29 @@ mean of x
 
 ---
 
-v) 
+Part E 
 
 ```{r}
 lambda.hat.sterror=sqrt(lambda.hat/length(count))
 print(lambda.hat.sterror)
 
 ```
-[1] 1.040757
 
 ---
 
 
-vi) 
+Part F 
 
 ```{r}
 lambda.CI.Limits=lambda.hat + c(-1,1)*qnorm(.95)*lambda.hat.sterror
 print(lambda.CI.Limits)
 ```
 
-[1] 23.20115 26.62494
 
 
 ---
 
-vii) > pnorm(30,lambda.hat,sqrt(lambda.hat),lower.tail = FALSE)
+Part G pnorm(30,lambda.hat,sqrt(lambda.hat),lower.tail = FALSE)
 [1] 0.1540622
 
 

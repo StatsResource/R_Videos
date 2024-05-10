@@ -45,9 +45,9 @@ random sample of heights of mothers (mother.height), fathers
 #### Exercises
 
 (i) Draw a scatterplot for each pair of data. 
-(ii) Comment on the relationships between the pairs of data by referring to the 
+Part B Comment on the relationships between the pairs of data by referring to the 
 plots from part A. 
-(iii) Fit a multiple linear regression model with the daughters’ height as the 
+Part C Fit a multiple linear regression model with the daughters’ height as the 
 response variable and mothers’ and fathers’ height as the explanatory 
 variables. 
 
@@ -56,12 +56,12 @@ Your answer should show a summary of the output and the fitted
 equation. 
 
 ---
-(iv) Assess the effect of each explanatory variable on the dependent variable by 
+Part D Assess the effect of each explanatory variable on the dependent variable by 
 referring to the R output from part C.  
-(v) Plot the residuals of the model fitted in part (iii) using a graph that is 
+Part E Plot the residuals of the model fitted in part Part C using a graph that is 
 appropriate for checking if the estimated errors are independent of the 
 explanatory variables. 
-(vi) Comment on the fit of the model by referring to the plot from part (v). 
+(vi) Comment on the fit of the model by referring to the plot from part Part E. 
 A suggestion is made that when the mother’s height is 61 inches and the father’s 
 height is 63 inches, their daughter’s height should be 67.5 inches. 
 (vii) Comment on whether this claim is likely by using an appropriate 95% 
@@ -72,18 +72,25 @@ predictive interval of the daughter’s height based on the fitted model.
 
 Q3
 (i) R code:
+
+```{r}
+load("heights.RData")
+```
+
 ```{r}
 plot(heights, main = "Scatterplot of the heights of the daughter, mother and father") 
 ```
 
 
 ---
-(ii) The scatterplots suggest a (strong) positive and roughly linear relationship between mothers’ and daughters’ height. 
-The relationship between fathers’ and daughters’ height seems weaker 
-There is no association between mothers’ and fathers’ height. 
+Part B 
+
+* The scatterplots suggest a (strong) positive and roughly linear relationship between mothers’ and daughters’ height. 
+* The relationship between fathers’ and daughters’ height seems weaker 
+* There is no association between mothers’ and fathers’ height. 
 
 ---
-(iii) R code:
+Part C R code:
 
 ```{r}
 mod1 = lm(daughter.height ~ mother.height + father.height) 
@@ -108,16 +115,22 @@ summary(mod1)
 #Residual standard error: 1.94 on 17 degrees of freedom
 #Multiple R-squared: 0.6752, Adjusted R-squared: 0.637
 #F-statistic: 17.67 on 2 and 17 DF, p-value: 7.057e-05 
+
 The fitted equation is
-𝑦𝑦􀷜=7.454+0.707 𝑀𝑀𝑀𝑀𝑀𝑀ℎ𝑒𝑒𝑟𝑟′𝑠𝑠 ℎ𝑒𝑒𝑒𝑒𝑒𝑒ℎ𝑡 +0.164 𝐹𝐹𝐹𝐹𝐹 ℎ𝑒𝑒𝑟𝑟′𝑠𝑠 ℎ𝑒𝑒𝑒𝑒𝑒𝑒ℎ𝑡 
+$$𝑦𝑦􀷜=7.454+0.707 mother.height +0.164 father.height$$
 
 ---
 
-(iv) Mother’s height has a positive 
+
+### Part D
+Part D Mother’s height has a positive 
 significant positive effect on daughter’s height (p-value = 4e-05). 
 On the other hand, although daughters’ height also increases with father’s height, 
 the effect is not significant (p-value = 0.213). 
-(v) R code:
+
+---
+
+Part E R code:
 ```{r}
 mod1.residuals = residuals(mod1)
 # Or
@@ -133,15 +146,30 @@ mod1.fitted = fitted(mod1)
 ---
 
 ```{r}
-plot(mod1.fitted,mod1.residuals, main = “Residuals of the fitted multiple regression model”) 
-````
-Alternative code: plot(mod1,1)
+plot(mod1.fitted,mod1.residuals, 
+     main = "Residuals of the fitted multiple regression model") 
+```
 
 ---
 
-(vi) There seem to be doubts about the assumption of constant variance, with residuals around fitted values 62-64 showing higher variation. 
-Also, although there seems to be random variation around zero, there is a larger number of positive residuals, indicating possible underestimation. 
-(vii) R code:
+Alternative code: 
+
+```{r}
+plot(mod1,1)
+```
+
+---
+
+### Part F
+
+* There seem to be doubts about the assumption of constant variance, with residuals around fitted values 62-64 showing higher variation. 
+* Also, although there seems to be random variation around zero, there is a larger number of positive residuals, indicating possible underestimation. 
+
+---
+
+### Part G
+
+R code:
 
 ```{r}
 newdata = data.frame(mother.height=61, father.height=63)
@@ -156,10 +184,10 @@ So, a daughter’s height of 67.5 inches seems unlikely, based on the fitted mod
 
 
 Part (i): Well answered. A common error was not including annotations on the plot.
-Part (ii): Overall well answered. Some candidates failed to identify all 3 relevant points of the relationships shown in the plots.
-Part (iii): Well answered generally. A number of candidates failed to state the fitted equation.
-Part (iv): Mixed answers. A common error was not referring explicitly to the p-values or the positive effect.
-Part (v): Overall very well answered. A common error was plotting the residuals against an index, without reference to the explanatory variables or fitted values.
+Part Part B: Overall well answered. Some candidates failed to identify all 3 relevant points of the relationships shown in the plots.
+Part Part C: Well answered generally. A number of candidates failed to state the fitted equation.
+Part Part D: Mixed answers. A common error was not referring explicitly to the p-values or the positive effect.
+Part Part E: Overall very well answered. A common error was plotting the residuals against an index, without reference to the explanatory variables or fitted values.
 Part (vi): Mixed answers. In a number of cases comments were unclear, but most candidates provided some valid comments.
 Part (vii): Well answered generally.
 

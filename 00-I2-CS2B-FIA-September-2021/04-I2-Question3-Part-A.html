@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+3 Before answering this question, the R packages for calculating and plotting Recursive 
+Partitioning and Regression Trees should be loaded into R using the following code: 
+&lt;pre&gt;&lt;code&gt;
+install.packages("rpart") 
+install.packages("rpart.plot") 
+library(rpart) 
+library(rpart.plot) 
+&lt;/code&gt;&lt;pre&gt;
+A new start-up bank is considering which product it should first launch to market. 
+One of the products it is considering is a personal loan. An Actuary employed by the 
+bank wants to construct a simple decision tree machine learning model to determine 
+which loan applications to approve. 
+
+---
+The Actuary has decided to construct the decision tree model to classify each 
+potential customer as either expected to default (default = 1) or not expected to default 
+(default = 0) based on the following inputs: 
+*  a categorical feature, f1, that takes values –1, 0 or +1 
+*  a continuous feature, f2, that takes values between –1 and 1. 
+With no previous customer data to draw on, the Actuary decides to construct a 
+specimen data set to train the decision tree model containing the following 
+information for each of n hypothetical customers, where n = 10,000: 
+*  feature f1 taking the values –1, 0 and +1 with equal probability 
+*  feature f2 being uniformly distributed on [–1,1] 
+*  a field containing the value 1 if the customer defaults on the loan and 0 otherwise. 
+---
+To determine whether a hypothetical customer will default, the Actuary decides to 
+model the probability of default as: 
+exp (f)
+1 + exp (f)
+where f = a + bf1 + cf2 and a, b and c are parameters. 
+Before constructing the specimen data set, the Actuary first needs to generate three 
+sets of 10,000 observations from the uniform distribution on [0, 1]. 
+
+---
+(i) Generate a 10,000 × 3 matrix named U of observations from the uniform 
+distribution on [0, 1]. Each column of U should contain 10,000 observations 
+that have been generated together but separately from the observations in other 
+columns. You should set a random number generator seed of 12345 before 
+generating the observations in the first column and use the R function, 
+&lt;tt&gt;head()&lt;/tt&gt;, to display the first six rows of U in your answer script.  
+
+---
+Let Uij represent the (i, j) entry of matrix U. 
+The Actuary proceeds with creating the specimen data set by constructing: 
+*  an n-component vector f1 whose ith component is equal to –1 if Ui1 ≤ 1
+3
+, to 
+0 if 1
+3 &lt; Ui1 ≤ 2
+3
+ and to +1 if Ui1 &gt; 2
+3
+*  an n-component vector f2 whose ith component is equal to 2(Ui2 – 0.5) 
+*  an n-component vector f whose ith component is the value of f given by the 
+formula above for customer i
+*  an n-component vector defprob whose ith component is the probability of default 
+given by the formula above for customer i
+*  an n-component vector default whose ith component is equal to 1 if Ui3 is less than 
+or equal to the probability from the vector defprob for customer i and 0 otherwise 
+*  a data frame in the format required to construct decision trees using the R package 
+rpart, incorporating the vectors f1, f2 and default. 
+The R code to create the data frame in the format required, given the vectors f1, f2 and 
+default, is: 
+data.frame("f1" = f1, "f2" = f2, "default" = default)
+
+
+---
+
+Q3
+install.packages("rpart")
+install.packages("rpart.plot")
+library(rpart)
+library(rpart.plot)
+(i)
+set.seed(12345) 
+THEN EITHER:
+U = matrix(runif(30000), ncol = 3) [2½]
+OR:
+U = matrix(nrow = 10000, ncol = 3) 
+for (j in 1:3) { 
+U[,j] = runif(10000) 
+}
+THEN:
+head(U) 
+ [,1] [,2] [,3] 
+[1,] 0.7209039 0.2443204 0.56406258 
+[2,] 0.8757732 0.6894012 0.99741215 
+[3,] 0.7609823 0.8696410 0.70260977 
+[4,] 0.8861246 0.9812336 0.95430918 
+[5,] 0.4564810 0.5692775 0.09716026 
+[6,] 0.1663718 0.1643290 0.74324952 
+(ii)
+a = 0 
+b = 0.5 
+c = 0.5 
+THEN EITHER:
+n = 10000 
+f1 = vector(length = n) 
+f2 = vector(length = n) 
+---
+(ii) Generate a data frame named ***specimen***, in line with the Actuary’s construction 
+rules, corresponding to the parameter values n = 10,000, a = 0 and b = c = 0.5. 
+Use the R function, &lt;tt&gt;head()&lt;/tt&gt;, to display the first six rows of specimen in your 
+answer script. 
+
+
+f = vector(length = n) 
+defprob = vector(length = n) 
+default = vector(length = n) 
+for (i in 1:n) { 
+f1[i] = -1 *(U[i, 1] &lt;= 1/3) + 1 * (U[i, 1] &gt; 2/3) 
+f2[i] = 2 * (U[i, 2] - 0.5) 
+f[i] = a + b * f1[i] + c * f2[i] 
+defprob[i] = exp(f[i]) /(1 + exp(f[i])) 
+default[i] = 1 * (U[i, 3] &lt;= defprob[i]) 
+}
+---
+OR:
+f1 = -1 *(U[,1] &lt;= 1/3) + 1 * (U[,1] &gt; 2/3) [3]
+f2 = 2 * (U[,2] - 0.5) [3]
+f = a + b * f1 + c * f2 
+defprob = exp(f) /(1 + exp(f)) 
+default = 1 * (U[,3] &lt;= defprob) [2½]
+THEN:
+specimen = data.frame("f1" = f1, "f2" = f2, "default" = default)
+
+head(specimen) 
+ f1 f2 default
+1 1 -0.5113592 0
+2 1 0.3788024 0
+3 1 0.7392819 1
+4 1 0.9624672 0
+5 0 0.1385551 1
+6 -1 -0.6713421 0 
+
+---
+(iii) Determine the expected probability of customer default based on the specimen 
+data.  
+
+(iii)
+mean(defprob)
+OR
+sum(defprob)/length(defprob)
+
+ 0.4993524 
+The expected probability of customer default is 0.4993524 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

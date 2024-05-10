@@ -144,8 +144,11 @@ on the sample in part 1
 ---
 
 #### Exercise 5
-The maximum likelihood estimator for $\lambda$ is given by $\lambda = 1/X$ where $X$ is the sample 
-mean. Estimate the parameter $\lambda$  using the maximum likelihood estimator and 
+
+* The maximum likelihood estimator for $\lambda$ is given by $\lambda = 1/X$ where $X$ is the sample 
+mean. 
+
+* Estimate the parameter $\lambda$  using the maximum likelihood estimator and 
 the sample in part 1
 
 
@@ -167,7 +170,7 @@ lambda
 
 #### Exercise 6
 
-Generate another sample of size n = 180 from an Exponential distribution with parameter $\lambda  = 5$ and estimate the parameter $\lambda$ using the maximum likelihood estimator and the new sample. 
+Generate another sample of size n = 180 from an Exponential distribution with parameter $\lambda$  = 5 and estimate the parameter $\lambda$ using the maximum likelihood estimator and the new sample. 
 
 ```{r}
 x2 <- rexp(samplesize,lambda)
@@ -181,7 +184,8 @@ x2 <- rexp(samplesize,lambda)
 
 Comment on the estimated values in parts 5 and 6
 
-* The estimated values are both close to the true value ($\lambda = 5$) but not identical. 
+* The estimated values are both close to the true value ( $\lambda = 5$ ) but not identical. 
+
 * The actual value of the estimator is a random variable and the estimated value depends on the actual sample
 
 
