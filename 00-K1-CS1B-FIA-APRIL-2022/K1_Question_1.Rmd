@@ -118,7 +118,7 @@ pnorm(650,mean=630,sd=61, lower=FALSE)
 ```
 
 
-We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
+* We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
 and is equal to 0.3715054. 
 
 ---

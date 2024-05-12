@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## Statistical Modelling with R for Actuarial Students
+]
 
 ---
 
@@ -46,66 +50,78 @@ Below is the decision tree as shown:
 
 ---
 
-i) Write a function in R to decide whether a surgery is needed or not based on the value of 
-three parameters. Denote Surgery required as 1 and Surgery not required as 0. (3)
-ii) Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 
-iii) Load CS2B_Mar22_Dataset1.csv file into R and name it as decisionData. This data 
+### Exercises
+
+A. Write a function in R to decide whether a surgery is needed or not based on the value of 
+three parameters. Denote Surgery required as 1 and Surgery not required as 0. 
+
+B. Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 
+
+C. Load &lt;tt&gt;CS2B_Mar22_Dataset1.csv&lt;tt&gt; file into R and name it as decisionData. This data 
 contains the three parameter values for 50 patients and the actual decision taken with 
-respect to the surgery. Apply the function created in (i) to this data. Paste the output after 
+respect to the surgery. Apply the function created in Part A to this data. Paste the output after 
 applying the function in your answer sheet. 
-iv) Compare the predicted and actual decisions by computing precision, recall and F1 score. 
-v) Comment on the results obtained in (iv). 
+
+D. Compare the predicted and actual decisions by computing precision, recall and F1 score. 
+
+E. Comment on the results obtained in (iv). 
 
 ---
 Solution 1:
+
+### Part A
 
 
 ```r
 library(moments)
 # i)
 f=function(x){
- ifelse(x[1]&gt;150 &amp; x[2]&gt;50,ifelse(x[3]&gt;300,1,0),0)
-}
-#OR
-f=function(x){
-ifelse(x[1]&gt;150 &amp; x[2]&gt;50,0,ifelse(x[3]&gt;300,1,0))
+ ifelse(x[1]&gt;150 &amp; x&gt;50,ifelse(x[3]&gt;300,1,0),0)
 }
 ```
 
----
 
 
 ```r
 #OR
 f=function(x){
-ifelse(x[1]&gt;150 &amp; x[2]&gt;50,ifelse(x[3]&gt;300,0,1),0)
+ifelse(x[1]&gt;150 &amp; x&gt;50,0,ifelse(x[3]&gt;300,1,0))
 }
+```
+
+
+
+```r
 #OR
 f=function(x){
-ifelse(x[1]&gt;150 &amp; x[2]&gt;50,0,ifelse(x[3]&gt;300,0,1))
+ifelse(x[1]&gt;150 &amp; x&gt;50,ifelse(x[3]&gt;300,0,1),0)
+}
+```
+
+
+
+```r
+f=function(x){
+ifelse(x[1]&gt;150 &amp; x&gt;50,0,ifelse(x[3]&gt;300,0,1))
 }
 ```
 
 ---
-#### Part (ii)
+
+### Part B.
+
 
 ```r
 f(c(180,75,350))
 ```
 
 ```
-## [1] 0
-```
-
-```r
-## [1] 1
-## [1] 0
-## [1] 0
-## [1] 0
+## [1] 0 0 0
 ```
 
 ---
-#### Part (iii)
+
+#### Part C.
 
 
 ```r
@@ -115,25 +131,37 @@ model
 ```
 
 ```
-##  [1] 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0
-## [39] 0 0 0 0 0 1 0 1 0 0 0 0
+##                  [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+## Parameter.1         0    0    0    0    0    0    0    0    0     0     0     0
+## Parameter.2         0    0    1    0    0    1    0    0    0     0     0     0
+## Parameter.3         0    0    0    0    0    0    0    0    0     0     0     0
+## Operation.Status    0    0    1    0    0    1    0    0    1     0     0     0
+##                  [,13] [,14] [,15] [,16] [,17] [,18] [,19] [,20] [,21] [,22]
+## Parameter.1          0     0     0     0     0     0     0     0     0     0
+## Parameter.2          0     0     0     1     0     0     0     0     0     0
+## Parameter.3          0     0     0     0     0     0     0     0     0     0
+## Operation.Status     0     0     0     1     0     0     1     1     0     0
+##                  [,23] [,24] [,25] [,26] [,27] [,28] [,29] [,30] [,31] [,32]
+## Parameter.1          0     0     0     0     0     0     0     0     0     0
+## Parameter.2          0     0     0     1     0     0     0     0     0     0
+## Parameter.3          0     0     0     0     0     0     0     0     0     0
+## Operation.Status     0     0     0     1     0     0     1     0     0     0
+##                  [,33] [,34] [,35] [,36] [,37] [,38] [,39] [,40] [,41] [,42]
+## Parameter.1          0     0     0     0     0     0     0     0     0     0
+## Parameter.2          0     0     0     0     0     0     0     0     0     0
+## Parameter.3          0     0     0     0     0     0     0     0     0     0
+## Operation.Status     0     0     0     0     0     0     1     1     0     0
+##                  [,43] [,44] [,45] [,46] [,47] [,48] [,49] [,50]
+## Parameter.1          0     0     0     0     0     0     0     0
+## Parameter.2          0     1     0     1     0     0     0     0
+## Parameter.3          0     0     0     0     0     0     0     0
+## Operation.Status     0     1     0     1     0     0     1     1
 ```
 
----
-
-## [1] 1 0 0 0 0 0 0 1 0 1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 1 1 0 0 0 
-0 0 1
-## [39] 0 0 1 0 0 0 0 0 0 1 0 0
 
 ---
-##[1] 0 1 0 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1 1 1 
-1 0 0 0 0 1 1 0 1 0 1 0 0 0
-##[1] 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
-0 0 1 1 0 0 0 0 0 0 0 0 1 1
-## [1] 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 1 0 1 0 0 0 0
----
-#### Part (iv)
+
+#### Part D.
 
 
 ```r
@@ -165,10 +193,6 @@ print(paste("TN = ", TN))
 ## [1] "TN =  0"
 ```
 
-```r
-## [1] "TN = 22"
-```
-
 ---
 
 
@@ -181,18 +205,15 @@ print(paste("FN = ", FN))
 ## [1] "FN =  0"
 ```
 
+
+
 ```r
-## [1] "FN = 15"
 precision=(TP/(TP+FP))
 precision 
 ```
 
 ```
 ## [1] NaN
-```
-
-```r
-## [1] 0.6153846
 ```
 
 ---
@@ -208,7 +229,6 @@ recall
 ```
 
 ```r
-## [1] 0.3478261
 f1=(2*precision*recall)/(precision+recall)
 f1 
 ```
@@ -217,25 +237,20 @@ f1
 ## [1] NaN
 ```
 
-```r
-## [1] 0.4444444
-```
-
----
-#### Part (v)
-# Lower precision value indicates the presence of larger number of False posi
-tives
-# Lower recall value indicates the presence of larger number of False negativ
-es
-# This test is not really effective at correctly identifying individuals who 
-require Surgery
 ---
 
-# F1 tells how precise your classifier is (how many instances it classifies c
-orrectly), as well as how robust it is (it does not miss a significant number 
+#### Part E.
+
+*  Lower precision value indicates the presence of larger number of False positives
+
+* Lower recall value indicates the presence of larger number of False negatives
+
+* This test is not really effective at correctly identifying individuals who require Surgery
+
+* F1 tells how precise your classifier is (how many instances it classifies correctly), as well as how robust it is (it does not miss a significant number 
 of instances)
-# Low F1 score indicates that the model can be modified to increase its perfo
-rmance
+
+* Low F1 score indicates that the model can be modified to increase its performance
 
 ---
 
@@ -285,6 +300,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

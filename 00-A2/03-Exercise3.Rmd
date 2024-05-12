@@ -97,10 +97,8 @@ An analyst has suggested that neither model in part (iv) is a good fit to the da
 
 ---
 
-Part 5}
-(v)
-(a)
-(b)
+### Part 5
+
 Suggest a suitable alternative model to fit to the data. Fit the model you have suggested in part (v)(a) to the data, stating the
 equation used.
 (c)

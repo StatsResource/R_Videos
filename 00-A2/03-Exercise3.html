@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## R for Actuarial Students
+]
 
 ---
 
@@ -39,15 +43,11 @@ library(fpp)
 ```
 
 ```
-## Warning: package 'fpp' was built under R version 4.0.5
+## Warning: package 'fpp' was built under R version 4.3.3
 ```
 
 ```
 ## Loading required package: forecast
-```
-
-```
-## Warning: package 'forecast' was built under R version 4.0.5
 ```
 
 ```
@@ -61,7 +61,7 @@ library(fpp)
 ```
 
 ```
-## Warning: package 'fma' was built under R version 4.0.5
+## Warning: package 'fma' was built under R version 4.3.3
 ```
 
 ```
@@ -69,7 +69,7 @@ library(fpp)
 ```
 
 ```
-## Warning: package 'expsmooth' was built under R version 4.0.5
+## Warning: package 'expsmooth' was built under R version 4.3.3
 ```
 
 ```
@@ -77,15 +77,7 @@ library(fpp)
 ```
 
 ```
-## Warning: package 'lmtest' was built under R version 4.0.5
-```
-
-```
 ## Loading required package: zoo
-```
-
-```
-## Warning: package 'zoo' was built under R version 4.0.5
 ```
 
 ```
@@ -101,10 +93,6 @@ library(fpp)
 
 ```
 ## Loading required package: tseries
-```
-
-```
-## Warning: package 'tseries' was built under R version 4.0.5
 ```
 
 
@@ -170,11 +158,20 @@ income &lt;- usconsumption[,2]
 
 ---
 
-Compare the performance of the ARIMA model you have chosen in part (iii) with a linear regression model of consumption on income, by computing the root mean square error (RMSE) for the fitted values of
+### Exercise 4
+
+Compare the performance of the ARIMA model you have chosen in Exercise 3 with a linear regression model of consumption on income, by computing the root mean square error (RMSE) for the fitted values of
 each model. Paste your coding and R output into your answer.
 (b)
+
+---
+
+### Exercise 4 (Continued)
 Explain why the RMSE is not the ideal measure to compare these models, including a recommendation of a more appropriate measure.
 
+---
+
+### Exercise 5
 
 An analyst has suggested that neither model in part (iv) is a good fit to the data and has asked you to propose an alternative model.
 
@@ -236,6 +233,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+Q. 2)
+The dataset “CSK.csv” contains details of 38 players who represented the team Chennai Super Kings (CSK) in the Indian Premier League (IPL) in more than 15 games as of 2022.
+The details of the variables are as follows:
+
+* Bat_Avg: Batting Average of the Player
+* Bat_SR: Batting Strike Rate of the Player
+* Bound_Sixes: Percentage of the total runs scored in the form of boundaries and sixes
+* Bowl_Avg: Bowling Average
+* Bowl_Econ: Bowling Economy
+* Bowl_SR: Bowling Strike Rate
+* Initial_Class: Initial classification (Initially the players are classified as either “Batsman” or “Bowler” based on the historical performance
+
+---
+
+
+
+
+Load the data into R and name the data frame as “CSK”.
+Use the following code
+
+
+```r
+rownames(CSK)&lt;-CSK$Player
+CSK$Player&lt;-NULL
+```
+
+Perform feature scaling of all the numerical columns
+
+
+```r
+CSK[,1:6]&lt;-scale(CSK[,1:6])
+```
+
+
+---
+
+### Exercises
+
+i) Compute the mean value of all the scaled columns for Batsman and Bowler.
+
+ii) Comment on the characteristics of different features based on the mean values for Batsman and the Bowler.
+
+iii) Consider the mean values of Batsman and Bowler as the cluster centroids for the next iteration.
+a) Compute the Euclidean distance between the batsman cluster centroid and each observation and store the distances in a new variable “D1” of the data frame CSK.
+
+b) Compute the Euclidean distance between the bowler cluster centroid and each observation and store the distances in a new variable “D2” of the data frame CSK.
+
+iv) Assign a new cluster category (Batsman or Bowler) to each player (create a new column called “Iteration1” to the CSK data frame) based on which of the two distances are lower.
+
+v) Compute the proportion of cluster transfers that occurred after the first iteration.
+
+vi) Repeat the steps (i), (iii) and (iv) for another iteration using the new cluster memberships of each of the players and assign the new cluster category to each player after the second iteration (create a column called “Iteration2”).
+
+---
+
+vii) The players who were a part of two different categories in Iteration 1 and Iteration 2 are called as “Allrounders”. Identify the players who can be categorized as “Allrounders” in the CSK team.
+
+viii) Your friend suggested that you can use “k-means” function to do the clustering of batsman and bowler groups.
+You need to execute the k-means clustering to create two clusters based on the six attributes of each player. Before executing the k-means clustering function, it is mandatory to set the seed value to 100 using set.seed(100). Print the cluster means of the two clusters formed.
+
+ix) Add the k-means cluster memberships to the CSK data frame. Rename cluster 1 as “Batsman” and cluster 2 as “Bowler”.
+
+x) Identify the names of the players who are differently classified between Iteration 2 and the k-means cluster.
+
+
+xi) Comment on the reason for difference in classifications between Iteration 2 and k-means cluster.
+
+
+---
+
+Solution 2:
+
+
+```r
+CSK&lt;-read.csv("CSK.csv")
+rownames(CSK)&lt;-CSK$Player
+CSK$Player&lt;-NULL
+CSK[,1:6]&lt;-scale(CSK[,1:6])
+```
+
+(i) 
+
+
+```r
+cent&lt;-stats::aggregate(.~Initial_Class,data = CSK, FUN = "mean")
+cent
+```
+
+```
+##   Initial_Class    Bat_Avg     Bat_SR Bound_Sixes   Bowl_Avg  Bowl_Econ
+## 1       Batsman  0.7358645  0.4665582   0.4410948  0.4163466  0.4205526
+## 2        Bowler -1.0118137 -0.6415175  -0.6065053 -0.5724766 -0.5782599
+##      Bowl_SR
+## 1  0.4267018
+## 2 -0.5867150
+```
+
+## Initial_Class Bat_Avg Bat_SR Bound_Sixes Bowl_Avg Bowl_Econ
+## 1 Batsman 0.7358645 0.4665582 0.4410948 0.4163466 0.4205526
+## 2 Bowler -1.0118137 -0.6415175 -0.6065053 -0.5724766 -0.5782599
+## Bowl_SR
+## 1 0.4267018
+## 2 -0.5867150
+
+---
+
+(ii) The batsman has higher batting average, higher batting strike rate, hig
+her percentage of runs scored in boundaries and sixers, higher bowling averag
+e, higher bowling economy and higher bowling strike rate. All the values are 
+comparatively lower for bowlers
+
+---
+
+(iii) 
+(a) &amp; (b):
+
+```r
+newD1&lt;-c()
+newD2&lt;-c()
+for (i in 1:38) {
+ 
+ d1&lt;-sqrt(sum((CSK[i,1:6]-cent[1,2:7])^2))
+ d2&lt;-sqrt(sum((CSK[i,1:6]-cent[2,2:7])^2))
+ newD1&lt;-c(newD1,d1)
+ newD2&lt;-c(newD2,d2)
+ 
+}
+newD1
+```
+
+```
+##  [1] 2.434718 1.729955 2.997824 1.568778 3.348392 2.958461 2.311089 2.410948
+##  [9] 1.772017 1.799161 1.791762 1.729785 2.272338 3.004869 1.710662 5.625747
+## [17] 1.844042 3.434897 1.950693 1.868280 2.269412 2.204044 1.642882 2.019207
+## [25] 4.154325 3.522683 5.453950 1.895283 5.360322 1.765092 1.405719 1.541004
+## [33] 2.974695 2.349785 2.502810 1.633570 1.549088 1.203394
+```
+
+---
+
+##  2.434718 1.729955 2.997824 1.568778 3.348392 2.958461 2.311089 2.4109
+48
+## [9] 1.772017 1.799161 1.791762 1.729785 2.272338 3.004869 1.710662 5.6257
+47
+## [17] 1.844042 3.434897 1.950693 1.868280 2.269412 2.204044 1.642882 2.0192
+07
+## [25] 4.154325 3.522683 5.453950 1.895283 5.360322 1.765092 1.405719 1.5410
+04
+## [33] 2.974695 2.349785 2.502810 1.633570 1.549088 1.203394
+newD2
+##  2.5460797 3.6709312 0.7248067 3.9317258 0.7657979 1.5270051 2.2706863
+## [8] 1.2766249 2.3503867 4.4885763 4.3502845 4.4537767 2.4004672 1.1346542
+## [15] 4.4894753 3.1527952 4.4756309 1.6133179 2.1024193 3.5411385 1.6613139
+## [22] 1.1997969 4.3415921 2.3017138 2.0161058 0.8954538 2.9284766 1.1502851
+## [29] 3.1197124 3.6388673 2.8807912 4.1211401 1.1314002 2.8696064 1.1010748
+## [36] 3.9474648 3.8648224 3.0541624
+
+
+```r
+CSK$D1&lt;-newD1
+CSK$D2&lt;-newD2
+```
+
+---
+
+(iv) 
+
+
+```r
+CSK$Iteration1&lt;-ifelse(CSK$D1&lt;CSK$D2,"Batsman","Bowler") 
+```
+
+(v) 
+
+
+```r
+table(CSK$Initial_Class,CSK$Iteration1)
+```
+
+```
+##          
+##           Batsman Bowler
+##   Batsman      19      3
+##   Bowler        2     14
+```
+## 
+## Batsman Bowler
+## Batsman 19 3
+## Bowler 2 14
+sum(CSK$Initial_Class!=CSK$Iteration1)/nrow(CSK)
+##  0.1315789
+
+---
+
+(vi) 
+
+
+```r
+CSK&lt;-CSK[,c(1:7,10)] 
+cent&lt;-stats::aggregate(.~Iteration1,data = CSK[,-7], FUN = "mean") 
+cent
+```
+
+```
+##   Iteration1    Bat_Avg     Bat_SR Bound_Sixes   Bowl_Avg  Bowl_Econ    Bowl_SR
+## 1    Batsman  0.6892993  0.5433875   0.5505359  0.6280737  0.5811715  0.6136204
+## 2     Bowler -0.8514873 -0.6712434  -0.6800737 -0.7758557 -0.7179177 -0.7580017
+```
+
+## Iteration1 Bat_Avg Bat_SR Bound_Sixes Bowl_Avg Bowl_Econ Bo
+
+
+```r
+#wl_SR
+```
+
+## 1 Batsman 0.6892993 0.5433875 0.5505359 0.6280737 0.5811715 0.61
+36204
+## 2 Bowler -0.8514873 -0.6712434 -0.6800737 -0.7758557 -0.7179177 -0.75
+80017
+
+---
+
+
+```r
+newD1&lt;-c()
+newD2&lt;-c()
+for (i in 1:38) {
+ 
+ d1&lt;-sqrt(sum((CSK[i,1:6]-cent[1,2:7])^2)) # 3 Marks
+
+ d2&lt;-sqrt(sum((CSK[i,1:6]-cent[2,2:7])^2)) # 3 Marks
+ newD1&lt;-c(newD1,d1)
+ newD2&lt;-c(newD2,d2)
+ 
+}
+```
+
+
+```r
+CSK$D1&lt;-newD1
+CSK$D2&lt;-newD2
+#CSK$Iteration2 &lt;-
+#  ifelse(    CSK$D1&lt;CSK$D2,"Batsman","Bowler")[table(CSK$Iteration1,CSK$Iteration2)
+```
+
+## 
+## Batsman Bowler
+## Batsman 18 3
+## Bowler 0 17
+
+---
+
+[2 Mark for computing new means, 3 marks for computing the D1, 3 Marks for co
+mputing D2 and 2 Marks for assigning the player to “Batsman or “Bowler” categ
+ory, Max 10]
+(vii) rownames(CSK)[CSK$Iteration1!=CSK$Iteration2]
+##  "MM Ali" "RA Jadeja" "JA Morkel"
+
+---
+
+(viii) 
+
+
+```r
+set.seed(100)
+m1&lt;-kmeans(CSK[,1:6],2)
+m1$centers
+```
+
+```
+##      Bat_Avg     Bat_SR Bound_Sixes   Bowl_Avg  Bowl_Econ    Bowl_SR
+## 1  0.8514137  0.4421142   0.4803985  1.2071033  1.2126534  1.2242183
+## 2 -0.4966580 -0.2578999  -0.2802325 -0.7041436 -0.7073812 -0.7141274
+```
+## Bat_Avg Bat_SR Bound_Sixes Bowl_Avg Bowl_Econ Bowl_SR
+## 1 0.8514137 0.4421142 0.4803985 1.2071033 1.2126534 1.2242183
+## 2 -0.4966580 -0.2578999 -0.2802325 -0.7041436 -0.7073812 -0.7141274
+[1 Mark for setting the seed and 2 marks for correctly printing the cluster m
+eans, Max 3]
+(ix) CSK$cluster&lt;-m1$cluster
+CSK$cluster&lt;-ifelse(CSK$cluster ==1, "Batsman", "Bowler")
+
+(x) 
+
+
+```r
+table(CSK$Iteration2,CSK$cluster)
+```
+
+```
+## &lt; table of extent 0 x 0 &gt;
+```
+
+```r
+## 
+## Batsman Bowler
+## Batsman 14 4
+## Bowler 0 20
+
+rownames(CSK)[CSK$Iteration2!=CSK$cluster]
+```
+
+```
+## character(0)
+```
+
+##  "SM Curran" "MS Gony" "SK Raina" "DR Smith"
+(xi) After few more iterations, the convergence of iteration 2 with the kmea
+ns cluster solution will occur.
+
+---
+
+END
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

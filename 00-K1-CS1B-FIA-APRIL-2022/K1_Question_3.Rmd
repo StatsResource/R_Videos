@@ -44,13 +44,15 @@ Consider a sample of 10,000 car insurance policies sold to drivers who have had 
 driving licence for no more than 5 years. The data are given in the file 
 <tt>CarInsurance.Rdata</tt>, which contains the following four variables: 
 
-* age: a factor taking the values 0 for young and 1 for old; this refers to the age of 
+* ***age***: a factor taking the values 0 for young and 1 for old; this refers to the age of 
 the policyholder. 
-* LY: the number of years the policyholder has had a driving licence before the start 
+* ***LY***: the number of years the policyholder has had a driving licence before the start 
 of the current year. 
-* NCD: the number of years the policyholder has had a no claims discount before the 
+* ***NCD***: the number of years the policyholder has had a no claims discount before the 
 start of the current year. 
-* claims: the number of claims the policyholder submitted during the current year. 
+* ***claims***: the number of claims the policyholder submitted during the current year. 
+
+
 It has been suggested that drivers belonging to the old age category have more years 
 of no claims discount than younger drivers. 
 
@@ -173,7 +175,7 @@ policyholders).
 
 #### Part (E)
 
-Test the hypothesis that prop of NCD >2 is equal for young and old, against alternative that 
+Test the hypothesis that prop of $NCD >2$ is equal for young and old, against alternative that 
 proportions are not equal: 
 
 ```{r}
@@ -185,7 +187,7 @@ head(NCDgreaterTwo)
 ```{r}
 YoungOld = c(length(NCD_young), length(NCD_old)) 
 
-head()
+head(YoungOld)
 ```
 
 ---
@@ -203,6 +205,9 @@ The $p$-value is very small, therefore we reject the null hypothesis of equal pr
 
 ---
 
+END
+
+---
 ### Exercises
 
 An analyst assumes that the number of claims per year has a Poisson distribution. The 

@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Statistics with R
 ]
 .subtitle[
-## Introduction to R for Actuarial Students
+## Statistical Modelling with R for Actuarial Students
 ]
 
 ---
@@ -31,158 +31,149 @@ pre {
 }
 &lt;/style&gt;
 
-* Introduction to R for Actuarial Students
 
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
----
+***CS2B – Risk Modelling and Survival Analysis ***
 
 
-### Probability Distributions
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
 
-Identify the probability distribution that best fits the below questions. Calculate the 
-following using R functions:
-
-A.  Assume golf balls from the driving range next door lands in your yard at an average 
-rate of 3 balls per hour during the day. What is the probability that 10 or fewer golf 
-balls will land in your yard during the afternoon, assuming the afternoon is 5 hours 
-long? 
-
-B.  You are surveying people exiting from a polling booth and asking them if they voted 
-independently. The probability that a person voted independently is 20%. What is 
-the probability that 70 people must be asked before you can find 5 people who voted 
-independently? 
+* Time Series. Probability Distributions, Survival Analysis
 
 ---
-C.   Assume you flip a fair coin 100 times. What is the number N such that, 90% of the 
-time, the number of heads is less than or equal to N?
 
-D.  A researcher is waiting outside of a library to ask people if they support a certain 
-law. The probability that a given person supports the law is p = 0.2. What is the 
-probability that the fourth person the researcher talks to is the first person to support
-the law?
 
-E.  Assume that a light bulb has a mean lifetime of 1000 hours. What is the probability 
-that the light bulb survives to 2000 hours?
 
-F.   Assume a random variable Z is distributed according to the normal distribution with 
-mean 6 and standard deviation 4. What is the probability that Z takes on a value 
-between -1 and 3?
----
 
----
-Solution 1:
-Part A X \sim Poisson (15)
+
+--- 
+
+Solution 7: 
+i)
 
 
 ```r
-ppois(10, 15)
+patients&lt;-c(1:15) 
+time&lt;-c(6,6,12,18,27,27,30,36,39,39,54,57,60,60,60) 
+censtat&lt;-c(1,0,1,0,1,0,0,0,1,0,0,1,0,0,0) 
+data1&lt;-data.frame(patients,time,censtat) 
+data1 
 ```
 
 ```
-## [1] 0.1184644
+##    patients time censtat
+## 1         1    6       1
+## 2         2    6       0
+## 3         3   12       1
+## 4         4   18       0
+## 5         5   27       1
+## 6         6   27       0
+## 7         7   30       0
+## 8         8   36       0
+## 9         9   39       1
+## 10       10   39       0
+## 11       11   54       0
+## 12       12   57       1
+## 13       13   60       0
+## 14       14   60       0
+## 15       15   60       0
 ```
-
-
-
----
-
-You are surveying people exiting from a polling booth and asking them if they voted 
-independently. The probability that a person voted independently is 20%. What is 
-the probability that 70 people must be asked before you can find 5 people who voted 
-independently? 
-
----
-
-Part BX \sim NB(5,0.2)
 
 
 ```r
-dnbinom(65,5,0.2)
+library(survival) 
+model1&lt;-survfit(Surv(data1$time,data1$censtat)~1) 
 ```
-
-```
-## [1] 0.00013892
-```
-
-
----
-
-### Part C
-
-`$$X \sim Binom (100,0.5)$$`
-
-
-```r
-qbinom(0.9, 100, 0.5)
-```
-
-```
-## [1] 56
-```
-[1] 56
-
----
-
-### Part D 
-
-`$$X \sim Geometric (0.2)$$`
-
-
-```r
-dgeom(x=3, prob=0.2)
-```
-
-```
-## [1] 0.1024
-```
-
-[1] 0.1024
-
-
----
-
-
-Part E 
-
-`$$X \sim Exp(1/1000)$$`
-
-
-```r
-1 - pexp(2000, 0.001)
-```
-
-```
-## [1] 0.1353353
-```
-
 
 ---
 
 
 
-#### Part F.   
 
-Assume a random variable Z is distributed according to the normal distribution with 
-mean 6 and standard deviation 4. What is the probability that Z takes on a value 
-between -1 and 3?
+```r
+data&lt;-summary(model1) 
+data 
+```
 
-`$$X \sim N(6,16)$$`
+```
+## Call: survfit(formula = Surv(data1$time, data1$censtat) ~ 1)
+## 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##     6     15       1    0.933  0.0644        0.815            1
+##    12     13       1    0.862  0.0911        0.700            1
+##    27     11       1    0.783  0.1115        0.593            1
+##    39      7       1    0.671  0.1409        0.445            1
+##    57      4       1    0.503  0.1797        0.250            1
+```
+
+&gt; data 
+Call: survfit(formula = Surv(data1$time, data1$censtat) ~ 1) 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI 
+ 6 15 1 0.933 0.0644 0.815 1 
+ 12 13 1 0.862 0.0911 0.700 1 
+ 27 11 1 0.783 0.1115 0.593 1 
+ 39 7 1 0.671 0.1409 0.445 1 
+ 57 4 1 0.503 0.1797 0.250 1 
+
+---
+ii)
 
 
 ```r
-pnorm(3, 6, 4) - pnorm(-1, 6, 4)
+tj=c(6,12,27,39,57) 
+dj=c(1,1,1,1,1) 
+nj=c(15,13,11,7,4) 
+1-dj/nj 
 ```
 
 ```
-## [1] 0.1865682
+## [1] 0.933 0.923 0.909 0.857 0.750
+```
+---
+
+
+```r
+Lambda=cumsum(dj/nj) 
+SNA&lt;-exp(-Lambda) 
+SNA 
 ```
 
-[1] 0.1865682
+```
+## [1] 0.936 0.866 0.791 0.686 0.534
+```
+
+&gt; 1-dj/nj 
+[1] 0.9333333 0.9230769 0.9090909 0.8571429 0.7500000 
+&gt; SNA 
+[1] 0.9355070 0.8662431 0.7909672 0.6856719 0.5340018 
+
+--- 
+iii)
+
+
+
+```r
+survdata&lt;-data.frame(tj,nj,dj,data$surv,SNA) 
+survdata 
+```
+
+```
+##   tj nj dj data.surv   SNA
+## 1  6 15  1     0.933 0.936
+## 2 12 13  1     0.862 0.866
+## 3 27 11  1     0.783 0.791
+## 4 39  7  1     0.671 0.686
+## 5 57  4  1     0.503 0.534
+```
+
+
+&gt; survdata 
+ tj nj dj data.surv SNA 
+1 6 15 1 0.9333333 0.9355070 
+2 12 13 1 0.8615385 0.8662431 
+3 27 11 1 0.7832168 0.7909672 
+4 39 7 1 0.6713287 0.6856719 
+5 57 4 1 0.5034965 0.5340018 
+
 
 ---
     </textarea>

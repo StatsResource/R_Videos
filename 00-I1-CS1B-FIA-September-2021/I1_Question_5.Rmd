@@ -1,0 +1,182 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 5 - Data Analysis
+* Exam on basis of ***Base R*** ( I will mention ***tidyverse***)
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+An analyst collected samples of the prices (in £000s) of 25 one-bedroom flats in each 
+of two different cities. The data from these two samples are saved in the file 
+onebedflat.Rdata. After loading the data into R, using the command 
+***load("onebedflat.Rdata")***, the data frame onebedflat with its variables 
+listed below will be available. 
+
+* City1: one-bedroom flat prices in the first city. 
+* City2: one-bedroom flat prices in the second city. 
+
+It is assumed that the two samples come from Normal populations with equal 
+variances. 
+
+---
+
+#### Exercises
+
+(i) Calculate an appropriate test statistic for the hypothesis of equal means in the 
+two corresponding populations using these data.
+(ii) Test at a 1% significance level whether the mean flat prices are the same in the 
+two cities, against the alternative that they are different, based on your answer 
+to part (i). 
+---
+
+The standard assumptions for a two-sided test of the hypothesis of equal means in two 
+populations are that the populations: 
+
+* (A1) follow Normal distributions 
+* (A2) have equal variances. 
+
+The analyst suspects that those assumptions may not be satisfied, and they are 
+therefore interested in learning about the true significance level for such tests when 
+assumptions (A1) and (A2) do not necessarily hold. 
+With two independent samples, given a particular choice of the significance level, α, 
+the true significance level for a two-sided test of the hypothesis of equal means can be 
+calculated as 
+$$αtrue ൌ 𝑃ሺ|test statistic| ൒ critical pointሻ,$$
+where the critical point is the α/2 quantile of an appropriate distribution.
+
+---
+
+An estimate of the true significance level for this two-sided test, when the chosen 
+level of significance is $\alpha = 0.1$, can be computed using the R Monte Carlo simulation 
+code provided below: #
+
+```{r}
+set.seed(123) # 
+alpha = 0.1 
+m=20 
+n=20 
+N=8000 
+nrej=0 
+
+for (i in 1:N) { # 
+	x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # 
+	ts=t.test(x, y, var.equal=TRUE)$stat # 
+	df = n+m-2 # 
+	if (abs(ts)>=qt(1-alpha/2, df)) # 
+		nrej=nrej+1 # 
+	} 
+
+alpha_est=nrej/N # 
+
+
+```
+
+Note that the code provided above lacks best practice of including appropriate 
+comments.
+
+---
+
+
+### Part C 
+
+Explain the provided code by placing comments after each ‘#’ sign in  the code. 
+
+--- 
+
+(iv) Estimate the true significance level, by using the code provided above, when 
+the two populations are from a standard Normal distribution. 
+
+---
+
+#### Exercise 5
+
+(v) Estimate the true significance level, by adjusting the code provided above to 
+reflect the following pairs of populations: 
+(a) The first population is from a standard Normal distribution and the 
+second population is from a Normal distribution with mean 0 and
+standard deviation 10. 
+(b) The first population is from a Normal distribution with mean 10 and 
+standard deviation 2 and the second population is from an Exponential 
+distribution with mean 10. 
+
+---
+
+#### Exercise 6
+
+(vi) Compare your estimates of the true significance level under all scenarios in 
+parts (iv), (v)(a) and (v)(b), stating your conclusions.
+
+
+Q5
+(i)
+```{r}
+load("onebedflat.RData")
+t.stat = t.test(City1, City2, var.equal=TRUE)$stat
+t.stat
+```
+-6.010694 
+---
+
+(ii)
+The p-value of the test is:
+
+```{r}
+(pt(-6.010694, 48))*2 
+```
+
+So, the p-value is 2.414801e-07 . 
+The p-value is less than 1%, therefore the flat prices are not the same for the two cities 
+(iii)
+
+```{r eval=FALSE}
+set.seed(123) # Set seed to allow replication of answers 
+alpha = 0.1
+m=20
+n=20 
+N=8000
+nrej=0 
+for (i in 1:N) { # Run N = 8000 MC iterations 
+x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # Simulate
+2 random samples of size 20 from N(0,1), i.e with same mean and variance 
+ts=t.test(x, y, var.equal=TRUE)$stat # Compute the test statistic
+under assumption of equal variances 
+df = n+m-2 # Determine degrees of freedom 
+if (abs(ts)>=qt(1-alpha/2, df)) # Determine if H0 should be rejected 
+nrej=nrej+1 # Count number of rejections 
+}
+alpha_est=nrej/N # Compute estimated significance level as proportion of
+rejections when H0 is true
+```
+
+---
+
+---

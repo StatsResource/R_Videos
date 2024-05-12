@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,8 +11,12 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## Statistical Modelling with R for Actuarial Students
+]
 
 ---
 
@@ -62,7 +66,7 @@ marks_2 = c(0,4,16,25,27,42,23,4,9,0)
 
 Plot two graphs, one for each marker, for the distribution of the exam 
 marks given by the two markers. 
-[Hint: You may find the R command barplot() useful.] 
+[Hint: You may find the R command &lt;tt&gt;barplot()&lt;/tt&gt; useful.] 
 (b) Comment on the graphs produced in part (i)(a). 
 
 ---
@@ -91,6 +95,45 @@ of the two markers is zero or not, at the 5% confidence level, taking into
 account that the two markers have marked the same exam paper. 
 
 ---
+(ii)
+𝐻𝐻0 ∶ difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴 ∶ difference in means is not zero.
+
+
+```r
+t.test(marker_1,marker_2,paired=TRUE) 
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  marker_1 and marker_2
+## t = 2.862, df = 9, p-value = 0.01872
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  0.1886284 1.6113716
+## sample estimates:
+## mean difference 
+##             0.9
+```
+
+Paired t-test
+data: marker_1 and marker_2
+t = 2.862, df = 9, p-value = 0.01872
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+0.1886284 1.6113716
+sample estimates:
+mean of the differences 
+0.9
+
+
+* P-value is equal to 0.01872
+which is less than the significance level (5%)
+* Therefore reject the null hypothesis
+* There appears to be difference in the mean scores between the two markers
+
+---
 
 ### Exercise 3
 
@@ -99,10 +142,59 @@ marked the same exam paper.
 
 ---
 
+
+(iii)
+𝐻𝐻0 ∶ difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴 ∶ difference in means is not zero
+
+
+```r
+t.test(marker_1,marker_2) 
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  marker_1 and marker_2
+## t = 1.1968, df = 17.675, p-value = 0.2472
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.6820491  2.4820491
+## sample estimates:
+## mean of x mean of y 
+##       3.9       3.0
+```
+
+Welch Two Sample t-test
+data: marker_1 and marker_2
+t = 1.1968, df = 17.675, p-value = 0.2472
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+-0.6820491 2.4820491
+sample estimates:
+mean of x mean of y 
+ 3.9 3.0
+
+---
+
+P-value is equal to 0.2472
+which is more than the significance level (5%)
+Therefore do not reject the null hypothesis
+There appears to be no difference between the mean scores of the two markers
+
+---
+
 ### Exercise 4
 
 Comment on your conclusions from Exercises 2 and 3. 
 
+---
+(iv)
+Parts (ii) and (iii) lead to different conclusions
+We would expect the data to not be independent of one another since both markers have 
+marked the same exam papers
+Therefore the paired test in (ii) gives smaller variation for the test statistic and leads to 
+rejecting the hypothesis of equal means, at the 5% level 
 ---
 
 ### Exercise 5
@@ -110,6 +202,74 @@ Comment on your conclusions from Exercises 2 and 3.
 samples, and independent samples as though they were paired. 
 
 ---
+
+
+Q2
+(i)(a)
+
+axis = c("0-10","11-20","21-30","31-40","41-50","51-60","61-70","71-80","81-90","91-100")
+barplot(marks_1,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 1",col = "Red",names = axis, ylim = c(0,40)) 
+barplot(marks_2,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 2",col = "Purple",names = axis, ylim = c(0,50)) 
+
+2468102.02.53.03.54.0Plot for time and log(caffeinetimelogcaffeine
+# Generally very well answered. 
+# A common error in part (ii) was failing to refer to the strength of the relationship between caffeine and time. 
+# Answers in part (v)(c) were varied, with candidates often giving partial comments.
+
+
+(b)
+The distributions of marks look similar, especially for middle scores 
+However, there appears to be some differences in marking for low and high scoring exams
+The plot for marker 1 resembles a Normal shape (but it is not as clear for maker 2, where there appears to be some skewness) 
+Overall, the plots suggest that the two markers are generally consistent 
+
+---
+
+(ii)
+`\(H_0\)`∶difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴∶difference in means is not zero. 
+t.test(marker_1,marker_2,paired=TRUE) 
+Paired t-test
+data: marker_1 and marker_2
+t = 2.862, df = 9, p-value = 0.01872
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+0.1886284 1.6113716
+sample estimates:
+mean of the differences
+0.9 
+P-value is equal to 0.01872 
+which is less than the significance level (5%) 
+Therefore reject the null hypothesis 
+There appears to be difference in the mean scores between the two markers 
+(iii)
+`\(H_0\)`∶difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴∶difference in means is not zero 
+t.test(marker_1,marker_2) 
+Welch Two Sample t-test
+data: marker_1 and marker_2
+t = 1.1968, df = 17.675, p-value = 0.2472
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+-0.6820491 2.4820491
+sample estimates:
+mean of x mean of y
+3.9 3.0 
+P-value is equal to 0.2472 
+which is more than the significance level (5%) 
+Therefore do not reject the null hypothesis 
+There appears to be no difference between the mean scores of the two markers 
+
+---
+
+(iv)
+Parts (ii) and (iii) lead to different conclusions 
+We would expect the data to not be independent of one another since both markers have marked the same exam papers 
+Therefore the paired test in (ii) gives smaller variation for the test statistic and leads to rejecting the hypothesis of equal means, at the 5% level 
+
+---
+
+(v)
+If a paired problem is analysed as though it involved independent samples, then the results would be invalid because the assumption of independence is violated 
+Alternatively, if independent samples are analysed as though they were paired, then the results would be valid although they would be making inefficient use of the data due to the discarding of possible information about the means and variances of the two separate populations 
 
 
 ---
@@ -159,6 +319,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

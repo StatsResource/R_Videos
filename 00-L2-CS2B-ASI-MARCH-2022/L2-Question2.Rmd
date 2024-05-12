@@ -88,7 +88,9 @@ required
 iv) Using the Markov chain, given that the individual is infected, compute the probability that:
 a) He will be in quarantine after a week 
 b) He will either be in hospital or in quarantine after two weeks 
-c) He will recover after 3 weeks (2)
+c) He will recover after 3 weeks 
+
+
 v) COVID-19 pandemic is expected to end in a quarter’s time. 
 Estimate the number of people who will be (a) Quarantined (b) Hospitalized (c) Recovered 
 and (d) Died out of the current 20,000 quarantined and 10,000 hospitalised individuals. 
@@ -99,12 +101,27 @@ vi) Comment on your results obtained in (v).
 Solution 2:
 # i)
 
+
+
 ```{r}
 covid_data=read.csv("CS2B_Mar22_Dataset2.csv")
-covid_data$StateFrom = as.factor(covid_data$StateFrom)
-covid_data$State.To = as.factor(covid_data$State.To)
-States_From = levels(covid_data$StateFrom)
-States_To = levels(covid_data$State.To)
+```
+
+```{r}
+head(covid_data)
+```
+
+---
+
+
+```{r}
+covid_data$State_From = as.factor(covid_data$State_From)
+covid_data$State_To = as.factor(covid_data$State_To)
+```
+
+```{r}
+States_From = levels(covid_data$State_From)
+States_To = levels(covid_data$State_To)
 States = unique(c(States_From,States_To))
 ```
 
@@ -117,10 +134,10 @@ transitions_Master = c()
 for (i in States) {
  for (j in States) {
  
- transition = sum(covid_data$StateFrom == i & covid_data$State.To == j
-)/sum(covid_data$StateFrom == i)
- transition = ifelse(sum(covid_data$StateFrom == i) ==0, ifelse(i ==j, 
-1,0),transition)
+ transition = sum(covid_data$StateFrom == i & covid_data$State.To == j)/sum(covid_data$StateFrom == i)
+ 
+ transition = ifelse(sum(covid_data$StateFrom == i) ==0, ifelse(i ==j, 1,0),transition)
+ 
  transitions_Master = c(transitions_Master,transition)
  
  }
@@ -133,14 +150,11 @@ for (i in States) {
 
 ```{r}
 transition_matrix = matrix(transitions_Master, nrow=5, 
-                           byrow = T, dimnames=list(States, States))
+                           byrow = T, 
+                           dimnames=list(States, States))
+
 transition_matrix
-## H I Q D R
-## H 0.2 0 0.0 0.2 0.6
-## I 0.4 0 0.6 0.0 0.0
-## Q 0.2 0 0.3 0.0 0.5
-## D 0.0 0 0.0 1.0 0.0
-## R 0.0 0 0.0 0.0 1.0
+
 ```
 
 ---
@@ -150,16 +164,13 @@ The two absorbing states are "Recovered" and "Death"
 
 ```{r}
 library(markovchain)
-## Warning: package 'markovchain' was built under R version 4.0.5
-## Package: markovchain
-## Version: 0.8.5-4
-## Date: 2021-01-07
-## BugReport: https://github.com/spedygiorgio/markovchain/issues
+
 ```
 
 
 ```{r}
-covid19 <- new("markovchain",states=c("H","I","Q", "D","R"),
+covid19 <- new("markovchain",
+               states=c("H","I","Q", "D","R"),
     transitionMatrix=transition_matrix)
 
 covid19
@@ -182,8 +193,10 @@ covid19
 ## R 0.0 0 0.0 0.0 1.0
 plot(covid19)
 ```
-# (iv)
+
+
 # (a)
+
 ---
 
 ```{r}

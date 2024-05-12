@@ -1,31 +1,35 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
 ---
-title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-library(knitr)
-library(dplyr)
-library(janitor)
 
 
-```
 
-```{css, echo=FALSE}
+
+&lt;style type="text/css"&gt;
 pre {
   background: #ADD8E6;
   max-width: 100%;
   overflow-x: scroll;
 }
-```
+&lt;/style&gt;
 
 ***CS2B – Risk Modelling and Survival Analysis ***
 
@@ -85,18 +89,22 @@ x) Compare and comment on the results obtained using KM and CoxPH models.
 
 Solution 3:
 
-```{r}
+
+```r
 library(survival)
 ## Warning: package 'survival' was built under R version 4.0.5
-crackers<-read.csv("Crackers.csv")
+crackers&lt;-read.csv("Crackers.csv")
 ```
 
 (i)
-```{r}
+
+```r
 KMfit = survfit(Surv(crackers$Time, crackers$Status) ~ 1, conf.int = 0.95)
 plot(KMfit,xlab = "Time",ylab = "Survival Function",main = "Kaplan-Meier Esti
 mate with 95% internval")
 ```
+
+![](Q3_Question_3_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
 [1 Mark for using Surv function, 2 marks for survfit function, 3 marks for 
 the correct plot with appropriate labels.]
@@ -106,8 +114,13 @@ the correct plot with appropriate labels.]
 
 (ii) 
 
-```{r}
+
+```r
 summary(KMfit, time = 365)$surv
+```
+
+```
+## [1] 0.3095438
 ```
 
 ##  0.3095438
@@ -142,10 +155,10 @@ coxph(Surv(Time, Status) ~ Green + Male, data = crackers,ties="breslow")
 ## ties = "breslow")
 ## 
 ## coef exp(coef) se(coef) z p
-## Green -0.71233 0.49050 0.05716 -12.463 <2e-16
-## Male 0.53867 1.71372 0.05429 9.922 <2e-16
+## Green -0.71233 0.49050 0.05716 -12.463 &lt;2e-16
+## Male 0.53867 1.71372 0.05429 9.922 &lt;2e-16
 ## 
-## Likelihood ratio test=284.6 on 2 df, p=< 2.2e-16
+## Likelihood ratio test=284.6 on 2 df, p=&lt; 2.2e-16
 ## n= 2500, number of events= 1452
 
 ---
@@ -164,17 +177,17 @@ th the effects are statistically significant at 5%.
 ---
 
 (vii)
-mod<-coxph(Surv(Time, Status) ~ Green * Male, data = crackers,ties="breslow")
+mod&lt;-coxph(Surv(Time, Status) ~ Green * Male, data = crackers,ties="breslow")
 
 
 ---
 
 (viii) 
-female_hazard_red<-1-exp(mod$coefficients)
+female_hazard_red&lt;-1-exp(mod$coefficients)
 female_hazard_red
 ## Green 
 ## 0.571342
-male_hazard_red<-1-exp(mod$coefficients+mod$coefficients)
+male_hazard_red&lt;-1-exp(mod$coefficients+mod$coefficients)
 male_hazard_red
 ## Green 
 ## 0.3158954
@@ -188,9 +201,127 @@ by 1-0.42866 = 57%
 (ix) The green crackers reduced in a reduction in respiratory disorder for b
 oth males and females though the decrease was slightly lesser in case of male
 s
-# The p-value of the interaction effect is >0.05 indicating that the interact
+# The p-value of the interaction effect is &gt;0.05 indicating that the interact
 ion effect is not statistically significant.
 
 (x) Both the results are communicating that the green crackers reduce the res
 piratory disorders
 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

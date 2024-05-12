@@ -39,15 +39,23 @@ pre {
 Q. 2)
 The dataset “CSK.csv” contains details of 38 players who represented the team Chennai Super Kings (CSK) in the Indian Premier League (IPL) in more than 15 games as of 2022.
 The details of the variables are as follows:
-Bat_Avg: Batting Average of the Player
-Bat_SR: Batting Strike Rate of the Player
-Bound_Sixes: Percentage of the total runs scored in the form of boundaries and sixes
-Bowl_Avg: Bowling Average
-Bowl_Econ: Bowling Economy
-Bowl_SR: Bowling Strike Rate
-Initial_Class: Initial classification (Initially the players are classified as either “Batsman” or “Bowler” based on the historical performance
+
+* Bat_Avg: Batting Average of the Player
+* Bat_SR: Batting Strike Rate of the Player
+* Bound_Sixes: Percentage of the total runs scored in the form of boundaries and sixes
+* Bowl_Avg: Bowling Average
+* Bowl_Econ: Bowling Economy
+* Bowl_SR: Bowling Strike Rate
+* Initial_Class: Initial classification (Initially the players are classified as either “Batsman” or “Bowler” based on the historical performance
 
 ---
+
+
+```{r echo=FALSE}
+CSK<-read.csv("CSK.csv")
+rownames(CSK)<-CSK$Player
+CSK$Player<-NULL
+```
 
 Load the data into R and name the data frame as “CSK”.
 Use the following code
@@ -59,7 +67,16 @@ CSK$Player<-NULL
 ```
 
 Perform feature scaling of all the numerical columns
+
+```{r}
 CSK[,1:6]<-scale(CSK[,1:6])
+```
+
+
+---
+
+### Exercises
+
 i) Compute the mean value of all the scaled columns for Batsman and Bowler.
 
 ii) Comment on the characteristics of different features based on the mean values for Batsman and the Bowler.
@@ -74,7 +91,9 @@ iv) Assign a new cluster category (Batsman or Bowler) to each player (create a n
 v) Compute the proportion of cluster transfers that occurred after the first iteration.
 
 vi) Repeat the steps (i), (iii) and (iv) for another iteration using the new cluster memberships of each of the players and assign the new cluster category to each player after the second iteration (create a column called “Iteration2”).
-(10)
+
+---
+
 vii) The players who were a part of two different categories in Iteration 1 and Iteration 2 are called as “Allrounders”. Identify the players who can be categorized as “Allrounders” in the CSK team.
 
 viii) Your friend suggested that you can use “k-means” function to do the clustering of batsman and bowler groups.
@@ -84,7 +103,6 @@ ix) Add the k-means cluster memberships to the CSK data frame. Rename cluster 1 
 
 x) Identify the names of the players who are differently classified between Iteration 2 and the k-means cluster.
 
-IAI CS2B-0523
 
 xi) Comment on the reason for difference in classifications between Iteration 2 and k-means cluster.
 
@@ -92,27 +110,41 @@ xi) Comment on the reason for difference in classifications between Iteration 2 
 ---
 
 Solution 2:
-CSK<-read.csv("D:\\CSK.csv")
+
+```{r}
+CSK<-read.csv("CSK.csv")
 rownames(CSK)<-CSK$Player
 CSK$Player<-NULL
 CSK[,1:6]<-scale(CSK[,1:6])
-(i) cent<-stats::aggregate(.~Initial_Class,data = CSK, FUN = "mean")
+
+```
+
+(i) 
+
+```{r}
+cent<-stats::aggregate(.~Initial_Class,data = CSK, FUN = "mean")
 cent
+```
+
 ## Initial_Class Bat_Avg Bat_SR Bound_Sixes Bowl_Avg Bowl_Econ
 ## 1 Batsman 0.7358645 0.4665582 0.4410948 0.4163466 0.4205526
 ## 2 Bowler -1.0118137 -0.6415175 -0.6065053 -0.5724766 -0.5782599
 ## Bowl_SR
 ## 1 0.4267018
 ## 2 -0.5867150
-[0.5 marks for correct values of each column]
-[Max 3]
+
+---
+
 (ii) The batsman has higher batting average, higher batting strike rate, hig
 her percentage of runs scored in boundaries and sixers, higher bowling averag
 e, higher bowling economy and higher bowling strike rate. All the values are 
 comparatively lower for bowlers
-[1 for each valid observation,Max 2]
+
+---
+
 (iii) 
 (a) & (b):
+```{r}
 newD1<-c()
 newD2<-c()
 for (i in 1:38) {
@@ -124,8 +156,10 @@ for (i in 1:38) {
  
 }
 newD1
-IAI CS2B-0523
-Page 7 of 11
+```
+
+---
+
 ##  2.434718 1.729955 2.997824 1.568778 3.348392 2.958461 2.311089 2.4109
 48
 ## [9] 1.772017 1.799161 1.791762 1.729785 2.272338 3.004869 1.710662 5.6257
@@ -142,12 +176,25 @@ newD2
 ## [22] 1.1997969 4.3415921 2.3017138 2.0161058 0.8954538 2.9284766 1.1502851
 ## [29] 3.1197124 3.6388673 2.8807912 4.1211401 1.1314002 2.8696064 1.1010748
 ## [36] 3.9474648 3.8648224 3.0541624
+
+```{r}
 CSK$D1<-newD1
 CSK$D2<-newD2
-[2 marks for the fomula and 2 marks for the output]
-[4+4=8]
-(iv) CSK$Iteration1<-ifelse(CSK$D1<CSK$D2,"Batsman","Bowler") 
-(v) table(CSK$Initial_Class,CSK$Iteration1)
+```
+
+---
+
+(iv) 
+
+```{r}
+CSK$Iteration1<-ifelse(CSK$D1<CSK$D2,"Batsman","Bowler") 
+```
+
+(v) 
+
+```{r}
+table(CSK$Initial_Class,CSK$Iteration1)
+```
 ## 
 ## Batsman Bowler
 ## Batsman 19 3
@@ -155,45 +202,73 @@ CSK$D2<-newD2
 sum(CSK$Initial_Class!=CSK$Iteration1)/nrow(CSK)
 ##  0.1315789
 
-(vi) CSK<-CSK[,c(1:7,10)] 
+---
+
+(vi) 
+
+```{r}
+CSK<-CSK[,c(1:7,10)] 
 cent<-stats::aggregate(.~Iteration1,data = CSK[,-7], FUN = "mean") 
 cent
+```
+
 ## Iteration1 Bat_Avg Bat_SR Bound_Sixes Bowl_Avg Bowl_Econ Bo
-wl_SR
+
+```{r}
+#wl_SR
+```
+
 ## 1 Batsman 0.6892993 0.5433875 0.5505359 0.6280737 0.5811715 0.61
 36204
 ## 2 Bowler -0.8514873 -0.6712434 -0.6800737 -0.7758557 -0.7179177 -0.75
 80017
+
+---
+
+```{r}
 newD1<-c()
 newD2<-c()
 for (i in 1:38) {
  
  d1<-sqrt(sum((CSK[i,1:6]-cent[1,2:7])^2)) # 3 Marks
-IAI CS2B-0523
-Page 8 of 11
+
  d2<-sqrt(sum((CSK[i,1:6]-cent[2,2:7])^2)) # 3 Marks
  newD1<-c(newD1,d1)
  newD2<-c(newD2,d2)
  
 }
+
+```
+
+```{r}
 CSK$D1<-newD1
 CSK$D2<-newD2
-CSK$Iteration2<-ifelse(CSK$D1<CSK$D2,"Batsman","Bowler") [
-table(CSK$Iteration1,CSK$Iteration2)
+#CSK$Iteration2 <-
+#  ifelse(    CSK$D1<CSK$D2,"Batsman","Bowler")[table(CSK$Iteration1,CSK$Iteration2)
+```
+
 ## 
 ## Batsman Bowler
 ## Batsman 18 3
 ## Bowler 0 17
+
+---
+
 [2 Mark for computing new means, 3 marks for computing the D1, 3 Marks for co
 mputing D2 and 2 Marks for assigning the player to “Batsman or “Bowler” categ
 ory, Max 10]
 (vii) rownames(CSK)[CSK$Iteration1!=CSK$Iteration2]
 ##  "MM Ali" "RA Jadeja" "JA Morkel"
 
+---
+
 (viii) 
+
+```{r}
 set.seed(100)
 m1<-kmeans(CSK[,1:6],2)
 m1$centers
+```
 ## Bat_Avg Bat_SR Bound_Sixes Bowl_Avg Bowl_Econ Bowl_SR
 ## 1 0.8514137 0.4421142 0.4803985 1.2071033 1.2126534 1.2242183
 ## 2 -0.4966580 -0.2578999 -0.2802325 -0.7041436 -0.7073812 -0.7141274
@@ -203,6 +278,8 @@ eans, Max 3]
 CSK$cluster<-ifelse(CSK$cluster ==1, "Batsman", "Bowler")
 
 (x) 
+
+```{r}
 table(CSK$Iteration2,CSK$cluster)
 ## 
 ## Batsman Bowler
@@ -210,10 +287,15 @@ table(CSK$Iteration2,CSK$cluster)
 ## Bowler 0 20
 
 rownames(CSK)[CSK$Iteration2!=CSK$cluster]
-IAI CS2B-0523
-Page 9 of 11
+```
+
 ##  "SM Curran" "MS Gony" "SK Raina" "DR Smith"
 (xi) After few more iterations, the convergence of iteration 2 with the kmea
 ns cluster solution will occur.
- [1 mark for each valid point, Max 2]
-[39 Marks]
+
+---
+
+END
+
+
+---

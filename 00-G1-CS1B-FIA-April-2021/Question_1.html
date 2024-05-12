@@ -3,8 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dragonfly Stats" />
-    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -12,16 +11,34 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
-## Modelling Data with R
-### Dragonfly Stats
-### 2016/12/12
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
 
 ---
 
 
 
-## 
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
 
 1 A researcher records the levels of caffeine present in their bloodstream at various time 
 intervals after drinking a cup of coffee. 
@@ -36,43 +53,121 @@ blood
  
 You can enter the values, for T (time) and C (caffeine), into R using: 
 
+
 ```r
 time = c(1,2,3,4,5,6,7,8,9,10) 
 caffeine = c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
 ```
 
-##
 
-Part 1
-============================
+#### Exercise  1
+
 (i) Plot a scatterplot of the data. 
 
 
 ---
 
-Part 2
-============================
-(ii) Comment on the relationship between C and T based on the plot in part 1.  
+#### Exercise  2
 
-Part 3
-============================
-(iii) Justify why a logarithmic transformation of C is appropriate. 
+Comment on the relationship between `\(C\)` and `\(T\)` based on the plot in Exercise  1.  
+
+(ii)
+The plot shows a non-linear and inverse relationship between C and T (i.e. the level of 
+caffeine in the blood does not reduce linearly over time - instead it appears to decay at an 
+exponential rate) 
+---
+#### Exercise  3
+
+Justify why a logarithmic transformation of `\(C\)` is appropriate. 
 
 
-##
 
-Part 4
-============================
-(iv) Perform the transformation suggested in part 3.  
 
-Part 5
-============================
+---
+(iii)
+Given the shape of the graph in (i), a log transformation should be used on the data (i.e. 
+transform C to log(C)) 
+This is because the original plot from part (i) has an exponential shape 
+
+---
+
+#### Exercise  4
+
+(iv) Perform the transformation suggested in Exercise  3.  
+
+(iv) 
+
+
+```r
+logcaffeine &lt;- log(caffeine) 
+logcaffeine
+```
+
+```
+##  [1] 3.955082 3.671225 3.342862 2.946017 2.636196 2.438863 2.172476 1.879465
+##  [9] 1.691939 1.615420
+```
+
+
+---
+
+#### Exercise  5
+
 (a) Plot a scatterplot of the transformed data. 
 (b) Calculate the Pearson correlation coefficient for the transformed data. 
-(c) Comment on the scatterplot and Pearson correlation coefficient 
-produced in parts (v)(a) and (v)(b). 
+(c) Comment on the scatterplot and Pearson correlation coefficient. 
 
-##
+---
+(v)(a)
+&gt; 
+
+
+```r
+plot(time,logcaffeine,main = "Plot for time and log(caffeine)")
+```
+
+![](Question_1_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+
+---
+
+Q1
+(i)
+
+(ii)
+The plot shows a non-linear and inverse relationship between C and T (i.e. the level of caffeine in the blood does not reduce linearly over time - instead it appears to decay at an exponential rate) 
+
+
+---
+
+### Part C
+(iii)
+Given the shape of the graph in (i), a log transformation should be used on the data (i.e. transform C to log(C)) 
+This is because the original plot from part (i) has an exponential shape 
+
+---
+
+### Part D
+
+(iv) logcaffeine &lt;- log(caffeine) 
+logcaffeine
+3.955082 3.671225 3.342862 2.946017 2.636196 2.438863 2.172476 1.879465
+1.691939 1.615420 
+
+---
+
+(v)(a)
+plot(time,logcaffeine,main = "Plot for time and log(caffeine)") 
+2468101020304050Plot for time and caffeinetimecaffeine
+
+
+(b)
+cor(time,logcaffeine,method="pearson") 
+# -0.9919573 
+(c)
+We can see via the plot in part (v)(a) and the calculated Pearson coefficient in part that a strong negative linear relationship exists between the transformed variable and time 
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -119,6 +214,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

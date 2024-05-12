@@ -46,12 +46,12 @@ blood
 52.2 39.3 28.3 19.03 13.96 11.46 8.78 6.55 5.43 5.03 
  
 You can enter the values, for T (time) and C (caffeine), into R using: 
+
 ```{r}
 time = c(1,2,3,4,5,6,7,8,9,10) 
 caffeine = c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
 ```
 
-##
 
 #### Exercise  1
 
@@ -88,10 +88,13 @@ This is because the original plot from part (i) has an exponential shape
 
 (iv) Perform the transformation suggested in Exercise  3.  
 
-(iv) > logcaffeine <- log(caffeine) 
-> logcaffeine
-3.955082 3.671225 3.342862 2.946017 2.636196 2.438863 2.172476 1.879465
-1.691939 1.615420 [½]
+(iv) 
+
+```{r}
+logcaffeine <- log(caffeine) 
+logcaffeine
+```
+
 
 ---
 
@@ -103,8 +106,11 @@ This is because the original plot from part (i) has an exponential shape
 
 ---
 (v)(a)
-> plot(time,logcaffeine,main = "Plot for time and log(caffeine)")
+> 
 
+```{r}
+plot(time,logcaffeine,main = "Plot for time and log(caffeine)")
+```
 
 
 ---
@@ -113,14 +119,20 @@ Q1
 (i)
 
 (ii)
-The plot shows a non-linear and inverse relationship between C and T (i.e. the level of caffeine in the blood does not reduce linearly over time - instead it appears to decay at an exponential rate) [3]
+The plot shows a non-linear and inverse relationship between C and T (i.e. the level of caffeine in the blood does not reduce linearly over time - instead it appears to decay at an exponential rate) 
 
 
 ---
 
+### Part C
 (iii)
 Given the shape of the graph in (i), a log transformation should be used on the data (i.e. transform C to log(C)) 
 This is because the original plot from part (i) has an exponential shape 
+
+---
+
+### Part D
+
 (iv) logcaffeine <- log(caffeine) 
 logcaffeine
 3.955082 3.671225 3.342862 2.946017 2.636196 2.438863 2.172476 1.879465
@@ -131,12 +143,12 @@ logcaffeine
 (v)(a)
 plot(time,logcaffeine,main = "Plot for time and log(caffeine)") 
 2468101020304050Plot for time and caffeinetimecaffeine
-CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
-CS1B A2021 © Institute and Faculty of Actuaries
+
 
 (b)
 cor(time,logcaffeine,method="pearson") 
 # -0.9919573 
 (c)
 We can see via the plot in part (v)(a) and the calculated Pearson coefficient in part that a strong negative linear relationship exists between the transformed variable and time 
-[Total 15]
+
+---

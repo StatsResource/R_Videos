@@ -48,22 +48,24 @@ Below is the decision tree as shown:
 
 ### Exercises
 
-i) Write a function in R to decide whether a surgery is needed or not based on the value of 
-three parameters. Denote Surgery required as 1 and Surgery not required as 0. (3)
+A. Write a function in R to decide whether a surgery is needed or not based on the value of 
+three parameters. Denote Surgery required as 1 and Surgery not required as 0. 
 
-ii) Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 
+B. Check the value of function with parameter 1=180, parameter 2=75, parameter 3=350 
 
-iii) Load <tt>CS2B_Mar22_Dataset1.csv<tt> file into R and name it as decisionData. This data 
+C. Load <tt>CS2B_Mar22_Dataset1.csv<tt> file into R and name it as decisionData. This data 
 contains the three parameter values for 50 patients and the actual decision taken with 
-respect to the surgery. Apply the function created in (i) to this data. Paste the output after 
+respect to the surgery. Apply the function created in Part A to this data. Paste the output after 
 applying the function in your answer sheet. 
 
-iv) Compare the predicted and actual decisions by computing precision, recall and F1 score. 
+D. Compare the predicted and actual decisions by computing precision, recall and F1 score. 
 
-v) Comment on the results obtained in (iv). 
+E. Comment on the results obtained in (iv). 
 
 ---
 Solution 1:
+
+### Part A
 
 ```{r}
 library(moments)
@@ -71,6 +73,11 @@ library(moments)
 f=function(x){
  ifelse(x[1]>150 & x>50,ifelse(x[3]>300,1,0),0)
 }
+
+```
+
+
+```{r}
 #OR
 f=function(x){
 ifelse(x[1]>150 & x>50,0,ifelse(x[3]>300,1,0))
@@ -78,33 +85,35 @@ ifelse(x[1]>150 & x>50,0,ifelse(x[3]>300,1,0))
 
 ```
 
----
 
 ```{r}
 #OR
 f=function(x){
 ifelse(x[1]>150 & x>50,ifelse(x[3]>300,0,1),0)
 }
-#OR
+
+```
+
+
+```{r}
+
 f=function(x){
 ifelse(x[1]>150 & x>50,0,ifelse(x[3]>300,0,1))
 }
 ```
 
 ---
-#### Part (ii)
+
+### Part B.
+
 ```{r}
 f(c(180,75,350))
-## [1] 1
-## [1] 0
-## [1] 0
-## [1] 0
-
 
 ```
 
 ---
-#### Part (iii)
+
+#### Part C.
 
 ```{r}
 decisionData=read.csv("CS2B_Mar22_Dataset1.csv")
@@ -115,7 +124,7 @@ model
 
 ---
 
-#### Part (iv)
+#### Part D.
 
 ```{r}
 TP=sum(model == 1 & decisionData$OperationStatus == 1)
@@ -126,7 +135,7 @@ print(paste("FP = ", FP))
 ## [1] "FP = 5"
 TN=sum(model == 0 & decisionData$OperationStatus == 0)
 print(paste("TN = ", TN))
-## [1] "TN = 22"
+
 ```
 
 ---
@@ -134,11 +143,15 @@ print(paste("TN = ", TN))
 ```{r}
 FN=sum(model == 0 & decisionData$OperationStatus == 1)
 print(paste("FN = ", FN))
-## [1] "FN = 15"
+
+```
+
+
+```{r}
 precision=(TP/(TP+FP))
 precision 
 
-## [1] 0.6153846
+
 ```
 
 ---
@@ -155,7 +168,7 @@ f1
 
 ---
 
-#### Part (v)
+#### Part E.
 
 *  Lower precision value indicates the presence of larger number of False positives
 

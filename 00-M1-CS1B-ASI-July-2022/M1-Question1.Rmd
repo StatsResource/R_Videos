@@ -72,9 +72,13 @@ between -1 and 3?
 
 ---
 Solution 1:
-Part A X ~ Poisson (15)
+Part A X \sim Poisson (15)
+
+```{r}
 ppois(10, 15)
-[1] 0.1184644
+```
+
+
 
 ---
 
@@ -83,7 +87,9 @@ independently. The probability that a person voted independently is 20%. What is
 the probability that 70 people must be asked before you can find 5 people who voted 
 independently? 
 
-Part BX ~ NB(5,0.2)
+---
+
+Part BX \sim NB(5,0.2)
 
 ```{r}
 dnbinom(65,5,0.2)
@@ -92,7 +98,9 @@ dnbinom(65,5,0.2)
 
 ---
 
-Part CX ~ Binom (100,0.5)
+### Part C
+
+$$X \sim Binom (100,0.5)$$
 
 ```{r}
 qbinom(0.9, 100, 0.5)
@@ -101,7 +109,9 @@ qbinom(0.9, 100, 0.5)
 
 ---
 
-Part D $$X ~ Geometric (0.2)$$
+### Part D 
+
+$$X \sim Geometric (0.2)$$
 
 ```{r}
 dgeom(x=3, prob=0.2)
@@ -113,7 +123,9 @@ dgeom(x=3, prob=0.2)
 ---
 
 
-Part E X ~ Exp(1/1000)
+Part E 
+
+$$X \sim Exp(1/1000)$$
 
 ```{r}
 1 - pexp(2000, 0.001)
@@ -130,7 +142,7 @@ Assume a random variable Z is distributed according to the normal distribution w
 mean 6 and standard deviation 4. What is the probability that Z takes on a value 
 between -1 and 3?
 
-$$X ~ N(6,16)$$
+$$X \sim N(6,16)$$
 
 ```{r}
 pnorm(3, 6, 4) - pnorm(-1, 6, 4)

@@ -89,7 +89,11 @@ account that the two markers have marked the same exam paper.
 ---
 (ii)
 𝐻𝐻0 ∶ difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴 ∶ difference in means is not zero.
-> t.test(marker_1,marker_2,paired=TRUE) 
+
+```{r}
+t.test(marker_1,marker_2,paired=TRUE) 
+```
+
 Paired t-test
 data: marker_1 and marker_2
 t = 2.862, df = 9, p-value = 0.01872
@@ -99,10 +103,12 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
 mean of the differences 
 0.9
-P-value is equal to 0.01872
+
+
+* P-value is equal to 0.01872
 which is less than the significance level (5%)
-Therefore reject the null hypothesis
-There appears to be difference in the mean scores between the two markers
+* Therefore reject the null hypothesis
+* There appears to be difference in the mean scores between the two markers
 
 ---
 
@@ -116,7 +122,11 @@ marked the same exam paper.
 
 (iii)
 𝐻𝐻0 ∶ difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴 ∶ difference in means is not zero
-> t.test(marker_1,marker_2) 
+
+```{r}
+t.test(marker_1,marker_2) 
+```
+
 Welch Two Sample t-test
 data: marker_1 and marker_2
 t = 1.1968, df = 17.675, p-value = 0.2472
@@ -126,6 +136,9 @@ alternative hypothesis: true difference in means is not equal to 0
 sample estimates:
 mean of x mean of y 
  3.9 3.0
+
+---
+
 P-value is equal to 0.2472
 which is more than the significance level (5%)
 Therefore do not reject the null hypothesis
@@ -171,10 +184,9 @@ The distributions of marks look similar, especially for middle scores
 However, there appears to be some differences in marking for low and high scoring exams
 The plot for marker 1 resembles a Normal shape (but it is not as clear for maker 2, where there appears to be some skewness) 
 Overall, the plots suggest that the two markers are generally consistent 
-[Marks available 4, maximum 3]
-0-1011-2021-3031-4041-5051-6061-7071-8081-9091-100Exam marks for marker 1Exam mark groupsNumber of exams0102030400-1011-2021-3031-4041-5051-6061-7071-8081-9091-100Exam marks for marker 2Exam mark groupsNumber of exams01020304050
-CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
-CS1B A2021 © Institute and Faculty of Actuaries
+
+---
+
 (ii)
 $H_0$∶difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴∶difference in means is not zero. 
 t.test(marker_1,marker_2,paired=TRUE) 
@@ -207,10 +219,16 @@ P-value is equal to 0.2472
 which is more than the significance level (5%) 
 Therefore do not reject the null hypothesis 
 There appears to be no difference between the mean scores of the two markers 
+
+---
+
 (iv)
 Parts (ii) and (iii) lead to different conclusions 
 We would expect the data to not be independent of one another since both markers have marked the same exam papers 
 Therefore the paired test in (ii) gives smaller variation for the test statistic and leads to rejecting the hypothesis of equal means, at the 5% level 
+
+---
+
 (v)
 If a paired problem is analysed as though it involved independent samples, then the results would be invalid because the assumption of independence is violated 
 Alternatively, if independent samples are analysed as though they were paired, then the results would be valid although they would be making inefficient use of the data due to the discarding of possible information about the means and variances of the two separate populations 

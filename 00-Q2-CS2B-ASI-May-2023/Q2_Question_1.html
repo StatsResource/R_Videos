@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Statistics with R
 ]
 .subtitle[
-## Introduction to R for Actuarial Students
+## Statistical Modelling with R for Actuarial Students
 ]
 
 ---
@@ -31,158 +31,253 @@ pre {
 }
 &lt;/style&gt;
 
-* Introduction to R for Actuarial Students
+***CS2B – Risk Modelling and Survival Analysis ***
 
-* CS1B Curriculum
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
 
-* Question 1
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+Page 2 of 5
+Q. 1)
+The data set “Monthly_Corn.csv” contains monthly average closing prices and the volume of corn traded on the Chicago Mercantile Exchange from January 2017 to March 2023. Load the data into R.
+i) Create a time series of the closing price by using an appropriate R function.
+(1)
+ii) Plot this series, labelling each axis appropriately.
+
+iii) Based on visual inspection of the series, comment on whether the series is stationary or not.
+(1)
+iv) Plot the Auto-Correlation Function (ACF) and Partial Auto-Correlation Function (PACF) of the closing prices, labelling each axis appropriately.
+
+v) Comment on the stationarity of the closing price by observing the plots in part (iv).
+
+vi) Create another time series “monthly_returns” by using the formula log(Pt/Pt-1), where Pt and Pt-1 correspond to the closing prices of month t and t-1 respectively.
+
+vii) Plot the ACF and PACF of the monthly returns series, labelling each axis appropriately.
+
+viii) Comment on the stationarity of the monthly returns by observing the plots in part (vii).
+
+ix) Based on the ACF and PACF of the returns series obtained in part (vii), identify the most appropriate ARMA model to be fitted to the series.
+(1)
+x) Fit the following four ARMA models to the returns series:
+a) ARMA(0,0),
+b) ARMA (0,1),
+c) ARMA (1,0) and
+d) ARMA (1,1)
+and identify the model with the least Akaike Information Criteria (AIC) value.
+
+xi) Compare the result in part (ix) and part (x) and give a suitable explanation for any deviation observed.
+
+[24]
+
 ---
 
 
-### Probability Distributions
-
-Identify the probability distribution that best fits the below questions. Calculate the 
-following using R functions:
-
-A.  Assume golf balls from the driving range next door lands in your yard at an average 
-rate of 3 balls per hour during the day. What is the probability that 10 or fewer golf 
-balls will land in your yard during the afternoon, assuming the afternoon is 5 hours 
-long? 
-
-B.  You are surveying people exiting from a polling booth and asking them if they voted 
-independently. The probability that a person voted independently is 20%. What is 
-the probability that 70 people must be asked before you can find 5 people who voted 
-independently? 
-
----
-C.   Assume you flip a fair coin 100 times. What is the number N such that, 90% of the 
-time, the number of heads is less than or equal to N?
-
-D.  A researcher is waiting outside of a library to ask people if they support a certain 
-law. The probability that a given person supports the law is p = 0.2. What is the 
-probability that the fourth person the researcher talks to is the first person to support
-the law?
-
-E.  Assume that a light bulb has a mean lifetime of 1000 hours. What is the probability 
-that the light bulb survives to 2000 hours?
-
-F.   Assume a random variable Z is distributed according to the normal distribution with 
-mean 6 and standard deviation 4. What is the probability that Z takes on a value 
-between -1 and 3?
----
-
----
 Solution 1:
-Part A X \sim Poisson (15)
 
 
 ```r
-ppois(10, 15)
+Corn_Prices&lt;-read.csv("Monthly_Corn.csv")
 ```
-
-```
-## [1] 0.1184644
-```
-
-
-
----
-
-You are surveying people exiting from a polling booth and asking them if they voted 
-independently. The probability that a person voted independently is 20%. What is 
-the probability that 70 people must be asked before you can find 5 people who voted 
-independently? 
-
----
-
-Part BX \sim NB(5,0.2)
 
 
 ```r
-dnbinom(65,5,0.2)
+Close&lt;-ts(Corn_Prices$Close,start = c(2017,1),frequency=12)
 ```
 
+
+```r
+plot(Close, ylab = "Corn Monthly prices", 
+	main = "Monthly plot of corn prices")
 ```
-## [1] 0.00013892
-```
+
+![](Q2_Question_1_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
 
 ---
 
 ### Part C
 
-`$$X \sim Binom (100,0.5)$$`
-
-
-```r
-qbinom(0.9, 100, 0.5)
-```
-
-```
-## [1] 56
-```
-[1] 56
+The series is not stationary as it appears to be trending upwards with 
+time. The mean at different periods appears not to be constant For periods be
+tween 2017 to 2020, it appeared to be stationary.
 
 ---
 
-### Part D 
+### Part D
 
-`$$X \sim Geometric (0.2)$$`
 
 
 ```r
-dgeom(x=3, prob=0.2)
+acf(Close, main = "ACF", xlab = "Lags", 
+    ylab = "Serial Correlation", lag.max=60)
 ```
 
-```
-## [1] 0.1024
-```
+---
 
-[1] 0.1024
+![](Q2_Question_1_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 
 ---
 
+(v) 
 
-Part E 
+* If a series is stationary, the ACF should decay to zero quickly and sho
+uld not display any oscillation.
+* The series is not stationary because auto cor
+relation function is not decaying to zero quickly. 
+* Also, if the number of lag
+s is increased, oscillation is also observed, hence cannot be stationary
 
-`$$X \sim Exp(1/1000)$$`
+---
+
+(vi) Create another time series "monthly_returns" by using the formula log(P
+t/Pt-1), where Pt and Pt-1 correspond to the closing prices of month t and t1 respectively.
+
+```r
+returns&lt;-diff(log(Close))
+```
+
+---
+
+(vii) 
 
 
 ```r
-1 - pexp(2000, 0.001)
+acf(returns, main = "ACF", xlab = "Lags", ylab = "Serial Correlation", 
+lag.max=60)
+```
+
+![](Q2_Question_1_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+
+```r
+pacf(returns, main = "PACF", xlab = "Lags", ylab = "Serial Correlation", lag.max=60)
+```
+
+![](Q2_Question_1_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+(viii) 
+
+* The monthly returns appear stationary. If a series is stationary, the A
+CF should decay to zero quickly and should not display any oscillation.
+ 
+---
+
+(ix) The most appropriate ARMA will be ARMA (0,0) as the ACF and PACF do not 
+show significance at any of the lags 
+(x) 
+
+
+```r
+library(forecast)
 ```
 
 ```
-## [1] 0.1353353
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
 ```
 
 
 ---
 
 
+```r
+m1&lt;-arima(returns,order = c(0,0,0))
+m2&lt;-arima(returns,order = c(1,0,0))
+m3&lt;-arima(returns,order = c(0,0,1))
+m4&lt;-arima(returns,order = c(1,0,1))
+```
 
-#### Part F.   
-
-Assume a random variable Z is distributed according to the normal distribution with 
-mean 6 and standard deviation 4. What is the probability that Z takes on a value 
-between -1 and 3?
-
-`$$X \sim N(6,16)$$`
+---
 
 
 ```r
-pnorm(3, 6, 4) - pnorm(-1, 6, 4)
+m1$aic
 ```
 
 ```
-## [1] 0.1865682
+## [1] -164.6838
 ```
 
-[1] 0.1865682
+```r
+##  -164.6838
+m2$aic
+```
+
+```
+## [1] -163.5281
+```
+
+```r
+##  -163.5281
+m3$aic
+```
+
+```
+## [1] -163.3079
+```
+
+```r
+##  -163.3079
+m4$aic
+```
+
+```
+## [1] -165.2896
+```
+
+```r
+##  -165.2896
+```
+
+--- 
+
+
+```r
+auto.arima(returns)
+```
+
+```
+## Series: returns 
+## ARIMA(0,0,0)(1,0,0)[12] with zero mean 
+## 
+## Coefficients:
+##         sar1
+##       0.2548
+## s.e.  0.1120
+## 
+## sigma^2 = 0.005687:  log likelihood = 86.37
+## AIC=-168.74   AICc=-168.58   BIC=-164.14
+```
+
+```r
+## Series: returns 
+## ARIMA(0,0,0)(1,0,0)[12] with zero mean 
+## 
+## Coefficients:
+## sar1
+## 0.2548
+## s.e. 0.1120
+## 
+## sigma^2 estimated as 0.005687: log likelihood=86.37
+## AIC=-168.74 AICc=-168.58 BIC=-164.14
+# ARMA (1,1) has the lowest AIC.
+```
+
+---
+
+(xi) The deviation is observed because seasonality is not considered in the 
+model. ACF is actually demonstrating a small significant serial correlation at lag 12, which might give rise to seasonal ARMA. 
+# If we are forcefully fitting non seasonal models to a seasonal data, the di
+screpancy is possible.
+ [1 mark for each valid observation, Max 2]
 
 ---
     </textarea>

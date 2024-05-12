@@ -83,25 +83,36 @@ where ∑ yi is the total sum of all the binary data.
 Q3
 (i)(a)
 ```{r}
-> p = c(0.1, 0.2, 0.3, 0.4, 0.5) [½]
-> gp=c(0.5, 0.2, 0.2, 0.05, 0.05) [½]
-> mean_A=sum(p*gp)
-> mean_A
+p = c(0.1, 0.2, 0.3, 0.4, 0.5) 
+gp=c(0.5, 0.2, 0.2, 0.05, 0.05) 
+mean_A=sum(p*gp)
+mean_A
 ```
 
-#[1] 0.195 [1]
->sd_A = sqrt(sum(gp*p^2)-mean_A^2)
->sd_A
-#[1] 0.1160819 [2]
+```{r}
+sd_A = sqrt(sum(gp*p^2)-mean_A^2)
+sd_A
+```
+
 (b)
-> samples_beta = rbeta(10000, 3, 12) [1]
+
+```{r}
+samples_beta = rbeta(10000, 3, 12) 
+```
+
 (c)
-> mean_N = mean(samples_beta)
-> mean_N
-#[1] 0.2012128 [1]
-> sd_N = sd(samples_beta)
-> sd_N
-#[1] 0.09913621 [1]
+
+```{r}
+mean_N = mean(samples_beta)
+mean_N
+```
+
+
+```{r}
+sd_N = sd(samples_beta)
+sd_N
+```
+
 (d)
 The first and second moments of the two priors are very similar [1]
 The two prior beliefs are similar despite one being based on a continuous distribution and the 
@@ -116,14 +127,19 @@ other on a discrete distribution
 (ii)
 Read the data in: 
 ```{r}
-> load("BinaryTrain.RData")
+load("BinaryTrain.RData")
 
  
-> p = seq(0, 1, by = 0.01)
-> dens = p^(2+sum(y))*(1-p)^(11+length(y)-sum(y))
-> plot(p, dens, type = "l", ylab ="",xlab="p") [3]
-Or, 
-> curve(x^(2+sum(y))*(1-x)^(11+length(y)-sum(y))) 
+p = seq(0, 1, by = 0.01)
+dens = p^(2+sum(y))*(1-p)^(11+length(y)-sum(y))
+plot(p, dens, type = "l", ylab ="",xlab="p") 
+```
+
+
+---
+
+```{r}
+curve(x^(2+sum(y))*(1-x)^(11+length(y)-sum(y))) 
 ```
 ---
 
@@ -137,10 +153,19 @@ The posterior distribution of $p$ is beta with parameters 3 + ∑ yi and 12 + n 
 
 (iii)
 Prior distribution
-> plot(p, dbeta(p, 3, 12), type = "l", ylim =c(0, 14), ylab ="")
-[2]
+```{r}
+plot(p, dbeta(p, 3, 12), type = "l", ylim =c(0, 14), ylab ="")
+
+```
+
+---
+
 Or,
-> curve(dbeta(x, 3, 12), type="l",ylim=c(0, 14), ylab ="", xlab="p")
+
+```{r}
+curve(dbeta(x, 3, 12), type="l",
+ylim=c(0, 14), ylab ="", xlab="p")
+```
 
 ---
 
@@ -193,6 +218,9 @@ sd_N
 (d)
 The first and second moments of the two priors are very similar 
 The two prior beliefs are similar despite one being based on a continuous distribution and the other on a discrete distribution 
+
+---
+
 (ii)
 Read the data in:
 load("BinaryTrain.RData")
@@ -204,6 +232,8 @@ curve(x^(2+sum(y))*(1-x)^(11+length(y)-sum(y)))
 Parts (i)-(iii) were generally well answered. Plots in part (i) were varied, with a number of candidates not using reasonable axis labels (or no axis at all), while comments were often missing in (i)(b). A common error in part (ii) was to omit the PAIRED = TRUE parameter, as the question requested. Answers in (iv), (v) were mixed with a range of comments.
 CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
 CS1B A2021 © Institute and Faculty of Actuaries
+
+---
 
 (iii)
 Prior distribution
@@ -221,6 +251,8 @@ curve(dbeta(x, 3+sum(y), 12+length(y)-sum(y)), type = "l", add=TRUE, col="red")
 Or,
 >lines(p, dbeta(p,3+sum(y),12+length(y)-sum(y)),col="red")
 
+---
+
 (b)
 Clearly, the posterior is much narrower than the prior. 
 (c)
@@ -234,16 +266,21 @@ qbeta(c(0.05, 0.95), 3+sum(y), 12+length(y)-sum(y))
 1 - pbeta(0.25, 3+sum(y), 12+length(y)-sum(y)) 
 # 0.3216195
 
+---
+
 (vii)(a)
 z = rbeta(10000, 3+sum(y), 12+length(y)-sum(y))  (b)
 sum(z>0.25)/10000 
 # 0.3271 
-CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
-CS1B A2021 © Institute and Faculty of Actuaries
+
+---
+
 Or,
 length(z[z>0.25])/length(z)
 (c) As expected the proportion is very similar to the answer in (vi). 
-[Total 28]
+
+---
+
 Q4
 (i)
 load("CS1passenger.RData")
@@ -255,6 +292,10 @@ Alternative answer:
 (a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2 , where 𝑥𝑥1 is temperature and 𝑥𝑥2=0 (nonSemester), 𝑥𝑥2=1 (Semester)
 (b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2 , where 𝑥𝑥1and 𝑥𝑥2 as above
 (c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2+𝑏𝑏3𝑥𝑥3 , where 𝑥𝑥3=0 (8am), 𝑥𝑥3=1 (9am)]
+
+
+---
+
 (ii)(a)
 >Model1<- glm(Passengers~temp*semester + route, family=poisson(link="log"))
 >summary(Model1) 
@@ -275,8 +316,9 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 (Dispersion parameter for poisson family taken to be 1)
 A number of candidates did not attempt this question, or only attempted part (i).
 For candidates that attempted it, the overall performance was mixed. In part (iii) many candidates plotted the graphs using the simulated values from part (i)(b) or using inappropriate plots, which led to difficulty later in the question.
-CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
-CS1B A2021 © Institute and Faculty of Actuaries
+
+---
+
 Null deviance: 30.406 on 19 degrees of freedom
 Residual deviance: 13.833 on 15 degrees of freedom
 AIC: 62.187

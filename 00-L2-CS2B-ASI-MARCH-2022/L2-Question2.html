@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+[15]
+Q. 2) 
+
+An Actuary tried to predict the COVID-19 evolution by using Markov chain which involved 
+modelling transitions from one state to another according to a transition probability matrix. 
+These predictions are expected to help the authorities to set up adequate protocols for 
+managing the post-confinement due to COVID-19.
+There are five states in the model namely Infected, Quarantined, Hospitalised, Recovered and 
+Death which are measured at the end of each week.
+---
+
+#### Data Set 
+
+* The &lt;tt&gt;‘CS2B_Mar22_Dataset2.csv’&lt;/tt&gt; file contains the recorded weekly transitions between 
+different states. 
+* Each row contains a pair of State_From and State_To where State_From 
+denotes the starting state and State_To denotes the state after a week’s transition. 
+* The following notation has been used:
+ I-Infected, 
+ Q-Quarantined, 
+ H-Hospitalised, 
+ R-Recovered, 
+ D-Death
+* Those states which have no transition to any another state can be assumed to be absorbing.
+---
+
+Load ‘CS2B_Mar22_Dataset2.csv’ file into R and name it as coviddata.
+
+#### Exercises 
+
+A. Using transition pair data, compute the transition probabilities between each state. (6)
+B. Find out the absorbing states in the model. 
+C. Create Markov chain model named “covid19” in R with the respective state space and 
+transition probability matrix. Plot this model and paste the plot into your answer sheet. 
+(Use library-markovchain) 
+
+---
+
+Parameter 1&gt;150 and Parameter 2 &gt;50
+Parameter 
+3&gt;300
+Surgery Not 
+Required
+Surgery 
+Required
+Surgery not
+required
+---
+
+iv) Using the Markov chain, given that the individual is infected, compute the probability that:
+a) He will be in quarantine after a week 
+b) He will either be in hospital or in quarantine after two weeks 
+c) He will recover after 3 weeks 
+
+
+v) COVID-19 pandemic is expected to end in a quarter’s time. 
+Estimate the number of people who will be (a) Quarantined (b) Hospitalized (c) Recovered 
+and (d) Died out of the current 20,000 quarantined and 10,000 hospitalised individuals. 
+(Answer to nearest whole number, Assume 13 weeks in a quarter)
+vi) Comment on your results obtained in (v). 
+
+---
+Solution 2:
+# i)
+
+
+
+
+```r
+covid_data=read.csv("CS2B_Mar22_Dataset2.csv")
+```
+
+
+```r
+head(covid_data)
+```
+
+```
+##   Sr.No. State_From State_To
+## 1      1          I        Q
+## 2      2          I        Q
+## 3      3          I        Q
+## 4      4          I        Q
+## 5      5          I        Q
+## 6      6          I        Q
+```
+
+---
+
+
+
+```r
+covid_data$State_From = as.factor(covid_data$State_From)
+covid_data$State_To = as.factor(covid_data$State_To)
+```
+
+
+```r
+States_From = levels(covid_data$State_From)
+States_To = levels(covid_data$State_To)
+States = unique(c(States_From,States_To))
+```
+
+---
+
+
+```r
+# Transition Probabilities for each pair
+transitions_Master = c()
+
+for (i in States) {
+ for (j in States) {
+ 
+ transition = sum(covid_data$StateFrom == i &amp; covid_data$State.To == j)/sum(covid_data$StateFrom == i)
+ 
+ transition = ifelse(sum(covid_data$StateFrom == i) ==0, ifelse(i ==j, 1,0),transition)
+ 
+ transitions_Master = c(transitions_Master,transition)
+ 
+ }
+ 
+}
+```
+
+---
+
+
+```r
+transition_matrix = matrix(transitions_Master, nrow=5, 
+                           byrow = T, 
+                           dimnames=list(States, States))
+
+transition_matrix
+```
+
+```
+##   H I Q D R
+## H 1 0 0 0 0
+## I 0 1 0 0 0
+## Q 0 0 1 0 0
+## D 0 0 0 1 0
+## R 0 0 0 0 1
+```
+
+---
+
+The two absorbing states are "Recovered" and "Death"
+
+
+
+```r
+library(markovchain)
+```
+
+```
+## Warning: package 'markovchain' was built under R version 4.3.3
+```
+
+```
+## Package:  markovchain
+## Version:  0.9.5
+## Date:     2023-09-24 09:20:02 UTC
+## BugReport: https://github.com/spedygiorgio/markovchain/issues
+```
+
+
+
+```r
+covid19 &lt;- new("markovchain",
+               states=c("H","I","Q", "D","R"),
+    transitionMatrix=transition_matrix)
+
+covid19
+```
+
+```
+## Unnamed Markov chain 
+##  A  5 - dimensional discrete Markov Chain defined by the following states: 
+##  H, I, Q, D, R 
+##  The transition matrix  (by rows)  is defined as follows: 
+##   H I Q D R
+## H 1 0 0 0 0
+## I 0 1 0 0 0
+## Q 0 0 1 0 0
+## D 0 0 0 1 0
+## R 0 0 0 0 1
+```
+
+
+---
+
+
+```r
+## Unnamed Markov chain 
+## A 5 - dimensional discrete Markov Chain defined by the following states: 
+## H, I, Q, D, R 
+## The transition matrix (by rows) is defined as follows: 
+## H I Q D R
+## H 0.2 0 0.0 0.2 0.6
+## I 0.4 0 0.6 0.0 0.0
+## Q 0.2 0 0.3 0.0 0.5
+## D 0.0 0 0.0 1.0 0.0
+## R 0.0 0 0.0 0.0 1.0
+plot(covid19)
+```
+
+![](L2-Question2_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+
+# (a)
+
+---
+
+
+```r
+initialstate=c(0,1,0,0,0)
+afterweek=initialstate*(covid19)
+afterweek
+```
+
+```
+##      H I Q D R
+## [1,] 0 1 0 0 0
+```
+
+```r
+## H I Q D R
+## [1,] 0.4 0 0.6 0 0
+## [1] 0.6
+```
+
+---
+
+(1)
+# (b)
+
+
+```r
+aftertwoweeks=initialstate*(covid19*covid19)
+aftertwoweeks
+```
+
+```
+##      H I Q D R
+## [1,] 0 1 0 0 0
+```
+
+```r
+## H I Q D R
+## [1,] 0.2 0 0.18 0.08 0.54
+# Probability of either hospital or quarantine after 2 weeks
+p1 = aftertwoweeks[1]+aftertwoweeks[3]
+p1
+```
+
+```
+## [1] 0
+```
+---
+
+
+```r
+## [1] 0.38 (2)
+# (c)
+afterthreeweeks=initialstate*(covid19*covid19*covid19)
+afterthreeweeks
+```
+
+```
+##      H I Q D R
+## [1,] 0 1 0 0 0
+```
+
+```r
+## H I Q D R
+## [1,] 0.076 0 0.054 0.12 0.75
+#Probability of recovery after 3 weeks
+p2 = afterthreeweeks[5]
+p2
+```
+
+```
+## [1] 0
+```
+
+```r
+## [1] 0.75 (2)
+# (v)
+# Long term probability (after 13 weeks)
+# Quarantined People
+```
+
+---
+
+
+```r
+initial_Q = c(0,0,1,0,0)
+after_quarter = initial_Q*(covid19^13)
+initial_H = c(1,0,0,0,0)
+after_quarter1 = initial_H*(covid19^13)
+Recovered = 20000*after_quarter[5]+10000*after_quarter1[5]
+Died = 20000*after_quarter[4]+10000*after_quarter1[4]
+Quarantined = 20000*after_quarter[3]+10000*after_quarter1[3]
+Hospitalized = 20000*after_quarter[1]+10000*after_quarter1[1]
+```
+---
+
+
+```r
+round(Recovered,0)
+```
+
+```
+## [1] 0
+```
+
+```r
+## [1] 26071
+round(Died,0)
+```
+
+```
+## [1] 0
+```
+
+```r
+## [1] 3929
+round(Hospitalized,0)
+```
+
+```
+## [1] 10000
+```
+
+```r
+## [1] 0
+round(Quarantined,0)
+```
+
+```
+## [1] 20000
+```
+
+```r
+## [1] 0
+```
+
+---
+
+#### Part F.
+
+* In the long run, everyone needs to reach a steady state probabilities. 
+* As there are two absorbing states, one of the two is the destination
+* The other states are completely zeroes
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

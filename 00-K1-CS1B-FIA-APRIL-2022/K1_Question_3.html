@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -48,13 +48,15 @@ Consider a sample of 10,000 car insurance policies sold to drivers who have had 
 driving licence for no more than 5 years. The data are given in the file 
 &lt;tt&gt;CarInsurance.Rdata&lt;/tt&gt;, which contains the following four variables: 
 
-* age: a factor taking the values 0 for young and 1 for old; this refers to the age of 
+* ***age***: a factor taking the values 0 for young and 1 for old; this refers to the age of 
 the policyholder. 
-* LY: the number of years the policyholder has had a driving licence before the start 
+* ***LY***: the number of years the policyholder has had a driving licence before the start 
 of the current year. 
-* NCD: the number of years the policyholder has had a no claims discount before the 
+* ***NCD***: the number of years the policyholder has had a no claims discount before the 
 start of the current year. 
-* claims: the number of claims the policyholder submitted during the current year. 
+* ***claims***: the number of claims the policyholder submitted during the current year. 
+
+
 It has been suggested that drivers belonging to the old age category have more years 
 of no claims discount than younger drivers. 
 
@@ -210,13 +212,29 @@ policyholders).
 
 #### Part (E)
 
-Test the hypothesis that prop of NCD &gt;2 is equal for young and old, against alternative that 
+Test the hypothesis that prop of `\(NCD &gt;2\)` is equal for young and old, against alternative that 
 proportions are not equal: 
 
 
 ```r
 NCDgreaterTwo = c(sum(NCD_young &gt; 2), sum(NCD_old &gt; 2)) 
+
+head(NCDgreaterTwo)
+```
+
+```
+## [1] 3448 3871
+```
+
+
+```r
 YoungOld = c(length(NCD_young), length(NCD_old)) 
+
+head(YoungOld)
+```
+
+```
+## [1] 6011 3989
 ```
 
 ---
@@ -249,6 +267,9 @@ The `\(p\)`-value is very small, therefore we reject the null hypothesis of equa
 
 ---
 
+END
+
+---
 ### Exercises
 
 An analyst assumes that the number of claims per year has a Poisson distribution. The 
@@ -367,9 +388,10 @@ Model LY + NCD has the smallest AIC value and should be preferred.
 
 #### Part (H)
 
-The AIC for model LY + NCD (23102) is slightly lower than the AIC for
+* The AIC for model LY + NCD (23102) is slightly lower than the AIC for
 age + LY + NCD (23104), but the AIC values are very close. 
-We would prefer model LY + NCD as it also involves fewer variables (it is a smaller 
+
+* We would prefer model LY + NCD as it also involves fewer variables (it is a smaller 
 model). 
 ---
 
