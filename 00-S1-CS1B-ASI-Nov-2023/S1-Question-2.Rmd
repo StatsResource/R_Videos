@@ -46,8 +46,7 @@ No need to paste the output of head command.
 dance.csv contains following fields:
 - Judges: It indicates the score provided by judges
 - Audience: It indicates the sum of scores provided by audience
-IAI CS1B-1123
-Page 3 of 6
+
 - Final: It indicates the final score of the contestant
 ii) Plot a scatterplot for each pair of data.
 Make sure to paste the scatterplot in your answer scripts.
@@ -102,14 +101,13 @@ Store this model as m2 and show the summary of the output.
 
 ix) Using a suitable statistic from part (iv.b) and (viii). outputs, compare models m1 and m2 and suggest which model is better.
 Please write the figures of the statistic while answering.
-(3)
-[34]
+
 
 ---
 Solution 2:
 i)
 ```{r}
-dance<-read.csv("dance.csv")
+dance<-read.csv("DanceData.csv")
 head(dance)
 ```
 
@@ -129,8 +127,12 @@ Audience score is quite scattered and doesn't show any strong linear relationshi
 iv)
 a)
 b)
+
+```{r}
 m1<-lm(Final~Judges+Audience,data=dance)
 summary(m1)
+```
+
 Call:
 lm(formula = Final ~ Judges + Audience, data = dance)
 Residuals:
@@ -153,8 +155,13 @@ Residual standard error: 2.604 on 17 degrees of freedom
 Multiple R-squared: 0.6601, Adjusted R-squared: 0.6201
 F-statistic: 16.51 on 2 and 17 DF, p-value: 0.0001038
 Final = 10.617827 + 0.720273 * Judges + 0.001449 *Audience
+
+---
+
+```{r}
 confint(m1)
-2.5 % 97.5 %
+```
+
 (Intercept) -21.3033977 42.5390512
 Judges 0.4483811 0.9921649
 Audience -0.0012812 0.0041793
@@ -169,14 +176,21 @@ Alternate:
 
 v)
 ```{r}
-audience.count<-c(110,100,90,120,100,100,100,100,110,110,100, 100,110,90,100,110,120,120,100,100)
+audience.count<-c(110,100,90,120,100,
+                  100,100,100,110,110,
+                  100,100,110,90,100,
+                  110,120,120,100,100)
 sum(audience.count)
 ```
 
-[1] 2090
+---
 
 vi)
+```{r}
 dance$Audience2<-dance$Audience/audience.count
+
+```
+
 ---
 
 G. Perform correlation test to check whether any correlation exits between final score and new audience score.

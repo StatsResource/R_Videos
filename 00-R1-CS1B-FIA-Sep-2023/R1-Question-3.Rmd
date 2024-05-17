@@ -40,6 +40,7 @@ pre {
 
 3 A data science actuary wants to build a linear regression model for cars that will
 predict the stopping distance based on their speed.
+
 The actuary will work on the dataset that already exists in R known as ‘Cars’, which
 can be initialised using the following code:
 data("cars")
@@ -47,6 +48,9 @@ attach(cars)
 This dataset has 50 observations of two variables:
 *  The first variable ‘speed’ is speed, in miles per hour (mph).
 *  The second variable ‘dist’ is stopping distance, in feet.
+
+---
+
 (i) Fit a linear regression model to the data using stopping distance as the
 response variable and speed as the only explanatory variable, stating the
 estimated intercept and slope of the regression line. 
@@ -70,9 +74,11 @@ confidence intervals obtained in part (iii).
 
 
 Q3
+```{r}
 #Initialise the dataset.
 data("cars")
 attach(cars)
+```
 
 ---
 
@@ -84,11 +90,6 @@ model
 ```
 
 
-Call:
-lm(formula = dist ~ speed, data = cars)
-Coefficients:
-(Intercept) speed
--17.579 3.932 
 
 ---
 
@@ -103,9 +104,7 @@ data_predict <- data.frame(speed = c(6,7,16,22,28,33,40,42,57,64))
 predict(model,newdata=data_predict) 
 ```
 
-6.015358 9.947766 45.339445 68.933898 92.528350 112.190394
-7 8 9 10
-139.717255 147.582073 206.568204 234.095066 
+
 
 ---
 
@@ -115,13 +114,7 @@ predict(model,newdata=data_predict)
 predict(model,newdata=data_predict, interval="confidence",level=0.90) 
 ```
 
-fit lwr upr
-1 6.015358 -1.482803 13.51352
-2 9.947766 3.050136 16.84540
-3 45.339445 41.667593 49.01130
-4 68.933898 63.063300 74.80450
-5 92.528350 83.019704 102.03700
-6 112.190394 99.393826 124.98696
+
 
 ---
 

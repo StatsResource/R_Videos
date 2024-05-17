@@ -71,8 +71,7 @@ so as to reduce the expected probability of default
 
 ---
 (v)
-CS2B - Risk Modelling and Survival Analysis - Core Principles - September 2021 - Examiners’ report
-CS2B S2021 © Institute and Faculty of Actuaries
+
 
 ```{r}
 tree = rpart(default ~ ., data = specimen, method = "class")

@@ -42,7 +42,11 @@ Q. 3)
 An analyst fitted various models on the data containing claims information of 20 policies and shared the output to conduct analysis.
 Output 1:
 Call:
+
+```{r eval=FALSE}
 glm(formula = Claim ~ 1, family = poisson(lin = "log"), data = q3)
+```
+
 Deviance Residuals:
 Min 1Q Median 3Q Max
 -1.8439 -0.8975 -0.1791 0.3925 2.5561
@@ -65,8 +69,11 @@ ii) Using output 1, show that the sample mean of the response variable is 1.7 (w
 (2)
 Output 2:
 Call:
+```{r eval=FALSE}
 glm(formula = Claim ~ Gender + Health - 1, family = poisson(lin = "log"),
 data = q3)
+```
+
 Deviance Residuals:
 Min 1Q Median 3Q Max
 -1.22474 -0.81754 -0.07119 0.27453 1.44149
@@ -102,14 +109,14 @@ Hint: Use outputs and various sub-parts to determine x for poisson test.
 
 Solution 3:
 i)
-```{r}
+```{r eval=FALSE}
 log(y) = 0.5306
 ```
 
 poisson distribution is used to model response variable.
 
 ii)
-```{r}
+```{r eval=FALSE}
 Claim.mean<-round(exp(.5306),1)
 Claim.mean
 ```
@@ -122,7 +129,7 @@ Claim.mean
 
 iii)
 
-```{r}
+```{r eval=FALSE}
 log(y) = 1.1394 * GenderF + 1.1394 * GenderM -1.4271 *HealthNonDiabetic
 ```
 

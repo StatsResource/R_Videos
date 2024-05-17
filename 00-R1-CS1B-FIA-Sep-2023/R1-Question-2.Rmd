@@ -39,12 +39,20 @@ pre {
 ---
 
 
-2 A researcher wants to investigate the proportion of electric cars among all registered
-cars in two large populations (denoted as populations A and B). Two samples are
-considered, one from each population. The first sample consists of nA = 900 registered
-cars, while the second sample consists of nB = 1,200 registered cars. The type of each
+A researcher wants to investigate the proportion of electric cars among all registered
+cars in two large populations (denoted as populations A and B). 
+
+* Two samples are
+considered, one from each population. 
+
+* The first sample consists of nA = 900 registered
+cars, while the second sample consists of nB = 1,200 registered cars. 
+
+* The type of each
 car (electric or not) is assumed to be independent of the type of other cars in the
 samples.
+
+---
 
 ### Exercises 
 (i) Simulate the two samples in R assuming that the proportion of electric cars in
@@ -85,6 +93,9 @@ data.A = rbinom(900,1,0.020)
 data.B = rbinom(1200,1,0.025)
 #data.A; data.B 
 ```
+
+---
+
 (ii)
 ```{r}
 n.A = length(data.A); n.B = length(data.B)
@@ -95,30 +106,41 @@ thetahat.A; thetahat.B
 # 0.02916667 
 
 ```
+
+---
+
 Parts (i)-(iii) were well answered in general. A common error in part (i) was not using properly the inverse transform method as the question asked.
 Part (iv) was not well answered, with comments often being vague or not consistent with the graphs plotted earlier.
 
 ---
 
+```{r}
 ese.diff = sqrt( thetahat.A*(1-thetahat.A)/n.A + thetahat.B*(1-thetahat.B)/n.B )
 ese.diff
 # 0.006823359 
 ci.theta.diff = (thetahat.A-thetahat.B) + c(-1,1)*qnorm(0.995)*ese.diff
 ci.theta.diff
 # -0.025631365 0.009520254 
+
+```
+
 The 99% CI for the difference in proportions is [-0.025631365, 0.009520254] 
 ---
-(iii)
-Hypotheses:
-H0: theta_A = theta_B v. H1: theta_A < theta_B 
-Statistic:
+
+### Part C
+
+#### Hypotheses:
+H0: theta_A = theta_B 
+v. 
+H1: theta_A < theta_B 
+
+#### Statistic:
 
 ```{r}
 thetahat.common = (sum(data.A)+sum(data.B))/(n.A+n.B)
 thetahat.common
 ```
 
-# 0.02571429 
 
 ---
 
@@ -136,7 +158,7 @@ ese.diff.H0
 ```{r}
 stat.diff = (thetahat.A-thetahat.B)/ese.diff.H0
 stat.diff
-# -1.154163
+
 ```
 
 ---
@@ -144,12 +166,15 @@ stat.diff
 The value of the statistic is -1.154163 
 P-value:
 
-
-pvalue.diff =[ pnorm(stat.diff)
+```{r}
+pvalue.diff = pnorm(stat.diff)
 pvalue.diff
-# 0.1242166
+```
+
+
 The p-value of the test is 0.1242166 
-Conclusion:
+
+#### Conclusion:
 We do not have evidence against the null hypothesis of equal proportions 
 at level 12.4% 
 so we do not reject it. 

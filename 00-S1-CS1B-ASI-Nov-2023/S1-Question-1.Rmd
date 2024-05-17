@@ -44,7 +44,7 @@ Hint: p**** is a useful function to ascertain CDF.
 (5)
 ii)
 a) Show that the population mean and standard deviation of “differences in hotel prices between Mumbai and Kolkata” (i.e., Mumbai hotel prices – Kolkata hotel Prices) are 1800 and 1749.86.
-(3)
+
 b) Generate a sample of size 50 for the ” differences in hotel prices between Mumbai and Kolkata”.
 (2)
 c) Draw qqplot and qqline for the sample generated and comment on the results.
@@ -70,8 +70,8 @@ b) Draw qqplot and qqline for the sample generated in (iv.a) and comment on the 
 [26]
 
 
-Page 2 of 8
-Solution 1:
+---
+
 i)
 
 ```{r}
@@ -91,35 +91,43 @@ y.sd=1500
 ```{r}
 f.mean<-x.mean - 2*y.mean
 f.var <- x.sd^2+4*y.sd^2
->
+
 1-pnorm(0,mean=f.mean,sd=sqrt(f.var))
-[1] 0.2827485
+
 ```
 
 ----
 ii)
 a)
 b)
+
+```{r}
 dif.mean<-x.mean - y.mean
 dif.mean
-[1] 1800
->
+```
+
+```{r}
 dif.sd <-sqrt(x.sd^2+y.sd^2)
 dif.sd
-[1] 1749.286
+```
+
 
 ---
 
+```{r}
 set.seed(1234)
 dif.sample<-rnorm(50,dif.mean,dif.sd)
-[3]
+```
 
 
 --- 
 
 c)
-qnorm(dif.sample)
+
+```{r}
+qqnorm(dif.sample)
 qqline(dif.sample)
+```
 
 ---
 
@@ -133,12 +141,17 @@ align with normality probably due to low sample size and high variability.
 
 iii)
 a)
+```{r}
 sample.mean<-mean(dif.sample)
 sample.mean
-[1] 1007.481
+```
+
+
+```{r}
 z<- (sample.mean - 1375)/(dif.sd/sqrt(50))
 pnorm(z)
-[1] 0.06869143
+```
+
 
 ---
 
@@ -180,5 +193,9 @@ qqline(dif.sample2)
 ```
 
 With larger sample size, it indicates normality.
+
+---
+
+END
 
 ---

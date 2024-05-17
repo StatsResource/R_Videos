@@ -39,9 +39,10 @@ pre {
 
 ### Compound Poisson Distribution
 
-The annual aggregate claim amount of an insurer follows a compound Poisson 
-distribution with parameter 1,000. Individual claim amounts follow a Gamma 
-distribution with shape parameter α = 750 and rate parameter λ = 0.25. 
+* The annual aggregate claim amount of an insurer follows a compound Poisson 
+distribution with parameter 1,000. 
+* Individual claim amounts follow a Gamma 
+distribution with shape parameter $\alpha = 750$ and rate parameter $\lambda = 0.25$. 
 
 ---
 1. Generate 20,000 simulated aggregate claim values for this insurer, using a 

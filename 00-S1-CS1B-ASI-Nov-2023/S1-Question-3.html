@@ -42,142 +42,160 @@ pre {
 
 ---
 
-3 A data science actuary wants to build a linear regression model for cars that will
-predict the stopping distance based on their speed.
-
-The actuary will work on the dataset that already exists in R known as ‘Cars’, which
-can be initialised using the following code:
-data("cars")
-attach(cars)
-This dataset has 50 observations of two variables:
-*  The first variable ‘speed’ is speed, in miles per hour (mph).
-*  The second variable ‘dist’ is stopping distance, in feet.
-
----
-
-(i) Fit a linear regression model to the data using stopping distance as the
-response variable and speed as the only explanatory variable, stating the
-estimated intercept and slope of the regression line. 
-The actuary wants to predict the stopping distances for the following ten speed values:
-6 7 16 22 28 33 40 42 57 64
-
-
----
-
-(ii) Estimate the ten expected stopping distances, based on your fitted model from
-part (i). 
-The actuary is concerned about the uncertainty around the mean predictions.
-(iii) Calculate ten confidence intervals, one for each of the expected stopping
-distances in part (ii), using a 90% confidence level. 
-(iv) (a) State the interpretation of the 90% confidence interval for the stopping
-distances for cars with speed 64 mph, using your answer to part (iii).
-(b) Comment on the suitability of the linear regression model, based on the
-confidence intervals obtained in part (iii).
-
----
-
-
-Q3
-
-```r
-#Initialise the dataset.
-data("cars")
-attach(cars)
-```
-
----
-
-(i)
+Q. 3)
+An analyst fitted various models on the data containing claims information of 20 policies and shared the output to conduct analysis.
+Output 1:
+Call:
 
 
 ```r
-model = lm(dist~speed, data = cars) 
-model
+glm(formula = Claim ~ 1, family = poisson(lin = "log"), data = q3)
 ```
 
-```
-## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
-## 
-## Coefficients:
-## (Intercept)        speed  
-##     -17.579        3.932
-```
-
-
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.8439 -0.8975 -0.1791 0.3925 2.5561
+Coefficients:
+Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) 0.5306 0.1715 3.094 0.00197 **
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+Null deviance: 30.147 on 19 degrees of freedom
+Residual deviance: 30.147 on 19 degrees of freedom
+AIC: 71.114
+Number of Fisher Scoring iterations: 5
 
 ---
 
-(ii)
+i) Write the equation of the fitted model using Output 1 as above and specify which distribution is used to model the response variable.
+(2)
+ii) Using output 1, show that the sample mean of the response variable is 1.7 (when rounded to one decimal place).
+(2)
+Output 2:
+Call:
+
+```r
+glm(formula = Claim ~ Gender + Health - 1, family = poisson(lin = "log"),
+data = q3)
+```
+
+Deviance Residuals:
+Min 1Q Median 3Q Max
+-1.22474 -0.81754 -0.07119 0.27453 1.44149
+Coefficients:
+Estimate Std. Error z value Pr(&gt;|z|)
+GenderF 1.1394 0.3490 3.265 0.001096 **
+GenderM 1.1394 0.2216 5.143 2.71e-07 ***
+HealthNonDiabetic -1.4271 0.3939 -3.623 0.000291 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+(Dispersion parameter for poisson family taken to be 1)
+Null deviance: 38.229 on 20 degrees of freedom
+Residual deviance: 14.436 on 17 degrees of freedom
+AIC: 59.403
+Number of Fisher Scoring iterations: 5
+
+---
+
+iii) Write the equation of the fitted model using Output 2.
+Make sure to define the explanatory (categorical) variables.
+(4)
+iv) Output 2 doesn’t have an intercept as a coefficient unlike output1. Please provide the reason for the same by comparing glm R formulas.
+(2)
+v) Compare output 1 and output 2, and suggest which model is better using suitable statistics.
+(2)
+vi) Compute log likelihood of the model given in output 2.
+(3)
+vii) Claim follows Poisson distribution. Test for the parameter to be equal to 1.5 at 1% level of significance.
+Hint: Use outputs and various sub-parts to determine x for poisson test.
+(5)
+[20]
+
+
+Solution 3:
+i)
+
+```r
+log(y) = 0.5306
+```
+
+poisson distribution is used to model response variable.
+
+ii)
+
+```r
+Claim.mean&lt;-round(exp(.5306),1)
+Claim.mean
+```
+
+[1] 1.7
+
+---
+
+### Part C
+
+iii)
 
 
 ```r
-data_predict &lt;- data.frame(speed = c(6,7,16,22,28,33,40,42,57,64))
+log(y) = 1.1394 * GenderF + 1.1394 * GenderM -1.4271 *HealthNonDiabetic
 ```
 
+where GenderF =1 if Gender = F else 0
+GenderM =1 if Gender = M else 0
+HealthNonDiabetic =1 if Health= NonDiabetic else 0
 
+--- 
 
-```r
-predict(model,newdata=data_predict) 
-```
+### Part D
 
-```
-##          1          2          3          4          5          6          7 
-##   6.015358   9.947766  45.339445  68.933898  92.528350 112.190394 139.717255 
-##          8          9         10 
-## 147.582073 206.568204 234.095066
-```
+iv)
 
+* For model 2, “-1” is used in Glm R formula to not take the intercepts while fitting the model.
+* Thus, no intercept exits.
 
 
 ---
 
-(iii)
 
-
-```r
-predict(model,newdata=data_predict, interval="confidence",level=0.90) 
-```
-
-```
-##           fit        lwr       upr
-## 1    6.015358  -1.482803  13.51352
-## 2    9.947766   3.050136  16.84540
-## 3   45.339445  41.667593  49.01130
-## 4   68.933898  63.063300  74.80450
-## 5   92.528350  83.019704 102.03700
-## 6  112.190394  99.393826 124.98696
-## 7  139.717255 122.189498 157.24501
-## 8  147.582073 128.688793 166.47535
-## 9  206.568204 177.348219 235.78819
-## 10 234.095066 200.029446 268.16069
-```
-
-
+v)
+AIC (=59.4) of model 2 which is lower than AIC (71.1) of model 1. This indicates that model 2 is better.
 
 ---
 
-Part (i) was well answered in general. A common error was using rbinom(1, n, p), therefore not producing the detailed sample.
-In part (ii) there were mixed answers with various errors.
-Answers in part (iii) were also mixed, with common errors including not stating correctly, or at all, the hypotheses, parameter errors and not providing a clear conclusion.
+### Part F
+vi)
+#AIC = - 2LogL(Model) + 2*Parameters
+#LogL(Model) = Parameters - AIC/2
+aic&lt;-59.403
+par&lt;-3
+&gt;
+L&lt;- par - aic/2
+L
+[1] -26.7015
 
+--- 
 
-7 139.717255 122.189498 157.24501
-8 147.582073 128.688793 166.47535
-9 206.568204 177.348219 235.78819
-10 234.095066 200.029446 268.16069 
+vii)
+#Total claims = Mean claims * Total policies
+x&lt;-Claim.mean*20
+poisson.test(x=X,T=20,r=1.5,conf.level = 0.99)
+Exact Poisson test
+
+data: X time base: 20
+number of events = 34, time base = 20, p-value = 0.4639
+alternative hypothesis: true event rate is not equal to 1.5
+99 percent confidence interval:
+1.042837 2.605372
+sample estimates:
+event rate
+1.7
+&gt;
+# We cannot reject the null hypothesis that parameter is equal to 1.5.
+[Max 5]
 
 ---
-
-(iv)(a)
-
-* The CI is constructed such that with repeated sampling, 90% of the obtained intervals will contain the true unknown mean stopping distance of cars travelling at 64 mph. 
-(b)
-
-* For speed 6mph the model gives a CI with negative lower endpoint. 
-* A linear model, predicting negative stopping distance values, may not be
-appropriate. 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

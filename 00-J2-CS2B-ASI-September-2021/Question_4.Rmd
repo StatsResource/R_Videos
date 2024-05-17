@@ -56,7 +56,7 @@ Function (PACF) of the data, giving appropriate labels for the x and y axes.
 
 3.   Estimate the ACF and PACF values at each lag. 
 
-4.   Comment on the ACF based on the charts and values computed in (2.  and (iii). 
+4.   Comment on the ACF based on the charts and values computed in Parts 2.  and 3. 
 
 5.  Calculate the simple seasonal difference with period 12. Print the top 12 values of the 
 seasonal difference. 
@@ -138,13 +138,13 @@ pacf(a,plot = FALSE)
 
 ### PArt 4
 
-'The ACF indicates that there is correlation between an observation and the past observations. 
+* 'The ACF indicates that there is correlation between an observation and the past observations. 
 
-There is a correlation beyond 2.5 years but it keeps getting weaker'
+* There is a correlation beyond 2.5 years but it keeps getting weaker'
 
- "The ACF indicates that there is correlation between an observation and the past observations. 
+* "The ACF indicates that there is correlation between an observation and the past observations. 
  
-There is a correlation beyond 2.5 years but it keeps getting weaker" 
+* There is a correlation beyond 2.5 years but it keeps getting weaker" 
 
 
 ---
@@ -175,8 +175,12 @@ plot(f)
 
 'The cyclical trend with more variations at the longer time lags, 
 there is seasonality in the dataset'
- "The cyclical trend with more variations at the longer time lags, \nth
-ere is seasonality in the dataset" 
+ "The cyclical trend with more variations at the longer time lags, there is seasonality in the dataset" 
 ```
+
+---
+
+
+---
 
 ---

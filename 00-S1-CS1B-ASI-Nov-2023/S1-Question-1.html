@@ -41,143 +41,215 @@ pre {
 * Question 1
 
 ---
+Q. 1)
+i) Hotel room prices in Mumbai are normally distributed with a mean of Rs. 5400 and standard deviation of Rs. 900, whereas prices in Kolkata are normally distributed with a mean of Rs. 3600 and standard deviation of Rs. 1500. Compute the probability that a hotel room price in Mumbai is atleast twice the price in Kolkata. Note that the hotel prices in Mumbai and Kolkata are independent of each other.
+Store mean and sd values as x.mean, x.sd, y.mean,y.sd,etc.
+Hint: p**** is a useful function to ascertain CDF.
+(5)
+ii)
+a) Show that the population mean and standard deviation of “differences in hotel prices between Mumbai and Kolkata” (i.e., Mumbai hotel prices – Kolkata hotel Prices) are 1800 and 1749.86.
 
-3 A data science actuary wants to build a linear regression model for cars that will
-predict the stopping distance based on their speed.
-
-The actuary will work on the dataset that already exists in R known as ‘Cars’, which
-can be initialised using the following code:
-data("cars")
-attach(cars)
-This dataset has 50 observations of two variables:
-*  The first variable ‘speed’ is speed, in miles per hour (mph).
-*  The second variable ‘dist’ is stopping distance, in feet.
-
----
-
-(i) Fit a linear regression model to the data using stopping distance as the
-response variable and speed as the only explanatory variable, stating the
-estimated intercept and slope of the regression line. 
-The actuary wants to predict the stopping distances for the following ten speed values:
-6 7 16 22 28 33 40 42 57 64
-
+b) Generate a sample of size 50 for the ” differences in hotel prices between Mumbai and Kolkata”.
+(2)
+c) Draw qqplot and qqline for the sample generated and comment on the results.
+(4)
+Store population mean and standard deviation of differences as dif.mean and dif.sd
+Make sure to set the seed value to 1234 i.e use set.seed(1234) before generating the sample.
+Store the sample as dif.sample
+Don’t paste the sample
 
 ---
 
-(ii) Estimate the ten expected stopping distances, based on your fitted model from
-part (i). 
-The actuary is concerned about the uncertainty around the mean predictions.
-(iii) Calculate ten confidence intervals, one for each of the expected stopping
-distances in part (ii), using a 90% confidence level. 
-(iv) (a) State the interpretation of the 90% confidence interval for the stopping
-distances for cars with speed 64 mph, using your answer to part (iii).
-(b) Comment on the suitability of the linear regression model, based on the
-confidence intervals obtained in part (iii).
+iii) Test using 5% significance level whether the mean of “difference in hotel prices” is less than 1375 based on the sample generated in part (ii).
+a) Perform z-test and comment.
+(5)
+b) Perform t-test (assuming population is not known) and comment.
+(3)
+Please ensure to include test conclusion.
+iv)
+a) Generate another sample but with size=1000 and store as dif.sample2.
+(1)
+b) Draw qqplot and qqline for the sample generated in (iv.a) and comment on the results.
+(3)
+[26]
+
 
 ---
 
+i)
 
-Q3
 
 ```r
-#Initialise the dataset.
-data("cars")
-attach(cars)
+#X~N(5400,900^2)
+x.mean=5400
+x.sd=900
+#Y~N(3600,1500^2)
+y.mean= 3600
+y.sd=1500
+#P(X&gt;2Y) = P(X-2Y&gt;0)
+# X-2Y ~ N(x.mean - 2y.mean, x.sd^2+4y.sd^2)
 ```
 
----
 
-(i)
+---
 
 
 ```r
-model = lm(dist~speed, data = cars) 
-model
+f.mean&lt;-x.mean - 2*y.mean
+f.var &lt;- x.sd^2+4*y.sd^2
+
+1-pnorm(0,mean=f.mean,sd=sqrt(f.var))
+```
+
+```
+## [1] 0.2827485
+```
+
+----
+ii)
+a)
+b)
+
+
+```r
+dif.mean&lt;-x.mean - y.mean
+dif.mean
+```
+
+```
+## [1] 1800
+```
+
+
+```r
+dif.sd &lt;-sqrt(x.sd^2+y.sd^2)
+dif.sd
+```
+
+```
+## [1] 1749.286
+```
+
+
+---
+
+
+```r
+set.seed(1234)
+dif.sample&lt;-rnorm(50,dif.mean,dif.sd)
+```
+
+
+--- 
+
+c)
+
+
+```r
+qqnorm(dif.sample)
+qqline(dif.sample)
+```
+
+![](S1-Question-1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+#### Conclusion 
+
+Above results indicates that despite sample generated from normal distribution it doesn’t seem to
+
+align with normality probably due to low sample size and high variability.
+
+---
+
+iii)
+a)
+
+```r
+sample.mean&lt;-mean(dif.sample)
+sample.mean
+```
+
+```
+## [1] 1007.481
+```
+
+
+
+```r
+z&lt;- (sample.mean - 1375)/(dif.sd/sqrt(50))
+pnorm(z)
+```
+
+```
+## [1] 0.06869143
+```
+
+
+---
+
+Since p-value is &gt;0.05 we cannot reject the null hypothesis and thus, don’t have sufficient evidence to say that mean is less than 1375.
+
+---
+
+b)
+
+
+```r
+t.test(dif.sample, mu=1375, alternative = "less")
 ```
 
 ```
 ## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
+## 	One Sample t-test
 ## 
-## Coefficients:
-## (Intercept)        speed  
-##     -17.579        3.932
+## data:  dif.sample
+## t = -1.6786, df = 49, p-value = 0.0498
+## alternative hypothesis: true mean is less than 1375
+## 95 percent confidence interval:
+##      -Inf 1374.558
+## sample estimates:
+## mean of x 
+##  1007.481
 ```
-
-
 
 ---
 
-(ii)
+One Sample t-test
+data: dif.sample
+t = -1.6786, df = 49, p-value = 0.0498
+alternative hypothesis: true mean is less than 1375
+95 percent confidence interval:
+-Inf 1374.558
+sample estimates:
+mean of x
+1007.481
+
+
+* Since p-value is &lt; 0.05 we can reject the null hypothesis and can imply that mean is less than 1375.
+
+---
+
+iv)
+a)
+b)
 
 
 ```r
-data_predict &lt;- data.frame(speed = c(6,7,16,22,28,33,40,42,57,64))
+dif.sample2&lt;-rnorm(1000,dif.mean,dif.sd)
+qqnorm(dif.sample2)
+qqline(dif.sample2)
 ```
 
+![](S1-Question-1_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
-
-```r
-predict(model,newdata=data_predict) 
-```
-
-```
-##          1          2          3          4          5          6          7 
-##   6.015358   9.947766  45.339445  68.933898  92.528350 112.190394 139.717255 
-##          8          9         10 
-## 147.582073 206.568204 234.095066
-```
-
-
+With larger sample size, it indicates normality.
 
 ---
 
-(iii)
-
-
-```r
-predict(model,newdata=data_predict, interval="confidence",level=0.90) 
-```
-
-```
-##           fit        lwr       upr
-## 1    6.015358  -1.482803  13.51352
-## 2    9.947766   3.050136  16.84540
-## 3   45.339445  41.667593  49.01130
-## 4   68.933898  63.063300  74.80450
-## 5   92.528350  83.019704 102.03700
-## 6  112.190394  99.393826 124.98696
-## 7  139.717255 122.189498 157.24501
-## 8  147.582073 128.688793 166.47535
-## 9  206.568204 177.348219 235.78819
-## 10 234.095066 200.029446 268.16069
-```
-
-
+END
 
 ---
-
-Part (i) was well answered in general. A common error was using rbinom(1, n, p), therefore not producing the detailed sample.
-In part (ii) there were mixed answers with various errors.
-Answers in part (iii) were also mixed, with common errors including not stating correctly, or at all, the hypotheses, parameter errors and not providing a clear conclusion.
-
-
-7 139.717255 122.189498 157.24501
-8 147.582073 128.688793 166.47535
-9 206.568204 177.348219 235.78819
-10 234.095066 200.029446 268.16069 
-
----
-
-(iv)(a)
-
-* The CI is constructed such that with repeated sampling, 90% of the obtained intervals will contain the true unknown mean stopping distance of cars travelling at 64 mph. 
-(b)
-
-* For speed 6mph the model gives a CI with negative lower endpoint. 
-* A linear model, predicting negative stopping distance values, may not be
-appropriate. 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
