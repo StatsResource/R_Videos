@@ -1,0 +1,32 @@
+CS2B A2024–5
+3 A study has been made into how long in weeks it takes for long distance athletes who
+suffer ankle injuries to recover and be able to run again.
+The datafile ‘CS2B_A24_Q3.csv’ contains data on a group of such athletes where the
+information recorded for each one is:
+ time = the number of weeks before recovery or censoring occurs.
+ leave = 0 if the person leaves the study before full recovery, or 1 if time to full
+recovery is recorded.
+ route = 0 if the person was treated with pain relief drugs and told to rest, or 1 if
+they were on a program of physiotherapy instead of the drugs.
+ prior = 1 if there had been another ankle injury in the last 36 months, or 0
+otherwise.
+Before you start this question, you will need to install the survival package in R:
+install.packages("survival")
+library(survival)
+(i) Construct R code to generate a dataframe named ‘study’ that includes the
+contents of the file ‘CS2B_A24_Q3.csv’ and display the first twelve rows. 
+(ii) State an example of how censoring in this study may be informative or
+non-informative for each treatment route. 
+(iii) Generate R code to calculate the Kaplan–Meier estimate of the survival
+function for the length of time to recovery separately for athletes who take
+pain relief drugs and those on a physiotherapy programme, and plot the
+resulting two survival functions using different coloured lines in a single
+plot. [8]
+(iv) Explain what conclusions can be drawn from your results in part (iii). [3]
+(v) Construct R code to generate a Cox’s proportional hazard model with two
+covariates, ‘route’ and ‘prior’. You should use the Breslow method for tie
+handling and display the resulting regression coefficients. [6]
+(vi) Comment on what conclusions can be drawn from your answer to part (v)
+about whether treatment route or prior injury is more important in predicting
+length of time to recovery. [4]
+(vii) State how you could test which of the two covariates is more important. 

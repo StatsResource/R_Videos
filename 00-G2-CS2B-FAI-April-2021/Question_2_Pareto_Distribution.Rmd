@@ -34,23 +34,27 @@ pre {
 
 ---
 
-2 Before answering this question, construct the function, rpareto, in R using the 
+#### Preparation
+
+Before answering this question, construct the function, rpareto, in R using the 
 following code: 
+
 ```{r}
 rpareto = function(n, alpha, lambda){ 
-rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
-rp}
+  rp = lambda * ((1 - runif(n))^(-1/alpha) - 1) 
+  rp
+  }
 ```
 
 The <tt>rpareto()</tt> function generates a random sample of size n from a two-parameter 
-Pareto distribution with parameters α and λ. 
+Pareto distribution with parameters $\alpha$ and λ. 
 
 ---
 
 ### Part 1
 
-Generate, using rpareto, a random sample of size 25,000 from the 
-two-parameter Pareto distribution with parameters α = 3 and λ = 1, assigning 
+Generate, using <tt>rpareto</tt>, a random sample of size 25,000 from the 
+two-parameter Pareto distribution with parameters $\alpha = 3$ and λ = 1, assigning 
 the simulated values to a vector called <tt>A_vec</tt>. 
 
 You should set a random  number generator seed of 123 before generating <tt>A_vec</tt> and use the R function, 
@@ -135,10 +139,11 @@ hist(A_exceed_u(A = A_vec, u = 1),breaks=500,col="lightpink")
 ### Part 3
 
 Construct another R function, called <tt>F_u</tt>, with one argument, 
-A_greater_than_u, that returns a vector of length 101, containing the 
+<tt>A_greater_than_u</tt>, that returns a vector of length 101, containing the 
 probabilities: 
-PሺAi – u ≤ x | Ai > u), where $x \geq 0$, 
+$$P(Ai – u ≤ x | Ai > u)$$, where $x \geq 0$, 
 for values of x from 0 to 10 inclusive, at intervals of 0.1. 
+
 Use the R function, <tt>head()</tt>, to display in your answer script the first eight 
 values of F_u when A_greater_than_u = A_exceed_u with arguments 
 A = A_vec and $u = 1$. 
@@ -159,16 +164,13 @@ F_u =  function(A_greater_than_u) {
 } 
  
 ```
+
 ```{r}
 head(F_u(A_exceed_u(A = A_vec, u = 1)), 8) 
 
 ```
 
 
- 
- 0.0000000 0.1463087 0.2526846 0.3439597 0.4201342 
-0.4838926 0.5362416 0.5895973 
- 
 
 
 ---
@@ -176,9 +178,11 @@ head(F_u(A_exceed_u(A = A_vec, u = 1)), 8)
 ### Part 4
 
 
-Plot, on a single graph, four line graphs of the values of <tt>F_u</tt> against x for 
+* Plot, on a single graph, four line graphs of the values of <tt>F_u</tt> against x for 
 the values of x specified in part (iii) when A_greater_than_u = A_exceed_u, 
-A = A_vec and u = 1, 2, 3 and 4. You should use separate colours to identify 
+A = A_vec and u = 1, 2, 3 and 4. 
+
+* You should use separate colours to identify 
 each line graph and you should clearly specify which value of $u$ is represented 
 by each of the four line graphs. 
 
@@ -206,6 +210,8 @@ plot(
  ylim = c(0,200))
  
 ```
+
+---
 
 
 ```{r}
@@ -240,16 +246,20 @@ For all but the smallest values of x, $F_u(x)$ decreases as u increases.
  
 
 This is consistent with the result that if X ~ Pa(alpha, lambda), then the threshold exceedance 
-X – u | X > u is distributed as $Pa(alpha, lambda + u)$. 
+$X – u | X > u$ is distributed as $Pa(alpha, lambda + u)$. 
  
 
 There is some irregularity caused by sampling variation due to low data volumes above the 
 higher values of u. 
  
 
-As a result of this irregularity, the curves for u = 3 and u = 4 cross over for small values of x.
+As a result of this irregularity, the curves for $u = 3$ and u = 4 cross over for small values of x.
 
 --- 
+
+END
+
+---
 
 ---
 

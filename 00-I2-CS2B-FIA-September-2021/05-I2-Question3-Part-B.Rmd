@@ -70,15 +70,21 @@ A negative value of a would be better
 so as to reduce the expected probability of default 
 
 ---
-(v)
+
+
+### Part E
 
 
 ```{r}
-tree = rpart(default ~ ., data = specimen, method = "class")
+tree = rpart(default ~ ., data = specimen, 
+             method = "class")
+
 rpart.plot(tree, digits = 3, type = 5, extra = 106)
 
 ```
 
 ---
-(vi)
+
+### Part (vi)
+
 According to the decision tree, this customer is NOT expected to default 

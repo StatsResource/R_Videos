@@ -1,0 +1,39 @@
+
+
+1 An insurer has written ten insurance policies under which, at most, one claim can be
+made from each policy. The probability of a claim from policy i is as follows:
+Pi = 0.1 + 0.02i for i = 1, 2, …, 10
+Claim amounts for all policies follow the same Gamma distribution with shape
+parameter α = 10 and rate parameter λ = 2.
+(i) Construct R code to generate and display a single vector setting out the
+probability of a claim for each policy using the seq function. 
+(ii) Construct R code to calculate and display the theoretical mean and theoretical
+standard deviation of the total claim amounts. 
+(iii) Construct R code to generate 1,000,000 simulations of claim amounts under
+each of the ten policies, using a random number generator seed of 500 and
+display the first five sets of simulations. [6]
+(iv) Construct R code to generate and display a vector showing the mean and
+standard deviation of claim amounts for each policy from the simulations
+in part (iii). [3]
+(v) Calculate the mean and standard deviation of the total claim amounts from
+the ten policies in this portfolio from the simulations in part (iii) and compare
+these with your answers in part (ii). [4]
+(vi) Estimate, from the simulations in part (iii), the probability that there will be
+no claims incurred from all ten policies. 
+(vii) Calculate the 99th percentile of total claim amounts from the simulations in
+part (iii). 
+(viii) Plot a histogram of the simulated total claim amounts, showing density on the
+y-axis. 
+(ix) Plot a density function of the Normal distribution using the parameter values
+from part (ii) on top of the histogram in part (viii). 
+(x) Calculate the 99th percentile of total claim amounts using the Normal
+distribution in part (ix) to approximate the total claims distribution. 
+(xi) Comment on the appropriateness of using the Normal distribution in this case.
+
+(xii) Plot a graph similar to the one in part (ix), but with the probability of a claim
+from policy i as follows:
+Pi = 0.4 + 0.02i for i = 1, 2, …, 10
+[3]
+(xiii) Comment on the appropriateness of using the Normal distribution in this new
+case. [3]
+[Total 38]

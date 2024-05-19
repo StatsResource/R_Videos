@@ -1,0 +1,55 @@
+CS2B A2024–3
+2 The dataset ‘CS2B_A24_Q2.csv’ contains four variables: Body Fat Index (BFI), age,
+weight (in pounds) and height (in inches).
+An analyst is considering fitting the following linear regression model that predicts
+the BFI:
+BFI􀯜 􀵌 𝛽􀬴 􀵅 𝛽􀬵Age􀯜 􀵅 𝛽􀬶Weight􀯜 􀵅 𝛽􀬷Height􀯜 􀵅 𝜀􀯜
+The parameters can be fitted based on the following penalty function:
+𝐿􁈺𝑩, 𝛼, 𝜆􁈻 􀵌 􀷍􁈺BFI􀯜 􀵆 𝛽􀬴 􀵆 𝛽􀬵Age􀯜 􀵆 𝛽􀬶Weight􀯜 􀵆 𝛽􀬷Height􀯜􁈻􀬶
+􀯡
+􀯜􀭀􀬵
+􀵅 𝜆 􁉆
+1 􀵆 𝛼
+2
+􁈺𝛽􀬵
+􀬶 􀵅 𝛽􀬶
+􀬶 􀵅 𝛽􀬷
+􀬶􁈻 􀵅 𝛼􁈺|𝛽􀬵| 􀵅 |𝛽􀬶| 􀵅 |𝛽􀬷|􁈻􁉇
+where the vector of regression parameters, 𝑩 􀵌 􁈺𝛽􀬴, 𝛽􀬵, 𝛽􀬶, 𝛽􀬷􁈻 and 𝛼 and 𝜆 are some
+parameters that are to be defined.
+(i) State the type of the regression model if:
+(a) 𝛼 􀵌 1.
+(b) 𝛼 􀵌 0.
+
+(ii) Construct R code to generate a dataframe named ‘BFI’ that includes the
+contents of the file ‘CS2B_A24_Q2.csv’. 
+Run the following two lines of code:
+X=as.matrix(BFI[,-1])
+Y=BFI[,1]
+(iii) Comment briefly on each of these two lines of code. 
+(iv) Construct R code to generate a function called ‘Penalty’ that calculates the
+penalty function 𝐿􁈺𝑩, 𝛼, 𝜆􁈻 as above on the given data set, and with three input
+variables:
+𝑩 􀵌 􁈺𝛽􀬴, 𝛽􀬵, 𝛽􀬶, 𝛽􀬷􁈻 the vector of beta values
+‘alpha’ as the parameter 𝛼
+‘lambda’ as the value of 𝜆.
+[10]
+(v) Derive the value of the ‘Penalty’ function above for values of
+𝑩 􀵌 􁉀1, 􀬵
+􀬶 , 􀬵
+􀬷 , 1􁉁, alpha = 0.5 and lambda = 0.8. 
+(vi) Determine the values of alpha and lambda for which the ‘Penalty’ function is
+minimised when 𝑩 􀵌 􁉀1, 􀬵
+􀬶 , 􀬵
+􀬷 , 1􁉁. You do not need to perform any additional
+calculations. [4]
+CS2B A2024–4
+(vii) Calculate the corresponding minimum value of the ‘Penalty’ function when
+𝑩 􀵌 􁉀1, 􀬵
+􀬶 , 􀬵
+􀬷 , 1􁉁. 
+(viii) Determine the values of parameters α, λ and 𝑩 for which the function
+𝐿􁈺𝑩, 𝛼, 𝜆􁈻 reaches its minimum based on the reasoning used in part (vi). [4]
+(ix) Comment on the validity of using the values of parameters α, λ and 𝑩 from
+part (viii). [5]
+[Total 33]

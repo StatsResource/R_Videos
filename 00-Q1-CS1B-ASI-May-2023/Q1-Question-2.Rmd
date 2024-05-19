@@ -41,49 +41,74 @@ pre {
 Solution 2:
 i) i
 .
-Sales<-read.csv(<>) (1)
- > mean(Sales$Value)
+```{r}
+Sales<-read.csv("SalesData.csv") 
+mean(Sales$Value)
+```
+
+
 [1] 1307.167
 (1)
 [2]
 ii) i
 a) a
 .
+
+---
+
+```{r}
 cor(Sales$Value,Sales$City,method = "kendall")
-[1] -0.2130327
+```
+
 [1]
 b) b
 .
-r<-cor(Sales$Value,Sales$Age)
-> r*sd(Sales$Value)*sd(Sales$Age)
+
+```{r}
+r <-cor(Sales$Value,Sales$Age)
+r*sd(Sales$Value)*sd(Sales$Age)
+```
+
 [1] -278.5169
-(1)
-(1)
+
+---
+
 Alternate:
-cov(sales$Value,sales$Age)
-[1] -278.5169
+```{r}
+cov(Sales$Value,Sales$Age)
+```
+
 Credit is given if Kendall covariance is computed.
 (1.5)
-(0.5)
-[2]
+
+---
+
 iii) i
 a) a
 .
-plot(Sales$Value,Sales$Age) (1)
+
+```{r}
+plot(Sales$Value,Sales$Age) 
+```
+
 
 ---
 
 (1)
-# No trend (showing linear relationship) is visible from the scatter plot.
-# Most likely it indicates that correlation is zero.
-(1)
-[3]
+
+* No trend (showing linear relationship) is visible from the scatter plot.
+* Most likely it indicates that correlation is zero.
+
 b) b
 .
 
 ---
 
-> cor.test(Sales$Value,Sales$Age)
+```{r}
+cor.test(Sales$Value,Sales$Age)
+```
+
+
 Pearson's product-moment correlation
 data: Sales$Value and Sales$Age
 t = -0.95277, df = 58, p-value = 0.3447
@@ -96,6 +121,9 @@ sample estimates:
 (1)
 (1) 
 for CI
+
+---
+
 Confidence Interval is ( -0.367,0.134)
 Since 0 lies in the confidence interval, we cannot reject the hypothesis that correlation coefficient 
 = 0. 
@@ -107,8 +135,15 @@ iv)
 a) Since correlation between Value and Age is (close to) 0, age can be excluded. a (2)
 b) b
 .
-> model1<-lm(data = Sales,Value~Device+City+Age)
-> summary(model1)
+
+
+```{r}
+model1<-lm(data = Sales,Value~Device+City+Age)
+summary(model1)
+```
+
+---
+
 Call:
 lm(formula = Value ~ Device + City + Age, data = Sales)
 Residuals:

@@ -56,17 +56,22 @@ This shows sample mean ~0.52.
 ii) 
 
 ```{r}
-chi <- i -qchisq(u,2) 
+chi <- 1 -qchisq(u,2) 
 ```
 
 iii) i
 i
 i
 .
+
+```{r}
 gam<-qgamma(u,1,1/2)
 sum(chi-gam)
+```
+
 [1] 0
 (1)
+
 ---
 
 We know the property that if $X ~ Gamma(α,ʎ)$ then 2ʎX has χ2 distribution with 2α degrees of 
@@ -87,8 +92,15 @@ a) hist(chi, main ="Histogram of chi square distribution sample") a (1)
 #Histogram shows positive skewed distribution (1)
 [3]
 b) b
-.
-> summary(chi)
+
+---
+
+> 
+
+```{r}
+summary(chi)
+```
+
  Min. 1st Qu. Median Mean 3rd Qu. Max. 
 0.006184 0.603187 1.534968 2.217946 2.983161 12.350562
 (1)
@@ -102,26 +114,40 @@ median(chi)
 (0.5)
 (1)
 [2]
-IAI CS1B-0523
- Page 3 of 9
-v) set.seed(052023) v
+
+---
+
+v) 
+
+```{r}
+set.seed(052023) 
 y = rep(0,1000)
 for(i in 1:1000){
  y[i] = sum(rchisq(150,2))
 }
-(0.5)
-(1)
-(1)
-(2)
-[Max 4]
-vi) hist(y, main ="Histogram of Samples Sum") . (0.5)
-(1)
-#The distribution of sample sums is roughly symmetrical. 
-#This displays Central Limit Theorem property. As the sample size
-#gets large , distribution move towards normality. 
-(1)
-(1)
-(1)
-[Max 3]
-[19 Marks]
+```
 
+
+---
+
+vi) 
+
+```{r}
+hist(y, main ="Histogram of Samples Sum") 
+```
+
+
+* The distribution of sample sums is roughly symmetrical. 
+* This displays Central Limit Theorem property. 
+* As the sample size gets large , distribution move towards normality. 
+
+
+
+---
+
+END
+
+---
+
+
+---
