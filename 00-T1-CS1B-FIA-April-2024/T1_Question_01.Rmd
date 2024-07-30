@@ -1,0 +1,18 @@
+1 An insurance company wants to study the association between the number of years
+their clients spent in education and their claim amounts.
+Data from 25 randomly selected claims are contained in the file
+AmountYears.RData in the following two variables:
+ClaimAmount – this is the claim amount (in £).
+EducationYears – this is the number of years the client spent in education.
+(i) Plot the claim amounts against the years of education. [3]
+A statistician suggests fitting a simple linear model to the data.
+(ii) (a) Fit a linear model to the data. [2]
+(b) Plot the regression line by adding it to the graph in part (i). [2]
+Another statistician looks at the plot in part (i) and suggests a non-linear relationship.
+(iii) (a) Fit a model with a quadratic term added to the model fitted in part (ii).
+[3]
+(b) State the equation of the fitted model. [1]
+(iv) Comment on the suitability of the quadratic model in part (iii), compared to
+the model in part (ii), based on the output from part (iii). [3]
+[Total 14]
+CS1B A2024–3

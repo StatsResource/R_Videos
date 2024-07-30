@@ -1,0 +1,22 @@
+2 A financial consultancy working with large firms wishes to model the relationship
+between a firm’s assets and the number of senior management positions in the firm.
+The data file firms.Rdata contains the variables:
+assets – this is the value of assets (in millions of £).
+sn_positions – this is the number of senior managements positions.
+You can load the file into R using load("firms.Rdata").
+(i) Plot the number of senior management positions as a function of assets. [3]
+(ii) Plot the number of senior management positions as a function of log10_assets
+where log10_assets is the assets at log10 scale. [4]
+(iii) Comment on your plots in parts (i) and (ii). [2]
+An analyst wishes to check if the number of senior management positions follows a
+Poisson distribution.
+(iv) Calculate the mean of the number of senior management positions. [1]
+Use the command set.seed(222) to initialise the random number generator.
+(v) Generate a sample of size equal to the number of firms from a Poisson
+distribution with parameter equal to the mean calculated in part (iv). [2]
+(vi) Plot a histogram of the sample simulated in part (v) and a histogram of
+sn_positions on two separate graphs but on the same scale specifying
+appropriate axis limits and labels. [6]
+(vii) Comment on your plots in part (vi). [3]
+[Total 21]
+CS1B A2024–4

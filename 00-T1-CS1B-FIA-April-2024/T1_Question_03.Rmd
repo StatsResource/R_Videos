@@ -1,0 +1,27 @@
+3 A Multiple-Choice (MC) test with 20 questions requires a minimum of 16 correct
+answers for students to pass the test. A student prepares for the test using a mobile
+phone application that generates random practice tests with 20 questions per test.
+Load the file MCtestResults.Rdata into R. This creates two variables:
+CorrectOutOf20Questions – this contains the number of correct answers the
+student has achieved with the mobile phone application in each of 50 generated
+practice MC tests.
+TrialNumber – this contains the corresponding test number from 1 to 50.
+The student assumes that the test score, 𝑋, which is the number of correctly answered
+questions per test, has a binomial distribution, 𝑋 ∼ Bin􁈺𝑛, 𝑝􁈻 with 𝑛 􀵌 20.
+(i) Estimate the parameter 𝑝 using the test scores in MCtestResults.Rdata,
+assuming that the test scores are independent of each other and identically
+distributed. [2]
+(ii) Calculate the probability that the student will pass a test based on your
+estimate of 𝑝 in part (i). [2]
+(iii) Calculate the proportion of practice tests that the student has passed. [1]
+(iv) Comment on the probability that the student will pass a test, based on your
+answers to parts (i), (ii) and (iii). [4]
+(v) Plot the number of correct answers in each of the practice tests against the test
+number on the horizontal axis. [3]
+(vi) Comment on the plot in part (v). [2]
+A linear model is fitted to the data, which predicts that the number of correct answers
+in the next test (test number 51) will be 18.085.
+(vii) Calculate the probability for the student to pass the next test (test number 51).
+[4]
+[Total 18]
+CS1B A2024–5
