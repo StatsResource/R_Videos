@@ -1,3 +1,31 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
 4 Consider a random variable, 𝑋, following a modified exponential distribution with
 Cumulative Distribution Function (CDF):
 𝐹􁈺𝑥􁈻 􀵌 􀵜
@@ -7,11 +35,14 @@ Cumulative Distribution Function (CDF):
 λ 􀵌 0.2. [4]
 (ii) Plot the density function 𝑓􁈺𝑥􁈻 of 𝑋 as a function of 𝑥 for
 𝑥 􀵌 0, 0.1, 0.2, … ,9.9, 10 when λ 􀵌 0.2. [5]
+
+---
+
 A random sample of 100 values of X is provided in randomSample.Rdata.
 Loading the sample data into R will generate a vector x with 100 values representing
 the sample.
 (iii) Calculate the value of the log likelihood function for the parameter λ at the
-point λ 􀵌 0.2 based on this random sample. [3]
+point λ 􀵌 0.2 based on this random sample. 
 (iv) Plot the values of the log likelihood function for the parameter λ based on the
 sample in randomSample.Rdata. Your plot of the log likelihood function
 must be for values of λ 􀵌 0.01, 0.02, … , 0.99, 1. [7]
@@ -24,7 +55,7 @@ The maximum likelihood estimator for the parameter λ based on a random sample
 􀯇 􀬶
 􀯜􀭀􀬵
 (v) Estimate the value of λ using the maximum likelihood estimator given above
-and the sample in randomSample.Rdata. [3]
-(vi) Comment on the plot in part (iv) and the estimate in part (v). [2]
+and the sample in randomSample.Rdata. 
+(vi) Comment on the plot in part (iv) and the estimate in part (v). 
 [Total 24]
 CS1B A2024–6

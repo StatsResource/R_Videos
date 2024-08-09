@@ -74,9 +74,18 @@ mean 6 and standard deviation 4. What is the probability that Z takes on a value
 between -1 and 3?
 ---
 
+### Part A.   
+
+* Assume golf balls from the driving range next door lands in your yard at an average 
+rate of 3 balls per hour during the day. What is the probability that 10 or fewer golf 
+balls will land in your yard during the afternoon, assuming the afternoon is 5 hours 
+long? 
+
 ---
-Solution 1:
-Part A X \sim Poisson (15)
+
+### Part A. 
+
+`$$X \sim Poisson (15)$$`
 
 
 ```r
@@ -91,14 +100,20 @@ ppois(10, 15)
 
 ---
 
-You are surveying people exiting from a polling booth and asking them if they voted 
-independently. The probability that a person voted independently is 20%. What is 
+### Part B.
+
+* You are surveying people exiting from a polling booth and asking them if they voted 
+independently. 
+* The probability that a person voted independently is 20%. 
+* What is 
 the probability that 70 people must be asked before you can find 5 people who voted 
 independently? 
 
 ---
 
-Part BX \sim NB(5,0.2)
+### Part B.
+
+`$$X \sim NB(5,0.2)$$`
 
 
 ```r
@@ -112,7 +127,7 @@ dnbinom(65,5,0.2)
 
 ---
 
-### Part C
+### Part C.
 
 `$$X \sim Binom (100,0.5)$$`
 
@@ -124,11 +139,11 @@ qbinom(0.9, 100, 0.5)
 ```
 ## [1] 56
 ```
-[1] 56
+
 
 ---
 
-### Part D 
+### Part D. 
 
 `$$X \sim Geometric (0.2)$$`
 
@@ -141,13 +156,13 @@ dgeom(x=3, prob=0.2)
 ## [1] 0.1024
 ```
 
-[1] 0.1024
+
 
 
 ---
 
 
-Part E 
+### Part E.
 
 `$$X \sim Exp(1/1000)$$`
 
@@ -165,7 +180,7 @@ Part E
 
 
 
-#### Part F.   
+### Part F.   
 
 Assume a random variable Z is distributed according to the normal distribution with 
 mean 6 and standard deviation 4. What is the probability that Z takes on a value 
@@ -182,8 +197,10 @@ pnorm(3, 6, 4) - pnorm(-1, 6, 4)
 ## [1] 0.1865682
 ```
 
-[1] 0.1865682
 
+---
+
+BLANK
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
