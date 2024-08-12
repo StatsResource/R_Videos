@@ -1,13 +1,15 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -18,6 +20,18 @@ library(janitor)
 
 
 ```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
 
 ```{css, echo=FALSE}
 pre {
@@ -52,7 +66,7 @@ distributed.
 
 (ii) Calculate the probability that the student will pass a test based on your
 estimate of 𝑝 in part (i). 
-(iii) Calculate the proportion of practice tests that the student has passed. [1]
+(iii) Calculate the proportion of practice tests that the student has passed. 
 (iv) Comment on the probability that the student will pass a test, based on your
 answers to parts (i), (ii) and (iii). [4]
 (v) Plot the number of correct answers in each of the practice tests against the test
@@ -63,3 +77,49 @@ in the next test (test number 51) will be 18.085.
 (vii) Calculate the probability for the student to pass the next test (test number 51).
 
 ---
+
+Q3
+(i)
+p = sum(CorrectOutOf20Questions)/(50 * 20) 
+p # 0.568 
+•
+(ii)
+# probability to pass the test is P[correct answers > 15]
+1 - pbinom(15, 20, p)  # 0.02747446 
+(iii)
+sum(CorrectOutOf20Questions>15)/50 
+# 0.18 
+(iv)
+The results in (ii) and (iii) are both estimates of the success probability in a MC test.
+The difference is that the answer in part (ii) relies on the estimate from part (i) and therefore takes the whole distribution of test results (the actual points achieved) into account, 
+while the answer in part (iii) turns the test results into a Bernoulli RV (1 for pass and 0 for fail). Therefore, in part (iii) it does not matter by how far away the result is from the pass mark while it does matter for the answer in part (ii). 
+<p>
+---
+
+(v)
+plot(TrialNumber, CorrectOutOf20Questions ylim=c(0,20),
+main = “Correct answers per test",
+ylab="Number of correct answers (out of 20)", xlab="Test number") 
+
+(vi)
+The plot in part (v) shows an upward trend, or positive correlation between test number and the number of correct answers. 
+Suggesting that the student is improving their results with practicing. 
+(vii)
+Estimated probability of answering a question correctly:
+p = 18.085/20 
+p # 0.90425 
+# prob for passing test
+1 - pbinom(15, 20, p) # 0.9632752 
+[Total 18]
+<p>
+---
+
+Commentary:
+(i) Very well answered.
+(ii) Well answered in general. A common error was using 16 instead of 15 in the CDF (pbinom) calculation.
+(iii) Well answered overall.
+(iv) Not answered well. A number of candidates failed to provide meaningful comments, with many repeating the numerical results.
+(v) Good answers. As in previous questions involving graphs, some candidates did not provide informative titles and/or axis labels.
+(vi) There were mixed answers in this part. Most candidates described the positive correlation, but few suggested improvement as a result of practice.
+(vii) Answers were mixed, with a number of candidates not attempting this part.
+

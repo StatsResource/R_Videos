@@ -1,13 +1,15 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -18,6 +20,18 @@ library(janitor)
 
 
 ```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
 
 ```{css, echo=FALSE}
 pre {
@@ -58,7 +72,7 @@ in parts (i) and (ii).
 GLM to the data that is equivalent to the model fitted in part (i). Your answer
 should include the estimated coefficients and the AIC of this fitted model. [4]
 (v) Compare the fit of the models fitted in parts (ii) and (iv). 
-CS1B A2024–7
+---–7
 The underwriting manager believes the Poisson GLM would be improved by adding
 the explanatory variable gender as well as its interaction with age.
 (vi) (a) Fit a Poisson GLM to the data of the form age*gender. Your
@@ -69,3 +83,84 @@ part (ii).
 [7]
 [Total 23]
 END OF PAPER
+
+Q5
+Load the data:
+> load("ClaimsData.Rdata")
+(i)
+> model_lin <- lm(claim_count ~ age) 
+> model_lin$coefficients
+(Intercept) age
+4.29414532 -0.05026053
+The intercept is 4.29 and the slope is -0.05. 
+(ii)
+> model_glm_age <- glm(claim_count ~ age, family = poisson) 
+> model_glm_age
+# Call: glm(formula = claim_count ~ age, family = poisson)
+Coefficients:
+(Intercept) age
+1.70492 -0.02323
+Degrees of Freedom: 95 Total (i.e. Null); 94 Residual
+Null Deviance: 149.5
+Residual Deviance: 128.2 AIC: 349.8 
+<p>
+---
+
+(iii)
+A comparison using scaled deviances is only valid for nested models. 
+The model in (i) assumed a Normal distribution, whilst the model in (ii) assumed a Poisson distribution. Therefore, neither model is a subset of the other. 
+(iv)
+> model_lin_glm <- glm(claim_count ~ age, family = gaussian) 
+> model_lin_glm
+# Call: glm(formula = claim_count ~ age, family = gaussian)
+Coefficients:
+(Intercept) age
+4.29415 -0.05026
+Degrees of Freedom: 95 Total (i.e. Null); 94 Residual
+Null Deviance: 295.8
+Residual Deviance: 249.3 AIC: 370 
+(v)
+The AIC of the Poisson model in part (ii) is lower than that of the Normal model in part (iv).  Therefore, the Poisson GLM provides a better fit. 
+(vi)
+(a)
+> model_glm_full <- glm(claim_count ~ age*gender, family = poisson) 
+> model_glm_full
+<p>
+---
+
+# Call: glm(formula = claim_count ~ age * gender, family = poisson)
+Coefficients:
+(Intercept) age genderM age:genderM
+1.84642 -0.03459 -0.18217 0.01805
+Degrees of Freedom: 95 Total (i.e. Null); 92 Residual
+Null Deviance: 149.5
+Residual Deviance: 113.5 AIC: 339 
+(b) H0: the bigger (full) model is NOT a significant improvement over the simpler model; against H1: it is a significant improvement. 
+
+> 
+
+```{r}
+anova(model_glm_age, model_glm_full, test="Chisq") 
+```
+
+Analysis of Deviance Table
+Model 1: claim_count ~ age Model 2: claim_count ~ age * gender
+Resid. Df Resid. Dev Df Deviance Pr(>Chi) 1 94 128.25 2 92 113.46 2 14.789 0.0006148 *** --- Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+The p-value is clearly significant (less than 0.1%). 
+Therefore, the GLM with age*gender is a significant improvement over that with gender alone. 
+<p>
+---
+
+[Total 23]
+Commentary:
+(i) Well answered. A fair number of candidates failed to pull out the intercept and slope estimates explicitly.
+(ii) Well answered. As in part (i), a fair number of candidates failed to pull out the coefficient estimates and AIC explicitly.
+(iii) Not well answered. Only a relatively small number of candidates referenced nesting.
+(iv) Well answered in general. A number of candidates failed to present the coefficient estimates and the value of the AIC explicitly.
+(v) Very well answered.
+(vi)(a) Well answered in general. A number of candidates failed to pull out the coefficient estimates and AIC value explicitly.
+(vi)(b) Not well answered. Only a small number of candidates performed a proper comparison (e.g. anova) with reference to statistical significance in the difference of the deviances.
+[Paper Total 100]
+END OF EXAMINERS’ REPORT
+www.actuaries.org.uk
+© 2021 Institute and Faculty of Actuaries

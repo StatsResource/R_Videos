@@ -42,6 +42,8 @@ pre {
 
 A. Simulate a sample of 100 values from a ***Beta*** distribution with 
 parameters $a = 3$, $b = 1$.
+
+<p>
 Use the command <tt>set.seed(12345)</tt> to 
 initialise the random number generator, before you start the simulation. 
 
@@ -107,9 +109,10 @@ R code:
 set.seed(12345)
 nsim = 1000 
 xbar = numeric(nsim) 
+
 for (i in 1:nsim){ 
-x = rbeta(100,3,1) 
-xbar[i] = mean(x) 
+  x = rbeta(100,3,1) 
+  xbar[i] = mean(x) 
 }
 ```
 
@@ -127,7 +130,8 @@ Alternative code may be used. For example, without using a loop:
 set.seed(12345)
 
 xbar <- replicate(1000,
-                  mean(rbeta(100,3,1)) )
+                  mean(rbeta(100,3,1)) 
+                  )
 
 ```
 
@@ -185,7 +189,7 @@ R code:
 
 y = c(4.9, 3.3, 2.2, 2.3, 1.6, 2.4, 4.7, 1.4, 1.7, 5.1)
 t.test(y, conf.level =0.90) 
-# 2.124776 3.795224
+
 
 ```
 
@@ -198,14 +202,15 @@ t.test(y, conf.level =0.90)
 mean(y)-qt(0.95, length(y)-1) * sd(y)/sqrt(length(y))
 mean(y)+qt(0.95, length(y)-1) * sd(y)/sqrt(length(y))
 ```
+
 We have assumed that the data come from a normal distribution. 
 CI is given by (2.125, 3.795) 
 
 ---
 
-#### Part (d)
+### Part (D)
 
-(iv)
+
 R code:
 ```{r}
 
@@ -213,15 +218,13 @@ se.t = sd(y)/sqrt(length(y))
 se.t 
 
 ```
+* Standard error of sample mean = 0.456. 
 
-# 0.4556314
-Standard error of sample mean = 0.456. 
 ---
 
-#### Part (e)
+#### Part (E)
 
 
-(v)
 R code:
 
 ```{r}
@@ -229,10 +232,12 @@ R code:
 set.seed(12345)
 nsim = 10^4 
 ybar.sim = numeric(nsim) 
+
 for (i in 1:nsim){ 
-y.sim = sample(y, replace=T) 
-ybar.sim[i] = mean(y.sim) 
+  y.sim = sample(y, replace=T) 
+  ybar.sim[i] = mean(y.sim) 
 }
+
 se.boot = sd(ybar.sim); se.boot 
 
 ```

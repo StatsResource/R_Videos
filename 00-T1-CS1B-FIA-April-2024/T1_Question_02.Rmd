@@ -1,13 +1,15 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -17,6 +19,17 @@ library(dplyr)
 library(janitor)
 
 
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 ```{css, echo=FALSE}
@@ -45,13 +58,68 @@ Poisson distribution.
 
 ---
 
-(iv) Calculate the mean of the number of senior management positions. [1]
+(iv) Calculate the mean of the number of senior management positions. 
 Use the command set.seed(222) to initialise the random number generator.
 (v) Generate a sample of size equal to the number of firms from a Poisson
 distribution with parameter equal to the mean calculated in part (iv). 
 (vi) Plot a histogram of the sample simulated in part (v) and a histogram of
 sn_positions on two separate graphs but on the same scale specifying
-appropriate axis limits and labels. [6]
+appropriate axis limits and labels. 
 (vii) Comment on your plots in part (vi). 
 
 ---
+Q2
+(i)
+plot(assets,sn_positions, xlab="Assets", ylab="Number of senior positions", main="Firm's assets vs number of senior positions") 
+
+(ii)
+```{r}
+log10_assets = log10(assets) 
+plot(log10_assets,sn_positions, xlab="Assets transforms at log10 scale", 
+ylab="Number of senior positions", main="Firm's assets (log10) vs number of senior positions") 
+```
+
+<p>
+---
+
+
+(iii)
+The variable assets is extremely widespread in part (i). 
+Taking the log10 of the assets in (ii) helps to show an increasing relationship between the variables. 
+(iv)
+mu = mean(sn_positions) 
+mu
+13.58065 
+(v)
+```{r}
+set.seed(222)
+theoretical_samp = rpois(length(sn_positions), mu) 
+```
+
+(vi)
+```{r}
+hist(theoretical_samp,xlim=c(0,100), ylim=c(0,100), 
+main = “Distribution of simulated senior positions", xlab="Number of senior positions") 
+```
+<p>
+---
+
+```{r}
+hist(sn_positions, breaks=20,xlim=c(0,100), ylim=c(0,100), 
+	main="Distribution of observed senior positions", xlab="Number of senior positions") 
+```
+
+(vii)
+We can see that the two distributions are very different. 
+<p>
+---
+
+For example, we can see an over-representation of zero values in the observed counts. 
+Therefore, the number of senior positions sn_positions variable does not follow a Poisson distribution with parameter 13.58. 
+[Total 21]
+Commentary:
+(i), (ii) Well answered overall. There were some answers where the graph annotation was not informative, and some cases with reversed axes.
+(iii) Well answered, with most candidates receiving full or partial credit.
+(iv), (v) Very well answered.
+(vi) Mixed answers. While most candidates produced the two plots, in many cases the axes were not matched. Suboptimal titles and/or axis labels were used in some cases.
+(vii) Most candidates correctly observed that the distributions are different, but failed to comment specifically on the data not following the Poisson distribution that we have here.

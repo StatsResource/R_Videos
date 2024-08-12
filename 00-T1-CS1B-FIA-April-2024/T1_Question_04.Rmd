@@ -1,13 +1,15 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -17,6 +19,17 @@ library(dplyr)
 library(janitor)
 
 
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 ```{css, echo=FALSE}
@@ -58,4 +71,62 @@ The maximum likelihood estimator for the parameter λ based on a random sample
 and the sample in randomSample.Rdata. 
 (vi) Comment on the plot in part (iv) and the estimate in part (v). 
 [Total 24]
-CS1B A2024–6
+---–6
+
+Q4
+(i)
+cdf
+x = seq(0, 10, by = 0.1) 
+lambda = 0.2 
+F = 1-exp(- lambda * x^2) 
+plot(x,F,main= "CDF of X") 
+<p>
+---
+
+
+(ii) density
+Differentiate 𝐹: 𝑓(𝑥)={0,𝑥<02𝜆𝑥exp(−𝜆𝑥2),𝑥≥0 
+x = seq(0, 10, by = 0.1)
+d = 2 * lambda * x * exp(-lambda * x^2) 
+plot(x,d,main="Density of X") 
+<p>
+---
+
+
+(iii)
+#log likelihood
+load("randomSample.Rdata")
+d = 2 * lambda * x * exp(-lambda * x^2) 
+ll = sum(log(d)) 
+ll # -139.7437 
+(iv)
+#log likelihood for 100 values of lambda
+ll = 1:100 
+lambda = 1:100
+for (k in 1:100) { 
+lambda[k] = 0.01 * k 
+ll[k] = sum(log(2 * lambda[k] * x * exp(-lambda[k] * x^2)))} 
+<p>
+---
+
+plot(lambda,ll,main="Log likelihood") 
+
+(v)
+N = length(x) # sample size 
+lambda.hat = N/sum(x^2) 
+lambda.hat # 0.191256 
+(vi)
+The plot of the log likelihood function shows a maximum near 0.2, which is the MLE. 
+That is consistent with the estimate obtained in part (v). 
+[Total 24]
+Commentary:
+(i) Well answered in general.
+(ii) Mixed answers. A common issue was errors in the differentiation.
+(iii) Well answered in general.
+(iv) There were mixed answers here, with many candidates producing the correct plot, but
+<p>
+---
+
+there were various errors in many cases.
+(v) Well answered in general. A small number of candidates failed to square x.
+(vi) Well answered in general.

@@ -3,9 +3,8 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,13 +22,10 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
+
+
+
+
 
 * Introduction to R for Actuarial Students
 
@@ -90,10 +86,21 @@ F. Comment on your answers to parts (D) and (E).
 Let `\(X\)` be the total weight of 8 people. 
 
 By the assumption: `\(X \sim N(560 , 57^2)\)`. We are 
-interested in the probability P(X &gt; 650):
+interested in the probability `\(P(X &gt; 650)\)`:
 
 
 ```r
+# Upper Tail / Right hand side of Bell Curve
+pnorm(650,mean=560,sd=57,lower=FALSE) 
+```
+
+```
+## [1] 0.05717406
+```
+
+
+```r
+# Complement of LHS of Bell Curve
 1 - pnorm(650,mean=560,sd=57) 
 ```
 
@@ -131,7 +138,7 @@ pnorm(650,mean=630,sd=61, lower=FALSE)
 ```
 
 
-We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
+* We get that the probability that the total weight of 9 people exceeds 650kg is much higher 
 and is equal to 0.3715054. 
 
 ---
@@ -172,7 +179,7 @@ qnorm(0.9,560,57)
 ```
 
 
-The requested interval is [486.9516, 633.0484]. 
+The requested interval is **[486.9516, 633.0484]**. 
 ---
 
 #### Gamma Distribution
@@ -201,7 +208,7 @@ qgamma(p = 0.1, shape= 96.5220, rate = 0.1724)
 ```
 ## [1] 488.195
 ```
-488.195
+
 
 
 ```r
@@ -212,7 +219,7 @@ qgamma(p = 0.9, shape = 96.5220, rate = 0.1724)
 ## [1] 634.0333
 ```
 
-and the interval is [488.195, 634.0333]. 
+and the interval is **[488.195, 634.0333]**. 
 
 ---
 
@@ -226,7 +233,7 @@ qgamma(p = 0.1, shape= 96.5220, scale = (1/0.1724))
 ```
 ## [1] 488.195
 ```
-488.195
+
 
 
 ```r
