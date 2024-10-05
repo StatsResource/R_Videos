@@ -72,7 +72,12 @@ plot(EducationYears, ClaimAmount, xlab = "Number of years in education", ylab = 
 
 (ii)
 (a)
-m1 <-lm(ClaimAmount~EducationYears)  summary(m1) Call: lm(formula = ClaimAmount ~ EducationYears) Residuals: Min 1Q Median 3Q Max -43747 -19875 1768 18575 61813 Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) -32220 40159 -0.802 0.43058
+```{r}
+m1 <-lm(ClaimAmount~EducationYears)  
+summary(m1) 
+```
+
+Call: lm(formula = ClaimAmount ~ EducationYears) Residuals: Min 1Q Median 3Q Max -43747 -19875 1768 18575 61813 Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) -32220 40159 -0.802 0.43058
 <p>
 ---
 
@@ -80,15 +85,21 @@ EducationYears 11101 3124 3.553 0.00169 ** --- Signif. codes: 0 ‘***’ 0.001 
 (b)
 abline(m1, col = "red") 
 
-(iii)(a) m2 <- lm(ClaimAmount~EducationYears + I(EducationYears^2))  summary(m2) Call: lm(formula = ClaimAmount ~ EducationYears + I(EducationYears^2)) Residuals: Min 1Q Median 3Q Max
+(iii)(a) m2 <- lm(ClaimAmount~EducationYears + I(EducationYears^2))  
+summary(m2) Call: lm(formula = ClaimAmount ~ EducationYears + I(EducationYears^2)) Residuals: Min 1Q Median 3Q Max
 <p>
 ---
 
 -51368 -15047 -2360 14008 45625 Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) 609272 242570 2.512 0.0199 * EducationYears -95999 40154 -2.391 0.0258 * I(EducationYears^2) 4371 1635 2.674 0.0139 * --- Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 Residual standard error: 24380 on 22 degrees of freedom Multiple R-squared: 0.5127, Adjusted R-squared: 0.4684 F-statistic: 11.57 on 2 and 22 DF, p-value: 0.000368
 
+---
+
 (b)
 The fitted model is:
 ClaimAmount = 609272−95999×EducationYears + 4371×EducationYears2 
+
+---
+
 (iv)
 The quadratic model in part (iii) seems more suitable.
 
@@ -96,7 +107,9 @@ The adjusted R-squared has increased.
 
 The coefficient of the quadratic term is significantly different from 0.
 
-[Total 14]
+---
+
+
 Commentary:
 (i), (ii): Well answered in general. A number of candidates failed to provide informative annotation on the graphs. A small number of candidates presented the graphs with the axes reversed.
 (iii): Mixed answers with some candidates not showing appropriate output.

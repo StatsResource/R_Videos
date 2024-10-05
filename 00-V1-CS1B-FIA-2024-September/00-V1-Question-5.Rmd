@@ -1,0 +1,88 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+5 A sample of 100 daily sales amounts at a store is collected, with the aim to investigate
+if daily sales amounts are affected by whether or not the store has substantial
+discount offers available on a particular day. The data are available in the file
+‘sales_data.RData’, which contains the following variables for 100 days:
+ sales.amount – the daily sales amount
+ discount – an indicator, showing whether or not the store has substantial
+discount offers available on each day (discount = 1 if discounts are available;
+discount = 0 otherwise).
+
+---
+(i) Plot appropriate boxplots for comparing the sales amounts on discount and
+non-discount days. [3]
+[Hint: You may find the boxplot(formula, …) R command useful.]
+(ii) Comment on the effect of discount offers on sales amounts using the boxplots
+produced in part (i). [2]
+A sales analyst considers two distributional assumptions: a normal and a gamma
+model for the daily sales amounts.
+(iii) Fit two separate Generalised Linear Models (GLMs) to the data, one for each
+of the two distributional assumptions, to investigate the dependence of the
+daily sales amounts on availability of substantial discount offers on the day.
+For each model you should use the canonical link function. 
+
+---
+
+(iv) Comment on the impact of the availability of substantial discount offers on
+daily sales amounts based on the output of the two models fitted in part (iii).
+Your answer should include a relevant p-value and interpretation of the
+estimate of the coefficient of the discount variable for each fitted model. 
+
+---
+
+(v) Determine which of the two models fitted in part (iii) should be preferred for
+investigating the dependence of daily sales amounts on the availability of
+substantial discount offers on the day. [3]
+(vi) Determine the expected sales amount on a discount day under each of the
+GLMs fitted in part (iii), explicitly using the estimated coefficients from
+each model. 
+---
+(vii) Comment on the comparison of the answers in part (vi) taking into account
+your answer in part (v). [1]
+[Total 23]
+END OF PAPER

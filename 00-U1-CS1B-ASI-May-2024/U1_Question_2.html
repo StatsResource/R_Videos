@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+
+
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+Q. 2) 
+
+As per a recent research, the maximum systolic blood pressure for a person is related to age and
+can be expressed in terms of the following equation:
+maximum systolic blood pressure = 100 + age (in years)
+
+#### Exercises
+
+1. If we decide to fit a regression line with maximum systolic blood pressure as the response
+variable (Y) and age as the explanatory variable (X), what should be the values of the
+regression coefficients α and β in light of the above equation? 
+
+---
+
+Suppose this is to be empirically proven and 20 people of varying ages are tested for their
+maximum systolic blood pressure. 
+
+---
+
+The following data has been collected:
+Age (X) Maximum Systolic
+Blood Pressure (Y)
+Age (X) Maximum Systolic
+Blood Pressure (Y)
+28 132 60 149
+37 140 55 154
+41 155 29 117
+52 160 43 146
+57 167 36 142
+49 148 50 168
+38 128 34 144
+25 131 40 156
+23 118 26 114
+48 139 33 133
+
+---
+
+The data of age in years (X) and corresponding maximum systolic blood pressure (Y) can be
+entered in R using the below code:
+
+
+```r
+x=c(28, 37, 41, 52, 57, 49, 38, 25, 23, 48, 60, 55, 29, 43, 36, 50, 34, 40, 26, 33)
+
+y=c(132, 140, 155, 160, 167, 148, 128, 131, 118, 139, 149, 154, 117, 146, 142, 168, 144, 156,
+114, 133)
+```
+
+Enter the data in R by copying the above code.
+---
+
+### Exercise 2
+
+ii) Prepare a scatter plot of the data and briefly comment on the same. (3)
+
+Histogram of 1200 simulations of x1_bar
+x1_bar
+Frequency
+0.830 0.832 0.834 0.836 0.838
+0 50 100 150
+Histogram of 1200 simulations of x2_bar
+x2_bar
+Frequency
+0.162 0.164 0.166 0.168 0.170
+0 50 100 150
+Histogram of 1200 simulations of x3_bar
+x3_bar
+Frequency
+
+0.494 0.496 0.498 0.500 0.502 0.504
+0 50 100 150 200 250
+
+---
+
+### Exercise 3
+
+Plot the fitted line for regression of Y on X.
+
+---
+
+### Exercise 4
+
+Using anova function check whether the slope parameter is significant.
+
+---
+
+Solution 2:
+(i)
+The given equation is 
+ Maximum Systolic Blood Pressure = 100 + Age (in years)
+ It can be written as
+ y = 100 + x
+ y = 100 + 1*(x)
+ y = α + βx
+ 𝛼 = 100 𝑎𝑛𝑑 𝛽 = 1
+ (2)
+
+---
+(ii)
+x=c(28, 37, 41, 52, 57, 49, 38, 25, 23, 48, 60, 55, 29, 43, 36, 50, 34, 40, 
+26, 33)
+y=c(132, 140, 155, 160, 167, 148, 128, 131, 118, 139, 149, 154, 117, 146, 1
+42, 168, 144, 156, 114, 133)
+plot(x,y) 
+(1)
+ 
+ (1)
+The age in years(x) and the systolic blood pressure(y) are positively correlat
+ed.
+
+---
+
+### Exercise 3
+
+* Fiting a Linear Model using the &lt;tt&gt;lm()&lt;/tt&gt; command.
+
+
+```r
+lm.result=lm(y~x) 
+```
+
+---
+
+
+```r
+plot(lm((y~x)))
+```
+
+![](U1_Question_2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;![](U1_Question_2_files/figure-html/unnamed-chunk-3-2.png)&lt;!-- --&gt;![](U1_Question_2_files/figure-html/unnamed-chunk-3-3.png)&lt;!-- --&gt;
+
+```r
+abline(lm(y~x)) 
+```
+
+![](U1_Question_2_files/figure-html/unnamed-chunk-3-4.png)&lt;!-- --&gt;
+
+---
+
+### Exercise 4 
+
+
+```r
+anova(lm.result)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: y
+##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## x          1 3082.9 3082.94  33.591 1.717e-05 ***
+## Residuals 18 1652.0   91.78                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Analysis of Variance Table
+Response: y
+ Df Sum Sq Mean Sq F value Pr(&gt;F) 
+x 1 3082.9 3082.94 33.591 1.717e-05 ***
+Residuals 18 1652.0 91.78 
+
+
+#### Conclusion
+
+
+From the above, it is clear that the slope parameter is significant.
+
+---
+
+### Exercise 5
+Obtain a summary for the linear regression model fitted in **Exercise 4** and clearly state the estimates for the values of the coefficients α and β.
+
+
+---
+
+### Exercise 5 
+
+
+```r
+summary(lm.result) 
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -15.485  -6.504   1.177   5.979  14.846 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  96.4994     8.1460  11.846 6.21e-10 ***
+## x             1.1331     0.1955   5.796 1.72e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 9.58 on 18 degrees of freedom
+## Multiple R-squared:  0.6511,	Adjusted R-squared:  0.6317 
+## F-statistic: 33.59 on 1 and 18 DF,  p-value: 1.717e-05
+```
+
+Call:
+lm(formula = y ~ x)
+Residuals:
+ Min 1Q Median 3Q Max
+-15.485 -6.504 1.177 5.979 14.846
+Coefficients:
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) 96.4994 8.1460 11.846 6.21e-10 ***
+x 1.1331 0.1955 5.796 1.72e-05 ***
+
+---
+
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 9.58 on 18 degrees of freedom
+Multiple R-squared: 0.6511, Adjusted R-squared: 0.6317
+F-statistic: 33.59 on 1 and 18 DF, p-value: 1.717e-05 
+ (1)
+The value of the estimates of the co-efficient are
+ Alpha(α) = 96.4994 Beta(β) = 1.1331 (1)
+
+---
+
+### Exercise 6
+vi)
+Test the veracity of the above equation as promulgated in the recent research, by referring to your answers in **Exercise 1** and **Exercise 5**.
+
+
+
+---
+
+### Exercise 6
+
+* The values of alpha and beta are expected to be 100 and 1 respectively as per (i). 
+
+* But empirical test results fetch the values as 96.4994 and 1.1331
+respectively, which is close to the expected values of 100 and 1 respectively. 
+
+* Hence when empirically tested, we find that the claim made by the research
+about the maximum systolic blood pressure is valid.
+
+
+---
+
+### Exercise 7
+
+Calculate the sample Pearson correlation coefficient, sample Kendall correlation coefficient and sample Spearman correlation coefficient.
+
+----------------------------------------------
+
+
+#### Pearson Exercise 7
+
+
+
+```r
+cor(x,y,method="pearson")
+```
+
+```
+## [1] 0.8069094
+```
+
+#### Spearman
+
+
+```r
+cor(x,y,method="spearman")
+```
+
+```
+## [1] 0.8180451
+```
+
+#### Kendall Tau
+
+
+```r
+cor(x,y,method="kendall")
+```
+
+```
+## [1] 0.6105263
+```
+
+
+---
+
+### Exercise 8 
+
+viii)
+Comment on each method of calculating correlation coefficient and also comment on the sample correlation coefficients obtained in part (vii).
+
+
+
+
+---
+
+### Exercise 8
+
+(viii) 
+ Pearson’s correlation co-efficient measures the strength of the linear r
+elationship between the two variables, whereas Spearman Correlation method mea
+sures the strength of monotonic but not necessarily linearity between two vari
+ables.
+
+*  Since Spearman considers the rank than the actual values, the value of t
+he coefficient is less affected by extreme values/outliers in the data than Pearson’s Correlation Coefficient. Hence it is more robust.
+
+* Kendall’s correlation coefficient is considered to have better statistical
+properties when the data set is small and have more tied ranks, though it considers the relative values between the data set and not actual values.
+
+
+* Generally, the value of Kendall’s coefficient is lower than the Spearman’s
+rank coefficient.
+
+* Based on the sample correlation coefficients calculated in part (vii), we
+conclude Spearman Rank Coefficient Pearson’s Coefficient Kendall’s Coeffi
+cient
+
+---
+
+### Exercise 9
+
+One of your colleagues says that there exists perfect positive correlation between age and maximum systolic blood pressure.
+
+* Perform a hypothesis test to test the above statement at 5% level of significance. 
+
+* You should state the null and alternate hypotheses, report the p-value of the test and arrive at a clear conclusion.
+
+&lt;i&gt;(Hint: Use Pearson Method)&lt;/i&gt;
+
+
+
+---
+
+### Exercise 9
+
+(ix) 
+
+#### Hypotheses
+
+𝐻0 : ρ = 1
+𝐻1 : ρ ≠ 1 
+
+---
+
+
+```r
+cor.test(x,y,method="pearson")  
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  x and y
+## t = 5.7958, df = 18, p-value = 1.717e-05
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.5667661 0.9206793
+## sample estimates:
+##       cor 
+## 0.8069094
+```
+
+#### Output Details
+* p-value = 1.717e-05
+* alternative hypothesis: true correlation is not equal to 0
+
+
+* 95 percent confidence interval: 0.5667661 0.9206793
+sample estimates:
+ cor
+0.8069094 (1)
+p-value is 1.717e-05 
+
+---
+
+#### Interpretation
+
+Since 95% confidence interval (0.5667661, 0.9206793) does not include
+the value 1, there is sufficient evidence to reject the hypothesis that there
+is perfect correlation between Age and Systolic Blood Pressure though there is
+strong positive correlation between the age and systolic Blood Pressure.
+
+---
+
+BLANK
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+
+4 Two members of an interview panel (A and B) have scored a large number of
+applicants (on a scale from 1 to 40), with the purpose of ranking the applicants
+according to their suitability for a job position. The scores for a sample of twelve
+applicants are given below, with SA and SB denoting the scores of interview panel
+member A and B, respectively:
+ SA = c(35,14,28,33,29,22,19,36,21,30,15,18)
+ SB = c(38,18,25,30,22,17,23,29,32,31,15,19).
+(i) Plot a suitable graph for assessing the agreement in the two panel members’
+scores. [2]
+(ii) Comment on the agreement in the two panel members’ scores, based on the
+plot in part (i). [2]
+(iii) Calculate Pearson’s correlation coefficient r for these data. [1]
+(iv) Calculate Spearman’s rank correlation coefficient rs for these data. [1]
+(v) Calculate Kendall’s rank correlation coefficient 𝜏 for these data. [1]
+(vi) Comment on the suitability of the three correlation coefficients used in parts
+(iii)–(v), with respect to the purpose of the scoring. [2]
+(vii) Perform three statistical tests for a suitable hypothesis of no association
+between the scores of the two panel members, using one of the correlation
+coefficients in parts (iii)–(v) for each test.
+For each test, your answer should include the p-value and a conclusion. [11]
+(viii) Comment on the validity of the tests in part (vii) for testing the hypothesis of
+no association between the scores of the two panel members. [2]
+[Total 22]

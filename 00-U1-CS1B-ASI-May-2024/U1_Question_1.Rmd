@@ -46,49 +46,103 @@ style_mono_accent_inverse(
 Q. 1) Consider a random variable X which represents the project completion time for a process
 automation project for a FMCG company (in years). Three scenarios have been contemplated
 for completion of the project which are as follows:
-Scenario Probability Distribution
-Scenario 1 : X has a beta distribution with parameters α =5, β=1;
-Scenario 2 : X has a beta distribution with parameters α =1, β=5;
-Scenario 3 : X has a beta distribution with parameters α =3, β=3.
-i) Calculate the following probabilities for X under Scenario 1:
-a) Use pbeta function to calculate P(0.2 < X < 0.8);
-b) Use qbeta to find x such that P(X > x) = 0.65.
-(2)
-(2)
+
+|Scenario |Probability Distribution|
+|:--------------:|:----------------------|
+|Scenario 1 | X has a beta distribution with parameters α =5, β=1;|
+|Scenario 2 | X has a beta distribution with parameters α =1, β=5;|
+|Scenario 3 | X has a beta distribution with parameters α =3, β=3.|
+
+
+### Exercises
+
+#### Part 1
+
+Calculate the following probabilities for X under Scenario 1:
+
+A. Use pbeta function to calculate P(0.2 < X < 0.8);
+
+B. Use <tt>qbeta</ttto find x such that P(X x) = 0.65.
+
 
 ---
 
 ii) Use the following code to calculate the coefficient of skewness of X under all the three
 scenarios:
-Skew = 2*((β-α)/(α+β+2))* sqrt((α+β+1)/(α*β)) (3)
-iii) Under all the three scenarios, write a code to simulate a sample of 12,000 values from a
-Beta distribution. Use the command set.seed(421967) to initialize the random number
-generator, before you start the simulation. Simulate this sample by defining vectors “x1”,
-“x2” and “x3” for Scenario1, Scenario2 and Scenario3 and write code to draw histogram
-for each of the scenarios.
-You are NOT required to execute the code or print the result of these vectors or reproduce
-the histograms. (3)
+$$Skew = 2*((β-α)/(α+β+2))* sqrt((α+β+1)/(α*β)) $$
+
 
 ---
 
+
+
 Histograms for these simulated samples have been given below:
-Scenario 1
+
+#### Scenario 1
 X1 ~ Beta (α =5, β=1)
-Scenario 2
+
+#### Scenario 2
 X2 ~ Beta (α =1, β=5)
-Scenario 3
+
+#### Scenario 3
 X3 ~ Beta (α =3, β=3)
 
 ---
 
+Solution 1:
+(i)
+a) pbeta(0.8,5,1) - pbeta(0.2,5,1) (1)
+[1] 0.32736 (1)
+b) qbeta(0.65,5,1,lower= FALSE) or Alternate: qbeta(0.35,5,1
+) 
+ (1)
+ [1] 0.8106131 (1)
+ 
+---
+
+(ii) 
+a=c(5,1,3)
+b=c(1,5,3) 
+skew=2*((b-a)/(a+b+2))*sqrt((a+b+1)/(a*b)) (2)
+skew
+[1] -1.183216 1.183216 0.000000 (1)
+ (3) 
+Or Alternatively
+skew1=2*((1-5)/(5+1+2))*sqrt((5+1+1)/5)
+skew1
+[1] -1.183216
+skew2=2*((5-1)/(1+5+2))*sqrt((5+1+1)/5)
+skew2
+[1] 1.183216
+skew3=2*((3-3)/(3+3+2))*sqrt((3+3+1)/9)
+skew3
+[1] 0
+
+---
+
+iii) Under all the three scenarios, write a code to simulate a sample of 12,000 values from a
+Beta distribution.
+
+* Use the command set.seed(421967) to initialize the random number
+generator, before you start the simulation. 
+* Simulate this sample by defining vectors “x1”,
+“x2” and “x3” for Scenario1, Scenario2 and Scenario3 and write code to draw histogram
+for each of the scenarios.
+
+<i>You are NOT required to execute the code or print the result of these vectors or reproduce
+the histograms.</i>
+
+---
+
+### Exercise 4
+
 iv) Comment on the shape of the histograms plotted above by taking into consideration
-coefficient of skewness calculated in part (ii). (3)
-v) Write a code to perform 1,200 repetitions of the simulations in part (iii) for all the three
-scenarios. You should compute and store the value of the mean of the sample (x1_bar),
-(x2_bar) and (x3_bar) for each repetition. Use the same command set.seed(421967) to
-initialize the random number generator, before you start the simulations.
-You are NOT required to execute the code or print the output of these simulations or
-histogram of these simulations. (5)
+coefficient of skewness calculated in part (ii). 
+
+---
+
+
+
 Histogram of 12000 values from Beta (5,1) Distribution
 x1
 Frequency
@@ -105,108 +159,141 @@ Frequency
 0.0 0.2 0.4 0.6 0.8 1.0
 0 200 600 1000
 
-Page 3 of 6
 Histograms of sample means for the three scenarios have been given below:
 Scenario 1: x1_bar Scenario 2: x2_bar Scenario 3: x3_bar
-vi) Comment on the shape of the histograms, by referring to the central limit theorem. Also,
-compare and contrast with your observations in part (iv).
+
 
 ---
 
-Solution 1:
-(i)
-a) > pbeta(0.8,5,1) - pbeta(0.2,5,1) (1)
-[1] 0.32736 (1)
-b) > qbeta(0.65,5,1,lower= FALSE) or Alternate: qbeta(0.35,5,1
-) 
- (1)
- [1] 0.8106131 (1)
- 
----
-
-(ii) 
-> a=c(5,1,3)
-> b=c(1,5,3) 
-> skew=2*((b-a)/(a+b+2))*sqrt((a+b+1)/(a*b)) (2)
-> skew
-[1] -1.183216 1.183216 0.000000 (1)
- (3) 
-Or Alternatively
-> skew1=2*((1-5)/(5+1+2))*sqrt((5+1+1)/5)
-> skew1
-[1] -1.183216
-> skew2=2*((5-1)/(1+5+2))*sqrt((5+1+1)/5)
-> skew2
-[1] 1.183216
-> skew3=2*((3-3)/(3+3+2))*sqrt((3+3+1)/9)
-> skew3
-[1] 0
-
----
  
 (iii) 
-> set.seed(421967) (0.5)
-> x1=rbeta(12000,5,1) (1)
-> hist(x1) (0.5) 
-> x2=rbeta(12000,1,5) 
-> hist(x2) (0.5)
-> x3=rbeta(12000,3,3)
-> hist(x3) (0.5)
- (3)
+```{r}
+set.seed(421967) 
+x1=rbeta(12000,5,1) 
+hist(x1) 
+```
+
+---
+
+```{r}
+x2=rbeta(12000,1,5) 
+hist(x2) 
+```
+
+---
+
+```{r}
+x3=rbeta(12000,3,3)
+hist(x3) 
+```
  
 ---
 
 
-As Alpha is greater than 1 and Beta is equal to 1, the histogram is he
-avily negatively skewed and strictly increasing as evident from the result obt
+* As Alpha is greater than 1 and Beta is equal to 1, the histogram is heavily negatively skewed and strictly increasing as evident from the result obt
 ained in (ii) above and from the shape of the graph.
-(1)
-As Alpha is equal to 1 and Beta is greater than 1, the histogram is he
+
+* As Alpha is equal to 1 and Beta is greater than 1, the histogram is he
 avily positively skewed and strictly decreasing as evident from the result obt
 ained in (ii) above and from the shape of the graph.
-(1)
 
-Page 3 of 11
-As both the parameters alpha and beta are equal, the graph is roughly 
+* As both the parameters alpha and beta are equal, the graph is roughly 
 symmetrical as evident from the graph and the value of the skewness obtained
 in (ii) above.
 
 ---
 
-(3) 
+### Exercise 5
+
+Write a code to perform 1,200 repetitions of the simulations in ***Exercise 3*** for all the three
+scenarios. 
+
+* You should compute and store the value of the mean of the sample (<tt>x1_bar</tt>), (<tt>x2_bar</tt>) and (<tt>x3_bar</tt>) for each repetition. 
+
+* Use the same command <tt>set.seed(421967)</ttto
+initialize the random number generator, before you start the simulations.
+
+<i>You are NOT required to execute the code or print the output of these simulations or
+histogram of these simulations. </i>
+
+---
+
+### Exercise 5
+
 (v) 
-> set.seed(421967)
-> x1_bar <-replicate (1200, mean(rbeta (12000,5,1))) 
-Or alternatively
-> set.seed(421967)
-> x1_bar=rep(0,1200)
-> for(i in 1:1200){x1<-rbeta(12000,5,1);x1_bar[i]<-mean(x1)} 
- 
- (3)
-> set.seed(421967)
-> x2_bar <-replicate (1200, mean (rbeta (12000,1,5)))
-Or alternatively
-> set.seed(421967)
-> x2_bar=rep(0,1200)
-> for(i in 1:1200){x2<-rbeta(12000,1,5);x2_bar[i]<-mean(x2)}
 
----
-> set.seed(421967)
-> x3_bar <-replicate (1200, mean(rbeta (12000,3,3)))
- 
+```{r}
+set.seed(421967)
+x1_bar <-replicate (1200, mean(rbeta (12000,5,1))) 
+```
+
+
 Or alternatively
-> set.seed(421967)
-> x3_bar=rep(0,1200)
-> for(i in 1:1200){x3<-rbeta(12000,1,5);x3_bar[i]<-mean(x3)}
+```{r}
+set.seed(421967)
+x1_bar=rep(0,1200)
+for(i in 1:1200){x1<-rbeta(12000,5,1);x1_bar[i]<-mean(x1)} 
+```
 
 ---
 
-(vi)The distribution of sample mean is roughly symmetrical in all the three ca
-ses irrespective of the values of the shape parameters (alpha and beta).These 
+set.seed(421967)
+x2_bar <-replicate (1200, mean (rbeta (12000,1,5)))
+Or alternatively
+set.seed(421967)
+x2_bar=rep(0,1200)
+for(i in 1:1200){x2<-rbeta(12000,1,5);x2_bar[i]<-mean(x2)}
+
+---
+
+```{r}
+set.seed(421967)
+
+x3_bar <-replicate(n = 1200, 
+                   mean(rbeta (12000,3,3))
+                   )
+
+```
+
+---
+
+Or alternatively
+
+```{r}
+set.seed(421967)
+
+x3_bar=rep(0,1200)
+for(i in 1:1200){
+  x3<-rbeta(12000,1,5);
+  x3_bar[i]<-mean(x3)
+}
+
+```
+  
+```{r}
+
+#First 20 Observations
+
+head(x3_bar,20)
+```
+
+---
+
+### Exercise 6
+
+
+Comment on the shape of the histograms, by referring to the central limit theorem. Also,
+compare and contrast with your observations in ***Exercise 4***.
+
+-------------------------
+
+* The distribution of sample mean is roughly symmetrical in all the three ca
+ses irrespective of the values of the shape parameters (alpha and beta).
+
+* These 
 shape parameters(alpha and beta) do not significantly affect the sample mean 
-of large sample size, which is in line with the central limit theorem. Irrespe
-ctive of the population distribution of the random variable from which the sam
-ple is selected, for a large sample size the distribution of the sample means 
-is approximately normal. 
+of large sample size, which is in line with the central limit theorem.
+
+* Irrespective of the population distribution of the random variable from which the sample is selected, for a large sample size the distribution of the sample means is approximately normal. 
 
 --- 

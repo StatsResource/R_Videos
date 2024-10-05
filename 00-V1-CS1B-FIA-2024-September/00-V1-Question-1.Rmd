@@ -1,0 +1,84 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+1 For an investigation into the buying behaviour of consumers shopping at an online
+store, data about the age, the time per month spent on the online shop’s website and
+the number of purchases from the shop per year are recorded.
+This dataset is saved in the file ‘onlineShop.Rdata’. After loading the data into R,
+using the command load("onlineShop.RData"), the data frame
+onlineShop will be available. The data frame onlineShop contains the
+following three variables:
+ age – the age (in years) of the customer
+ time_spent_on_website – the time per month spent on the shop’s website
+(in hours)
+ purchases_per_year – the number of purchases from the shop per year.
+(i) Fit a Generalised Linear Model (GLM) to the data assuming a Poisson
+distribution with a log link function, using purchases_per_year as the
+response variable and age and time_spent_on_website as explanatory
+variables without an interaction term. Your answer should include the
+estimated coefficients, the deviance and the Akaike’s Information Criterion
+(AIC) of the fitted model. [4]
+(ii) State an expression for the expected number of purchases per year in terms of
+the variables age and time_spent_on_website using the fitted model
+from part (i). [1]
+It is suggested that a log link function may not be appropriate, and a square root link
+function should be used instead, that is 𝑔􁈺𝜇􁈻 􀵌 √𝜇. In R, a square root link function
+can be specified using family = poisson(link = "sqrt").
+(iii) Fit a GLM to the data assuming a Poisson distribution with a square root link
+function using purchases_per_year as the response variable and age
+and time_spent_on_website as explanatory variables without an
+interaction term. Your answer should include the estimated coefficients, the
+deviance and the AIC of the fitted model. [4]
+(iv) State an expression for the expected number of purchases per year in terms of
+the variables age and time_spent_on_website using the fitted model
+from part (iii). [1]
+(v) Compare the models in parts (i) and (iii) and decide which model should be
+preferred using the deviance. [1]
+It is suggested that the deviance is not an appropriate measure to compare the two
+models in parts (i) and (iii), and that the AIC should be used instead.
+(vi) Comment on this suggestion in the context of comparing the two models in
+parts (i) and (iii). In particular, identify any advantages that the AIC may
+have compared to the deviance in this context. [2]
+[Total 13]

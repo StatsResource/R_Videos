@@ -43,14 +43,26 @@ style_mono_accent_inverse(
 * Question 1
 ---
 
-Q. 2) As per a recent research, the maximum systolic blood pressure for a person is related to age and
+Q. 2) 
+
+As per a recent research, the maximum systolic blood pressure for a person is related to age and
 can be expressed in terms of the following equation:
 maximum systolic blood pressure = 100 + age (in years)
-i) If we decide to fit a regression line with maximum systolic blood pressure as the response
+
+#### Exercises
+
+1. If we decide to fit a regression line with maximum systolic blood pressure as the response
 variable (Y) and age as the explanatory variable (X), what should be the values of the
-regression coefficients α and β in light of the above equation? (2)
+regression coefficients α and β in light of the above equation? 
+
+---
+
 Suppose this is to be empirically proven and 20 people of varying ages are tested for their
-maximum systolic blood pressure. The following data has been collected:
+maximum systolic blood pressure. 
+
+---
+
+The following data has been collected:
 Age (X) Maximum Systolic
 Blood Pressure (Y)
 Age (X) Maximum Systolic
@@ -65,19 +77,26 @@ Blood Pressure (Y)
 25 131 40 156
 23 118 26 114
 48 139 33 133
+
+---
+
 The data of age in years (X) and corresponding maximum systolic blood pressure (Y) can be
 entered in R using the below code:
 
 ```{r}
 x=c(28, 37, 41, 52, 57, 49, 38, 25, 23, 48, 60, 55, 29, 43, 36, 50, 34, 40, 26, 33)
+
 y=c(132, 140, 155, 160, 167, 148, 128, 131, 118, 139, 149, 154, 117, 146, 142, 168, 144, 156,
 114, 133)
 ```
 
+Enter the data in R by copying the above code.
 ---
 
-Enter the data in R by copying the above code.
+### Exercise 2
+
 ii) Prepare a scatter plot of the data and briefly comment on the same. (3)
+
 Histogram of 1200 simulations of x1_bar
 x1_bar
 Frequency
@@ -91,32 +110,21 @@ Frequency
 Histogram of 1200 simulations of x3_bar
 x3_bar
 Frequency
+
 0.494 0.496 0.498 0.500 0.502 0.504
 0 50 100 150 200 250
 
 ---
-iii)
+
+### Exercise 3
+
 Plot the fitted line for regression of Y on X.
-(4)
-iv)
+
+---
+
+### Exercise 4
+
 Using anova function check whether the slope parameter is significant.
-(3)
-v)
-Obtain a summary for the linear regression model fitted in part (iv) and clearly state the estimates for the values of the coefficients α and β.
-(3)
-vi)
-Test the veracity of the above equation as promulgated in the recent research, by referring to your answers in part (i) and part (v).
-(2)
-vii)
-Calculate the sample Pearson correlation coefficient, sample Kendall correlation coefficient and sample Spearman correlation coefficient.
-(3)
-viii)
-Comment on each method of calculating correlation coefficient and also comment on the sample correlation coefficients obtained in part (vii).
-(4)
-One of your colleagues says that there exists perfect positive correlation between age and maximum systolic blood pressure.
-ix)
-Perform a hypothesis test to test the above statement at 5% level of significance. You should state the null and alternate hypotheses, report the p-value of the test and arrive at a clear conclusion.(Hint: Use Pearson Method)
-(6)
 
 ---
 
@@ -133,11 +141,11 @@ The given equation is
 
 ---
 (ii)
-> x=c(28, 37, 41, 52, 57, 49, 38, 25, 23, 48, 60, 55, 29, 43, 36, 50, 34, 40, 
+x=c(28, 37, 41, 52, 57, 49, 38, 25, 23, 48, 60, 55, 29, 43, 36, 50, 34, 40, 
 26, 33)
-> y=c(132, 140, 155, 160, 167, 148, 128, 131, 118, 139, 149, 154, 117, 146, 1
+y=c(132, 140, 155, 160, 167, 148, 128, 131, 118, 139, 149, 154, 117, 146, 1
 42, 168, 144, 156, 114, 133)
-> plot(x,y) 
+plot(x,y) 
 (1)
  
  (1)
@@ -146,31 +154,56 @@ ed.
 
 ---
 
-(iii) 
-> lm.result=lm(y~x) (1)
-> abline(lm(y~x)) (1)
- (2)
-(4) 
-(iv) 
->anova(lm.result)
- (1)
+### Exercise 3
+
+* Fiting a Linear Model using the <tt>lm()</tt> command.
+
+```{r}
+lm.result=lm(y~x) 
+```
+
+---
+
+```{r}
+plot(lm((y~x)))
+abline(lm(y~x)) 
+```
+
+---
+
+### Exercise 4 
+
+```{r}
+anova(lm.result)
+``` 
+
 Analysis of Variance Table
 Response: y
  Df Sum Sq Mean Sq F value Pr(>F) 
 x 1 3082.9 3082.94 33.591 1.717e-05 ***
 Residuals 18 1652.0 91.78 
----
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
- (1)
+
+
+#### Conclusion
+
+
 From the above, it is clear that the slope parameter is significant.
 
+---
+
+### Exercise 5
+Obtain a summary for the linear regression model fitted in **Exercise 4** and clearly state the estimates for the values of the coefficients α and β.
+
 
 ---
 
-(1)
-(3) 
-(v) 
->summary(lm.result) (1)
+### Exercise 5 
+
+```{r}
+summary(lm.result) 
+
+```
+
 Call:
 lm(formula = y ~ x)
 Residuals:
@@ -180,7 +213,9 @@ Coefficients:
  Estimate Std. Error t value Pr(>|t|) 
 (Intercept) 96.4994 8.1460 11.846 6.21e-10 ***
 x 1.1331 0.1955 5.796 1.72e-05 ***
+
 ---
+
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 Residual standard error: 9.58 on 18 degrees of freedom
 Multiple R-squared: 0.6511, Adjusted R-squared: 0.6317
@@ -188,60 +223,144 @@ F-statistic: 33.59 on 1 and 18 DF, p-value: 1.717e-05
  (1)
 The value of the estimates of the co-efficient are
  Alpha(α) = 96.4994 Beta(β) = 1.1331 (1)
-(3) 
-(vi) The values of alpha and beta are expected to be 100 and 1 respectively a
-s per (i). But empirical test results fetch the values as 96.4994 and 1.1331
-respectively, which is close to the expected values of 100 and 1 respectively
-. Hence when empirically tested, we find that the claim made by the research
+
+---
+
+### Exercise 6
+vi)
+Test the veracity of the above equation as promulgated in the recent research, by referring to your answers in **Exercise 1** and **Exercise 5**.
+
+
+
+---
+
+### Exercise 6
+
+* The values of alpha and beta are expected to be 100 and 1 respectively as per (i). 
+
+* But empirical test results fetch the values as 96.4994 and 1.1331
+respectively, which is close to the expected values of 100 and 1 respectively. 
+
+* Hence when empirically tested, we find that the claim made by the research
 about the maximum systolic blood pressure is valid.
- (2)
-(vii) 
-> cor(x,y,method="pearson")
-[1] 0.8069094
- (1)
-> cor(x,y,method="spearman")
-[1] 0.8180451
- (1)
-> cor(x,y,method="kendall")
-[1] 0.6105263
- (1)
-(3) 
+
+
+---
+
+### Exercise 7
+
+Calculate the sample Pearson correlation coefficient, sample Kendall correlation coefficient and sample Spearman correlation coefficient.
+
+----------------------------------------------
+
+
+#### Pearson Exercise 7
+
+
+```{r}
+cor(x,y,method="pearson")
+```
+
+#### Spearman
+
+```{r}
+cor(x,y,method="spearman")
+```
+
+#### Kendall Tau
+
+```{r}
+cor(x,y,method="kendall")
+```
+
+
+---
+
+### Exercise 8 
+
+viii)
+Comment on each method of calculating correlation coefficient and also comment on the sample correlation coefficients obtained in part (vii).
+
+
+
+
+---
+
+### Exercise 8
+
 (viii) 
  Pearson’s correlation co-efficient measures the strength of the linear r
 elationship between the two variables, whereas Spearman Correlation method mea
 sures the strength of monotonic but not necessarily linearity between two vari
 ables.
- Since Spearman considers the rank than the actual values, the value of t
-he coefficient is less affected by extreme values/outliers in the data than Pe
-arson’s Correlation Coefficient. Hence it is more robust.
- Kendall’s correlation coefficient is considered to have better statistical
-properties when the data set is small and have more tied ranks, though it c
-onsiders the relative values between the data set and not actual values.
 
-Page 6 of 11
-Generally, the value of Kendall’s coefficient is lower than the Spearman’s
+*  Since Spearman considers the rank than the actual values, the value of t
+he coefficient is less affected by extreme values/outliers in the data than Pearson’s Correlation Coefficient. Hence it is more robust.
+
+* Kendall’s correlation coefficient is considered to have better statistical
+properties when the data set is small and have more tied ranks, though it considers the relative values between the data set and not actual values.
+
+
+* Generally, the value of Kendall’s coefficient is lower than the Spearman’s
 rank coefficient.
- Based on the sample correlation coefficients calculated in part (vii), we
-conclude Spearman Rank Coefficient > Pearson’s Coefficient > Kendall’s Coeffi
+
+* Based on the sample correlation coefficients calculated in part (vii), we
+conclude Spearman Rank Coefficient Pearson’s Coefficient Kendall’s Coeffi
 cient
- (4)
+
+---
+
+### Exercise 9
+
+One of your colleagues says that there exists perfect positive correlation between age and maximum systolic blood pressure.
+
+* Perform a hypothesis test to test the above statement at 5% level of significance. 
+
+* You should state the null and alternate hypotheses, report the p-value of the test and arrive at a clear conclusion.
+
+<i>(Hint: Use Pearson Method)</i>
+
+
+
+---
+
+### Exercise 9
+
 (ix) 
+
+#### Hypotheses
+
 𝐻0 : ρ = 1
-𝐻1 : ρ ≠ 1 (1)
-> cor.test(x,y,method="pearson") (1) 
-Pearson's product-moment correlation
-data: x and y
-t = 5.7958, df = 18, p-value = 1.717e-05
-alternative hypothesis: true correlation is not equal to 0
-95 percent confidence interval:
-0.5667661 0.9206793
+𝐻1 : ρ ≠ 1 
+
+---
+
+```{r}
+cor.test(x,y,method="pearson")  
+```
+
+#### Output Details
+* p-value = 1.717e-05
+* alternative hypothesis: true correlation is not equal to 0
+
+
+* 95 percent confidence interval: 0.5667661 0.9206793
 sample estimates:
  cor
 0.8069094 (1)
-p-value is 1.717e-05 (1)
+p-value is 1.717e-05 
+
+---
+
+#### Interpretation
+
 Since 95% confidence interval (0.5667661, 0.9206793) does not include
 the value 1, there is sufficient evidence to reject the hypothesis that there
 is perfect correlation between Age and Systolic Blood Pressure though there is
 strong positive correlation between the age and systolic Blood Pressure.
-(2)
-(6) 
+
+---
+
+BLANK
+
+---
