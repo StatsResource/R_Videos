@@ -3,11 +3,13 @@ title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -19,13 +21,29 @@ library(janitor)
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
+
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
 
 * Introduction to R for Actuarial Students
 
@@ -232,8 +250,10 @@ print(prob_draw)
 e) We define another data set prize which defines the prize amounts for Cases A to I.
 R Code and Output:
 
+```{r}
 prize <- c(20000000,1000000,50000,100,100,7,7,4,4)
 print(prize)
+```
  2e+07 1e+06 5e+04 1e+02 1e+02 7e+00 7e+00 4e+00 4e+00 
  
 ---
@@ -265,11 +285,12 @@ there is a profit of INR 0.11 implicit in the ticket price.
 
 ii)a) Formula for the probability mass function of Binomial Distribution in terms of the arguments 
 specified in the question is given below:
+
 $$P(X=x) = kCx * (p)x * (1-p)(k-x)$$
 Where –
-x = 0, 1, 2, 3, ………………
-0 < p < 1 
-(p = m/(m+n)) 
+* x = 0, 1, 2, 3, ………………
+* 0 < p < 1 
+* (p = m/(m+n)) 
 
 
 ---
@@ -279,23 +300,36 @@ x = 0, 1, 2, 3, ………………
  b) The joint probabilities and the expected prize money pay-out is re-determined using binomial 
 distribution for determining matching probabilities:
 R Code and Output:
+```{r}
 prob_w_draw_bin <- dbinom(w_draw,5,5/69,log=FALSE)
 print(prob_w_draw_bin)
+
+```
  1.998042e-06 1.998042e-06 1.278747e-04 1.278747e-04 3.273592e-03
 [6] 3.273592e-03 4.190197e-02 2.681726e-01 6.865219e-01
+
+```{r}
 prob_r_draw_bin <- dbinom(r_draw,1,1/26,log=FALSE)
+
 print(prob_r_draw_bin)
- 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
-[7] 0.03846154 0.03846154 0.03846154
+```
+
 
 ---
 
+
+```{r}
 prob_draw_bin = prob_w_draw_bin * prob_r_draw_bin
 print(prob_draw_bin)
+```
+
  7.684776e-08 1.921194e-06 4.918257e-06 1.229564e-04 1.259074e-04
 [6] 3.147684e-03 1.611614e-03 1.031433e-02 2.640469e-02
 amt_bin = prize * prob_draw_bin
+
+```{r}
 print(amt_bin)
+```
  1.53695522 1.92119403 0.24591284 0.01229564 0.01259074 0.02203379
 [7] 0.01128130 0.04125733 0.10561876
 print(sum(amt_bin))
@@ -305,57 +339,69 @@ print(sum(amt_bin))
 
 ### Part I
 
-iii) If we compare binomial probabilities with hyper-geometric probabilities:
+If we compare binomial probabilities with hyper-geometric probabilities:
+
 1. For the power ball, the probabilities for all cases are same under both binomial and 
 hyper-geometric distribution.
+
 2. For white balls, the probabilities under binomial distribution tend to be higher than 
 those under hyper-geometric distribution. 
+
 3. Due to this the expected pay-out determined using binomial distribution tends to be 
 on the higher side as compared to one determined using hyper-geometric distribution.
-(1)
-(1)
-(1)
+
 
 ---
 
 iv) We use the formulae from the tables to determine the mean and variance for X using both 
 binomial and hyper-geometric distributions.
 R Code and Output:
+
+```{r}
 mean_x_hyper = 5 * 5/69
 mean_x_binom = 5 * 5/69
 print(mean_x_hyper)
+```
+
  0.3623188
 print(mean_x_binom)
+
  0.3623188
 
+```{r}
 var_x_hyper = 5*5*(69-5)*(69-5)/((69-1)*69^2)
 print(var_x_hyper)
- 0.3162954
+```
+
+```{r}
 var_x_binom = 5 * 5/69 * (1-5/69)
 print(var_x_binom)
+```
 
  0.3360639
-Mean is the same in both cases.
-However, variance under hyper-geometric distribution is lower as compared to the variance 
-under the binomial distribution. This is because hyper-geometric distribution is a without 
-replacement alternative of the binomial distribution. Since, after a trial, that observation is not 
+
+* Mean is the same in both cases.
+* However, variance under hyper-geometric distribution is lower as compared to the variance 
+under the binomial distribution. 
+* This is because hyper-geometric distribution is a without 
+replacement alternative of the binomial distribution. 
+* Since, after a trial, that observation is not 
 replaced, the variability in the results is reduced.
-(2 mark for 
-comment 
-on the 
-difference.)
+
 
 ---
 
-v) In reality, for lotteries, draws are done without replacement and hence hyper-geometric 
+v) 
+* In reality, for lotteries, draws are done without replacement and hence hyper-geometric 
 distribution would be more suitable in modelling matching probabilities.
-However, as the size of the population (m+n) goes on increasing, binomial distribution 
+
+* However, as the size of the population (m+n) goes on increasing, binomial distribution 
 provides a good approximation for hyper-geometric probabilities.
-(1)
-(1)
 
 
 ---
+
+BLANK 
 
 
 ---

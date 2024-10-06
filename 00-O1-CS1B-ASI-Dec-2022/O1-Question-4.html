@@ -3,9 +3,8 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,13 +22,21 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
+
+
+
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
 
 * Introduction to R for Actuarial Students
 
@@ -42,12 +49,19 @@ pre {
 
 ---
 
-Q. 4) Government of “Actuaria” is operating a popular jackpot lottery called “Power Ball”. The 
-game consists of two draws as given below –
-Draw 1 = Drawing 5 White Balls from a set of 69 White Balls.
-Draw 2 = Drawing 1 Red Ball (Power Ball) from a set of 26 Red Balls (Power Balls).
-After drawing 5 white balls and the power ball, a ticket is issued for INR 0.50. A specimen 
-ticket is given below –
+Q. 4) Government of “Actuaria” is operating a popular jackpot lottery called “***Power Ball***”. 
+
+The 
+game consists of two draws as given below 
+
+* Draw 1 = Drawing 5 White Balls from a set of 69 White Balls.
+* Draw 2 = Drawing 1 Red Ball (Power Ball) from a set of 26 Red Balls (Power Balls).
+
+After drawing 5 white balls and the power ball, a ticket is issued for INR 0.50. 
+
+A specimen ticket is given below –
+
+&lt;pre&gt;&lt;code&gt;
 GOVERNMENT OF ACTUARIA
 “POWER BALL LOTTERY”
 Draw 1 – White Balls
@@ -55,6 +69,7 @@ Draw 1 – White Balls
 Draw 2 – Power Ball
 21
 Ticket Price - INR 0.50
+&lt;/code&gt;&lt;/pre&gt;
 
 
 ---
@@ -62,8 +77,12 @@ Ticket Price - INR 0.50
 The Government of Actuaria publishes its draw of 5 White Balls and the Power Ball. If all 
 the 5 White Balls and the Power Ball drawn by the ticketholder exactly match with the balls 
 drawn by the Government, then the ticketholder is entitled to a jackpot. The amount of 
-jackpot is INR 2 crore. Kindly note that for white balls, the order is not considered relevant 
+jackpot is INR 2 crore. 
+* Kindly note that for white balls, the order is not considered relevant 
 while matching.
+
+
+
 There are other prizes available depending on the white/power balls matched 
 (notwithstanding the order for white balls). The prize money for various matches can be 
 found in the following table as per the official website of Government of Actuaria: -
@@ -82,46 +101,64 @@ H 1 1 4
 I 0 1 4
 
 ---
-Let X denote number of matching draws for White Balls and Y denote number of matching 
+
+* Let X denote number of matching draws for White Balls and Y denote number of matching 
 draws for Power Ball. 
-Under the given circumstances, hyper-geometric distribution is considered suitable to 
+* Under the given circumstances, hyper-geometric distribution is considered suitable to 
 calculate probabilities.
-In R, probability of matching white balls / power ball using hyper-geometric distribution is 
+* In R, probability of matching white balls / power ball using hyper-geometric distribution is 
 determined using the dhyper function.
-For instance, under Case E, probability of matching 3 white balls is determined using the 
+* For instance, under Case E, probability of matching 3 white balls is determined using the 
 following code:
+
+
+```r
 dhyper(3,m=5,n=64,k=5)
+```
+
+```
+## [1] 0.001793832
+```
+
 Here the arguments of dhyper function can be explained as below –
-- x denotes the value of white balls to be matched.
-- m denotes the maximum number of successes.
-- n denotes the maximum number of failures.
-- k denotes the total number of draws.
+
+* x denotes the value of white balls to be matched.
+* m denotes the maximum number of successes.
+* n denotes the maximum number of failures.
+* k denotes the total number of draws.
 
 ---
 
+### Exercises
+
 i)
 a) Create two separate vectors w_draw and r_draw for the white balls and power ball 
-to be matched under cases A to I. (2)
+to be matched under cases A to I.
 b) State the probability mass function of hyper-geometric distribution in terms of the 
-arguments x, m, n and k as defined earlier. (2)
+arguments x, m, n and k as defined earlier.
 c) Using the vectors created in part (i)(a) and the dhyper function as illustrated earlier, 
 create two separate result vectors prob_w_draw and prob_r_draw showing the 
-probabilities of matching white balls and power ball under Cases A to I. (4)
+probabilities of matching white balls and power ball under Cases A to I. 
 Probability of matching white balls is independent of the probability of matching the power 
 ball.
+
+---
+
 d) Calculate the joint probabilities of matching white balls and power balls using result 
-vectors prob_w_draw and prob_r_draw created in part (i)(c). (2)
+vectors prob_w_draw and prob_r_draw created in part (i)(c).
 e) Create a vector prize showing the prize money under cases A to I. 
 
 ---
 
+### Exercises
+
 f) Determine the total expected prize money pay-out using the joint probabilities 
-determined in part (i)(d) and the prize money vector created in part (i)(e). (2)
-IAI CS1B-1222
- Page 7 of 7
+determined in part (i)(d) and the prize money vector created in part (i)(e).
+
 g) Assuming that there are no other costs to the Government in operating the lottery 
 expect the prize money pay-out, calculate the profits, if any, implicit in the ticket 
-price. (1)
+price. 
+
 ii) If instead of using the hyper-geometric distribution, we decided to use the binomial 
 distribution for modelling the probabilities of matching white balls and power ball.
 a) State the probability mass function of binomial distribution in terms of arguments x, 
@@ -129,35 +166,46 @@ m, n and k as defined earlier.
 
 ---
 
+### Exercises
+
 b) Re-determine the joint probabilities using the dbinom function and arrive at the total 
 expected prize money pay-out. (4)
-iii) Point out the difference, if any, in the outcomes under part (i) and (ii). (2)
-iv) Determine the mean and variance of both the binomial distribution and hypergeometric distribution for random variable X (matching white balls) and comment on 
-the differences in the two. (3)
-v) Which distribution is more suitable to model these matching probabilities – hypergeometric or binomial? Substantiate with reasons. (2)
+iii) Point out the difference, if any, in the outcomes under part (i) and (ii).
+iv) Determine the mean and variance of both the binomial distribution and hyper-geometric distribution for random variable X (matching white balls) and comment on 
+the differences in the two.
+v) Which distribution is more suitable to model these matching probabilities – hyper-geometric or binomial? Substantiate with reasons. 
 
 ---
 
+### Part A
 
 Solution 4:
-i) a) We define two data sets w_draw and r_draw corresponding to the white balls and red balls 
+i) a) We define two data sets &lt;tt&gt;w_draw&lt;ttand &lt;tt&gt;r_draw&lt;/ttcorresponding to the white balls and red balls 
 to be matched for cases A to I. 
 R Code and Output:
-&gt; w_draw &lt;- c(5,5,4,4,3,3,2,1,0) # white balls to be matched corresponding to cases A to I
-&gt; r_draw &lt;- c(1,0,1,0,1,0,1,1,1) # red balls to be matched corresponding to cases A to I
-(1)
-(1)
-[2]
+
+
+```r
+w_draw &lt;- c(5,5,4,4,3,3,2,1,0) # white balls to be matched corresponding to cases A to I
+r_draw &lt;- c(1,0,1,0,1,0,1,1,1) # red balls to be matched corresponding to cases A to I
+```
+---
+
+### Part B
+
 b) Formula for the probability mass function of Hyper-Geometric Distribution in terms of the 
 arguments specified in the question is given below:
-P(X=x) = mCx * nC(k-x) / (m+n)Ck
+`$$P(X=x) = mCx * nC(k-x) / (m+n)Ck$$`
 Where –
-
---- 
 
 x = 0, 1, 2, 3, ………………
 0 &lt; p &lt; 1 
-(p = m/(m+n)) [2]
+(p = m/(m+n)) 
+
+---
+
+### Part C
+
 c) Further we define variables prob_w_draw and prob_r_draw to determine the probabilities 
 under hypergeometric distribution where w_draw and r_draw will be used as input, m will be 
 the successes (5 and 1), n will be the failures (64 and 25) and k will be the number of balls 
@@ -166,77 +214,145 @@ drawn i.e. sample size (5 and 1)
 ---
 
 R Code and Output:
-&gt; prob_w_draw &lt;- dhyper(w_draw,m=5,n=64,k=5)
-&gt; print(prob_w_draw)
-[1] 8.897974e-08 8.897974e-08 2.847352e-05 2.847352e-05 1.793832e-03
+
+
+```r
+prob_w_draw &lt;- dhyper(w_draw,m=5,n=64,k=5)
+print(prob_w_draw)
+```
+
+```
+## [1] 8.897974e-08 8.897974e-08 2.847352e-05 2.847352e-05 1.793832e-03
+## [6] 1.793832e-03 3.707252e-02 2.826780e-01 6.784271e-01
+```
+8.897974e-08 8.897974e-08 2.847352e-05 2.847352e-05 1.793832e-03
 [6] 1.793832e-03 3.707252e-02 2.826780e-01 6.784271e-01
-&gt; prob_r_draw &lt;- dhyper(r_draw,m=1,n=25,k=1)
-&gt; print(prob_r_draw)
-[1] 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
-[7] 0.03846154 0.03846154 0.03846154
-(2)
-(2)
-[Max 4]
-d) Finally, we define prob_draw to be the multiplication of prob_w_draw and prob_r_draw 
-assuming the draws are independent of each other.
-R Code and Output:
-&gt; prob_draw = prob_w_draw * prob_r_draw # multiplication of probabilities
-&gt; print(prob_draw)
-[1] 3.422298e-09 8.555745e-08 1.095135e-06 2.737838e-05 6.899352e-05 1.724838e-03
-[7] 1.425866e-03 1.087223e-02 2.609335e-02 [2]
-e) We define another data set prize which defines the prize amounts for Cases A to I.
-R Code and Output:
-&gt; 
-&gt; prize &lt;- c(20000000,1000000,50000,100,100,7,7,4,4)
-&gt; print(prize)
-[1] 2e+07 1e+06 5e+04 1e+02 1e+02 7e+00 7e+00 4e+00 4e+00 [1]
-f) We then define amt by multiplying prob_draw with prize to arrive at the expected amount one 
-can win from the lottery / jackpot.
-R Code and Output:
-&gt; amt = prize * prob_draw
-&gt; print(amt)
-[1] 0.068445956 0.085557445 0.054756765 0.002737838 0.006899352 0.012073867
-[7] 0.009981063 0.043488918 0.104373403
-&gt; print(sum(amt))
-[1] 0.3883146 [2]
-g) Since, the expected prize amount is INR 0.39 and the prize of the lottery ticket is INR 0.50, 
-there is a profit of INR 0.11 implicit in the ticket price. [1]
+
+
+```r
+prob_r_draw &lt;- dhyper(r_draw,m=1,n=25,k=1)
+print(prob_r_draw)
+```
+
+```
+## [1] 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154
+## [8] 0.03846154 0.03846154
+```
+
 
 ---
 
+### Part D
+
+d) Finally, we define prob_draw to be the multiplication of prob_w_draw and prob_r_draw 
+assuming the draws are independent of each other.
+R Code and Output:
+
+
+```r
+prob_draw = prob_w_draw * prob_r_draw # multiplication of probabilities
+print(prob_draw)
+```
+
+```
+## [1] 3.422298e-09 8.555745e-08 1.095135e-06 2.737838e-05 6.899352e-05
+## [6] 1.724838e-03 1.425866e-03 1.087223e-02 2.609335e-02
+```
+
+ 3.422298e-09 8.555745e-08 1.095135e-06 2.737838e-05 6.899352e-05 1.724838e-03
+[7] 1.425866e-03 1.087223e-02 2.609335e-02 
+
+---
+
+e) We define another data set prize which defines the prize amounts for Cases A to I.
+R Code and Output:
+
+
+```r
+prize &lt;- c(20000000,1000000,50000,100,100,7,7,4,4)
+print(prize)
+```
+
+```
+## [1] 2e+07 1e+06 5e+04 1e+02 1e+02 7e+00 7e+00 4e+00 4e+00
+```
+ 2e+07 1e+06 5e+04 1e+02 1e+02 7e+00 7e+00 4e+00 4e+00 
+ 
+---
+
+### Part F
+
+We then define amt by multiplying prob_draw with prize to arrive at the expected amount one 
+can win from the lottery / jackpot.
+
+&lt;tt&gt;R Code and Output:&lt;/tt&gt;
+
+```r
+amt = prize * prob_draw
+print(amt)
+```
+
+```
+## [1] 0.068445956 0.085557445 0.054756765 0.002737838 0.006899352 0.012073867
+## [7] 0.009981063 0.043488918 0.104373403
+```
+
+ 0.068445956 0.085557445 0.054756765 0.002737838 0.006899352 0.012073867
+[7] 0.009981063 0.043488918 0.104373403
+print(sum(amt))
+ 0.3883146 
+ 
+---
+
+g) Since, the expected prize amount is INR 0.39 and the prize of the lottery ticket is INR 0.50, 
+there is a profit of INR 0.11 implicit in the ticket price. 
+
+------
+
+### Part G
+
 ii)a) Formula for the probability mass function of Binomial Distribution in terms of the arguments 
 specified in the question is given below:
-P(X=x) = kCx * (p)x * (1-p)(k-x)
+`$$P(X=x) = kCx * (p)x * (1-p)(k-x)$$`
 Where –
 x = 0, 1, 2, 3, ………………
 0 &lt; p &lt; 1 
-(p = m/(m+n)) [2]
+(p = m/(m+n)) 
+
+
+---
+
+### Part H
+
  b) The joint probabilities and the expected prize money pay-out is re-determined using binomial 
 distribution for determining matching probabilities:
 R Code and Output:
-&gt; prob_w_draw_bin &lt;- dbinom(w_draw,5,5/69,log=FALSE)
-&gt; print(prob_w_draw_bin)
-[1] 1.998042e-06 1.998042e-06 1.278747e-04 1.278747e-04 3.273592e-03
+prob_w_draw_bin &lt;- dbinom(w_draw,5,5/69,log=FALSE)
+print(prob_w_draw_bin)
+ 1.998042e-06 1.998042e-06 1.278747e-04 1.278747e-04 3.273592e-03
 [6] 3.273592e-03 4.190197e-02 2.681726e-01 6.865219e-01
-&gt; prob_r_draw_bin &lt;- dbinom(r_draw,1,1/26,log=FALSE)
-&gt; print(prob_r_draw_bin)
-[1] 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
+prob_r_draw_bin &lt;- dbinom(r_draw,1,1/26,log=FALSE)
+print(prob_r_draw_bin)
+ 0.03846154 0.96153846 0.03846154 0.96153846 0.03846154 0.96153846
 [7] 0.03846154 0.03846154 0.03846154
-&gt; prob_draw_bin = prob_w_draw_bin * prob_r_draw_bin
-&gt; print(prob_draw_bin)
-[1] 7.684776e-08 1.921194e-06 4.918257e-06 1.229564e-04 1.259074e-04
+
+---
+
+prob_draw_bin = prob_w_draw_bin * prob_r_draw_bin
+print(prob_draw_bin)
+ 7.684776e-08 1.921194e-06 4.918257e-06 1.229564e-04 1.259074e-04
 [6] 3.147684e-03 1.611614e-03 1.031433e-02 2.640469e-02
-&gt; amt_bin = prize * prob_draw_bin
-&gt; print(amt_bin)
-[1] 1.53695522 1.92119403 0.24591284 0.01229564 0.01259074 0.02203379
+amt_bin = prize * prob_draw_bin
+print(amt_bin)
+ 1.53695522 1.92119403 0.24591284 0.01229564 0.01259074 0.02203379
 [7] 0.01128130 0.04125733 0.10561876
-&gt; print(sum(amt_bin))
-[1] 3.90914
-(1.5)
-(1.5)
-(1)
-(1)
-[Max 4]
+print(sum(amt_bin))
+ 3.90914
+
+---
+
+### Part I
+
 iii) If we compare binomial probabilities with hyper-geometric probabilities:
 1. For the power ball, the probabilities for all cases are same under both binomial and 
 hyper-geometric distribution.
@@ -253,25 +369,20 @@ on the higher side as compared to one determined using hyper-geometric distribut
 iv) We use the formulae from the tables to determine the mean and variance for X using both 
 binomial and hyper-geometric distributions.
 R Code and Output:
-&gt; mean_x_hyper = 5 * 5/69
-&gt; mean_x_binom = 5 * 5/69
-&gt; print(mean_x_hyper)
-[1] 0.3623188
-&gt; print(mean_x_binom)
-[1] 0.3623188
-&gt; 
-&gt; var_x_hyper = 5*5*(69-5)*(69-5)/((69-1)*69^2)
-&gt; print(var_x_hyper)
-[1] 0.3162954
-&gt; var_x_binom = 5 * 5/69 * (1-5/69)
-&gt; print(var_x_binom)
-(1 marks for 
-mean)
-(1 marks for 
-variance)
-IAI CS1B-1222
- Page 13 of 13
-[1] 0.3360639
+mean_x_hyper = 5 * 5/69
+mean_x_binom = 5 * 5/69
+print(mean_x_hyper)
+ 0.3623188
+print(mean_x_binom)
+ 0.3623188
+
+var_x_hyper = 5*5*(69-5)*(69-5)/((69-1)*69^2)
+print(var_x_hyper)
+ 0.3162954
+var_x_binom = 5 * 5/69 * (1-5/69)
+print(var_x_binom)
+
+ 0.3360639
 Mean is the same in both cases.
 However, variance under hyper-geometric distribution is lower as compared to the variance 
 under the binomial distribution. This is because hyper-geometric distribution is a without 
@@ -290,7 +401,12 @@ However, as the size of the population (m+n) goes on increasing, binomial distri
 provides a good approximation for hyper-geometric probabilities.
 (1)
 (1)
-[2]
+
+
+---
+
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

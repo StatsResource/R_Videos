@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+
+
+
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+Q. 1) The Gym instructor participated in global survey of weights used for biceps curl machine. 
+You are required to help him analyse the data to share the results.
+
+#### Exercises
+
+A. Load the data “weights.csv” into R and print the summary of the data.
+B. Obtain a 90% confidence interval for the standard deviation of weights lifted by Males
+(M).
+C. Assuming that the weights follow normal distribution with mean and standard deviation 
+of data provided for Males.
+Test the Hypothesis that µ=12 kgs in R and obtain the p-value using pnorm or 
+otherwise. 
+D. Further, assuming that the weights follow normal distribution with mean and standard 
+deviation of data provided for Females (F).
+Test the Hypothesis that `\(\mu=7\)` kgs in R and obtain the p-value using &lt;tt&gt;pnorm()&lt;/ttor otherwise.
+E. Additionally, generate datasets for Males and Females of size 10. Use set.seed(2022)
+to set seed value for generating sample data. 
+Perform paired t test to test the hypothesis that average weights used by Females are 5 
+kgs less than weights used by Males.
+Comment whether average weights used by Females is less than 5kgs or not. 
+
+
+---
+
+Solution 1:
+
+
+### Exercise 1
+
+
+```r
+data&lt;-read.csv("weights.csv")
+summary(data)
+```
+
+```
+##     Gender             Weights           Day       
+##  Length:216         Min.   : 5.00   Min.   : 1.00  
+##  Class :character   1st Qu.: 7.00   1st Qu.: 9.00  
+##  Mode  :character   Median :10.00   Median :17.00  
+##                     Mean   :10.22   Mean   :17.16  
+##                     3rd Qu.:13.00   3rd Qu.:25.25  
+##                     Max.   :16.00   Max.   :34.00
+```
+
+
+
+```r
+head(data)
+```
+
+```
+##   Gender Weights Day
+## 1      M      12   1
+## 2      F       5   1
+## 3      M      13   1
+## 4      M      10   1
+## 5      F       5   1
+## 6      F       8   1
+```
+
+---
+Gender Weights Day 
+Length:216 Min. : 5.00 Min. : 1.00 
+Class :character 1st Qu.: 7.00 1st Qu.: 9.00 
+Mode :character Median :10.00 Median :17.00 
+ Mean :10.22 Mean :17.16 
+ 3rd Qu.:13.00 3rd Qu.:25.25 
+ Max. :16.00 Max. :34.00
+
+
+---
+
+### Exercise 2
+
+ii) 
+
+
+```r
+weight_M &lt;- subset(data$Weights, 
+                   data$Gender == "M" , 
+                   select = c(data$Weights), 
+                   drop = FALSE
+                   )
+```
+
+Alternate:
+
+```r
+M_subset&lt;-data[data$Gender=="M",]
+weight_M &lt;- M_subset$Weights
+```
+
+Marks given for other valid alternate solutions. 
+
+---
+
+
+```r
+nm &lt;- length(weight_M) -1  ## i.e. (n-1)
+sm &lt;- sd(weight_M)
+nm
+```
+
+```
+## [1] 107
+```
+
+[1] 107
+sm
+[1] 2.306458
+
+
+```r
+sm*sqrt(nm/qchisq(c(0.95,0.05),nm))
+```
+
+```
+## [1] 2.075453 2.601171
+```
+
+
+[1] 2.075453 2.601171
+
+---
+
+### Exercise 3
+
+
+```r
+mum&lt;-12
+```
+
+
+```r
+xbarm &lt;-mean(weight_M)
+nm &lt;- length(weight_M)
+
+Statisticm &lt;- ((xbarm-mum)/(sm/sqrt(nm)))
+Statisticm
+```
+
+```
+## [1] 3.295867
+```
+[1] 3.295867
+
+
+```r
+1- pnorm(Statisticm)
+```
+
+```
+## [1] 0.0004905918
+```
+
+*p-value &lt;0.05, i.e. less than 5%, there is no significant evidence to accept the null hypothesis
+
+
+---
+
+Alternate:
+One Sample t-test
+data: weight_M
+t = 3.2959, df = 107, p-value = 0.001332
+alternative hypothesis: true mean is not equal to 12
+95 percent confidence interval:
+12.29151 13.17145
+sample estimates:
+mean of x 
+12.73148
+p- value = .001332 &lt;5%, there is no significant evidence to accept the null hypothesis
+
+---
+### Exercise 4
+
+iv) 
+
+
+```r
+weight_F &lt;- subset(data$Weights, 
+  data$Gender == "F" , 
+                   select = c(data$Weights), drop = FALSE)
+```
+
+(1)
+
+---
+
+
+```r
+xbarf &lt;-mean(weight_F)
+nf &lt;- length(weight_F)
+
+nf
+```
+
+```
+## [1] 108
+```
+
+```r
+xbarf
+```
+
+```
+## [1] 7.703704
+```
+[1] 7.703704
+
+```r
+sf &lt;- sd(weight_F)
+nf
+```
+
+```
+## [1] 108
+```
+[1] 108
+sf
+[1] 2.079087
+
+
+```r
+muf&lt;- 7
+```
+
+
+
+```r
+Statisticf &lt;- ((xbarf-muf)/(sf/sqrt(nf)))
+Statisticf
+```
+
+```
+## [1] 3.517459
+```
+[1] 3.517459
+pnorm(Statisticf)
+[1] 0.0002178499
+
+---
+p- value &lt;5%, there is no significance evidence to accept the null hypothesis
+Alternate:
+
+```{r}F_subset&lt;-data[data$Gender=="F",]
+weight_F &lt;- F_subset$Weights
+t.test(weight_F,mu=7,alternative = "two.sided")
+```
+
+---
+One Sample t-test
+data: weight_F
+t = 3.5175, df = 107, p-value = 0.0006407
+alternative hypothesis: true mean is not equal to 7
+95 percent confidence interval:
+7.307108 8.100300
+sample estimates:
+mean of x 
+7.703704
+The required p value is 0.0006407.
+p- value &lt;5%, there is no significance evidence to accept the null hypothesis
+
+----
+
+### Part (E)
+
+v) 
+
+
+
+
+```r
+set.seed(2022)
+male&lt;-c(rnorm(10,mum,sm))
+female&lt;-c(rnorm(10,muf,sf))
+mean(male)
+```
+
+```
+## [1] 10.69983
+```
+
+[1] 10.69983
+mean(female)
+[1] 7.015142
+
+---
+
+
+```r
+t.test(male,female,paired=TRUE,alternative="less",mu=5)
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  male and female
+## t = -1.7111, df = 9, p-value = 0.06061
+## alternative hypothesis: true mean difference is less than 5
+## 95 percent confidence interval:
+##      -Inf 5.093811
+## sample estimates:
+## mean difference 
+##        3.684693
+```
+
+ Paired t-test
+data: male and female
+t = -1.7111, df = 9, p-value = 0.06061
+alternative hypothesis: true mean difference is less than 5
+95 percent confidence interval:
+ -Inf 5.093811
+sample estimates:
+mean difference 
+ 3.684693
+
+---
+
+### Conclusion
+
+* Since p-value &gt;5%,there is no strong evidence to reject null hypothesis
+
+* The average weights used by females is 3.7kg lesser than weights used by male
+
+---
+
+BLANK
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

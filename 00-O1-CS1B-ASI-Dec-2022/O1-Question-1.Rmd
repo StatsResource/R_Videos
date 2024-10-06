@@ -1,31 +1,89 @@
-O1-Question-1.Rmd
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
 Q. 1) The Gym instructor participated in global survey of weights used for biceps curl machine. 
 You are required to help him analyse the data to share the results.
 
 #### Exercises
 
-A. Load the data “weights.csv” into R and print the summary of the data.
-B. Obtain a 90% confidence interval for the standard deviation of weights lifted by Males
-(M).
-C. Assuming that the weights follow normal distribution with mean and standard deviation 
-of data provided for Males.
+1. Load the data “weights.csv” into R and print the summary of the data.
+
+2. Obtain a 90% confidence interval for the standard deviation of weights lifted by Males (M).
+
+3. Assuming that the weights follow normal distribution with mean and standard deviation of data provided for Males.
 Test the Hypothesis that µ=12 kgs in R and obtain the p-value using pnorm or 
-otherwise. 
-D. Further, assuming that the weights follow normal distribution with mean and standard 
-deviation of data provided for Females (F).
-Test the Hypothesis that $\mu=7$ kgs in R and obtain the p-value using <tt>pnorm()</ttor otherwise.
-E. Additionally, generate datasets for Males and Females of size 10. Use set.seed(2022)
-to set seed value for generating sample data. 
-Perform paired t test to test the hypothesis that average weights used by Females are 5 
-kgs less than weights used by Males.
+otherwise.
+
+4. Further, assuming that the weights follow normal distribution with mean and standard deviation of data provided for Females (F).
+Test the Hypothesis that $\mu=7$ kgs in R and obtain the p-value using <tt>pnorm()</tt>or otherwise.
+
+5. Additionally, generate datasets for Males and Females of size 10. Use set.seed(2022) to set seed value for generating sample data. 
+
+Perform paired t test to test the hypothesis that average weights used by Females are 5 kgs less than weights used by Males.
 Comment whether average weights used by Females is less than 5kgs or not. 
 
 
-#################################################################################
+---
+
 Solution 1:
-i) data<-read.csv("weights.csv")
+
+
+### Exercise 1
+
+```{r}
+data<-read.csv("weights.csv")
 summary(data)
+```
+
+
+```{r}
+head(data)
+```
+
+---
 Gender Weights Day 
 Length:216 Min. : 5.00 Min. : 1.00 
 Class :character 1st Qu.: 7.00 1st Qu.: 9.00 
@@ -33,48 +91,71 @@ Mode :character Median :10.00 Median :17.00
  Mean :10.22 Mean :17.16 
  3rd Qu.:13.00 3rd Qu.:25.25 
  Max. :16.00 Max. :34.00
-(1)
-(1)
+
 
 ---
 
-ii) 
+### Exercise 2
 
 ```{r}
-weight_M <- subset(data$Weights, data$Gender == "M" , select = c(data$Weights), drop = 
-FALSE)
+weight_M <- subset(data$Weights, 
+                   data$Gender == "M" , 
+                   select = c(data$Weights), 
+                   drop = FALSE
+                   )
 ```
 
 Alternate:
+```{r}
 M_subset<-data[data$Gender=="M",]
 weight_M <- M_subset$Weights
+```
+
 Marks given for other valid alternate solutions. 
-nm <- length(weight_M) -1 /* n-1
+
+---
+
+```{r}
+nm <- length(weight_M) -1  ## i.e. (n-1)
 sm <- sd(weight_M)
 nm
+```
+
 [1] 107
 sm
 [1] 2.306458
+
+```{r}
 sm*sqrt(nm/qchisq(c(0.95,0.05),nm))
+```
+
+
 [1] 2.075453 2.601171
-(1)
-(0.5)
-(0.5)
-(1)
+
 ---
 
-iii) mum<-12
+### Exercise 3
+
+```{r}
+mum<-12
+
+```
 
 ```{r}
 xbarm <-mean(weight_M)
 nm <- length(weight_M)
+
 Statisticm <- ((xbarm-mum)/(sm/sqrt(nm)))
 Statisticm
-[1] 3.295867
-1- pnorm(Statisticm)
-[1] 0.0004905918
-p- value <5%, there is no significant evidence to accept the null hypothesis
 ```
+[1] 3.295867
+
+```{r}
+1- pnorm(Statisticm)
+```
+
+*p-value <0.05, i.e. less than 5%, there is no significant evidence to accept the null hypothesis
+
 
 ---
 
@@ -91,22 +172,46 @@ mean of x
 p- value = .001332 <5%, there is no significant evidence to accept the null hypothesis
 
 ---
-[Max 3]
-iv) weight_F <- subset(data$Weights, data$Gender == "F" , select = c(data$Weights), drop = 
-FALSE)
+### Exercise 4
+
+iv) 
+
+```{r}
+weight_F <- subset(data$Weights, 
+  data$Gender == "F" , 
+                   select = c(data$Weights), drop = FALSE)
+```
+
 (1)
-IAI CS1B-1222
- Page 3 of 13
+
+---
+
+```{r}
+xbarf <-mean(weight_F)
 nf <- length(weight_F)
+
+nf
 xbarf
+
+```
 [1] 7.703704
+```{r}
 sf <- sd(weight_F)
 nf
+```
 [1] 108
 sf
 [1] 2.079087
+
+```{r}
+muf<- 7
+```
+
+
+```{r}
 Statisticf <- ((xbarf-muf)/(sf/sqrt(nf)))
 Statisticf
+```
 [1] 3.517459
 pnorm(Statisticf)
 [1] 0.0002178499
@@ -114,9 +219,13 @@ pnorm(Statisticf)
 ---
 p- value <5%, there is no significance evidence to accept the null hypothesis
 Alternate:
-F_subset<-data[data$Gender=="F",]
+
+```{r}F_subset<-data[data$Gender=="F",]
 weight_F <- F_subset$Weights
 t.test(weight_F,mu=7,alternative = "two.sided")
+```
+
+---
 One Sample t-test
 data: weight_F
 t = 3.5175, df = 107, p-value = 0.0006407
@@ -133,14 +242,27 @@ p- value <5%, there is no significance evidence to accept the null hypothesis
 
 ### Part (E)
 
-v) set.seed(2022)
+v) 
+
+
+
+```{r}
+set.seed(2022)
 male<-c(rnorm(10,mum,sm))
 female<-c(rnorm(10,muf,sf))
 mean(male)
+```
+
 [1] 10.69983
 mean(female)
 [1] 7.015142
+
+---
+
+```{r}
 t.test(male,female,paired=TRUE,alternative="less",mu=5)
+```
+
  Paired t-test
 data: male and female
 t = -1.7111, df = 9, p-value = 0.06061
@@ -153,7 +275,14 @@ mean difference
 
 ---
 
-Since p-value >5%,there is no strong evidence to reject null hypothesis
-The average weights used by females is 3.7kg lesser than weights used by male
+### Conclusion
+
+* Since p-value >5%,there is no strong evidence to reject null hypothesis
+
+* The average weights used by females is 3.7kg lesser than weights used by male
+
+---
+
+BLANK
 
 ---

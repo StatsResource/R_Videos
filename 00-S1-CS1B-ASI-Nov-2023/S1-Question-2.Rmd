@@ -3,11 +3,13 @@ title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -19,13 +21,17 @@ library(janitor)
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
+
 
 * Introduction to R for Actuarial Students
 
@@ -42,7 +48,8 @@ Q. 2)
 You are a Research Analyst and working on a short term assignment. Your professor provided dance data (dance.csv) containing scores of 20 contestants of a famous dance show and asked you to perform the following tasks.
 i) Using read.csv load the data and use head command to view the first few rows of the data.
 No need to paste the output of head command.
-(2)
+
+#### Data 
 dance.csv contains following fields:
 - Judges: It indicates the score provided by judges
 - Audience: It indicates the sum of scores provided by audience
@@ -174,7 +181,8 @@ Alternate:
 
 ---
 
-v)
+### Exercise 5
+
 ```{r}
 audience.count<-c(110,100,90,120,100,
                   100,100,100,110,110,
@@ -185,31 +193,20 @@ sum(audience.count)
 
 ---
 
-vi)
+
+### Exercise 6
+
 ```{r}
 dance$Audience2<-dance$Audience/audience.count
-
 ```
 
 ---
 
-G. Perform correlation test to check whether any correlation exits between final score and new audience score.
-
-
-H. Fit a new multiple linear regression model with
-- Final score as response variable and
-- Judges and New Audience score as explanatory variables.
-Store this model as m2 and show the summary of the output.
-
-
-I.  Using a suitable statistic from part (iv.b) and (viii). outputs, compare models m1 and m2 and suggest which model is better.
-Please write the figures of the statistic while answering.
-
-
+7. Perform correlation test to check whether any correlation exits between final score and new audience score.
 
 ---
 
-### Part G
+### Part 7
 
 ```{r}
 cor.test(dance$Final,dance$Audience2)
@@ -227,6 +224,14 @@ cor
 #correlation between audience score and final score is quite high
 
 ---
+
+
+H. Fit a new multiple linear regression model with
+- Final score as response variable and
+- Judges and New Audience score as explanatory variables.
+Store this model as m2 and show the summary of the output.
+
+
 
 ### Part H
 
@@ -251,6 +256,16 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 Residual standard error: 1.258 on 17 degrees of freedom
 Multiple R-squared: 0.9207, Adjusted R-squared: 0.9114
 F-statistic: 98.73 on 2 and 17 DF, p-value: 4.39e-10
+
+
+---
+
+I.  Using a suitable statistic from part (iv.b) and (viii). outputs, compare models m1 and m2 and suggest which model is better.
+Please write the figures of the statistic while answering.
+
+
+
+
 
 ---
 ix)
