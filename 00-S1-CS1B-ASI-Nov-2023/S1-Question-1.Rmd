@@ -42,40 +42,15 @@ style_mono_accent_inverse(
 * Question 1
 
 ---
-Q. 1)
+
+### Exercise 1
 i) Hotel room prices in Mumbai are normally distributed with a mean of Rs. 5400 and standard deviation of Rs. 900, whereas prices in Kolkata are normally distributed with a mean of Rs. 3600 and standard deviation of Rs. 1500. Compute the probability that a hotel room price in Mumbai is atleast twice the price in Kolkata. Note that the hotel prices in Mumbai and Kolkata are independent of each other.
 Store mean and sd values as x.mean, x.sd, y.mean,y.sd,etc.
 Hint: p**** is a useful function to ascertain CDF.
-(5)
-ii)
-a) Show that the population mean and standard deviation of “differences in hotel prices between Mumbai and Kolkata” (i.e., Mumbai hotel prices – Kolkata hotel Prices) are 1800 and 1749.86.
-
-b) Generate a sample of size 50 for the ” differences in hotel prices between Mumbai and Kolkata”.
-(2)
-c) Draw qqplot and qqline for the sample generated and comment on the results.
-(4)
-Store population mean and standard deviation of differences as dif.mean and dif.sd
-Make sure to set the seed value to 1234 i.e use set.seed(1234) before generating the sample.
-Store the sample as dif.sample
-Don’t paste the sample
 
 ---
 
-iii) Test using 5% significance level whether the mean of “difference in hotel prices” is less than 1375 based on the sample generated in part (ii).
-a) Perform z-test and comment.
-(5)
-b) Perform t-test (assuming population is not known) and comment.
-(3)
-Please ensure to include test conclusion.
-iv)
-a) Generate another sample but with size=1000 and store as dif.sample2.
-(1)
-b) Draw qqplot and qqline for the sample generated in (iv.a) and comment on the results.
-(3)
-[26]
-
-
----
+### Exercise 1
 
 i)
 
@@ -101,10 +76,30 @@ f.var <- x.sd^2+4*y.sd^2
 
 ```
 
-----
+---
+
+### Exercise 2
 ii)
-a)
-b)
+a) Show that the population mean and standard deviation of “differences in hotel prices between Mumbai and Kolkata” (i.e., Mumbai hotel prices – Kolkata hotel Prices) are 1800 and 1749.86.
+
+b) Generate a sample of size 50 for the ” differences in hotel prices between Mumbai and Kolkata”.
+(2)
+c) Draw qqplot and qqline for the sample generated and comment on the results.
+(4)
+Store population mean and standard deviation of differences as dif.mean and dif.sd
+
+
+* Make sure to set the seed value to 1234 i.e use <tt>set.seed(1234)</tt> before generating the sample.
+
+* Store the sample as dif.sample
+* Don’t paste the sample
+
+
+
+---
+
+### Exercise 2
+
 
 ```{r}
 dif.mean<-x.mean - y.mean
@@ -142,7 +137,25 @@ Above results indicates that despite sample generated from normal distribution i
 
 align with normality probably due to low sample size and high variability.
 
+
+
 ---
+
+### Exercise 3
+
+Test using 5% significance level whether the mean of “difference in hotel prices” is less than 1375 based on the sample generated in **exercise 2**.
+
+a. Perform z-test and comment.
+
+b. Perform t-test (assuming population is not known) and comment.
+
+<i>Please ensure to include test conclusion.</i>
+
+---
+
+
+
+
 
 iii)
 a)
@@ -186,6 +199,15 @@ mean of x
 * Since p-value is < 0.05 we can reject the null hypothesis and can imply that mean is less than 1375.
 
 ---
+### Exercise 4
+
+a. Generate another sample but with size=1000 and store as <tt>dif.sample2</tt>.
+
+b. Draw qqplot and qqline for the sample generated in **part a** and comment on the results.
+
+---
+
+### Exercise 4
 
 iv)
 a)
