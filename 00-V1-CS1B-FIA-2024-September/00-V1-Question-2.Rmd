@@ -69,5 +69,7 @@ the value of R2. [3]
 nth observation removed.]
 (vi) Compare the fit of the models from parts (i) and (v). [3]
 (vii) Discuss if removing the observation where price = 99 is appropriate. [3]
-[Total 19]
-CS1B S2024–4
+
+
+---
+

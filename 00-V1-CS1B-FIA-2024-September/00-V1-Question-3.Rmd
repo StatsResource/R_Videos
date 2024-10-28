@@ -58,17 +58,22 @@ where 𝑎 􀵐 0 and 𝑏 􀵐 0 are parameters. The Probability Density Functi
 then given by:
 𝑓􁈺𝑥􁈻 􀵌 𝑎𝑏𝑥􀯔􀬿􀬵􁈺1 􀵆 𝑥􀯔􁈻􀯕􀬿􀬵, 𝑥 ∈ 􁈾0,1􁈿
 You do not need to check the form of the inverse CDF or PDF.
+
+Exercies
+
 (i) Plot the inverse CDF 𝐹􀬿􀬵􁈺𝑢􁈻 for an appropriate range of values of u when
 a = 0.7 and b = 0.5. [5]
 􁈺ii􁈻 Simulate 1,000 values of X for a = 0.7 and b = 0.5 using the inverse transform
 method and store the 1,000 simulated values in a vector in R for later use.
+
 You must use the command set.seed(123) to initialise the random
 number generator before you start the simulation. [3]
 (iii) Plot a histogram of the 1,000 simulated values obtained in part (ii) using
 relative frequencies. [2]
 (iv) Plot the PDF f(x) of X for a = 0.7 and b = 0.5 for values of 𝑥 ∈ 􁈾0,1􁈿. The
 graph of the PDF should be superimposed on the histogram produced in
-part (iii). [4]
+part (iii). 
+
 (v) Comment on the plot in part (iv) comparing the simulated values of X with the
 PDF, also taking into account the size of the simulated sample. [2]
 (vi) Plot the PDF f(x) of X for a = 0.7 and b = 0.5 for values of 𝑥 ∈ 􁈾0,1􁈿 in a new
@@ -76,6 +81,6 @@ plot, and add the PDF f(x) for a = 3 and b = 2 to the same plot. [4]
 A statistician wants to use one of the PDFs in part (vi) as a prior density for a
 Bayesian analysis.
 (vii) Comment on the prior beliefs about the underlying parameter that the two
-PDFs represent. [3]
-[Total 23]
-CS1B S2024–5
+PDFs represent. 
+
+---
