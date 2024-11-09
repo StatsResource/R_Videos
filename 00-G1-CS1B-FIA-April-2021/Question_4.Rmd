@@ -80,18 +80,24 @@ include a summary of the fitted model. Comment on the significance of the parame
 (i)
 load("CS1passenger.RData")
 Linear predictor for modelling:
-(a) 𝛼𝛼𝑖𝑖+𝛽𝛽×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
-(b) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, 𝛽𝛽𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
-(c) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, 𝛽𝛽𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
+(a) 𝛼𝛼𝑖𝑖+\beta×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
+(b) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, \beta𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
+(c) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, \beta𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
 Alternative answer:
-(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2 , where 𝑥𝑥1 is temperature and 𝑥𝑥2=0 (nonSemester), 𝑥𝑥2=1 (Semester)
-(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2 , where 𝑥𝑥1and 𝑥𝑥2 as above
-(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2+𝑏𝑏3𝑥𝑥3 , where 𝑥𝑥3=0 (8am), 𝑥𝑥3=1 (9am)]
+(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2 , where x_1 is temperature and x_2=0 (nonSemester), x_2=1 (Semester)
+(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2 , where x_1and x_2 as above
+(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2+𝑏𝑏3x_3 , where x_3=0 (8am), x_3=1 (9am)]
 
 ---
 
 (ii)(a)
+```{r}
 Model1<- glm(Passengers~temp*semester + route, family=poisson(link="log"))
+```
+
+---
+
+
 summary(Model1) 
 Call:
 glm(formula = Passengers ~ temp * semester + route, family = poisson(link = "log"))
@@ -114,6 +120,9 @@ For candidates that attempted it, the overall performance was mixed. In part (ii
 Null deviance: 30.406 on 19 degrees of freedom
 Residual deviance: 13.833 on 15 degrees of freedom
 AIC: 62.187
+
+---
+
 (b)
 Temperature (temp) is significant 
 Semester is not significant 
@@ -140,8 +149,12 @@ Model3 <- glm(Passengers~temp+temp:semester,data=PassengerData,family=poisson(li
 (iii)(a)
 Model2<- update(Model1,~.-route) 
 Or,
+
+```{r}
 Model2 <- glm(Passengers~temp*semester,family="poisson" (link = "log"))
 summary(Model2)
+```
+
 Call:
 glm(formula = Passengers ~ temp + semester + temp:semester, family = poisson(link = "log"))
 Deviance Residuals:
@@ -176,16 +189,35 @@ parts (i)(a) and (i)(b).
 
 
 (iv)(a)
+```{r}
 Model3<- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
-Modela<- glm(Passengers~temp+ semester,family=poisson(link="log")) 
-Modelb<- glm(Passengers~temp*semester,family=poisson(link="log")) 
-Model3$aic
-59.65976 
-Modela$aic
-62.03591 
+```
 
+```{r}
+Modela<- glm(Passengers~temp+ semester,family=poisson(link="log")) 
+```
+
+```{r}
+Modelb<- glm(Passengers~temp*semester,family=poisson(link="log")) 
+```
+
+---
+
+```{r}
+Model3$aic
+```
+
+```{r}
+Modela$aic
+```
+
+```{r}
 Modelb$aic
-60.33588 
+```
+
+---
+
+
 Model3 has the lowest AIC compared with the other models. We conclude that Model3 outperforms the other models considered here 
 (b)
 Model3 doesn’t include both of the main effects. Despite this, the model still suits the data well 

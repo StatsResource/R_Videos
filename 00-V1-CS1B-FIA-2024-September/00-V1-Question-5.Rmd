@@ -85,4 +85,88 @@ each model.
 (vii) Comment on the comparison of the answers in part (vi) taking into account
 your answer in part (v). [1]
 [Total 23]
+
+**Understanding the Problem:**
+
+We're tasked with:
+1. **Visualizing Data:** Creating boxplots to compare sales on discount and non-discount days.
+2. **Fitting GLMs:** Building two GLMs (Normal and Gamma) to model the effect of discount offers on sales.
+3. **Model Comparison:** Choosing the better-fitting model.
+4. **Predicting Sales:** Calculating expected sales for a discount day using both models.
+
+**R Code Implementation:**
+
+```R
+# Load the data
+load("sales_data.RData")
+
+# (i) Plot boxplots
+boxplot(sales.amount ~ discount, data = sales_data, 
+        xlab = "Discount Offer", ylab = "Sales Amount")
+
+# (ii) Comment on the effect of discount offers
+# ... (Visually inspect the boxplots)
+
+# (iii) Fit GLMs
+# Normal GLM
+model1 <- glm(sales.amount ~ discount, data = sales_data, family = gaussian)
+
+# Gamma GLM
+model2 <- glm(sales.amount ~ discount, data = sales_data, family = Gamma(link = "inverse"))
+
+# (iv) Comment on the impact of discount offers
+summary(model1)
+summary(model2)
+# ... (Interpret the coefficients and p-values)
+
+# (v) Determine the better model
+# ... (Compare AIC, BIC, or use hypothesis testing)
+
+# (vi) Expected sales on a discount day
+# Normal GLM
+expected_sales1 <- predict(model1, newdata = data.frame(discount = 1))
+
+# Gamma GLM
+expected_sales2 <- predict(model2, newdata = data.frame(discount = 1), type = "response")
+
+# (vii) Comment on the comparison
+# ... (Compare the expected sales from both models and discuss the implications)
+```
+
+**Interpreting the Results:**
+
+**Parts (i) and (ii):**
+- The boxplots visually compare the distribution of sales amounts for discount and non-discount days.
+- If the boxplot for discount days is significantly higher, it suggests that discounts have a positive impact on sales.
+
+---
+
+**Parts (iii) and (iv):**
+- The GLMs model the relationship between sales and the discount indicator.
+- The coefficient of the `discount` variable represents the expected change in sales when the discount is present.
+- The p-value associated with the coefficient indicates the statistical significance of the effect.
+
+---
+
+**Part (v):**
+- Model comparison can be done using information criteria (AIC, BIC) or hypothesis testing.
+- The model with the lower AIC or BIC is generally preferred.
+- Hypothesis testing can be used to compare the models' fit to the data.
+
+---
+
+**Parts (vi) and (vii):**
+- The expected sales on a discount day can be calculated using the predicted values from the GLMs.
+- The comparison of the expected sales from the two models can provide insights into the potential impact of the choice of distribution on the estimated effect of discounts.
+
+---
+
+
+**Additional Considerations:**
+- **Model Assumptions:** Ensure that the assumptions of the GLMs (e.g., linearity, independence of errors, normality of residuals for the Normal GLM) are met.
+- **Outliers and Influential Points:** Identify and handle any outliers or influential points that might affect the model's fit.
+- **Model Diagnostics:** Use diagnostic plots (e.g., residual plots, Q-Q plots) to assess the model's fit and identify potential issues.
+
+By following these steps and carefully interpreting the results, you can gain valuable insights into the impact of discount offers on daily sales.
+
 END OF PAPER

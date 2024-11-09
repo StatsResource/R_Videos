@@ -59,7 +59,7 @@ as:
 # (iPart A
 
 ```{r}
-file <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\data_1.csv")
+file <- read.csv("D:\\IAI ### Question  Paper\\July 2022\\CS2B_Final\\data_1.csv")
 dj <- file$dj
 nj <- file$nj
 tj <- file$tj

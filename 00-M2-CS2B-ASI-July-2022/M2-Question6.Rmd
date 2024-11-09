@@ -47,7 +47,7 @@ G. Economy – Economy as a bowler
 
 ---
 
-Load the data into R and answer the following questions. Name the data frame as “Cricket”.
+Load the data into R and answer the following ### Question s. Name the data frame as “Cricket”.
 1.  What is the average of “Runs” and “Wickets” for three groups of players based on the 
 initial grouping.
 2.  Create a copy of “Cricket” and rename it as “Cricket1”. In “Cricket1” keep only the four 
@@ -80,7 +80,7 @@ created.
 ### Part A
 
 ```{r}
-Cricket <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\Cricket.c
+Cricket <- read.csv("D:\\IAI ### Question  Paper\\July 2022\\CS2B_Final\\Cricket.c
 sv")
 
 ```

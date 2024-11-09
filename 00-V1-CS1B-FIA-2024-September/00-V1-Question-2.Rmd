@@ -70,6 +70,79 @@ nth observation removed.]
 (vi) Compare the fit of the models from parts (i) and (v). [3]
 (vii) Discuss if removing the observation where price = 99 is appropriate. [3]
 
+---
+
+**Understanding the Problem**
+
+We're tasked with:
+1. **Fitting a Linear Model:** Building a linear regression model to predict share price based on EPS.
+2. **Model Evaluation:** Assessing the model's fit using R-squared and ANOVA.
+3. **Outlier Analysis:** Identifying and handling a potential outlier.
+4. **Model Comparison:** Comparing the original model with the one after outlier removal.
+
+**R Code Implementation**
+
+```R
+# Load the data
+load("CompanySample.RData")
+
+# (i) Fit the linear model
+model1 <- lm(price ~ EPS, data = CompanySample)
+summary(model1)
+
+# (ii) R-squared
+summary(model1)$r.squared
+
+# (iii) ANOVA
+anova(model1)
+
+# (iv) Comment on the fit
+# ... (Interpret R-squared and p-value from ANOVA)
+
+# (v) Remove the outlier and fit the model
+CompanySample_new <- CompanySample[-which(CompanySample$price == 99), ]
+model2 <- lm(price ~ EPS, data = CompanySample_new)
+summary(model2)$r.squared
+
+# (vi) Compare the models
+# ... (Compare R-squared values and discuss the impact of the outlier)
+
+# (vii) Discuss outlier removal
+# ... (Discuss the justification for removing the outlier and potential consequences)
+```
+
+**Interpreting the Results**
+
+**Parts (i) and (ii):**
+- The estimated linear regression model is of the form:
+  `price = intercept + slope * EPS`
+- The estimated coefficients (intercept and slope) can be obtained from the `summary(model1)` output.
+- R-squared measures the proportion of variance in the dependent variable (price) explained by the independent variable (EPS).
+
+**Part (iii):**
+- The ANOVA test assesses the significance of the regression model.
+- The F-statistic and p-value from the `anova(model1)` output can be used to determine if the linear relationship is statistically significant.
+
+**Part (iv):**
+- A high R-squared value indicates a good fit, meaning the model explains a large proportion of the variation in price.
+- A low p-value from the ANOVA test suggests that the linear relationship is statistically significant.
+
+**Parts (v) and (vi):**
+- By removing the outlier, we can assess its impact on the model's fit.
+- Compare the R-squared values of the two models to see if the outlier significantly affected the model's performance.
+- If the R-squared value increases significantly after removing the outlier, it suggests that the outlier was indeed influential.
+
+**Part (vii):**
+- Discuss the potential reasons for the outlier (e.g., measurement error, unusual event).
+- Consider the impact of removing the outlier on the model's generalizability.
+- If the outlier is truly an anomaly, removing it may improve the model's predictive accuracy. However, if it's a legitimate data point, removing it could lead to bias.
+- It's often recommended to use robust regression techniques or other methods to handle outliers, rather than simply removing them.
+
+**Note:**
+- The specific numerical results and interpretations will depend on the actual data in the `CompanySample.RData` file.
+- Always visualize the data (e.g., scatter plot) to gain insights into the relationship between the variables and identify potential outliers.
+- Consider other diagnostic tools like residual plots to assess the model's assumptions and identify other potential issues.
+
 
 ---
 

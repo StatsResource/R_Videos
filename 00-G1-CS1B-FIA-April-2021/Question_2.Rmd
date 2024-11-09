@@ -94,6 +94,7 @@ account that the two markers have marked the same exam paper.
 t.test(marker_1,marker_2,paired=TRUE) 
 ```
 
+---
 Paired t-test
 data: marker_1 and marker_2
 t = 2.862, df = 9, p-value = 0.01872
@@ -104,6 +105,7 @@ sample estimates:
 mean of the differences 
 0.9
 
+---
 
 * P-value is equal to 0.01872
 which is less than the significance level (5%)
@@ -169,15 +171,21 @@ samples, and independent samples as though they were paired.
 Q2
 (i)(a)
 
+```{r}
 axis = c("0-10","11-20","21-30","31-40","41-50","51-60","61-70","71-80","81-90","91-100")
 barplot(marks_1,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 1",col = "Red",names = axis, ylim = c(0,40)) 
 barplot(marks_2,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 2",col = "Purple",names = axis, ylim = c(0,50)) 
+```
+
+
+--- 
 
 2468102.02.53.03.54.0Plot for time and log(caffeinetimelogcaffeine
 # Generally very well answered. 
 # A common error in part (ii) was failing to refer to the strength of the relationship between caffeine and time. 
 # Answers in part (v)(c) were varied, with candidates often giving partial comments.
 
+---
 
 (b)
 The distributions of marks look similar, especially for middle scores 
@@ -189,7 +197,12 @@ Overall, the plots suggest that the two markers are generally consistent
 
 (ii)
 $H_0$∶difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴∶difference in means is not zero. 
+
+```{r}
 t.test(marker_1,marker_2,paired=TRUE) 
+```
+
+
 Paired t-test
 data: marker_1 and marker_2
 t = 2.862, df = 9, p-value = 0.01872
@@ -203,9 +216,16 @@ P-value is equal to 0.01872
 which is less than the significance level (5%) 
 Therefore reject the null hypothesis 
 There appears to be difference in the mean scores between the two markers 
+
+---
+
 (iii)
 $H_0$∶difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴∶difference in means is not zero 
+
+```{r}
 t.test(marker_1,marker_2) 
+```
+
 Welch Two Sample t-test
 data: marker_1 and marker_2
 t = 1.1968, df = 17.675, p-value = 0.2472
@@ -229,9 +249,11 @@ Therefore the paired test in (ii) gives smaller variation for the test statistic
 
 ---
 
+#### Exercise 5
 (v)
-If a paired problem is analysed as though it involved independent samples, then the results would be invalid because the assumption of independence is violated 
-Alternatively, if independent samples are analysed as though they were paired, then the results would be valid although they would be making inefficient use of the data due to the discarding of possible information about the means and variances of the two separate populations 
+
+* If a paired problem is analysed as though it involved independent samples, then the results would be invalid because the assumption of independence is violated 
+* Alternatively, if independent samples are analysed as though they were paired, then the results would be valid although they would be making inefficient use of the data due to the discarding of possible information about the means and variances of the two separate populations 
 
 
 ---

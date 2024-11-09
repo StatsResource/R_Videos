@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -45,10 +45,16 @@ pre {
 
 * The annual aggregate claim amount of an insurer follows a compound Poisson 
 distribution with parameter 1,000. 
+
 * Individual claim amounts follow a Gamma 
 distribution with shape parameter `\(\alpha = 750\)` and rate parameter `\(\lambda = 0.25\)`. 
 
+* The relevant exercises are on the next slide
+
 ---
+
+### Exercises
+
 1. Generate 20,000 simulated aggregate claim values for this insurer, using a 
 random number generator seed of 914. Use the R function, &lt;tt&gt;head()&lt;/tt&gt;, to 
 display the first seven simulated claim values in your answer script. 
@@ -72,7 +78,21 @@ different coloured line in the chart that was produced in part 3.
 
 ---
 
-### Part 1
+### Exercise 1
+
+**Understanding the Problem:**
+
+We're dealing with a compound Poisson distribution, where:
+
+* **Primary process:** Poisson with rate λ = 1000, representing the number of claims.&lt;p&gt;
+* **Secondary process:** Gamma with shape α = 750 and rate λ = 0.25, representing individual claim amounts.&lt;p&gt;
+
+**Simulation:**
+  - We simulate the number of claims using a Poisson distribution.&lt;p&gt;
+  - For each claim, we simulate its amount using a Gamma distribution.&lt;p&gt;
+  - The total aggregate claim is the sum of all individual claim amounts.
+   
+   
 
 ```r
 set.seed(914) 
@@ -94,7 +114,7 @@ head(s, 7)
 
 ---
 
-### Part 1
+### Exercise 1
 
 #### Alternative Approach
 
@@ -116,7 +136,11 @@ head(s, 7)
 ```
 
 ---
-#### Part 2. 
+
+### Exercise 2. 
+
+**Mean and Standard Deviation:**
+   - We calculate the mean and standard deviation of the simulated aggregate claims.
 
 
 ```r
@@ -142,7 +166,7 @@ The standard deviation of the simulated claim values is 95,263
 
 ---
 
-### Part 3. 
+### Exercise 3. 
 
 
 ```r
@@ -156,14 +180,17 @@ plot(
 ```
 ---
 
-### Part 3. 
+### Exercise 3. 
 
 ![](K2-Question1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 ---
 
-### Part 4.
+### Exercise 4.
 
 Suggest a suitable distribution, including its parameters, that approximates the simulated aggregate claim values
+
+* Given the shape of the Gamma distribution, a Normal distribution might be a good approximation for the aggregate claims.
+* We can use the mean and standard deviation calculated in exercise 2 as parameters for the Normal distribution.
 
 #### Normal distribution 
 
@@ -174,7 +201,7 @@ Suggest a suitable distribution, including its parameters, that approximates the
 
 ---
 
-#### Part 5.
+#### Exercise 5.
 
 20,000 values from your suggested distribution in part 4 using a 
 random number generator seed of 914.
@@ -192,7 +219,14 @@ head(approx_dist, 7)
 
 ---
 
-### Part 6.
+### Exercise 6.
+
+By comparing the two density functions, we can visually assess how well the Normal distribution approximates the compound Poisson distribution. 
+If the two distributions are close, the Normal approximation can be used for further calculations and risk analysis.
+
+---
+
+### Exercise 6.
 
 
 ```r
@@ -216,7 +250,8 @@ Distribution"),
 
 ---
 
-### Part 6.
+### Exercise 6.
+
 
 
 ![](K2-Question1_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;

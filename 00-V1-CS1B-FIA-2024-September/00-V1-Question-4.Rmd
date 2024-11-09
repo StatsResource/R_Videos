@@ -68,3 +68,78 @@ For each test, your answer should include the p-value and a conclusion. [11]
 (viii) Comment on the validity of the tests in part (vii) for testing the hypothesis of
 no association between the scores of the two panel members. [2]
 [Total 22]
+
+
+**Understanding the Problem:**
+
+We're tasked with:
+1. **Visualizing Agreement:** Plotting a graph to compare the two sets of scores.
+2. **Calculating Correlation Coefficients:** Computing Pearson's, Spearman's, and Kendall's correlation coefficients.
+3. **Hypothesis Testing:** Performing statistical tests to determine the significance of the correlation.
+4. **Interpreting Results:** Drawing conclusions about the agreement between the two panel members' scores.
+
+**R Code Implementation:**
+
+```R
+# Data
+SA <- c(35, 14, 28, 33, 29, 22, 19, 36, 21, 30, 15, 18)
+SB <- c(38, 18, 25, 30, 22, 17, 23, 29, 32, 31, 15, 19)
+
+# (i) Plot a scatter plot
+plot(SA, SB, xlab = "Panel Member A's Score", ylab = "Panel Member B's Score")
+
+# (ii) Comment on agreement
+# ... (Visually inspect the scatter plot for agreement)
+
+# (iii) Pearson's correlation
+cor(SA, SB, method = "pearson")
+
+# (iv) Spearman's rank correlation
+cor(SA, SB, method = "spearman")
+
+# (v) Kendall's rank correlation
+cor(SA, SB, method = "kendall")
+
+# (vi) Comment on suitability of correlation coefficients
+# ... (Discuss the appropriateness of each coefficient for ordinal and interval data)
+
+# (vii) Hypothesis testing
+# Pearson's correlation test
+cor.test(SA, SB, method = "pearson")
+
+# Spearman's rank correlation test
+cor.test(SA, SB, method = "spearman")
+
+# Kendall's rank correlation test
+cor.test(SA, SB, method = "kendall")
+
+# (viii) Comment on the validity of the tests
+# ... (Discuss the assumptions of each test and their potential violations)
+```
+
+**Interpreting the Results:**
+
+**Parts (i) and (ii):**
+- A scatter plot can visually assess the agreement between the two sets of scores.
+- A strong positive correlation would indicate high agreement, while a weak or negative correlation would suggest disagreement.
+
+**Parts (iii) to (v):**
+- Pearson's correlation measures the linear relationship between two continuous variables.
+- Spearman's and Kendall's correlation coefficients measure the monotonic relationship between two ranked variables.
+
+**Part (vi):**
+- Pearson's correlation is suitable for interval data, while Spearman's and Kendall's are suitable for ordinal data.
+- In this case, while the scores are technically on an interval scale, they might be better treated as ordinal due to potential non-linear relationships and subjective judgments.
+
+**Part (vii):**
+- The hypothesis tests for each correlation coefficient assess the null hypothesis of no correlation.
+- The p-value indicates the significance of the correlation.
+- A low p-value suggests a significant correlation.
+
+**Part (viii):**
+- The validity of the tests depends on the assumptions of each test.
+- For example, Pearson's correlation assumes a linear relationship and normality.
+- Spearman's and Kendall's correlation tests are more robust to deviations from normality.
+- It's important to consider the nature of the data and the specific research question when choosing the appropriate test.
+
+By following these steps and interpreting the results, you can gain insights into the agreement between the two panel members' scores and make informed decisions about the selection process.

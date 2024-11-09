@@ -47,19 +47,51 @@ x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
 
 ---
 
-### Exercises
+### Exercise 1 and 2
 
-(i) Plot the sample autocorrelation function (sample ACF) and sample partial 
+1. Plot the sample autocorrelation function (sample ACF) and sample partial 
 autocorrelation function (sample PACF) for the data set 𝑥. 
-(ii) Comment on the general features of the two plots in Part A. with emphasis on 
+
+2. Comment on the general features of the two plots in Part A. with emphasis on 
 how they compare to the theoretical behaviour of the corresponding functions 
 for an ARMA(2,0) process.  
 
 ---
 
 
+
+```{r}
+set.seed(12456)
+x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
+
+```
+
+```{r}
+acf(x, 
+main = "Sample ACF of 100 Simulated Values from an ARMA(2,0) 
+model") 
+```
+
 ---
-Part C Fit the following three models to the generated data set 𝑥, displaying their 
+
+```{r}
+pacf(x,  main ="Sample PACF of 100 Simulated Values from anARMA(2,0) model") 
+```
+
+---
+
+
+### Exercise 2
+
+Commenting on ACF and PACF
+
+ACF: The ACF plot shows a significant decay over the first few lags, which is characteristic of an AR process. This decay is due to the autoregressive terms in the ARMA(2,0) model.
+PACF: The PACF plot shows significant spikes at lags 1 and 2, and then cuts off. This is consistent with the theoretical behavior of the PACF for an AR(2) process. The spikes at lags 1 and 2 indicate the presence of two autoregressive terms.
+
+---
+### Exercise 3
+
+Fit the following three models to the generated data set 𝑥, displaying their 
 Akaike Information Criterion (AIC) values in the R output in your answer 
 script: 
 ARMA(1,0) 
@@ -76,43 +108,8 @@ Part F Explain, with reasons, how the value of n in the R code for generating da
 x may be changed to ensure that the ARMA(2,0) model becomes the best 
 fitting model.  
 
----
-
-G. Generate a new data set, y, using your suggested change to the value of n in 
-part F. Set the same random number generator seed as above before 
-generating y. 
-H. Fit the three models to the new data set y, displaying their AIC values in the R 
-output in your answer script. 
-I. Explain, using the results from part (viii), why the ARMA(2,0) model is the 
-most appropriate model for modelling data set y.  
-J. Comment on the differences between the suggested models fitted for data sets 
-x and y in parts Part D and (ix), respectively. 
 
 
-
----
-Q2
-
-```{r}
-set.seed(12456)
-x = arima.sim(n = 100, model = list(ar = c(0.7,0.2)))
-
-```
-(i)
-
-```{r}
-acf(x, 
-main = "Sample ACF of 100 Simulated Values from an ARMA(2,0) 
-model") 
-```
-
----
-
-```{r}
-pacf(x,  main ="Sample PACF of 100 Simulated Values from anARMA(2,0) model") 
-```
-
----
 
 
 
@@ -170,7 +167,7 @@ which would reduce the sampling uncertainty of the observations
 
 ---
 
-(vii)
+### Exercise 7
 ```{r}
 set.seed(12456) 
 y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2))) 
@@ -178,23 +175,54 @@ y = arima.sim(n = 1000, model = list(ar = c(0.7,0.2)))
 
 ---
 
-(viii)
-fity10 = arima(y, order = c(1,0,0)); fity10$aic 
- 2904.756 
-fity11 = arima(y, order = c(1,0,1)); fity11$aic 
- 2861.953 
-fity20 = arima(y, order = c(2,0,0)); fity20$aic 
- 2861.243 
- 
+#### Exercises
+
+7. Generate a new data set, y, using your suggested change to the value of $n$ in 
+part F. Set the same random number generator seed as above before 
+generating y. 
+
+8. Fit the three models to the new data set y, displaying their AIC values in the R 
+output in your answer script. 
+
+9. Explain, using the results from part (viii), why the ARMA(2,0) model is the 
+most appropriate model for modelling data set y.  
+
+10. Comment on the differences between the suggested models fitted for data sets 
+x and y in parts Part D and (ix), respectively. 
+
+
+
+
 ---
- 
-(ix)
+
+### Exercise 8
+
+```{r}
+fity10 = arima(y, order = c(1,0,0)); fity10$aic 
+```
+
+```{r}
+fity11 = arima(y, order = c(1,0,1)); fity11$aic 
+```
+
+```{r} 
+fity20 = arima(y, order = c(2,0,0)); fity20$aic 
+```
+
+
+---
+
+### Exercise 9
 
 * The preferred model here is ARMA(2,0) as the AIC value is the lowest 
 
 ---
 (x)
+
+```{r}
 fitx10
+```
+
 Call:
 arima(x = x, order = c(1, 0, 0))
 Coefficients:
@@ -222,11 +250,14 @@ Whereas the best fitting model for data set x is not the “true” model
 
 * This is what we expected as the more observations we have the more likely it is that
 the “true” model is the best fit 
+
 * The estimated AR parameters for data set y are close to the real values of 0.7 and 0.2 
-*The estimated error variance sigma^2 is closer to the real value of 1 for data set y
+*The estimated error variance $sigma^2$ is closer to the real value of 1 for data set y
 than for data set x. 
+
 * The estimated intercept term is closer to the real value of zero for data set y than
 for data set x. 
+
 * These observations on the estimated error variance and intercept term are to be
 expected given that the data volume is higher in data set y than in data set x 
 and given that the fitted model matches the true model for data set y but not for

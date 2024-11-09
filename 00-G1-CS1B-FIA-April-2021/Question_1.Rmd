@@ -115,6 +115,45 @@ plot(time,logcaffeine,main = "Plot for time and log(caffeine)")
 
 ---
 
+**Justifying a Logarithmic Transformation of C**
+
+**Understanding the Problem:**
+We're given a dataset that shows a non-linear, inverse relationship between time (T) and caffeine levels (C). This suggests that as time increases, the caffeine level decreases exponentially.
+
+---
+
+**Why Logarithmic Transformation?**
+
+1. **Linearizing the Relationship:**
+   * **Exponential Decay:** Exponential decay functions, like the one likely governing caffeine metabolism, often appear curved when plotted on a linear scale.
+   * **Logarithmic Transformation:** Taking the logarithm of both sides of an exponential equation can linearize the relationship. This is because logarithms are the inverse of exponential functions.
+
+2. **Normalizing the Data:**
+   * **Skewed Data:** Exponential decay often leads to skewed data, where a few large values dominate the distribution.
+   * **Log Transformation:** Logarithmic transformations can help normalize skewed data, making it more suitable for linear regression and other statistical analyses.
+
+3. **Improving Model Fit:**
+   * **Linear Regression:** Linear regression models assume a linear relationship between variables.
+   * **Log Transformation:** By transforming the dependent variable (C) logarithmically, we can often achieve a more linear relationship with the independent variable (T), improving the fit of the linear regression model.
+
+---
+
+**In essence, a logarithmic transformation of C can help:**
+
+* **Simplify the Model:** By transforming the non-linear relationship into a linear one.
+* **Improve Model Fit:** By making the data more suitable for linear regression.
+* **Enhance Interpretability:** By providing a more straightforward interpretation of the relationship between time and caffeine levels.
+
+---
+
+**Visualizing the Transformation:**
+
+To visualize this, consider plotting the logarithm of C against T. If the resulting plot is more linear than the original plot of C against T, then the logarithmic transformation is justified. 
+
+By understanding these benefits, we can see why a logarithmic transformation of C is an appropriate approach to analyze this specific dataset.
+
+
+
 Q1
 (i)
 
@@ -133,17 +172,24 @@ This is because the original plot from part (i) has an exponential shape
 
 ### Part D
 
-(iv) logcaffeine <- log(caffeine) 
+(iv) 
+
+```{r}
+logcaffeine <- log(caffeine) 
 logcaffeine
-3.955082 3.671225 3.342862 2.946017 2.636196 2.438863 2.172476 1.879465
-1.691939 1.615420 
+```
 
 ---
 
 (v)(a)
+
+```{r}
 plot(time,logcaffeine,main = "Plot for time and log(caffeine)") 
+```
+
 2468101020304050Plot for time and caffeinetimecaffeine
 
+---
 
 (b)
 cor(time,logcaffeine,method="pearson") 

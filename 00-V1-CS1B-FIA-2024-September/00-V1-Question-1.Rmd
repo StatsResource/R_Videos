@@ -40,7 +40,7 @@ style_mono_accent_inverse(
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
 
-* Question 1
+* ### Question  1
 ---
 
 1 For an investigation into the buying behaviour of consumers shopping at an online
@@ -82,3 +82,57 @@ models in parts (i) and (iii), and that the AIC should be used instead.
 parts (i) and (iii). In particular, identify any advantages that the AIC may
 have compared to the deviance in this context. [2]
 [Total 13]
+
+**1. GLM for Online Shopping Behavior**
+
+**1(i) Poisson GLM with Log Link**
+
+```R
+load("onlineShop.Rdata")
+
+# Fit the Poisson GLM with log link
+model_log <- glm(purchases_per_year ~ age + time_spent_on_website, 
+                 data = onlineShop, family = poisson)
+
+# Summary of the model
+summary(model_log)
+```
+
+**1(ii) Expected Number of Purchases with Log Link**
+
+The expected number of purchases per year, E(Y), can be expressed as:
+
+```
+E(Y) = exp(β₀ + β₁*age + β₂*time_spent_on_website)
+```
+
+where β₀, β₁, and β₂ are the estimated coefficients from the model.
+
+**1(iii) Poisson GLM with Square Root Link**
+
+```R
+# Fit the Poisson GLM with square root link
+model_sqrt <- glm(purchases_per_year ~ age + time_spent_on_website, 
+                  data = onlineShop, family = poisson(link = "sqrt"))
+
+# Summary of the model
+summary(model_sqrt)
+```
+
+**1(iv) Expected Number of Purchases with Square Root Link**
+
+The expected number of purchases per year, E(Y), can be expressed as:
+
+```
+E(Y) = (β₀ + β₁*age + β₂*time_spent_on_website)²
+```
+
+**1(v) Model Comparison using Deviance**
+
+We can compare the two models using the deviance. A lower deviance indicates a better fit. However, it's important to note that deviance can be misleading when comparing models with different link functions.
+
+**1(vi) Comparing Models using AIC**
+
+The AIC is a more reliable measure for comparing models with different link functions. It penalizes for model complexity, making it suitable for comparing models with different numbers of parameters. In this case, both models have the same number of parameters, but the AIC can still be used to compare their overall fit.
+
+The AIC takes into account both the goodness of fit and the complexity of the model. A lower AIC indicates a better model. By comparing the AIC values of the two models, we can determine which model provides a better balance of fit and parsimony.

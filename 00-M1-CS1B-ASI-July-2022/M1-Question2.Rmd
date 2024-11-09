@@ -13,7 +13,7 @@ nature:
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
@@ -51,61 +51,106 @@ variability from each of the grid squares.
 #### Exercises
 
 1.  Calculate Q1, Q3 and Inter-quartile range.
+
 2.  Plot histogram of sample data and label it appropriately.
+
 3.   Use the method of maximum likelihood to estimate the parameter lambda.
+
 4.  Test the hypothesis whether the mean fiber count is equal to 25. Comment on the 
 results.
 
----
-
 5.  Calculate the standard error of parameter lambda. 
-6.   Calculate the 90% confidence interval for standard error.
 
+6.   Calculate the 90% confidence interval for standard error.
 
 7.  Calculate the probability of fiber count exceeding 30, with the help of Central Limit 
 Theorem.
 
 ---
 
-Solution 2:
-Part A 
+### Set Up Data
 
 ```{r}
-count <- c(31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24)
+count <- c(31,29,19,18,31,28, 
+           34,27,34,30,16,18, 
+           26,27,27,18,24,22, 
+           28,24,21,17,24)
 ```
 
- quantile(count,0.25)
-25% 
-20 
- quantile(count,0.75)
-75% 
-28.5 
- IQR(count)
-[1] 8.5
+---
+
+
+### Exercise 1
+
+- **Q1, Q3, and IQR:**
+
+  - `quantile()` function calculates the quartiles.
+
+  - IQR is calculated as Q3 - Q1.
+
+  - `IQR()` calculates the Inter-quartile range directly
+   
+```{r}   
+Q1 <- quantile(count,0.25)
+Q1
+```
+
+```{r}
+Q3 <- quantile(count,0.75)
+Q3
+
+```
+
+```{r}
+IQR(count)
+```
 
 
 ---
-Part B
 
-```{r}
+### Exercise 2
+
+**Histogram:**
+
+ - `hist()` function creates a histogram of the fiber counts.
+
+```{r eval=FALSE}
 hist(count)
 ```
 
 ---
 
-Part C
+### Plot Histogram
 
-```{r}
-lambda.hat=mean(count)
-print(lambda.hat)
+```{r eval=FALSE}
+hist(fiber_counts, 
+      main = "Histogram of Fiber Counts", 
+     xlab = "Fiber Count", ylab = "Frequency")
 ```
-
-[1] 24.91304
-
 
 ---
 
-Part D Ho: The mean fiber count is 25
+### Exercise 3
+
+**Maximum Likelihood Estimation:**
+
+ - For Poisson distribution, the MLE of lambda is the sample mean.
+   
+
+```{r}
+lambda.hat=mean(count)
+
+print(lambda.hat)
+```
+
+---
+
+### Exercise 4
+
+**Hypothesis Testing:**
+   - `t.test` performs a one-sample t-test to compare the sample mean with the hypothesized mean of 25.
+
+H0: The mean fiber count is 25
 H1: Mean fiber count is not equal to 25
 
 ```{r}
@@ -113,15 +158,7 @@ t.test(count,mu=25)
 
 ```
 
-One Sample t-test
-data: count
-t = -0.076034, df = 22, p-value = 0.9401
-alternative hypothesis: true mean is not equal to 25
-95 percent confidence interval:
-22.54124 27.28485
-sample estimates:
-mean of x 
-24.91304
+---
 
 * Based on the p-value the null hypothesis Ho that “the mean fiber count is 25” cannot be rejected. 
 * Also 25 lies within the 95% confidence interval.
@@ -129,7 +166,10 @@ mean of x
 
 ---
 
-Part E 
+### Exercise 5
+
+**Standard Error of Lambda:**
+   - The standard error of the sample mean for a Poisson distribution is the square root of the sample mean divided by the sample size.
 
 ```{r}
 lambda.hat.sterror=sqrt(lambda.hat/length(count))
@@ -139,20 +179,53 @@ print(lambda.hat.sterror)
 
 ---
 
+### Exercise 6
 
-Part F 
+**Confidence Interval for Standard Error:**
+   - We assume a normal approximation for the distribution of the standard error.
+   - The confidence interval is calculated using the z-score for the desired confidence level.
 
 ```{r}
-lambda.CI.Limits=lambda.hat + c(-1,1)*qnorm(.95)*lambda.hat.sterror
+lambda.CI.Limits = lambda.hat + c(-1,1)*qnorm(.95)*lambda.hat.sterror
+
 print(lambda.CI.Limits)
+
 ```
 
 
 
 ---
 
-Part G pnorm(30,lambda.hat,sqrt(lambda.hat),lower.tail = FALSE)
-[1] 0.1540622
+### Exercise 7
+
+```{r}
+probability = pnorm(30,lambda.hat,sqrt(lambda.hat),lower.tail = FALSE)
+
+cat("Probability of fiber count exceeding 30:", probability)
+```
+
+**Interpretation:**
+
+* The calculated probability represents the likelihood of observing a sample mean greater than 30, assuming the true population mean is equal to the sample mean. 
+* In this case, the probability is very small, indicating that it's highly unlikely to observe such a high fiber count by chance.
+
+**Note:**
+
+- The CLT works best when the sample size is large enough. In this case, a sample size of 23 might not be considered very large, but it's still reasonable to apply the CLT as an approximation.
+- The Poisson distribution is often used to model count data like fiber counts. However, the CLT allows us to approximate the distribution of the sample mean using a normal distribution, even if the underlying distribution is not normal.
+
+---
+
+**Interpretation of Results:**
+
+- The histogram will visualize the distribution of fiber counts.
+- The MLE of lambda provides an estimate of the average fiber count per grid square.
+- The hypothesis test will determine if there's evidence to reject the null hypothesis that the mean fiber count is 25.
+- The standard error quantifies the variability of the MLE.
+- The confidence interval for the standard error provides a range of plausible values for the true standard error.
+
+
+---
 
 
 ---

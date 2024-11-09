@@ -54,7 +54,7 @@ giving appropriate labels for each axis.
 
 ### Part A
 ```{r}
-Lung_Deaths <- read.csv("D:\\IAI Question Paper\\July 2022\\CS2B_Final\\Lung_
+Lung_Deaths <- read.csv("D:\\IAI ### Question  Paper\\July 2022\\CS2B_Final\\Lung_
 Deaths.csv")
 ```
 
