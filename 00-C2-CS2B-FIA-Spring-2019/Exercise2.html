@@ -1,36 +1,25 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## R for Actuarial Students
+]
+
 ---
-title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
-output:
-  xaringan::moon_reader:
-    css: xaringan-themer.css
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      countIncrementalSlides: false
----
 
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-library(knitr)
-#library(dplyr)
-library(janitor)
-
-
-```
-
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_mono_accent_inverse(
-  #base_color = "#3C989E")(
-  base_color = "#1c5253",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Montserrat", "300", "300i"),
-  code_font_google   = google_font("Fira Mono")
-)
-```
 
 
 An airport has recently introduced a driverless pod system to transport passengers
@@ -54,17 +43,32 @@ at the exit to the terminal in any given two-minute period.
 Q2
 (i)
 
-```{r}
+
+```r
 dpois(0:3, 2)
+```
+
+```
+## [1] 0.1353353 0.2706706 0.2706706 0.1804470
 ```
  0.1353353 0.2706706 0.2706706 0.1804470
  
-```{r} 
+
+```r
 1 - ppois(3, 2)
 ```
 
-```{r}
+```
+## [1] 0.1428765
+```
+
+
+```r
 1-sum(dpois(0:3, 2))
+```
+
+```
+## [1] 0.1428765
 ```
 
 So the probabilities are:
@@ -86,7 +90,7 @@ So the probabilities are:
 Given a Poisson process with rate λ = 1 passenger/minute, for a 2-minute interval, the rate becomes λt = 1 * 2 = 2 passengers/2 minutes. 
 
 The Poisson probability mass function is: 
-$$P(X = k) = \frac{e^{-λt} \times (λt)^k}{ k!}$$
+`$$P(X = k) = \frac{e^{-λt} \times (λt)^k}{ k!}$$`
 
 ---
 
@@ -169,7 +173,8 @@ when a pod arrives.
 
 ### 1. **Installing and Loading Required Packages**
 
-```{r eval = FALSE}
+
+```r
 install.packages("markovchain")
 library(markovchain)
 ```
@@ -180,8 +185,9 @@ library(markovchain)
 
 Based on the provided transition matrix, we can define it in R as follows:
 
-```{r eval = FALSE}
-transitionMatrix <- matrix(c(
+
+```r
+transitionMatrix &lt;- matrix(c(
   0.1353, 0.2707, 0.2707, 0.1804, 0.1429,
   0.1353, 0.2707, 0.2707, 0.1804, 0.1429,
   0.1353, 0.2707, 0.2707, 0.1804, 0.1429,
@@ -195,15 +201,17 @@ transitionMatrix <- matrix(c(
 
 ### 3. **Creating the Markov Chain Object**
 
-```{r eval = FALSE}
-mc <- new("markovchain", transitionMatrix = transitionMatrix)
+
+```r
+mc &lt;- new("markovchain", transitionMatrix = transitionMatrix)
 ```
 
 ### 4. **Analyzing the Markov Chain**
 
 **Checking for Ergodicity:**
 
-```{r eval = FALSE}
+
+```r
 is.ergodic(mc)
 ```
 
@@ -211,7 +219,8 @@ This will determine if the Markov chain is ergodic, meaning it will eventually r
 
 **Calculating Steady-State Distribution:**
 
-```{r eval = FALSE}
+
+```r
 steadyStates(mc)
 ```
 
@@ -219,7 +228,8 @@ This will calculate the long-run probability distribution of the Markov chain.
 
 **Simulating the Markov Chain:**
 
-```{r eval = FALSE}
+
+```r
 simulate(mc, nsim = 100, init.state = "0")
 ```
 
@@ -231,9 +241,10 @@ This will simulate 100 steps of the Markov chain, starting from state "0".
 
 To calculate the average number of taxi calls per hour, we can use the steady-state probabilities and the probability of being in state "4+" (which leads to a taxi call):
 
-```{r eval = FALSE}
-steady_state_probs <- steadyStates(mc)
-avg_taxi_calls_per_hour <- steady_state_probs["4+"] * 30
+
+```r
+steady_state_probs &lt;- steadyStates(mc)
+avg_taxi_calls_per_hour &lt;- steady_state_probs["4+"] * 30
 ```
 
 ---
@@ -252,11 +263,11 @@ Remember to adapt this code to your specific needs and the exact probabilities c
 Calculate the average number of times per hour that the company operating the pods will need to summon a taxi to take passengers to the car park.
 \begin{framed}
 \begin{verbatim}
-Passengers <- c("0", "1", "2", "3", "4+")
+Passengers &lt;- c("0", "1", "2", "3", "4+")
 Passengers
 
 
-PassMatrix <- matrix(c(0.1353, 0.2707, 0.2707, 0.1804, 0.1429, 
+PassMatrix &lt;- matrix(c(0.1353, 0.2707, 0.2707, 0.1804, 0.1429, 
                        0.1353, 0.2707, 0.2707, 0.1804, 0.1429, 
                        0.1353, 0.2707, 0.2707, 0.1804, 0.1429, 
                        0, 0.1353, 0.2707, 0.2707, 0.3233, 
@@ -280,7 +291,7 @@ PassMatrix
 
 library(markovchain)
 
-Airport <- new("markovchain", 
+Airport &lt;- new("markovchain", 
                states = Passengers, 
                byrow = TRUE, 
                transitionMatrix = PassMatrix, 
@@ -325,13 +336,13 @@ Since there are 30 pods arriving per hour, a taxi will need to be summoned an av
 
 
 OR:
-Passengers <- c("0", "1", "2", "3", "4+")
+Passengers &lt;- c("0", "1", "2", "3", "4+")
 Passengers
  "0" "1"
 "2"
 "3"
 "4+"
-PassMatrix <- matrix(c(0.1353, 0.2707, 0.2707, 0.1804,
+PassMatrix &lt;- matrix(c(0.1353, 0.2707, 0.2707, 0.1804,
 0.1429, 0.1353, 0.2707, 0.2707, 0.1804, 0.1429, 0.1353,
 0.2707, 0.2707, 0.1804, 0.1429, 0, 0.1353, 0.2707,
 0.2707, 0.3233, 0.1353, 0.2707, 0.2707, 0.1804, 0.1429),
@@ -369,9 +380,9 @@ PassMatrix
 
 @Institute and Faculty of Actuaries - 
 
-SteadyState <- diag(5)
+SteadyState &lt;- diag(5)
 for (i in 1:100){
-SteadyState <- SteadyState %*% PassMatrix
+SteadyState &lt;- SteadyState %*% PassMatrix
 }
 SteadyState
 0
@@ -401,8 +412,7 @@ So there will be four or more passengers waiting when 17.87 per cent of the pods
 Since there are 30 pods arriving per hour, a taxi will need to be summoned an average of 5.36 times per hour.
 
 
---- 
-
+\newpage 
 \subsection*{Exercise 4}
 
 A manager at the airport has suggested that pods could be operated every 1.75 minutes without compromising safety, and that this would greatly reduce the
@@ -413,11 +423,11 @@ Evaluate the manager’s suggestion, showing any working where appropriate.
 
 Repeat the analysis for pod frequency equal to 1.75 minutes.
 
-dpois(0:3, 1.75) %>% round(3)
+dpois(0:3, 1.75) %&gt;% round(3)
 
 sum( dpois(0:3, 1.75) )
 
----
+
 
 
  0.1737739 0.3041044 0.2660914 0.1552200
@@ -425,7 +435,7 @@ sum( dpois(0:3, 1.75) )
  0.1008103
 OR:
 1-sum(dpois(0:3, 1.75))
-PassMatrix2 <- matrix(c(0.1738, 0.3041, 0.2661, 0.1552,
+PassMatrix2 &lt;- matrix(c(0.1738, 0.3041, 0.2661, 0.1552,
 0.1008, 0.1738, 0.3041, 0.2661, 0.1552, 0.1008, 0.1738,
 0.3041, 0.2661, 0.1552, 0.1008, 0, 0.1738, 0.3041,
 0.2661, 0.2560, 0.1738, 0.3041, 0.2661, 0.1552, 0.1008),
@@ -449,11 +459,9 @@ PassMatrix2
 \end{verbatim}
 \end{framed}
 
----
-
 \begin{framed}
 \begin{verbatim}
-Airport2 <- new("markovchain", states = Passengers,
+Airport2 &lt;- new("markovchain", states = Passengers,
 byrow = T, transitionMatrix = PassMatrix2, name =
 "Passengers waiting")    
 \end{verbatim}
@@ -486,7 +494,6 @@ steadyStates(Airport2)
 4+
 [1,] 0.1434617 0.281355 0.2727332 0.1745585 0.1278915
 
----
 
 Taxis will be needed when 12.79 per cent of the pods arrive.
 There are 34.28 pods per hour, so 4.38 taxis per hour will be required.
@@ -498,14 +505,14 @@ dpois(0:3, 1.75)
  0.1008103
 OR:
 1-sum(dpois(0:3, 1.75))
-PassMatrix2 <- matrix(c(0.1738, 0.3041, 0.2661, 0.1552,
+PassMatrix2 &lt;- matrix(c(0.1738, 0.3041, 0.2661, 0.1552,
 0.1008, 0.1738, 0.3041, 0.2661, 0.1552, 0.1008, 0.1738,
 0.3041, 0.2661, 0.1552, 0.1008, 0, 0.1738, 0.3041,
 0.2661, 0.2560, 0.1738, 0.3041, 0.2661, 0.1552, 0.1008),
 nrow = 5, byrow = T, dimname = list(Passengers,
 Passengers))
 
---- 
+\newpage 
 
 
 Matrix2
@@ -534,9 +541,9 @@ Matrix2
 0.1008
 0.2560
 0.1008
-SteadyState2 <- diag(5)
+SteadyState2 &lt;- diag(5)
 for (i in 1:100){
-SteadyState2 <- SteadyState2 %*%
+SteadyState2 &lt;- SteadyState2 %*%
 }
 SteadyState2
 0
@@ -571,23 +578,31 @@ Hence the steady states are:
 0.1434617 0.281355 0.2727332 0.1745585 0.1278915
 
 
----
 
-### Conclusion
 
-*  Taxis will be needed when 12.79 per cent of the pods arrive.
-*  There are 34.28 pods per hour, so 4.38 taxis per hour will be required. 
-*  Increasing the frequency of pods from 30 to 34.28 per hour (a 14 per cent
+\begin{itemize}
+    \item Taxis will be needed when 12.79 per cent of the pods arrive.
+    \item There are 34.28 pods per hour, so 4.38 taxis per hour will be required. 
+    \item Increasing the frequency of pods from 30 to 34.28 per hour (a 14 per cent
 increase) produces a reduction from 17.87 per cent to 12.78 per cent (a 28
 per cent reduction) in the proportion of times than taxis are required. 
 This seems worthwhile. 
-*  The actual reduction in the number of taxi journeys per hour is less than
+    \item The actual reduction in the number of taxi journeys per hour is less than
 28 per cent (it is 18.3 per cent) because the number of pods arriving per hour
 has increased. 
+\end{itemize}
 
---- 
 
-### Exercise 5
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage 
+## Exercise 5
 Comment on your results in part (iv).
 
 
@@ -595,8 +610,124 @@ Comment on your results in part (iv).
 Before a final decision is made to proceed the manager should consider the cost of
 increasing the frequency of the pods and also consider customer feedback.
 
----
 
-BLANK
 
----
+\end{document}
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

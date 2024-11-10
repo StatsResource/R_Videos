@@ -55,6 +55,58 @@ Calculate the rate at which a 12 year old student will move from wing B to A and
 
 * write a function called <tt>gen.matrix()</tt>
 
+---
+
+
+**Understanding the Problem and Generator Matrix**
+
+In this problem, we have a two-state system (wings A and B) where the transition rates between the states depend on the age of the student. A generator matrix, G(x), is a matrix that captures these transition rates for a given age x.
+
+**Constructing the Generator Matrix**
+
+Let's denote the state of being in wing A as state 1 and the state of being in wing B as state 2. Then, the generator matrix G(x) can be defined as:
+
+```
+G(x) = [[-q11(x)  q12(x)]
+        [ q21(x) -q22(x)]]
+```
+
+Where:
+
+* `q11(x)`: Rate of leaving state 1 (wing A) = Rate of moving from A to B = 0.08x - 0.2
+* `q12(x)`: Rate of moving from state 1 (wing A) to state 2 (wing B) = 0.08x - 0.2
+* `q21(x)`: Rate of moving from state 2 (wing B) to state 1 (wing A) = 0.05x + 0.1
+* `q22(x)`: Rate of leaving state 2 (wing B) = Rate of moving from B to A = 0.05x + 0.1
+
+**Calculating Rates for a 12-year-old Student**
+
+For a 12-year-old student (x = 12):
+
+* Rate of movement from A to B: 0.08 * 12 - 0.2 = 0.76
+* Rate of movement from B to A: 0.05 * 12 + 0.1 = 0.7
+
+---
+
+**R Code Implementation**
+
+```R
+generator_matrix <- function(x) {
+  q11 <- 0.08 * x - 0.2
+  q12 <- 0.08 * x - 0.2
+  q21 <- 0.05 * x + 0.1
+  q22 <- 0.05 * x + 0.1
+
+  matrix(c(-q11, q12, q21, -q22), nrow = 2, byrow = TRUE)
+}
+
+# For a 12-year-old student:
+G_12 <- generator_matrix(12)
+print(G_12)
+```
+
+This R code will output the generator matrix for a 12-year-old student, which can be further used to analyze the dynamics of student movement between the two wings.
+
+
 --
 
 Solution 5: 

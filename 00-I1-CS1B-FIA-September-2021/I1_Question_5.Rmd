@@ -3,11 +3,35 @@ title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+#library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
 
 * Introduction to R for Actuarial Students
 
@@ -67,6 +91,7 @@ populations are that the populations:
 The analyst suspects that those assumptions may not be satisfied, and they are 
 therefore interested in learning about the true significance level for such tests when 
 assumptions (A1) and (A2) do not necessarily hold. 
+
 With two independent samples, given a particular choice of the significance level, α, 
 the true significance level for a two-sided test of the hypothesis of equal means can be 
 calculated as 
@@ -121,9 +146,11 @@ the two populations are from a standard Normal distribution.
 
 (v) Estimate the true significance level, by adjusting the code provided above to 
 reflect the following pairs of populations: 
+
 (a) The first population is from a standard Normal distribution and the 
 second population is from a Normal distribution with mean 0 and
 standard deviation 10. 
+
 (b) The first population is from a Normal distribution with mean 10 and 
 standard deviation 2 and the second population is from an Exponential 
 distribution with mean 10. 
@@ -132,8 +159,8 @@ distribution with mean 10.
 
 #### Exercise 6
 
-(vi) Compare your estimates of the true significance level under all scenarios in 
-parts (iv), (v)(a) and (v)(b), stating your conclusions.
+Compare your estimates of the true significance level under all scenarios in 
+the previous exercises, stating your conclusions.
 
 
 Q5
@@ -155,6 +182,9 @@ The p-value of the test is:
 
 So, the p-value is 2.414801e-07 . 
 The p-value is less than 1%, therefore the flat prices are not the same for the two cities 
+
+---
+
 (iii)
 
 ```{r eval=FALSE}
@@ -164,17 +194,30 @@ m=20
 n=20 
 N=8000
 nrej=0 
+```
+---
+
+
+```{r }
+set.seed(123) # Set seed to allow replication of answers 
+alpha = 0.1
+m=20
+n=20 
+N=8000
+nrej=0 
+
 for (i in 1:N) { # Run N = 8000 MC iterations 
-x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) # Simulate
-2 random samples of size 20 from N(0,1), i.e with same mean and variance 
-ts=t.test(x, y, var.equal=TRUE)$stat # Compute the test statistic
-under assumption of equal variances 
-df = n+m-2 # Determine degrees of freedom 
+x=rnorm(m,mean=0,sd=1); y=rnorm(n,mean=0,sd=1) 
+# Simulate2 random samples of size 20 from N(0,1), i.e with same mean and variance 
+ts=t.test(x, y, var.equal=TRUE)$stat 
+# Compute the test statistic under assumption of equal variances 
+df = n+m-2 
+# Determine degrees of freedom 
 if (abs(ts)>=qt(1-alpha/2, df)) # Determine if H0 should be rejected 
 nrej=nrej+1 # Count number of rejections 
 }
-alpha_est=nrej/N # Compute estimated significance level as proportion of
-rejections when H0 is true
+alpha_est=nrej/N 
+# Compute estimated significance level as proportion ofrejections when H0 is true
 ```
 
 ---

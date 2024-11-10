@@ -51,47 +51,57 @@ using the command load("onlineShop.RData"), the data frame
 onlineShop will be available. The data frame onlineShop contains the
 following three variables:
  age – the age (in years) of the customer
- time_spent_on_website – the time per month spent on the shop’s website
+ <tt>time_spent_on_website</tt> – the time per month spent on the shop’s website
 (in hours)
  purchases_per_year – the number of purchases from the shop per year.
 (i) Fit a Generalised Linear Model (GLM) to the data assuming a Poisson
 distribution with a log link function, using purchases_per_year as the
-response variable and age and time_spent_on_website as explanatory
+response variable and age and <tt>time_spent_on_website</tt> as explanatory
 variables without an interaction term. Your answer should include the
 estimated coefficients, the deviance and the Akaike’s Information Criterion
-(AIC) of the fitted model. [4]
+(AIC) of the fitted model. 
 (ii) State an expression for the expected number of purchases per year in terms of
-the variables age and time_spent_on_website using the fitted model
-from part (i). [1]
+the variables age and <tt>time_spent_on_website</tt> using the fitted model
+from part (i). 
+
+
+---
+
 It is suggested that a log link function may not be appropriate, and a square root link
-function should be used instead, that is 𝑔􁈺𝜇􁈻 􀵌 √𝜇. In R, a square root link function
-can be specified using family = poisson(link = "sqrt").
+function should be used instead, that is 𝑔􁈺𝜇􁈻 􀵌 √𝜇. 
+
+In R, a square root link function
+can be specified using <tt>family = poisson(link = "sqrt")</tt>.
+
+#### More Exercises
+
 (iii) Fit a GLM to the data assuming a Poisson distribution with a square root link
 function using purchases_per_year as the response variable and age
-and time_spent_on_website as explanatory variables without an
+and <tt>time_spent_on_website</tt> as explanatory variables without an
 interaction term. Your answer should include the estimated coefficients, the
-deviance and the AIC of the fitted model. [4]
+deviance and the AIC of the fitted model.
 (iv) State an expression for the expected number of purchases per year in terms of
-the variables age and time_spent_on_website using the fitted model
-from part (iii). [1]
+the variables age and <tt>time_spent_on_website</tt> using the fitted model
+from part (iii). 
 (v) Compare the models in parts (i) and (iii) and decide which model should be
-preferred using the deviance. [1]
+preferred using the deviance. 
 It is suggested that the deviance is not an appropriate measure to compare the two
 models in parts (i) and (iii), and that the AIC should be used instead.
 (vi) Comment on this suggestion in the context of comparing the two models in
 parts (i) and (iii). In particular, identify any advantages that the AIC may
-have compared to the deviance in this context. [2]
-[Total 13]
+have compared to the deviance in this context. 
+
+---
 
 **1. GLM for Online Shopping Behavior**
 
 **1(i) Poisson GLM with Log Link**
 
-```R
+```{r}
 load("onlineShop.Rdata")
 
 # Fit the Poisson GLM with log link
-model_log <- glm(purchases_per_year ~ age + time_spent_on_website, 
+model_log <- glm(purchases_per_year ~ age + <tt>time_spent_on_website</tt>, 
                  data = onlineShop, family = poisson)
 
 # Summary of the model
@@ -103,16 +113,16 @@ summary(model_log)
 The expected number of purchases per year, E(Y), can be expressed as:
 
 ```
-E(Y) = exp(β₀ + β₁*age + β₂*time_spent_on_website)
+E(Y) = exp(β₀ + β₁*age + β₂*<tt>time_spent_on_website</tt>)
 ```
 
 where β₀, β₁, and β₂ are the estimated coefficients from the model.
 
 **1(iii) Poisson GLM with Square Root Link**
 
-```R
+```{r}
 # Fit the Poisson GLM with square root link
-model_sqrt <- glm(purchases_per_year ~ age + time_spent_on_website, 
+model_sqrt <- glm(purchases_per_year ~ age + <tt>time_spent_on_website</tt>, 
                   data = onlineShop, family = poisson(link = "sqrt"))
 
 # Summary of the model
@@ -124,15 +134,20 @@ summary(model_sqrt)
 The expected number of purchases per year, E(Y), can be expressed as:
 
 ```
-E(Y) = (β₀ + β₁*age + β₂*time_spent_on_website)²
+E(Y) = (β₀ + β₁*age + β₂*<tt>time_spent_on_website</tt>)²
 ```
 
 **1(v) Model Comparison using Deviance**
 
-We can compare the two models using the deviance. A lower deviance indicates a better fit. However, it's important to note that deviance can be misleading when comparing models with different link functions.
+We can compare the two models using the deviance. A lower deviance indicates a better fit. 
+However, it's important to note that deviance can be misleading when comparing models with different link functions.
 
 **1(vi) Comparing Models using AIC**
 
-The AIC is a more reliable measure for comparing models with different link functions. It penalizes for model complexity, making it suitable for comparing models with different numbers of parameters. In this case, both models have the same number of parameters, but the AIC can still be used to compare their overall fit.
+The AIC is a more reliable measure for comparing models with different link functions. 
+It penalizes for model complexity, making it suitable for comparing models with different numbers of parameters. 
+In this case, both models have the same number of parameters, but the AIC can still be used to compare their overall fit.
 
-The AIC takes into account both the goodness of fit and the complexity of the model. A lower AIC indicates a better model. By comparing the AIC values of the two models, we can determine which model provides a better balance of fit and parsimony.
+The AIC takes into account both the goodness of fit and the complexity of the model. A lower AIC indicates a better model. 
+
+By comparing the AIC values of the two models, we can determine which model provides a better balance of fit and parsimony.

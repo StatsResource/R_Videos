@@ -4,8 +4,7 @@
     <title>Statistics with R</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs-2.21/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,13 +22,9 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
+
+
+
 
 * Introduction to R for Actuarial Students
 
@@ -38,7 +33,7 @@ pre {
 * Introduction to R programming
 * Fundamentals of Statistical Analysis
 
-* Question 4
+* Question 2
 
 ---
 
@@ -60,15 +55,15 @@ response for the new product.
 
 Q2
 (i)
-𝑋𝑋 follows a Binomial (𝑛𝑛, 𝜃𝜃) distribution, where 𝑛𝑛 is the number of clients surveyed 
-and 𝜃𝜃 is the probability of getting a positive approval of the product from a client 
-CS1B – Actuarial Statistics – Core Principles – September 2022 - Examiners’ report
+`\(X\)` follows a Binomial (𝑛𝑛, \theta) distribution, where n is the number of clients surveyed 
+and \theta is the probability of getting a positive approval of the product from a client 
+---
 
 
 The probability of obtaining a positive response for the product is denoted by θ and a 
-Beta prior distribution with parameters ሺα, βሻ is assumed for θ. The posterior 
+Beta prior distribution with parameters (α, β) is assumed for θ. The posterior 
 distribution of θ is proportional to: 
-fሺθ|xሻ ∝ θx + α –1ሺ1 – θሻn – x + β – 1, 
+$$f(θ|x) ∝ θx + α –1(1 – θ)n – x + β – 1, $$
 where x is the number of positive responses obtained out of n clients surveyed. 
 (ii) Specify the posterior distribution of θ with its parameters. 
 (iii) Comment on the prior distribution of θ in relation to the posterior distribution. 
@@ -76,14 +71,15 @@ where x is the number of positive responses obtained out of n clients surveyed.
 ---
 
 (ii)
-The posterior distribution of 𝜃𝜃 is Beta with parameters
-𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and 𝑛𝑛 − 𝑥𝑥 + 𝛽𝛽 = 59 + 𝛽𝛽 . 
+The posterior distribution of \theta is Beta with parameters
+$$𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and n − 𝑥𝑥 + \beta  = 59 + \beta  . $$
+
 (iii)
 The prior and posterior are of the same family. So, we have a conjugate prior 
   
 ---
   
-(iv) State the parameter values for which the prior is a Uniform(0, 1) distribution. 
+(iv) State the parameter values for which the prior is a &lt;tt&gt;Uniform(0, 1)&lt;/tt&gt; distribution. 
   
 (v) (a) Plot the prior density of θ with the parameters obtained in part (iv). Set 
 the maximum limit of the y axis to 12. 
@@ -94,7 +90,7 @@ the maximum limit of the y axis to 12.
 
 
 An Analyst consulted by the company suggests that based on previous experience, a 
-Beta prior with parameters ሺ40, 24ሻ is more appropriate. 
+Beta prior with parameters (40, 24) is more appropriate. 
 (vi) Plot the new prior and posterior distributions of θ on the same graph from 
 part (v). 
 
@@ -103,18 +99,16 @@ part (v).
 (vii) Comment on the plots obtained in parts (v) and (vi). 
 The company will put the new product on the market only if there is a high 
 probability that θ is higher than 60%. 
-(viii) (a) Calculate the probability Pሺθ &gt; 0.6 | Xሻ in the case of both priors; that 
-is, Uniform(0, 1) and Beta with parameters (40, 24). [4] 
-(b) Comment on your answer to part (viii)(a). [2] 
- [Total 20] 
-CS1B S2022–4 
+(viii) (a) Calculate the probability P(θ &gt; 0.6 | X) in the case of both priors; that 
+is, Uniform(0, 1) and Beta with parameters (40, 24).  
+(b) Comment on your answer to part (viii)(a).  
 
 
 
 ---
 
 (iv)
-Beta(1, 1) is the same as a Uniform(0,1) distribution: 𝛼𝛼 = 1, 𝛽𝛽 = 1 
+Beta(1, 1) is the same as a Uniform(0,1) distribution: 𝛼𝛼 = 1, \beta  = 1 
 (v)(a)
 
 ```r
@@ -127,7 +121,7 @@ plot(p, dbeta(p, alpha, beta), ylab="density", type ="l",
 ylim = c(0,12), main = "Plot for the prior density of θ") 
 ```
 
-![](N1-Question-2_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+![](N1-Question-2_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
 ---
 (b) 
 
@@ -140,11 +134,12 @@ legend(0.,12, c("Prior U(0,1)",
 "Posterior"),lty=c(1,1),col=c("black", "red")) 
 ```
 
-![](N1-Question-2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](N1-Question-2_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
 ---
 
-(vi)
+### Part (6)
+
 
 ```r
 alpha1 = 40
@@ -161,7 +156,25 @@ legend(0.,12, c("U(0,1)", "Beta(102,60)", "Beta(40, 24)",
 "brown"))
 ```
 
-![](N1-Question-2_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](N1-Question-2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+
+```{echo=FALSE}
+alpha1 = 40
+beta1 = 24
+p = seq(0,1, by=0.01)
+plot(p, dbeta(p, alpha, beta), ylab="density", type ="l",
+ylim = c(0,12), main = "Plot for the prior density of θ") 
+
+lines(p, dbeta(p, alpha1, beta1), col="blue") 
+lines(p, dbeta(p, x+alpha1, n-x+beta1), type ="l", 
+col="brown") 
+legend(0.,12, c("U(0,1)", "Beta(102,60)", "Beta(40, 24)", 
+"Beta(141,83)"),lty=c(1,1),col=c("black", "red", "blue", 
+"brown"))
+```
 
 ---
 

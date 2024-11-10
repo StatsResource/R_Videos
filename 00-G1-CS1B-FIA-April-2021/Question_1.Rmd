@@ -198,3 +198,76 @@ cor(time,logcaffeine,method="pearson")
 We can see via the plot in part (v)(a) and the calculated Pearson coefficient in part that a strong negative linear relationship exists between the transformed variable and time 
 
 ---
+
+
+# Input data
+time <- c(1,2,3,4,5,6,7,8,9,10)
+caffeine <- c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
+
+# (i) Plot a scatterplot
+plot(time, caffeine, main = "Caffeine vs. Time",
+     xlab = "Time (30-min intervals)", ylab = "Caffeine (mg)")
+
+# (ii) Comment on the relationship
+# The relationship appears to be nonlinear, with caffeine levels decreasing rapidly initially and then more slowly over time.
+
+# (iii) Justify logarithmic transformation
+# A logarithmic transformation is appropriate because the data appears to be exponentially decreasing. This transformation can help linearize the relationship.
+
+# (iv) Perform the transformation
+log_caffeine <- log(caffeine)
+
+# (v)(a) Plot the transformed data
+plot(time, log_caffeine, main = "Log(Caffeine) vs. Time",
+     xlab = "Time (30-min intervals)", ylab = "Log(Caffeine)")
+
+# (v)(b) Calculate Pearson correlation coefficient
+cor(time, log_caffeine)
+
+# (v)(c) Comment on the plot and correlation
+# The transformed data appears more linear, suggesting a stronger linear relationship between time and the logarithm of caffeine levels. The Pearson correlation coefficient, which measures the strength of a linear relationship, is closer to -1, indicating a strong negative linear correlation.
+
+**Understanding the Problem:**
+
+We're tasked with analyzing the relationship between time elapsed and caffeine levels in the bloodstream. The goal is to visualize the relationship, transform the data to improve linearity, and quantify the correlation between the transformed variables.
+
+**R Code and Analysis:**
+
+```R
+# Input data
+time <- c(1,2,3,4,5,6,7,8,9,10)
+caffeine <- c(52.2,39.3,28.3,19.03,13.96,11.46,8.78,6.55,5.43,5.03)
+
+# (i) Plot a scatterplot
+plot(time, caffeine, main = "Caffeine vs. Time",
+     xlab = "Time (30-min intervals)", ylab = "Caffeine (mg)")
+
+# (ii) Comment on the relationship
+# The relationship appears to be nonlinear, with caffeine levels decreasing rapidly initially and then more slowly over time.
+
+# (iii) Justify logarithmic transformation
+# A logarithmic transformation is appropriate because the data appears to be exponentially decreasing. This transformation can help linearize the relationship.
+
+# (iv) Perform the transformation
+log_caffeine <- log(caffeine)
+
+# (v)(a) Plot the transformed data
+plot(time, log_caffeine, main = "Log(Caffeine) vs. Time",
+     xlab = "Time (30-min intervals)", ylab = "Log(Caffeine)")
+
+# (v)(b) Calculate Pearson correlation coefficient
+cor(time, log_caffeine)
+
+# (v)(c) Comment on the plot and correlation
+# The transformed data appears more linear, suggesting a stronger linear relationship between time and the logarithm of caffeine levels. The Pearson correlation coefficient, which measures the strength of a linear relationship, is closer to -1, indicating a strong negative linear correlation.
+```
+
+**Interpretation:**
+
+1. **Original Plot:** The scatterplot shows a nonlinear, decreasing relationship between time and caffeine levels.
+2. **Logarithmic Transformation:** The logarithmic transformation helps linearize the relationship, making it more suitable for linear correlation analysis.
+3. **Transformed Plot and Correlation:** The transformed scatterplot shows a clear negative linear relationship between time and the logarithm of caffeine levels. The Pearson correlation coefficient, close to -1, confirms this strong negative linear correlation.
+
+**Conclusion:**
+
+The logarithmic transformation effectively linearizes the relationship between time and caffeine levels. This transformation allows for a more accurate quantification of the correlation using the Pearson correlation coefficient.

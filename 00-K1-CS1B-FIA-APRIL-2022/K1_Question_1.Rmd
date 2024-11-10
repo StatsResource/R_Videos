@@ -33,7 +33,6 @@ style_mono_accent_inverse(
 ```
 
 
-
 * Introduction to R for Actuarial Students
 
 * CS1B Curriculum

@@ -103,6 +103,11 @@ cor(SA, SB, method = "kendall")
 # (vi) Comment on suitability of correlation coefficients
 # ... (Discuss the appropriateness of each coefficient for ordinal and interval data)
 
+```
+
+---
+
+```{r}
 # (vii) Hypothesis testing
 # Pearson's correlation test
 cor.test(SA, SB, method = "pearson")

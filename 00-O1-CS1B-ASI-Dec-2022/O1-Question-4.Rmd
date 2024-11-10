@@ -34,16 +34,6 @@ style_mono_accent_inverse(
 
 
 
-* Introduction to R for Actuarial Students
-
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
-
----
 
 * Introduction to R for Actuarial Students
 
@@ -242,8 +232,6 @@ prob_draw = prob_w_draw * prob_r_draw # multiplication of probabilities
 print(prob_draw)
 ```
 
- 3.422298e-09 8.555745e-08 1.095135e-06 2.737838e-05 6.899352e-05 1.724838e-03
-[7] 1.425866e-03 1.087223e-02 2.609335e-02 
 
 ---
 
@@ -254,7 +242,7 @@ R Code and Output:
 prize <- c(20000000,1000000,50000,100,100,7,7,4,4)
 print(prize)
 ```
- 2e+07 1e+06 5e+04 1e+02 1e+02 7e+00 7e+00 4e+00 4e+00 
+
  
 ---
 

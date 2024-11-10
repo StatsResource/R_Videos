@@ -3,28 +3,33 @@ title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 * Introduction to R for Actuarial Students
@@ -43,19 +48,21 @@ command. You should save the generated values in R for later use.
 Part B Simulate 10,000 values from a χ4
 2 distribution using an appropriate R 
 command. You should save the generated values in R for later use.  
+
 Part C Discuss the main disadvantage of using the inverse transform method for 
 simulating values from a chi-square distribution.  
-Part D Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
+Part D 
+
+Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
 and Part B, explaining your answer. 
 You should save the generated values in R for later use.  
+
 Part E Simulate 10,000 values from a t20 distribution by modifying your R code from 
 parts (i), Part B and Part D where necessary. 
 You should save the generated values in R for later use.  
+
 (vi) Demonstrate an important property of the t distribution by presenting and 
 comparing two appropriate plots of the values simulated in parts Part D and Part E. 
- [6] 
- [Total 22] 
-CS1B A2023–3 
 
 
 --
@@ -99,7 +106,9 @@ t4.val = norm.val/sqrt(chisq4.val/4)
 ```
 
 ---
-Part E R code:
+### Part E 
+
+R code:
 ```{r}
 norm.val = rnorm(10000) 
 ```

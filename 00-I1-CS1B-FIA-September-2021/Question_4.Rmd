@@ -3,11 +3,35 @@ title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
 
 * Introduction to R for Actuarial Students
 
@@ -118,3 +142,45 @@ Pre_existing_health_condition.
 associated with claim numbers. 
 
 ---
+
+**Part A: Normal GLM**
+
+```R
+# Load the data
+load("Claims_Experience.RData")
+
+# Fit the Normal GLM
+model_g <- glm(Claim_number ~ Age + Gender + Region + Pre_existing_health_condition, data = data_claims, family = gaussian)
+
+# Summarize the model
+summary(model_g)
+```
+
+**Part B: Poisson GLM**
+
+```R
+# Fit the Poisson GLM
+model_p <- glm(Claim_number ~ Age + Gender + Region + Pre_existing_health_condition, data = data_claims, family = poisson)
+
+# Summarize the model
+summary(model_p)
+```
+
+**Interpreting the Results:**
+
+Both models will provide estimates for the coefficients of the covariates. These coefficients represent the change in the expected value of the response variable (Claim_number) associated with a unit change in the corresponding covariate, holding other covariates constant.
+
+**Choosing the Appropriate Model:**
+
+The choice between a Normal and Poisson GLM depends on the nature of the response variable and the assumptions underlying each model:
+
+* **Normal GLM:** Assumes the response variable is normally distributed. It's suitable for continuous variables.
+* **Poisson GLM:** Assumes the response variable is count data (non-negative integers). It's suitable for modeling rates or counts of events.
+
+**In this case, the `Claim_number` is a count variable, so the Poisson GLM is more appropriate.**
+
+**Additional Considerations:**
+
+* **Overdispersion:** If the observed variance in the data is larger than the expected variance under the Poisson model, overdispersion may be present. This can be addressed using quasi-Poisson or negative binomial models.
+* **Zero-Inflated Data:** If there are many zero counts in the data, a zero-inflated Poisson or zero-inflated negative binomial model may be considered.
+* **Model Diagnostics:** It's important to check the model assumptions (e.g., linearity, constant variance, normality of residuals for the Normal GLM) and consider model selection techniques (e.g., AIC, BIC) to identify the best-fitting model.

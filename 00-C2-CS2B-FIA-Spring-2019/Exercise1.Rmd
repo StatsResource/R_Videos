@@ -288,3 +288,86 @@ tsdiag(fit10)
 ...The ACF of residuals together with the corresponding Ljung-Box test output
 ...(i.e. high p-values observed suggesting good fit - residuals close to white noise)
 ...suggest that this is a correct model.
+
+
+---
+
+**Part (i) Plotting the Time Series**
+
+```R
+set.seed(121118)
+y <- arima.sim(list(order = c(1,1,0), ar = 0.7), n = 300)
+
+plot(y, type = "l", xlab = "Time", ylab = "Value", main = "Time Series Plot")
+```
+
+[Image of Time Series Plot]
+
+**Comments on the Plot:**
+
+* **Trend:** The time series exhibits a clear upward trend over time.
+* **Seasonality:** There is no apparent seasonal pattern in the data.
+* **Stationarity:** The series does not appear to be stationary due to the trend.
+
+**Part (ii) Least Squares Linear Fit**
+
+```R
+model <- lm(y ~ time(y))
+lines(time(y), fitted(model), col = "red")
+```
+
+[Image of Time Series Plot with Linear Fit]
+
+The red line represents the least squares linear fit.
+
+**Part (iii) Removing Linear Trend**
+
+The linear trend can be removed by detrending the data, which involves subtracting the fitted values from the original data:
+
+```R
+detrended_y <- y - fitted(model)
+```
+
+**Part (iv) ACF and PACF Plots**
+
+```R
+par(mfrow = c(1, 2))
+acf(y, lag.max = 20, main = "ACF of Original Data")
+pacf(y, lag.max = 20, main = "PACF of Original Data")
+```
+
+[Image of ACF and PACF Plots]
+
+**Comments on ACF and PACF:**
+
+* **ACF:** The ACF decays slowly, indicating the presence of a trend.
+* **PACF:** The PACF cuts off after lag 1, suggesting an AR(1) model might be appropriate.
+
+**Part (v) Transformation and Model Selection**
+
+**Part (v)(a): Transformation**
+
+Since the data exhibits a linear trend, we can apply differencing to remove it:
+
+```R
+diff_y <- diff(y, differences = 1)
+```
+
+**Part (v)(b): Comment on the Transformation**
+
+Differencing has successfully removed the linear trend, making the series more stationary.
+
+**Part (vi)(a): Model Selection**
+
+Based on the ACF and PACF of the differenced data, an AR(1) model seems appropriate.
+
+**Part (vi)(b): Model Justification**
+
+To justify the AR(1) model, we can fit the model and check its residuals:
+
+```R
+ar1_model <- arima(diff_y, order = c(1, 0, 0))
+tsdiag(ar1_model)
+```
+
+The diagnostic plots should show no significant patterns in the residuals, indicating that the model is adequate. We can also compare the AR(1) model with other models (e.g., ARMA(1,1), ARMA(2,1)) using information criteria like AIC and BIC.

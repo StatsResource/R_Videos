@@ -59,6 +59,8 @@ receipt of vaccine, 3 = admission to hospital due to reasons other than blood cl
 within 28 days of receipt of vaccine)
 Time: duration in days at which admission to hospital/censoring occurred (integers
 with a range of 0–28; 0 = day of vaccination).
+
+---
 (i) Comment on whether the censoring in this investigation is likely to be
 non-informative. [3]
 (ii) Construct a table named ‘data_main’, which is the same as ‘data’ but with a
@@ -74,6 +76,34 @@ identify each survival function. You should use a range from 0.97 to 1 on the
 y-axis. [9]
 (iv) Comment on your plot from part (iii). 
 
+**Part (i) Non-Informative Censoring**
+
+Censoring in this investigation is likely to be **non-informative**. This means that the reason for censoring is unrelated to the event of interest (blood clots). In this case, individuals are censored due to the end of the study period or death from other causes. These events are not influenced by the risk of developing blood clots. 
+
+**Part (ii) Creating the `data_main` Table**
+
+```R
+data_main <- data
+data_main$ST <- ifelse(data_main$Status == 2, 1, 0)
+tail(data_main, 20)
+```
+
+**Part (iii) Plotting Kaplan-Meier Survival Functions**
+
+```R
+# Create survival objects for vaccinated and unvaccinated groups
+fit1 <- survfit(Surv(Time, ST) ~ Drug, data = data_main)
+
+# Plot the Kaplan-Meier curves
+plot(fit1, conf.int = FALSE, col = c("blue", "red"), xlab = "Time (days)", ylab = "Survival Probability", ylim = c(0.97, 1))
+legend("topright", legend = c("Vaccinated", "Unvaccinated"), col = c("blue", "red"), lty = 1)
+```
+
+**Part (iv) Commenting on the Plot**
+
+The Kaplan-Meier curves show the probability of surviving without developing blood clots over time for both vaccinated and unvaccinated groups. The curves diverge, indicating a difference in survival probabilities between the two groups. The vaccinated group appears to have a lower survival probability, suggesting a potential association between vaccination and blood clots. However, further statistical analysis is needed to confirm this association and assess its significance.
+
+
 ---
 
 Analysts in the organization have decided to analyse further by using Cox’s
@@ -86,4 +116,33 @@ They are now deciding to add one more covariate: co-morbidity.
 (v) Test the hypothesis, using the likelihood ratio statistic, that co-morbidity has
 no effect on blood clots allowing for vaccine indicator and age, stating the null
 and alternative hypotheses and using the Breslow method for tie handling.
+
+**Part (v) Testing the Effect of Co-morbidity**
+
+**Null Hypothesis (H0):** Co-morbidity has no effect on the hazard of blood clots, given the effects of vaccine indicator and age.
+
+**Alternative Hypothesis (H1):** Co-morbidity has an effect on the hazard of blood clots, given the effects of vaccine indicator and age.
+
+**R Code for Cox Proportional Hazards Model:**
+
+```R
+cox_model <- coxph(Surv(Time, ST) ~ Drug + Age + co_morbidity + Drug:Age + Drug:co_morbidity + Age:co_morbidity, data = data_main, ties = "breslow")
+
+# Test the significance of co-morbidity
+anova(cox_model, test = "Chisq")
+```
+
+The `anova` function in R will perform a likelihood ratio test to compare nested models. In this case, we are comparing the full model with the reduced model that excludes the `co_morbidity` term.
+
+**Interpretation of Results:**
+
+The p-value from the likelihood ratio test will indicate the significance of the `co_morbidity` term. If the p-value is less than the significance level (e.g., 0.05), we reject the null hypothesis and conclude that co-morbidity does have a significant effect on the hazard of blood clots, even after accounting for the effects of vaccine indicator and age.
+
+**Additional Considerations:**
+
+* **Model Assumptions:** Before interpreting the results, it's important to check the proportional hazards assumption. This can be done using graphical methods (e.g., Schoenfeld residuals) or formal statistical tests.
+* **Multiple Testing:** If multiple covariates are being tested, consider adjusting the significance level to control for multiple comparisons (e.g., Bonferroni correction).
+* **Clinical Relevance:** While statistical significance is important, it's also crucial to assess the clinical significance of the findings. This involves considering the magnitude of the effect and its practical implications.
+
+By following these steps and carefully interpreting the results, you can gain valuable insights into the factors affecting the risk of blood clots after vaccination.
 

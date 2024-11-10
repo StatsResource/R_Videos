@@ -51,24 +51,34 @@ A sample of data for eight companies has been collected. This is stored in the f
 CompanySample will be available that contains two columns:
  price – the company’s share price (in $)
  EPS – the company’s earnings-per-share (in $).
+
+---
+
+#### Exercises
+
 (i) Fit a linear model to the sample, with price as the dependent variable and
 EPS as the independent variable, and state the estimated coefficients of the
-model. [3]
+model. 
 (ii) State the value of the coefficient of determination, R2, for the model fitted
-in part (i). [1]
+in part (i). 
 (iii) Perform an analysis of variance, using the anova(…) command to test if
 there is a linear relationship between price and EPS. Your answer should
 include the F-statistic and p-value of the test. [4]
 (iv) Comment on how well the linear model in part (i) fits the data, using your
-answers to parts (ii) and (iii). [2]
+answers to parts (ii) and (iii). 
+
+---
+
+#### Exercises
+
 The analyst believes that the observation where price = 99 is an anomaly because of
 the large size of the value of price and should be removed from the sample.
 (v) Fit a linear model to the sample without the observation price = 99 and state
-the value of R2. [3]
+the value of R2. 
 [Hint: The code CompanySample[-n,] returns the data frame with the
 nth observation removed.]
-(vi) Compare the fit of the models from parts (i) and (v). [3]
-(vii) Discuss if removing the observation where price = 99 is appropriate. [3]
+(vi) Compare the fit of the models from parts (i) and (v). 
+(vii) Discuss if removing the observation where price = 99 is appropriate. 
 
 ---
 
@@ -82,7 +92,7 @@ We're tasked with:
 
 **R Code Implementation**
 
-```R
+```{r}
 # Load the data
 load("CompanySample.RData")
 

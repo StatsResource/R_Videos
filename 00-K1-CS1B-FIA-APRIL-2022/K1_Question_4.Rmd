@@ -1,14 +1,15 @@
-
 ---
 title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -20,13 +21,17 @@ library(janitor)
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
+
 
 * Introduction to R for Actuarial Students
 

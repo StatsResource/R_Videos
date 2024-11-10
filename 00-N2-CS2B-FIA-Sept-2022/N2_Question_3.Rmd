@@ -96,3 +96,58 @@ i = 0, 1, 2, ..., 10,000.
 (ix) Plot the effective dimension as a function of $\lambda$. 
 (x) Comment on your plot from part (ix). 
 
+
+---
+
+
+**Part (i) Loading Data and Creating Design Matrix**
+
+```R
+# Load the data
+data <- read.csv("CS2B_S22_Qu_3_Data.csv")
+
+# Create the design matrix
+X <- cbind(rep(1, nrow(data)), data[, c("mpg", "disp", "qsec")])
+colnames(X) <- c("Intercept", "mpg", "disp", "qsec")
+
+# Display the first six rows
+head(X)
+```
+
+**Part (ii) Name of the Modelling Approach**
+
+This modelling approach is called **Ridge Regression**.
+
+**Part (iii) Ridge Regression Function**
+
+```R
+ridge_fit <- function(lambda, y, X) {
+  n <- nrow(X)
+  p <- ncol(X)
+  beta_lambda <- solve(t(X) %*% X + lambda * diag(p)) %*% t(X) %*% y
+  return(beta_lambda)
+}
+```
+
+**Part (iv) Calculating $\beta_2$ for $\lambda = 2$**
+
+```R
+beta_2 <- ridge_fit(2, data$hp, X)
+print(beta_2)
+```
+
+**Part (v) Creating a Matrix of $\beta_\lambda$ for Different $\lambda$ Values**
+
+```R
+lambda_values <- seq(0, 100, by = 0.1)
+matrix_LAMBDA <- matrix(nrow = length(lambda_values), ncol = 4)
+
+for (i in 1:length(lambda_values)) {
+  beta_lambda <- ridge_fit(lambda_values[i], data$hp, X)
+  matrix_LAMBDA[i, ] <- beta_lambda
+}
+
+colnames(matrix_LAMBDA) <- colnames(X)
+```
+
+This code will create a matrix where each row corresponds to a different value of $\lambda$ and each column corresponds to the coefficients of the model for that particular $\lambda$.

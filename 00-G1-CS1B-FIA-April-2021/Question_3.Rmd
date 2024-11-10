@@ -73,10 +73,10 @@ Norman’s beta prior distribution for p is adopted for the remainder of the que
 
 
 * The likelihood of the model in the study is given by: 
-Lሺpሻ ∝ p∑ yi ሺ1 – pሻn – ∑ yi . 
+Lሺpሻ ∝ p\sum yi ሺ1 – pሻn – \sum yi . 
 * The posterior density of $p$ is given by: 
-f(p|y) ∝ p2 + ∑ yiሺ1 – pሻ11 + n – ∑yi ,
-where ∑ yi is the total sum of all the binary data. 
+f(p|y) ∝ p2 + \sum yiሺ1 – pሻ11 + n – \sumyi ,
+where \sum yi is the total sum of all the binary data. 
 
 ---
 
@@ -100,6 +100,8 @@ sd_A
 samples_beta = rbeta(10000, 3, 12) 
 ```
 
+---
+
 (c)
 
 ```{r}
@@ -114,7 +116,7 @@ sd_N
 ```
 
 (d)
-The first and second moments of the two priors are very similar [1]
+The first and second moments of the two priors are very similar
 The two prior beliefs are similar despite one being based on a continuous distribution and the 
 other on a discrete distribution 
 ---
@@ -147,7 +149,7 @@ curve(x^(2+sum(y))*(1-x)^(11+length(y)-sum(y)))
 
 Plot the density of Norman’s prior distribution by setting `ylim = c(0,14)`. 
 
-The posterior distribution of $p$ is beta with parameters 3 + ∑ yi and 12 + n – ∑ yi
+The posterior distribution of $p$ is beta with parameters 3 + \sum yi and 12 + n – \sum yi
 . 
 ---
 
@@ -285,13 +287,13 @@ Q4
 (i)
 load("CS1passenger.RData")
 Linear predictor for modelling:
-(a) 𝛼𝛼𝑖𝑖+𝛽𝛽×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
-(b) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, 𝛽𝛽𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
-(c) 𝛼𝛼𝑖𝑖+𝛽𝛽𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, 𝛽𝛽𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
+(a) 𝛼𝛼𝑖𝑖+\beta×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
+(b) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, \beta𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
+(c) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, \beta𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
 Alternative answer:
-(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2 , where 𝑥𝑥1 is temperature and 𝑥𝑥2=0 (nonSemester), 𝑥𝑥2=1 (Semester)
-(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2 , where 𝑥𝑥1and 𝑥𝑥2 as above
-(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1𝑥𝑥1+𝑏𝑏2𝑥𝑥2+𝛾𝛾𝑥𝑥1𝑥𝑥2+𝑏𝑏3𝑥𝑥3 , where 𝑥𝑥3=0 (8am), 𝑥𝑥3=1 (9am)]
+(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2 , where x_1 is temperature and x_2=0 (nonSemester), x_2=1 (Semester)
+(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2 , where x_1and x_2 as above
+(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2+𝑏𝑏3x_3 , where x_3=0 (8am), x_3=1 (9am)]
 
 
 ---

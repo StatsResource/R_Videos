@@ -3,29 +3,35 @@ title: "Statistics with R"
 subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
+
 
 * Introduction to R for Actuarial Students
 
@@ -56,15 +62,15 @@ response for the new product.
 
 Q2
 (i)
-𝑋𝑋 follows a Binomial (𝑛𝑛, \theta) distribution, where 𝑛𝑛 is the number of clients surveyed 
+$X$ follows a Binomial (𝑛𝑛, \theta) distribution, where n is the number of clients surveyed 
 and \theta is the probability of getting a positive approval of the product from a client 
 ---
 
 
 The probability of obtaining a positive response for the product is denoted by θ and a 
-Beta prior distribution with parameters ሺα, βሻ is assumed for θ. The posterior 
+Beta prior distribution with parameters (α, β) is assumed for θ. The posterior 
 distribution of θ is proportional to: 
-fሺθ|xሻ ∝ θx + α –1ሺ1 – θሻn – x + β – 1, 
+$$f(θ|x) ∝ θx + α –1(1 – θ)n – x + β – 1, $$
 where x is the number of positive responses obtained out of n clients surveyed. 
 (ii) Specify the posterior distribution of θ with its parameters. 
 (iii) Comment on the prior distribution of θ in relation to the posterior distribution. 
@@ -73,7 +79,8 @@ where x is the number of positive responses obtained out of n clients surveyed.
 
 (ii)
 The posterior distribution of \theta is Beta with parameters
-𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and 𝑛𝑛 − 𝑥𝑥 + \beta  = 59 + \beta  . 
+$$𝛼𝛼 + 𝑥𝑥 = 𝛼𝛼 + 101 and n − 𝑥𝑥 + \beta  = 59 + \beta  . $$
+
 (iii)
 The prior and posterior are of the same family. So, we have a conjugate prior 
   
@@ -90,7 +97,7 @@ the maximum limit of the y axis to 12.
 
 
 An Analyst consulted by the company suggests that based on previous experience, a 
-Beta prior with parameters ሺ40, 24ሻ is more appropriate. 
+Beta prior with parameters (40, 24) is more appropriate. 
 (vi) Plot the new prior and posterior distributions of θ on the same graph from 
 part (v). 
 
@@ -99,7 +106,7 @@ part (v).
 (vii) Comment on the plots obtained in parts (v) and (vi). 
 The company will put the new product on the market only if there is a high 
 probability that θ is higher than 60%. 
-(viii) (a) Calculate the probability Pሺθ > 0.6 | Xሻ in the case of both priors; that 
+(viii) (a) Calculate the probability P(θ > 0.6 | X) in the case of both priors; that 
 is, Uniform(0, 1) and Beta with parameters (40, 24).  
 (b) Comment on your answer to part (viii)(a).  
 
@@ -134,7 +141,7 @@ legend(0.,12, c("Prior U(0,1)",
 
 ### Part (6)
 
-```{r eval = FALSE}
+```{r }
 alpha1 = 40
 beta1 = 24
 p = seq(0,1, by=0.01)
