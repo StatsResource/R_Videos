@@ -1,0 +1,175 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+Solution 1: 
+i) 
+ii) 
+We know the property that if W ~ Gamma(α,ʎ) then 2ʎW has χ2 distribution with 2α degrees 
+of freedom. 
+We have Xi ~  χ2 with 2 degrees of freedom. 
+Xi / 2ʎ ~ Gamma(1,ʎ) 
+We further know that for a chi-square distribution, ʎ = ½  
+Xi  ~ Gamma(1,½) 
+Hence, Xi ~ Exp(½)  
+�
+�
+ Y = ∑ 𝑋𝑖
+ 𝑖=1 
+Hence, Y ~ Gamma (n,½           
+variable  
+……… Gamma distribution with parameters α=1 and ʎ 
+is an exponential distribution with parameter ʎ  
+First copy the numbers in R and define a vector u_ran. 
+Then using qchisq function convert these uniform random numbers into random numbers 
+from a chi-square distribution with 2 degrees of freedom. 
+R Code and Output: 
+……….. Sum of ‘n’ exponential variables is a gamma 
+> u_ran <-c(0.07991847, 0.82064314, 0.33683219, 0.93005953, 0.31919393, 0.92695533,0.7
+ 6263949, 0.51740370, 0.49224880, 0.46354694, 0.89832157, 0.21920729, 0.20471780, 0.190
+ 55074, 0.69137537) 
+> print(u_ran) 
+[1] 0.07991847 0.82064314 0.33683219 0.93005953 0.31919393 0.92695533 
+[7] 0.76263949 0.51740370 0.49224880 0.46354694 0.89832157 0.21920729 
+[13] 0.20471780 0.19055074 0.69137537 
+> x <- qchisq(u_ran,2) 
+[1] 0.1665860 3.4367557 0.8214544 5.3202217 0.7689556 5.2333682 2.8763503 
+[8] 1.4571496 1.3555274 1.2455524 4.5718802 0.4948912 0.4581165 0.4228024 
+[15] 2.3512591 
+> y=sum(x) 
+> print(y) 
+[1] 30.98087 
+iii) 
+H0: Standard deviation of X is equal to 2.5. 
+H1: Standard deviation of X is not equal to 2.5.   
+> n=length(x) 
+> sigma=2.5 
+> alpha=0.05 
+>  
+> statistic <- (n-1)*var(x)/sigma^2  
+(3) 
+(3) 
+Page 2 of 11 
+IAI                             
+CS1B-1124 
+> statistic 
+[1] 7.305598 
+>  
+> #critical value 
+> qchisq(alpha/2,n-1) 
+[1] 5.628726 
+> qchisq(alpha/2,n-1,lower=FALSE) 
+[1] 26.11895 
+>  
+> #p-value 
+> 2*(pchisq((n-1)*var(x)/sigma^2,df=n-1)) 
+[1] 0.1554235 
+As the p-value is > 5%, we do not have sufficient evidence to reject the null hypothesis and 
+hence we can conclude that the standard deviation of X is equal to 2.5.  
+iv) 
+v) 
+vi) 
+We need to write a code to obtain sample for y with 1,000 simulations. Following code as 
+given the question can be used for that: 
+R Code and Output: 
+> set.seed(47) 
+> y = 0*(1:1000) 
+> for(i in 1:1000){ 
++   y[i] = sum(rchisq(15,2)) 
++ } 
+> sum(y) 
+[1] 30508.66 
+The distribution of Y when sample size = 15, is not perfectly symmetrical like a normal 
+distribution. This is given because Y seems to accept only positive values as gamma 
+distribution is defined only when y>0. 
+However, when sample size = 10,000 this histogram is symmetrical and is closer to a normal 
+distribution. 
+As n tends to infinity, using central limit theorem, the distribution of the sample approaches a 
+normal distribution.  
+For a larger sample size of n (changed from 15 to 10,000) the central limit theorem ensures 
+that the distribution of Y becomes approximately normal.  
+By modifying the code in part (iv), we generate 10,000 values of x and calculate the sample 
+mean and sample variance for each sample. 
+R Code and Output: 
+> set.seed(47) 
+> x_bar = 0*(1:1000) 
+> s_squared = 0*(1:1000) 
+> for(i in 1:1000){ 
++   x_bar[i] = mean(rchisq(10000,2)) 
++   s_squared[i] = var(rchisq(10000,2))   
+(6) 
+(4) 
+(3) 
+Page 3 of 11 
+IAI                             CS1B-1124 
+     Page 4 of 11 
+ 
++ } (5) 
+   
+vii) >  
+> print(mean(x_bar)) 
+[1] 1.998798 
+ 
+Also, by visual inspection we can see that the mean of the sample means is close to 2. 
+ 
+Population mean is 2 (number of degrees of freedom of the variable Xi which has chi-square 
+distribution). Since E(X_bar) = mu, we can conclude that X_bar is an unbiased estimator of 
+population mean mu. 
+ 
+> print(mean(s_squared)) 
+[1] 3.995956 
+ 
+Also, by visual inspection we can see that the mean of the sample variances is close to 4. 
+ 
+Population variance is 4 (2 times the number of degrees of freedom of the variable Xi which 
+has chi-square distribution). Since E(S2) = sigma2, we can conclude that S2 is an unbiased 
+estimator of population variance sigma2. (4) 
+   
+viii) Comment: 
+The plot of X_bar is indicative of normality. This is true as for large sample size, X_bar ~ 
+N(mu, sigma2 / n).  
+ 
+However, plot of Sigma_squared is relatively less normal as compared to plot of X_bar. (2) 
+  [30] 
+   

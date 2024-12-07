@@ -78,15 +78,21 @@ include a summary of the fitted model. Comment on the significance of the parame
 
 ---
 (i)
+```{r}
 load("CS1passenger.RData")
+```
+
 Linear predictor for modelling:
 (a) 𝛼𝛼𝑖𝑖+\beta×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where the intercept 𝛼𝛼𝑖𝑖,𝑖𝑖=1,2 depends on the semester 
 (b) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡: where 𝛼𝛼𝑖𝑖 as above, \beta𝑖𝑖,𝑖𝑖=1,2 also depends on the semester 
-(c) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, \beta𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route. 
+(c) 𝛼𝛼𝑖𝑖+\beta𝑖𝑖×𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡+𝛾𝛾𝑗𝑗 with 𝛼𝛼𝑖𝑖, \beta𝑖𝑖 as above, 𝛾𝛾𝑗𝑗, j = 1,2 depends on the route.
+
+---
+ 
 Alternative answer:
-(a) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2 , where x_1 is temperature and x_2=0 (nonSemester), x_2=1 (Semester)
-(b) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2 , where x_1and x_2 as above
-(c) 𝑦𝑦=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2+𝑏𝑏3x_3 , where x_3=0 (8am), x_3=1 (9am)]
+(a) y=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2 , where x_1 is temperature and x_2=0 (nonSemester), x_2=1 (Semester)
+(b) y=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2 , where x_1and x_2 as above
+(c) y=𝑎𝑎+𝑏𝑏1x_1+𝑏𝑏2x_2+𝛾𝛾x_1x_2+𝑏𝑏3x_3 , where x_3=0 (8am), x_3=1 (9am)]
 
 ---
 
@@ -97,8 +103,13 @@ Model1<- glm(Passengers~temp*semester + route, family=poisson(link="log"))
 
 ---
 
-
+```{r}
 summary(Model1) 
+```
+
+
+---
+
 Call:
 glm(formula = Passengers ~ temp * semester + route, family = poisson(link = "log"))
 Deviance Residuals:
@@ -114,6 +125,11 @@ temp:semestersemester 0.10779 0.05741 1.878 0.0604 .
 ---
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 (Dispersion parameter for poisson family taken to be 1)
+---
+
+BLANK
+
+---
 A number of candidates did not attempt this question, or only attempted part (i).
 For candidates that attempted it, the overall performance was mixed. In part (iii) many candidates plotted the graphs using the simulated values from part (i)(b) or using inappropriate plots, which led to difficulty later in the question.
 

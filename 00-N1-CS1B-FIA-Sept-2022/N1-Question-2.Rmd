@@ -62,7 +62,7 @@ response for the new product.
 
 Q2
 (i)
-$X$ follows a Binomial (𝑛𝑛, \theta) distribution, where n is the number of clients surveyed 
+$X$ follows a Binomial (n , \theta) distribution, where n is the number of clients surveyed 
 and \theta is the probability of getting a positive approval of the product from a client 
 ---
 
@@ -91,7 +91,7 @@ The prior and posterior are of the same family. So, we have a conjugate prior
 (v) (a) Plot the prior density of θ with the parameters obtained in part (iv). Set 
 the maximum limit of the y axis to 12. 
 (b) Plot the posterior distribution of θ on the same graph as above. 
-[Hint: you may find the lines function useful.] 
+[Hint: you may find the <tt>lines</tt> function useful.] 
 
 ---
 

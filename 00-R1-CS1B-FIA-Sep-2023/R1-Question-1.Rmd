@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
@@ -61,8 +61,11 @@ scale.
 
 (iii) Plot the Probability Density Function (PDF) of the sampling distribution of the
 sample mean, under the Central Limit Theorem (CLT), corresponding to the
-samples generated in part (i). The graph of the PDF should be superimposed
+samples generated in part (i). 
+
+The graph of the PDF should be superimposed
 on the histogram produced in part (ii). 
+
 (iv) Comment on the sampling distribution of the sample mean and the application
 of the CLT in this case based on your answers to parts (ii) and (iii). 
 
@@ -115,5 +118,10 @@ The curve shows the exact pdf of the sampling distribution.
 
 * The sampling distribution is relatively asymmetrical compared to the normal. 
 * The CLT does not work very well here 
-as the sample size is small (n = 10). 
+as the sample size is small (n = 10).
+
+---
+
+---
+
 ---

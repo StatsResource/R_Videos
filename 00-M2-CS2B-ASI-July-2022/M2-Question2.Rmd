@@ -1,30 +1,35 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 ***CS2B – Risk Modelling and Survival Analysis ***
@@ -147,5 +152,67 @@ be an appropriate model for the data
 #The ACF looks to cut out at lag 2 and does not contain any periodic oscillation so this would indicate stationarity.
 #The PACF shows no significance past lag 2. This again, indicates stationarit
 y.
+
+---
+
+
+**1. Loading and Converting Data to Time Series Format**
+
+```{r}
+# Load the data
+lung_deaths <- read.csv("Lung_Deaths.csv")
+
+# Convert to a time series object
+lung_deaths_ts <- ts(lung_deaths, start = c(2015, 1), end = c(2020, 12), frequency = 12)
+```
+
+**2. Plotting the Time Series**
+
+```{r}
+plot(lung_deaths_ts, xlab = "Year", ylab = "Number of Deaths", main = "Monthly Lung Deaths")
+```
+
+**3. Plotting ACF and PACF**
+
+```{r}
+par(mfrow=c(1,2))
+acf(lung_deaths_ts, lag.max = 24, main = "ACF of Lung Deaths")
+pacf(lung_deaths_ts, lag.max = 24, main = "PACF of Lung Deaths")
+```
+
+---
+
+**4. Justifying Seasonality**
+
+The ACF plot shows significant spikes at lags 12, 24, and potentially higher multiples of 12. 
+This indicates a strong seasonal pattern with a period of 12 months. The PACF plot also supports this, showing significant spikes at lags 1 and 12.
+
+---
+
+**5. Applying Seasonal Differencing**
+
+```{r}
+lung_deaths_diff <- diff(lung_deaths_ts, lag = 12)
+```
+
+---
+
+**6. Plotting ACF and PACF of the Differenced Series**
+
+```{r}
+par(mfrow=c(1,2))
+acf(lung_deaths_diff, lag.max = 60, main = "ACF of Differenced Lung Deaths")
+pacf(lung_deaths_diff, lag.max = 60, main = "PACF of Differenced Lung Deaths")
+```
+
+---
+
+
+**7. Commenting on the Plots**
+
+The ACF and PACF plots of the differenced series show a more rapid decay, suggesting that the seasonal component has been effectively removed. 
+However, there might still be some residual autocorrelation, particularly at lower lags. This could indicate the need for further differencing or other transformations to achieve stationarity. 
+
+It's important to note that while seasonal differencing can help to remove seasonal patterns, it can also introduce other issues, such as increased variability in the data. Therefore, it's crucial to carefully consider the impact of differencing on the time series and to explore other potential modeling approaches, such as SARIMA models, to capture both seasonal and non-seasonal patterns.
 
 ---

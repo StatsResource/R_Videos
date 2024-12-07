@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+
+[11]
+Q .4) Refer to “data_1.csv”.
+1.  Write down formulae for the estimated integrated hazard and its estimated variance, using 
+the Nelson‐Aalen model.
+2.  Load the table into R. Add two new columns to the table and populate them with estimated 
+integrated hazard, and the estimated variance for each tj of the given data.
+3.   Produce a scatterplot showing the values of the estimated integrated hazard across time tj, 
+for j = 0, 1,2, 3,…,20, together with the corresponding 90% confidence interval values.
+You need to do a proper labelling of the axes. 
+
+---
+
+Solution 4
+# (Part A
+# Estimated Integrated Hazard:
+# Estimated variance of the estimator of the integrated hazard is calculated 
+as:
+ [3]
+ 
+---
+
+### Part A
+
+
+```r
+file &lt;- read.csv("data_1.csv")
+
+head(file)
+```
+
+```
+##   j tj  nj dj Censored.during...tj..tj.1...cj
+## 1 1  3 200  2                              NA
+## 2 2  6 198  5                              NA
+## 3 3  8 193  3                              NA
+## 4 4 11 190  2                              NA
+## 5 5 14 188  4                               5
+## 6 6 18 179 10                              NA
+```
+
+---
+
+
+```r
+dj &lt;- file$dj
+nj &lt;- file$nj
+tj &lt;- file$tj
+```
+
+
+```r
+names(file)[5]&lt;-"Censored"
+Lambda=cumsum(dj/nj)
+Var = cumsum(dj*(nj-dj)/nj^3)
+file$Lambda = Lambda
+file$Variance = Var
+file
+```
+
+```
+##     j tj  nj dj Censored     Lambda     Variance
+## 1   1  3 200  2       NA 0.01000000 0.0000495000
+## 2   2  6 198  5       NA 0.03525253 0.0001738173
+## 3   3  8 193  3       NA 0.05079657 0.0002531045
+## 4   4 11 190  2       NA 0.06132288 0.0003079230
+## 5   5 14 188  4        5 0.08259948 0.0004186884
+## 6   6 18 179 10       NA 0.13846540 0.0007133528
+## 7   7 21 169  3       NA 0.15621688 0.0008165266
+## 8   8 23 166  1       NA 0.16224098 0.0008525977
+## 9   9 24 165  1       NA 0.16830158 0.0008891060
+## 10 10 26 164  2       15 0.18049670 0.0009625597
+## 11 11 30 147  3       NA 0.20090487 0.0010985574
+## 12 12 34 144  4       NA 0.22868264 0.0012861003
+## 13 13 38 140  1       NA 0.23582550 0.0013367563
+## 14 14 39 139  2       NA 0.25021399 0.0014387812
+## 15 15 40 137  4        2 0.27941107 0.0016456761
+## 16 16 43 131  8       NA 0.34047977 0.0020833808
+## 17 17 45 123  4        4 0.37300010 0.0023391756
+## 18 18 50 115  5       NA 0.41647836 0.0027008095
+## 19 19 53 110  2       NA 0.43466018 0.0028630935
+## 20 20 55 108  1       NA 0.44391944 0.0029480336
+```
+
+---
+
+
+&lt;pre&gt;&lt;code&gt;
+## j tj nj dj Censored Lambda Variance
+## 1 1 3 200 2 NA 0.01000000 0.0000495000
+## 2 2 6 198 5 NA 0.03525253 0.0001738173
+## 3 3 8 193 3 NA 0.05079657 0.0002531045
+## 4 4 11 190 2 NA 0.06132288 0.0003079230
+## 5 5 14 188 4 5 0.08259948 0.0004186884
+## 6 6 18 179 10 NA 0.13846540 0.0007133528
+## 7 7 21 169 3 NA 0.15621688 0.0008165266
+## 8 8 23 166 1 NA 0.16224098 0.0008525977
+## 9 9 24 165 1 NA 0.16830158 0.0008891060
+## 10 10 26 164 2 15 0.18049670 0.0009625597
+## 11 11 30 147 3 NA 0.20090487 0.0010985574
+## 12 12 34 144 4 NA 0.22868264 0.0012861003
+## 13 13 38 140 1 NA 0.23582550 0.0013367563
+## 14 14 39 139 2 NA 0.25021399 0.0014387812
+## 15 15 40 137 4 2 0.27941107 0.0016456761
+## 16 16 43 131 8 NA 0.34047977 0.0020833808
+## 17 17 45 123 4 4 0.37300010 0.0023391756
+## 18 18 50 115 5 NA 0.41647836 0.0027008095
+## 19 19 53 110 2 NA 0.43466018 0.0028630935
+## 20 20 55 108 1 NA 0.44391944 0.0029480336
+&lt;/code&gt;&lt;/pre&gt;
+
+---
+
+### Part C
+
+
+```r
+sdLambda=sqrt(Var)
+
+plot(c(0,tj),c(0,Lambda),xlim=c(0,55),ylim=c(0,0.5),type="s",
+ main="Nelson-Aalen estimator of the integrated hazard",
+ xlab="Time t",ylab="Integrated hazard")
+
+lines(tj,Lambda-1.64485*sdLambda, type="s",lty=2)
+lines(tj,Lambda+1.64485*sdLambda, type="s",lty=2)
+```
+
+
+---
+
+### Part C
+
+![](M2-Question4_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+---
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

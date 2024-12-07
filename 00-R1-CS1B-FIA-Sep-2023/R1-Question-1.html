@@ -3,9 +3,8 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,13 +22,8 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
+
+
 
 * Introduction to R for Actuarial Students
 
@@ -60,8 +54,11 @@ scale.
 
 (iii) Plot the Probability Density Function (PDF) of the sampling distribution of the
 sample mean, under the Central Limit Theorem (CLT), corresponding to the
-samples generated in part (i). The graph of the PDF should be superimposed
+samples generated in part (i). 
+
+The graph of the PDF should be superimposed
 on the histogram produced in part (ii). 
+
 (iv) Comment on the sampling distribution of the sample mean and the application
 of the CLT in this case based on your answers to parts (ii) and (iii). 
 
@@ -93,7 +90,7 @@ xbar.a = apply(m1,1,mean)
 hist(xbar.a,freq=F,main="Sampling distribution of Xbar")
 ```
 
-![](R1-Question-1_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](R1-Question-1_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
 ---
 (iii)
@@ -107,7 +104,7 @@ x.grid = seq(0,1,length=1000)
 lines(x.grid,dnorm(x.grid,1/3,sqrt(1/90))) 
 ```
 
-![](R1-Question-1_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](R1-Question-1_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -119,7 +116,12 @@ The curve shows the exact pdf of the sampling distribution.
 
 * The sampling distribution is relatively asymmetrical compared to the normal. 
 * The CLT does not work very well here 
-as the sample size is small (n = 10). 
+as the sample size is small (n = 10).
+
+---
+
+---
+
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

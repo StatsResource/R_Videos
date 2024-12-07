@@ -43,15 +43,22 @@ Q. 4) The marketing dataset contains the impact of three advertising medias
 advertising budget in thousands of dollars along with the fourth column as sales. The 
 advertising experiment has been repeated 200 times.
 The marketing data is provided in a csv file “data.csv”. 
+
+#### Exercises 
+
 1.  Plot the data. Analyze the trend of how sales varies with the advertising budget of all 
 3 advertising medias and comment on the same.
+
 2.  Perform a simple linear regression analysis on the data. Your answer should include 
 summary of the data. 
+
 3.   Comment on the significance of the parameters of the model and justify your 
 observations from part 1 .
 
----
 4.  Calculate the correlation between independent and dependent variables.
+
+---
+
 5.  Fit an improved model for the model in part (2. , using your answer in part (4. . 
 State the linear regression formula clearly explaining all parameters.
 6.   Which model is better between part (2.  and (5.  and why?
@@ -93,6 +100,8 @@ Model <- lm(sales ~ youtube + facebook + newspaper, data = marketing)
 summary (Model)
 ```
 
+---
+
 Call:
 lm(formula = sales ~ youtube + facebook + newspaper, data = marketing)
 Residuals:
@@ -123,12 +132,18 @@ the newspaper budget is not.
 
 Part D 
 
- cor(marketing$youtube,marketing$sales)
-[1] 0.7822244
- cor(marketing$facebook,marketing$sales)
-[1] 0.5762226
- cor(marketing$newspaper,marketing$sales)
-[1] 0.228299
+```{r}
+cor(marketing$youtube,marketing$sales)
+ 
+```
+
+```{r}
+cor(marketing$facebook,marketing$sales)
+```
+
+```{r}
+cor(marketing$newspaper,marketing$sales)
+```
 
 
 * The pairwise plot and the above correlation indicated the same conclusion on newspaper having 
@@ -167,11 +182,9 @@ Sales = 3.5 + 0.045*youtube + 0.187*facebook
 ### Part F 
 
 
-* Adjusted R squared for Model in part (b) and that of part (e) is 0.89, hence there is no particular 
-improvement after removing newspaper parameter. 
+* Adjusted R squared for Model in part (b) and that of part (e) is 0.89, hence there is no particular improvement after removing newspaper parameter. 
 
-* However, a model with less parameters is 
-considered better, hence we can consider Model 1 calculated in part (f) to be a good fit. 
+* However, a model with less parameters is considered better, hence we can consider Model 1 calculated in part (f) to be a good fit. 
 
 ---
 
@@ -205,3 +218,8 @@ ix) (Observed ILI - Estimated ILPart A/Observed ILI
 
 
 BLANK
+
+---
+
+
+---

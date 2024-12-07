@@ -1,0 +1,295 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+                                                                                                                                       
+CS2B-1124 
+Q. 1)  
+install.packages("dplyr", type = "binary") 
+install.packages("randomForest", type = "binary") 
+install.packages("caret", type = "binary") 
+install.packages("rpart", type = "binary") 
+install.packages("rpart.plot", type = "binary") 
+library(dplyr) 
+library(randomForest)  
+library(caret) 
+library(rpart) 
+library(rpart.plot) 
+i) 
+heart_disease <- read.csv("<path>/heart_disease.csv") 
+heart_disease$sex <- as.factor(heart_disease$sex) 
+heart_disease$cp <- as.factor(heart_disease$cp) 
+heart_disease$fbs <- as.factor(heart_disease$fbs) 
+heart_disease$restecg <- as.factor(heart_disease$restecg) 
+heart_disease$exang <- as.factor(heart_disease$exang) 
+heart_disease$slope <- as.factor(heart_disease$slope) 
+heart_disease$ca <- as.factor(heart_disease$ca) 
+heart_disease$thal <- as.factor(heart_disease$thal) 
+heart_disease$target <- as.factor(heart_disease$target) 
+Alternate Solution 
+ii) 
+heart_disease <- heart_disease %>% mutate(across(c(sex, cp, fbs, restecg, exang, slope, ca, 
+thal, target), factor)) 
+(3) 
+train_index <- c(1:(nrow(heart_disease)*0.7)) 
+train_data <- heart_disease[train_index, ] 
+test_data <- heart_disease[-train_index, ] 
+iii)  
+set.seed(123) 
+(2) 
+tree_model <- rpart(target ~ age + sex + cp + trestbps + chol + fbs + restecg + thalach + exang 
++ oldpeak + slope + ca + thal,data = train_data, method = "class") 
+rpart.plot(tree_model) 
+Page 2 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+Inferences 
+• Patients have been split basis the value of thalassemia. If the value is less than 3, then 
+they go to left node else to the right node. Thus, 45% of the data has moved to right 
+node and remaining to the left node. 
+iv)  
+• On the left node, a further split has been done basis the age of the patient. If the age  is 
+less than 59, then it has branched leftward. This represents 35% of the total data. Thus, 
+the probability that a heart disease is diagnosed when thalassemia is 3 and age of the 
+patient is less than 59 is 0.08. However, with thalassemia being 3, age being greater 
+than 59 and chest pain with 4, the probability of diagnosis the heart diseases is 0.73 
+• The right node has been split basis the value of the chest pain. If the value is less than 
+or equal to 3, it has been further split basis the number of major vessels. 
+• Thus, if the thalassemia is not normal but, chest pain being less than equal to 3 and 
+number of colored vessels being 0, the probability of getting heart diseases diagnosed 
+is 0.24. The probability increases to 0.75 if number of colored vessels is greater than 0. 
+• However, if thalassemia is not normal and chest pain is 4, the probability of getting 
+heart diseases diagnosed increases to 0.89. 31% of total population falls here. 
+(3) 
+pred_tree <- predict(tree_model, test_data, type = "class") 
+confusionMatrix(pred_tree, test_data$target) 
+Confusion Matrix and Statistics 
+Reference 
+Prediction  0  1 
+0 39 14 
+1  7 30 
+Accuracy : 0.7667           
+95% CI : (0.6657, 0.8494) 
+No Information Rate : 0.5111           
+Page 3 of 19 
+IAI                                                                                                                                                  CS2B-1124 
+Page 4 of 19 
+ 
+    P-Value [Acc > NIR] : 5.619e-07        
+                                           
+                  Kappa : 0.5315           
+                                           
+ Mcnemar's Test P-Value : 0.1904           
+                                           
+            Sensitivity : 0.8478           
+            Specificity : 0.6818           
+         Pos Pred Value : 0.7358           
+         Neg Pred Value : 0.8108           
+             Prevalence : 0.5111           
+         Detection Rate : 0.4333           
+   Detection Prevalence : 0.5889           
+      Balanced Accuracy : 0.7648           
+                                           
+       'Positive' Class : 0            
+ 
+confusion_matrix_tree <- confusionMatrix(pred_tree, test_data$target) 
+ 
+confusion_matrix_tree$overall['Accuracy'] 
+ Accuracy  
+0.7666667   
+ 
+confusion_matrix_tree$byClass['Precision'] 
+Precision  
+0.7358491 
+ 
+confusion_matrix_tree$byClass['Recall'] 
+   Recall  
+0.8478261  
+(4) 
+  
+ v) 
+set.seed(123) 
+rf_model_1 <- randomForest(target ~ age + sex + cp + trestbps + chol + fbs + restecg + thalach + exang 
++ oldpeak + slope + ca + thal,data = train_data, ntree = 100, mtry = 13) 
+ 
+pred_rf_1 <- predict(rf_model_1, test_data) 
+confusionMatrix(pred_rf_1, test_data$target) 
+ 
+Confusion Matrix and Statistics 
+ 
+          Reference 
+Prediction  0  1 
+         0 42 14 
+         1  4 30 
+                                           
+               Accuracy : 0.8              
+                 95% CI : (0.7025, 0.8769) 
+    No Information Rate : 0.5111           
+    P-Value [Acc > NIR] : 1.329e-08        
+                                           
+                  Kappa : 0.5978           
+                                           
+ Mcnemar's Test P-Value : 0.03389          
+IAI                                                                                                                                                  CS2B-1124 
+Page 5 of 19 
+ 
+                                           
+            Sensitivity : 0.9130           
+            Specificity : 0.6818           
+         Pos Pred Value : 0.7500           
+         Neg Pred Value : 0.8824           
+             Prevalence : 0.5111           
+         Detection Rate : 0.4667           
+   Detection Prevalence : 0.6222           
+      Balanced Accuracy : 0.7974           
+                                           
+       'Positive' Class : 0  
+(4) 
+ 
+ vi)  
+The default value of mtry is d/3 or √𝑑   ~ 4 (rounded off) 
+ 
+set.seed(123) 
+rf_model_2 <- randomForest(target ~ age + sex + cp + trestbps + chol + fbs + restecg + thalach 
++ exang + oldpeak + slope + ca + thal,data = train_data, ntree = 100) 
+ 
+pred_rf_2 <- predict(rf_model_2, test_data) 
+confusionMatrix(pred_rf_2, test_data$target) 
+ 
+Confusion Matrix and Statistics 
+ 
+          Reference 
+Prediction  0  1 
+         0 41 12 
+         1  5 32 
+                                           
+               Accuracy : 0.8111           
+                 95% CI : (0.7149, 0.8859) 
+    No Information Rate : 0.5111           
+    P-Value [Acc > NIR] : 3.351e-09        
+                                           
+                  Kappa : 0.6207           
+                                           
+ Mcnemar's Test P-Value : 0.1456           
+                                           
+            Sensitivity : 0.8913           
+            Specificity : 0.7273           
+         Pos Pred Value : 0.7736           
+         Neg Pred Value : 0.8649           
+             Prevalence : 0.5111           
+         Detection Rate : 0.4556           
+   Detection Prevalence : 0.5889           
+      Balanced Accuracy : 0.8093           
+                                           
+       'Positive' Class : 0  
+ 
+Alternate answer 
+ 
+Confusion Matrix and Statistics 
+ 
+IAI                                                                                                                                                  
+CS2B-1124 
+Reference 
+Prediction  0  1 
+0 42 13 
+1  4 31 
+Accuracy : 0.8111           
+95% CI : (0.7149, 0.8859) 
+No Information Rate : 0.5111           
+P-Value [Acc > NIR] : 3.351e-09        
+Kappa : 0.6203           
+Mcnemar's Test P-Value : 0.05235          
+Sensitivity : 0.9130           
+Specificity : 0.7045           
+Pos Pred Value : 0.7636           
+Neg Pred Value : 0.8857           
+Prevalence : 0.5111           
+Detection Rate : 0.4667           
+Detection Prevalence : 0.6111           
+Balanced Accuracy : 0.8088           
+'Positive' Class : 0                                   
+vii) 
+tree_accuracy <- confusion_matrix_tree$overall['Accuracy'] 
+cat("Decision Tree Accuracy:", tree_accuracy, "\n") 
+rf_accuracy_1 <- confusionMatrix(pred_rf_1, test_data$target)$overall['Accuracy'] 
+rf_accuracy_2 <- confusionMatrix(pred_rf_2, test_data$target)$overall['Accuracy'] 
+cat("Random Forest Accuracy mtry 13:", rf_accuracy_1, "\n") 
+cat("Random Forest Accuracy default mtry:", rf_accuracy_2, "\n") 
+Decision Tree Accuracy: 0.7666667 
+Random Forest Accuracy mtry 13: 0.8 
+Random Forest Accuracy default mtry: 0.8111111  
+(4) 
+The accuracy for the decision tree model is the least, however Random Forest models have 
+better accuracy in this particular scenario. 
+Among the 2 random forest models, the model with default value of mtry has better accuracy 
+than the model which uses all the parameters. 
+Using all predictor variables while fitting Random Forest is bagging. While using 1 predictor 
+variable will overfit the model. Here, Default value (13/3 ~ rounded off to 4) chooses the 4 
+predictor variables at random and fits the model to give the output. Thus, this increases the 
+accuracy and at the same time does not over fits. 
+(3) 
+Page 6 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+viii) 
+Decision Trees:  
+a) Prone to high variance,  
+b) Sensitive to data,  
+c) Can easily overfit due to their flexibility and  
+d) Ability to capture detailed patterns (including noise) in the training data. 
+Random Forest:  
+a) Combines multiple randomized trees and combines their predictions,  
+b) This reduces variance and thus overfitting by diluting the impact of noise and over
+specific patterns learned by individual trees.  
+c) The randomness in feature selection and bootstrapped data sampling ensures diversity 
+in the trees 
+(3) 
+ix) 
+ROC Curve 3 has the highest AUC of 0.99. This is a measure of model performance.  
+Also, ROC Curve 3 has strictly higher True Positives rates for false positives rates at 5% 
+indicating high predictive power. 
+Thus, ROC Curve 3 indicates best model performance among the given three, due to the above 
+stated reasons.  
+AUC for random classifier is 0.5 
+AUC for perfect classifier is 1. 

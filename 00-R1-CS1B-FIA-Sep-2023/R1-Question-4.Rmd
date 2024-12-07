@@ -153,3 +153,70 @@ be rejected.
 
 
 ---
+## Part (i)(a) Exact Probability of Type I Error
+
+**Understanding the Problem:**
+* Null Hypothesis (H₀): Coin is fair (p = 0.5)
+* Alternative Hypothesis (H₁): Coin is unfair (p ≠ 0.5)
+* Rejection Region: Number of heads < 85 or > 115
+
+**Calculating the Probability:**
+We need to calculate the probability of getting less than 85 or more than 115 heads in 200 tosses, assuming the coin is fair. This is a binomial distribution problem.
+
+```R
+# Using R to calculate the probability:
+pbinom(84, 200, 0.5) + (1 - pbinom(114, 200, 0.5))
+```
+
+This gives a probability of approximately **0.046**.
+
+## Part (i)(b) Approximate Probability of Type I Error Using Normal Approximation
+
+**Using Normal Approximation:**
+* Mean (μ) = np = 200 * 0.5 = 100
+* Standard Deviation (σ) = √(np(1-p)) = √(200 * 0.5 * 0.5) ≈ 7.07
+
+We can approximate the binomial distribution with a normal distribution and calculate the z-scores for 84.5 and 115.5:
+
+```R
+z1 = (84.5 - 100) / 7.07 ≈ -2.20
+z2 = (115.5 - 100) / 7.07 ≈ 2.20
+```
+
+Using a standard normal table or R's `pnorm` function:
+
+```R
+pnorm(-2.20) + (1 - pnorm(2.20))
+```
+
+This gives an approximate probability of **0.048**.
+
+## Part (i)(c) Commenting on the Results
+
+The exact and approximate probabilities are very close, indicating that the normal approximation is a good approximation in this case.
+
+## Part (ii) Exact Probability of Not Rejecting an Unfair Coin
+
+If the actual probability of heads is 0.7, we need to calculate the probability of getting between 85 and 115 heads in 200 tosses.
+
+```R
+pbinom(115, 200, 0.7) - pbinom(84, 200, 0.7)
+```
+
+## Part (iii) Power of the Test
+
+```R
+p_values <- seq(0.1, 0.9, 0.01)
+power <- sapply(p_values, function(p) 
+  pbinom(84, 200, p) + (1 - pbinom(114, 200, p)))
+```
+
+## Part (iv) Plotting the Power Curve
+
+```R
+plot(p_values, power, type = "l", xlab = "Probability of Heads", ylab = "Power", main = "Power Curve")
+```
+
+## Part (v) Commenting on the Power Curve
+
+The power curve shows how the test's ability to detect an unfair coin (its power) changes as the true probability of heads deviates from 0.5. As the true probability moves further away from 0.5, the power of the test increases. This means the test is more likely to correctly reject the null hypothesis when the coin is significantly unfair.

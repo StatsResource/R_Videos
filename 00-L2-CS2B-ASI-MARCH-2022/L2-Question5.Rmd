@@ -1,30 +1,35 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE, cache=FALSE}
+
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
-options(scipen = 2, digits = 3) #set to two decimal 
+
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 
@@ -170,3 +175,66 @@ Since all the values are true, the inequality is proved
 ---
 
 ---
+
+**Part A: Formulas for Nelson-Aalen Estimator and Variance**
+
+The Nelson-Aalen estimator for the cumulative hazard function, $\hat{H}(t)$, is given by:
+
+$$\hat{H}(t_j) = \sum_{i=1}^{j} \frac{d_i}{n_i}$$
+
+where:
+* $d_i$ is the number of events at time $t_i$
+* $n_i$ is the number of individuals at risk at time $t_i$
+
+The variance of the Nelson-Aalen estimator can be estimated using Greenwood's formula:
+
+$$\widehat{Var}(\hat{H}(t_j)) = \sum_{i=1}^{j} \frac{d_i}{n_i^2}$$
+
+---
+
+**Part B: Calculating Estimated Integrated Hazard and Variance**
+
+To perform these calculations, we'll need to load the data and iterate through the time intervals, calculating the estimates at each step.
+
+---
+
+**Part C: Plotting Nelson-Aalen Estimator with Confidence Intervals**
+
+```R
+# Load the data
+data <- read.csv("CS2B_Mar22_Dataset3.csv")
+
+# Calculate Nelson-Aalen estimator and variance
+data$H <- cumsum(data$Dj / data$Nj)
+data$Var_H <- cumsum(data$Dj / data$Nj^2)
+
+# Calculate 95% confidence intervals
+data$lower <- data$H - 1.96 * sqrt(data$Var_H)
+data$upper <- data$H + 1.96 * sqrt(data$Var_H)
+
+# Plot the Nelson-Aalen estimator with confidence intervals
+plot(data$tj, data$H, type = "s", xlab = "Time", ylab = "Cumulative Hazard", main = "Nelson-Aalen Estimator")
+lines(data$tj, data$lower, col = "red", lty = 2)
+lines(data$tj, data$upper, col = "red", lty = 2)
+```
+
+---
+
+**Part D: Kaplan-Meier Estimator**
+
+The Kaplan-Meier estimator for the survival function, $\hat{S}(t)$, is given by:
+
+$$\hat{S}(t_j) = \prod_{i=1}^{j} (1 - \frac{d_i}{n_i})$$
+
+**Part E: Comparing Nelson-Aalen and Kaplan-Meier**
+
+We can numerically verify the relationship between the two estimators:
+
+$$\hat{S}(t) = e^{-\hat{H}(t)}$$
+
+By calculating both estimators for each time point and comparing the results, we can confirm this relationship.
+
+**Note:**
+To provide more specific calculations and visualizations, the actual data from `CS2B_Mar22_Dataset3.csv` would be needed. However, the general approach outlined above can be applied to any dataset.
+ 
+Remember to install and load necessary packages like `survival` for survival analysis in R.

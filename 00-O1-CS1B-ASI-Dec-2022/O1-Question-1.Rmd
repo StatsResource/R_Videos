@@ -148,7 +148,9 @@ nm <- length(weight_M)
 Statisticm <- ((xbarm-mum)/(sm/sqrt(nm)))
 Statisticm
 ```
-[1] 3.295867
+
+---
+
 
 ```{r}
 1- pnorm(Statisticm)

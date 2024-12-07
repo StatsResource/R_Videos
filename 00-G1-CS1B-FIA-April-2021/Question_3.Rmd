@@ -50,8 +50,9 @@ different prior distributions for the proportion p.
 
 Alice assumed a discrete prior distribution g(p) given in the following table: 
 
-p 0.1 0.2 0.3 0.4 0.5 
-g(p) 0.5 0.2 0.2 0.05 0.05 
+!p !0.1 !0.2 !0.3 ! 0.4 !0.5 !
+!--!---!---!----!---!---!
+!g(p) !0.5 !0.2 !0.2 !0.05 ! 0.05 ! 
 Norman chose to use a beta prior distribution for $p$ , with parameters 3 and 12. 
 
 ---
@@ -64,7 +65,7 @@ distribution.
 (c) Calculate the mean and standard deviation of the values generated in
 part (i)(b).  
 (d) Comment on whether or not Alice and Norman have similar prior 
-beliefs for p. 
+beliefs for $p$. 
 
 ---
 
@@ -73,9 +74,9 @@ Norman’s beta prior distribution for p is adopted for the remainder of the que
 
 
 * The likelihood of the model in the study is given by: 
-Lሺpሻ ∝ p\sum yi ሺ1 – pሻn – \sum yi . 
+L(pሻ ∝ p\sum yi (1 – pሻn – \sum yi . 
 * The posterior density of $p$ is given by: 
-f(p|y) ∝ p2 + \sum yiሺ1 – pሻ11 + n – \sumyi ,
+f(p|y) ∝ p2 + \sum yi(1 – pሻ11 + n – \sumyi ,
 where \sum yi is the total sum of all the binary data. 
 
 ---
@@ -173,7 +174,7 @@ ylim=c(0, 14), ylab ="", xlab="p")
 
 ### Exercise  4
 
-(iv) (a) Plot the posterior density of $p$ by adding it to the plot in part (iii). 
+(a) Plot the posterior density of $p$ by adding it to the plot in part (iii). 
 (b) Compare the two densities using your answer in part (iv)(a). 
 (c) Comment on the extent to which the posterior distribution is affected 
 by the prior distribution. 
@@ -353,31 +354,45 @@ Null deviance: 30.406 on 19 degrees of freedom
 Residual deviance: 13.982 on 16 degrees of freedom
 AIC: 60.336
 
+---
+
 (b)
 The AIC has fallen from 62.187 to 60.336 - so new model has improved the initial model 
 (iv)(a)
->Model3<- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
->Modela<- glm(Passengers~temp+ semester,family=poisson(link="log")) 
->Modelb<- glm(Passengers~temp*semester,family=poisson(link="log")) 
->Model3$aic
+```{r}
+Model3<- glm(Passengers~temp+temp:semester,family=poisson(link="log"))
+Modela<- glm(Passengers~temp+ semester,family=poisson(link="log")) 
+Modelb<- glm(Passengers~temp*semester,family=poisson(link="log")) 
+```
+Model3$aic
 59.65976 
->Modela$aic
+Modela$aic
 62.03591 
 
->Modelb$aic
+Modelb$aic
 60.33588 
+
+---
 Model3 has the lowest AIC compared with the other models. We conclude that Model3 outperforms the other models considered here 
 (b)
 Model3 doesn’t include both of the main effects. Despite this, the model still suits the data well 
 (v)(a)
+
+```{r}
 plot(Model3,1) 
+```
 
 (b)
 The residuals plot shows no patterns - exhibiting a fairly random scatter around zero with constant variance and no outliers 
 The plot suggests that the model is appropriate 
 (vi)
->predict(Model3, data.frame(temp=0,semester="semester",route="8am"),type = "response") [3]
+```{r}
+predict(Model3, data.frame(temp=0,semester="semester",route="8am"),type = "response") 
+```
 Predicted number is: 1.866568 
-[Total 35]
-CS1B - Actuarial Statistics - Core Principles - April 2021 - Examiners’ report
-CS1B A2021 © Institute and Faculty of Actuaries
+
+---
+
+BLANK
+
+---

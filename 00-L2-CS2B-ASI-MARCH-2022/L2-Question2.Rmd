@@ -1,30 +1,35 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE, cache=FALSE}
+
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
-options(scipen = 2, digits = 3) #set to two decimal 
+
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 
@@ -53,6 +58,7 @@ Death which are measured at the end of each week.
 different states. 
 * Each row contains a pair of State_From and State_To where State_From 
 denotes the starting state and State_To denotes the state after a week’s transition. 
+
 * The following notation has been used:
  I-Infected, 
  Q-Quarantined, 
@@ -276,3 +282,47 @@ round(Quarantined,0)
 * The other states are completely zeroes
 
 ---
+
+
+---
+
+
+**Part A: Computing Transition Probabilities**
+
+```R
+# Load the data
+coviddata <- read.csv("CS2B_Mar22_Dataset2.csv")
+
+# Create a contingency table to calculate transition probabilities
+transition_matrix <- table(coviddata$State_From, coviddata$State_To)
+
+# Convert the table to a matrix and normalize row-wise to get transition probabilities
+transition_matrix <- prop.table(as.matrix(transition_matrix), 1)
+```
+
+**Part B: Identifying Absorbing States**
+
+An absorbing state is a state from which it is impossible to leave. In this case, the absorbing states are 'Recovered' (R) and 'Death' (D) as there are no outgoing transitions from these states.
+
+**Part C: Creating Markov Chain Model and Plotting**
+
+```R
+# Install and load the markovchain package
+install.packages("markovchain")
+library(markovchain)
+
+# Define the state space
+states <- c("I", "Q", "H", "R", "D")
+
+# Create the Markov chain object
+covid19 <- new("markovchain", states = states, transitionMatrix = transition_matrix)
+
+# Plot the Markov chain
+plot(covid19)
+```
+
+**Interpretation of the Markov Chain Model:**
+
+The Markov chain model visually represents the possible transitions between the different states of the COVID-19 model. The thickness of the arrows indicates the probability of transitioning from one state to another. The absorbing states 'Recovered' and 'Death' are shown as terminal nodes. 
+
+By analyzing the transition probabilities and the Markov chain diagram, insights can be gained into the long-term behavior of the system. For example, the probability of eventually recovering or dying can be estimated by analyzing the absorbing probabilities.

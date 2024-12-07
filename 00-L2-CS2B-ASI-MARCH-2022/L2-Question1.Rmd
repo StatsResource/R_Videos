@@ -1,33 +1,36 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE, cache=FALSE}
+
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
-options(scipen = 2, digits = 3) #set to two decimal 
+
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
-
-
 ***CS2B – Risk Modelling and Survival Analysis ***
 
 
@@ -60,7 +63,7 @@ applying the function in your answer sheet.
 
 D. Compare the predicted and actual decisions by computing precision, recall and F1 score. 
 
-E. Comment on the results obtained in (iv). 
+E. Comment on the results obtained in Part D. 
 
 ---
 Solution 1:
@@ -170,7 +173,7 @@ f1
 
 #### Part E.
 
-*  Lower precision value indicates the presence of larger number of False positives
+* Lower precision value indicates the presence of larger number of False positives
 
 * Lower recall value indicates the presence of larger number of False negatives
 
@@ -183,3 +186,71 @@ of instances)
 
 ---
 
+
+**Part A: Writing the Decision Tree Function in R**
+
+```R
+decision_tree <- function(param1, param2, param3) {
+  if (param1 > 150) {
+    if (param2 > 70) {
+      return(1)  # Surgery required
+    } else {
+      return(0)  # Surgery not required
+    }
+  } else {
+    if (param3 > 300) {
+      return(1)  # Surgery required
+    } else {
+      return(0)  # Surgery not required
+    }
+  }
+}
+```
+
+**Part B: Checking Function Value**
+
+```R
+result <- decision_tree(180, 75, 350)
+print(result)  # Output: 1 (Surgery required)
+```
+
+**Part C: Applying the Function to the Dataset**
+
+```R
+# Load the data
+decisionData <- read.csv("CS2B_Mar22_Dataset1.csv")
+
+# Apply the function to each row
+decisionData$predicted_decision <- apply(decisionData[, 1:3], 1, function(x) decision_tree(x[1], x[2], x[3]))
+
+# Print the data with predicted decisions
+print(decisionData)
+```
+
+**Part D: Evaluating the Model**
+
+```R
+# Calculate confusion matrix
+confusion_matrix <- table(decisionData$Actual_Decision, decisionData$predicted_decision)
+
+# Calculate precision, recall, and F1-score
+precision <- confusion_matrix[2,2] / (confusion_matrix[2,2] + confusion_matrix[1,2])
+recall <- confusion_matrix[2,2] / (confusion_matrix[2,2] + confusion_matrix[2,1])
+f1_score <- 2 * (precision * recall) / (precision + recall)
+
+print(paste("Precision:", precision))
+print(paste("Recall:", recall))
+print(paste("F1-score:", f1_score))
+```
+
+**Part E: Commenting on the Results**
+
+The precision, recall, and F1-score provide insights into the model's performance.
+
+* **Precision:** Measures the proportion of positive predictions that are actually positive.
+* **Recall:** Measures the proportion of actual positive cases that are correctly identified.
+* **F1-score:** Balances precision and recall.
+
+By analyzing these metrics, we can assess how well the decision tree model is performing in predicting the need for surgery. A higher F1-score indicates a better-performing model. 
+
+However, it's important to note that the effectiveness of the model can be influenced by various factors, such as the quality and quantity of the training data, the complexity of the decision tree, and the underlying medical conditions. To improve the model's performance, consider exploring more advanced techniques like machine learning algorithms or consulting with domain experts to refine the decision rules.

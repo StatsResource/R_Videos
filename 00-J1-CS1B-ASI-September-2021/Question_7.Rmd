@@ -45,33 +45,45 @@ You have received the data set “HealthClaims.csv” from the claims department
 * AGE: Age of the Insured
 * CLAIM_AMOUNT: Amount of health claim paid by the Insurer
 
-Refer to the data set “HealthClaims.csv”.
+Refer to the data set <tt>“HealthClaims.csv”/tt>.
 
 --- 
 
-#### Exercises
+### Exercises
 
-Part A Fit a linear regression model to the data with “CLAIM_AMOUNT” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
+#### Part A 
+
+Fit a linear regression model to the data with “<tt>CLAIM_AMOUNT</tt>” as the response and other variables as explanatory variables (consider “Age” as numerical variable and others as categorical variables).
 Provide your interpretation of the model by explaining R-Squared, Adjusted R-Squared & p-value of the model. Identify the significant variables in the prediction of claim “CLAIM_AMOUNT”.
 
-B.  Determine 95% confidence intervals for the parameters of the regression model.
+#### Part B.
 
-C. Plot “QQ plot of the residuals” and comment on applicability of linear regression model.
+Determine 95% confidence intervals for the parameters of the regression model.
+
+#### Part C.
+
+Plot “QQ plot of the residuals” and comment on applicability of linear regression model.
 
 D. Your manager has also suggested you to include the interaction effects between Geography and Profession, Profession and Gender, Gender and Geography as additional explanatory variables to the set of independent variables taken in (Part A for the purpose of improvement of the model. Comment on the suitability of inclusion of interaction effects for the purpose of improvement of the model.
 
-E. One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (Part A and (D..
+E. One of your friend working with Actuarial consulting firm told you that natural logarithm{loge(CLAIM_AMOUNT)} is better fit to normal distribution than “CLAIM_AMOUNT”. 
+
+You wanted to validate the same by fitting a linear regression model to the data with loge(CLAIM_AMOUNT) as the response and other variables as explanatory variables. Identify and comment on the key differences between the models in (Part A and (D..
 
 
 ---
 
 Solution 7:
-Part A # Fitting Linear Regression Model
+Part A 
+
 R Code:
 
 ```{r}
 Data_claim = read.csv('HealthClaims.csv')
-model = lm(CLAIM_AMOUNT~.,data = Data_claim)
+# Fitting Linear Regression Model
+
+model <- lm(CLAIM_AMOUNT~.,data = Data_claim)
+
 summary(model) 
 ```
 
@@ -114,6 +126,8 @@ R code:
 anova(model)
 ```
 
+---
+
 R Output:
 Analysis of Variance Table
 Response: CLAIM_AMOUNT
@@ -148,10 +162,13 @@ at 5% level of significance.
 although the overall model is significant. 
 
 * As Geographical region 1, Profession Agriculture and 
-Gender female are insignificant hence clubbed in the intercept itself. It is also observed that 
+Gender female are insignificant hence clubbed in the intercept itself. 
+
+It is also observed that 
 Geographical region 10 has a positive coefficient and Geographical region 2 has negative 
 coefficient indicating that claim paid for Geographical region 2 is significantly lower than 
-Geographical region 10. Similarly claim paid for profession business is much higher compared 
+Geographical region 10. 
+Similarly claim paid for profession business is much higher compared 
 to profession self-employed. 
 
 * From ANOVA table, it can be concluded that all the variables are significant in terms of claim 
@@ -167,6 +184,8 @@ from zero
 ```{r}
 confint(model,level=0.95) 
 ```
+
+---
 
 R output: 
  2.5 % 97.5 %
@@ -201,8 +220,8 @@ qqnorm(model$residuals)
 ---
  
 If the residuals are normally distributed, it is expected the Q-Q plot to be along the diagonal. 
-Here it is not , indicating residuals are not forming normal distribution. Hence linear regression 
-may not be a good fit to the data 
+Here it is not , indicating residuals are not forming normal distribution. 
+Hence linear regression may not be a good fit to the data 
  
 --- 
 
@@ -321,9 +340,16 @@ summary(model3)
 ```
 
 
---
+---
+
 R code:
+
+```{r}
 anova(model3)
+```
+
+---
+
 Analysis of Variance Table
 Response: log(CLAIM_AMOUNT)
  Df Sum Sq Mean Sq F value Pr(>F) 
@@ -338,7 +364,7 @@ Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 
 ---
 
 Key differences:
- R-Squared and Adjusted R-Squared increased to above 90% and hence model is a better 
+*  R-Squared and Adjusted R-Squared increased to above 90% and hence model is a better 
 fit compared to the earlier models 
- The significance level of few factor coefficients changed when compared with the model 
+* The significance level of few factor coefficients changed when compared with the model 
 in (Part A however ANOVA table shows there is no change in number of significant variables 

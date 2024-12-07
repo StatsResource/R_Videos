@@ -84,6 +84,9 @@ part (i).
 The table below shows additional information that has been provided showing the 
 number of claims, Pij, over a 5-year period for the five insurance companies. 
 Year, j 
+
+---
+
 2016 2017 2018 2019 2020 
 Insurance 
 company, i

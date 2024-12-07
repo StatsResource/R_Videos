@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
@@ -59,8 +59,9 @@ This dataset has 50 observations of two variables:
 (i) Fit a linear regression model to the data using stopping distance as the
 response variable and speed as the only explanatory variable, stating the
 estimated intercept and slope of the regression line. 
+
 The actuary wants to predict the stopping distances for the following ten speed values:
-6 7 16 22 28 33 40 42 57 64
+$$6 7 16 22 28 33 40 42 57 64$$
 
 
 ---

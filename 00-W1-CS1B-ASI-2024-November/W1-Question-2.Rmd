@@ -1,0 +1,116 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+Solution 2:  
+   
+i) A. Pibar represents the total number of claims for every insurer (total of no of claims across 
+all the years) 
+B. Pstar is a quantity calculated by taking sum over all insurers of (total number of claims per 
+insurer multiplied by proportion of total no of claims of that insurer to total) and divided 
+by total number of cells minus 1. This quantity is used in the denominator while 
+determining V(m(θ)). 
+C. m or E(m(θ)) is the expected value of average claims per policy based on the collateral 
+data. 
+D. s or E(s2(θ)) is the expected value of the variance of claims per policy based on the 
+collateral data. 
+E. v or V(m(θ)) is the variance of average claims per policy based on the collateral data 
+ 
+(5) 
+   
+ii) > claims<-data.frame( 
++   Year1 = c(14.2,58.6,123), 
++   Year2 = c(15.8,63.1,132), 
++   Year3 = c(22.7,81.0,161), 
++   Year4 = c(19,64.2,133) 
++ ) 
+>  
+> nopols<-data.frame( 
++   Year1 = c(163,4435,16184), 
++   Year2 = c(189,4761,17443), 
+ 
+ 
+ 
+ 
+IAI                             
+CS1B-1124 
++   Year3 = c(252,5576,20102), 
++   Year4 = c(199,4581,18000) 
++ ) 
+>  
+> n <- ncol(claims) ## This stands for n 
+> N <-nrow(claims) ## This stands for N 
+> X <- claims/nopols ## This stands for Xij 
+> Xibar <-rowSums(claims) / rowSums(nopols) # Xibar   
+> Pibar <- rowSums(nopols) # Pibar  
+> Pbar <-sum(Pibar) # Pbar 
+> Pstar <-sum(Pibar * (1-Pibar/Pbar))/(N*n-1) # Pstar 
+> m <-sum(claims) / Pbar # E[m(θ)] 
+> print(m) 
+[1] 0.009659901 
+>  
+> s <- mean(rowSums(nopols *(X-Xibar)^2)/(n-1)) # E[s2(θ)]  
+> print(s) 
+[1] 0.002749923 
+> v <- (sum(rowSums(nopols*(X-m)^2))/(n*N-1)-s)/Pstar 
+> print(v) 
+[1] 0.0001793695 
+iii) 
+iv) 
+v) 
+> Zi <- Pibar / (Pibar + s/v) 
+> print(Zi) 
+[1] 0.9812655 0.9992084 0.9997863 
+> Premi <- Zi * Xibar + (1-Zi) * m 
+> print(Premi) 
+[1] 0.087798326 0.013787873 0.007654237 
+> nopols_y5 <- c(5000,4800,4200) 
+> claims_y5 <- Premi * nopols_y5 
+> print(claims_y5) 
+[1] 438.99163  66.18179  32.14779 
+Since the credibility premiums are high and close to 1 in case of all insurers, we are giving 
+more importance to the direct data (related to that particular insurer) and ignoring the 
+collateral data (data related to other insurers) 
+This is reasonable as there is wide variation in the claims amount for various insurers and 
+hence more emphasis should be given on direct data. 

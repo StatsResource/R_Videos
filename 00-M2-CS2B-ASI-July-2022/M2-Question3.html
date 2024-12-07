@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Introduction to R for Actuarial Students
+]
+
+---
+
+
+
+
+
+
+
+***CS2B – Risk Modelling and Survival Analysis ***
+
+
+* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+
+* Time Series. Probability Distributions, Survival Analysis
+
+---
+[25]
+Q. 3) The number of customers arriving to a grocery store can be modelled by a Poisson process 
+with rate of 30 customers per hour.
+
+#### Exercises 
+A.  Find the probability that there are 2 customers between 10:00 AM and 10:15 AM. 
+2.  Find the probability that there are 7 customers between 11:00 AM and 11:20 AM
+and 15 customers between 11:20 AM and 12 noon. (
+3.   Prepare a probability distribution table for different number of customers (0, 1, 2…20) at 
+any given 10 minute time interval. (5)
+
+---
+
+Solution 3
+### Part A 
+dpois(2,7.5)
+## [1] 0.0155555
+ [2]
+ 
+---
+
+# Part B
+
+* Assume Independent Events
+* **A**:  7 customers between 11:00 AM and 11:20 AM
+* **B**:  15 customers between 11:20 AM and 12 noon
+
+dpois(7,10)*dpois(15,20)
+## [1] 0.004652489
+ [4]
+ 
+---
+ 
+# Part C
+
+
+```r
+probs&lt;-c()
+for (i in 0:20) {
+   p &lt;- dpois(i,5)
+   probs&lt;-c(probs,p)
+}
+```
+
+output &lt;- matrix(NA, nrow = 21, ncol = 2)
+output&lt;-as.data.frame(output)
+names(output)&lt;-c("Customers","Probability")
+
+output$Customers&lt;-0:20
+output$Probability&lt;-probs
+output
+
+---
+## Customers Probability
+## 1 0 6.737947e-03
+## 2 1 3.368973e-02
+## 3 2 8.422434e-02
+## 4 3 1.403739e-01
+## 5 4 1.754674e-01
+## 6 5 1.754674e-01
+## 7 6 1.462228e-01
+## 8 7 1.044449e-01
+## 9 8 6.527804e-02
+## 10 9 3.626558e-02
+## 11 10 1.813279e-02
+## 12 11 8.242177e-03
+## 13 12 3.434240e-03
+## 14 13 1.320862e-03
+## 15 14 4.717363e-04
+## 16 15 1.572454e-04
+## 17 16 4.913920e-05
+## 18 17 1.445271e-05
+## 19 18 4.014640e-06
+## 20 19 1.056484e-06
+## 21 20 2.641211e-07
+
+---
+
+
+
+```r
+ppois(0:20,5)
+```
+
+```
+##  [1] 0.006737947 0.040427682 0.124652019 0.265025915 0.440493285 0.615960655
+##  [7] 0.762183463 0.866628326 0.931906365 0.968171943 0.986304731 0.994546908
+## [13] 0.997981148 0.999302010 0.999773746 0.999930992 0.999980131 0.999994584
+## [19] 0.999998598 0.999999655 0.999999919
+```
+
+## A. Probability of 2 customers in 15 minutes
+
+**Given:**
+* Average rate (λ) = 30 customers/hour
+* Time interval (t) = 15 minutes = 0.25 hours
+
+**Calculating λt:**
+* λt = 30 * 0.25 = 7.5
+
+**Using Poisson probability formula:**
+P(X = 2) = (e^(-λt) * (λt)^x) / x!
+= (e^(-7.5) * 7.5^2) / 2!
+≈ 0.0842
+
+## B. Probability of 7 customers in 20 minutes and 15 customers in 20 minutes
+
+**Given:**
+* λ = 30 customers/hour
+* Time interval (t) = 20 minutes = 1/3 hour
+
+**Calculating λt:**
+* λt = 30 * (1/3) = 10
+
+**Using Poisson probability formula:**
+P(X = 7 in 20 minutes) = (e^(-10) * 10^7) / 7! ≈ 0.0901
+P(X = 15 in 20 minutes) = (e^(-10) * 10^15) / 15! ≈ 0.0347
+
+Since these events are independent, the probability of both occurring is the product of their individual probabilities:
+P(7 in 20 minutes and 15 in 20 minutes) = 0.0901 * 0.0347 ≈ 0.0031
+
+
+---
+
+## C. Probability Distribution Table for 10-Minute Intervals
+
+**Given:**
+* λ = 30 customers/hour
+* Time interval (t) = 10 minutes = 1/6 hour
+
+**Calculating λt:**
+* λt = 30 * (1/6) = 5
+
+---
+
+**Creating the probability distribution table:**
+
+| Number of Customers (X) | Probability P(X) |
+|---|---|
+| 0 | 0.0067 |
+| 1 | 0.0337 |
+| 2 | 0.0842 |
+| 3 | 0.1404 |
+| 4 | 0.1755 |
+| 5 | 0.1755 |
+| 6 | 0.1463 |
+| 7 | 0.1042 |
+| 8 | 0.0652 |
+| 9 | 0.0363 |
+| 10 | 0.0181 |
+| 11 | 0.0082 |
+| 12 | 0.0034 |
+| 13 | 0.0013 |
+| 14 | 0.0005 |
+| 15+ | 0.0003 |
+
+**Note:** To calculate the probabilities for X ≥ 15, we can use the cumulative distribution function (CDF) of the Poisson distribution or approximate it using the normal distribution.
+
+---
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

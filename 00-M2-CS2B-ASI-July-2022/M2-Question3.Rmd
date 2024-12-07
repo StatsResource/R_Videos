@@ -1,30 +1,35 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 ***CS2B – Risk Modelling and Survival Analysis ***
@@ -116,3 +121,75 @@ output
 ```{r}
 ppois(0:20,5)
 ```
+
+## A. Probability of 2 customers in 15 minutes
+
+**Given:**
+* Average rate (λ) = 30 customers/hour
+* Time interval (t) = 15 minutes = 0.25 hours
+
+**Calculating λt:**
+* λt = 30 * 0.25 = 7.5
+
+**Using Poisson probability formula:**
+P(X = 2) = (e^(-λt) * (λt)^x) / x!
+= (e^(-7.5) * 7.5^2) / 2!
+≈ 0.0842
+
+## B. Probability of 7 customers in 20 minutes and 15 customers in 20 minutes
+
+**Given:**
+* λ = 30 customers/hour
+* Time interval (t) = 20 minutes = 1/3 hour
+
+**Calculating λt:**
+* λt = 30 * (1/3) = 10
+
+**Using Poisson probability formula:**
+P(X = 7 in 20 minutes) = (e^(-10) * 10^7) / 7! ≈ 0.0901
+P(X = 15 in 20 minutes) = (e^(-10) * 10^15) / 15! ≈ 0.0347
+
+Since these events are independent, the probability of both occurring is the product of their individual probabilities:
+P(7 in 20 minutes and 15 in 20 minutes) = 0.0901 * 0.0347 ≈ 0.0031
+
+
+---
+
+## C. Probability Distribution Table for 10-Minute Intervals
+
+**Given:**
+* λ = 30 customers/hour
+* Time interval (t) = 10 minutes = 1/6 hour
+
+**Calculating λt:**
+* λt = 30 * (1/6) = 5
+
+---
+
+**Creating the probability distribution table:**
+
+| Number of Customers (X) | Probability P(X) |
+|---|---|
+| 0 | 0.0067 |
+| 1 | 0.0337 |
+| 2 | 0.0842 |
+| 3 | 0.1404 |
+| 4 | 0.1755 |
+| 5 | 0.1755 |
+| 6 | 0.1463 |
+| 7 | 0.1042 |
+| 8 | 0.0652 |
+| 9 | 0.0363 |
+| 10 | 0.0181 |
+| 11 | 0.0082 |
+| 12 | 0.0034 |
+| 13 | 0.0013 |
+| 14 | 0.0005 |
+| 15+ | 0.0003 |
+
+**Note:** To calculate the probabilities for X ≥ 15, we can use the cumulative distribution function (CDF) of the Poisson distribution or approximate it using the normal distribution.
+
+---
+
+
+---

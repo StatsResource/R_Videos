@@ -1,30 +1,35 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
 
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
 
 ***CS2B – Risk Modelling and Survival Analysis ***
@@ -56,14 +61,25 @@ as:
  [3]
  
 ---
-# (iPart A
+
+### Part A
 
 ```{r}
-file <- read.csv("D:\\IAI ### Question  Paper\\July 2022\\CS2B_Final\\data_1.csv")
+file <- read.csv("data_1.csv")
+
+head(file)
+```
+
+---
+
+```{r}
 dj <- file$dj
 nj <- file$nj
 tj <- file$tj
 
+```
+
+```{r}
 names(file)[5]<-"Censored"
 Lambda=cumsum(dj/nj)
 Var = cumsum(dj*(nj-dj)/nj^3)
@@ -72,6 +88,10 @@ file$Variance = Var
 file
 ```
 
+---
+
+
+<pre><code>
 ## j tj nj dj Censored Lambda Variance
 ## 1 1 3 200 2 NA 0.01000000 0.0000495000
 ## 2 2 6 198 5 NA 0.03525253 0.0001738173
@@ -93,6 +113,7 @@ file
 ## 18 18 50 115 5 NA 0.41647836 0.0027008095
 ## 19 19 53 110 2 NA 0.43466018 0.0028630935
 ## 20 20 55 108 1 NA 0.44391944 0.0029480336
+</code></pre>
 
 ---
 
@@ -126,3 +147,11 @@ lines(tj,Lambda-1.64485*sdLambda, type="s",lty=2)
 lines(tj,Lambda+1.64485*sdLambda, type="s",lty=2)
 ```
 
+
+---
+
+
+---
+
+
+---

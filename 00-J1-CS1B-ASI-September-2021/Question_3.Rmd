@@ -39,33 +39,38 @@ pre {
 
 A child tosses n coins and the outcome of heads and tails are recorded in n samples as
 $X_1, X_2, \ldots X_n$, where, Xi’s are independent Bernoulli variables with $p = 0.5$. 
+
 The total outcome of $n$ variables is $Y = X_1 +\ldots + Xn$
 
+#### Exercises 
 
 1. Specify the distribution of Y 
 
 2. Simulate a sample of 10 values for Y 
 
-3.  Assess the value of Y for the sample created in (B.  
+3. Assess the value of Y for the sample created in (B.  
+
 4.  what is the probability of Y = 4 
 
 ---
 
-#### Solution 3:
+#### Solution 1:
 
-Part A If $X_1, X_2, \ldots X_n$ follows Bernoulli distribution with p = 0.5 
+Part A 
 
-Then Y follows binomial distribution ~ Bin(n,p) as sum of independent Bernoulli distribution 
+* If $X_1, X_2, \ldots X_n$ follows Bernoulli distribution with p = 0.5 
+
+* Then Y follows binomial distribution ~ Bin(n,p) as sum of independent Bernoulli distribution 
 results in binomial distribution with n trials and p is the probability of success. 
 
 ---
 
 ### Part B.  
 
-Since ‘n’ is not specified in the question, sample simulations of Y can be generated assuming any 
+* Since ‘n’ is not specified in the question, sample simulations of Y can be generated assuming any 
 value of ‘n’. 
 
-The answer below is calculated using <tt>n = 10</tt>, however marks are allotted to 
+* The answer below is calculated using <tt>n = 10</tt>, however marks are allotted to 
 simulations of Y, calculated using any value of ‘n’.
 
 
@@ -89,7 +94,7 @@ the numbers stated below, please evaluate accordingly)
 
 ### Part C.
  
-* The sample simulated in part (B.  are representative value of variable Y itself. 
+* The sample simulated in Exercise B are representative value of variable Y itself. 
 
 * Hence, no further 
 calculation required to assess the value of variable Y. 
@@ -101,8 +106,9 @@ calculation required to assess the value of variable Y.
 dbinom (4,n,p)
 </code></pre>
 
-The solution is based on assumption that n = 10 (as assumed in part(B. ). Marks are allotted to 
-solutions calculated using any value for “n”.
-0.2050781 
+The solution is based on assumption that n = 10 (as assumed in Exercise 2 ). 
+
+Marks are allotted to 
+solutions calculated using any value for “n”.0.2050781 
 
 ---

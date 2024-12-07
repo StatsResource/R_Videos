@@ -73,10 +73,9 @@ Ticket Price - INR 0.50
 
 The Government of Actuaria publishes its draw of 5 White Balls and the Power Ball. If all 
 the 5 White Balls and the Power Ball drawn by the ticketholder exactly match with the balls 
-drawn by the Government, then the ticketholder is entitled to a jackpot. The amount of 
-jackpot is INR 2 crore. 
-* Kindly note that for white balls, the order is not considered relevant 
-while matching.
+drawn by the Government, then the ticketholder is entitled to a jackpot.
+* The amount of jackpot is INR 2 crore. 
+* Kindly note that for white balls, the order is not considered relevant  while matching.
 
 
 

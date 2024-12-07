@@ -1,0 +1,283 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+Q. 3)  
+i. 
+install.packages("markovchain", type = "binary") 
+install.packages("dplyr", type = "binary") 
+library(markovchain) 
+library(dplyr) 
+Page 14 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+MC <- new("markovchain", states = c("1","2","3"), 
+transitionMatrix = matrix(data = c(0.1,0.6,0.3,0.4,0.1,0.5,0.2,0.3,0.5),  
+byrow = TRUE , nrow = 3), name = "MC") 
+MC 
+A  3 - dimensional discrete Markov Chain defined by the following states:  
+1, 2, 3  
+The transition matrix  (by rows)  is defined as follows:  
+1   2   3 
+1 0.1 0.6 0.3 
+2 0.4 0.1 0.5 
+3 0.2 0.3 0.5 
+ii. 
+markovchain::summary(MC) 
+MC  Markov chain that is composed by:  
+Closed classes:  
+1 2 3  
+Recurrent classes:  
+{1,2,3} 
+Transient classes:  
+NONE  
+The Markov chain is irreducible  
+The absorbing states are: NONE 
+Alternate Answer 
+markovchain::is.irreducible(MC) 
+TRUE 
+iii. 
+markovchain::meanFirstPassageTime(MC) 
+1        2        3 
+1 0.000000 2.051282 2.631579 
+2 3.333333 0.000000 2.280702 
+3 4.000000 2.820513 0.000000 
+markovchain::meanRecurrenceTime(MC) 
+1        2        3  
+4.200000 3.230769 2.210526  
+iv. 
+InitialState <- c(1,0,0) 
+After2steps <- InitialState * (MC^2) 
+After4steps <- InitialState * (MC^4) 
+After6steps <- InitialState * (MC^6) 
+(2) 
+(1) 
+(4) 
+Page 15 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+>After2steps 
+1    2    3 
+[1,] 0.31 0.21 0.48 
+> After4steps 
+1      2      3 
+[1,] 0.2491 0.2931 0.4578 
+> After6steps 
+1        2        3 
+[1,] 0.239851 0.306891 0.453258 
+>steadyStates(MC) 
+1         2        3 
+[1,] 0.2380952 0.3095238 0.452381 
+v. 
+stat_dist <- data.frame(c(After2steps),c(After4steps),c(After6steps),c(steadyStates(MC))) 
+stat_dist 
+q = c(2,4,6,15) 
+(4) 
+plot(q,stat_dist[1,],type = "l",main = "Movement towards stationary state",col = "red", ylim = 
+c(0.2,0.5)) 
+lines(q,stat_dist[2,], col = "black") 
+lines(q,stat_dist[3,], col = "blue") 
+legend("top",legend = c("State 1", "State 2", "State 3"),col = c("red", "black", "blue"), 
+pch = 7) 
+After 6 steps the Markov chain almost becomes stationary.  
+Page 16 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+(6) 
+vi. 
+set.seed(42) 
+n_steps <- 10000 
+states <- numeric(n_steps) 
+states[1] <- 1 
+for (i in 2:n_steps) { 
+states[i] <- sample(1:3, 1, prob = MC[states[i-1], ]) 
+} 
+head(states) 
+[1] 1 1 1 2 1 3 
+vii. 
+triplet_counts <- c( 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 1 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 1 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 1 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 2 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 2 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 2 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 3 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 3 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 3 & states[-1] == 1), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 1 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 1 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 1 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 2 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 2 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 2 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 3 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 3 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 3 & states[-1] == 2), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 1 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 1 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 1 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 2 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 2 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 2 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 1 & states[-length(states)] == 3 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 2 & states[-length(states)] == 3 & states[-1] == 3), 
+sum(states[-c(1, 2)] == 3 & states[-length(states)] == 3 & states[-1] == 3) 
+) 
+ijk 
+(4) 
+<- 
+c(111,112,113,121,122,123,131,132,133,211,212,213,221,222,223,231,232,233,311,312,313
+ ,321,322,323,331,332,333) 
+triplets_test <- data.frame(ijk,triplet_counts) 
+triplets_test 
+Page 17 of 19 
+IAI                                                                                                                                                  CS2B-1124 
+Page 18 of 19 
+ 
+ijk triplet_counts 
+1  111             30 
+2  112            158 
+3  113             69 
+4  121            111 
+5  122            787 
+6  123            346 
+7  131            115 
+8  132            520 
+9  133            275 
+10 211            582 
+11 212            151 
+12 213            732 
+13 221            117 
+14 222             25 
+15 223            174 
+16 231            545 
+17 232            140 
+18 233            648 
+19 311            132 
+20 312            207 
+21 313            351 
+22 321            297 
+23 322            487 
+24 323            770 
+25 331            482 
+26 332            639 
+27 333           1109 
+(6) 
+  
+ 
+ viii. 
+double_counts <- c( 
+  sum(states[-length(states)] == 1 & states[-1] == 1), 
+  sum(states[-length(states)] == 2 & states[-1] == 1), 
+  sum(states[-length(states)] == 3 & states[-1] == 1), 
+  sum(states[-length(states)] == 1 & states[-1] == 2), 
+  sum(states[-length(states)] == 2 & states[-1] == 2), 
+  sum(states[-length(states)] == 3 & states[-1] == 2), 
+  sum(states[-length(states)] == 1 & states[-1] == 3), 
+  sum(states[-length(states)] == 2 & states[-1] == 3), 
+  sum(states[-length(states)] == 3 & states[-1] == 3) 
+) 
+ 
+ij <- c(11,12,13,21,22,23,31,32,33) 
+double_counts <- data.frame(ij,double_counts) 
+double_counts$ij <- as.character(double_counts$ij) 
+double_counts 
+  ij double_counts 
+1 11           257 
+2 12          1244 
+3 13           910 
+4 21          1465 
+5 22           316 
+IAI                                                                                                                                                  CS2B-1124 
+Page 19 of 19 
+ 
+6 23          1333 
+7 31           690 
+8 32          1554 
+9 33          2230 
+(2) 
+ 
+ ix. 
+triplets_test$ij <- substr(triplets_test$ijk,1,2) 
+merged_df <- left_join(triplets_test,double_counts, by = "ij") 
+ 
+tp <- c(0.1,0.6,0.3,0.4,0.1,0.5,0.2,0.3,0.5) 
+jk <- c(11,12,13,21,22,23,31,32,33) 
+ 
+t_prob <- data.frame(jk,tp) 
+t_prob$jk <- as.character(t_prob$jk) 
+ 
+ 
+merged_df$jk <- substr(triplets_test$ijk,2,3) 
+ 
+merged_df1 <- left_join(merged_df,t_prob, by = "jk") 
+ 
+merged_df1$ef <- merged_df1$double_counts*merged_df1$tp 
+ 
+merged_df1$ts <- (((merged_df1$triplet_counts - merged_df1$ef)^2)/merged_df1$ef) 
+ 
+chi_square_test <- chisq.test(merged_df1$triplet_counts,p = 
+merged_df1$ef/sum(merged_df1$ef)) 
+chi_square_test 
+ 
+#Chi-squared test for given probabilities 
+ 
+data:  merged_df1$triplet_counts 
+X-squared = 7971.8, df = 26, p-value < 2.2e-16 
+ 
+ 
+if (chi_square_test$p.value < 0.05) { 
+  cat("Reject the null hypothesis: The observed frequencies do not match the expected 
+frequencies.\n") 
+} else { 
+  cat("Fail to reject the null hypothesis: The observed frequencies match the expected 
+frequencies.\n") 
+} 
+ 
+Reject the null hypothesis: The observed frequencies do not match the expected frequencies. 
+(10) 
+[39 Marks] 
+ 
+ 

@@ -1,0 +1,411 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+
+Q. 2)  
+i. 
+install.packages("survival", type = "binary") 
+install.packages("survminer", type = "binary") 
+install.packages("ggplot2", type = "binary") 
+library(survival) 
+library(survminer)  
+library(ggplot2) 
+Cruise<- read.csv("<path>/Cruise.csv") 
+summary(Cruise$time) 
+Min. 1st Qu.  Median    Mean 3rd Qu.    Max.  
+2.0   114.2   300.0   203.0   300.0   300.0  
+table(Cruise$status) 
+0   1  
+105  95  
+ii. 
+km_fit <- survfit(Surv(time,status) ~ 1, data = Cruise) 
+summary(km_fit) 
+(3) 
+[33 Marks] 
+(2) 
+Page 7 of 19 
+IAI                                                                                                                                                  CS2B-1124 
+Page 8 of 19 
+ 
+Call: survfit(formula = Surv(time, status) ~ 1, data = Cruise) 
+ 
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI 
+    2    200       1    0.995 0.00499        0.985        1.000 
+    3    199       1    0.990 0.00704        0.976        1.000 
+    4    198       1    0.985 0.00860        0.968        1.000 
+    5    197       2    0.975 0.01104        0.954        0.997 
+    8    195       1    0.970 0.01206        0.947        0.994 
+   12    194       3    0.955 0.01466        0.927        0.984 
+   20    191       2    0.945 0.01612        0.914        0.977 
+   26    189       2    0.935 0.01743        0.901        0.970 
+   28    187       1    0.930 0.01804        0.895        0.966 
+   29    186       2    0.920 0.01918        0.883        0.958 
+   34    184       1    0.915 0.01972        0.877        0.954 
+   39    183       1    0.910 0.02024        0.871        0.951 
+   41    182       2    0.900 0.02121        0.859        0.943 
+   45    180       1    0.895 0.02168        0.854        0.939 
+   46    179       2    0.885 0.02256        0.842        0.930 
+   47    177       1    0.880 0.02298        0.836        0.926 
+   48    176       1    0.875 0.02339        0.830        0.922 
+   49    175       2    0.865 0.02416        0.819        0.914 
+   50    173       1    0.860 0.02454        0.813        0.909 
+   55    172       1    0.855 0.02490        0.808        0.905 
+   57    171       1    0.850 0.02525        0.802        0.901 
+   58    170       1    0.845 0.02559        0.796        0.897 
+   60    169       2    0.835 0.02625        0.785        0.888 
+   66    167       2    0.825 0.02687        0.774        0.879 
+   71    165       1    0.820 0.02717        0.768        0.875 
+   76    164       1    0.815 0.02746        0.763        0.871 
+   80    163       1    0.810 0.02774        0.757        0.866 
+   83    162       1    0.805 0.02802        0.752        0.862 
+   90    161       1    0.800 0.02828        0.746        0.857 
+   91    160       1    0.795 0.02855        0.741        0.853 
+   92    159       1    0.790 0.02880        0.736        0.849 
+   94    158       2    0.780 0.02929        0.725        0.840 
+   98    156       1    0.775 0.02953        0.719        0.835 
+   99    155       1    0.770 0.02976        0.714        0.831 
+  103    154       1    0.765 0.02998        0.708        0.826 
+  107    153       1    0.760 0.03020        0.703        0.822 
+  111    152       1    0.755 0.03041        0.698        0.817 
+  112    151       1    0.750 0.03062        0.692        0.812 
+  115    150       1    0.745 0.03082        0.687        0.808 
+  116    149       1    0.740 0.03102        0.682        0.803 
+  118    148       1    0.735 0.03121        0.676        0.799 
+  120    147       2    0.725 0.03157        0.666        0.790 
+  122    145       1    0.720 0.03175        0.660        0.785 
+  123    144       1    0.715 0.03192        0.655        0.780 
+  125    143       1    0.710 0.03209        0.650        0.776 
+  126    142       1    0.705 0.03225        0.645        0.771 
+  127    141       2    0.695 0.03256        0.634        0.762 
+  131    139       1    0.690 0.03270        0.629        0.757 
+  132    138       1    0.685 0.03285        0.624        0.752 
+  135    137       2    0.675 0.03312        0.613        0.743 
+  137    135       2    0.665 0.03337        0.603        0.734 
+  138    133       1    0.660 0.03350        0.598        0.729 
+  139    132       1    0.655 0.03361        0.592        0.724 
+  140    131       2    0.645 0.03384        0.582        0.715 
+  143    129       1    0.640 0.03394        0.577        0.710 
+  144    128       1    0.635 0.03404        0.572        0.705 
+  145    127       1    0.630 0.03414        0.567        0.701 
+  147    126       1    0.625 0.03423        0.561        0.696 
+  148    125       2    0.615 0.03441        0.551        0.686 
+  149    123       1    0.610 0.03449        0.546        0.681 
+  150    122       1    0.605 0.03457        0.541        0.677 
+  151    121       1    0.600 0.03464        0.536        0.672 
+  155    120       1    0.595 0.03471        0.531        0.667 
+  156    119       1    0.590 0.03478        0.526        0.662 
+  157    118       2    0.580 0.03490        0.515        0.653 
+  158    116       1    0.575 0.03496        0.510        0.648 
+  161    115       1    0.570 0.03501        0.505        0.643 
+  165    114       1    0.565 0.03506        0.500        0.638 
+  167    113       1    0.560 0.03510        0.495        0.633 
+  168    112       2    0.550 0.03518        0.485        0.623 
+  169    110       2    0.540 0.03524        0.475        0.614 
+  170    108       1    0.535 0.03527        0.470        0.609 
+IAI                                                                                                                                                  CS2B-1124 
+Page 9 of 19 
+ 
+  174    107       1    0.530 0.03529        0.465        0.604 
+  177    106       1    0.525 0.03531        0.460        0.599  
+ggsurvplot(km_fit,data = Cruise,title = "Kaplan-Meier", combine = TRUE, conf.int = TRUE, 
+risk.table = TRUE) 
+ 
+ 
+ 
+(4) 
+ 
+ iii. 
+km_fit_treatment <- survfit(Surv(time, status) ~ Pclass, data = Cruise) 
+summary(km_fit_treatment) 
+Call: survfit(formula = Surv(time, status) ~ Pclass, data = Cruise) 
+ 
+                Pclass=1  
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI 
+    2     65       1    0.985  0.0153        0.955        1.000 
+    8     64       1    0.969  0.0214        0.928        1.000 
+   34     63       1    0.954  0.0260        0.904        1.000 
+   39     62       1    0.938  0.0298        0.882        0.999 
+   58     61       1    0.923  0.0331        0.861        0.990 
+   60     60       1    0.908  0.0359        0.840        0.981 
+   71     59       1    0.892  0.0384        0.820        0.971 
+   94     58       1    0.877  0.0407        0.801        0.961 
+   99     57       1    0.862  0.0428        0.782        0.950 
+  107     56       1    0.846  0.0448        0.763        0.939 
+  111     55       1    0.831  0.0465        0.744        0.927 
+  135     54       1    0.815  0.0481        0.726        0.915 
+  140     53       1    0.800  0.0496        0.708        0.903 
+  155     52       1    0.785  0.0510        0.691        0.891 
+  161     51       1    0.769  0.0523        0.673        0.879 
+  165     50       1    0.754  0.0534        0.656        0.866 
+  169     49       1    0.738  0.0545        0.639        0.853 
+  177     48       1    0.723  0.0555        0.622        0.840 
+IAI                                                                                                                                                  CS2B-1124 
+Page 10 of 19 
+ 
+ 
+                Pclass=2  
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI 
+    3     67       1    0.985  0.0148        0.956        1.000 
+    4     66       1    0.970  0.0208        0.930        1.000 
+    5     65       2    0.940  0.0289        0.885        0.999 
+   12     63       1    0.925  0.0321        0.865        0.990 
+   26     62       2    0.896  0.0374        0.825        0.972 
+   28     60       1    0.881  0.0396        0.806        0.962 
+   29     59       1    0.866  0.0417        0.788        0.951 
+   41     58       2    0.836  0.0453        0.752        0.929 
+   46     56       2    0.806  0.0483        0.717        0.906 
+   47     54       1    0.791  0.0497        0.699        0.895 
+   49     53       2    0.761  0.0521        0.666        0.870 
+   66     51       2    0.731  0.0542        0.633        0.846 
+   76     49       1    0.716  0.0551        0.616        0.833 
+  103     48       1    0.701  0.0559        0.600        0.820 
+  112     47       1    0.687  0.0567        0.584        0.807 
+  122     46       1    0.672  0.0574        0.568        0.794 
+  123     45       1    0.657  0.0580        0.552        0.781 
+  125     44       1    0.642  0.0586        0.537        0.768 
+  126     43       1    0.627  0.0591        0.521        0.754 
+  137     42       1    0.612  0.0595        0.506        0.740 
+  143     41       1    0.597  0.0599        0.490        0.727 
+  157     40       2    0.567  0.0605        0.460        0.699 
+  158     38       1    0.552  0.0608        0.445        0.685 
+  168     37       1    0.537  0.0609        0.430        0.671 
+  169     36       1    0.522  0.0610        0.415        0.657 
+  174     35       1    0.507  0.0611        0.401        0.642 
+ 
+                Pclass=3  
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI 
+   12     68       2    0.971  0.0205        0.931        1.000 
+   20     66       2    0.941  0.0285        0.887        0.999 
+   29     64       1    0.926  0.0317        0.866        0.991 
+   45     63       1    0.912  0.0344        0.847        0.982 
+   48     62       1    0.897  0.0369        0.828        0.972 
+   50     61       1    0.882  0.0391        0.809        0.962 
+   55     60       1    0.868  0.0411        0.791        0.952 
+   57     59       1    0.853  0.0429        0.773        0.941 
+   60     58       1    0.838  0.0447        0.755        0.930 
+   80     57       1    0.824  0.0462        0.738        0.919 
+   83     56       1    0.809  0.0477        0.721        0.908 
+   90     55       1    0.794  0.0490        0.704        0.896 
+   91     54       1    0.779  0.0503        0.687        0.884 
+   92     53       1    0.765  0.0514        0.670        0.872 
+   94     52       1    0.750  0.0525        0.654        0.860 
+   98     51       1    0.735  0.0535        0.638        0.848 
+  115     50       1    0.721  0.0544        0.621        0.836 
+  116     49       1    0.706  0.0553        0.605        0.823 
+  118     48       1    0.691  0.0560        0.590        0.810 
+  120     47       2    0.662  0.0574        0.558        0.784 
+  127     45       2    0.632  0.0585        0.528        0.758 
+  131     43       1    0.618  0.0589        0.512        0.745 
+IAI                                                                                                                                                  CS2B-1124 
+Page 11 of 19 
+ 
+  132     42       1    0.603  0.0593        0.497        0.731 
+  135     41       1    0.588  0.0597        0.482        0.718 
+  137     40       1    0.574  0.0600        0.467        0.704 
+  138     39       1    0.559  0.0602        0.452        0.690 
+  139     38       1    0.544  0.0604        0.438        0.676 
+  140     37       1    0.529  0.0605        0.423        0.662 
+  144     36       1    0.515  0.0606        0.409        0.648 
+  145     35       1    0.500  0.0606        0.394        0.634 
+  147     34       1    0.485  0.0606        0.380        0.620 
+  148     33       2    0.456  0.0604        0.352        0.591 
+  149     31       1    0.441  0.0602        0.338        0.576 
+  150     30       1    0.426  0.0600        0.324        0.562 
+  151     29       1    0.412  0.0597        0.310        0.547 
+  156     28       1    0.397  0.0593        0.296        0.532 
+  167     27       1    0.382  0.0589        0.283        0.517 
+  168     26       1    0.368  0.0585        0.269        0.502 
+  170     25       1    0.353  0.0580        0.256        0.487 
+ 
+ 
+ggsurvplot(km_fit_treatment, data = Cruise, conf.int = TRUE, xlab = "Ti
+ me (minutes)", ylab = "Survival Probability", title = "Kaplan-Meier Sur
+ vival Curve by Pclass",pval = TRUE, risk.table = TRUE) 
+ 
+  
+ 
+Passenger travelling in Class 1 had the highest survival probability followed by Passenger travelling in 
+Class 2 & 3. 
+(4) 
+ 
+ iv. 
+cox_fit <- coxph(Surv(time, status) ~ Age + Sex + Pclass + Mstatus + Parch + SibSp + 
+Embarked, data = Cruise) 
+summary(cox_fit) 
+Call: 
+coxph(formula = Surv(time, status) ~ Age + Sex + Pclass + Mstatus +  
+    Parch + SibSp + Embarked, data = Cruise) 
+ 
+  n= 200, number of events= 95  
+ 
+IAI                                                                                                                                                  
+CS2B-1124 
+coef exp(coef)  se(coef)
+ Age
+      z
+ Pr(>|z|)     
+       0.002217  1.002219  0.005214  0.425   0.6707     
+Sex       0.477555  1.612128  0.217117  2.200   0.0278 *   
+Pclass    0.564965  1.759386  0.135786  4.161 3.17e-05 *** 
+Mstatus  -0.010950  0.989110  0.105248 -0.104   0.9171     
+Parch    -0.212472  0.808583  0.106457 -1.996   0.0460 *   
+SibSp     
+0.181520  1.199038  0.132582  1.369   0.1710     
+Embarked -0.200554  0.818277  0.128254 -1.564   0.1179     --- 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+exp(coef) exp(-coef) lower .95 upper .95 
+Age
+         1.0022     0.9978    
+0.9920    1.0125 
+Sex         1.6121     0.6203    1.0534    2.4672 
+Pclass      1.7594     0.5684    1.3483    2.2958 
+Mstatus    
+ 0.9891     1.0110    0.8047    1.2157 
+Parch       0.8086     1.2367    0.6563    0.9962 
+SibSp       1.1990     0.8340    0.9247    1.5548 
+Embarked    0.8183     1.2221    0.6364    1.0521 
+Concordance= 0.646  (se = 0.028 ) 
+Likelihood ratio test= 28.77  on 7 df,   p=2e-04 
+Wald test      
+      =
+ 27.36  on 7 df,   p=3e-04 
+Score (logrank) test = 28.67  on 7 df,   p=2e-04 
+(3) 
+v. 
+(a)  The coef column represents the log hazard ratios (log(HR)). These coefficients tell us how much 
+each unit increase in the predictor variable affects the hazard rate (risk of the event). A positive 
+coefficient indicates that an increase in the predictor leads to an increased hazard (higher risk), while 
+a negative coefficient suggests a decreased hazard (lower risk). 
+Age: The coefficient is 0.002217, suggesting a very slight increase in hazard with age. 
+Sex: The coefficient is 0.477555, meaning being male (since male is coded as 1 and female as 0) 
+increases the hazard compared to being female. 
+Pclass: The coefficient is 0.564965, indicating a higher passenger class (i.e. Passenger class 2 & 3) is 
+associated with a higher hazard as compared to Passenger class 1. 
+Mstatus: The coefficient is -0.010950, indicating as the factor increases and moves towards 3 i.e. 
+Married the risk reduces marginally. 
+Parch:  The coefficient is -0.212472, indicating as the number of parents/children aboard the ship 
+increases the risk reduces sharply. 
+SibSp: The coefficient is   0.181520, indicating as the spouse/higher number of siblings being aboard 
+the ship increases the risk reduces increases. 
+Embarked: The coefficient is   -0.200554, indicating the risk decreases for passengers boarding last. 
+(b)  Small p-values (usually < 0.05) suggest that the predictor is statistically significant in the model. 
+Thus, Sex, Parch & Pclass are the most statistically significant as their p values are less than 0.05. 
+Page 12 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+(c)  The lower .95 and upper .95 columns show the 95% confidence interval for the hazard ratio. If 
+this interval excludes 1, it indicates that the predictor likely has a significant effect. 
+Sex, Pclass and Parch excludes the confidence interval 1 and thus are the significant effect in line with 
+our conclusion in previous sub part. 
+(7) 
+vi. 
+exp(coef(cox_fit)) 
+Age               
+Sex     
+Pclass    
+Mstatus      
+Parch      
+1.0022192  
+SibSp   
+1.6121277 
+Embarked  
+1.7593859 0.9891096 0.8085829 
+1.1990382 
+0.8182769 
+The exp(coef) column shows the hazard ratios (HR), which are easier to interpret than the raw 
+coefficients. The hazard ratio tells us the relative risk of the event per unit increase in the predictor. 
+exp(coef)  
+Age         
+1.0022 
+Sex         
+Pclass      
+1.6121  
+1.7594 
+Mstatus     0.9891 
+Parch      
+SibSp       
+ 0.8086    
+1.1990    
+Embarked    0.8183 
+Age (HR = 1.0022): For each additional year of age, the hazard (risk of event) increases by 0.22%. 
+Sex (HR = 1.6121): Males have a 61.2% higher risk of the death compared to females. 
+Pclass (HR = 1.7594): For each unit increase in the Pclass factor i.e. Pclass changing from 1 to 2, the 
+hazard increases by 75.94%. 
+Mstatus (HR = 0.9891): For each unit increase in the Mstatus factor i.e. Mstatus changing from 0 to 
+1, the hazard decreases by 1.09%. 
+Parch (HR = 0.8086): For each unit increase in the number of parents/children of the passenger 
+being aboard, the hazard decreases by 19.14%. 
+SibSp (HR = 1.1990): For each unit increase in the number of siblings or spouse travelling with the 
+passenger being aboard, the hazard increases by 19.90%. 
+Embarked (HR = 0.8183): For each unit increase in the Embarking station factor, the hazard decreases 
+by 18.17%. Since the embarking station has been numbered in a manner that last embarking station 
+has the highest factor, we can say that as with each subsequent embarking station the risk decreases 
+by 18.17%. 
+vii. 
+ggsurvplot(list(KM = km_fit, Cox = survfit(cox_fit)),data = Cruise,title = "Kaplan-Meier vs Cox 
+Model",combine = TRUE, conf.int = TRUE, pval = TRUE, risk.table = TRUE) 
+(4) 
+Page 13 of 19 
+IAI                                                                                                                                                  
+CS2B-1124 
+viii. 
+Use Kaplan-Meier When: 
+• You want to visualize and describe survival times between two or more groups. 
+• You have a simple comparison between groups based on one categorical variable. 
+• You’re working with small datasets or want a simple descriptive analysis. 
+• The focus is on estimating survival probabilities over time without adjusting for other 
+factors. 
+Use CoxPH When: 
+• You need to adjust for multiple covariates (e.g., age, treatment, gender) to assess their 
+independent effect on survival. 
+(2) 
+• You want to estimate hazard ratios to quantify the relative risk associated with covariates, 
+as calculated in (iv).  
+• You’re building a predictive model to estimate survival times based on individual 
+characteristics. 
+• You’re interested in testing interactions between covariates. 
+• The dataset contains complex factors that need to be considered simultaneously. 
+(2) 
+[28 Marks] 

@@ -1,0 +1,322 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+
+Solution 3: 
+i) 
+#a > Sports <- read.csv(Sports.csv") 
+> Model1<-lm(Sports$Points~Sports$X100m+Sports$X400m+Sports$X110m.hurdle+Sports
+ $High.jump+Sports$Long.jump+Sports$Pole.vault+Sports$Shot.put+Sports$Javeline+Sports
+ $Discus) 
+> summary(Model1)  
+(3) 
+(2) 
+(3) 
+(2) 
+[15] 
+Page 5 of 11 
+IAI                             
+CS1B-1124 
+Call: 
+lm(formula = Sports$Points ~ Sports$X100m + Sports$X400m + Sports$X110m.hurdle +  
+Sports$High.jump + Sports$Long.jump + Sports$Pole.vault +  
+Sports$Shot.put + Sports$Javeline + Sports$Discus) 
+Residuals: 
+Min      1Q  Median      3Q     Max  -97.106 -25.043  -7.748  33.856 119.528  
+Coefficients: 
+Estimate Std. Error t value Pr(>|t|)     
+(Intercept)         
+8632.632   1368.083   6.310 7.83e-06 *** 
+Sports$X100m        
+Sports$X400m         -163.414     76.208  -2.144 0.046756 *   -78.141     16.269  -4.803 0.000166 *** 
+Sports$X110m.hurdle -120.901     41.818  -2.891 0.010152 *   
+Sports$High.jump     810.196    211.532   3.830 0.001340 **  
+Sports$Long.jump     209.187     63.472   3.296 0.004269 **  
+Sports$Pole.vault    183.345     66.876   2.742 0.013912 *   
+Sports$Shot.put       
+90.349     28.200   3.204 0.005204 **  
+Sports$Javeline       
+Sports$Discus         
+17.757      
+10.986      
+2.975   5.969 1.52e-05 *** 
+5.781   1.900 0.074491 .   --- 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+Residual standard error: 60.74 on 17 degrees of freedom 
+Multiple R-squared:  0.9794, 
+Adjusted R-squared:  0.9685  
+F-statistic: 89.91 on 9 and 17 DF,  p-value: 1.491e-12 
+#b Plot of residuals for the model  
+ii) 
+Using a general rule if the p-value is less than  0.05, then the concerned explanatory variable 
+is considered to be significant. This is shown by *,  **, *** signs in the R summary output . 
+So, based on the R-output, only points for Discus Throw are not significant. All other 
+explanatory variables are considered to be significant.    
+residuals(Model1)
+ 0 50-100
+ 0
+ 5
+ 10
+ 15
+ Index
+ 20
+ 25
+ > Model2_poisson<-glm(Sports$Points~Sports$X100m+Sports$X400m+Sports$X110m.hurd
+ le+Sports$High.jump+Sports$Long.jump+Sports$Pole.vault+Sports$Shot.put+Sports$Javelin
+ e+Sports$Discus,family="poisson") 
+> summary(Model2_poisson)  
+Call: 
+glm(formula = Sports$Points ~ Sports$X100m + Sports$X400m + Sports$X110m.hurdle +  
+Sports$High.jump + Sports$Long.jump + Sports$Pole.vault +  
+Sports$Shot.put + Sports$Javeline + Sports$Discus, family = "poisson") 
+Deviance Residuals:   
+(6) 
+(2) 
+Page 6 of 11 
+IAI                             
+CS1B-1124 
+Min        
+1Q    Median        
+3Q       Max   -1.02319  -0.25491   0.03473   0.36449   1.31328   
+Coefficients: 
+(Intercept)          
+Estimate Std. Error z value Pr(>|z|)     
+9.0988649  0.2501151  36.379  < 2e-16 *** 
+Sports$X100m        
+Sports$X400m        -0.0211126  0.0139153  -1.517  0.12921     -0.0093734  0.0029665  -3.160  0.00158 **  
+Sports$X110m.hurdle -0.0161147  0.0076612  -2.103  0.03543 *   
+Sports$High.jump     0.1009034  0.0387525   2.604  0.00922 **  
+Sports$Long.jump     0.0239972  0.0116951   2.052  0.04018 *   
+Sports$Pole.vault    0.0225249  0.0122296   1.842  0.06550 .   
+Sports$Shot.put      
+0.0111537  0.0051471   2.167  0.03024 *   
+Sports$Javeline      
+Sports$Discus        
+0.0021487  0.0005379   3.995 6.48e-05 *** 
+0.0012340  0.0010555   1.169  0.24236     --- 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Dispersion parameter for poisson family taken to be 1) 
+Null deviance: 374.4158  on 26  degrees of freedom 
+Residual deviance:   8.3483  on 17  degrees of freedom 
+AIC: 321 
+Number of Fisher Scoring iterations: 3 
+iii) 
+iv) 
+Scaled deviance can be used to compare only nested models.  
+Since, Model 1 and Model2_Poisson are models with different distributional assumptions. 
+Model 1 assumes normal distribution and Model 2 assumes Poisson distribution.  
+They are not nested models. 
+Hence, scaled deviance cannot be used to compare the models in parts (i) and (ii). 
+An equivalent model to a linear regression model will be a GLM with normal distribution.   
+> Model2_normal<-glm(Sports$Points~Sports$X100m+Sports$X400m+Sports$X110m.hurdl
+ e+Sports$High.jump+Sports$Long.jump+Sports$Pole.vault+Sports$Shot.put+Sports$Javelin
+ e+Sports$Discus,family=gaussian()) 
+> summary(Model2_normal)  
+Call: 
+glm(formula = Sports$Points ~ Sports$X100m + Sports$X400m + Sports$X110m.hurdle +  
+Sports$High.jump + Sports$Long.jump + Sports$Pole.vault +  
+Sports$Shot.put + Sports$Javeline + Sports$Discus, family = gaussian()) 
+Deviance Residuals:  
+Min       
+1Q   Median       3Q      Max   -97.106  -25.043   -7.748   33.856  119.528   
+Coefficients: 
+Estimate Std. Error t value Pr(>|t|)     
+(Intercept)         
+8632.632   1368.083   6.310 7.83e-06 ***  
+(4) 
+(2) 
+Page 7 of 11 
+IAI                             
+CS1B-1124 
+Sports$X100m        
+Sports$X400m         -163.414     76.208  -2.144 0.046756 *   -78.141     16.269  -4.803 0.000166 *** 
+Sports$X110m.hurdle -120.901     41.818  -2.891 0.010152 *   
+Sports$High.jump     810.196    211.532   3.830 0.001340 **  
+Sports$Long.jump     209.187     63.472   3.296 0.004269 **  
+Sports$Pole.vault    183.345     66.876   2.742 0.013912 *   
+Sports$Shot.put       
+90.349     28.200   3.204 0.005204 **  
+Sports$Javeline       
+Sports$Discus         
+17.757      
+10.986      
+2.975   5.969 1.52e-05 *** 
+5.781   1.900 0.074491 .   --- 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Dispersion parameter for gaussian family taken to be 3689.4) 
+Null deviance: 3048179  on 26  degrees of freedom 
+Residual deviance:   62720  on 17  degrees of freedom 
+AIC: 307.89 
+Number of Fisher Scoring iterations: 2 
+v) 
+vi) 
+Model 1 in part (i) and Model 2 (Normal) in part (iv) are exact equivalents of each other. The 
+same can be seen from the estimates of coefficients in the R summary output. 
+So, for comparing the fit of Model 1 and Model 2 (Poisson), Model 2 (Normal) can be used as 
+a proxy for Model 1. And then, the AIC of Model 2 (Poisson) can be compared with the AIC 
+of Model 2 (Normal). 
+AIC (Model 2 Normal) = 307.89 
+AIC (Model 2 Poisson) = 321 
+Smaller the AIC, better is the fit. So, Model 2 Normal is a better fit as compared to Model 2 
+Poisson.  
+Consequentially, the linear multiple regression model in part (i) is a better fit to the data as 
+compared to the GLM fitted in part (ii). 
+> run<-data.frame(Sports$X100m,Sports$X400m,Sports$X110m.hurdle) 
+> pr_run<-prcomp(run,scale. = TRUE) 
+>  
+> summary(pr_run) 
+Importance of components: 
+PC1    PC2    PC3 
+Standard deviation     1.492 0.6680 0.5726 
+Proportion of Variance 0.742 0.1487 0.1093 
+Cumulative Proportion  0.742 0.8907 1.0000 
+>  
+> jump<-data.frame(Sports$High.jump,Sports$Long.jump,Sports$Pole.vault) 
+> pr_jump<-prcomp(jump,scale. = TRUE) 
+>  
+> summary(pr_jump) 
+Importance of components: 
+PC1    PC2    PC3  
+(4) 
+(2) 
+Page 8 of 11 
+IAI                             CS1B-1124 
+     Page 9 of 11 
+ 
+Standard deviation     1.2588 1.0307 0.5941 
+Proportion of Variance 0.5282 0.3541 0.1176 
+Cumulative Proportion  0.5282 0.8824 1.0000 
+  
+>  
+> throw<-data.frame(Sports$Shot.put,Sports$Javeline,Sports$Discus) 
+> pr_throw<-prcomp(throw,scale. = TRUE) 
+>  
+> summary(pr_throw) 
+Importance of components: 
+                          PC1    PC2     PC3 
+Standard deviation     1.4141 0.8727 0.48853 
+Proportion of Variance 0.6665 0.2539 0.07955 
+Cumulative Proportion  0.6665 0.9204 1.00000  
+  
+For Run Sports Category, 74.2% variance is captured by PC1. 
+For Jumping Sports Category, 52.82% variance is captured by PC1. 
+For Throw Sports Category, 66.65% variance is captured by PC1.  (7) 
+   
+vii) Considering the summary R output generated in part (vi),  
+ 
+In case of Run Sports Category, all three PCs cumulatively capture at least 90% of the total 
+variance of the data. 
+ 
+In case of Jump Sports Category, all three PCs cumulatively capture at least 90% of the total 
+variance of the data. 
+ 
+In case of Throw Sports Category, first two PCs cumulatively capture 92.04% (at least 90%) 
+of the total variance of the data. 
+ 
+So, if PCs capturing at least 90% of the variance is a criterion for reducing the dimensionality 
+of the data set, then Throw Sports Category satisfies it. For Throw Sports, PC1 and PC2 can 
+be retained and PC3 can be dropped thus reducing the dimensionality of the data set. In case 
+of Run Sports and Jumping Sports, all three PCs need to be retained and thus the 
+dimensionality of the data set will not be reduced.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(3) 
+   
+viii) > Model3<-lm(Sports$Points~Sports$Pole.vault)  
+  
+H0: Beta coefficient is equal to 0 
+H1: Beta coefficient is not equal to 0.   
+   
+ > confint(Model3,level=0.95) 
+                      2.5 %     97.5 % 
+(Intercept)       5654.3838 10895.1124 
+Sports$Pole.vault -573.3559   508.9227  
+   
+ As the 95% confidence interval for beta (-573.3559, 508.9277) contains the value 0, we do 
+not have sufficient evidence to reject the null hypothesis at 5% level of significance. Hence, 
+based on this test, one can conclude that there is no correlation between pole vault score and 
+winning points.  (5) 
+   
+ix) > Model4<-lm(Sports$X110m.hurdle~Sports$X100m) 
+> summary(Model4) 
+  
+IAI                             CS1B-1124 
+     Page 10 of 11 
+ 
+Call: 
+lm(formula = Sports$X110m.hurdle ~ Sports$X100m) 
+ 
+Residuals: 
+     Min       1Q   Median       3Q      Max  -0.48075 -0.28936 -0.05353  0.21428  0.76203  
+ 
+Coefficients: 
+             Estimate Std. Error t value Pr(>|t|)     
+(Intercept)    2.2036     2.7252   0.809 0.426379     
+Sports$X100m   1.1183     0.2478   4.512 0.000132 *** --- 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+ 
+Residual standard error: 0.356 on 25 degrees of freedom 
+Multiple R-squared:  0.4489, Adjusted R-squared:  0.4268  
+F-statistic: 20.36 on 1 and 25 DF,  p-value: 0.0001319 
+  
+> score<-c(10.68,10.42,11.68,11.62,10.54) 
+> hurdle_score<-2.2036+1.1183*score 
+> hurdle_score 
+[1] 14.14704 13.85629 15.26534 15.19825 13.99048  
+  (5) 
+  [40] 
+   

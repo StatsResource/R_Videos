@@ -10,11 +10,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set\beta echo = TRUE)
-library\beta magrittr)
-library\beta knitr)
-library\beta dplyr)
-library\beta janitor)
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
 
 ```
@@ -42,11 +42,11 @@ pre {
 * This was a world record 
 at the time. 
 * The data file <tt>mile_records.Rdata</tt> contains the dates measured in 
-days since 31 May 1913 and the times \beta in seconds) of all new world records for males 
+days since 31 May 1913 and the times (in seconds) of all new world records for males 
 over the 1-mile distance. 
 * The data set <tt>mile_records.Rdata</tt> contains 32 records. 
 The variables are called record.date and record.time in the Rdata file. You 
-can load the file with load\beta "mile_records.Rdata"). 
+can load the file with load("mile_records.Rdata"). 
 
 ---
 
@@ -60,42 +60,44 @@ estimated intercept and slope of the regression line.
 
 
 
-\beta D.) Plot the regression line by adding it to the plot from part A.  
+(D.) Plot the regression line by adding it to the plot from part A.  
 
 ---
 
 
 Q3
 # load data
-load\beta "mile_records.Rdata")
+load("mile_records.Rdata")
 \beta i)
-plot\beta record.date, record.time, ylab="New World Record Times 
-\beta seconds)", xlab="Days since 31.05.1913",main="Plot for 
+plot(record.date, record.time, ylab="New World Record Times 
+(seconds)", xlab="Days since 31.05.1913",main="Plot for 
 mile_records data set") 
 
 
-\beta ii)
-cor\beta record.date, record.time) 
+(ii)
+```{r}
+cor(record.date, record.time) 
+```
 -0.9885164 
-\beta iii)
-model = lm\beta record.time ~ record.date) 
-coefficients\beta model) 
+(iii)
+model = lm(record.time ~ record.date) 
+coefficients(model) 
 The intercept of the regression line is 254.8  
 and the slope is -0.001076 
 
 ---
 
-\beta iv)
-abline\beta model) 
+(iv)
+abline(model) 
 
 ---
 
-\beta E.) Perform a statistical test in order to test the null hypothesis that the slope of 
+(E.) Perform a statistical test in order to test the null hypothesis that the slope of 
 the regression line in part D. is zero, against a suitable alternative using the 
 output of the fitted model from part C.  
-\beta F.) Comment on the relationship between the two variables.  
+(F.) Comment on the relationship between the two variables.  
 For simplicity, you can assume that 1 year has 365 days. 
-\beta G.) Estimate the expected time in seconds of the world record 100 years after the 
+(G.) Estimate the expected time in seconds of the world record 100 years after the 
 most recent record in this data set. 
 
 
@@ -108,25 +110,25 @@ most recent record in this data set.
 H0: beta = 0, versus H1: beta ≠ 0  
 
 ```{r}
-summary\beta model) 
+summary(model) 
 
 ```
 
 Call:
-lm\beta formula = record.time ~ record.date)
+lm(formula = record.time ~ record.date)
 Residuals:
  Min 1Q Median 3Q Max 
 -2.6103 -0.7494 -0.1780 0.6999 2.8474 
 Coefficients:
- Estimate Std. Error t value Pr\beta >|t|) 
-\beta Intercept) 2.548e+02 5.409e-01 471.08 <2e-16 ***
+ Estimate Std. Error t value Pr(>|t|) 
+(Intercept) 2.548e+02 5.409e-01 471.08 <2e-16 ***
 record.date -1.076e-03 3.004e-05 -35.83 <2e-16 ***
 ---
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 Residual standard error: 1.379 on 30 degrees of freedom
 Multiple R-squared: 0.9772, Adjusted R-squared: 0.9764 
 F-statistic: 1284 on 1 and 30 DF, p-value: < 2.2e-16
-P-value is very small \beta i.e. p-value: < 2.2e-16) 
+P-value is very small (i.e. p-value: < 2.2e-16) 
 So conclude that negative slope is significant 
 ---
 
@@ -138,7 +140,7 @@ current one-mile world record.
 * The correlation coefficient is very close to -1, and the slope is negative and significant, 
 confirming the relationship 
 
-* However, the response variable cannot increase with time \beta it is a world record). 
+* However, the response variable cannot increase with time (it is a world record). 
 
 * So we cannot observe a positive relationship, meaning that the above results are to be 
 expected 
@@ -148,20 +150,20 @@ expected
 
 ### Part G
 
-\beta vii)
+(vii)
 x = record.date[32]+365*100 
-predict\beta model, data.frame\beta record.date=x)) 
+predict(model, data.frame(record.date=x)) 
 # Or
-coefficients\beta model) + coefficients\beta model)*x
+coefficients(model) + coefficients(model)*x
 181.66 seconds 
 
 
 ---
 
-\beta H.) Calculate the number of years \beta from the most recent record) in which you 
+(H.) Calculate the number of years (from the most recent record) in which you 
 expect the world record to be 2 minutes, based on your fitted model from 
 part C.  
-\beta I) Comment on the suitability of the linear regression model for modelling 
+(I) Comment on the suitability of the linear regression model for modelling 
 record.time as a function of record.date.  
 
 
@@ -170,8 +172,8 @@ record.time as a function of record.date.
 ### Part H
 
 ```{r}
-twoMinuteDate = \beta 120 -
-coefficients\beta model))/coefficients\beta model) 
+twoMinuteDate = (120 -
+coefficients(model))/coefficients(model) 
 twoMinuteDate = twoMinuteDate - record.date[32] 
 twoMinuteDate/365 
 
@@ -197,9 +199,9 @@ eventually predicting even negative times
 
 ---
 The quality of answers given in this question was mixed.
-Part \beta i) was well answered generally, but marks were lost for not providing appropriate 
+Part (i) was well answered generally, but marks were lost for not providing appropriate 
 annotation on the plot. 
-In part \beta v) a number of candidates failed to state the hypotheses and explicitly state a full 
+In part (v) a number of candidates failed to state the hypotheses and explicitly state a full 
 conclusion. 
-In parts \beta vii), \beta viii), a relatively small proportion of candidates provided fully correct 
-answers. In parts \beta vi) and \beta ix) credit was awarded for other reasonable comments.
+In parts (vii), (viii), a relatively small proportion of candidates provided fully correct 
+answers. In parts (vi) and (ix) credit was awarded for other reasonable comments.

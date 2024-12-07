@@ -1,32 +1,36 @@
 ---
 title: "Statistics with R"
-subtitle: "Statistical Modelling with R for Actuarial Students"
+subtitle: "Introduction to R for Actuarial Students"
 output:
   xaringan::moon_reader:
+    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
 
-```{r setup, include=FALSE, cache=FALSE}
+
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(magrittr)
 library(knitr)
-library(dplyr)
+#library(dplyr)
 library(janitor)
 
-options(scipen = 2, digits = 3) #set to two decimal 
+
 ```
 
-```{css, echo=FALSE}
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
 ```
-
 
 ***CS2B – Risk Modelling and Survival Analysis ***
 
@@ -36,12 +40,12 @@ pre {
 * Time Series. Probability Distributions, Survival Analysis
 
 ---
-
 2 A life insurance company has issued a 1-year group insurance policy covering 10,000
 employees categorized into four age bands of 2,500 employees each.
 The following amounts are paid upon each death under the policy:
 * Death from pandemic diseases mentioned in the policy document: £80,000.
 * Death from cause other than above: £40,000.
+
 The premium charged for each group was estimated as the mean of a compound
 binomial distribution.
 The ‘CS2B_A23_Qu_2_Data.csv’ file contains the following data for each group:
@@ -49,6 +53,7 @@ group: name of the group
 age_band: age range in the group
 Mort: expected probability of death
 p_dth: proportion of deaths due to pandemic diseases
+
 Before answering this question, the ‘CS2B_A23_Qu_2_Data.csv’ file should be
 loaded into R and assigned to a data frame called ‘Prem’.
 (i) Calculate the premium that company would have charged under each of the
@@ -66,6 +71,8 @@ should output your results to a data frame called ‘Tab_R’ consisting of four
 column vectors ‘G1_R’to ‘G4_R’. The random number generator seed to be
 used is 123.
 Use the summary() function to display your results. 
+
+---
 (iii) Generate a data frame ‘Tab_U’ of observations from the Uniform(0,1)
 distribution, consisting of four column vectors, ‘G1_U’ to ‘G4_U’, with 2,500
 components each. The random number generator seed to be used is 300. Use
@@ -74,6 +81,9 @@ the R function head(), to display the first six rows of ‘Tab_U’.
 (iv) Generate a data frame ‘Tab_V’, consisting of four column vectors ‘G1_V’ to
 ‘G4_V’, with 2,500 components each, representing claim amounts under each
 group.
+
+---
+
 If death has occurred, the relevant entry of ‘Tab_V’ should be set to 80,000 if
 the random variable generated in part (iii) is less than or equal to the
 proportion of pandemic deaths specified in the table ‘Prem’ for the relevant
@@ -91,8 +101,7 @@ actual claims obtained from part (v) above.
 (vii) Comment on the validity of the employee’s suggestion, assuming that the
 distribution used, the parameters used and the methodology adopted are
 reasonable. 
-[Total 33]
-CS2B A2023–6
+
 
 ---
 
@@ -132,7 +141,11 @@ Tab_R<- data.frame(cbind(G1_R,G2_R,G3_R,G4_R))
 summary(Tab_R) 
 ```
 
+
+---
 Or
+
+```{r}
 set.seed(123) 
 B = matrix(nrow = 2500, ncol = 4) 
 for (i in 1:4) { 
@@ -141,6 +154,8 @@ B[ ,i] = rbinom(2500,1, q )
 }
 Tab_R=data.frame (G1_R=B[,1] , G2_R=B[,2], G3_R =B[,3], G4_R=B[,4] ) 
 summary(Tab_R) 
+
+```
 
 ---
 

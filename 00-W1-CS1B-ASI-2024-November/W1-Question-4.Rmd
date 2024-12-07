@@ -1,0 +1,124 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#3C989E")(
+  base_color = "#1c5253",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+---
+Solution 4:  
+   
+i)  > exam.success = matrix(c(132,120,27,51),ncol=2,nrow=2) 
+> exam.success 
+     [,1] [,2] 
+[1,]  132   27 
+[2,]  120   51 
+ 
+Data is properly getting displayed.  
+   
+ H0: tutorial attendance and exam success are independent, against  
+H1: tutorial attendance and exam success are not independent (1) 
+   
+ii) > chisq.test(exam.success)$expected 
+         [,1]     [,2] 
+[1,] 121.4182 37.58182 
+[2,] 130.5818 40.41818 (2) 
+   
+iii) > chisq.test(exam.success) 
+ 
+ Pearson's Chi-squared test with Yates' continuity correction 
+ 
+data:  exam.success 
+X-squared = 6.8349, df = 1, p-value = 0.008939  
+   
+ 
+ 
+The p-value is significant (e.g. at the 1% level), since 0.008939 < 0.01 – therefore there is evi
+ dence to reject the null hypothesis and we conclude that tutorial attendance and exam success 
+are not independent. 
+ 
+ 
+(3) 
+   
+IAI                             
+CS1B-1124 
+iv) 
+v) 
+vi) 
+> fisher.test(exam.success) 
+Fisher's Exact Test for Count Data 
+data:  exam.success 
+p-value = 0.006544 
+alternative hypothesis: true odds ratio is not equal to 1 
+95 percent confidence interval: 
+1.190372 3.671876 
+sample estimates: 
+odds ratio  
+2.073216   
+The p-value is significant (e.g. at the 1% level), 0.006544 < 0.01 – therefore there is evidence 
+to reject the null hypothesis and we conclude that tutorial attendance and exam success are not 
+independent. Conclusion under  Fisher’s exact test is similar to conclusion under contingency 
+table test. 
+(a) Fisher’s test is an exact test whereas chi-square test is an approximation  
+(b) Fisher’s test is suitable for 2×2 datasets whereas chi-square test can be used for N×N datas
+ ets. 
+H0: the proportion of students passing the exam is 60% (p = 0.60) 
+H1: the proportion of students passing the exam is not equal to 60% (p <> 0.60)  
+> x=132+120 
+> n=x+27+51 
+> binom.test(x,n,conf.level = 0.95) 
+Exact binomial test 
+data:  x and n 
+number of successes = 252, number of trials = 330, p-value < 
+2.2e-16 
+alternative hypothesis: true probability of success is not equal to 0.5 
+95 percent confidence interval: 
+0.7140288 0.8084419 
+sample estimates: 
+probability of success  
+0.7636364   
+The p-value is < 2.2e-16 which is definitely less than 5% and hence we have sufficient eviden
+ ce to reject the null hypothesis and hence we can conclude that the proportion of students pass
+ ing the examination is not equal to 60%.  
+************* 
+(3) 
+(2) 
+(4) 
+[15] 
+Page 11 of 11 

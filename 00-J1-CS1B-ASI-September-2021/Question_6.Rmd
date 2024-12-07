@@ -148,12 +148,11 @@ at 5% significance level.
 
 #### Exercise D
 
-* It was found that out of sample of 200 policies of Company1 and 100 policies of 
-Company2 sold at the start of the year, 60 policies of Company1 and 50 policies of 
-Company2 resulted in claim. 
-* Carry out a hypothesis test for the difference in 
-proportions.
-* Use R code – prop.test (use correct=FALSE)
+* It was found that out of sample of 200 policies of Company1 and 100 policies of Company2 sold at the start of the year, 60 policies of Company1 and 50 policies of Company2 resulted in claim. 
+
+* Carry out a hypothesis test for the difference in proportions.
+
+* Use R code – prop.test (use <tt>correct=FALSE</tt>)
 
  
 ---
@@ -181,10 +180,11 @@ prop 1 prop 2
  
 ---
  
-Conclusion – As the confidence interval does not include 0 (or as p-value is less than 5%), we 
-have sufficient evidence to reject null hypothesis at 5% significance level. Hence, we can 
-conclude that there is difference in proportion of (policies that result in) claims between 
-Company1 and Company2 at 5% significance level. 
+#### Conclusion 
+
+* As the confidence interval does not include 0 (or as p-value is less than 5%), we have sufficient evidence to reject null hypothesis at 5% significance level. 
+
+* Hence, we can conclude that there is difference in proportion of (policies that result in) claims between  Company1 and Company2 at 5% significance level. 
 
 
 --- 
