@@ -67,6 +67,82 @@ sn_positions on two separate graphs but on the same scale specifying
 appropriate axis limits and labels. 
 (vii) Comment on your plots in part (vi). 
 
+Here are the solutions to the given problem, step by step:
+
+---
+
+### (i) Plot the number of senior management positions as a function of assets:
+
+```r
+load("firms.RData")
+plot(assets, sn_positions, xlab = "Assets", ylab = "Number of senior positions", main = "Firm's assets vs number of senior positions")
+```
+This code produces a scatterplot showing the relationship between a firm's assets and the number of senior management positions.
+
+---
+
+### (ii) Plot the number of senior management positions as a function of log10_assets:
+
+```r
+log10_assets = log10(assets) 
+plot(log10_assets, sn_positions, xlab = "Assets transformed at log10 scale", ylab = "Number of senior positions", main = "Firm's assets (log10) vs number of senior positions")
+```
+This code creates a scatterplot of the number of senior management positions against the log10-transformed assets.
+
+---
+
+### (iii) Comment on your plots in parts (i) and (ii):
+
+In part (i), the variable assets is extremely widespread, making it difficult to discern any clear pattern or relationship. In part (ii), taking the log10 of the assets helps to reveal an increasing relationship between the variables, indicating that the number of senior management positions tends to rise as the log-transformed assets increase.
+
+---
+
+### (iv) Calculate the mean of the number of senior management positions:
+
+```r
+mu = mean(sn_positions) 
+mu
+```
+The mean number of senior management positions is calculated as approximately 13.58065.
+
+---
+
+### (v) Generate a sample of size equal to the number of firms from a Poisson distribution:
+
+```r
+set.seed(222)
+theoretical_samp = rpois(length(sn_positions), mu) 
+```
+This code generates a sample from a Poisson distribution with the parameter equal to the mean calculated in part (iv), using a seed for reproducibility.
+
+---
+
+### (vi) Plot histograms of the sample and sn_positions:
+
+**Histogram of the sample:**
+
+```r
+hist(theoretical_samp, xlim = c(0, 100), ylim = c(0, 100), main = "Distribution of simulated senior positions", xlab = "Number of senior positions")
+```
+
+**Histogram of sn_positions:**
+
+```r
+hist(sn_positions, breaks = 20, xlim = c(0, 100), ylim = c(0, 100), main = "Distribution of observed senior positions", xlab = "Number of senior positions")
+```
+These codes create histograms of the simulated sample and the observed sn_positions on the same scale.
+
+---
+
+### (vii) Comment on your plots in part (vi):
+
+The two distributions are very different. The observed counts exhibit an over-representation of zero values compared to the simulated Poisson distribution. This suggests that the number of senior management positions (sn_positions) does not follow a Poisson distribution with parameter 13.58.
+
+---
+
+These steps and comments cover the solution to the given problem. If you have further questions or need additional clarification, feel free to ask!
+
+
 ---
 Q2
 (i)
