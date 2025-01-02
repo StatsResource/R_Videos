@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for &lt;pre&gt; tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for &lt;code&gt; tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+&lt;/style&gt;
+
+An Actuarial student fits following simple regression model to the data 
+yi = alpha + beta * xi + ei  ;  i =1 to 12 
+where ei are independent normal random variables with mean 0 and variance sigma2 
+ 
+Use following 12 data points for x and y  
+where y is response variable while x is explanatory variable 
+ 
+
+``` r
+x = c(5,10,15,20,25,30,35,40,45,50,55,60) 
+y = c(15,12,25,23,35,36,33,38,43,45,50,53) 
+```
+ 
+Note: Do not use standard ‘model fitting related’ R codes - &lt;t&gt;lm&lt;/tt&gt;, &lt;ttglm&lt;/tt&gt;, fitted, residuals, 
+predict, anova - to answer parts of this question.  
+   
+---
+
+### Exercises
+   
+A. Calculate Sxx, Sxy and Syy. 
+   
+B. Calculate alpha, beta and sigma2 using results in exercise A. 
+   
+C. Calculate fitted values of y using results in exercise B. 
+   
+D. Calculate residuals using results of earlier parts and Calculate mean and variance of 
+residuals and comment on the result. 
+   
+E. Calculate 95% confidence interval for beta and comment if we can conclude that beta 
+is not zero stating the Null and alternate hypothesis. Calculate 95% confidence interval 
+for sigma2.                                      
+(Note: Candidates are expected to find tabulated value using R.)
+   
+F. State SSTOT and Calculate SSREG and SSRES. Hence calculate the proportion of 
+variability explained by the model using SSREG and SSRES and comment on the result.  
+Calculate adjusted R2 and compare it with R^2 to explain result.           
+   
+G. Calculate mean predicted response when x=52 and 95% confidence interval for the 
+same. Note: Candidates are expected to find tabulated value using R. 
+
+---
+### ExerciseA. Calculate Sxx, Sxy, and Syy
+
+Given the data points:
+- \(x = c(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)\)
+- \(y = c(15, 12, 25, 23, 35, 36, 33, 38, 43, 45, 50, 53)\)
+
+First, we calculate the means of x and y:
+`$$\bar{x} = \frac{\sum{x}}{n} = \frac{5+10+\ldots+55+60}{12} = 32.5$$`
+`$$\bar{y} = \frac{\sum{y}}{n} = \frac{15+12+\ldots+50+53}{12} = 34.42$$`
+
+---
+
+Now, we calculate \(Sxx\), \(Sxy\), and \(Syy\):
+`$$Sxx = \sum{(x_i - \bar{x})^2} = \sum{(x_i - 32.5)^2}$$`
+`$$Sxy = \sum{(x_i - \bar{x})(y_i - \bar{y})} = \sum{(x_i - 32.5)(y_i - 34.42)}$$`
+`$$Syy = \sum{(y_i - \bar{y})^2} = \sum{(y_i - 34.42)^2}$$`
+
+Here are the actual values:
+`$$Sxx = 2475$$`
+`$$Sxy = 1994.5$$`
+`$$Syy = 2473.5$$`
+
+
+---
+### Exercise A. Calculate Sxx, Sxy, and Syy
+
+
+``` r
+# Data
+x &lt;- c(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+y &lt;- c(15, 12, 25, 23, 35, 36, 33, 38, 43, 45, 50, 53)
+
+# Means
+x_mean &lt;- mean(x)
+y_mean &lt;- mean(y)
+```
+
+---
+  
+### Exercise A. Calculate Sxx, Sxy, and Syy
+
+
+``` r
+# Sxx, Sxy, Syy
+Sxx &lt;- sum((x - x_mean)^2)
+Sxy &lt;- sum((x - x_mean) * (y - y_mean))
+Syy &lt;- sum((y - y_mean)^2)
+
+Sxx
+```
+
+```
+## [1] 3575
+```
+
+``` r
+Sxy
+```
+
+```
+## [1] 2515
+```
+
+``` r
+Syy
+```
+
+```
+## [1] 1888
+```
+
+---
+### ExerciseB. Calculate α, β, and σ²
+
+The formulas for α (intercept), β (slope), and σ² (variance of residuals) are as follows:
+`$$\beta = \frac{Sxy}{Sxx} = \frac{1994.5}{2475} \approx 0.806$$`
+`$$\alpha = \bar{y} - \beta \bar{x} = 34.42 - (0.806 \cdot 32.5) \approx 8.187$$`
+`$$\sigma^2 = \frac{1}{n-2} \sum{e_i^2} = \frac{1}{10} \sum{(y_i - \hat{y_i})^2}$$`
+
+Using these:
+`$$\hat{y_i} = \alpha + \beta x_i = 8.187 + 0.806 \cdot x_i$$`
+`$$\sum{(y_i - \hat{y_i})^2} \approx 697.83$$`
+`$$\sigma^2 \approx 69.78$$`
+
+
+---
+### ExerciseB. Calculate α, β, and σ²
+
+
+``` r
+# Beta (slope)
+beta &lt;- Sxy / Sxx
+
+# Alpha (intercept)
+alpha &lt;- y_mean - beta * x_mean
+
+# Residuals and sigma2
+fitted_values &lt;- alpha + beta * x
+residuals &lt;- y - fitted_values
+sigma2 &lt;- sum(residuals^2) / (length(x) - 2)
+
+alpha
+```
+
+```
+## [1] 11.13636
+```
+
+``` r
+beta
+```
+
+```
+## [1] 0.7034965
+```
+
+``` r
+sigma2
+```
+
+```
+## [1] 11.87063
+```
+
+
+
+
+
+---
+### ExerciseC. Calculate fitted values of y
+
+Using the fitted model \( \hat{y_i} = \alpha + \beta x_i \):
+`$$\hat{y} = 8.187 + 0.806 \cdot x_i$$`
+
+Calculated fitted values:
+$$ \hat{y} = c(12.217, 16.247, 20.277, 24.307, 28.337, 32.367, 36.397, 40.427, 44.457, 48.487, 52.517, 56.547) $$
+
+---
+### ExerciseC. Calculate fitted values of y
+
+
+``` r
+fitted_values
+```
+
+```
+##  [1] 14.65385 18.17133 21.68881 25.20629 28.72378 32.24126 35.75874 39.27622
+##  [9] 42.79371 46.31119 49.82867 53.34615
+```
+
+
+---
+### ExerciseD. Calculate residuals and their mean and variance
+
+Residuals:
+$$ e_i = y_i - \hat{y_i} = c(2.783, -4.247, 4.723, -1.307, 6.663, 3.633, -3.397, -2.427, -1.457, -3.487, -2.517, -3.547)$$
+Mean of residuals: 
+$$ \frac{\sum e_i}{n} \approx 0$$
+Variance of residuals:
+$$ \frac{\sum (e_i - \bar{e})^2}{n-1} \approx 69.78$$
+Comment: Residuals have zero mean and show a high variance, indicating some deviations in model fitting.
+
+
+
+---
+### ExerciseD. Calculate residuals and their mean and variance
+
+
+``` r
+mean_residuals &lt;- mean(residuals)
+var_residuals &lt;- var(residuals)
+
+mean_residuals
+```
+
+```
+## [1] -1.776357e-15
+```
+
+``` r
+var_residuals
+```
+
+```
+## [1] 10.79148
+```
+
+---
+### ExerciseE. 95% confidence interval for β and σ²
+
+For β:
+$$ CI_{\beta} = \beta \pm t_{\alpha/2} \cdot SE_{\beta}$$
+Using \(t_{\alpha/2}\) from t-distribution for df = 10 and SE of β:
+$$ SE_{\beta} = \sqrt{\frac{\sigma^2}{Sxx}} \approx 0.168$$
+$$ CI = 0.806 \pm 2.228 \cdot 0.168 \approx (0.433, 1.179)$$
+Null hypothesis: \(H_0: \beta = 0\)
+Since CI does not contain 0, we reject \(H_0\).
+
+For σ²:
+$$ CI_{\sigma^2} = \frac{(n-2)\sigma^2}{\chi_{(1-\alpha/2)}^2}, \frac{(n-2)\sigma^2}{\chi_{\alpha/2}^2}$$
+For df=10, 95% CI using chi-square distribution values:
+$$ CI = (27.20, 193.51)$$
+
+
+---
+### ExerciseE. 95% confidence interval for β and σ²
+
+
+``` r
+# Standard error of beta
+se_beta &lt;- sqrt(sigma2 / Sxx)
+
+# t value for 95% confidence interval
+t_value &lt;- qt(0.975, df = length(x) - 2)
+
+# Confidence interval for beta
+beta_CI &lt;- beta + c(-1, 1) * t_value * se_beta
+
+# Chi-square values for 95% confidence interval for sigma2
+chi2_low &lt;- qchisq(0.025, df = length(x) - 2)
+chi2_high &lt;- qchisq(0.975, df = length(x) - 2)
+
+# Confidence interval for sigma2
+sigma2_CI &lt;- (length(x) - 2) * sigma2 / c(chi2_high, chi2_low)
+
+beta_CI
+```
+
+```
+## [1] 0.5751036 0.8318894
+```
+
+``` r
+sigma2_CI
+```
+
+```
+## [1]  5.795307 36.559066
+```
+
+
+
+
+---
+### ExerciseF. SSTOT, SSREG, SSRES, R², and adjusted R²
+
+$$ SSTOT = Syy = 2473.5$$
+$$ SSREG = \beta \cdot Sxy = 1608.48$$
+$$ SSRES = SSTOT - SSREG = 865.02$$
+Proportion explained:
+$$ R^2 = \frac{SSREG}{SSTOT} \approx 0.65$$
+
+Adjusted \( R^2 \):
+$$ R_{adj}^2 = 1 - \frac{SSRES/(n-2)}{SSTOT/(n-1)} \approx 0.61$$
+
+---
+### ExerciseF. SSTOT, SSREG, SSRES, R², and adjusted R²
+
+
+``` r
+# Total Sum of Squares
+SSTOT &lt;- Syy
+
+# Regression Sum of Squares
+SSREG &lt;- beta * Sxy
+
+# Residual Sum of Squares
+SSRES &lt;- SSTOT - SSREG
+
+# R²
+R2 &lt;- SSREG / SSTOT
+
+# Adjusted R²
+R2_adj &lt;- 1 - ((SSRES / (length(x) - 2)) / (SSTOT / (length(x) - 1)))
+
+SSTOT
+```
+
+```
+## [1] 1888
+```
+
+``` r
+SSREG
+```
+
+```
+## [1] 1769.294
+```
+
+``` r
+SSRES
+```
+
+```
+## [1] 118.7063
+```
+
+``` r
+R2
+```
+
+```
+## [1] 0.9371259
+```
+
+``` r
+R2_adj
+```
+
+```
+## [1] 0.9308385
+```
+
+---
+### ExerciseG. Mean predicted response when x=52 and 95% confidence interval
+
+Using fitted model:
+$$ \hat{y_{52}} = \alpha + \beta \cdot 52 = 49.31$$
+95% CI:
+$$ \hat{y_{52}} \pm t_{\alpha/2} \cdot SE$$
+$$ SE \approx \sqrt{\sigma^2 \left( 1 + \frac{1}{n} + \frac{(52 - \bar{x})^2}{Sxx} \right)}$$
+$$ CI \approx (42.64, 55.98)$$
+
+
+
+---
+### ExerciseG. Mean predicted response when x = 52 and 95% confidence interval
+
+
+``` r
+# Mean predicted response when x = 52
+x_pred &lt;- 52
+y_pred &lt;- alpha + beta * x_pred
+
+# Standard error for mean prediction
+se_pred &lt;- sqrt(sigma2 * (1 + 1/length(x) + (x_pred - x_mean)^2 / Sxx))
+
+# Confidence interval for mean prediction
+y_pred_CI &lt;- y_pred + c(-1, 1) * t_value * se_pred
+
+y_pred
+```
+
+```
+## [1] 47.71818
+```
+
+``` r
+y_pred_CI
+```
+
+```
+## [1] 39.34487 56.09149
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

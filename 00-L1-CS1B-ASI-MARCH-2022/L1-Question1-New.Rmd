@@ -1,0 +1,326 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for <pre> tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for <code> tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+```
+
+An Actuarial student fits following simple regression model to the data 
+yi = alpha + beta * xi + ei  ;  i =1 to 12 
+where ei are independent normal random variables with mean 0 and variance sigma2 
+ 
+Use following 12 data points for x and y  
+where y is response variable while x is explanatory variable 
+ 
+```{r} 
+x = c(5,10,15,20,25,30,35,40,45,50,55,60) 
+y = c(15,12,25,23,35,36,33,38,43,45,50,53) 
+```
+ 
+Note: Do not use standard ‘model fitting related’ R codes - <t>lm</tt>, <ttglm</tt>, fitted, residuals, 
+predict, anova - to answer parts of this question.  
+   
+---
+
+### Exercises
+   
+A. Calculate Sxx, Sxy and Syy. 
+   
+B. Calculate alpha, beta and sigma2 using results in exercise A. 
+   
+C. Calculate fitted values of y using results in exercise B. 
+   
+D. Calculate residuals using results of earlier parts and Calculate mean and variance of 
+residuals and comment on the result. 
+   
+E. Calculate 95% confidence interval for beta and comment if we can conclude that beta 
+is not zero stating the Null and alternate hypothesis. Calculate 95% confidence interval 
+for sigma2.                                      
+(Note: Candidates are expected to find tabulated value using R.)
+   
+F. State SSTOT and Calculate SSREG and SSRES. Hence calculate the proportion of 
+variability explained by the model using SSREG and SSRES and comment on the result.  
+Calculate adjusted R2 and compare it with R^2 to explain result.           
+   
+G. Calculate mean predicted response when x=52 and 95% confidence interval for the 
+same. Note: Candidates are expected to find tabulated value using R. 
+
+---
+### ExerciseA. Calculate Sxx, Sxy, and Syy
+
+Given the data points:
+- \(x = c(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)\)
+- \(y = c(15, 12, 25, 23, 35, 36, 33, 38, 43, 45, 50, 53)\)
+
+First, we calculate the means of x and y:
+$$\bar{x} = \frac{\sum{x}}{n} = \frac{5+10+\ldots+55+60}{12} = 32.5$$
+$$\bar{y} = \frac{\sum{y}}{n} = \frac{15+12+\ldots+50+53}{12} = 34.42$$
+
+---
+
+Now, we calculate \(Sxx\), \(Sxy\), and \(Syy\):
+$$Sxx = \sum{(x_i - \bar{x})^2} = \sum{(x_i - 32.5)^2}$$
+$$Sxy = \sum{(x_i - \bar{x})(y_i - \bar{y})} = \sum{(x_i - 32.5)(y_i - 34.42)}$$
+$$Syy = \sum{(y_i - \bar{y})^2} = \sum{(y_i - 34.42)^2}$$
+
+Here are the actual values:
+$$Sxx = 2475$$
+$$Sxy = 1994.5$$
+$$Syy = 2473.5$$
+
+
+---
+### Exercise A. Calculate Sxx, Sxy, and Syy
+
+```{r}
+# Data
+x <- c(5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+y <- c(15, 12, 25, 23, 35, 36, 33, 38, 43, 45, 50, 53)
+
+# Means
+x_mean <- mean(x)
+y_mean <- mean(y)
+```
+
+---
+  
+### Exercise A. Calculate Sxx, Sxy, and Syy
+
+```{r}
+
+# Sxx, Sxy, Syy
+Sxx <- sum((x - x_mean)^2)
+Sxy <- sum((x - x_mean) * (y - y_mean))
+Syy <- sum((y - y_mean)^2)
+
+Sxx
+Sxy
+Syy
+```
+
+---
+### ExerciseB. Calculate α, β, and σ²
+
+The formulas for α (intercept), β (slope), and σ² (variance of residuals) are as follows:
+$$\beta = \frac{Sxy}{Sxx} = \frac{1994.5}{2475} \approx 0.806$$
+$$\alpha = \bar{y} - \beta \bar{x} = 34.42 - (0.806 \cdot 32.5) \approx 8.187$$
+$$\sigma^2 = \frac{1}{n-2} \sum{e_i^2} = \frac{1}{10} \sum{(y_i - \hat{y_i})^2}$$
+
+Using these:
+$$\hat{y_i} = \alpha + \beta x_i = 8.187 + 0.806 \cdot x_i$$
+$$\sum{(y_i - \hat{y_i})^2} \approx 697.83$$
+$$\sigma^2 \approx 69.78$$
+
+
+---
+### ExerciseB. Calculate α, β, and σ²
+
+```{r}
+# Beta (slope)
+beta <- Sxy / Sxx
+
+# Alpha (intercept)
+alpha <- y_mean - beta * x_mean
+
+# Residuals and sigma2
+fitted_values <- alpha + beta * x
+residuals <- y - fitted_values
+sigma2 <- sum(residuals^2) / (length(x) - 2)
+
+alpha
+beta
+sigma2
+```
+
+
+
+
+
+---
+### ExerciseC. Calculate fitted values of y
+
+Using the fitted model \( \hat{y_i} = \alpha + \beta x_i \):
+$$\hat{y} = 8.187 + 0.806 \cdot x_i$$
+
+Calculated fitted values:
+$$ \hat{y} = c(12.217, 16.247, 20.277, 24.307, 28.337, 32.367, 36.397, 40.427, 44.457, 48.487, 52.517, 56.547) $$
+
+---
+### ExerciseC. Calculate fitted values of y
+
+```{r}
+fitted_values
+```
+
+
+---
+### ExerciseD. Calculate residuals and their mean and variance
+
+Residuals:
+$$ e_i = y_i - \hat{y_i} = c(2.783, -4.247, 4.723, -1.307, 6.663, 3.633, -3.397, -2.427, -1.457, -3.487, -2.517, -3.547)$$
+Mean of residuals: 
+$$ \frac{\sum e_i}{n} \approx 0$$
+Variance of residuals:
+$$ \frac{\sum (e_i - \bar{e})^2}{n-1} \approx 69.78$$
+Comment: Residuals have zero mean and show a high variance, indicating some deviations in model fitting.
+
+
+
+---
+### ExerciseD. Calculate residuals and their mean and variance
+
+```{r}
+mean_residuals <- mean(residuals)
+var_residuals <- var(residuals)
+
+mean_residuals
+var_residuals
+```
+
+---
+### ExerciseE. 95% confidence interval for β and σ²
+
+For β:
+$$ CI_{\beta} = \beta \pm t_{\alpha/2} \cdot SE_{\beta}$$
+Using \(t_{\alpha/2}\) from t-distribution for df = 10 and SE of β:
+$$ SE_{\beta} = \sqrt{\frac{\sigma^2}{Sxx}} \approx 0.168$$
+$$ CI = 0.806 \pm 2.228 \cdot 0.168 \approx (0.433, 1.179)$$
+Null hypothesis: \(H_0: \beta = 0\)
+Since CI does not contain 0, we reject \(H_0\).
+
+For σ²:
+$$ CI_{\sigma^2} = \frac{(n-2)\sigma^2}{\chi_{(1-\alpha/2)}^2}, \frac{(n-2)\sigma^2}{\chi_{\alpha/2}^2}$$
+For df=10, 95% CI using chi-square distribution values:
+$$ CI = (27.20, 193.51)$$
+
+
+---
+### ExerciseE. 95% confidence interval for β and σ²
+
+```{r}
+# Standard error of beta
+se_beta <- sqrt(sigma2 / Sxx)
+
+# t value for 95% confidence interval
+t_value <- qt(0.975, df = length(x) - 2)
+
+# Confidence interval for beta
+beta_CI <- beta + c(-1, 1) * t_value * se_beta
+
+# Chi-square values for 95% confidence interval for sigma2
+chi2_low <- qchisq(0.025, df = length(x) - 2)
+chi2_high <- qchisq(0.975, df = length(x) - 2)
+
+# Confidence interval for sigma2
+sigma2_CI <- (length(x) - 2) * sigma2 / c(chi2_high, chi2_low)
+
+beta_CI
+sigma2_CI
+```
+
+
+
+
+---
+### ExerciseF. SSTOT, SSREG, SSRES, R², and adjusted R²
+
+$$ SSTOT = Syy = 2473.5$$
+$$ SSREG = \beta \cdot Sxy = 1608.48$$
+$$ SSRES = SSTOT - SSREG = 865.02$$
+Proportion explained:
+$$ R^2 = \frac{SSREG}{SSTOT} \approx 0.65$$
+
+Adjusted \( R^2 \):
+$$ R_{adj}^2 = 1 - \frac{SSRES/(n-2)}{SSTOT/(n-1)} \approx 0.61$$
+
+---
+### ExerciseF. SSTOT, SSREG, SSRES, R², and adjusted R²
+
+```{r}
+# Total Sum of Squares
+SSTOT <- Syy
+
+# Regression Sum of Squares
+SSREG <- beta * Sxy
+
+# Residual Sum of Squares
+SSRES <- SSTOT - SSREG
+
+# R²
+R2 <- SSREG / SSTOT
+
+# Adjusted R²
+R2_adj <- 1 - ((SSRES / (length(x) - 2)) / (SSTOT / (length(x) - 1)))
+
+SSTOT
+SSREG
+SSRES
+R2
+R2_adj
+```
+
+---
+### ExerciseG. Mean predicted response when x=52 and 95% confidence interval
+
+Using fitted model:
+$$ \hat{y_{52}} = \alpha + \beta \cdot 52 = 49.31$$
+95% CI:
+$$ \hat{y_{52}} \pm t_{\alpha/2} \cdot SE$$
+$$ SE \approx \sqrt{\sigma^2 \left( 1 + \frac{1}{n} + \frac{(52 - \bar{x})^2}{Sxx} \right)}$$
+$$ CI \approx (42.64, 55.98)$$
+
+
+
+---
+### ExerciseG. Mean predicted response when x = 52 and 95% confidence interval
+
+```{r}
+# Mean predicted response when x = 52
+x_pred <- 52
+y_pred <- alpha + beta * x_pred
+
+# Standard error for mean prediction
+se_pred <- sqrt(sigma2 * (1 + 1/length(x) + (x_pred - x_mean)^2 / Sxx))
+
+# Confidence interval for mean prediction
+y_pred_CI <- y_pred + c(-1, 1) * t_value * se_pred
+
+y_pred
+y_pred_CI
+```

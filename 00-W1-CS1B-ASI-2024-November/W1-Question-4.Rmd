@@ -1,6 +1,6 @@
 ---
-title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+title: "Hypothesis Testing for Categorical Data"
+subtitle: "Introduction to R for Statistics"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -23,9 +23,11 @@ library(janitor)
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(xaringanthemer)
-style_mono_accent_inverse(
+style_mono_accent(
   #base_color = "#3C989E")(
-  base_color = "#1c5253",
+  base_color = "#1230FF",
+  background_color = "#D8F9FF",
+  text_color = "black",
   header_font_google = google_font("Josefin Sans"),
   text_font_google   = google_font("Montserrat", "300", "300i"),
   code_font_google   = google_font("Fira Mono")
@@ -33,54 +35,298 @@ style_mono_accent_inverse(
 ```
 
 
-* Introduction to R for Actuarial Students
+### Introduction to R for Statistics
 
-* CS1B Curriculum
+This exercise involves analyzing data on a group of students to determine whether tutorial attendance is associated with exam success. 
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
+The analysis include:
 
-* Question 1
+* **Chi-Square Test**: Perform the chi-square test with continuity correction to determine if there's an association between tutorial attendance and exam success.
+
+* **Fisher's Exact Test**: Conduct Fisher's Exact Test and compare its conclusion with the chi-square test at a 1% level of significance.
+
+*  **Binomial Test**: Test if the proportion of students passing the exam is equal to 60%, state the null and alternative hypotheses, calculate the p-value, and draw a conclusion at a 5% level of significance.
+
 ---
-Solution 4:  
+
+### Exam Progress Data
+
+A researcher has collected the following data on a group of students, regarding whether 
+they passed or failed an exam and whether or not they attended tutorials:  
+
+ 
+| Number of students  | Exam passed | Exam failed |
+|---|-------------|-------------|
+| Attended tutorials    | 132         | 120         |
+| Did not attend tutorials | 27          | 51          |
+
+---
+
+### Loading the Data
    
-i)  > exam.success = matrix(c(132,120,27,51),ncol=2,nrow=2) 
-> exam.success 
-     [,1] [,2] 
-[1,]  132   27 
-[2,]  120   51 
+The data can be entered into R in matrix form using the following code:  
+<pre><code>
+exam.success = matrix(c(132,120,27,51),ncol=2,nrow=2) 
+</code></pre>
+
+* The researcher wants to establish whether tutorial attendance is independent of exam  success, using a chi-square test. 
+
+* Load the data in R and check for errors by displaying it.  
+
+---
+
+### Exercises
+
+**Exercise 1**: State the hypothesis of this test. 
+
+**Exercise 2**: Calculate the expected frequencies for the data under the null hypotheses in exercise 1 using 
+an appropriate function in R. 
+
+**Exercise 3**: Perform the test with continuity correction 
+Clearly state your conclusions at 1% level of significance. 
+
+**Exercise 4**: What would be the conclusion of the test at 1% level of significance if Fisher’s test is 
+used instead of chi-square test? The null and alternative hypotheses need NOT be restated. 
+
+[Hint: Use <tt>fisher.test</tt> function in R.] 
+
+---
+
+### Exercises
+
+**Exercise 5**: In the context of the two tests performed in exercises 3 and 4 above 
+
+ (a) Which one is an exact test and which one is an approximation? 
+
+ (b) Which test is suitable for only 2×2 datasets and which test is suitable for any N×N 
+dataset?  
+
+**Exercise 6**: Using binomial test, test whether the proportion of students passing the examination is equal to 60%. 
+
+You are required to clearly state the null and alternative hypotheses, p-value of the test and your conclusion at 5% level of significance.   
+
+
+
+---
+
+### Load and Check Data
+First, we'll load the data in R and check for errors by displaying it.
+
+```{r}
+# Enter the data into R in matrix form
+exam.success <- matrix(c(132, 120, 27, 51), ncol = 2, nrow = 2, byrow = TRUE)
+
+# Assign column and row names for better clarity
+colnames(exam.success) <- c("Exam passed", "Exam failed")
+rownames(exam.success) <- c("Attended tutorials", "Did not attend tutorials")
+
+# Display the data to check for errors
+exam.success
+```
+
+---
+
+### Exercise 1: 
+
+**State the Hypothesis**
+
+**Null Hypothesis $H_0$**: Tutorial attendance is independent of exam success.
+
+**Alternative Hypothesis $H_1$**: Tutorial attendance is not independent of exam success.
+
+
+---
+
+### Exercise 2: 
+
+**Calculate the Expected Frequencies**
+
+We'll calculate the expected frequencies using the `chisq.test` function.
+
+```{r}
+# Calculate the expected frequencies
+chisq_result <- chisq.test(exam.success, correct = FALSE)
+
+# Display the expected frequencies
+chisq_result$expected
+```
+
+---
+
+### Yates Correction
+
+* Yates correction, also known as Yates' continuity correction, is a statistical adjustment applied to the chi-square test of independence in contingency tables with small sample sizes, especially for 2x2 tables. 
+
+* It adjusts for the fact that the chi-square test assumes a continuous distribution, while the observed data are discrete. 
+
+* This correction reduces the chi-square value by 0.5 for each cell to make the test more conservative and reduce the likelihood of Type I errors (false positives).
+
+
+---
+
+### Exercise 3: 
+
+**Perform the Chi-Square Test with Continuity Correction**
+
+We'll perform the chi-square test with continuity correction and state our conclusion at a 1% level of significance.
+
+```{r}
+# Perform the chi-square test with continuity correction
+chisq_result_corrected <- chisq.test(exam.success, correct = TRUE)
+
+# Display the test result
+chisq_result_corrected
+```
+
+
+
+```{r echo=FALSE,include=FALSE}
+# Conclusion at 1% level of significance
+if (chisq_result_corrected$p.value < 0.01) {
+  cat("At 1% level of significance, we reject the null hypothesis. Tutorial attendance is not independent of exam success.\n")
+} else {
+  cat("At 1% level of significance, we fail to reject the null hypothesis. Tutorial attendance is independent of exam success.\n")
+}
+
+```
+
+**Conclusion** 
+
+The p-value is significant (e.g. at the 1% level), since 0.008939 < 0.01 – therefore there is evidence to reject the null hypothesis and we conclude that tutorial attendance and exam success are not independent. 
  
-Data is properly getting displayed.  
-   
- H0: tutorial attendance and exam success are independent, against  
-H1: tutorial attendance and exam success are not independent (1) 
-   
-ii) > chisq.test(exam.success)$expected 
-         [,1]     [,2] 
-[1,] 121.4182 37.58182 
-[2,] 130.5818 40.41818 (2) 
-   
-iii) > chisq.test(exam.success) 
- 
- Pearson's Chi-squared test with Yates' continuity correction 
- 
-data:  exam.success 
-X-squared = 6.8349, df = 1, p-value = 0.008939  
-   
- 
- 
-The p-value is significant (e.g. at the 1% level), since 0.008939 < 0.01 – therefore there is evi
- dence to reject the null hypothesis and we conclude that tutorial attendance and exam success 
-are not independent. 
- 
- 
-(3) 
-   
-IAI                             
-CS1B-1124 
-iv) 
-v) 
-vi) 
+
+---
+
+### Exercise 4: 
+
+What would be the conclusion of the test at 1% level of significance if Fisher’s test is 
+used instead of chi-square test? 
+
+The null and alternative hypotheses need NOT be restated. 
+
+[Hint: Use <tt>fisher.test</tt> function in R.] 
+
+
+
+---
+
+### Exercise 4: 
+
+**Fisher’s Exact Test**
+
+Here we will use the `fisher.test` function to perform Fisher's Exact Test and state the conclusion at a 1% level of significance.
+
+```{r}
+# Perform Fisher's Exact Test
+fisher_result <- fisher.test(exam.success)
+
+# Display the test result
+fisher_result
+
+```
+
+
+
+```{r echo=FALSE,include=FALSE}
+
+# Conclusion at 1% level of significance
+if (fisher_result$p.value < 0.01) {
+  cat("At 1% level of significance, we reject the null hypothesis. Tutorial attendance is not independent of exam success.\n")
+} else {
+  cat("At 1% level of significance, we fail to reject the null hypothesis. Tutorial attendance is independent of exam success.\n")
+}
+
+```
+
+---
+
+### Exercise 5: 
+
+In the context of the two tests performed in exercises 3 and 4 above – 
+
+(a) Which one is an exact test and which one is an approximation? 
+
+(b) Which test is suitable for only 2×2 datasets and which test is suitable for any N×N 
+dataset?  
+
+---
+
+### Exercise 5: 
+
+**Test Comparisons**
+
+**(a)**
+
+- **Exact Test**: Fisher’s Exact Test is an exact test.
+
+- **Approximation**: Chi-square test is an approximation.
+
+**(b)**
+
+- **Suitable for 2×2 datasets**: Fisher’s Exact Test.
+
+- **Suitable for any N×N datasets**: Chi-square test.
+
+---
+
+### Exercise 6: Binomial Test
+
+* Using binomial test, test whether the proportion of students passing the examination is 
+equal to 60%. 
+
+* You are required to clearly state the null and alternative hypotheses, p-value of the test and your conclusion at 5% level of significance.   
+
+
+---
+
+### Exercise 6: Binomial Test
+
+We'll use the binomial test to test whether the proportion of students passing the examination is equal to 60%.
+
+* **Null Hypothesis $H_0$**: The proportion of students passing the examination is equal to 60%.
+
+* **Alternative Hypothesis $H_1$**: The proportion of students passing the examination is not equal to 60%.
+
+```{r}
+# Number of students who passed and total number of students
+num_passed <- sum(exam.success[,1])
+
+num_passed 
+
+total_students <- sum(exam.success)
+
+total_students
+
+```
+
+---
+
+### Exercise 6: Binomial Test
+
+```{r}
+# Perform the binomial test
+binom_test_result <- binom.test(num_passed, total_students, p = 0.6)
+
+# Display the test result
+binom_test_result
+```
+
+The p-value is definitely less than 5% and hence we have sufficient evidence to reject the null hypothesis and hence we can conclude that the proportion of students passing the examination is not equal to 60%.  
+
+
+```{r include=FALSE, echo=FALSE}
+# Conclusion at 5% level of significance
+if (binom_test_result$p.value < 0.05) {
+  cat("At 5% level of significance, we reject the null hypothesis. The proportion of students passing the examination is not equal to 60%.\n")
+} else {
+  cat("At 5% level of significance, we fail to reject the null hypothesis. The proportion of students passing the examination is equal to 60%.\n")
+}
+```
+
+---
+
+---
+
 > fisher.test(exam.success) 
 Fisher's Exact Test for Count Data 
 data:  exam.success 
@@ -91,6 +337,8 @@ alternative hypothesis: true odds ratio is not equal to 1
 sample estimates: 
 odds ratio  
 2.073216   
+
+---
 The p-value is significant (e.g. at the 1% level), 0.006544 < 0.01 – therefore there is evidence 
 to reject the null hypothesis and we conclude that tutorial attendance and exam success are not 
 independent. Conclusion under  Fisher’s exact test is similar to conclusion under contingency 
@@ -113,12 +361,4 @@ alternative hypothesis: true probability of success is not equal to 0.5
 sample estimates: 
 probability of success  
 0.7636364   
-The p-value is < 2.2e-16 which is definitely less than 5% and hence we have sufficient eviden
- ce to reject the null hypothesis and hence we can conclude that the proportion of students pass
- ing the examination is not equal to 60%.  
-************* 
-(3) 
-(2) 
-(4) 
-[15] 
-Page 11 of 11 
+

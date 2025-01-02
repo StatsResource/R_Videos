@@ -65,7 +65,8 @@ Calculate the rate at which a 12 year old student will move from wing B to A and
 
 **Understanding the Problem and Generator Matrix**
 
-In this problem, we have a two-state system (wings A and B) where the transition rates between the states depend on the age of the student. A generator matrix, G(x), is a matrix that captures these transition rates for a given age x.
+In this problem, we have a two-state system (wings A and B) where the transition rates between the states depend on the age of the student. 
+A generator matrix, G(x), is a matrix that captures these transition rates for a given age x.
 
 **Constructing the Generator Matrix**
 
@@ -186,5 +187,116 @@ The rate of moving to Wing B = 0.3682517.
 
 ---
 
-
+sigmaBA=function(x){  
+  rate=0.05*x+0.1 
+  rate}  
+ 
+gen.matrix=function(x){  
+  muAB=sigmaAB(x)  
+  muBA=sigmaBA(x)  
+  muAA=-muAB 
+  muBB=-muBA 
+  movement.rates = c(muAA,muBA,muAB,muBB) 
+  X =(matrix(movement.rates, 2, 2)) 
+  X} 
+gen.matrix(12) 
+ 
+> gen.matrix(12) 
+      [,1]  [,2] 
+[1,] -0.76  0.76 
+[2,]  0.70 -0.70 
+ 
+Thus, the rates are 0.70 (from B to A) and 0.76 (from A to B). 
+             [8] 
+ 
+ii)  
+calc.prob.matrix=function(s,t,h){  
+  Ph=diag(2)+gen.matrix(s)*h  
+  temp.matrix=Ph  
+  for (j in 1:((t-s)/h-1)){  
+    temp.matrix=temp.matrix%*%Ph  
+    Ph=diag(2)+gen.matrix(s+h*j)*h  
+  }  
+  temp.matrix  
+} 
+calc.prob.matrix(8,5,1/365) 
+ 
+> calc.prob.matrix(8,5,1/365) 
+          [,1]      [,2] 
+[1,] 0.6317483 0.3682517 
+[2,] 0.5260447 0.4739553 
+ 
+The rate of moving to Wing B = 0.3682517. 
 ---
+
+To calculate the generator matrix \( G(x) \) and the transition probabilities for movement between the wings for a student of age \( x \), let's break it down into smaller steps and provide the necessary R code.
+
+### Step 1: Calculating the Generator Matrix \( G(x) \)
+The generator matrix \( G(x) \) is defined as:
+\[ G(x) = \begin{bmatrix} 
+-q_{11}(x) & q_{12}(x) \\
+q_{21}(x) & -q_{22}(x) 
+\end{bmatrix} \]
+
+Where:
+- \( q_{11}(x) = q_{12}(x) = 0.08x - 0.2 \)
+- \( q_{21}(x) = q_{22}(x) = 0.05x + 0.1 \)
+
+#### R Code to Calculate Generator Matrix \( G(x) \)
+```R
+sigmaAB <- function(x) { 
+  rate <- 0.08 * x - 0.2
+  return(rate)
+} 
+
+sigmaBA <- function(x) { 
+  rate <- 0.05 * x + 0.1 
+  return(rate)
+} 
+
+gen.matrix <- function(x) { 
+  muAB <- sigmaAB(x)
+  muBA <- sigmaBA(x)
+  muAA <- -muAB
+  muBB <- -muBA
+  movement.rates <- c(muAA, muBA, muAB, muBB)
+  X <- matrix(movement.rates, nrow = 2, byrow = TRUE)
+  return(X)
+} 
+
+# Calculate the generator matrix for a 12-year-old student
+gen.matrix(12)
+```
+
+### Step 2: Calculating Transition Probabilities Over Time
+Using the generator matrix \( G(t) \), we can approximate the transition probability matrix \( P(t,t+h) \) over a very small time period \( h \) as:
+\[ P(t,t+h) \approx I + h \cdot G(t) \]
+
+#### R Code to Calculate the Transition Probability Matrix
+```R
+calc.prob.matrix <- function(s, t, h) { 
+  Ph <- diag(2) + gen.matrix(s) * h 
+  temp.matrix <- Ph 
+
+  for (j in 1:((t - s) / h - 1)) { 
+    temp.matrix <- temp.matrix %*% Ph 
+    Ph <- diag(2) + gen.matrix(s + h * j) * h 
+  } 
+
+  return(temp.matrix)
+} 
+
+# Calculate the transition probability matrix for an 8-year-old over 5 years
+calc.prob.matrix(8, 5, 1/365)
+```
+
+### Explanation of Results
+1. **Generator Matrix for a 12-year-old**:
+   This matrix captures the transition rates between wings A and B for a 12-year-old student. The rates are:
+   - From A to B: \( 0.76 \)
+   - From B to A: \( 0.7 \)
+
+2. **Transition Probability Matrix for an 8-year-old over 5 years**:
+   This matrix provides the probabilities of moving between wings A and B over a 5-year period for an 8-year-old student, given a small time interval \( h = 1/365 \).
+
+I hope this helps! If you have any further questions or need more assistance, feel free to ask.

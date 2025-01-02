@@ -33,6 +33,90 @@ style_mono_accent_inverse(
 ```
 
 
+This exercise involves modeling the ball-by-ball actions of a football player using a Markov Chain. Here's how you can approach each part of the exercise in R using the `markovchain` package:
+
+### **i) Create a vector with the state space of this Markov Chain in R**
+
+```r
+states <- c("Pass", "Shoot", "Dribble")
+```
+
+### **ii) Create a matrix of transition probabilities in R with names of that states in the matrix. Then create a Markov Chain Object using the ‘new’ function and details from the matrix created.**
+
+```r
+# Load the markovchain package
+library(markovchain)
+
+# Define the transition matrix
+transitionMatrix <- matrix(c(0.5, 0.1, 0.4,
+                             0.7, 0.2, 0.1,
+                             0.4, 0.3, 0.3),
+                           nrow = 3, byrow = TRUE)
+rownames(transitionMatrix) <- states
+colnames(transitionMatrix) <- states
+
+# Create the Markov Chain object
+footballMC <- new("markovchain", states = states, transitionMatrix = transitionMatrix)
+```
+
+### **iii) Plot the transition probability matrix**
+
+```r
+# Plot the Markov Chain
+plot(footballMC)
+```
+
+### **iv) Calculate the steady state of this distribution**
+
+```r
+# Calculate steady state
+steadyState <- steadyStates(footballMC)
+steadyState
+```
+
+### **v) Calculate the probability that a player who Passes the ball initially, will Pass the ball after:**
+
+#### a) 2 plays have taken place
+
+```r
+# Calculate probability after 2 plays
+twoPlays <- footballMC^2
+initialState <- c(1, 0, 0) # Starts with Pass
+probTwoPlays <- initialState %*% twoPlays
+probTwoPlays["Pass"]
+```
+
+#### b) 5 plays have taken place
+
+```r
+# Calculate probability after 5 plays
+fivePlays <- footballMC^5
+probFivePlays <- initialState %*% fivePlays
+probFivePlays["Pass"]
+```
+
+### **vi) Use the function set.seed(100). Simulate a sequence of 100 states using markovchainSequence function. Compute the frequency of the states.**
+
+```r
+set.seed(100)
+sequence <- markovchainSequence(n = 100, markovchain = footballMC, t0 = "Pass")
+freqTable <- table(sequence)
+freqTable
+```
+
+### **vii) Use a bar chart to plot the relative frequency of the states and label the chart appropriately.**
+
+```r
+barplot(freqTable / sum(freqTable), main = "Relative Frequency of States", xlab = "State", ylab = "Relative Frequency")
+```
+
+### **viii) Comment by comparing the results obtained in (vii) with the steady state distribution obtained in (iv).**
+
+- **Comparison**: By comparing the relative frequencies obtained from the simulation with the steady-state distribution calculated in part (iv), you can observe how closely the simulated states align with the theoretical steady-state distribution. If the number of simulations is sufficiently large, the relative frequencies should converge to the steady-state probabilities.
+
+If you need further clarification or have any questions, feel free to ask!
+
+
 
 ```{r}
 library(markovchain)

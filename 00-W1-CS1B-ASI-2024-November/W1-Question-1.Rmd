@@ -1,15 +1,13 @@
 ---
 title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -21,26 +19,553 @@ library(janitor)
 
 ```
 
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_mono_accent_inverse(
-  #base_color = "#3C989E")(
-  base_color = "#1c5253",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Montserrat", "300", "300i"),
-  code_font_google   = google_font("Fira Mono")
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for <pre> tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for <code> tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+```
+### Exercise A
+
+
+Consider a random sample X1, X2, …….., Xn from a Chi-Square distribution with 2 
+degrees of freedom and define Y = ∑ Xi n
+ i=1  
+   
+i) State the distribution of Y, giving all the parameters of the distribution. 
+
+---
+
+Certainly! Let's analyze the distribution of \( Y \):
+
+Given a random sample \( X_1, X_2, \ldots, X_n \) from a Chi-Square distribution with 2 degrees of freedom, \( X_i \sim \chi^2(2) \).
+
+To define \( Y = \sum_{i=1}^n X_i \):
+
+### Distribution of \( Y \)
+
+1. **Individual Distribution**:
+   - Each \( X_i \) follows a Chi-Square distribution with 2 degrees of freedom.
+   - \( X_i \sim \chi^2(2) \)
+
+2. **Gamma Distribution**:
+   - A Chi-Square distribution with 2 degrees of freedom is equivalent to a Gamma distribution with shape parameter \( \alpha = 1 \) and rate parameter \( \lambda = \frac{1}{2} \).
+   - \( X_i \sim \text{Gamma}(1, \frac{1}{2}) \)
+
+3. **Sum of Gamma Distributions**:
+   - The sum of \( n \) Gamma-distributed random variables with the same rate parameter \( \lambda \) but shape parameter \( \alpha \) is also Gamma-distributed with shape parameter equal to the sum of the individual shape parameters, and the same rate parameter.
+   - Therefore, \( Y \) follows a Gamma distribution with shape parameter \( n \) and rate parameter \( \frac{1}{2} \).
+
+4. **Parameters of \( Y \)**:
+   - \( Y \sim \text{Gamma}(n, \frac{1}{2}) \)
+
+So, the distribution of \( Y \) is Gamma with parameters \( n \) (shape) and \( \frac{1}{2} \) (rate). 
+
+---
+
+### Exercise B.
+
+
+Following 15 random numbers have been generated from a $U(0,1)$ distribution using <tt>R</tt>. 
+ 
+<pre><code> 
+0.07991847, 0.82064314, 0.33683219, 0.93005953, 0.31919393, 
+0.92695533, 0.76263949, 0.51740370, 0.49224880, 0.46354694, 
+0.89832157, 0.21920729, 0.20471780, 0.19055074, 0.69137537  
+</code></pre> 
+
+Using the 15 random numbers provided above, simulate a sample $x_1, x_2,\ldots, x_{15}$ from a 
+chi-square distribution with 2 degrees of freedom. 
+
+Based on this sample, calculate the 
+value of Y.  
+
+---
+
+### Exercise B 
+
+**Simulating the Sample**
+
+Simulation and Transformation:
+
+   - Using a set of uniform random numbers, simulate a sample from a given distribution.
+   
+   - Transform uniform random numbers to follow a Chi-Square distribution using R functions such as `qchisq`.
+
+---
+
+### Exercise B 
+
+**Simulating the Sample**
+Using the 15 given uniform random numbers to simulate a sample from the chi-square distribution:
+
+```{r}
+# Given uniform random numbers
+u_ran <- c(0.07991847, 0.82064314, 0.33683219, 0.93005953, 0.31919393, 
+           0.92695533, 0.76263949, 0.51740370, 0.49224880, 0.46354694, 
+           0.89832157, 0.21920729, 0.20471780, 0.19055074, 0.69137537)
+
+# Generating a sample from chi-square distribution with 2 degrees of freedom
+x <- qchisq(u_ran, 2)
+print(x)
+```
+
+---
+  
+```{r}
+# Calculating Y
+y <- sum(x)
+print(y)
+```
+
+---
+
+### Exercise C.
+
+Using the values of x1, ……., xn generated in part (ii), test whether the standard deviation 
+of X is equal to 2.5 from first principle using <tt>qchisq()<tt> to determine the critical values and 
+pchisq() function to determine the p-value. Clearly state the null and alternate 
+hypothesis, the p-value and the conclusion of the test. Perform the test at 5% level of 
+significance.  
+
+---
+
+Sure, let's get started on testing whether the standard deviation of \(X\) is equal to 2.5 using a Chi-square test. Here is a step-by-step approach:
+
+### 1. State the hypotheses:
+- **Null Hypothesis (\(H_0\))**: \(\sigma = 2.5\) (The standard deviation of \(X\) is 2.5)
+- **Alternative Hypothesis (\(H_1\))**: \(\sigma \neq 2.5\) (The standard deviation of \(X\) is not 2.5)
+
+### 2. Calculate the test statistic:
+The test statistic for the Chi-square test for standard deviation is given by:
+\[
+\chi^2 = \frac{(n-1)s^2}{\sigma_0^2}
+\]
+where:
+- \(n\) is the number of observations.
+- \(s\) is the sample standard deviation.
+- \(\sigma_0\) is the hypothesized standard deviation (2.5 in this case).
+
+### 3. Determine the critical values:
+Using the Chi-square distribution, find the critical values at the 5% significance level. These can be found using the `qchisq()` function in R.
+
+### 4. Compute the p-value:
+The p-value can be determined using the `pchisq()` function in R, which gives the probability of observing a test statistic as extreme as, or more extreme than, the value calculated under the null hypothesis.
+
+### 5. Conclusion:
+Compare the p-value to the significance level (0.05) to decide whether to reject the null hypothesis.
+
+Here is a sample R code for performing the Chi-square test:
+
+```r
+# Sample data
+x <- c(x1, x2, ..., xn)  # replace with actual data
+
+# Calculate sample size and standard deviation
+n <- length(x)
+s <- sd(x)
+
+# Hypothesized standard deviation
+sigma0 <- 2.5
+
+# Calculate the test statistic
+chi_square_stat <- (n-1) * s^2 / sigma0^2
+
+# Critical values at 5% significance level
+alpha <- 0.05
+chi_square_critical_lower <- qchisq(alpha/2, df=n-1)
+chi_square_critical_upper <- qchisq(1 - alpha/2, df=n-1)
+
+# p-value
+p_value <- 2 * min(pchisq(chi_square_stat, df=n-1), 1 - pchisq(chi_square_stat, df=n-1))
+
+# Conclusion
+if(p_value < alpha) {
+  conclusion <- "Reject the null hypothesis (H0). The standard deviation is significantly different from 2.5."
+} else {
+  conclusion <- "Fail to reject the null hypothesis (H0). There is no significant evidence to suggest that the standard deviation is different from 2.5."
+}
+
+# Results
+list(
+  chi_square_stat = chi_square_stat,
+  critical_values = c(chi_square_critical_lower, chi_square_critical_upper),
+  p_value = p_value,
+  conclusion = conclusion
 )
 ```
 
+Replace `c(x1, x2, ..., xn)` with your actual data points. This code will give you the test statistic, critical values, p-value, and the conclusion of the test.
 
-* Introduction to R for Actuarial Students
+If you have any specific data points or any further questions, feel free to share, and I'll be happy to help!
 
-* CS1B Curriculum
+---
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
+### Exercise C.
 
-* Question 1
+**Hypothesis Testing**
+
+Test whether the standard deviation of $X$ is equal to 2.5 using the chi-square test:
+
+- Null Hypothesis ($H_0$): $\text{SD}(X) = 2.5$
+
+- Alternative Hypothesis ($H_1$): $\text{SD}(X) \neq 2.5$
+
+- Level of significance ($\alpha$): 0.05
+
+---
+
+R code for the hypothesis test:
+
+```{r}
+n <- length(x)
+sigma <- 2.5
+alpha <- 0.05
+statistic <- (n-1) * var(x) / sigma^2
+print(statistic)
+```
+
+---
+
+### Exercise C.
+
+```{r}
+
+# Critical values
+lower_critical <- qchisq(alpha/2, n-1)
+upper_critical <- qchisq(alpha/2, n-1, lower=FALSE)
+print(lower_critical)
+print(upper_critical)
+```
+
+---
+
+### Exercise C.
+
+```{r}
+# p-value
+p_value <- 2 * pchisq(statistic, df=n-1)
+print(p_value)
+```
+
+---
+
+
+**iii) Hypothesis Testing**
+
+- Null Hypothesis (\(H_0\)): Standard deviation of $X$ is equal to 2.5.
+- Alternative Hypothesis (\(H_1\)): Standard deviation of $X$ is not equal to 2.5.
+    - Critical values: $\chi^2$ at $\alpha/2$ and $\chi^2$ at $\alpha/2$ (lower=FALSE).
+    - Calculated statistic: 7.305598.
+    - p-value: 0.1554235, which is greater than 0.05, so we do not reject $H_0$.
+
+
+---
+
+```{r}
+# Conclusion
+if (p_value < alpha) {
+  print("Reject H0: The standard deviation of X is not equal to 2.5.")
+} else {
+  print("Do not reject H0: There is not sufficient evidence to conclude the standard deviation is different from 2.5.")
+}
+```
+
+---
+
+### Exercise C.
+
+> #p-value 
+> 2*(pchisq((n-1)*var(x)/sigma^2,df=n-1)) 
+[1] 0.1554235 
+
+
+As the p-value is > 5%, we do not have sufficient evidence to reject the null hypothesis and 
+hence we can conclude that the standard deviation of X is equal to 2.5.  
+
+
+
+---
+
+### Exercise D.
+
+Write and execute R script to generate 1,000 samples of x of size 15. Then, calculate the 
+sum of 1,000 corresponding values of Y based on these samples. Use set.seed(47) and 
+print the sum of 1,000 y values.
+
+<br>
+
+### Exercise D.
+
+We need to write a code to obtain sample for y with 1,000 simulations. Following code as 
+given the question can be used for that: 
+
+---
+
+### Exercise D. 
+
+**Generating 1,000 Samples and Calculating Sum**
+
+Generate 1,000 samples and calculate the sum of corresponding $Y$ values:
+
+```{r}
+set.seed(47)
+y <- numeric(1000)
+
+for (i in 1:1000) {
+   y[i] <- sum(rchisq(15, 2))
+}
+
+total_sum_y <- sum(y)
+print(total_sum_y)
+```
+
+Run the above R script to get the sum of 1,000 $Y$ values based on the samples generated.
+
+
+- For 1,000 simulations of $Y$, code and results indicated the sum was approximately 30,508.66.
+
+---
+
+
+```{r}
+
+hist(y,breaks=40)
+```
+
+---
+
+### Exercise E.
+
+```{r eval=FALSE}
+
+N <- 1000 # One Thousand
+
+set.seed(47)
+y <- numeric(N)
+
+for (i in 1:N) {
+   y[i] <- sum(rchisq(15, 2))
+}
+
+# Plot the histogram
+hist(y, breaks = 25, freq = FALSE, main = "Histogram of Y with Normal Curve", 
+     xlab = "Values of Y", col = "lightblue", border = "black")
+
+# Fit and plot the normal curve
+mean_y <- mean(y)
+sd_y <- sd(y)
+curve(dnorm(x, mean = mean_y, sd = sd_y), add = TRUE, col = "darkblue", lwd = 2)
+
+```
+
+---
+
+### Exercise E.
+
+***1000 Iterations: Sample Size of 15***
+
+```{r echo=FALSE}
+
+N <- 1000 # No. of Iterations
+samplesize =15 # Sample Size in each iteration
+
+set.seed(47)
+y <- numeric(N)
+
+for (i in 1:N) {
+   y[i] <- sum(rchisq(15, 2))
+}
+
+# Plot the histogram
+hist(y, breaks = 25, freq = FALSE, 
+     main = "Histogram of Y with Normal Curve", 
+     xlab = "Values of Y", col = "lightblue", 
+     border = "black")
+
+# Fit and plot the normal curve
+mean_y <- mean(y)
+sd_y <- sd(y)
+curve(dnorm(x, mean = mean_y, sd = sd_y), add = TRUE, col = "darkblue", lwd = 2)
+
+```
+
+---
+
+### Exercise E.
+
+***Larger Sample Size***
+
+
+```{r eval=FALSE}
+N <- 1000 
+samplesize <- 10000
+
+set.seed(47)
+y <- numeric(N)
+
+for (i in 1:N) {
+   y[i] <- sum(rchisq(samplesize, 2))
+}
+
+# Plot the histogram
+hist(y, breaks = 40, freq = FALSE, 
+     main = "Histogram of Y with Normal Curve", 
+     xlab = "Values of Y", col = "lightblue", 
+     border = "black")
+
+# Fit and plot the normal curve
+mean_y <- mean(y)
+sd_y <- sd(y)
+curve(dnorm(x, mean = mean_y, sd = sd_y), add = TRUE, 
+      col = "darkblue", lwd = 2)
+
+```
+
+---
+
+### Exercise E.
+
+***10,000 Simulations***
+
+```{r echo=FALSE}
+N <- 1000 
+n <- 10000
+
+set.seed(47)
+y <- numeric(N)
+
+for (i in 1:N) {
+   y[i] <- sum(rchisq(n, 2))
+}
+
+# Plot the histogram
+hist(y, breaks = 40, freq = FALSE, 
+     main = "Histogram of Y with Normal Curve", 
+     xlab = "Values of Y", col = "lightblue", 
+     border = "black")
+
+# Fit and plot the normal curve
+mean_y <- mean(y)
+sd_y <- sd(y)
+curve(dnorm(x, mean = mean_y, sd = sd_y), add = TRUE, 
+      col = "darkblue", lwd = 2)
+
+```
+
+---
+
+### Comment on the Difference Between the Two Histograms
+
+For **sample size 15**:
+- The histogram for $Y$ with a sample size of 15 is likely to be skewed or not perfectly symmetrical.
+
+- This skewness occurs because with a smaller sample size, the distribution of $Y$ retains more of the original shape of the chi-square distribution, which is itself not symmetrical.
+
+For **sample size 10,000**:
+- The histogram for $Y$ with a sample size of 10,000 tends to be more symmetrical and closer to a normal distribution.
+
+- This is due to the Central Limit Theorem, which states that the sum (or average) of a large number of independent and identically distributed random variables will be approximately normally distributed, regardless of the original distribution of the variables.
+
+- As the sample size increases, the distribution of the sum $Y$ approaches normality, resulting in a bell-shaped curve.
+
+---
+
+### R Code to Generate Sample Means and Variances
+
+Here’s the R code to generate the sample means $\bar{X}$ and sample variances $S^2$ for 1,000 random samples of $Y$, each having 10,000 values of \(x\):
+
+```{r}
+set.seed(47)
+
+# Initialize vectors to store sample means and variances
+x_bar <- numeric(1000)
+s_squared <- numeric(1000)
+
+```
+
+---
+
+```{r}
+# Generate the samples and calculate means and variances
+for (i in 1:1000) {
+  sample_x <- rchisq(10000, 2)
+  x_bar[i] = mean(sample_x)
+  s_squared[i] = var(sample_x)
+}
+
+# Print results
+print(mean(x_bar))
+print(mean(s_squared))
+```
+
+This code sets the seed for reproducibility, initializes the vectors to store the sample means and variances, and then uses a loop to generate 1,000 random samples of \(X\) (each of size 10,000), calculates the mean and variance for each sample, and stores them in the vectors `x_bar` and `s_squared`.
+
+
+---
+
+**vii) Sample Mean and Variance**
+
+- Mean of sample means: Close to 2.
+- Mean of sample variances: Close to 4.
+- $X_{\text{bar}}$ is an unbiased estimator of population mean $\mu$.
+- $S^2$ is an unbiased estimator of population variance $\sigma^2$.
+
+---
+
+**viii) Comments**
+
+- Plot of $X_{\text{bar}}$ indicates normality, true for large sample sizes.
+- Plot of $\Sigma^2$ is less normal compared to $X_{\text{bar}}$.
+
+---
+
+**R Code for Reference**
+
+```{r}
+set.seed(47)
+u_ran <- c(0.07991847, 0.82064314, 0.33683219, 0.93005953, 0.31919393, 
+           0.92695533, 0.76263949, 0.51740370, 0.49224880, 0.46354694, 
+           0.89832157, 0.21920729, 0.20471780, 0.19055074, 0.69137537)
+print(u_ran)
+```
+
+
+---
+
+```{r}
+x <- qchisq(u_ran, 2)
+y <- sum(x)
+print(y)
+
+n <- length(x)
+sigma <- 2.5
+alpha <- 0.05
+statistic <- (n-1) * var(x) / sigma^2
+print(statistic)
+
+qchisq(alpha/2, n-1)
+qchisq(alpha/2, n-1, lower=FALSE)
+2 * pchisq((n-1) * var(x) / sigma^2, df = n-1)
+```
+
+
+
 ---
 
 Solution 1: 
@@ -64,6 +589,8 @@ is an exponential distribution with parameter ʎ
 First copy the numbers in R and define a vector u_ran. 
 Then using qchisq function convert these uniform random numbers into random numbers 
 from a chi-square distribution with 2 degrees of freedom. 
+
+---
 R Code and Output: 
 ……….. Sum of ‘n’ exponential variables is a gamma 
 > u_ran <-c(0.07991847, 0.82064314, 0.33683219, 0.93005953, 0.31919393, 0.92695533,0.7
@@ -102,24 +629,11 @@ CS1B-1124
 > qchisq(alpha/2,n-1,lower=FALSE) 
 [1] 26.11895 
 >  
-> #p-value 
-> 2*(pchisq((n-1)*var(x)/sigma^2,df=n-1)) 
-[1] 0.1554235 
-As the p-value is > 5%, we do not have sufficient evidence to reject the null hypothesis and 
-hence we can conclude that the standard deviation of X is equal to 2.5.  
-iv) 
-v) 
-vi) 
-We need to write a code to obtain sample for y with 1,000 simulations. Following code as 
-given the question can be used for that: 
-R Code and Output: 
-> set.seed(47) 
-> y = 0*(1:1000) 
-> for(i in 1:1000){ 
-+   y[i] = sum(rchisq(15,2)) 
-+ } 
-> sum(y) 
-[1] 30508.66 
+
+
+
+---
+
 The distribution of Y when sample size = 15, is not perfectly symmetrical like a normal 
 distribution. This is given because Y seems to accept only positive values as gamma 
 distribution is defined only when y>0. 
@@ -127,6 +641,8 @@ However, when sample size = 10,000 this histogram is symmetrical and is closer t
 distribution. 
 As n tends to infinity, using central limit theorem, the distribution of the sample approaches a 
 normal distribution.  
+
+---
 For a larger sample size of n (changed from 15 to 10,000) the central limit theorem ensures 
 that the distribution of Y becomes approximately normal.  
 By modifying the code in part (iv), we generate 10,000 values of x and calculate the sample 
@@ -153,23 +669,28 @@ vii) >
  
 Also, by visual inspection we can see that the mean of the sample means is close to 2. 
  
-Population mean is 2 (number of degrees of freedom of the variable Xi which has chi-square 
+---
+
+* Population mean is 2 (number of degrees of freedom of the variable Xi which has chi-square 
 distribution). Since E(X_bar) = mu, we can conclude that X_bar is an unbiased estimator of 
 population mean mu. 
  
 > print(mean(s_squared)) 
 [1] 3.995956 
  
-Also, by visual inspection we can see that the mean of the sample variances is close to 4. 
+* Also, by visual inspection we can see that the mean of the sample variances is close to 4. 
  
-Population variance is 4 (2 times the number of degrees of freedom of the variable Xi which 
-has chi-square distribution). Since E(S2) = sigma2, we can conclude that S2 is an unbiased 
-estimator of population variance sigma2. (4) 
-   
-viii) Comment: 
+* Population variance is 4 (2 times the number of degrees of freedom of the variable Xi which 
+has chi-square distribution). 
+
+* Since E(S2) = sigma2, we can conclude that S2 is an unbiased 
+estimator of population variance sigma2. 
+
+---
+
+### Exercise H.
+
 The plot of X_bar is indicative of normality. This is true as for large sample size, X_bar ~ 
 N(mu, sigma2 / n).  
  
-However, plot of Sigma_squared is relatively less normal as compared to plot of X_bar. (2) 
-  [30] 
-   
+However, plot of Sigma_squared is relatively less normal as compared to plot of X_bar. 

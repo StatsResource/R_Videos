@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Spanning Trees</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Spanning Trees
+]
+.subtitle[
+## DiscreteMaths.github.io
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+  body{
+  font-size: 20pt;
+}
+&lt;/style&gt;
+
+
+
+
+
+
+&lt;style&gt; 
+  /* Hide page numbers */ .
+  remark-slide-number { display: none; } 
+&lt;/style&gt;
+
+# Logic
+## Logic Operations - Worked Example
+&lt;br&gt;
+## Discrete Maths for Computer Science Students
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+### &lt;tt&gt;DiscreteMaths.github.io&lt;/tt&gt;
+
+---
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3
+
+---
+
+3 A male athlete ran 1 mile in 254.4 seconds on 31 May 1913. 
+* This was a world record 
+at the time. 
+* The data file &lt;tt&gt;mile_records.Rdata&lt;/tt&gt; contains the dates measured in 
+days since 31 May 1913 and the times (in seconds) of all new world records for males 
+over the 1-mile distance. 
+* The data set &lt;tt&gt;mile_records.Rdata&lt;/tt&gt; contains 32 records. 
+The variables are called record.date and record.time in the Rdata file. You 
+can load the file with load("mile_records.Rdata"). 
+
+---
+
+A. Plot record.time as a function of &lt;tt&gt;record.date&lt;/tt&gt;.  
+
+B. Calculate the Pearson’s correlation coefficient between the two data sets.  
+
+C. Fit a linear regression model to the data using &lt;tt&gt;record.time&lt;/tt&gt; as the response 
+variable and record.date as the only explanatory variable. State the 
+estimated intercept and slope of the regression line. 
+
+
+
+(D.) Plot the regression line by adding it to the plot from part A.  
+
+---
+
+
+Q3
+
+
+``` r
+# load data
+load("mile_records.Rdata")
+```
+\beta i)
+
+
+``` r
+plot(record.date, record.time, ylab="New World Record Times 
+(seconds)", xlab="Days since 31.05.1913",main="Plot for 
+mile_records data set") 
+```
+
+![](N1-Question-3_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+(ii)
+
+``` r
+cor(record.date, record.time) 
+```
+
+```
+## [1] -0.9885164
+```
+-0.9885164 
+
+
+---
+
+(iii)
+
+
+``` r
+model = lm(record.time ~ record.date) 
+coefficients(model) 
+```
+
+```
+##   (Intercept)   record.date 
+## 254.795653994  -0.001076286
+```
+
+* The intercept of the regression line is 254.8  
+and the slope is -0.001076 
+
+---
+
+(iv)
+abline(model) 
+
+---
+
+(E.) Perform a statistical test in order to test the null hypothesis that the slope of 
+the regression line in part D. is zero, against a suitable alternative using the 
+output of the fitted model from part C.  
+(F.) Comment on the relationship between the two variables.  
+For simplicity, you can assume that 1 year has 365 days. 
+(G.) Estimate the expected time in seconds of the world record 100 years after the 
+most recent record in this data set. 
+
+
+ 
+ 
+---
+
+### Part E
+
+H0: beta = 0, versus H1: beta ≠ 0  
+
+
+``` r
+summary(model) 
+```
+
+```
+## 
+## Call:
+## lm(formula = record.time ~ record.date)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.6103 -0.7494 -0.1780  0.6999  2.8474 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.548e+02  5.409e-01  471.08   &lt;2e-16 ***
+## record.date -1.076e-03  3.004e-05  -35.83   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.379 on 30 degrees of freedom
+## Multiple R-squared:  0.9772,	Adjusted R-squared:  0.9764 
+## F-statistic:  1284 on 1 and 30 DF,  p-value: &lt; 2.2e-16
+```
+
+Call:
+lm(formula = record.time ~ record.date)
+Residuals:
+ Min 1Q Median 3Q Max 
+-2.6103 -0.7494 -0.1780 0.6999 2.8474 
+Coefficients:
+ Estimate Std. Error t value Pr(&gt;|t|) 
+(Intercept) 2.548e+02 5.409e-01 471.08 &lt;2e-16 ***
+record.date -1.076e-03 3.004e-05 -35.83 &lt;2e-16 ***
+---
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 1.379 on 30 degrees of freedom
+Multiple R-squared: 0.9772, Adjusted R-squared: 0.9764 
+F-statistic: 1284 on 1 and 30 DF, p-value: &lt; 2.2e-16
+P-value is very small (i.e. p-value: &lt; 2.2e-16) 
+So conclude that negative slope is significant 
+---
+
+### Part F
+
+* The plot clearly shows a negative relationship between days since May 1913 and the 
+current one-mile world record. 
+
+* The correlation coefficient is very close to -1, and the slope is negative and significant, 
+confirming the relationship 
+
+* However, the response variable cannot increase with time (it is a world record). 
+
+* So we cannot observe a positive relationship, meaning that the above results are to be 
+expected 
+
+--- 
+
+
+### Part G
+
+(vii)
+x = record.date[32]+365*100 
+predict(model, data.frame(record.date=x)) 
+# Or
+coefficients(model) + coefficients(model)*x
+181.66 seconds 
+
+
+---
+
+(H.) Calculate the number of years (from the most recent record) in which you 
+expect the world record to be 2 minutes, based on your fitted model from 
+part C.  
+(I) Comment on the suitability of the linear regression model for modelling 
+record.time as a function of record.date.  
+
+
+---
+
+### Part H
+
+
+``` r
+twoMinuteDate = (120 -
+coefficients(model))/coefficients(model) 
+twoMinuteDate = twoMinuteDate - record.date[32] 
+twoMinuteDate/365 
+```
+
+```
+## (Intercept) record.date 
+##   -86.16035  -391.62603
+```
+This gives: 256.97 years. 
+---
+
+
+### Part I
+
+* The model is suitable for modelling the past observations, and we would also consider 
+this a good model for predicting records in the near future as the model is significant, 𝑅𝑅2
+is close to one and the correlation is clearly negative. 
+
+* We have no reason to assume that 
+the linear relationship will break down in the near future 
+
+* However, in the long run the model predicts unrealistically low times for the one mile run, 
+eventually predicting even negative times 
+
+---
+
+
+END
+
+---
+
+BLANK
+
+---
+The quality of answers given in this question was mixed.
+Part (i) was well answered generally, but marks were lost for not providing appropriate 
+annotation on the plot. 
+In part (v) a number of candidates failed to state the hypotheses and explicitly state a full 
+conclusion. 
+In parts (vii), (viii), a relatively small proportion of candidates provided fully correct 
+answers. In parts (vi) and (ix) credit was awarded for other reasonable comments.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

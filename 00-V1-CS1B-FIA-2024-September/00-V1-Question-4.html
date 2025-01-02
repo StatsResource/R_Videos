@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for &lt;pre&gt; tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for &lt;code&gt; tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+&lt;/style&gt;
+
+### Interview Panel
+
+Two members of an interview panel (A and B) have scored a large number of
+applicants (on a scale from 1 to 40), with the purpose of ranking the applicants
+according to their suitability for a job position. 
+
+The scores for a sample of twelve
+applicants are given below, with SA and SB denoting the scores of interview panel
+member A and B, respectively:
+
+
+
+| Applicant | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 |
+|--------------|----|----|----|----|----|----|----|----|----|----|----|----|
+| **A Scores (SA)**       | 35 | 14 | 28 | 33 | 29 | 22 | 19 | 36 | 21 | 30 | 15 | 18 |
+| **B Scores (SB)**       | 38 | 18 | 25 | 30 | 22 | 17 | 23 | 29 | 32 | 31 | 15 | 19 |
+
+
+---
+
+### Exercises
+
+A. Plot a suitable graph for assessing the agreement in the two panel members’
+scores. 
+
+B. Comment on the agreement in the two panel members’ scores, based on the
+plot in Exercise A.
+
+C. Calculate Pearson’s correlation coefficient r for these data. 
+
+D. Calculate Spearman’s rank correlation coefficient rs for these data. 
+
+
+---
+
+### Exercises
+
+E. Calculate Kendall’s rank correlation coefficient 𝜏 for these data. 
+
+F. Comment on the suitability of the three correlation coefficients used in Exercises C to E, with respect to the purpose of the scoring. 
+
+G. Perform three statistical tests for a suitable hypothesis of no association
+between the scores of the two panel members, using one of the correlation
+coefficients in Exercises C to E for each test.
+
+For each test, your answer should include the p-value and a conclusion. 
+
+H. Comment on the validity of the tests in Exercise G for testing the hypothesis of
+no association between the scores of the two panel members. 
+
+---
+
+**Understanding the Problem:**
+
+We're tasked with:
+
+1. **Visualizing Agreement:** Plotting a graph to compare the two sets of scores.
+
+2. **Calculating Correlation Coefficients:** Computing Pearson's, Spearman's, and Kendall's correlation coefficients.
+
+3. **Hypothesis Testing:** Performing statistical tests to determine the significance of the correlation.
+
+4. **Interpreting Results:** Drawing conclusions about the agreement between the two panel members' scores.
+
+---
+
+### Create the Data
+
+
+``` r
+# Scores by panel members A and B
+SA &lt;- c(35, 14, 28, 33, 29, 22, 19, 36, 21, 30, 15, 18)
+SB &lt;- c(38, 18, 25, 30, 22, 17, 23, 29, 32, 31, 15, 19)
+```
+
+---
+### Exercise A 
+
+**Plot a suitable graph for assessing the agreement in the two panel members’ scores**
+
+A scatter plot is suitable for this purpose.
+
+
+``` r
+# Scatter plot
+plot(SA, SB, 
+     main="Scatter Plot of Scores by Panel Members A and B", 
+     xlab="Scores by Panel Member A",
+     ylab="Scores by Panel Member B", 
+     pch=19, cex=2.4, col="blue")
+
+abline(lm(SB ~ SA), 
+       col="red") # add a regression line
+```
+
+---
+
+### Exercise A 
+
+![](00-V1-Question-4_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+### Exercise B. 
+
+**Comment on the agreement in the two panel members’ scores**
+
+General Guidelines
+
+- If the points lie close to a straight line, it indicates good agreement between the scores of the two panel members.
+
+- The regression line helps to visualize the trend. If the points scatter widely around the plot, it indicates poor agreement.
+
+Based on the scatter plot:
+
+ - This plot indicates a fairly strong positive linear relationship, and hence broad agreement between the panel members.
+ 
+---
+
+### Exercise C.
+
+**Calculate Pearson’s correlation coefficient `\(r\)` for these data**
+
+``` r
+pearson_r &lt;- cor(SA, SB)
+pearson_r
+```
+
+```
+## [1] 0.7536687
+```
+
+---
+### Exercise D.
+
+**Calculate Spearman’s rank correlation coefficient `\(r_s\)` for these data**
+
+
+``` r
+spearman_rs &lt;- cor(SA, SB, method = "spearman")
+spearman_rs
+```
+
+```
+## [1] 0.6853147
+```
+
+---
+### Exerice E.
+
+**Calculate Kendall’s rank correlation coefficient `\(\tau\)` for these data**
+
+
+``` r
+kendall_tau &lt;- cor(SA, SB, method = "kendall")
+kendall_tau
+```
+
+```
+## [1] 0.5151515
+```
+
+---
+### Exercise F.
+
+**Comment on the suitability of the three correlation coefficients**
+
+- **Pearson’s correlation coefficient** measures the linear relationship between the scores.
+
+- **Spearman’s rank correlation coefficient** measures the monotonic relationship between the scores, which is useful if the data is not normally distributed or if the relationship is not linear.
+
+- **Kendall’s rank correlation coefficient** also measures the ordinal association between two quantities. It’s less sensitive to data with large discrepancies or outliers.
+
+---
+
+### Exercise G. 
+
+**Perform three statistical tests for a suitable hypothesis of no association**
+
+Here we test whether there is no association (null hypothesis) between the scores given by the two panel members. 
+Three different correlation coefficients: Pearson's `\(r\)`, Spearman's `\(r_s\)`, and Kendall's `\(\tau\)`.
+
+### Null and Alternative Hypotheses
+
+For all three tests:
+
+- **Null Hypothesis (`\(H_0\)`)**: There is no association between the scores of panel members A and B.
+
+- **Alternative Hypothesis (`\(H_1\)`)**: There is an association between the scores of panel members A and B.
+
+---
+
+### Test using Pearson’s correlation coefficient
+
+
+``` r
+cor.test(SA, SB, method = "pearson")
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  SA and SB
+## t = 3.6262, df = 10, p-value = 0.004642
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3167878 0.9267302
+## sample estimates:
+##       cor 
+## 0.7536687
+```
+
+
+---
+
+### Test using Pearson’s correlation coefficient
+
+
+``` r
+pearson_test &lt;- cor.test(SA, SB, method = "pearson")
+pearson_test$p.value
+```
+
+```
+## [1] 0.004642024
+```
+
+#### Conclusion based on p-value
+
+- p.value &lt; 0.05
+
+- Reject the null hypothesis. There is an association between the scores.
+
+---
+
+### Test using Spearman’s rank correlation coefficient
+
+
+``` r
+cor.test(SA, SB, method = "spearman")
+```
+
+```
+## 
+## 	Spearman's rank correlation rho
+## 
+## data:  SA and SB
+## S = 90, p-value = 0.01731
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##       rho 
+## 0.6853147
+```
+
+---
+
+### Test using Spearman’s rank correlation coefficient
+
+
+
+``` r
+spearman_test &lt;- cor.test(SA, SB, method = "spearman")
+spearman_test$p.value
+```
+
+```
+## [1] 0.01730502
+```
+
+#### Conclusion based on p-value
+
+- p.value &lt; 0.05
+
+- Reject the null hypothesis. There is an association between the scores.
+
+---
+
+### Test using Kendall’s rank correlation coefficient
+
+
+``` r
+cor.test(SA, SB, method = "kendall")
+```
+
+```
+## 
+## 	Kendall's rank correlation tau
+## 
+## data:  SA and SB
+## T = 50, p-value = 0.02098
+## alternative hypothesis: true tau is not equal to 0
+## sample estimates:
+##       tau 
+## 0.5151515
+```
+
+---
+
+### Test using Kendall’s rank correlation coefficient
+
+
+``` r
+kendall_test &lt;- cor.test(SA, SB, method = "kendall")
+kendall_test$p.value
+```
+
+```
+## [1] 0.02098035
+```
+
+#### Conclusion based on p-value
+
+- p.value &lt; 0.05
+
+- Reject the null hypothesis. There is an association between the scores.
+
+
+---
+
+### Exercise G.
+
+
+**Comment on the validity of the tests**
+
+- **Pearson’s correlation test** assumes linearity and normality, which might not be suitable if these assumptions are violated.
+
+- **Spearman’s and Kendall’s tests** are non-parametric and do not assume normality, making them more suitable for ordinal data or data with outliers.
+
+
+---
+
+
+---
+
+
+
+```R
+# Data
+SA &lt;- c(35, 14, 28, 33, 29, 22, 19, 36, 21, 30, 15, 18)
+SB &lt;- c(38, 18, 25, 30, 22, 17, 23, 29, 32, 31, 15, 19)
+
+# (i) Plot a scatter plot
+plot(SA, SB, xlab = "Panel Member A's Score", ylab = "Panel Member B's Score")
+
+# (ii) Comment on agreement
+# ... (Visually inspect the scatter plot for agreement)
+
+# (iii) Pearson's correlation
+cor(SA, SB, method = "pearson")
+
+# (iv) Spearman's rank correlation
+cor(SA, SB, method = "spearman")
+
+# (v) Kendall's rank correlation
+cor(SA, SB, method = "kendall")
+
+# (vi) Comment on suitability of correlation coefficients
+# ... (Discuss the appropriateness of each coefficient for ordinal and interval data)
+
+```
+
+---
+
+
+``` r
+# (vii) Hypothesis testing
+# Pearson's correlation test
+cor.test(SA, SB, method = "pearson")
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  SA and SB
+## t = 3.6262, df = 10, p-value = 0.004642
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.3167878 0.9267302
+## sample estimates:
+##       cor 
+## 0.7536687
+```
+
+``` r
+# Spearman's rank correlation test
+cor.test(SA, SB, method = "spearman")
+```
+
+```
+## 
+## 	Spearman's rank correlation rho
+## 
+## data:  SA and SB
+## S = 90, p-value = 0.01731
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##       rho 
+## 0.6853147
+```
+
+``` r
+# Kendall's rank correlation test
+cor.test(SA, SB, method = "kendall")
+```
+
+```
+## 
+## 	Kendall's rank correlation tau
+## 
+## data:  SA and SB
+## T = 50, p-value = 0.02098
+## alternative hypothesis: true tau is not equal to 0
+## sample estimates:
+##       tau 
+## 0.5151515
+```
+
+``` r
+# (viii) Comment on the validity of the tests
+# ... (Discuss the assumptions of each test and their potential violations)
+```
+
+**Interpreting the Results:**
+
+**Parts (i) and (ii):**
+- A scatter plot can visually assess the agreement between the two sets of scores.
+- A strong positive correlation would indicate high agreement, while a weak or negative correlation would suggest disagreement.
+
+**Parts (iii) to (v):**
+- Pearson's correlation measures the linear relationship between two continuous variables.
+- Spearman's and Kendall's correlation coefficients measure the monotonic relationship between two ranked variables.
+
+**Part (vi):**
+- Pearson's correlation is suitable for interval data, while Spearman's and Kendall's are suitable for ordinal data.
+- In this case, while the scores are technically on an interval scale, they might be better treated as ordinal due to potential non-linear relationships and subjective judgments.
+
+**Part (vii):**
+- The hypothesis tests for each correlation coefficient assess the null hypothesis of no correlation.
+- The p-value indicates the significance of the correlation.
+- A low p-value suggests a significant correlation.
+
+**Part (viii):**
+- The validity of the tests depends on the assumptions of each test.
+- For example, Pearson's correlation assumes a linear relationship and normality.
+- Spearman's and Kendall's correlation tests are more robust to deviations from normality.
+- It's important to consider the nature of the data and the specific research question when choosing the appropriate test.
+
+By following these steps and interpreting the results, you can gain insights into the agreement between the two panel members' scores and make informed decisions about the selection process.
+
+
+This exercise focuses on evaluating the consistency and agreement between the scores given by two members of an interview panel to a sample of applicants. The goal is to understand how closely aligned the scoring of two panel members (A and B) is and to perform various statistical analyses to quantify this agreement. Here's a breakdown of each part of the exercise:
+
+### **Objective of the Exercise**
+- **Evaluate Agreement**: Assess the consistency and agreement between the scores given by two interview panel members.
+- **Use Statistical Measures**: Calculate various correlation coefficients to quantify the relationship between the scores.
+- **Test Hypotheses**: Perform hypothesis tests to determine if there is a significant association between the scores of the two panel members.
+
+### **Detailed Breakdown**
+
+#### **(i) Plot a suitable graph for assessing the agreement in the two panel members’ scores.**
+- **Purpose**: Create a visual representation, such as a scatter plot, to compare the scores given by the two panel members (SA and SB).
+  ```r
+  SA &lt;- c(35, 14, 28, 33, 29, 22, 19, 36, 21, 30, 15, 18)
+  SB &lt;- c(38, 18, 25, 30, 22, 17, 23, 29, 32, 31, 15, 19)
+  plot(SA, SB, main = "Scatter Plot of Scores by Panel Members A and B", xlab = "Scores by A", ylab = "Scores by B")
+  ```
+
+#### **(ii) Comment on the agreement in the two panel members’ scores, based on the plot in part (i).**
+- **Purpose**: Interpret the scatter plot to comment on how closely the scores by the two panel members align. Look for patterns, such as whether the points are closely clustered along a 45-degree line, indicating agreement.
+
+#### **(iii) Calculate Pearson’s correlation coefficient r for these data.**
+- **Purpose**: Compute the Pearson correlation coefficient to measure the linear relationship between the scores of the two panel members.
+  ```r
+  cor(SA, SB)
+  ```
+
+#### **(iv) Calculate Spearman’s rank correlation coefficient rs for these data.**
+- **Purpose**: Compute the Spearman rank correlation coefficient to measure the monotonic relationship between the scores, which is useful for non-linear relationships.
+  ```r
+  cor(SA, SB, method = "spearman")
+  ```
+
+#### **(v) Calculate Kendall’s rank correlation coefficient τ for these data.**
+- **Purpose**: Compute Kendall's tau to measure the strength of association between the rankings of the two panel members.
+  ```r
+  cor(SA, SB, method = "kendall")
+  ```
+
+#### **(vi) Comment on the suitability of the three correlation coefficients used in parts (iii)–(v), with respect to the purpose of the scoring.**
+- **Purpose**: Discuss the strengths and limitations of Pearson's `\(r\)`, Spearman's `\(\rho\)`, and Kendall's `\(\tau\)` in the context of evaluating agreement between the panel members' scores.
+
+#### **(vii) Perform three statistical tests for a suitable hypothesis of no association between the scores of the two panel members, using one of the correlation coefficients in parts (iii)–(v) for each test.**
+- **Purpose**: Perform hypothesis tests to determine if there is no significant association between the scores given by the panel members. Report the p-values and conclusions for each test.
+  ```r
+  cor.test(SA, SB) # Pearson
+  cor.test(SA, SB, method = "spearman") # Spearman
+  cor.test(SA, SB, method = "kendall") # Kendall
+  ```
+
+#### **(viii) Comment on the validity of the tests in part (vii) for testing the hypothesis of no association between the scores of the two panel members.**
+- **Purpose**: Critically evaluate the results and validity of the hypothesis tests conducted in part (vii), considering factors such as sample size, assumptions of the tests, and the nature of the data.
+
+### **Conclusion**
+- By the end of this exercise, you will have a thorough understanding of how to evaluate the agreement between scores given by different individuals, calculate various correlation coefficients, and perform hypothesis tests to assess associations. This is particularly useful in contexts where multiple raters or judges are involved, such as hiring processes, performance evaluations, and research studies.
+
+If you need any further details or assistance with specific parts of this exercise, feel free to ask!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

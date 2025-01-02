@@ -48,43 +48,65 @@ style_mono_accent_inverse(
 if daily sales amounts are affected by whether or not the store has substantial
 discount offers available on a particular day. The data are available in the file
 ‘sales_data.RData’, which contains the following variables for 100 days:
- sales.amount – the daily sales amount
- discount – an indicator, showing whether or not the store has substantial
-discount offers available on each day (discount = 1 if discounts are available;
+
+
+* sales.amount – the daily sales amount
+* discount – an indicator, showing whether or not the store has substantial
+discount offers available on each day 
+
+ - (discount = 1 if discounts are available;
 discount = 0 otherwise).
 
 ---
-(i) Plot appropriate boxplots for comparing the sales amounts on discount and
-non-discount days. [3]
+
+### Exercises 
+
+#### Exercise 1. 
+
+Plot appropriate boxplots for comparing the sales amounts on discount and
+non-discount days. 
 [Hint: You may find the boxplot(formula, …) R command useful.]
-(ii) Comment on the effect of discount offers on sales amounts using the boxplots
-produced in part (i). [2]
+
+#### Exercise 2.
+
+Comment on the effect of discount offers on sales amounts using the boxplots
+produced in part (i). 
+
+#### Exercise 3.
 A sales analyst considers two distributional assumptions: a normal and a gamma
 model for the daily sales amounts.
-(iii) Fit two separate Generalised Linear Models (GLMs) to the data, one for each
+
+Fit two separate Generalised Linear Models (GLMs) to the data, one for each
 of the two distributional assumptions, to investigate the dependence of the
 daily sales amounts on availability of substantial discount offers on the day.
 For each model you should use the canonical link function. 
 
 ---
+#### Exercise 4.
 
 (iv) Comment on the impact of the availability of substantial discount offers on
 daily sales amounts based on the output of the two models fitted in part (iii).
 Your answer should include a relevant p-value and interpretation of the
 estimate of the coefficient of the discount variable for each fitted model. 
 
----
+#### Exercise 5.
 
-(v) Determine which of the two models fitted in part (iii) should be preferred for
+(v) Determine which of the two models fitted in exercise 3 should be preferred for
 investigating the dependence of daily sales amounts on the availability of
-substantial discount offers on the day. [3]
+substantial discount offers on the day. 
+
+#### Exercise 6.
+
 (vi) Determine the expected sales amount on a discount day under each of the
-GLMs fitted in part (iii), explicitly using the estimated coefficients from
+GLMs fitted in exercise 3, explicitly using the estimated coefficients from
 each model. 
+
+#### Exercise 7. 
+
+Comment on the comparison of the answers in part (vi) taking into account
+your answer in part (v).
+
 ---
-(vii) Comment on the comparison of the answers in part (vi) taking into account
-your answer in part (v). [1]
-[Total 23]
 
 **Understanding the Problem:**
 
@@ -104,9 +126,19 @@ load("sales_data.RData")
 boxplot(sales.amount ~ discount, data = sales_data, 
         xlab = "Discount Offer", ylab = "Sales Amount")
 
+```
+
+---
+
+```{r}
 # (ii) Comment on the effect of discount offers
 # ... (Visually inspect the boxplots)
 
+```
+
+---
+
+```{r}
 # (iii) Fit GLMs
 # Normal GLM
 model1 <- glm(sales.amount ~ discount, data = sales_data, family = gaussian)
@@ -114,13 +146,28 @@ model1 <- glm(sales.amount ~ discount, data = sales_data, family = gaussian)
 # Gamma GLM
 model2 <- glm(sales.amount ~ discount, data = sales_data, family = Gamma(link = "inverse"))
 
+```
+
+---
+
+```{r}
 # (iv) Comment on the impact of discount offers
 summary(model1)
 summary(model2)
 # ... (Interpret the coefficients and p-values)
+```
 
+---
+
+```{r}
 # (v) Determine the better model
 # ... (Compare AIC, BIC, or use hypothesis testing)
+
+```
+
+---
+
+```{r}
 
 # (vi) Expected sales on a discount day
 # Normal GLM
@@ -129,10 +176,17 @@ expected_sales1 <- predict(model1, newdata = data.frame(discount = 1))
 # Gamma GLM
 expected_sales2 <- predict(model2, newdata = data.frame(discount = 1), type = "response")
 
+```
+
+---
+
+```{r}
 # (vii) Comment on the comparison
 # ... (Compare the expected sales from both models and discuss the implications)
 ```
 
+
+---
 **Interpreting the Results:**
 
 **Parts (i) and (ii):**

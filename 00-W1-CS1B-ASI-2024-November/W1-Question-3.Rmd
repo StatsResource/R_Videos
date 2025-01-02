@@ -37,27 +37,547 @@ style_mono_accent_inverse(
 
 * CS1B Curriculum
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
+ - Introduction to R programming
+ -  Fundamentals of Statistical Analysis
 
-* Question 1
+
+### Exercise
+
+This exercise involves analyzing and modeling data collected from a National Sports Meet, where 27 states participated across various sports categories.
+
 ---
 
-Solution 3: 
-i) 
-#a > Sports <- read.csv(Sports.csv") 
-> Model1<-lm(Sports$Points~Sports$X100m+Sports$X400m+Sports$X110m.hurdle+Sports
- $High.jump+Sports$Long.jump+Sports$Pole.vault+Sports$Shot.put+Sports$Javeline+Sports
- $Discus) 
-> summary(Model1)  
-(3) 
-(2) 
-(3) 
-(2) 
-[15] 
-Page 5 of 11 
-IAI                             
-CS1B-1124 
+ The tasks include:
+
+1. **Multiple Regression Model**: Fit a multiple regression model to predict winning points based on scores in nine sports events, identify significant predictors, and visualize the residuals.
+
+2. **Generalized Linear Model (GLM)**: Fit a GLM using a Poisson distribution, report the estimated coefficients and AIC, and compare the fit with the multiple regression model using AIC.
+
+3. **Principal Components Analysis (PCA)**: Perform PCA for three categories of sports (Running, Jumping, and Throwing) to determine the variance captured by the first principal component for each category.
+
+4. **Correlation Test**: Test the correlation between pole vault points and overall winning points, and calculate a 95% confidence interval for the slope coefficient.
+
+5. **Predictive Modeling**: Fit a linear regression model to predict 110m hurdle race scores based on 100m trial scores and use it to estimate missing scores for the last five runners.
+
+Each step involves using statistical techniques and R programming to analyze the data and draw meaningful conclusions to aid in preparing for international events.
+
+---
+
+### National Sports Meet Data
+
+* The dataset titled "***Sports.csv***" contains performance data from a National Sports Meet where 27 states participated. 
+
+* The data includes scores from various athletic events and the overall winning points for each participant. 
+
+* Each row represents an individual participant's performance across different events. 
+
+
+---
+
+### Variables
+
+The columns in the dataset are as follows:
+
+1. **X100m**: Time taken to complete the 100 meters sprint.
+
+2. **Long.jump**: Distance covered in the long jump event.
+
+3. **Shot.put**: Distance covered in the shot put event.
+
+4. **High.jump**: Height achieved in the high jump event.
+
+5. **X400m**: Time taken to complete the 400 meters race.
+
+6. **X110m.hurdle**: Time taken to complete the 110 meters hurdle race.
+
+7. **Discus**: Distance covered in the discus throw event.
+
+8. **Pole.vault**: Height achieved in the pole vault event.
+
+9. **Javeline**: Distance covered in the javelin throw event.
+
+10. **Points**: Total winning points accumulated by the participant based on their performance in the above events.
+
+---
+
+### Reading in Data
+
+```{r warning=FALSE,message=FALSE}
+# Load necessary library
+library(readr)
+
+# Read the data
+sports_data <- read_csv("Sports.csv")
+
+```
+
+---
+
+### Inspecting the data
+
+```{r}
+
+head(sports_data)
+
+```
+---
+
+### Exercise 1
+
+(a) Fit a multiple regression model between winning points (as the response variable) and 
+the scores in the nine sports (as explanatory variables). Display the summary of the fitted 
+model and identify which explanatory variables are significant at 5% level of 
+significance.   
+ 
+(b) Prepare a plot of the residuals of the multiple regression model.  
+
+
+---
+
+
+### Exercise 1
+
+**Fit a multiple regression model**
+
+* First, we'll fit a multiple regression model. 
+
+* We'll then display the summary of the fitted model to identify significant explanatory variables at the 5% level of significance.
+
+
+
+
+### Model Fitting
+
+```{r}
+
+# Fit the multiple regression model
+model <- lm(Points ~ X100m + Long.jump + Shot.put + High.jump + X400m + 
+                    X110m.hurdle + Discus + Pole.vault + Javeline, 
+            data = sports_data)
+
+
+```
+
+
+```{r eval = FALSE}
+# Display the summary of the model
+summary(model)
+```
+
+---
+
+
+
+```{r echo=FALSE}
+# Display the summary of the model
+summary(model)
+```
+
+---
+
+### Exercise 1 
+
+**Model Fitting**
+
+* Using a general rule if the p-value is less than  0.05, then the concerned explanatory variable 
+is considered to be significant. 
+
+* This is shown by <tt>\*</tt>, <tt>\*\*</tt>, <tt>\*\*\*</tt> signs in the R summary output . 
+
+* So, based on the R-output, only points for ***Discus Throw*** are not significant. 
+
+* All other explanatory variables are considered to be significant.  
+
+
+
+---
+
+### Exercise 1
+
+**Plot the residuals**
+We will prepare a residuals plot for the multiple regression model.
+
+```{r eval=FALSE}
+# Plot residuals
+plot(model$residuals, 
+     main = "Residuals of the Multiple Regression Model", 
+     ylab = "Residuals", 
+     xlab = "Index",
+     pch  = 16)
+
+abline(h = 0, col = "red", lty = 2)
+```
+
+---
+
+```{r echo=FALSE}
+# Plot residuals
+plot(model$residuals, 
+     main = "Residuals of the Multiple Regression Model", 
+     ylab = "Residuals", 
+     xlab = "Index",
+     pch  = 16)
+
+abline(h = 0, col = "red", lty = 2)
+```
+
+
+---
+
+### Exercise 2
+
+**Fit a Generalised Linear Model (GLM)**
+
+Here we'll fit a Generalised Linear Model (GLM) assuming a Poisson distribution for the response variable and include the estimated coefficients and the Akaike’s Information Criteria (AIC) of the fitted model.
+
+```{r}
+# Fit the Generalized Linear Model (GLM)
+glm_model <- glm(Points ~ X100m + Long.jump + Shot.put + High.jump + X400m + 
+						  X110m.hurdle + Discus + Pole.vault + Javeline, 
+						  family = poisson(link = "log"), 
+						  data = sports_data)
+
+```
+
+
+```{r eval=FALSE}
+summary(glm_model) 
+
+```
+
+---
+
+
+```{r echo=FALSE}
+summary(glm_model) 
+
+```
+
+---
+
+
+```{r}
+
+# Display the AIC of the GLM
+AIC(glm_model)
+```
+
+---
+
+### Exercise 3
+
+**Explain why scaled deviance cannot be used to compare the fit of the models in exercises 1 and 2**
+
+* Scaled deviance is a measure of goodness of fit for models, but it is model-specific. 
+
+* In exercise 1, we used a linear regression model, and in exercise 2, we used a Poisson GLM. 
+
+* These models have different assumptions and distributions (normal vs. Poisson). 
+
+* Therefore, the scaled deviance from the Poisson GLM cannot be directly compared with the residual sum of squares or other goodness-of-fit measures from the linear regression model because they are based on different likelihood functions and error distributions.
+
+
+---
+### Exercise 4
+
+**Fit a GLM equivalent to the multiple regression model**
+
+To fit a GLM equivalent to the multiple regression model (which assumes a Gaussian distribution for the response variable), we can use the `family = gaussian` argument.
+
+```{r}
+# Fit the GLM equivalent to the multiple regression model
+glm_model_gaussian <- glm(
+  Points ~ X100m + Long.jump + Shot.put + High.jump + X400m + 
+           X110m.hurdle + Discus + Pole.vault + Javeline, 
+  family = gaussian(link = "identity"), 
+  data = sports_data)
+```
+
+---
+
+```{r echo=FALSE}
+# Display the summary of the GLM
+summary(glm_model_gaussian)
+```
+
+---
+
+### Exercise 4
+
+**AIC**
+
+```{r}
+# Display the AIC of the GLM
+AIC(glm_model_gaussian)
+```
+
+---
+
+### Exercise 5
+
+**Compare the fit of the models using AIC**
+
+We will compare the AIC values of the models fitted in exercises 1 and 2.
+
+```{r}
+# AIC of the multiple regression model (exercise 1)
+aic_multiple_regression <- AIC(model)
+
+# AIC of the GLM with Poisson distribution (exercise 2)
+aic_poisson_glm <- AIC(glm_model)
+
+# Compare the AIC values
+cat("AIC of the multiple regression model:", aic_multiple_regression, "\n")
+cat("AIC of the Poisson GLM:", aic_poisson_glm, "\n")
+```
+
+---
+
+### Exercise 6
+
+**Perform Principal Components Analysis**
+
+Perform Principal Components Analysis (PCA) separately for the above three categories 
+of sports viz. Running Sports, Jumping Sports and Throwing Sports and share how much 
+variation is captured by first principal component (PC1) for each category. 
+ 
+[Hint: Use <tt>prcomp()</tt> and do scaling by using <tt>scale.=TRUE</tt> parameter.] 
+
+---
+### Exercise 6
+
+**Perform Principal Components Analysis (PCA)**
+
+We will perform PCA separately for each sports category (Running, Jumping, and Throwing) and share how much variation is captured by the first principal component (PC1).
+
+
+#### Running Sports
+
+```{r}
+# Perform PCA for Running Sports
+pca_running <- prcomp(
+  sports_data[, c("X100m", "X400m", "X110m.hurdle")], 
+  scale. = TRUE)
+
+summary(pca_running)
+```
+
+---
+
+#### Jumping Sports
+
+```{r}
+# Perform PCA for Jumping Sports
+pca_jumping <- prcomp(
+  sports_data[, c("High.jump", "Long.jump", "Pole.vault")], 
+  scale. = TRUE)
+
+summary(pca_jumping)
+
+```
+
+---
+
+#### Throwing Sports
+
+```{r}
+# Perform PCA for Throwing Sports
+pca_throwing <- prcomp(
+  sports_data[, c("Shot.put", "Javeline", "Discus")], 
+  scale. = TRUE)
+
+summary(pca_throwing)
+```
+
+---
+
+### Exercise 6
+
+
+* For Running Sports Category, 74.2% variance is captured by PC1. 
+
+* For Jumping Sports Category, 52.82% variance is captured by PC1. 
+
+* For Throwing Sports Category, 66.65% variance is captured by PC1. 
+
+---
+
+### Exercise 7.
+
+Under which sports category, principal components will be most useful in reducing 
+dimensionality of the dataset while capturing 90% of variance? 
+
+---
+
+### Exercise 7.
+
+**Determine the most useful category for PCA in reducing dimensionality**
+
+* By examining the summaries of the PCA results, we can determine which sports category has the highest variance captured by the first principal component, and thus which is most useful in reducing dimensionality while capturing 90% of variance.
+
+ 
+ 
+ - In case of Running Sports Category, all three PCs cumulatively capture at least 90% of the total 
+variance of the data. 
+ 
+ - In case of Jumping Sports Category, all three PCs cumulatively capture at least 90% of the total 
+variance of the data. 
+ 
+ - In case of Throwing Sports Category, first two PCs cumulatively capture 92.04% (at least 90%) 
+of the total variance of the data. 
+
+---
+
+### Exercise 7.
+
+* So, if PCs capturing at least 90% of the variance is a criterion for reducing the dimensionality 
+of the data set, then Throw Sports Category satisfies it. 
+
+* For Throw Sports, PC1 and PC2 can 
+be retained and PC3 can be dropped thus reducing the dimensionality of the data set.
+
+* In case 
+of Run Sports and Jumping Sports, all three PCs need to be retained and thus the 
+dimensionality of the data set will not be reduced.  
+
+---
+
+### Exercise 8
+
+* The organisers informed that pole vault sports winning points are not properly captured. 
+
+* Test whether there is any correlation between pole vault points and overall winning points 
+by calculating a 95% confidence interval for the Slope Coefficient Beta.
+
+* Clearly state the 
+null and alternative hypotheses and the conclusion of the test.  
+
+---
+### Exercise 8
+
+**Test correlation between pole vault points and overall winning points**
+
+We will calculate a 95% confidence interval for the slope coefficient (Beta) to test the correlation.
+
+```{r}
+# Fit the linear regression model for pole vault points and overall winning points
+lm_polevault <- lm(Points ~ Pole.vault, data = sports_data)
+```
+
+---
+
+```{r}
+# Display the summary of the model
+summary(lm_polevault)
+
+```
+
+---
+
+### Exercise 8
+
+**Null Hypothesis ($H_0$)**: There is no correlation between pole vault points and overall winning points (Beta = 0).
+
+**Alternative Hypothesis ($H_1$)**: There is a correlation between pole vault points and overall winning points (Beta ≠ 0).
+
+ 
+   
+ 
+
+---
+
+### Exercise 8
+
+```{r}
+# Calculate the 95% confidence interval for the slope coefficient
+confint(lm_polevault, level = 0.95)
+```
+
+* As the 95% confidence interval for beta (-573.3559, 508.9277) contains the value 0, we do 
+not have sufficient evidence to reject the null hypothesis at 5% level of significance. 
+
+* Hence, 
+based on this test, one can conclude that there is no correlation between pole vault score and 
+winning points. 
+
+
+---
+
+### Exercise 9
+
+Players for racing sports have now been shortlisted for the international event and trials 
+have started for the upcoming international event. However due to unforeseen 
+circumstances, trials for 110 metres hurdle race got cancelled for last 5 runners. An 
+analyst suggests that their scores can be predicted using their 100m trial scores. 
+ 
+Below are the 100 metres scores of last 5 runners. 
+1. 10.68 
+2. 10.42 
+3. 11.68 
+4. 11.62 
+5. 10.54 
+ 
+**Tasks**
+
+Fit a linear regression model to predict the scores in 110 metres hurdle race using scores 
+in 100 metres race as the explanatory variable using the national sports meet data. 
+
+Clearly state the equation of this linear regression model. 
+
+Using this equation, predict the expected 110m hurdle race scores of the last five runners.
+
+---
+
+### Exercie 9
+
+**Predict 110m hurdle race scores using 100m trial scores**
+
+We will fit a linear regression model and predict the scores for the last five runners.
+
+```{r}
+# Fit the linear regression model for 110m hurdle race using 100m trial scores
+lm_100m_to_110mhurdle <- lm(X110m.hurdle ~ X100m, data = sports_data)
+```
+<br>
+
+```{r eval=FALSE}
+# Display the summary of the model
+summary(lm_100m_to_110mhurdle)
+```
+---
+
+
+```{r echo=FALSE}
+# Display the summary of the model
+summary(lm_100m_to_110mhurdle)
+```
+
+---
+
+### Exercie 9
+
+```{r}
+# 100m trial scores of the last 5 runners
+last_5_runners_100m <- data.frame(X100m = c(10.68, 10.42, 11.68, 11.62, 10.54))
+
+# Predict the 110m hurdle race scores
+predicted_110m_hurdle_scores <- predict(lm_100m_to_110mhurdle, newdata = last_5_runners_100m)
+predicted_110m_hurdle_scores
+```
+
+---
+
+The linear regression model equation would be of the form:
+$$\text{X110m.hurdle} = \beta_0 + \beta_1 \times \text{X100m}$$
+
+Where $\beta_0$ is the intercept and $\beta_1$ is the slope coefficient obtained from the model summary.
+
+---
+
+---
+
+Running the above R code will help you perform the required analyses and predictions. If you have further questions or need additional explanations, 
+
 Call: 
 lm(formula = Sports$Points ~ Sports$X100m + Sports$X400m + Sports$X110m.hurdle +  
 Sports$High.jump + Sports$Long.jump + Sports$Pole.vault +  
@@ -87,12 +607,10 @@ Residual standard error: 60.74 on 17 degrees of freedom
 Multiple R-squared:  0.9794, 
 Adjusted R-squared:  0.9685  
 F-statistic: 89.91 on 9 and 17 DF,  p-value: 1.491e-12 
+
 #b Plot of residuals for the model  
 ii) 
-Using a general rule if the p-value is less than  0.05, then the concerned explanatory variable 
-is considered to be significant. This is shown by *,  **, *** signs in the R summary output . 
-So, based on the R-output, only points for Discus Throw are not significant. All other 
-explanatory variables are considered to be significant.    
+  
 residuals(Model1)
  0 50-100
  0
@@ -191,7 +709,7 @@ AIC: 307.89
 Number of Fisher Scoring iterations: 2 
 v) 
 vi) 
-Model 1 in part (i) and Model 2 (Normal) in part (iv) are exact equivalents of each other. The 
+Model 1 in exercise 1 and Model 2 (Normal) in part (iv) are exact equivalents of each other. The 
 same can be seen from the estimates of coefficients in the R summary output. 
 So, for comparing the fit of Model 1 and Model 2 (Poisson), Model 2 (Normal) can be used as 
 a proxy for Model 1. And then, the AIC of Model 2 (Poisson) can be compared with the AIC 
@@ -200,8 +718,8 @@ AIC (Model 2 Normal) = 307.89
 AIC (Model 2 Poisson) = 321 
 Smaller the AIC, better is the fit. So, Model 2 Normal is a better fit as compared to Model 2 
 Poisson.  
-Consequentially, the linear multiple regression model in part (i) is a better fit to the data as 
-compared to the GLM fitted in part (ii). 
+Consequentially, the linear multiple regression model in exercise 1 is a better fit to the data as 
+compared to the GLM fitted in exercise 2. 
 > run<-data.frame(Sports$X100m,Sports$X400m,Sports$X110m.hurdle) 
 > pr_run<-prcomp(run,scale. = TRUE) 
 >  

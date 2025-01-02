@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for &lt;pre&gt; tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for &lt;code&gt; tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+&lt;/style&gt;
+
+**Modeling Employee Transition Probabilities in Actuaria's Banking Sector**
+
+This exercise develops a workflow for analyzing and understanding how employees move between different sections of the bank, based on age-related transition probabilities. 
+&lt;br&gt;&lt;br&gt;
+
+The exercise on modeling employee transition probabilities in Actuaria's banking sector helps to develop several critical statistical skills, specifically **Probability Modeling**:
+
+   - **Understanding Transition Probabilities**: Learning to model and interpret transition probabilities for different states (sections) based on historical data.
+ 
+   - **Markov Chains**: Applying Markov Chain concepts to model and predict future states based on current conditions and transition matrices.
+
+---
+
+### Actuaria Bank Marketing Team
+
+* A bank in the country Actuaria is recruiting employees for different sections. 
+
+* Initially, it is compulsory to work for Marketing section for one year. 
+
+* After working for one year, they can either move to Administration or Training sections. 
+
+* On exactly April 1st they have the choice of moving to any other sections. 
+
+* Probability of moving from one section to another is dependent on the age last birthday.
+
+* From the historical data it is evident that the transition probability of a person aged ‘x’ last birthday on April 1st is as per the following table (next slide)
+---
+
+### Actuaria Bank Marketing Team
+
+This table shows the probability of transitioning from one section to another based on the employee's age last birthday \( x \).
+
+| **From/To**        | **Marketing**               | **Administration**             | **Training**                   |
+|--------------------|-----------------------------|-------------------------------|--------------------------------|
+| **Marketing**      | \(1 - 0.0025x - 0.0075x\)   | \(0.0025x\)                    | \(0.0075x\)                    |
+| **Administration** | \(0.003x\)                  | \(1 - 0.003x - 0.004x\)        | \(0.004x\)                     |
+| **Training**       | \(0.001x\)                  | \(0.003x\)                     | \(1 - 0.001x - 0.003x\)        |
+
+
+---
+### Exercises
+
+A. Create a vector with the state space of the Markov Chain using R Code. 
+
+B. Consider two persons aged 30 last birthday and aged 40 last birthday respectively who are currently in marketing section. Construct transition matrices of the section change probabilities. 
+
+C. Create a Markov Chain objects with the state space equal to your vector in exercise A and transition matrices from exercise B. 
+
+&lt;i&gt;(R package for Markov Chains may be loaded and used for the same).&lt;/i&gt;
+
+D. Calculate the probability of transition for the following employees who are currently in Marketing section:
+
+- ***Case 1.*** an employee with age 30 last birthday moving into Training section in three years.
+- ***Case 2.*** an employee with age 40 last birthday moving into Training section in five years.
+
+---
+
+E. Plot the transition probability matrices in exercise D for age 40 years.
+
+F. Set a seed of 250. Simulate sequences of 250 states using &lt;tt&gt;markovchainSequence&lt;/tt&gt; function for both persons in Exercise D. 
+Compute the frequency of the states.
+
+G. Use a bar chart to plot the relative frequency of the states (for age 30) and label the chart appropriately.
+
+
+---
+
+### Exercise A.
+
+**Create a vector with the state space of the Markov Chain**
+
+
+``` r
+# Define the state space vector
+Employment &lt;- c("Marketing", "Admin", "Training")
+print(Employment)
+```
+
+```
+## [1] "Marketing" "Admin"     "Training"
+```
+
+---
+
+### Exercise B.
+
+**Construct transition matrices for persons aged 30 and 40**
+
+
+``` r
+# Define the transition probabilities as functions
+M2A &lt;- function(x) {0.0025 * x}
+M2T &lt;- function(x) {0.0075 * x}
+A2M &lt;- function(x) {0.003 * x}
+A2T &lt;- function(x) {0.004 * x}
+T2M &lt;- function(x) {0.001 * x}
+T2A &lt;- function(x) {0.003 * x}
+```
+
+---
+
+### Exercise B.
+
+
+``` r
+# Construct the transition matrix
+EmploymentTransition &lt;- function(x) {
+  M &lt;- matrix(0, nrow = 3, ncol = 3)
+  
+  M[1, 1] &lt;- 1 - M2A(x) - M2T(x)
+  M[1, 2] &lt;- M2A(x)
+  M[1, 3] &lt;- M2T(x)
+  
+  M[2, 1] &lt;- A2M(x)
+  M[2, 2] &lt;- 1 - A2M(x) - A2T(x)
+  M[2, 3] &lt;- A2T(x)
+  
+  M[3, 1] &lt;- T2M(x)
+  M[3, 2] &lt;- T2A(x)
+  M[3, 3] &lt;- 1 - T2M(x) - T2A(x)
+  
+  return(M)
+}
+```
+
+---
+
+### Exercise B.
+
+
+``` r
+# Transition matrices for age 30 and 40
+Employmentchange_age30 &lt;- EmploymentTransition(30)
+Employmentchange_age40 &lt;- EmploymentTransition(40)
+```
+
+---
+
+### Exercise B.
+
+
+``` r
+print("Transition Matrix for age 30")
+```
+
+```
+## [1] "Transition Matrix for age 30"
+```
+
+``` r
+print(Employmentchange_age30)
+```
+
+```
+##      [,1]  [,2]  [,3]
+## [1,] 0.70 0.075 0.225
+## [2,] 0.09 0.790 0.120
+## [3,] 0.03 0.090 0.880
+```
+
+---
+
+### Exercise B.
+
+
+``` r
+print("Transition Matrix for age 40")
+```
+
+```
+## [1] "Transition Matrix for age 40"
+```
+
+``` r
+print(Employmentchange_age40)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,] 0.60 0.10 0.30
+## [2,] 0.12 0.72 0.16
+## [3,] 0.04 0.12 0.84
+```
+
+---
+
+### Exercise C.
+
+**Create Markov Chain objects**
+
+
+``` r
+# Load the markovchain package
+
+# install.packages("markovchain")
+library(markovchain)
+
+# Create Markov Chain objects
+MCobject_age30 &lt;- new("markovchain", states = Employment, 
+                      byrow = TRUE, 
+                      transitionMatrix = Employmentchange_age30, 
+                      name = "Markovchain_age30")
+
+MCobject_age40 &lt;- new("markovchain", states = Employment, 
+                      byrow = TRUE, 
+                      transitionMatrix = Employmentchange_age40, 
+                      name = "Markovchain_age40")
+```
+
+---
+
+### Exercise C.
+
+
+``` r
+# Print the Markov Chain objects
+print(MCobject_age30)
+```
+
+```
+##           Marketing Admin Training
+## Marketing      0.70 0.075    0.225
+## Admin          0.09 0.790    0.120
+## Training       0.03 0.090    0.880
+```
+
+---
+
+### Exercise C.
+
+
+``` r
+# Print the Markov Chain objects
+print(MCobject_age40)
+```
+
+```
+##           Marketing Admin Training
+## Marketing      0.60  0.10     0.30
+## Admin          0.12  0.72     0.16
+## Training       0.04  0.12     0.84
+```
+
+---
+
+### Exercise D.
+
+**Calculate the probability of transition to Training section**
+
+
+``` r
+# Function to calculate transition probabilities over n years
+calc_prob_matrix &lt;- function(initial_age, years) {
+  B &lt;- c(1, 0, 0)  # Start in Marketing
+  for (i in 1:years) {
+    B &lt;- B %*% EmploymentTransition(initial_age + i - 1)
+  }
+  return(B)
+}
+```
+
+
+---
+
+### Exercise D.
+
+
+#### Case 1. 
+
+For an employee aged 30 last birthday moving into Training section in three years
+
+
+
+``` r
+# Probability for age 30 in 3 years
+prob_age30_3years &lt;- calc_prob_matrix(30, 3)
+print(prob_age30_3years[3])
+```
+
+```
+## [1] 0.458306
+```
+
+---
+
+#### Case 1.
+
+
+``` r
+prob_age30_3years
+```
+
+```
+##           [,1]      [,2]     [,3]
+## [1,] 0.3625932 0.1791008 0.458306
+```
+
+---
+
+
+### Exercise D.
+
+#### Case 2.
+
+For an employee aged 40 last birthday moving into Training section in five years
+
+
+``` r
+# Probability for age 40 in 5 years
+prob_age40_5years &lt;- calc_prob_matrix(40, 5)
+print(prob_age40_5years[3])
+```
+
+```
+## [1] 0.5659607
+```
+
+---
+
+#### Case 2.
+
+
+``` r
+prob_age40_5years
+```
+
+```
+##           [,1]      [,2]      [,3]
+## [1,] 0.1681993 0.2658399 0.5659607
+```
+
+---
+
+### Exercise E.
+
+**Plot the transition probability matrices for age 40 years**
+
+
+``` r
+plot(MCobject_age40)
+```
+
+![](S2-Question-4_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+---
+
+
+![](S2-Question-4_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+---
+
+### Exercise F.
+
+**Simulate sequences of 250 states and compute the frequency of the states**
+
+
+``` r
+set.seed(250)
+seq_age30 &lt;- markovchainSequence(250, MCobject_age30)
+seq_age40 &lt;- markovchainSequence(250, MCobject_age40)
+
+# Frequency of states for age 30
+table(seq_age30)
+```
+
+```
+## seq_age30
+##     Admin Marketing  Training 
+##        68        32       150
+```
+
+---
+
+### Exercise F.
+
+
+``` r
+# Frequency of states for age 40
+table(seq_age40)
+```
+
+```
+## seq_age40
+##     Admin Marketing  Training 
+##        67        34       149
+```
+
+---
+
+### Exercise G. 
+
+**Bar chart for the relative frequency of states for age 30**
+
+
+``` r
+library(lattice)
+barchart(prop.table(table(seq_age30)), 
+         xlab = "Relative frequency", 
+         ylab = "Section", 
+         main = "Relative Frequency of States for Age 30")
+```
+
+---
+
+### Exercise G. 
+
+**Bar chart for the relative frequency of states for age 30**
+
+![](S2-Question-4_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+---
+
+### Summary
+
+This exercise includes all the steps to create vectors, construct transition matrices, create Markov Chain objects, calculate probabilities, plot matrices, and simulate sequences, along with bar charts to visualize the data.
+
+---
+
+---
+ii) &gt; M2A&lt;-function(x){0.0025*x} &gt; M2T&lt;-function(x){0.0075*x} &gt; A2M&lt;-function(x){0.003*x} &gt; A2T&lt;-function(x){0.004*x} &gt; T2M&lt;-function(x){0.001*x} &gt; T2A&lt;-function(x){0.003*x} &gt; EmploymentTransition&lt;-function(x){ + M&lt;-matrix(0,nrow=3,ncol=3) + M[1,1]&lt;-1-M2A(x)-M2T(x) + M[1,2]&lt;-M2A(x) + M[1,3]&lt;-M2T(x) + M[2,1]&lt;-A2M(x) + M[2,2]&lt;-1-A2M(x)-A2T(x) + M[2,3]&lt;-A2T(x) + M[3,1]&lt;-T2M(x) + M[3,2]&lt;-T2A(x) + M[3,3]&lt;-1-T2M(x)-T2A(x) + M + }
+&gt; x&lt;-30 &gt; Employmentchange_age30&lt;-EmploymentTransition(x) &gt; Employmentchange_age30 [,1] [,2] [,3] [1,] 0.70 0.075 0.225 [2,] 0.09 0.790 0.120 [3,] 0.03 0.090 0.880
+&gt; y&lt;-40 &gt; Employmentchange_age40&lt;-EmploymentTransition(y) &gt; Employmentchange_age40 [,1] [,2] [,3] [1,] 0.60 0.10 0.30 [2,] 0.12 0.72 0.16 [3,] 0.04 0.12 0.84
+
+
+
+This solution includes all the steps to create vectors, construct transition matrices, create Markov Chain objects, calculate probabilities, plot matrices, and simulate sequences, along with bar charts to visualize the data. 
+If you have any questions or need further assistance, feel free to ask!
+iv) a) &gt; n&lt;-30 &gt; B&lt;-c(1,0,0) &gt; for(i in 1:3){B=B%*%EmploymentTransition(n+i-1)} &gt; B [,1] [,2] [,3] [1,] 0.3625932 0.1791008 0.458306
+So the required probability in 3 years is 45.8306%
+b) &gt; n&lt;-40 &gt; B&lt;-c(1,0,0) &gt; for(i in 1:5){B=B%*%EmploymentTransition(n+i-1)} &gt; B
+[,1] [,2] [,3]
+[1,] 0.1681993 0.2658399 0.5659607
+So the required probability in 5 years is 56.59607%.
+[2]
+v) &gt; plot(MCobject_age40)
+
+---
+vi) &gt; set.seed(250)
+IAI CS2B-1123
+Page 15 of 15
+&gt; seq_age30&lt;-markovchainSequence(250,MCobject_age30) &gt; #frequeny of the terms person aged 30 &gt; table(seq_age30) Seq_age30 Admin Marketing Training 68 32 150 &gt; seq_age40&lt;-markovchainSequence(250,MCobject_age40) &gt; #frequeny of the terms person aged 40 &gt; table(seq_age40) seq_age40 Admin Marketing Training 67 34 149
+
+---
+
+vii) &gt; library(lattice) &gt; barchart(prop.table(table(seq_age30)),xlab="Relative frequency", ylab="Section",main="Relative Frequency of States")
+[2]
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

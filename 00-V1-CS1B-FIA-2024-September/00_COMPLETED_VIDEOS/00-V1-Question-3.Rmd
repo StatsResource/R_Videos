@@ -1,0 +1,369 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for <pre> tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for <code> tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+```
+
+### The Beta distribution
+
+* The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$ and is parameterized by two shape parameters $a$ and $b$ (often denoted as $\alpha$ and $\beta$ in some literature). 
+
+* It is often used to model random variables that represent proportions or probabilities. 
+
+---
+
+### Exercise 
+
+A random variable X with values in the interval [0,1] has the following Cumulative
+Distribution Function (CDF):
+$$F(X) = 1 - (1-x^a)^b, x \in[0,1]$$
+and inverse CDF:
+
+
+$$F^{-1}(u) = (1 - (1-u)^{\frac{1}{b}})^{\frac{1}{a}}$$
+
+where $a > 0$ and $b > 0$ are parameters. 
+
+The Probability Density Function (PDF) is then given by:
+
+$$f(x) = abx^{a-1}(1-x^a)^{b-1}, x \in[0,1]$$
+
+You do not need to check the form of the inverse CDF or PDF.
+
+---
+
+### Exercise
+
+A. Plot the inverse CDF $F^{-1}(u)$ for an appropriate range of values of $u$ when $a = 0.7$ and $b = 0.5$. 
+
+B. Simulate 1,000 values of $X$ for $a = 0.7$ and $b = 0.5$ using the inverse transform method and store the 1,000 simulated values in a vector in <tt>R</tt> for later use.
+
+You must use the command <tt>set.seed(123)</tt> to initialise the random
+number generator before you start the simulation. 
+
+C. Plot a histogram of the 1,000 simulated values obtained in exercise B using
+relative frequencies. 
+
+D. Plot the PDF $f(x)$ of $X$ for $a = 0.7$ and $b = 0.5$ for values of $x \in [0,1]$. 
+
+<i>The graph of the PDF should be superimposed on the histogram produced in ***Exercise C***. </i>
+
+
+---
+
+### Exercises 
+
+E.  Comment on the plot in ***Exercise D*** comparing the simulated values of $X$ with the
+PDF, also taking into account the size of the simulated sample. 
+
+F. Plot the PDF $f(x)$ of $X$ for $a = 0.7$ and $b = 0.5$ for values of $x \in [0,1]$ in a new
+plot, and add the PDF $f(x)$ for $a = 3$ and $b = 2$ to the same plot. 
+
+G.  A statistician wants to use one of the PDFs in ***Exercise F*** as a prior density for a
+Bayesian analysis.
+
+Comment on the prior beliefs about the underlying parameter that the two
+PDFs represent. 
+
+---
+
+
+### Exercise A.
+
+**Plot the inverse CDF**
+
+```{r eval=FALSE}
+a <- 0.7
+b <- 0.5
+
+u <- seq(0, 1, length.out = 100)
+
+inv_cdf <- (1 - (1-u)^(1/b))^(1/a)
+
+plot(u, inv_cdf, type = "l", 
+     xlab = "u", 
+     ylab = "F^-1(u)", 
+     main = "Inverse CDF")
+```
+
+---
+
+### Exercise A.
+
+```{r echo=FALSE}
+a <- 0.7
+b <- 0.5
+
+u <- seq(0, 1, length.out = 100)
+inv_cdf <- (1 - (1-u)^(1/b))^(1/a)
+plot(u, inv_cdf, type = "l", xlab = "u", ylab = "F^-1(u)", main = "Inverse CDF")
+```
+
+---
+
+### Exercise B.
+
+**Simulate 1000 values**
+
+```{r}
+set.seed(123)
+simulated_values <- (1 - runif(1000)^(1/b))^(1/a)
+```
+
+```{r}
+#First 10 values
+
+simulated_values[1:10]
+```
+
+---
+
+### Exercise C.
+
+**Plot histogram**
+```{r eval=FALSE}
+
+hist(simulated_values, prob = TRUE, 
+     main = "Histogram of Simulated Values")
+```
+
+---
+
+### Exercise C.
+
+**Plot histogram**
+```{r echo=FALSE,fig.width=10}
+
+hist(simulated_values, prob = TRUE, 
+     main = "Histogram of Simulated Values")
+```
+
+
+---
+
+### Exercise D.
+
+**Plot PDF and histogram**
+
+```{r eval = FALSE}
+
+hist(simulated_values, prob = TRUE, 
+     main = "Histogram of Simulated Values")
+
+x <- seq(0, 1, length.out = 100)
+
+pdf <- a*b*x^(a-1)*(1-x^a)^(b-1)
+
+lines(x, pdf, col = "red")
+```
+
+---
+
+### Exercise D.
+
+**Plot PDF and histogram**
+
+```{r echo = FALSE}
+
+hist(simulated_values, prob = TRUE, 
+     main = "Histogram of Simulated Values")
+
+x <- seq(0, 1, length.out = 100)
+pdf <- a*b*x^(a-1)*(1-x^a)^(b-1)
+lines(x, pdf, col = "red")
+```
+
+---
+
+### Exercise E.
+
+**Comment on the Plot**
+
+* The histogram and the superimposed PDF show a good match. This indicates that the simulated values are indeed drawn from the specified distribution. 
+
+* The simulated distribution closely follows the theoretical distribution, especially in the central region. 
+
+* However, there are some minor discrepancies, particularly in the tails, which are likely due to the finite sample size of 1000.
+
+* As the sample size increases, the histogram would converge more closely to the theoretical PDF, reducing the variability in the tails.
+
+
+
+---
+
+
+### Exercise F. 
+
+**Plot two PDFs**
+
+```{r eval=FALSE}
+
+pdf1 <- a*b*x^(a-1)*(1-x^a)^(b-1)
+
+pdf2 <- 3*2*x^(3-1)*(1-x^3)^(2-1)
+
+plot(x, pdf1, type = "l", ylim = c(0, 3), 
+     main = "PDFs for Different Parameter Values")
+
+lines(x, pdf2, col = "red")
+```
+
+---
+
+
+
+### Exercise F. 
+
+**Plot two PDFs**
+
+```{r echo=FALSE}
+
+pdf1 <- a*b*x^(a-1)*(1-x^a)^(b-1)
+
+pdf2 <- 3*2*x^(3-1)*(1-x^3)^(2-1)
+
+plot(x, pdf1, type = "l", ylim = c(0, 3), 
+     main = "PDFs for Different Parameter Values")
+
+lines(x, pdf2, col = "red")
+```
+
+---
+
+
+### Exercise G.
+
+* The PDF with $a = 0.7$ and $b = 0.5$ is more uniform, suggesting a less informative prior. It is more concentrated towards 1, indicating a prior belief that the underlying parameter (i.e. proportion) is likely to be high. 
+
+* The PDF with a = 3 and b = 2 peaks in the interval between 0.6 and 0.8, suggesting a more informative prior, i.e. a prior that places more weight on high values of the parameter.
+
+---
+
+
+**Key Points:**
+
+- The inverse CDF is used to generate random numbers from the distribution.
+
+- The histogram visualizes the empirical distribution of the simulated data.
+
+- The PDF is the theoretical probability density function.
+
+- The two PDFs in ***Exercise F*** represent different prior beliefs about the parameter.
+
+
+---
+
+
+
+**Part (iv): Superimposing PDF on Histogram**
+
+```{r echo=FALSE}
+# ... (previous code)
+
+# Plot histogram with superimposed PDF
+hist(simulated_values, prob = TRUE, main = "Histogram and PDF")
+lines(x, pdf, col = "red", lwd = 2)
+```
+
+
+
+
+**Understanding the Problem**
+
+We're tasked with:
+1. **Visualizing the Inverse CDF:** Plotting the inverse CDF for specific parameter values.
+2. **Simulating Data:** Generating random numbers from the distribution using the inverse transform method.
+3. **Visualizing the Distribution:** Plotting a histogram of the simulated data and overlaying the theoretical PDF.
+4. **Comparing PDFs:** Plotting two PDFs with different parameter values and interpreting their implications for Bayesian analysis.
+
+---
+
+
+---
+
+
+### Exercise E.
+
+**Comment**
+
+* The histogram closely matches the theoretical PDF, indicating that the inverse transform method effectively generates samples from the desired distribution.
+
+* However, with a sample size of 1000, there's still some variability in the histogram, especially in the tails.
+
+---
+**R Code Implementation**
+
+```R
+# (i) Plot the inverse CDF
+a <- 0.7
+b <- 0.5
+
+u <- seq(0, 1, length.out = 100)
+inv_cdf <- (1 - (1-u)^(1/b))^(1/a)
+plot(u, inv_cdf, type = "l", xlab = "u", ylab = "F^-1(u)", main = "Inverse CDF")
+
+---
+
+# (ii) Simulate 1000 values
+set.seed(123)
+simulated_values <- (1 - runif(1000)^(1/b))^(1/a)
+
+
+# (iii) Plot histogram
+hist(simulated_values, prob = TRUE, main = "Histogram of Simulated Values")
+
+# (iv) Plot PDF and histogram
+x <- seq(0, 1, length.out = 100)
+pdf <- a*b*x^(a-1)*(1-x^a)^(b-1)
+lines(x, pdf, col = "red")
+
+---
+
+# (v) Comment:
+# The histogram closely matches the theoretical PDF, indicating that the inverse transform method effectively generates samples from the desired distribution.
+# However, with a sample size of 1000, there's still some variability in the histogram, especially in the tails.
+
+# (vi) Plot two PDFs
+pdf1 <- a*b*x^(a-1)*(1-x^a)^(b-1)
+pdf2 <- 3*2*x^(3-1)*(1-x^3)^(2-1)
+plot(x, pdf1, type = "l", ylim = c(0, 3), main = "PDFs for Different Parameter Values")
+lines(x, pdf2, col = "red")
+
+

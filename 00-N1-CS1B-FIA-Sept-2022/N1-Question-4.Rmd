@@ -10,11 +10,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set\beta echo = TRUE)
-library\beta magrittr)
-library\beta knitr)
-library\beta dplyr)
-library\beta janitor)
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
 
 
 ```
@@ -27,23 +27,34 @@ pre {
 }
 ```
 
-* Introduction to R for Actuarial Students
+(Introduction to R for Actuarial Students
 
-* CS1B Curriculum
+(CS1B Curriculum
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
+(Introduction to R programming
+(Fundamentals of Statistical Analysis
 
-* Question 4
+(Question 4
+
+---
+
+This presentation covers various aspects of data analysis using R, specifically in the context of a sample dataset of 100 employees in STEM-related jobs. The slide deck includes tasks such as:
+
+- Identifying categorical and numerical variables.
+- Creating scatter plots between pairs of numerical variables.
+- Analyzing relationships between variables.
+- Calculating summary statistics.
+- Conducting hypothesis tests.
+- Comparing means for different groups.
 
 ---
 
 
 CS1B S2022–5 
 4 An Analyst is asked to produce a report on the existing imbalance in salary in jobs 
-related to Science, Technology, Engineering and Maths \beta STEM). The Analyst 
+related to Science, Technology, Engineering and Maths (STEM). The Analyst 
 considers a sample of 100 employees in STEM-related jobs. For each of these 
-employees, information is provided on starting and current salary \beta in units of £5,000), 
+employees, information is provided on starting and current salary (in units of £5,000), 
 gender, type of job and job location, the employee’s age and their relevant experience. 
 The data is given in the file named employee.RData. After loading the data into R, 
 the data frame data_employee, with its variables listed below, will be available. 
@@ -60,14 +71,14 @@ experience Relevant job experience in years
 ---
 
 
-\beta i) Write down the categorical and the numerical variables in the data.  
-\beta ii) Plot a scatter graph between each pair of the numerical variables using your 
+(i) Write down the categorical and the numerical variables in the data.  
+(ii) Plot a scatter graph between each pair of the numerical variables using your 
 answer to part A.  
-\beta iii) Comment on the relationship between the current salary and the remaining 
+(iii) Comment on the relationship between the current salary and the remaining 
 numerical variables.  
-\beta iv) \beta a) Calculate the lower quartile, median, upper quartile and the mean for 
+(iv) (a) Calculate the lower quartile, median, upper quartile and the mean for 
 the current yearly salary.  
-\beta b) Test whether the proportion of male employees with current salary 
+(b) Test whether the proportion of male employees with current salary 
 below 9.86 is significantly different from the proportion of female 
 employees with current salary below 9.86. 
 [Hint: <tt>salary.current[gender==0]</tt> gives a vector of current salary for 
@@ -75,14 +86,30 @@ males.]
 
 ---
 
+(i) **Write down the categorical and the numerical variables in the data.**
 
-\beta v) Determine the median, mean and variance of the current yearly salary for each 
+The variables in the dataset are:
+- `salary.current`: Current yearly salary
+- `salary.start`: Starting yearly salary
+- `gender`: Male = 0, female = 1
+- `job.type`: 1 = geneticist, 2 = civil engineer, 3 = statistician, 4 = biophysicist, 5 = pathologist
+- `job.location`: Big city = 0, small city = 1
+- `age`: Age in years
+- `experience`: Relevant job experience in years
+
+From this list, you need to identify which variables are categorical and which are numerical.
+
+Categorical variables: `gender`, `job.type`, `job.location`
+Numerical variables: `salary.current`, `salary.start`, `age`, `experience`
+
+
+(v) Determine the median, mean and variance of the current yearly salary for each 
 of the job types in job.type.  
 [Hint: <tt>salary.current[job.type==1]</tt> gives a vector of current 
 salary for geneticists.] 
-\beta vi) \beta a) Test at the 5% level whether the mean starting salary and the mean 
+(vi) (a) Test at the 5% level whether the mean starting salary and the mean 
 current salary are significantly different. 
-\beta b) Test at the 5% level whether the mean current salary for big-city 
+(b) Test at the 5% level whether the mean current salary for big-city 
 employees is greater than the mean current salary for small-city 
 employees. 
 
@@ -91,22 +118,22 @@ employees.
 
 Q4
 # load data
-load\beta "employee.RData")
-\beta i)
+load("employee.RData")
+(i)
 Categorical variables: gender, job.type and job.location 
 
 Numerical variables: salary.current, salary.start, age and experience 
-\beta ii)
+(ii)
 Scattergraphs between each pair of continous variables:
-data_continuous <- data.frame\beta salary.current, salary.start, 
+data_continuous <- data.frame(salary.current, salary.start, 
 age, experience) 
-pairs\beta data_continuous) 
+pairs(data_continuous) 
 or 
-plot\beta data_continuous)
+plot(data_continuous)
 
 ---
 
-\beta iii)
+(iii)
 The first column shows the relationship between salary.current and the other continuous 
 variables. We can see that:
 there appears to be a positive linear relationship between the current and the starting 
@@ -118,18 +145,50 @@ unclear
 
 
 ---
+The second and third parts of the exercise involve plotting scatter graphs and commenting on the relationships between variables. Let's break them down:
 
-\beta iv)\beta a) 
+### ii) Plot a scatter graph between each pair of the numerical variables using your answer to part i.
+
+For this part, you need to create scatter plots for each pair of the numerical variables identified in part i. The numerical variables are `salary.current`, `salary.start`, `age`, and `experience`. You can use R to create these scatter plots. Here's an example code snippet to generate the scatter plots:
+
+```r
+# Load data
+load("employee.RData")
+
+# Create a data frame with numerical variables
+data_continuous <- data.frame(salary.current, salary.start, age, experience)
+
+# Generate scatter plot matrix
+pairs(data_continuous)
+```
+
+This code will create a matrix of scatter plots for all pairs of the numerical variables.
+
+### iii) Comment on the relationship between the current salary and the remaining numerical variables.
+
+For this part, you need to analyze the scatter plots generated in part ii and comment on the relationships observed between `salary.current` and the other numerical variables (`salary.start`, `age`, and `experience`). 
+
+Here's an example of how you might comment on the relationships:
+
+- **Relationship between `salary.current` and `salary.start`**: There appears to be a positive linear relationship between the current salary and the starting salary. This indicates that employees who started with higher salaries tend to have higher current salaries.
+- **Relationship between `salary.current` and `age`**: There might be a weak negative linear relationship between the current salary and age, suggesting that younger employees might have slightly higher current salaries. However, this relationship might not be very strong.
+- **Relationship between `salary.current` and `experience`**: There appears to be a weak negative linear relationship between the current salary and experience. This might suggest that employees with more experience do not necessarily have higher current salaries, or the relationship could be more complex.
+
+Feel free to elaborate on these comments based on your observations from the scatter plots. If you need further assistance with the remaining parts of the exercise, let me know!
+
+---
+
+(iv)(a) 
 The lower quartile, median, upper quartile of salary.current are given as:
-quantile\beta salary.current, c\beta 0.25,0.5,0.75)) 
+quantile(salary.current, c(0.25,0.5,0.75)) 
 25% 50% 75% 
 9.1750 9.3650 9.8625 
 and the mean:
  
-mean\beta salary.current) 
+mean(salary.current) 
 # 9.4778
 ## Alternatively, candidates can use the function summary
-summary\beta salary.current)
+summary(salary.current)
 Min. 1st Qu. Median Mean 3rd Qu. Max.
 8.780 9.175 9.365 9.478 9.863 10.630
 
@@ -137,7 +196,7 @@ Min. 1st Qu. Median Mean 3rd Qu. Max.
 ---
 
 
-\beta b) 
+(b) 
 We use the following notation:
 p1: proportion of male employees with current salary values below 9.86 
 p2: proportion of female employees with values below 9.86
@@ -149,10 +208,10 @@ cmale<- salary.current[gender==0]
 Those less than the upper quartile:
 qmale<- cmale[cmale <9.86] 
 Number of male employees with current salary lower than the upper quartile:
-x1<- length\beta qmale) ; x1 
+x1<- length(qmale) ; x1 
 # 26
 Number of male employees:
-n1<- length\beta cmale); n1 
+n1<- length(cmale); n1 
 # 51
 Current salary for female employees:
 cfemale<- salary.current[gender==1] 
@@ -161,18 +220,21 @@ qfemale<- cfemale[cfemale <9.86]
 ---
 
 Number of female employees with current salary lower than the upper quartile:
-x2<- length\beta qfemale) ; x2 
+x2<- length(qfemale) ; x2 
 # 48
 Number of female employees:
-n2<- length\beta cfemale); n2 
+n2<- length(cfemale); n2 
 # 49
 
 ---
 
 Perform test:
-prop.test\beta c\beta x1,x2), c\beta n1 , n2 ), alternative = "two.sided" )
+```{r}
+prop.test(c(x1,x2), c(n1 , n2 ), alternative = "two.sided" )
+
+```
 2-sample test for equality of proportions with continuity correction
-data: c\beta x1, x2) out of c\beta n1, n2)
+data: c(x1, x2) out of c(n1, n2)
 X-squared = 26.276, df = 1, p-value = 2.959e-07
 alternative hypothesis: two.sided
 95 percent confidence interval:
@@ -183,23 +245,26 @@ prop 1 prop 2
 
 ---
 
-The p-value is less than 0.05, therefore reject 𝐻𝐻0. The proportion of males with current
+### Conclusion
+
+* The p-value is less than 0.05, therefore reject 𝐻𝐻0. 
+* The proportion of males with current
 salary below 9.86 is significantly different from the proportion of female employees with 
 current salary below 9.86 
 
 ---
 
-\beta v)
+(v)
 The median, mean and variances of salary.current for each of the job type in job.type can
 be given as follows:
 ```{r}
-Median<- rep\beta 0,5)
-Mean<- rep\beta 0,5)
-Var<- rep\beta 0,5
-for\beta i in 1:5){
-Median[i]<- median\beta salary.current[job.type==i] )
-Mean[i]<- mean\beta salary.current[job.type ==i] )
-Var[i]<- var\beta salary.current[job.type ==i] )
+Median<- rep(0,5)
+Mean<- rep(0,5)
+Var<- rep(0,5
+for(i in 1:5){
+Median[i]<- median(salary.current[job.type==i] )
+Mean[i]<- mean(salary.current[job.type ==i] )
+Var[i]<- var(salary.current[job.type ==i] )
 } 
 ```
 ## Median
@@ -212,13 +277,13 @@ Var[i]<- var\beta salary.current[job.type ==i] )
 
 ---
 
-\beta vi) \beta a) 
+(vi) (a) 
 
 𝐻𝐻0: Mean starting salaries and the current salaries are equal
 𝐻𝐻1: Mean starting salaries and the current salaries are not equal. 
 
 ```{r}
-t.test\beta salary.start,salary.current, paired = TRUE) 
+t.test(salary.start,salary.current, paired = TRUE) 
 ```
 
 #Results 
@@ -234,7 +299,7 @@ mean of the differences
 The p-value is less than 0.05; therefore we reject 𝐻𝐻0 and conclude that the current salary
 is significantly different from the starting salary 
 ---
-\beta b) 
+(b) 
 We define two vectors of current salaries for big- and small-city employees:
 salary.current_bcity<- salary.current[job.location==0]
 salary.current_scity <- salary.current[job.location==1] 
@@ -242,7 +307,7 @@ salary.current_scity <- salary.current[job.location==1]
 𝐻𝐻1: Mean starting salaries for big city employee > small city employee 
 
 ```{r}
-t.test\beta salary.current_bcity, salary.current_scity,alternative= 
+t.test(salary.current_bcity, salary.current_scity,alternative= 
 "greater") 
 
 ```
@@ -272,9 +337,9 @@ BLANK
 ---
 
 This question was answered well in general.
-The computations in parts \beta iv) and \beta v) can be performed in a number of alternative ways 
+The computations in parts (iv) and (v) can be performed in a number of alternative ways 
 in R, and credit was given as appropriate when alternative R code was presented. 
-Many candidates failed to provide a fully correct answer in part \beta iv)\beta b), where a number 
+Many candidates failed to provide a fully correct answer in part (iv)(b), where a number 
 of errors were found in the calculations.
-In parts \beta vi)\beta a), \beta vi)\beta b) a number of candidates failed to state the hypotheses of the tests 
+In parts (vi)(a), (vi)(b) a number of candidates failed to state the hypotheses of the tests 
 and complete conclusions.

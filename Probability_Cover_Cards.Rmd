@@ -1,0 +1,174 @@
+---
+title: "Spanning Trees"
+subtitle: "DiscreteMaths.github.io"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    font_size: 20pts
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+<style type="text/css">
+  body{
+  font-size: 20pt;
+}
+</style>
+
+```{r eval=FALSE,include=FALSE}
+
+# CT6 
+# - ASI 2005 April Question B - 1
+# - ASI 2006 April Question B - 1
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_mono_accent_inverse(
+  #base_color = "#4169e1", #)(vvv#TREES
+  #background_color = "#E6E6FA",  #TREE
+  base_color = "black", #)(
+  background_color =  "#B7E892",,
+  text_color="black",
+  text_bold_color = "black",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "400", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+```
+<style> 
+  /* Hide page numbers */ .
+  remark-slide-number { display: none; } 
+</style>
+
+## Probability Distributions
+### The Exponential Distribution 
+### Simulation and MLEs
+<br><br><br><br>
+## <tt>Probability with R</tt>
+### <tt>CS1B (FIA, September 2021)</tt>
+
+---
+
+###  Logical Operations
+Let $n \in \{1,2,3,4,5,6,7,8,9\}$ and let p and q be the following propostions concerning 
+the integers $n$.
+
+
+* ***p***: $n$ is event
+* ***q***: $n<5$
+
+
+Find the values of $n$ for which each of the following compound statement is true,
+
+A. $\neg p$
+
+B. $p \wedge q$
+
+C. $\neg p \vee q$ 
+
+D. $p \oplus q$
+
+---
+
+
+Find the values of $n$ for which each compound statement is true.
+
+#### Given Propositions:
+
+- $p$: $n$ is even.
+- $q$: $n < 5$.
+
+#### Possible Values of $n$:
+
+$$n \in \{1, 2, 3, 4, 5,6, 7, 8, 9\}$$
+---
+
+### Exercise A: $\neg p$
+
+**($n$ is not even):**
+
+$$
+\neg p: n \text{ is odd}
+$$
+
+The values of $n$ for which $\neg p$ is true are:
+$$\{1, 3, 5, 7, 9\}$$
+
+---
+
+### Exercise B: $p \wedge q$ 
+
+**( $n$ is even and $n < 5$ ):**
+
+$$
+p \wedge q: n \text{ is even and } n < 5
+$$
+
+The values of $n$ for which $p \wedge q$ is true are:
+$$\{2, 4\}$$
+
+---
+
+### Exercise C: $\neg p \vee q$ 
+
+**($n$ is not even or $n < 5$ )**:
+
+$$
+\neg p \vee q: n \text{ is odd or } n < 5
+$$
+The values of $n$ for which $\neg p \vee q$ is true are:
+
+$$\{1, 2, 3, 4, 5, 7, 9\}$$
+
+
+---
+
+### Exercise D: $p \oplus q$ 
+
+**(Exclusive OR: $n$ is even or $n < 5$, but not both):**
+
+$$
+p \oplus q: (n \text{ is even } \oplus n < 5)
+$$
+The values of $n$ for which $p \oplus q$ is true are:
+
+$$\{1, 3, 6, 8\}$$
+
+
+---
+
+
+### Summary
+
+The values of $n$ for each compound statement are as follows:
+
+A. $\neg p$: $\{1, 3, 5, 7, 9\}$
+
+B. $p \wedge q$: $\{2, 4\}$
+
+C. $\neg p \vee q$: $\{1, 2, 3, 4, 5, 7, 9\}$
+
+C. $p \oplus q$: $\{1, 3, 6, 8\}$
+
+
+---
+
+
+---
+
+
+---

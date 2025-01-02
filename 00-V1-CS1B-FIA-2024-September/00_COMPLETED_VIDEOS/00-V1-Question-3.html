@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+
+/* Style for &lt;pre&gt; tags, commonly used for code blocks */
+pre {
+  background-color:  #ADD8E6;  /* Light grey background */
+  padding: 10px;              /* Some padding for spacing */
+  border-radius: 5px;         /* Rounded corners */
+}
+
+/* Style for &lt;code&gt; tags, commonly used for inline code */
+code {
+  background-color: #ADD8E6; /* Slightly darker grey for inline code */
+  padding: 2px 4px;           /* Padding for inline code */
+  border-radius: 3px;         /* Slightly rounded corners */
+}
+&lt;/style&gt;
+
+### The Beta distribution
+
+* The Beta distribution is a continuous probability distribution defined on the interval `\([0, 1]\)` and is parameterized by two shape parameters `\(a\)` and `\(b\)` (often denoted as `\(\alpha\)` and `\(\beta\)` in some literature). 
+
+* It is often used to model random variables that represent proportions or probabilities. 
+
+---
+
+### Exercise 
+
+A random variable X with values in the interval [0,1] has the following Cumulative
+Distribution Function (CDF):
+`$$F(X) = 1 - (1-x^a)^b, x \in[0,1]$$`
+and inverse CDF:
+
+
+`$$F^{-1}(u) = (1 - (1-u)^{\frac{1}{b}})^{\frac{1}{a}}$$`
+
+where `\(a &gt; 0\)` and `\(b &gt; 0\)` are parameters. 
+
+The Probability Density Function (PDF) is then given by:
+
+`$$f(x) = abx^{a-1}(1-x^a)^{b-1}, x \in[0,1]$$`
+
+You do not need to check the form of the inverse CDF or PDF.
+
+---
+
+### Exercise
+
+A. Plot the inverse CDF `\(F^{-1}(u)\)` for an appropriate range of values of `\(u\)` when `\(a = 0.7\)` and `\(b = 0.5\)`. 
+
+B. Simulate 1,000 values of `\(X\)` for `\(a = 0.7\)` and `\(b = 0.5\)` using the inverse transform method and store the 1,000 simulated values in a vector in &lt;tt&gt;R&lt;/tt&gt; for later use.
+
+You must use the command &lt;tt&gt;set.seed(123)&lt;/tt&gt; to initialise the random
+number generator before you start the simulation. 
+
+C. Plot a histogram of the 1,000 simulated values obtained in exercise B using
+relative frequencies. 
+
+D. Plot the PDF `\(f(x)\)` of `\(X\)` for `\(a = 0.7\)` and `\(b = 0.5\)` for values of `\(x \in [0,1]\)`. 
+
+&lt;i&gt;The graph of the PDF should be superimposed on the histogram produced in ***Exercise C***. &lt;/i&gt;
+
+
+---
+
+### Exercises 
+
+E.  Comment on the plot in ***Exercise D*** comparing the simulated values of `\(X\)` with the
+PDF, also taking into account the size of the simulated sample. 
+
+F. Plot the PDF `\(f(x)\)` of `\(X\)` for `\(a = 0.7\)` and `\(b = 0.5\)` for values of `\(x \in [0,1]\)` in a new
+plot, and add the PDF `\(f(x)\)` for `\(a = 3\)` and `\(b = 2\)` to the same plot. 
+
+G.  A statistician wants to use one of the PDFs in ***Exercise F*** as a prior density for a
+Bayesian analysis.
+
+Comment on the prior beliefs about the underlying parameter that the two
+PDFs represent. 
+
+---
+
+
+### Exercise A.
+
+**Plot the inverse CDF**
+
+
+``` r
+a &lt;- 0.7
+b &lt;- 0.5
+
+u &lt;- seq(0, 1, length.out = 100)
+
+inv_cdf &lt;- (1 - (1-u)^(1/b))^(1/a)
+
+plot(u, inv_cdf, type = "l", 
+     xlab = "u", 
+     ylab = "F^-1(u)", 
+     main = "Inverse CDF")
+```
+
+---
+
+### Exercise A.
+
+![](00-V1-Question-3_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+### Exercise B.
+
+**Simulate 1000 values**
+
+
+``` r
+set.seed(123)
+simulated_values &lt;- (1 - runif(1000)^(1/b))^(1/a)
+```
+
+
+``` r
+#First 10 values
+
+simulated_values[1:10]
+```
+
+```
+##  [1] 0.88398376 0.24966630 0.76991088 0.11518441 0.04580847 0.99703647
+##  [7] 0.62681643 0.10292097 0.59577768 0.71603166
+```
+
+---
+
+### Exercise C.
+
+**Plot histogram**
+
+``` r
+hist(simulated_values, prob = TRUE, 
+     main = "Histogram of Simulated Values")
+```
+
+---
+
+### Exercise C.
+
+**Plot histogram**
+![](00-V1-Question-3_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+
+---
+
+### Exercise D.
+
+**Plot PDF and histogram**
+
+
+``` r
+hist(simulated_values, prob = TRUE, 
+     main = "Histogram of Simulated Values")
+
+x &lt;- seq(0, 1, length.out = 100)
+
+pdf &lt;- a*b*x^(a-1)*(1-x^a)^(b-1)
+
+lines(x, pdf, col = "red")
+```
+
+---
+
+### Exercise D.
+
+**Plot PDF and histogram**
+
+![](00-V1-Question-3_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+### Exercise E.
+
+**Comment on the Plot**
+
+* The histogram and the superimposed PDF show a good match. This indicates that the simulated values are indeed drawn from the specified distribution. 
+
+* The simulated distribution closely follows the theoretical distribution, especially in the central region. 
+
+* However, there are some minor discrepancies, particularly in the tails, which are likely due to the finite sample size of 1000.
+
+* As the sample size increases, the histogram would converge more closely to the theoretical PDF, reducing the variability in the tails.
+
+
+
+---
+
+
+### Exercise F. 
+
+**Plot two PDFs**
+
+
+``` r
+pdf1 &lt;- a*b*x^(a-1)*(1-x^a)^(b-1)
+
+pdf2 &lt;- 3*2*x^(3-1)*(1-x^3)^(2-1)
+
+plot(x, pdf1, type = "l", ylim = c(0, 3), 
+     main = "PDFs for Different Parameter Values")
+
+lines(x, pdf2, col = "red")
+```
+
+---
+
+
+
+### Exercise F. 
+
+**Plot two PDFs**
+
+![](00-V1-Question-3_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+
+### Exercise G.
+
+* The PDF with `\(a = 0.7\)` and `\(b = 0.5\)` is more uniform, suggesting a less informative prior. It is more concentrated towards 1, indicating a prior belief that the underlying parameter (i.e. proportion) is likely to be high. 
+
+* The PDF with a = 3 and b = 2 peaks in the interval between 06 and 0.8, suggesting a more informative prior, i.e. a prior that places more weight on high values of the parameter.
+
+---
+
+
+**Key Points:**
+
+- The inverse CDF is used to generate random numbers from the distribution.
+
+- The histogram visualizes the empirical distribution of the simulated data.
+
+- The PDF is the theoretical probability density function.
+
+- The two PDFs in ***Exercise F*** represent different prior beliefs about the parameter.
+
+
+---
+
+
+
+**Part (iv): Superimposing PDF on Histogram**
+
+![](00-V1-Question-3_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+
+
+
+**Understanding the Problem**
+
+We're tasked with:
+1. **Visualizing the Inverse CDF:** Plotting the inverse CDF for specific parameter values.
+2. **Simulating Data:** Generating random numbers from the distribution using the inverse transform method.
+3. **Visualizing the Distribution:** Plotting a histogram of the simulated data and overlaying the theoretical PDF.
+4. **Comparing PDFs:** Plotting two PDFs with different parameter values and interpreting their implications for Bayesian analysis.
+
+---
+
+
+---
+
+
+### Exercise E.
+
+**Comment**
+
+* The histogram closely matches the theoretical PDF, indicating that the inverse transform method effectively generates samples from the desired distribution.
+
+* However, with a sample size of 1000, there's still some variability in the histogram, especially in the tails.
+
+---
+**R Code Implementation**
+
+```R
+# (i) Plot the inverse CDF
+a &lt;- 0.7
+b &lt;- 0.5
+
+u &lt;- seq(0, 1, length.out = 100)
+inv_cdf &lt;- (1 - (1-u)^(1/b))^(1/a)
+plot(u, inv_cdf, type = "l", xlab = "u", ylab = "F^-1(u)", main = "Inverse CDF")
+
+---
+
+# (ii) Simulate 1000 values
+set.seed(123)
+simulated_values &lt;- (1 - runif(1000)^(1/b))^(1/a)
+
+
+# (iii) Plot histogram
+hist(simulated_values, prob = TRUE, main = "Histogram of Simulated Values")
+
+# (iv) Plot PDF and histogram
+x &lt;- seq(0, 1, length.out = 100)
+pdf &lt;- a*b*x^(a-1)*(1-x^a)^(b-1)
+lines(x, pdf, col = "red")
+
+---
+
+# (v) Comment:
+# The histogram closely matches the theoretical PDF, indicating that the inverse transform method effectively generates samples from the desired distribution.
+# However, with a sample size of 1000, there's still some variability in the histogram, especially in the tails.
+
+# (vi) Plot two PDFs
+pdf1 &lt;- a*b*x^(a-1)*(1-x^a)^(b-1)
+pdf2 &lt;- 3*2*x^(3-1)*(1-x^3)^(2-1)
+plot(x, pdf1, type = "l", ylim = c(0, 3), main = "PDFs for Different Parameter Values")
+lines(x, pdf2, col = "red")
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
