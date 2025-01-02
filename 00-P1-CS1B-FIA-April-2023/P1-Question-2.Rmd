@@ -68,12 +68,16 @@ Binomial distribution and the link function of the GLM is the logit function.
 
 B. Fit a GLM to the data such that p depends on the age of the policyholder and 
 report the estimated parameter values.  
+
 C. Fit a GLM to the data such that $p$ depends on the duration of the policy and 
 report the estimated parameter values.  
+
 D. Compare the fit of the models in Part B and Part C using the deviance and 
-the ***Akaike’s Information Criterion (AIC)***.  
+the ***Akaike’s Information Criterion (AIC)***. 
+ 
 E. Fit a GLM to the data, such that p depends on both the age of the policyholder 
 and the duration of the policy, and report the estimated parameter values.  
+
 F. Comment on which of the three models in parts Part B, Part C and Part E is most 
 appropriate, justifying your answer.  
 
@@ -83,16 +87,21 @@ appropriate, justifying your answer.
 load("CS1policies.Rdata")
 ```
 
+```{r}
+head(CS1policies)
+```
 
 ---
 
+### Exercise  B 
 
-Q2 (i) We need to assume that the 1,000 policies are independent 
+
+We need to assume that the 1,000 policies are independent 
 and that the probability to claim in a six-month period is the same for all policyholders 
 
 ---
 
-### Part B 
+### Exercise  B 
 
 ```{r}
 model1 = glm(claimed ~ age, data = CS1policies, family = binomial) 
@@ -109,7 +118,7 @@ Histogram of t4.valt4.valFrequency-10-5051015010003000Histogram of t20.vat20.val
 
 ---
 
-### Part C
+### Exercise  C
 
 Part C
 
@@ -122,13 +131,16 @@ slope (duration) = -0.027608
 
 ---
 
-### Part D
-Residual deviance(model1) = 1051.8 , deviance(model2) = 948.98 
-AIC(model1) = 1055.8 , AIC(model2) = 952.98 
-The residual deviance and the AIC are both smaller for the model in part Part C. 
-So duration seems to be a better predictor than age, and we would choose the model
-in part Part C.
+### Exercise D
+
+* Residual deviance(model1) = 1051.8 , deviance(model2) = 948.98 
+* AIC(model1) = 1055.8 , AIC(model2) = 952.98 
+* The residual deviance and the AIC are both smaller for the model in part Part C. 
+* So duration seems to be a better predictor than age, and we would choose the model in part Part C.
+
 ---
+
+### Exercise D
 
 Alternative answer:
 The accuracy of the AIC depends on which R command is used: model1, summary(model1) or AIC(model1), which give 1056, 1055.8 and 1055.78, respectively.
@@ -136,22 +148,30 @@ For model2 they give 953, 952.98 and 952.9805, respectively.
 
 ---
 
-### Part E
+### Exercise E
+
 ```{r}
 model3 = glm(claimed ~ age + duration, data = CS1policies, family = binomial) 
 summary(model3) 
 ```
-Intercept = -0.909944
-Slope(age) = 0.029434
-Slope(duration) = -0.028040 
+
+* Intercept = -0.909944
+
+* Slope(age) = 0.029434
+
+* Slope(duration) = -0.028040 
 
 ---
 
-(vi)
-The AIC (AIC (model3)= 945.51) has decreased compared to the model in part Part C (which is already better than the model in part Part B) 
-We would therefore use both, age and duration, in a linear predictor, and choose the model in part Part E. 
-Alternative answer:
-The accuracy of the AIC depends on which R command is used: model3, summary(model3) or AIC(model3), which give 945.5, 945.51 and 945.5106, respectively.
+### Exercise F
+
+* The AIC (AIC (model3)= 945.51) has decreased compared to the model in part Part C (which is already better than the model in part Part B) 
+
+* We would therefore use both, age and duration, in a linear predictor, and choose the model in part Part E. 
+
+### Alternative answer:
+
+* The accuracy of the AIC depends on which R command is used: model3, summary(model3) or AIC(model3), which give 945.5, 945.51 and 945.5106, respectively.
 
 ---
 

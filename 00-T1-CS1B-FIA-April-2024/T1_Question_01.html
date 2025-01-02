@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistics with R</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Statistics with R
+]
+.subtitle[
+## Statistical Modelling with R for Actuarial Students
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
+
+
+An insurance company wants to study the association between the number of years their clients spent in education and their claim amounts.
+
+Data from 25 randomly selected claims are contained in the file &lt;tt&gt;AmountYears.RData&lt;/tt&gt; in the following two variables:
+
+* &lt;tt&gt;ClaimAmount&lt;/tt&gt; – this is the claim amount (in £).
+
+* &lt;tt&gt;EducationYears&lt;/tt&gt; – this is the number of years the client spent in education.
+
+---
+
+### Exercises
+
+**A.** Plot the claim amounts against the years of education. 
+
+**B.** A statistician suggests fitting a simple linear model to the data.
+Fit a linear model to the data.  &lt;br&gt;Plot the regression line by adding it to the graph in ***Exercise A***. 
+
+**C.** Another statistician looks at the plot in ***Exercise A*** and suggests a non-linear relationship.
+Fit a model with a quadratic term added to the model fitted in ***Exercise B***.
+&lt;br&gt;&lt;br&gt;State the equation of the fitted model. 
+
+**D.** Comment on the suitability of the quadratic model in ***Exercise C***, compared to
+the model in ***Exercise B***, based on the output from ***Exercise C***. 
+
+---
+
+## Question 1 Solutions:
+
+
+
+``` r
+load("StoredData/AmountYears.RData")
+```
+
+
+---
+
+### Inspecting the Data
+
+**Claim Amoount**
+
+
+``` r
+length(ClaimAmount)
+```
+
+```
+## [1] 25
+```
+
+
+
+``` r
+summary(ClaimAmount)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   65000   85000   95000  109120  130000  195000
+```
+
+---
+
+### Inspecting the Data
+
+**Claim Amoount**
+
+
+``` r
+length(EducationYears)
+```
+
+```
+## [1] 25
+```
+
+
+``` r
+summary(EducationYears)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    9.10   11.60   13.00   12.73   14.50   15.00
+```
+
+
+---
+
+### Exercise A. 
+
+**Plot the claim amounts against the years of education**
+
+This code will produce a scatterplot showing the relationship between the number of years in education and the claim amounts.
+
+
+
+``` r
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in £)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+```
+
+
+Remark: always provide informative annotation on the graphs
+
+---
+
+![](T1_Question_01_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+### Exercise B.
+
+**Fit a linear model and plot the regression line**
+
+Fit a linear model
+
+
+``` r
+m1 &lt;- lm(ClaimAmount ~ EducationYears)  
+```
+
+---
+
+### Multiple `\(R^2\)` and Adjusted `\(R^2\)`. 
+
+When fitting linear models in R, you'll often come across two different types of `\(R^2\)`: Multiple `\(R^2\)` and Adjusted `\(R^2\)`. 
+
+Both provide insights into the goodness-of-fit of your model, but there is a key difference.
+
+
+- **Multiple `\(R^2\)`:** Measures the proportion of variance explained by the model without considering the number of predictors.
+
+- **Adjusted `\(R^2\)`:** Adjusts the `\(R^2\)` value to account for the number of predictors, providing a more accurate measure of model fit, especially when comparing models with different numbers of predictors.
+
+---
+
+### Exercise B.
+
+**Summary of linear model (m1):**
+
+
+
+``` r
+coef(m1)
+```
+
+```
+##    (Intercept) EducationYears 
+##      -32220.08       11101.17
+```
+
+
+``` r
+summary(m1)
+```
+
+
+---
+
+
+
+```
+## 
+## Call:
+## lm(formula = ClaimAmount ~ EducationYears)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -43747 -19875   1768  18575  61813 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)      -32220      40159  -0.802  0.43058   
+## EducationYears    11101       3124   3.553  0.00169 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 27450 on 23 degrees of freedom
+## Multiple R-squared:  0.3544,	Adjusted R-squared:  0.3263 
+## F-statistic: 12.62 on 1 and 23 DF,  p-value: 0.001695
+```
+
+---
+
+**Plot the regression line:**
+
+This code adds the regression line to the scatterplot.
+
+
+``` r
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in £)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+
+abline(m1, col = "red")
+```
+
+
+---
+
+**Plot the regression line:**
+
+![](T1_Question_01_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+### The `I()` function
+
+* The `I()` function in R is used to inhibit the interpretation or conversion of its argument. 
+
+* It's often applied when you want to indicate that certain values should be treated "as is" without being altered or evaluated by R. 
+
+* In model formulas, `I()` is used to indicate that an arithmetic operation should be performed directly rather than treated as part of the model structure. 
+
+---
+
+### Exercise C.
+
+**Fit a quadratic model**
+
+Fit a model with a quadratic term.
+
+
+``` r
+m2 &lt;- lm(ClaimAmount ~ EducationYears + I(EducationYears^2))  
+```
+
+---
+
+### Exercise C.
+
+**Summary of quadratic model (m2):**
+
+
+``` r
+coef(m2)
+```
+
+```
+##         (Intercept)      EducationYears I(EducationYears^2) 
+##          609271.647          -95998.774            4371.359
+```
+
+
+``` r
+summary(m2)
+```
+
+---
+
+
+```
+## 
+## Call:
+## lm(formula = ClaimAmount ~ EducationYears + I(EducationYears^2))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -51368 -15047  -2360  14008  45625 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)           609272     242570   2.512   0.0199 *
+## EducationYears        -95999      40154  -2.391   0.0258 *
+## I(EducationYears^2)     4371       1635   2.674   0.0139 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 24380 on 22 degrees of freedom
+## Multiple R-squared:  0.5127,	Adjusted R-squared:  0.4684 
+## F-statistic: 11.57 on 2 and 22 DF,  p-value: 0.000368
+```
+
+---
+
+### Exercise C.
+
+**coefficients of quadratic model (m2):**
+
+
+``` r
+coef(m2)
+```
+
+```
+##         (Intercept)      EducationYears I(EducationYears^2) 
+##          609271.647          -95998.774            4371.359
+```
+
+---
+
+### Exercise C.
+
+**State the equation of the fitted model:**
+
+The fitted model is:
+
+`$$\text{ClaimAmount} = 609272 - 95999 \times \text{Educ_Yrs} + 4371 \times \text{Educ_Yrs}^2$$`
+
+
+
+
+---
+
+### Exercise D.
+
+**Comment on the suitability of the quadratic model**
+
+* The quadratic model in ***Exercise C*** seems more suitable than the linear model in ***Exercise B***.
+
+* The ***adjusted R-squared*** has increased, indicating a better fit to the data. 
+
+* Additionally, the coefficient of the quadratic term is significantly different from zero, suggesting that the inclusion of the quadratic term captures the non-linear relationship between education years and claim amounts.
+
+---
+
+### Polynomial Curve
+
+
+``` r
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in GBP)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+
+### Sorting to remove jaggedness
+
+# ix means index
+ix &lt;- sort(EducationYears,index.return=T)$ix
+
+lines(EducationYears[ix],predict(m2)[ix],col="red",type="l")
+```
+
+
+
+Sorted Indices
+
+
+``` r
+ix
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  9  8 12 16 10 11 20 14 13 15 19 17 21 24 18 22 25 23
+```
+
+---
+
+![](T1_Question_01_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

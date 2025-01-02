@@ -1,15 +1,13 @@
 ---
 title: "Statistics with R"
-subtitle: "Introduction to R for Actuarial Students"
+subtitle: "Statistical Modelling with R for Actuarial Students"
 output:
   xaringan::moon_reader:
-    css: xaringan-themer.css
     lib_dir: libs
     nature:
       highlightStyle: github
       countIncrementalSlides: false
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -21,17 +19,6 @@ library(janitor)
 
 ```
 
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_mono_accent_inverse(
-  #base_color = "#3C989E")(
-  base_color = "#1c5253",
-  header_font_google = google_font("Josefin Sans"),
-  text_font_google   = google_font("Montserrat", "300", "300i"),
-  code_font_google   = google_font("Fira Mono")
-)
-```
-
 ```{css, echo=FALSE}
 pre {
   background: #ADD8E6;
@@ -40,165 +27,311 @@ pre {
 }
 ```
 
-1 An insurance company wants to study the association between the number of years
-their clients spent in education and their claim amounts.
-Data from 25 randomly selected claims are contained in the file
-AmountYears.RData in the following two variables:
-ClaimAmount – this is the claim amount (in £).
-EducationYears – this is the number of years the client spent in education.
+
+An insurance company wants to study the association between the number of years their clients spent in education and their claim amounts.
+
+Data from 25 randomly selected claims are contained in the file <tt>AmountYears.RData</tt> in the following two variables:
+
+* <tt>ClaimAmount</tt> – this is the claim amount (in £).
+
+* <tt>EducationYears</tt> – this is the number of years the client spent in education.
 
 ---
 
-(i) Plot the claim amounts against the years of education. 
-A statistician suggests fitting a simple linear model to the data.
-(ii) (a) Fit a linear model to the data. 
-(b) Plot the regression line by adding it to the graph in part (i). 
-Another statistician looks at the plot in part (i) and suggests a non-linear relationship.
-(iii) (a) Fit a model with a quadratic term added to the model fitted in part (ii).
+### Exercises
 
-(b) State the equation of the fitted model. 
-(iv) Comment on the suitability of the quadratic model in part (iii), compared to
-the model in part (ii), based on the output from part (iii). 
+**A.** Plot the claim amounts against the years of education. 
+
+**B.** A statistician suggests fitting a simple linear model to the data.
+Fit a linear model to the data.  <br>Plot the regression line by adding it to the graph in ***Exercise A***. 
+
+**C.** Another statistician looks at the plot in ***Exercise A*** and suggests a non-linear relationship.
+Fit a model with a quadratic term added to the model fitted in ***Exercise B***.
+<br><br>State the equation of the fitted model. 
+
+**D.** Comment on the suitability of the quadratic model in ***Exercise C***, compared to
+the model in ***Exercise B***, based on the output from ***Exercise C***. 
 
 ---
 
 ## Question 1 Solutions:
 
-Let's go through the solutions for each part of the exercise step by step.
+
+```{r}
+load("StoredData/AmountYears.RData")
+```
+
 
 ---
 
-### (i) Plot the claim amounts against the years of education:
+### Inspecting the Data
 
-```r
-load("AmountYears.RData")
-plot(EducationYears, ClaimAmount, xlab = "Number of years in education", ylab = "Claim amount (in £)", main = "Scatterplot of the amount of claims against years in education")
+**Claim Amoount**
+
+```{r}
+
+length(ClaimAmount)
+
 ```
+
+
+```{r}
+
+summary(ClaimAmount)
+
+```
+
+---
+
+### Inspecting the Data
+
+**Claim Amoount**
+
+```{r}
+length(EducationYears)
+```
+
+```{r}
+summary(EducationYears)
+```
+
+
+---
+
+### Exercise A. 
+
+**Plot the claim amounts against the years of education**
+
 This code will produce a scatterplot showing the relationship between the number of years in education and the claim amounts.
 
+
+```{r eval=FALSE}
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in £)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+```
+
+
+Remark: always provide informative annotation on the graphs
+
 ---
 
-### (ii) Fit a linear model and plot the regression line:
-
-**(a) Fit a linear model:**
-
-```r
-m1 <- lm(ClaimAmount ~ EducationYears)  
-summary(m1) 
+```{r echo=FALSE,fig.width=10}
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in £)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
 ```
+
+---
+
+### Exercise B.
+
+**Fit a linear model and plot the regression line**
+
+Fit a linear model
+
+```{r}
+m1 <- lm(ClaimAmount ~ EducationYears)  
+ 
+```
+
+---
+
+### Multiple $R^2$ and Adjusted $R^2$. 
+
+When fitting linear models in R, you'll often come across two different types of $R^2$: Multiple $R^2$ and Adjusted $R^2$. 
+
+Both provide insights into the goodness-of-fit of your model, but there is a key difference.
+
+
+- **Multiple $R^2$:** Measures the proportion of variance explained by the model without considering the number of predictors.
+
+- **Adjusted $R^2$:** Adjusts the $R^2$ value to account for the number of predictors, providing a more accurate measure of model fit, especially when comparing models with different numbers of predictors.
+
+---
+
+### Exercise B.
 
 **Summary of linear model (m1):**
-```
-Call: lm(formula = ClaimAmount ~ EducationYears)
-Residuals: Min 1Q Median 3Q Max -43747 -19875 1768 18575 61813
-Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) -32220 40159 -0.802 0.43058
-EducationYears 11101 3124 3.553 0.00169 **
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-Residual standard error: 27450 on 23 degrees of freedom
-Multiple R-squared: 0.3544, Adjusted R-squared: 0.3263
-F-statistic: 12.62 on 1 and 23 DF, p-value: 0.001695
+
+
+```{r}
+coef(m1)
 ```
 
-**(b) Plot the regression line:**
-
-```r
-abline(m1, col = "red")
+```{r eval=FALSE}
+summary(m1)
 ```
-This code adds the regression line to the scatterplot.
+
 
 ---
 
-### (iii) Fit a quadratic model:
 
-**(a) Fit a model with a quadratic term:**
+```{r echo=FALSE}
+summary(m1)
+```
 
-```r
+---
+
+**Plot the regression line:**
+
+This code adds the regression line to the scatterplot.
+
+```{r eval=FALSE}
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in £)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+
+abline(m1, col = "red")
+```
+
+
+---
+
+**Plot the regression line:**
+
+```{r echo=FALSE,fig.width=10}
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in £)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+
+abline(m1, col = "red")
+```
+
+---
+
+### The `I()` function
+
+* The `I()` function in R is used to inhibit the interpretation or conversion of its argument. 
+
+* It's often applied when you want to indicate that certain values should be treated "as is" without being altered or evaluated by R. 
+
+* In model formulas, `I()` is used to indicate that an arithmetic operation should be performed directly rather than treated as part of the model structure. 
+
+---
+
+### Exercise C.
+
+**Fit a quadratic model**
+
+Fit a model with a quadratic term.
+
+```{r}
 m2 <- lm(ClaimAmount ~ EducationYears + I(EducationYears^2))  
+
+```
+
+---
+
+### Exercise C.
+
+**Summary of quadratic model (m2):**
+
+```{r}
+coef(m2)
+```
+
+```{r eval=FALSE}
 summary(m2)
 ```
 
-**Summary of quadratic model (m2):**
-```
-Call: lm(formula = ClaimAmount ~ EducationYears + I(EducationYears^2))
-Residuals: Min 1Q Median 3Q Max -51368 -15047 -2360 14008 45625
-Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) 609272 242570 2.512 0.0199 *
-EducationYears -95999 40154 -2.391 0.0258 *
-I(EducationYears^2) 4371 1635 2.674 0.0139 *
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-Residual standard error: 24380 on 22 degrees of freedom
-Multiple R-squared: 0.5127, Adjusted R-squared: 0.4684
-F-statistic: 11.57 on 2 and 22 DF, p-value: 0.000368
+---
+
+```{r echo=FALSE}
+summary(m2)
 ```
 
-**(b) State the equation of the fitted model:**
-
-The fitted model is:
-\[ \text{ClaimAmount} = 609272 - 95999 \times \text{EducationYears} + 4371 \times \text{EducationYears}^2 \]
-
 ---
 
-### (iv) Comment on the suitability of the quadratic model:
+### Exercise C.
 
-The quadratic model in part (iii) seems more suitable than the linear model in part (ii). The adjusted R-squared has increased, indicating a better fit to the data. Additionally, the coefficient of the quadratic term is significantly different from zero, suggesting that the inclusion of the quadratic term captures the non-linear relationship between education years and claim amounts.
+**coefficients of quadratic model (m2):**
 
----
-
-These steps and comments cover the solution to the given problem. If you have further questions or need additional clarification, feel free to ask!
----
-
-Q1 load("AmountYears.RData")
-(i)
-plot(EducationYears, ClaimAmount, xlab = "Number of years in education", ylab = "Claim amount (in £)", main = "Scatterplot of the amount of claims against years in education")
-
-
----
-
-(ii)
-(a)
 ```{r}
-m1 <-lm(ClaimAmount~EducationYears)  
-summary(m1) 
+coef(m2)
 ```
 
-Call: lm(formula = ClaimAmount ~ EducationYears) Residuals: Min 1Q Median 3Q Max -43747 -19875 1768 18575 61813 Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) -32220 40159 -0.802 0.43058
-<p>
 ---
 
-EducationYears 11101 3124 3.553 0.00169 ** --- Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 Residual standard error: 27450 on 23 degrees of freedom Multiple R-squared: 0.3544, Adjusted R-squared: 0.3263 F-statistic: 12.62 on 1 and 23 DF, p-value: 0.001695 
-(b)
-abline(m1, col = "red") 
+### Exercise C.
 
-(iii)(a) m2 <- lm(ClaimAmount~EducationYears + I(EducationYears^2))  
-summary(m2) Call: lm(formula = ClaimAmount ~ EducationYears + I(EducationYears^2)) Residuals: Min 1Q Median 3Q Max
-<p>
----
+**State the equation of the fitted model:**
 
--51368 -15047 -2360 14008 45625 Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) 609272 242570 2.512 0.0199 * EducationYears -95999 40154 -2.391 0.0258 * I(EducationYears^2) 4371 1635 2.674 0.0139 * --- Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 Residual standard error: 24380 on 22 degrees of freedom Multiple R-squared: 0.5127, Adjusted R-squared: 0.4684 F-statistic: 11.57 on 2 and 22 DF, p-value: 0.000368
-
----
-
-(b)
 The fitted model is:
-ClaimAmount = 609272−95999×EducationYears + 4371×EducationYears2 
+
+$$\text{ClaimAmount} = 609272 - 95999 \times \text{Educ_Yrs} + 4371 \times \text{Educ_Yrs}^2$$
+
+
+
 
 ---
 
-(iv)
-The quadratic model in part (iii) seems more suitable.
+### Exercise D.
 
-The adjusted R-squared has increased.
+**Comment on the suitability of the quadratic model**
 
-The coefficient of the quadratic term is significantly different from 0.
+* The quadratic model in ***Exercise C*** seems more suitable than the linear model in ***Exercise B***.
+
+* The ***adjusted R-squared*** has increased, indicating a better fit to the data. 
+
+* Additionally, the coefficient of the quadratic term is significantly different from zero, suggesting that the inclusion of the quadratic term captures the non-linear relationship between education years and claim amounts.
 
 ---
 
+### Polynomial Curve
 
-Commentary:
-(i), (ii): Well answered in general. A number of candidates failed to provide informative annotation on the graphs. A small number of candidates presented the graphs with the axes reversed.
-(iii): Mixed answers with some candidates not showing appropriate output.
-(iv): Not very well answered. A common error was referring to the unadjusted R-squared measure.
-<p>
+```{r eval=FALSE,fig.width=10}
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in GBP)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+
+### Sorting to remove jaggedness
+
+# ix means index
+ix <- sort(EducationYears,index.return=T)$ix
+
+lines(EducationYears[ix],predict(m2)[ix],col="red",type="l")
+```
+
+```{r echo=FALSE}
+ix <- sort(EducationYears,index.return=T)$ix
+```
+
+Sorted Indices
+
+```{r}
+ix
+```
+
 ---
+
+```{r echo=FALSE,fig.width=10}
+plot(EducationYears, ClaimAmount, 
+     xlab = "Number of years in education", 
+     ylab = "Claim amount (in GBP)", 
+     main = "Scatterplot of the amount of claims against years in education",
+     pch=16,col="blue")
+
+### Sorting to remove jaggedness
+ix <- sort(EducationYears,index.return=T)$ix
+
+
+lines(EducationYears[ix],predict(m2)[ix],col="red",type="l")
+```
+
+
+---
+
 
 
 ---

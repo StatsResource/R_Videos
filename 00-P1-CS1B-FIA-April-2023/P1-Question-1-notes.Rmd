@@ -39,28 +39,32 @@ pre {
 
 
 1 (i) Simulate 10,000 values from a N(0,1) distribution using an appropriate R 
-command. You should save the generated values in R for later use. [1] 
+command. You should save the generated values in R for later use.  
 (ii) Simulate 10,000 values from a χ4
 2 distribution using an appropriate R 
-command. You should save the generated values in R for later use. [2] 
-(iii) Discuss the main disadvantage of using the inverse transform method for 
-simulating values from a chi-square distribution. [3] 
-(iv) Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
+command. You should save the generated values in R for later use. 
+
+C. Discuss the main disadvantage of using the inverse transform method for 
+simulating values from a chi-square distribution. 
+
+D. Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
 and (ii), explaining your answer. 
-You should save the generated values in R for later use. [5] 
-(v) Simulate 10,000 values from a t20 distribution by modifying your R code from 
+You should save the generated values in R for later use.  
+
+E. Simulate 10,000 values from a t20 distribution by modifying your R code from 
 parts (i), (ii) and (iv) where necessary. 
-You should save the generated values in R for later use. [5] 
-(vi) Demonstrate an important property of the t distribution by presenting and 
+You should save the generated values in R for later use. 
+
+F. Demonstrate an important property of the t distribution by presenting and 
 comparing two appropriate plots of the values simulated in parts (iv) and (v). 
- [6] 
- [Total 22] 
+
+---
 
 **1. Simulation and Analysis**
 
 **1(i) Simulating N(0,1) values:**
 
-```R
+```{r}
 set.seed(123)  # For reproducibility
 n <- 10000
 z <- rnorm(n, mean = 0, sd = 1)
@@ -68,13 +72,18 @@ z <- rnorm(n, mean = 0, sd = 1)
 
 **1(ii) Simulating χ²₄ values:**
 
-```R
+```{r}
 chi_squared <- rchisq(n, df = 4)
 ```
+
+
+---
 
 **1(iii) Disadvantage of Inverse Transform Method for χ²:**
 
 The inverse transform method requires finding the inverse cumulative distribution function (CDF) of the chi-square distribution. For the chi-square distribution, this inverse CDF is not analytically tractable, making it computationally inefficient and potentially less accurate, especially for large degrees of freedom.
+
+---
 
 **1(iv) Simulating t₄ values:**
 
@@ -86,21 +95,31 @@ t = z / sqrt(chi_squared/df)
 
 where `z` is a standard normal random variable and `chi_squared` is a chi-square random variable with `df` degrees of freedom.
 
-```R
+```{r}
 t4 <- z / sqrt(chi_squared/4)
 ```
 
+---
+
 **1(v) Simulating t₂₀ values:**
 
-```R
+```{r}
 t20 <- z / sqrt(chi_squared/20)
 ```
 
-**1(vi) Demonstrating a Property of the t-distribution:**
+
+---
+
+### Exercise F.
+
+**Demonstrating a Property of the t-distribution:**
 
 As the degrees of freedom increase, the t-distribution approaches a standard normal distribution. We can visualize this by plotting the densities of the t₄ and t₂₀ distributions:
 
-```R
+
+---
+
+```{r}
 library(ggplot2)
 
 # Create a data frame to hold the simulated values
@@ -108,7 +127,11 @@ df <- data.frame(t4 = t4, t20 = t20)
 
 # Melt the data frame for easier plotting
 df_melted <- reshape2::melt(df)
+```
 
+---
+
+```{r}
 # Plot the densities
 ggplot(df_melted, aes(x = value, color = variable)) +
   geom_density() +
