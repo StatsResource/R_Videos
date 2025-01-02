@@ -60,7 +60,90 @@ Another statistician looks at the plot in part (i) and suggests a non-linear rel
 (iv) Comment on the suitability of the quadratic model in part (iii), compared to
 the model in part (ii), based on the output from part (iii). 
 
+---
 
+## Question 1 Solutions:
+
+Let's go through the solutions for each part of the exercise step by step.
+
+---
+
+### (i) Plot the claim amounts against the years of education:
+
+```r
+load("AmountYears.RData")
+plot(EducationYears, ClaimAmount, xlab = "Number of years in education", ylab = "Claim amount (in £)", main = "Scatterplot of the amount of claims against years in education")
+```
+This code will produce a scatterplot showing the relationship between the number of years in education and the claim amounts.
+
+---
+
+### (ii) Fit a linear model and plot the regression line:
+
+**(a) Fit a linear model:**
+
+```r
+m1 <- lm(ClaimAmount ~ EducationYears)  
+summary(m1) 
+```
+
+**Summary of linear model (m1):**
+```
+Call: lm(formula = ClaimAmount ~ EducationYears)
+Residuals: Min 1Q Median 3Q Max -43747 -19875 1768 18575 61813
+Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) -32220 40159 -0.802 0.43058
+EducationYears 11101 3124 3.553 0.00169 **
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 27450 on 23 degrees of freedom
+Multiple R-squared: 0.3544, Adjusted R-squared: 0.3263
+F-statistic: 12.62 on 1 and 23 DF, p-value: 0.001695
+```
+
+**(b) Plot the regression line:**
+
+```r
+abline(m1, col = "red")
+```
+This code adds the regression line to the scatterplot.
+
+---
+
+### (iii) Fit a quadratic model:
+
+**(a) Fit a model with a quadratic term:**
+
+```r
+m2 <- lm(ClaimAmount ~ EducationYears + I(EducationYears^2))  
+summary(m2)
+```
+
+**Summary of quadratic model (m2):**
+```
+Call: lm(formula = ClaimAmount ~ EducationYears + I(EducationYears^2))
+Residuals: Min 1Q Median 3Q Max -51368 -15047 -2360 14008 45625
+Coefficients: Estimate Std. Error t value Pr(>|t|) (Intercept) 609272 242570 2.512 0.0199 *
+EducationYears -95999 40154 -2.391 0.0258 *
+I(EducationYears^2) 4371 1635 2.674 0.0139 *
+Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Residual standard error: 24380 on 22 degrees of freedom
+Multiple R-squared: 0.5127, Adjusted R-squared: 0.4684
+F-statistic: 11.57 on 2 and 22 DF, p-value: 0.000368
+```
+
+**(b) State the equation of the fitted model:**
+
+The fitted model is:
+\[ \text{ClaimAmount} = 609272 - 95999 \times \text{EducationYears} + 4371 \times \text{EducationYears}^2 \]
+
+---
+
+### (iv) Comment on the suitability of the quadratic model:
+
+The quadratic model in part (iii) seems more suitable than the linear model in part (ii). The adjusted R-squared has increased, indicating a better fit to the data. Additionally, the coefficient of the quadratic term is significantly different from zero, suggesting that the inclusion of the quadratic term captures the non-linear relationship between education years and claim amounts.
+
+---
+
+These steps and comments cover the solution to the given problem. If you have further questions or need additional clarification, feel free to ask!
 ---
 
 Q1 load("AmountYears.RData")
