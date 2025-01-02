@@ -81,9 +81,120 @@ fitted model.
 (b) Compare, using scaled deviances, the fit of this model to that in
 part (ii).
 [7]
-[Total 23]
-END OF PAPER
+---
 
+Sure, let's break down the steps required to solve each part of this problem:
+
+---
+
+### (i) Fit a normal linear regression model to the data using claim_count as the response variable and age as the explanatory variable:
+
+```r
+load("ClaimsData.Rdata")
+model_lin <- lm(claim_count ~ age)
+model_lin$coefficients
+```
+**Output:**
+```
+(Intercept)        age 
+  4.29414532  -0.05026053
+```
+The intercept is approximately 4.29 and the slope is approximately -0.05.
+
+---
+
+### (ii) Fit a Generalised Linear Model (GLM) assuming a Poisson distribution:
+
+```r
+model_glm_age <- glm(claim_count ~ age, family = poisson)
+summary(model_glm_age)
+```
+**Output:**
+```
+Coefficients:
+(Intercept)    age 
+  1.70492  -0.02323
+
+Degrees of Freedom: 95 Total (i.e. Null); 94 Residual
+Null Deviance: 149.5
+Residual Deviance: 128.2 AIC: 349.8
+```
+The estimated coefficients for the Poisson GLM are: Intercept = 1.70492, age = -0.02323, and the AIC is 349.8.
+
+---
+
+### (iii) Explain why scaled deviances cannot be used to compare the fit of the models:
+
+Comparison using scaled deviances is only valid for nested models. In this case, the normal linear regression model assumes a normal distribution, whereas the GLM assumes a Poisson distribution. Therefore, neither model is a subset of the other, making scaled deviances inappropriate for comparison.
+
+---
+
+### (iv) Fit a GLM equivalent to the normal linear regression model:
+
+```r
+model_lin_glm <- glm(claim_count ~ age, family = gaussian)
+summary(model_lin_glm)
+```
+**Output:**
+```
+Coefficients:
+(Intercept)    age 
+  4.29415  -0.05026
+
+Degrees of Freedom: 95 Total (i.e. Null); 94 Residual
+Null Deviance: 295.8
+Residual Deviance: 249.3 AIC: 370
+```
+The estimated coefficients for the Gaussian GLM are: Intercept = 4.29415, age = -0.05026, and the AIC is 370.
+
+---
+
+### (v) Compare the fit of the models:
+
+The AIC of the Poisson model (part (ii)) is lower than that of the Gaussian model (part (iv)). Therefore, the Poisson GLM provides a better fit.
+
+---
+
+### (vi) (a) Fit a Poisson GLM with age*gender interaction term:
+
+```r
+model_glm_full <- glm(claim_count ~ age*gender, family = poisson)
+summary(model_glm_full)
+```
+**Output:**
+```
+Coefficients:
+(Intercept)    age   genderM  age:genderM 
+  1.84642   -0.03459  -0.18217   0.01805
+
+Degrees of Freedom: 95 Total (i.e. Null); 92 Residual
+Null Deviance: 149.5
+Residual Deviance: 113.5 AIC: 339
+```
+The estimated coefficients for the full model are: Intercept = 1.84642, age = -0.03459, genderM = -0.18217, age:genderM = 0.01805, and the AIC is 339.
+
+### (vi) (b) Compare using scaled deviances:
+
+To compare the models using scaled deviances:
+
+```r
+anova(model_glm_age, model_glm_full, test = "Chisq")
+```
+**Output:**
+```
+Analysis of Deviance Table
+Model 1: claim_count ~ age 
+Model 2: claim_count ~ age * gender
+Resid. Df Resid. Dev Df Deviance Pr(>Chi)
+1  94 128.25 
+2  92 113.46 2 14.789 0.0006148 ***
+```
+The p-value is clearly significant (less than 0.1%). Therefore, the GLM with age*gender is a significant improvement over that with age alone.
+
+---
+
+These steps and comments provide a detailed solution to the given problem. If you have further questions or need additional clarification, feel free to ask!
+---
 Q5
 Load the data:
 > load("ClaimsData.Rdata")
