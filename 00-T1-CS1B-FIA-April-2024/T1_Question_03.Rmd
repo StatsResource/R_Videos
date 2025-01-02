@@ -56,7 +56,82 @@ The student assumes that the test score, 𝑋, which is the number of correctly 
 questions per test, has a binomial distribution, 𝑋 ∼ Bin􁈺𝑛, 𝑝􁈻 with 𝑛 􀵌 20.
 
 ---
+## Question 3 Solutions:
 
+Let's go through the solutions step by step.
+
+---
+
+### (i) Estimate the parameter \( p \) using the test scores:
+
+```r
+load("MCtestResults.RData")
+p = sum(CorrectOutOf20Questions) / (50 * 20)
+p # 0.568
+```
+The parameter \( p \) is estimated as 0.568, which represents the probability of answering a question correctly.
+
+---
+
+### (ii) Calculate the probability that the student will pass a test:
+
+To pass the test, the student needs at least 16 correct answers out of 20.
+
+```r
+1 - pbinom(15, 20, p) # 0.02747446
+```
+The probability that the student will pass the test is approximately 0.0275.
+
+---
+
+### (iii) Calculate the proportion of practice tests that the student has passed:
+
+```r
+sum(CorrectOutOf20Questions > 15) / 50
+# 0.18
+```
+The proportion of practice tests that the student has passed is 0.18, meaning the student passed 18% of the practice tests.
+
+---
+
+### (iv) Comment on the probability that the student will pass a test:
+
+The results in parts (ii) and (iii) are both estimates of the success probability in a multiple-choice test. The answer in part (ii) relies on the estimate of \( p \) from part (i) and considers the entire distribution of test results, while the answer in part (iii) treats the test results as a Bernoulli random variable (1 for pass and 0 for fail). Therefore, in part (iii), it does not matter by how far the result is from the pass mark, while it does in part (ii).
+
+---
+
+### (v) Plot the number of correct answers in each of the practice tests against the test number:
+
+```r
+plot(TrialNumber, CorrectOutOf20Questions, ylim = c(0, 20),
+     main = "Correct answers per test",
+     ylab = "Number of correct answers (out of 20)", xlab = "Test number")
+```
+This code produces a plot showing the number of correct answers in each practice test against the test number.
+
+---
+
+### (vi) Comment on the plot in part (v):
+
+The plot shows an upward trend, indicating a positive correlation between the test number and the number of correct answers. This suggests that the student is improving their results with practice.
+
+---
+
+### (vii) Calculate the probability for the student to pass the next test (test number 51):
+
+The linear model predicts 18.085 correct answers for the next test.
+
+```r
+p = 18.085 / 20
+p # 0.90425
+# Probability of passing the test
+1 - pbinom(15, 20, p) # 0.9632752
+```
+The estimated probability of passing the next test (test number 51) is approximately 0.9633.
+
+---
+
+These steps and comments cover the solution to the given problem. If you have further questions or need additional clarification, feel free to ask!
 
 ---
 
@@ -104,6 +179,8 @@ ylab="Number of correct answers (out of 20)", xlab="Test number")
 (vi)
 The plot in part (v) shows an upward trend, or positive correlation between test number and the number of correct answers. 
 Suggesting that the student is improving their results with practicing. 
+
+---
 (vii)
 Estimated probability of answering a question correctly:
 p = 18.085/20 
@@ -114,6 +191,11 @@ p # 0.90425
 <p>
 ---
 
+
+---
+
+
+---
 Commentary:
 (i) Very well answered.
 (ii) Well answered in general. A common error was using 16 instead of 15 in the CDF (pbinom) calculation.
