@@ -55,11 +55,11 @@ style_mono_accent_inverse(
 </style>
 
 ## Time Series Analysis
-### Worked Example - Part B
+### Analyzing and Visualizing Time Series Data of Company Expenses
 <br><br><br><br><br><br>
 ## <tt>Statistical Computing with R</tt>
 ###<tt>Risk Modelling & Survival Analysis</tt>
-###<tt>CS2B (ASI - November 2023)  
+###<tt>CS2B (ASI - March 2021)  
 
 ---
 

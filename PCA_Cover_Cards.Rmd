@@ -41,7 +41,7 @@ style_mono_accent_inverse(
   #base_color = "#4169e1", #)(vvv#TREES
   #background_color = "#E6E6FA",  #TREE
   base_color = "black", #)(
-  background_color =  "#B7E892",,
+  background_color =  "#109FFD",
   text_color="black",
   text_bold_color = "black",
   header_font_google = google_font("Josefin Sans"),
@@ -54,12 +54,13 @@ style_mono_accent_inverse(
   remark-slide-number { display: none; } 
 </style>
 
-## Probability Distributions
-### Estimating the Poisson Rate Parameter
-### Analyzing Insurance Transaction Data for Premiums and Claims
+## Principal Component Analysis
+### Principal Component Analysis with the "mtcars" Dataset 
 <br><br><br><br>
-## <tt>Probability with R</tt>
-### <tt>CS2B (ASI, March 2021)</tt>
+## <tt>Statistical Computing with R</tt>
+###<tt>Introduction to R</tt>
+###<tt>CS1B (ASI,November 2020)
+ 
 
 ---
 

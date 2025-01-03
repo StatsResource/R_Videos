@@ -3,9 +3,8 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,13 +22,9 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
+
+
+
 
 * Introduction to R for Actuarial Students
 
@@ -45,7 +40,9 @@ pre {
 ### Exercise
 
 Consider a sample of 10,000 car insurance policies sold to drivers who have had a 
-driving licence for no more than 5 years. The data are given in the file 
+driving licence for no more than 5 years. 
+&lt;br&gt;
+The data are given in the file 
 &lt;tt&gt;CarInsurance.Rdata&lt;/tt&gt;, which contains the following four variables: 
 
 * ***age***: a factor taking the values 0 for young and 1 for old; this refers to the age of 
@@ -56,7 +53,7 @@ of the current year.
 start of the current year. 
 * ***claims***: the number of claims the policyholder submitted during the current year. 
 
-
+&lt;br&gt;
 It has been suggested that drivers belonging to the old age category have more years 
 of no claims discount than younger drivers. 
 
@@ -67,7 +64,7 @@ of no claims discount than younger drivers.
 
 
 
-```r
+``` r
 load("CarInsurance.Rdata")
 ls()
 ```
@@ -78,52 +75,50 @@ ls()
 
 ---
 
-#### Exercises 
+## Exercises
 
-A. Plot two histograms for the number of years with no claims discount, one for 
+**A.** Plot two histograms for the number of years with no claims discount, one for 
 young policyholders and another for old policyholders. 
 
-B. Comment on the suggestion that drivers belonging to the old age category 
+**B.** Comment on the suggestion that drivers belonging to the old age category 
 have more years of no claims discount than young drivers, using the 
 histograms from part (A).  
 
-C. Calculate the proportion of policyholders with more than 2 years of no claims discount among 
+**C.** Calculate the proportion of policyholders with more than 2 years of no claims discount among 
 young policyholders. 
 
-D. Calculate the proportion of policyholders with more than 2 years of no claims discount among old 
+**D.** Calculate the proportion of policyholders with more than 2 years of no claims discount among old 
 policyholders. 
+
+**E.** Test the hypothesis that the proportion of policyholders with more than 2 
+years of no claims discount is equal in both groups (young and old 
+policyholders). 
+
 
 ---
 
-#### Part (A)
+### Exercise A.
 
 Plot histograms for no claims discount years:
 
 
-```r
+``` r
 NCD_old = NCD[age==1] 
 NCD_young = NCD[age==0] 
 
 hist(NCD_old, prob=TRUE, breaks = c(0,1,2,3,4,5)) 
 ```
 
-![](K1_Question_3_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
-
 ---
 
-
-```r
-hist(NCD_young, prob=TRUE, breaks = c(0,1,2,3,4,5)) 
-```
-
-![](K1_Question_3_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](K1_Question_3_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
 ---
 
 Alternative R code (this produces more accurate plots):
 
 
-```r
+``` r
 hist(NCD_young, breaks=seq(-0.5,5.5,by=1))
 
 hist(NCD_old, breaks=seq(-0.5,5.5,by=1))
@@ -131,18 +126,24 @@ hist(NCD_old, breaks=seq(-0.5,5.5,by=1))
 
 ---
 
-#### Part (B)
-The distribution for old policyholders is more concentrated on the right, 
-so the number of years of NCD seems to be higher for old policyholders. 
+Alternative R code (this produces more accurate plots):
+
+![](K1_Question_3_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;![](K1_Question_3_files/figure-html/unnamed-chunk-6-2.png)&lt;!-- --&gt;
 
 ---
 
-#### Part (C)
+### Exercise B.
+
+* The distribution for old policyholders is more concentrated on the right, so the number of years of NCD seems to be higher for old policyholders. 
+
+---
+
+### Exercise C.
 
 Calculate proportions:
 
 
-```r
+``` r
 prop_young = sum(NCD_young &gt; 2)/length(NCD_young) 
 prop_young
 ```
@@ -152,7 +153,7 @@ prop_young
 ```
 
 
-```r
+``` r
 prop_young = mean(NCD_young &gt; 2)
 prop_young
 ```
@@ -166,19 +167,21 @@ Proportion is 0.5736150
 
 ---
 
+### Exercise D.
+
 Alternative R code:
 
 
-```r
-length(NCD_young[NCD_young&gt;2])/length(NCD_young)
+``` r
+length(NCD_old[NCD_old&gt;2])/length(NCD_old)
 ```
 
 ```
-## [1] 0.573615
+## [1] 0.9704187
 ```
 
 
-```r
+``` r
 prop_old = sum(NCD_old &gt; 2)/length(NCD_old) 
 prop_old
 ```
@@ -187,12 +190,15 @@ prop_old
 ## [1] 0.9704187
 ```
 Proportion is 0.9704187 
+
 ---
+
+### Exercise D.
 
 Alternative R code:
 
 
-```r
+``` r
 length(NCD_old[NCD_old&gt;2])/length(NCD_old)
 ```
 
@@ -200,23 +206,16 @@ length(NCD_old[NCD_old&gt;2])/length(NCD_old)
 ## [1] 0.9704187
 ```
 
----
-
-#### Exercises
-
-E. Test the hypothesis that the proportion of policyholders with more than 2 
-years of no claims discount is equal in both groups (young and old 
-policyholders). 
 
 ---
 
-#### Part (E)
+### Exercise E.
 
 Test the hypothesis that prop of `\(NCD &gt;2\)` is equal for young and old, against alternative that 
 proportions are not equal: 
 
 
-```r
+``` r
 NCDgreaterTwo = c(sum(NCD_young &gt; 2), sum(NCD_old &gt; 2)) 
 
 head(NCDgreaterTwo)
@@ -227,7 +226,7 @@ head(NCDgreaterTwo)
 ```
 
 
-```r
+``` r
 YoungOld = c(length(NCD_young), length(NCD_old)) 
 
 head(YoungOld)
@@ -239,12 +238,12 @@ head(YoungOld)
 
 ---
 
-#### Part E
+### Exercise E.
 
 Two-sample test for equality of proportions:
 
 
-```r
+``` r
 prop.test(NCDgreaterTwo, YoungOld, correct=F) 
 ```
 
@@ -265,32 +264,47 @@ prop.test(NCDgreaterTwo, YoungOld, correct=F)
 
 The `\(p\)`-value is very small, therefore we reject the null hypothesis of equal proportions. 
 
----
 
-END
 
 ---
+
 ### Exercises
 
 An analyst assumes that the number of claims per year has a Poisson distribution. The 
 analyst wishes to fit a generalised linear model (GLM) to the observed claim counts 
-using age,LY and NCD as explanatory variables. 
+using age, LY and NCD as explanatory variables. 
 
 
-F. Fit a GLM to the claim counts with age, LY and NCD as the main effect 
-explanatory variables.
+**F.** Fit a GLM to the claim counts with age, LY and NCD as the main effect explanatory variables.
 
 
-----
+**G.** To simplify the integration of the model into business processes, an insurer wishes to 
+use only models with at most two explanatory variables. 
+
+Determine which two explanatory variables (out of age, LY and NCD) should 
+be used in a GLM for the claim counts if only two explanatory variables are 
+allowed. 
+
+**H.** Comment on the comparison of the fit of the various candidate models.  
+
+---
 
 
-#### Part (F)
+### Exercise F.
 
 
+**Fit a GLM to the claim counts with age, LY and NCD as the main effect 
+explanatory variables.**
 
-```r
+
+``` r
 glm(claims ~ factor(age) + LY + NCD, family = poisson) 
+
+summary(glm(claims ~ age + LY + NCD, family = poisson)) 
 ```
+
+---
+
 
 ```
 ## 
@@ -303,10 +317,6 @@ glm(claims ~ factor(age) + LY + NCD, family = poisson)
 ## Degrees of Freedom: 9999 Total (i.e. Null);  9996 Residual
 ## Null Deviance:	    11570 
 ## Residual Deviance: 11020 	AIC: 23100
-```
-
-```r
-summary(glm(claims ~ age + LY + NCD, family = poisson)) 
 ```
 
 ```
@@ -334,25 +344,13 @@ summary(glm(claims ~ age + LY + NCD, family = poisson))
 
 ---
 
-
-To simplify the integration of the model into business processes, an insurer wishes to 
-use only models with at most two explanatory variables. 
-
-G. Determine which two explanatory variables (out of age, LY and NCD) should 
-be used in a GLM for the claim counts if only two explanatory variables are 
-allowed. 
-
-H. Comment on the comparison of the fit of the various candidate models.  
-
----
-
-#### Part (G)
+### Exercise G.
 
 We need to fit the three possible models with two variables each and compare the AIC 
 values:
 
 
-```r
+``` r
 glm(claims ~ LY + NCD, family = poisson)$aic
 ```
 
@@ -360,8 +358,16 @@ glm(claims ~ LY + NCD, family = poisson)$aic
 ## [1] 23102.41
 ```
 
-```r
+``` r
 # 23102.41 
+```
+
+---
+
+### Exercise G
+
+
+``` r
 glm(claims ~ age+LY, family = poisson)$aic
 ```
 
@@ -369,8 +375,16 @@ glm(claims ~ age+LY, family = poisson)$aic
 ## [1] 23125.08
 ```
 
-```r
+``` r
 # 23125.08 
+```
+
+---
+
+### Exercise G
+
+
+``` r
 glm(claims ~ age+NCD, family = poisson)$aic
 ```
 
@@ -378,7 +392,7 @@ glm(claims ~ age+NCD, family = poisson)$aic
 ## [1] 23131.97
 ```
 
-```r
+``` r
 # 23131.97 
 ```
 
@@ -386,7 +400,7 @@ Model LY + NCD has the smallest AIC value and should be preferred.
 
 ---
 
-#### Part (H)
+### Exercise H.
 
 * The AIC for model LY + NCD (23102) is slightly lower than the AIC for
 age + LY + NCD (23104), but the AIC values are very close. 
@@ -394,6 +408,9 @@ age + LY + NCD (23104), but the AIC values are very close.
 * We would prefer model LY + NCD as it also involves fewer variables (it is a smaller 
 model). 
 ---
+
+---
+
 
 ---
     </textarea>

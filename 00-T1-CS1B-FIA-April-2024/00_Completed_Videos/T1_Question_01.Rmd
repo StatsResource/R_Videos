@@ -66,7 +66,7 @@ load("StoredData/AmountYears.RData")
 
 ### Inspecting the Data
 
-**Claim Amoount**
+**Claim Amount**
 
 ```{r}
 
@@ -85,7 +85,7 @@ summary(ClaimAmount)
 
 ### Inspecting the Data
 
-**Claim Amoount**
+**Education Years**
 
 ```{r}
 length(EducationYears)
@@ -121,7 +121,7 @@ Remark: always provide informative annotation on the graphs
 ```{r echo=FALSE,fig.width=10}
 plot(EducationYears, ClaimAmount, 
      xlab = "Number of years in education", 
-     ylab = "Claim amount (in £)", 
+     ylab = "Claim amount (in GBP)", 
      main = "Scatterplot of the amount of claims against years in education",
      pch=16,col="blue")
 ```
