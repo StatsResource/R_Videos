@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="M1-Question3_files/header-attrs-2.25/header-attrs.js"></script>
+    <script src="M1-Question3_files/header-attrs-2.29/header-attrs.js"></script>
     <link href="M1-Question3_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="M1-Question3_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -41,48 +41,80 @@ pre {
 * Question 3
 ---
 
+### Annual Average Rainfall Comparison
 
-Q. 3) An analysis was carried out to investigate the annual average rainfall of two countries. 
-The data is as below:
-Iran: 128,125,133,104,146,132,125,118,129,124
-Belgium:160,128,169,105,151,164,162,177,185,150,182,158,156,123,141,176,162,172
+An analysis was carried out to investigate the annual average rainfall of two countries. 
+
+Here is the rainfall data for Iran and Belgium from 1974 to 1991. 
+
+Some information for Iran is missing.
+
+
+
+| Year | Iran | Belgium | Year | Iran | Belgium |
+|------|------|---------|------|------|---------|
+| 1974 | 128  | 160     | 1983 |      | 150     |
+| 1975 | 125  | 128     | 1984 |      | 182     |
+| 1976 | 133  | 169     | 1985 |      | 158     |
+| 1977 | 104  | 105     | 1986 |      | 156     |
+| 1978 | 146  | 151     | 1987 |      | 123     |
+| 1979 | 132  | 164     | 1988 |      | 141     |
+| 1980 | 125  | 162     | 1989 | 118  | 176     |
+| 1981 |      | 177     | 1990 | 129  | 162     |
+| 1982 |      | 185     | 1991 | 124  | 172     |
+
+---
+
+The analysis will use the recorded values.
+
+
+``` r
+Iran &lt;- c(128,125,133,104,146,132,125,118,129,124)
+
+Belgium &lt;- c(160,128,169,105,151,164,162,177,185,150,
+             182,158,156,123,141,176,162,172)
+```
+
+---
+
 
 #### Exercises
 
-1.  Perform a suitable test to determine whether the rainfall in both countries has equal 
-variance or not, at the 5% confidence level. (6)
-2.  Test whether the mean rainfall in both countries is equal or not, at 5% confidence 
+**A**.  Perform a suitable test to determine whether the rainfall in both countries has equal 
+variance or not, at the 5% significance level. 
+
+**B**.  Test whether the mean rainfall in both countries is equal or not, at 5% significance
 level. 
-3.   Calculate the 95% confidence interval for difference in means. 
-4.  Comment on the results in part (2.  and (3.  .
----
 
+**C**.   Calculate the 95% confidence interval for difference in means. 
 
-```r
-Iran &lt;- c(128,125,133,104,146,132,125,118,129,124)
-Belgium &lt;- c(160,128,169,105,151,164,162,177,185,150,182,158,156,123,141,176,162,172)
-```
+**D**.  Comment on the results in exercises C and D.
 
----
-
-Solution 3:
-i)
-H0: Annual average rainfall of Belgium and Iran are same
-H1: Annual average rainfall of Belgium and Iran are not same
-
-
-
-```r
-Iran &lt;- c(128,125,133,104,146,132,125,118,129,124)
-Belgium &lt;- c(160,128,169,105,151,164,162,177,185,150,182,158,156,123,141,176,162,172)
-```
 
 ---
 
 
-```r
+### Exercise A. 
+
+**Equal Variance Test**
+
+Performing an F-test to determine if the variances of rainfall between Iran and Belgium are equal.
+
+
+#### Hypotheses
+
+`\(H_0\)`: Variances of annual average rainfall of Belgium and Iran are same
+
+`\(H_1\)`: Variances of annual average rainfall of Belgium and Iran are different
+
+
+
+``` r
 var.test(Iran, Belgium)
 ```
+
+---
+
 
 ```
 ## 
@@ -99,15 +131,22 @@ var.test(Iran, Belgium)
 ```
 
 
-Since p-value &lt; 0.05 we fail the variance test thus we reject the null hypothesis that both have equal 
-variance
+### Conclusion
+
+With the p-value &lt; 0.05, we reject the null hypothesis, concluding that the variances are not equal.
+
+
 
 ---
 
-### Part B
+### Exercise B.
+
+**Mean Rainfall Hypothesis Test**
+
+Using a t-test with unequal variances to test if the mean rainfall is the same:
 
 
-```r
+``` r
 t.test(Iran, Belgium, var.equal = FALSE)
 ```
 
@@ -124,9 +163,29 @@ t.test(Iran, Belgium, var.equal = FALSE)
 ## mean of x mean of y 
 ##  126.4000  156.7222
 ```
+Since the p-value &lt; 0.05, we reject the null hypothesis and conclude that the mean rainfall in Iran and Belgium is different with 95% confidence.
+
+---
 
 
-#### Conclusion
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  Iran and Belgium
+## t = -4.9984, df = 25.904, p-value = 3.407e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -42.79403 -17.85041
+## sample estimates:
+## mean of x mean of y 
+##  126.4000  156.7222
+```
+
+
+
+### Conclusion
 
 Since, P-value&lt;0.05 we reject the null hypothesis and can conclude that both cities have different amount 
 of rainfall with 95% confidence.
@@ -135,20 +194,26 @@ of rainfall with 95% confidence.
 
 ### Exercise C
 
-* Confidence interval can be read from part B
+* The 95% confidence interval for the difference in means is provided in the output of the t-test:
 
-* 95 percent confidence interval:
--42.79403 -17.85041
+```
+95 percent confidence interval:
+
+-42.79403 to -17.85041
+```
 
 ---
 
 ### Exercise D
 
-* The confidence interval (-42.8,-17.8) does not contain 0. 
-* Therefore the assumption of equal means is 
-not true. 
+**Commentary**
 
-* This result is in line with the conclusion in part (b). 
+- The confidence interval (-42.8, -17.8) does not contain 0, indicating that the mean rainfall is significantly different between the two countries.
+
+- This result aligns with the conclusion from the t-test in Exercise B, affirming that Iran and Belgium have different average annual rainfall.
+
+
+---
 
 ---
     </textarea>

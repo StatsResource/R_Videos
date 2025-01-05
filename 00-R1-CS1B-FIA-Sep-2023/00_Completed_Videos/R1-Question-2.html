@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Statistics with R
 ]
 .subtitle[
-## Introduction to R for Actuarial Students
+## Statistical Modelling with R for Actuarial Students
 ]
 
 ---
@@ -31,17 +31,18 @@ pre {
 }
 &lt;/style&gt;
 
-* Introduction to R for Actuarial Students
-
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
 
 ---
 
+### Investigating the Proportion of Electric Cars in Two Populations
+
+#### Description:
+
+This exercise involves simulating data, estimating confidence intervals, and performing hypothesis testing to investigate the proportion of electric cars among registered cars in two large populations (A and B).
+
+
+This exercise demonstrates how to simulate data, estimate confidence intervals, and perform hypothesis testing using R. 
+---
 
 A researcher wants to investigate the proportion of electric cars among all registered
 cars in two large populations (denoted as populations A and B). 
@@ -49,8 +50,8 @@ cars in two large populations (denoted as populations A and B).
 * Two samples are
 considered, one from each population. 
 
-* The first sample consists of nA = 900 registered
-cars, while the second sample consists of nB = 1,200 registered cars. 
+* The first sample consists of `\(n_A = 900\)` registered
+cars, while the second sample consists of `\(n_B = 1,200\)` registered cars. 
 
 * The type of each
 car (electric or not) is assumed to be independent of the type of other cars in the
@@ -59,40 +60,236 @@ samples.
 ---
 
 ### Exercises 
-(i) Simulate the two samples in R assuming that the proportion of electric cars in
+
+**A.** Simulate the two samples in R assuming that the proportion of electric cars in
 population A is 0.02, while in population B it is 0.025, and save the simulated
 samples for later use.
-You must use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random
-number generator, before you start the simulation. 
 
----
+&lt;i&gt;You must use the command &lt;tt&gt;set.seed(12345)&lt;/tt&gt; to initialise the random
+number generator, before you start the simulation.&lt;/i&gt;
 
-The true proportions of electric cars in the two populations are unknown to the
+**B.** The true proportions of electric cars in the two populations are unknown to the
 researcher, and the researcher wants to estimate them.
 
-
-(ii) Determine an equal-tailed 99% confidence interval for the difference in the
+Determine an equal-tailed 99% confidence interval for the difference in the
 true proportions of electric cars in the two populations A and B, using your
 sample data. 
-Based on previous knowledge, the researcher believes that the proportion of electric
-cars in population A is lower than the proportion of electric cars in population B.
 
 ---
 
-(iii) Perform a hypothesis test to investigate this belief using your sample data. In
-doing so, you should include the following steps, in addition to any other
+**C.** Based on previous knowledge, the researcher believes that the proportion of electric
+cars in population A is lower than the proportion of electric cars in population B.
+
+Perform a hypothesis test to investigate this belief using your sample data. 
+
+In doing so, you should include the following steps, in addition to any other
 necessary steps:
 *  Compute the value of a suitable test statistic under an appropriate normal
 approximation.
 *  Compute the p-value of the test.
 *  State your conclusion based on the calculated p-value.
 
---- 
+
+
+---
+
+### Exercise A.
+
+**Simulate the Two Samples**
+
+* Simulate two samples assuming the proportion of electric cars in population A is 0.02, while in population B it is 0.025. 
+
+* Initialize the random number generator with `set.seed(12345)`.
+
+
+
+``` r
+set.seed(12345)
+data.A = rbinom(900, 1, 0.020)
+data.B = rbinom(1200, 1, 0.025)
+```
+
+---
+
+### First 150 outcomes for both groups
+
+
+``` r
+data.A[1:150]
+```
+
+```
+##   [1] 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+##  [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [112] 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
+## [149] 0 0
+```
+
+
+
+``` r
+data.B[1:150]
+```
+
+```
+##   [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+##  [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0
+## [112] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [149] 0 0
+```
+
+---
+
+
+
+### Exercise B. 
+
+**Determine a 99% Confidence Interval for the Difference in Proportions**
+
+Using the sample data, determine an equal-tailed 99% confidence interval for the difference in the true proportions of electric cars in populations A and B.
+
+
+``` r
+n.A = length(data.A)
+n.B = length(data.B)
+
+p.hat.A = sum(data.A) / n.A
+p.hat.B = sum(data.B) / n.B
+```
+
+---
+
+***Point Estimates***
+
+``` r
+print(p.hat.A)
+```
+
+```
+## [1] 0.02111111
+```
+
+``` r
+print(p.hat.B)
+```
+
+```
+## [1] 0.02916667
+```
+
+
+---
+
+***Standard Error***
+
+
+``` r
+ese.diff = sqrt(p.hat.A * (1 - p.hat.A) / n.A + p.hat.B * (1 - p.hat.B) / n.B)
+```
+
+
+***Quantiles***
+
+
+``` r
+Zs = c(-1, 1) * qnorm(0.995)
+Zs
+```
+
+```
+## [1] -2.575829  2.575829
+```
+
+***Confidence Intervals***
+
+
+``` r
+ci.p.diff = (p.hat.A - p.hat.B) + (Zs * ese.diff)
+ci.p.diff
+```
+
+```
+## [1] -0.025631365  0.009520254
+```
+
+
+The 99% CI for the difference in proportions is [-0.025631365, 0.009520254].
+
+---
+
+
+### Exercise C.
+
+**Perform a Hypothesis Test**
+
+Perform a hypothesis test to investigate whether the proportion of electric cars in population A is lower than in population B.
+
+**Hypotheses:**
+- `\(H_0: p_A = p_B\)`
+- `\(H_1: p_A &lt; p_B\)`
+
+---
+
+***Aggregate Proportion***
+
+``` r
+p.hat.common = (sum(data.A) + sum(data.B)) / (n.A + n.B)
+```
+
+***Standard Error***
+
+``` r
+ese.diff.H0 = sqrt(p.hat.common * (1 - p.hat.common) * (1 / n.A + 1 / n.B))
+```
+
+***Test Statistic***
+
+``` r
+stat.diff = (p.hat.A - p.hat.B) / ese.diff.H0
+stat.diff
+```
+
+```
+## [1] -1.154163
+```
+
+---
+
+***p-value***
+
+``` r
+pvalue.diff = pnorm(stat.diff)
+pvalue.diff
+```
+
+```
+## [1] 0.1242166
+```
+
+
+---
+
+**Conclusion:**
+
+* The value of the test statistic is -1.154163, and the p-value is 0.1242166. 
+
+* Since the p-value is greater than the typical significance level (e.g., 0.05), we do not reject the null hypothesis. 
+
+* Therefore, we do not have sufficient evidence to conclude that the proportion of electric cars in population A is lower than in population B.
+
+---
+
+
+
+---
+
 Q2
 (i)
 Simulate samples:
 
-```r
+``` r
 set.seed(12345)
 data.A = rbinom(900,1,0.020)
 data.B = rbinom(1200,1,0.025)
@@ -103,11 +300,11 @@ data.B = rbinom(1200,1,0.025)
 
 (ii)
 
-```r
+``` r
 n.A = length(data.A); n.B = length(data.B)
-thetahat.A = sum(data.A)/n.A
-thetahat.B = sum(data.B)/n.B
-thetahat.A; thetahat.B
+p.hat.A = sum(data.A)/n.A
+p.hat.B = sum(data.B)/n.B
+p.hat.A; p.hat.B
 ```
 
 ```
@@ -118,7 +315,7 @@ thetahat.A; thetahat.B
 ## [1] 0.02916667
 ```
 
-```r
+``` r
 # 0.02111111
 # 0.02916667 
 ```
@@ -131,8 +328,8 @@ Part (iv) was not well answered, with comments often being vague or not consiste
 ---
 
 
-```r
-ese.diff = sqrt( thetahat.A*(1-thetahat.A)/n.A + thetahat.B*(1-thetahat.B)/n.B )
+``` r
+ese.diff = sqrt( p.hat.A*(1-p.hat.A)/n.A + p.hat.B*(1-p.hat.B)/n.B )
 ese.diff
 ```
 
@@ -140,17 +337,17 @@ ese.diff
 ## [1] 0.006823359
 ```
 
-```r
+``` r
 # 0.006823359 
-ci.theta.diff = (thetahat.A-thetahat.B) + c(-1,1)*qnorm(0.995)*ese.diff
-ci.theta.diff
+ci.p.diff = (p.hat.A-p.hat.B) + c(-1,1)*qnorm(0.995)*ese.diff
+ci.p.diff
 ```
 
 ```
 ## [1] -0.025631365  0.009520254
 ```
 
-```r
+``` r
 # -0.025631365 0.009520254 
 ```
 
@@ -160,16 +357,16 @@ The 99% CI for the difference in proportions is [-0.025631365, 0.009520254]
 ### Part C
 
 #### Hypotheses:
-H0: theta_A = theta_B 
+H0: p_A = p_B 
 v. 
-H1: theta_A &lt; theta_B 
+H1: p_A &lt; p_B 
 
 #### Statistic:
 
 
-```r
-thetahat.common = (sum(data.A)+sum(data.B))/(n.A+n.B)
-thetahat.common
+``` r
+p.hat.common = (sum(data.A)+sum(data.B))/(n.A+n.B)
+p.hat.common
 ```
 
 ```
@@ -182,8 +379,8 @@ thetahat.common
 #### Standard Error
 
 
-```r
-ese.diff.H0 = sqrt( thetahat.common*(1-thetahat.common) * (1/n.A + 1/n.B))
+``` r
+ese.diff.H0 = sqrt( p.hat.common*(1-p.hat.common) * (1/n.A + 1/n.B))
 ese.diff.H0
 ```
 
@@ -191,7 +388,7 @@ ese.diff.H0
 ## [1] 0.006979562
 ```
 
-```r
+``` r
 # 0.006979562 
 ```
 
@@ -199,8 +396,8 @@ ese.diff.H0
 
 
 
-```r
-stat.diff = (thetahat.A-thetahat.B)/ese.diff.H0
+``` r
+stat.diff = (p.hat.A-p.hat.B)/ese.diff.H0
 stat.diff
 ```
 
@@ -214,7 +411,7 @@ The value of the statistic is -1.154163
 P-value:
 
 
-```r
+``` r
 pvalue.diff = pnorm(stat.diff)
 pvalue.diff
 ```

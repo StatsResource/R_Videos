@@ -1,0 +1,175 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+lib_dir: libs
+nature:
+  highlightStyle: github
+  countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 3
+---
+
+### Annual Average Rainfall Comparison
+
+An analysis was carried out to investigate the annual average rainfall of two countries. 
+
+Here is the rainfall data for Iran and Belgium from 1974 to 1991. 
+
+Some information for Iran is missing.
+
+
+
+| Year | Iran | Belgium | Year | Iran | Belgium |
+|------|------|---------|------|------|---------|
+| 1974 | 128  | 160     | 1983 |      | 150     |
+| 1975 | 125  | 128     | 1984 |      | 182     |
+| 1976 | 133  | 169     | 1985 |      | 158     |
+| 1977 | 104  | 105     | 1986 |      | 156     |
+| 1978 | 146  | 151     | 1987 |      | 123     |
+| 1979 | 132  | 164     | 1988 |      | 141     |
+| 1980 | 125  | 162     | 1989 | 118  | 176     |
+| 1981 |      | 177     | 1990 | 129  | 162     |
+| 1982 |      | 185     | 1991 | 124  | 172     |
+
+---
+
+The analysis will use the recorded values.
+
+```{r}
+Iran <- c(128,125,133,104,146,132,125,118,129,124)
+
+Belgium <- c(160,128,169,105,151,164,162,177,185,150,
+             182,158,156,123,141,176,162,172)
+```
+
+---
+
+
+#### Exercises
+
+**A**.  Perform a suitable test to determine whether the rainfall in both countries has equal 
+variance or not, at the 5% significance level. 
+
+**B**.  Test whether the mean rainfall in both countries is equal or not, at 5% significance
+level. 
+
+**C**.   Calculate the 95% confidence interval for difference in means. 
+
+**D**.  Comment on the results in exercises C and D.
+
+
+---
+
+
+### Exercise A. 
+
+**Equal Variance Test**
+
+Performing an F-test to determine if the variances of rainfall between Iran and Belgium are equal.
+
+
+#### Hypotheses
+
+$H_0$: Variances of annual average rainfall of Belgium and Iran are same
+
+$H_1$: Variances of annual average rainfall of Belgium and Iran are different
+
+
+```{r eval=FALSE}
+var.test(Iran, Belgium)
+```
+
+---
+
+```{r echo=FALSE}
+var.test(Iran, Belgium)
+```
+
+
+### Conclusion
+
+With the p-value < 0.05, we reject the null hypothesis, concluding that the variances are not equal.
+
+
+
+---
+
+### Exercise B.
+
+**Mean Rainfall Hypothesis Test**
+
+Using a t-test with unequal variances to test if the mean rainfall is the same:
+
+```{r}
+t.test(Iran, Belgium, var.equal = FALSE)
+```
+Since the p-value < 0.05, we reject the null hypothesis and conclude that the mean rainfall in Iran and Belgium is different with 95% confidence.
+
+---
+
+
+```{r echo=FALSE}
+t.test(Iran, Belgium, var.equal = FALSE)
+```
+
+
+
+### Conclusion
+
+Since, P-value<0.05 we reject the null hypothesis and can conclude that both cities have different amount 
+of rainfall with 95% confidence.
+
+---
+
+### Exercise C
+
+* The 95% confidence interval for the difference in means is provided in the output of the t-test:
+
+```
+95 percent confidence interval:
+
+-42.79403 to -17.85041
+```
+
+---
+
+### Exercise D
+
+**Commentary**
+
+- The confidence interval (-42.8, -17.8) does not contain 0, indicating that the mean rainfall is significantly different between the two countries.
+
+- This result aligns with the conclusion from the t-test in Exercise B, affirming that Iran and Belgium have different average annual rainfall.
+
+
+---
+
+---

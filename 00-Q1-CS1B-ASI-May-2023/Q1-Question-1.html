@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -31,151 +31,165 @@ pre {
 }
 &lt;/style&gt;
 
-* Introduction to R for Actuarial Students
-
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
-
 ---
 
-
-Solution 1:
-i) i
-.
+**A.** Generate 150 random numbers from a uniform [0,1] distribution and calculate the mean:
 
 
-```r
+``` r
 set.seed(052023)
-u&lt;-runif(150)
-round(mean(u),2)
+u &lt;- runif(150)
+mean_u &lt;- mean(u)
+mean_u
 ```
 
 ```
-## [1] 0.52
+## [1] 0.519528
 ```
-[1] 0.52
-This shows sample mean ~0.52.
 
 ---
 
-ii) 
+**B.** Simulate a sample from the chi-square distribution with 2 degrees of freedom using the random numbers generated in A:
 
 
-```r
-chi &lt;- 1 -qchisq(u,2) 
+``` r
+sample_chisq &lt;- qchisq(u, df = 2)
 ```
 
-iii) i
-i
-i
-.
+#### First 10 values
 
 
-```r
-gam&lt;-qgamma(u,1,1/2)
-sum(chi-gam)
+``` r
+sample_chisq[1:10]
 ```
 
 ```
-## [1] -515.3839
+##  [1] 0.65082192 0.01736804 1.56503768 1.63800015 1.06391277 0.67766011
+##  [7] 1.97042376 1.12229824 3.50086129 1.98370364
 ```
-
-[1] 0
-(1)
-
----
-
-We know the property that if `\(X ~ Gamma(α,ʎ)\)` then 2ʎX has χ2 distribution with 2α degrees of 
-freedom.
-* We have X ~ χ2 with 2 degrees of freedom.
-* Above can be written as (2ʎX/2ʎ) ~ χ2 with 2α degrees of freedom where α=1,ʎ =1/2
-Thus,
-X ~ Gamma(α,ʎ) with α=1,ʎ =1/2
-X ~ Gamma(1,1/2)
-This is why both samples are same.
-
-
----
-
-iv) .
-a) hist(chi, main ="Histogram of chi square distribution sample") a (1)
-(1)
-#Histogram shows positive skewed distribution (1)
-[3]
-b) b
-
----
-
-&gt; 
-
-
-```r
-summary(chi)
-```
-
-```
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -11.3506  -1.9832  -0.5350  -1.2179   0.3968   0.9938
-```
-
- Min. 1st Qu. Median Mean 3rd Qu. Max. 
-0.006184 0.603187 1.534968 2.217946 2.983161 12.350562
-(1)
-Alternate:
-mean(chi)
-median(chi)
-#mean = 2.218
-#median = 1.535
-#Mean is greater than median since it is positively skewed distribution
-(0.5)
-(0.5)
-(1)
-[2]
-
----
-
-v) 
-
-
-```r
-set.seed(052023) 
-y = rep(0,1000)
-for(i in 1:1000){
- y[i] = sum(rchisq(150,2))
-}
-```
-
-
----
-
-vi) 
-
-
-```r
-hist(y, main ="Histogram of Samples Sum") 
-```
-
-![](Q1-Question-1_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
-
-
-* The distribution of sample sums is roughly symmetrical. 
-* This displays Central Limit Theorem property. 
-* As the sample size gets large , distribution move towards normality. 
-
-
-
----
-
-END
 
 ---
 
 
+
+``` r
+hist(sample_chisq,breaks=20)
+```
+
+![](Q1-Question-1_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
 ---
+
+**C.** Simulate a sample from the Gamma (1, 1/2) distribution using the same random numbers:
+
+
+``` r
+sample_gamma &lt;- qgamma(u, shape = 1, rate = 0.5)
+```
+
+Samples generated in exercises B and C will be the same because the chi-square distribution with 2 degrees of freedom is a special case of the Gamma distribution with shape parameter 1 and rate parameter 0.5.
+
+---
+
+**D.** Plot histogram of the sample generated in exercise C and comment on the shape:
+
+
+``` r
+hist(sample_chisq, 
+     main = "Histogram of Chi-Square Sample", 
+     xlab = "Value", ylab = "Frequency")
+```
+
+---
+
+![](Q1-Question-1_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+**E.** Compute mean and median of the sample and explain why mean is greater than median:
+
+
+``` r
+mean_sample &lt;- mean(sample_chisq)
+median_sample &lt;- median(sample_chisq)
+mean_sample
+```
+
+```
+## [1] 2.217946
+```
+
+``` r
+median_sample
+```
+
+```
+## [1] 1.534968
+```
+
+The mean is greater than the median because the chi-square distribution is skewed to the right, meaning it has a longer tail on the right side.
+
+---
+
+**F.** Simulate 1000 values of the sum of samples of size 150 from the chi-square distribution with 2 degrees of freedom:
+
+
+#### Single Instance
+
+``` r
+sum(qchisq(runif(150), df = 2))
+```
+
+```
+## [1] 279.8196
+```
+
+
+#### Simulate 1000 values
+
+``` r
+set.seed(052023)
+sums_chisq &lt;- replicate(1000, sum(qchisq(runif(150), df = 2)))
+```
+
+#### First 10 values
+
+``` r
+sums_chisq[1:10]
+```
+
+```
+##  [1] 332.6920 279.8196 289.1203 288.1158 288.2071 298.7130 280.2886 308.9078
+##  [9] 309.5555 334.0697
+```
+---
+
+**G.** Plot histogram of the 1000 samples sum generated in exercise F and comment on the shape in the context of the central limit theorem:
+
+
+``` r
+hist(sums_chisq, 
+     main = "Histogram of 1000 Samples Sum", 
+     xlab = "Sum", 
+     ylab = "Frequency",
+     breaks=30)
+```
+
+---
+
+![](Q1-Question-1_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+* The histogram should show a normal distribution shape, which aligns with the central limit theorem.
+
+* This theorem states that the sum (or average) of a large number of independent, identically distributed random variables will be approximately normally distributed, regardless of the original distribution.
+
+---
+
+---
+
+Feel free to run this code in your R environment and let me know if you need further explanations or assistance with any part of it!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

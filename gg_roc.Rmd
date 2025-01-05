@@ -1,0 +1,94 @@
+---
+title: "Statistics with R"
+subtitle: "Statistical Modelling with R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+
+---
+
+Here's a short tutorial on using the `calc_auc` function in R with the `ggRandomForest` package:
+
+### Example Code
+```{r}
+# Load the necessary libraries
+library(ggRandomForests)
+library(randomForestSRC)
+
+# Use the built-in iris dataset for demonstration
+data(iris)
+
+# Build a random forest model using the iris dataset
+rfsrc_iris <- rfsrc(Species ~ ., data = iris)
+
+```
+
+
+---
+
+```{r}
+# Generate ROC curves for the first and second outcomes
+gg_dta1 <- gg_roc(rfsrc_iris, which.outcome = 1)
+gg_dta2 <- gg_roc(rfsrc_iris, which.outcome = 2)
+```
+
+
+---
+
+```{r}
+# Calculate the Area Under the ROC Curve (AUC) for both outcomes
+auc1 <- calc_auc(gg_dta1)
+auc2 <- calc_auc(gg_dta2)
+```
+
+
+---
+
+```{r}
+# Print the AUC values
+print(paste("AUC for outcome 1:", auc1))
+print(paste("AUC for outcome 2:", auc2))
+```
+
+### Explanation:
+1. **Load Libraries**: Start by loading the necessary libraries, `ggRandomForests` and `randomForestSRC`.
+2. **Build Random Forest Model**: Utilize the built-in `iris` dataset to create a random forest model predicting `Species`.
+3. **Generate ROC Curves**: Apply the `gg_roc` function to generate ROC curves for the first and second outcomes.
+4. **Calculate AUC**: Use the `calc_auc` function to compute the Area Under the ROC Curve (AUC) for both outcomes.
+5. **Print Results**: Finally, print the AUC values for each outcome to the console.
+
+This step-by-step example demonstrates how to calculate and interpret the Area Under the ROC Curve for a random forest model built with the iris dataset.
+
+If you have any further questions or need more assistance, feel free to ask!
+
+```{r}
+library(ggRandomForests)
+```
+
+
+---
+
+

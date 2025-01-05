@@ -3,8 +3,9 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
-    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
@@ -14,7 +15,7 @@ class: center, middle, inverse, title-slide
 # Statistics with R
 ]
 .subtitle[
-## Introduction to R for Actuarial Students
+## Statistical Modelling with R for Actuarial Students
 ]
 
 ---
@@ -22,27 +23,31 @@ class: center, middle, inverse, title-slide
 
 
 
+&lt;style type="text/css"&gt;
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+&lt;/style&gt;
 
-
-
-
-* Introduction to R for Actuarial Students
-
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
----
-
-Q. 2) In a study done at the National Institute of Science and Technology, asbestos fibers on 
+* In a study done at the National Institute of Science and Technology, asbestos fibers on 
 filters were counted as part of a project to develop measurement standards for asbestos 
 concentration.
-An operator counted the number of fibers in each of 23 grid squares, yielding the 
+
+* An operator counted the number of fibers in each of 23 grid squares, yielding the 
 following counts:
-31,29,19,18,31,28, 34,27,34,30,16,18, 26,27,27,18,24,22, 28,24,21,17,24
-Assume that the Poisson distribution with unknown parameter lambda describes the 
+
+
+|    |    |    |    |    |    |
+|----|----|----|----|----|----|
+| 31 | 29 | 19 | 18 | 31 | 28 |
+| 34 | 27 | 34 | 30 | 16 | 18 |
+| 26 | 27 | 27 | 18 | 24 | 22 |
+| 28 | 24 | 21 | 17 | 24 |    |
+
+
+* Assume that the Poisson distribution with unknown parameter lambda describes the 
 variability from each of the grid squares. 
 
 ---
@@ -70,8 +75,8 @@ Theorem.
 ### Set Up Data
 
 
-```r
-count &lt;- c(31,29,19,18,31,28, 
+``` r
+fiber_count &lt;- c(31,29,19,18,31,28, 
            34,27,34,30,16,18, 
            26,27,27,18,24,22, 
            28,24,21,17,24)
@@ -91,8 +96,8 @@ count &lt;- c(31,29,19,18,31,28,
   - `IQR()` calculates the Inter-quartile range directly
    
 
-```r
-Q1 &lt;- quantile(count,0.25)
+``` r
+Q1 &lt;- quantile(fiber_count,0.25)
 Q1
 ```
 
@@ -102,8 +107,8 @@ Q1
 ```
 
 
-```r
-Q3 &lt;- quantile(count,0.75)
+``` r
+Q3 &lt;- quantile(fiber_count,0.75)
 Q3
 ```
 
@@ -112,9 +117,17 @@ Q3
 ## 28.5
 ```
 
+---
 
-```r
-IQR(count)
+
+### Exercise 1
+
+- **Q1, Q3, and IQR:**
+
+
+
+``` r
+IQR(fiber_count)
 ```
 
 ```
@@ -131,8 +144,8 @@ IQR(count)
  - `hist()` function creates a histogram of the fiber counts.
 
 
-```r
-hist(count)
+``` r
+hist(fiber_count)
 ```
 
 ---
@@ -140,11 +153,20 @@ hist(count)
 ### Plot Histogram
 
 
-```r
-hist(fiber_counts, 
-      main = "Histogram of Fiber Counts", 
-     xlab = "Fiber Count", ylab = "Frequency")
+``` r
+hist(fiber_count, 
+     main = "Histogram of Fiber Counts", 
+     xlab = "Fiber Count", 
+     ylab = "Frequency",
+     breaks=8)
 ```
+
+---
+
+
+### Plot Histogram
+
+![](M1-Question2_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -156,8 +178,8 @@ hist(fiber_counts,
    
 
 
-```r
-lambda.hat=mean(count)
+``` r
+lambda.hat=mean(fiber_count)
 
 print(lambda.hat)
 ```
@@ -173,19 +195,20 @@ print(lambda.hat)
 **Hypothesis Testing:**
    - `t.test` performs a one-sample t-test to compare the sample mean with the hypothesized mean of 25.
 
-H0: The mean fiber count is 25
-H1: Mean fiber count is not equal to 25
+`\(H_0\)`: The mean fiber count is 25
+
+`\(H_1\)`: Mean fiber count is not equal to 25
 
 
-```r
-t.test(count,mu=25)
+``` r
+t.test(fiber_count,mu=25)
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  count
+## data:  fiber_count
 ## t = -0.076034, df = 22, p-value = 0.9401
 ## alternative hypothesis: true mean is not equal to 25
 ## 95 percent confidence interval:
@@ -209,8 +232,9 @@ t.test(count,mu=25)
    - The standard error of the sample mean for a Poisson distribution is the square root of the sample mean divided by the sample size.
 
 
-```r
-lambda.hat.sterror=sqrt(lambda.hat/length(count))
+``` r
+lambda.hat.sterror = sqrt(lambda.hat/length(fiber_count))
+
 print(lambda.hat.sterror)
 ```
 
@@ -218,17 +242,34 @@ print(lambda.hat.sterror)
 ## [1] 1.040757
 ```
 
+Remark: For a Poisson Distribution, the standard deviation is always equal to the square root of the mean.i.e σ = μ
+
+Above expression is coded in form: `$$\sqrt{\frac{\sigma^2}{n}}.$$` 
+
+
 ---
 
 ### Exercise 6
 
-**Confidence Interval for Standard Error:**
+**Confidence Interval for Standard Mean:**
    - We assume a normal approximation for the distribution of the standard error.
    - The confidence interval is calculated using the z-score for the desired confidence level.
 
 
-```r
-lambda.CI.Limits = lambda.hat + c(-1,1)*qnorm(.95)*lambda.hat.sterror
+
+``` r
+#quantile
+Zs &lt;- c(-1,1)*qnorm(.95)
+Zs
+```
+
+```
+## [1] -1.644854  1.644854
+```
+
+
+``` r
+lambda.CI.Limits = lambda.hat + Zs*lambda.hat.sterror
 
 print(lambda.CI.Limits)
 ```
@@ -237,6 +278,28 @@ print(lambda.CI.Limits)
 ## [1] 23.20115 26.62494
 ```
 
+---
+
+***..Just out of curiosity***
+
+
+``` r
+t.test(fiber_count,conf.level = 0.90)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fiber_count
+## t = 21.784, df = 22, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 90 percent confidence interval:
+##  22.94922 26.87687
+## sample estimates:
+## mean of x 
+##  24.91304
+```
 
 
 ---
@@ -244,8 +307,11 @@ print(lambda.CI.Limits)
 ### Exercise 7
 
 
-```r
-probability = pnorm(30,lambda.hat,sqrt(lambda.hat),lower.tail = FALSE)
+``` r
+probability = pnorm(30,
+                    mean = lambda.hat,
+                    sd = sqrt(lambda.hat),
+                    lower.tail = FALSE)
 
 cat("Probability of fiber count exceeding 30:", probability)
 ```
@@ -257,12 +323,17 @@ cat("Probability of fiber count exceeding 30:", probability)
 **Interpretation:**
 
 * The calculated probability represents the likelihood of observing a sample mean greater than 30, assuming the true population mean is equal to the sample mean. 
-* In this case, the probability is very small, indicating that it's highly unlikely to observe such a high fiber count by chance.
+
+
+---
 
 **Note:**
 
 - The CLT works best when the sample size is large enough. In this case, a sample size of 23 might not be considered very large, but it's still reasonable to apply the CLT as an approximation.
-- The Poisson distribution is often used to model count data like fiber counts. However, the CLT allows us to approximate the distribution of the sample mean using a normal distribution, even if the underlying distribution is not normal.
+
+- The Poisson distribution is often used to model count data like fiber counts. 
+
+- However, the CLT allows us to approximate the distribution of the sample mean using a normal distribution, even if the underlying distribution is not normal.
 
 ---
 
@@ -274,6 +345,7 @@ cat("Probability of fiber count exceeding 30:", probability)
 - The standard error quantifies the variability of the MLE.
 - The confidence interval for the standard error provides a range of plausible values for the true standard error.
 
+---
 
 ---
 

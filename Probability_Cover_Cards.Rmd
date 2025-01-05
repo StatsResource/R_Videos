@@ -55,11 +55,11 @@ style_mono_accent_inverse(
 </style>
 
 ## Probability Distributions
-### Estimating the Poisson Rate Parameter
-### Analyzing Insurance Transaction Data for Premiums and Claims
+### Exponential Distribution
+### Simulation and Analysis Using The Inverse Transform Method
 <br><br><br><br>
 ## <tt>Probability with R</tt>
-### <tt>CS2B (ASI, March 2021)</tt>
+### <tt>CS1B (FIA, September 2023)</tt>
 
 ---
 

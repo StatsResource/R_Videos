@@ -27,127 +27,127 @@ pre {
 }
 ```
 
-* Introduction to R for Actuarial Students
-
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
-
 ---
 
-
-Solution 1:
-i) i
-.
+**A.** Generate 150 random numbers from a uniform [0,1] distribution and calculate the mean:
 
 ```{r}
 set.seed(052023)
-u<-runif(150)
-round(mean(u),2)
+u <- runif(150)
+mean_u <- mean(u)
+mean_u
 ```
-[1] 0.52
-This shows sample mean ~0.52.
 
 ---
 
-ii) 
+**B.** Simulate a sample from the chi-square distribution with 2 degrees of freedom using the random numbers generated in A:
 
 ```{r}
-chi <- 1 -qchisq(u,2) 
+sample_chisq <- qchisq(u, df = 2)
 ```
 
-iii) i
-i
-i
-.
+#### First 10 values
 
 ```{r}
-gam<-qgamma(u,1,1/2)
-sum(chi-gam)
+sample_chisq[1:10]
 ```
 
-[1] 0
-(1)
+---
+
+
+```{r fig.width=10}
+hist(sample_chisq,breaks=20)
+```
 
 ---
 
-We know the property that if $X ~ Gamma(α,ʎ)$ then 2ʎX has χ2 distribution with 2α degrees of 
-freedom.
-* We have X ~ χ2 with 2 degrees of freedom.
-* Above can be written as (2ʎX/2ʎ) ~ χ2 with 2α degrees of freedom where α=1,ʎ =1/2
-Thus,
-X ~ Gamma(α,ʎ) with α=1,ʎ =1/2
-X ~ Gamma(1,1/2)
-This is why both samples are same.
-
-
----
-
-iv) .
-a) hist(chi, main ="Histogram of chi square distribution sample") a (1)
-(1)
-#Histogram shows positive skewed distribution (1)
-[3]
-b) b
-
----
-
-> 
+**C.** Simulate a sample from the Gamma (1, 1/2) distribution using the same random numbers:
 
 ```{r}
-summary(chi)
+sample_gamma <- qgamma(u, shape = 1, rate = 0.5)
 ```
 
- Min. 1st Qu. Median Mean 3rd Qu. Max. 
-0.006184 0.603187 1.534968 2.217946 2.983161 12.350562
-(1)
-Alternate:
-mean(chi)
-median(chi)
-#mean = 2.218
-#median = 1.535
-#Mean is greater than median since it is positively skewed distribution
-(0.5)
-(0.5)
-(1)
-[2]
+Samples generated in exercises B and C will be the same because the chi-square distribution with 2 degrees of freedom is a special case of the Gamma distribution with shape parameter 1 and rate parameter 0.5.
 
 ---
 
-v) 
+**D.** Plot histogram of the sample generated in exercise C and comment on the shape:
+
+```{r eval=FALSE}
+hist(sample_chisq, 
+     main = "Histogram of Chi-Square Sample", 
+     xlab = "Value", ylab = "Frequency")
+```
+
+---
+
+```{r echo=FALSE,fig.width=10}
+hist(sample_chisq, 
+     main = "Histogram of Chi-Square Sample", 
+     xlab = "Value", ylab = "Frequency")
+```
+
+---
+
+**E.** Compute mean and median of the sample and explain why mean is greater than median:
 
 ```{r}
-set.seed(052023) 
-y = rep(0,1000)
-for(i in 1:1000){
- y[i] = sum(rchisq(150,2))
-}
+mean_sample <- mean(sample_chisq)
+median_sample <- median(sample_chisq)
+mean_sample
+median_sample
 ```
 
+The mean is greater than the median because the chi-square distribution is skewed to the right, meaning it has a longer tail on the right side.
 
 ---
 
-vi) 
+**F.** Simulate 1000 values of the sum of samples of size 150 from the chi-square distribution with 2 degrees of freedom:
 
+
+#### Single Instance
 ```{r}
-hist(y, main ="Histogram of Samples Sum") 
+sum(qchisq(runif(150), df = 2))
 ```
 
 
-* The distribution of sample sums is roughly symmetrical. 
-* This displays Central Limit Theorem property. 
-* As the sample size gets large , distribution move towards normality. 
+#### Simulate 1000 values
+```{r}
+set.seed(052023)
+sums_chisq <- replicate(1000, sum(qchisq(runif(150), df = 2)))
+```
 
+#### First 10 values
+```{r}
+sums_chisq[1:10]
+```
+---
 
+**G.** Plot histogram of the 1000 samples sum generated in exercise F and comment on the shape in the context of the central limit theorem:
+
+```{r eval=FALSE}
+hist(sums_chisq, 
+     main = "Histogram of 1000 Samples Sum", 
+     xlab = "Sum", 
+     ylab = "Frequency",
+     breaks=30)
+```
 
 ---
 
-END
+```{r echo=FALSE,fig.width=10}
+hist(sums_chisq, main = "Histogram of 1000 Samples Sum", xlab = "Sum", ylab = "Frequency",
+     breaks=30)
+```
 
 ---
 
+* The histogram should show a normal distribution shape, which aligns with the central limit theorem.
+
+* This theorem states that the sum (or average) of a large number of independent, identically distributed random variables will be approximately normally distributed, regardless of the original distribution.
 
 ---
+
+---
+
+Feel free to run this code in your R environment and let me know if you need further explanations or assistance with any part of it!
