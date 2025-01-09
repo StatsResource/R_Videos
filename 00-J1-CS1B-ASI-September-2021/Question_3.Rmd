@@ -37,42 +37,38 @@ pre {
 ```
 
 
-A child tosses n coins and the outcome of heads and tails are recorded in n samples as
-$X_1, X_2, \ldots X_n$, where, Xi’s are independent Bernoulli variables with $p = 0.5$. 
+A child tosses $n$ coins and the outcome of heads and tails are recorded in $n$ samples as
+$X_1, X_2, \ldots X_n$, where $X_i$’s are independent Bernoulli variables with $p = 0.5$. 
 
 The total outcome of $n$ variables is $Y = X_1 +\ldots + Xn$
 
+Use $n=10$ unless told otherwise
+
 #### Exercises 
 
-1. Specify the distribution of Y 
+A. Specify the distribution of $Y$ 
 
-2. Simulate a sample of 10 values for Y 
+B. Simulate a sample of 10 values for $Y$ 
 
-3. Assess the value of Y for the sample created in (B.  
+C. Assess the value of $Y$ for the sample created in exercise B.  
 
-4.  what is the probability of Y = 4 
-
----
-
-#### Solution 1:
-
-Part A 
-
-* If $X_1, X_2, \ldots X_n$ follows Bernoulli distribution with p = 0.5 
-
-* Then Y follows binomial distribution ~ Bin(n,p) as sum of independent Bernoulli distribution 
-results in binomial distribution with n trials and p is the probability of success. 
+D. What is the probability of $Y = 4$ 
 
 ---
 
-### Part B.  
+### Exercise A.
 
-* Since ‘n’ is not specified in the question, sample simulations of Y can be generated assuming any 
-value of ‘n’. 
+* If $X_1, X_2, \ldots X_n$ follows Bernoulli distribution with $p = 0.5$ 
 
-* The answer below is calculated using <tt>n = 10</tt>, however marks are allotted to 
-simulations of Y, calculated using any value of ‘n’.
+* Then $Y$ follows binomial distribution with $Y \sim \text{Bin}(n,p)$ as sum of independent Bernoulli distribution 
+results in binomial distribution with $n$ trials and $p$ is the probability of success. 
 
+---
+
+### Exercise B.  
+
+
+* The answer below is calculated using <tt>n = 10</tt>
 
 #### R Code
 
@@ -81,34 +77,37 @@ n = 10
 p = 0.5
 ```
 
+---
+
+### Exercise B.  
+
 ```{r}
 Y = rbinom(10, n, p)
 
 Y
 ```
 
-Values of y from R (since these are random values, answers for each individual may vary from 
-the numbers stated below, please evaluate accordingly)
-5 4 4 5 2 6 5 4 2 5 
+
+
+
 ---
 
-### Part C.
+### Exercise C.
  
-* The sample simulated in Exercise B are representative value of variable Y itself. 
+* The sample simulated in Exercise B are representative value of variable $Y$ itself. 
 
 * Hence, no further 
 calculation required to assess the value of variable Y. 
 ---
 
-### Part D. 
+### Exercise D. 
 
-<pre><code>
+```{r}
 dbinom (4,n,p)
-</code></pre>
+```
 
-The solution is based on assumption that n = 10 (as assumed in Exercise 2 ). 
 
-Marks are allotted to 
-solutions calculated using any value for “n”.0.2050781 
+---
+
 
 ---

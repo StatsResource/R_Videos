@@ -206,3 +206,90 @@ FluTrain$ILI[303]
 
 
 ---
+It looks like you have a well-structured plan for estimating influenza-like illness (ILI) activity using Google web search logs and clinical data. Here's a step-by-step guide to address the exercises you've outlined:
+
+### Exercise 1: Plot a Histogram of ILI
+
+```r
+FluTrain <- read.csv("FluTrain.csv")
+hist(FluTrain$ILI, main="Histogram of ILI", xlab="ILI", col="blue", breaks=20)
+```
+The histogram shows a positively skewed distribution. Most of the ILI values are relatively small, with a few large values.
+
+---
+
+### Exercise 2: Plot the Natural Logarithm of ILI vs. Queries
+
+```r
+plot(FluTrain$Queries, log(FluTrain$ILI), main="Log(ILI) vs. Queries", xlab="Queries", ylab="Log(ILI)", col="red", pch=16)
+```
+The plot suggests a positive linear relationship between log(ILI) and Queries. This means that as the number of ILI-related search queries increases, the log of ILI-related physician visits also increases.
+
+---
+
+### Exercise 3: Fit a Linear Regression Model
+
+```r
+FluTrend1 <- lm(log(ILI) ~ Queries, data = FluTrain)
+summary(FluTrend1)
+```
+The summary output will provide the coefficients, R-squared value, and other statistics for the fitted model.
+
+---
+
+### Exercise 4: State the Formula of the Model
+
+Based on the linear regression model, the formula is:
+
+$$ \ln(\text{ILI}) = -0.49934 + 2.96129 \times \text{Queries} $$
+
+Where:
+- \( \ln(\text{ILI}) \) is the natural logarithm of the percentage of ILI-related physician visits.
+- \( \text{Queries} \) is the fraction of ILI-related search queries.
+
+---
+
+### Exercise 5: Calculate R-squared and Correlation
+
+```r
+correlation <- cor(FluTrain$Queries, log(FluTrain$ILI))
+R_squared <- correlation^2
+R_squared
+```
+The R-squared value indicates how well the independent variable (Queries) explains the variation in the dependent variable (log(ILI)). In this case, R-squared = 0.709, which means that approximately 70.9% of the variation in log(ILI) is explained by the model.
+
+---
+
+### Exercise 6: Identify the Week with the Highest ILI
+
+```r
+max_week_index <- which.max(FluTrain$ILI)
+FluTrain$Week[max_week_index]
+```
+The week corresponding to the highest percentage of ILI-related physician visits is the week of October 18th to October 24th, 2009.
+
+---
+
+### Exercise 7: Estimate ILI for the Week with the Highest ILI
+
+```r
+PredTest1 <- exp(predict(FluTrend1, newdata = FluTrain))
+PredTest1[max_week_index]
+```
+This will give you the estimate for the percentage of ILI-related physician visits for that week.
+
+---
+
+### Exercise 8: Calculate the Relative Error
+
+```r
+observed_ILI <- FluTrain$ILI[max_week_index]
+predicted_ILI <- PredTest1[max_week_index]
+relative_error <- abs(predicted_ILI - observed_ILI) / observed_ILI
+relative_error
+```
+The relative error is the absolute difference between the observed and predicted values, divided by the observed value.
+
+I hope this helps with your analysis! If you have any further questions or need additional assistance, feel free to ask. 😊
+
+Would you like me to walk you through the coding process or clarify any other steps?

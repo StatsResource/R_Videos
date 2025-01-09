@@ -36,13 +36,18 @@ pre {
 
 An analysis was carried out to investigate the fairness of two exam markers. They 
 both marked the same 150 exam papers, with 10 questions and total possible marks of 
-100 for each exam paper. The data were collected and arranged into 10 equally spaced 
+100 for each exam paper. 
+
+The data were collected and arranged into 10 equally spaced 
 groups, with marks rounded to the nearest whole number. 
+
 Below are the frequencies of the marks given by each of the exam markers: 
 
-Exam marks 0–10 11–20 21–30 31–40 41–50 51–60 61–70 71–80 81–90 91–100
-Marker 1 1 8 14 22 33 34 21 9 6 2 
-Marker 2 0 4 16 25 27 42 23 4 9 0 
+| Exam Marks | 0-10 | 11-20 | 21-30 | 31-40 | 41-50 | 51-60 | 61-70 | 71-80 | 81-90 | 91-100 |
+|------------|------|-------|-------|-------|-------|-------|-------|-------|-------|--------|
+| Marker 1   | 1    | 8     | 14    | 22    | 33    | 34    | 21    | 9     | 6     | 2      |
+| Marker 2   | 0    | 4     | 16    | 25    | 27    | 42    | 23    | 4     | 9     | 0      |
+
  
 ---
  
@@ -53,24 +58,92 @@ marks_1 = c(1,8,14,22,33,34,21,9,6,2)
 marks_2 = c(0,4,16,25,27,42,23,4,9,0)  
 ```
 
----
 
 ### Exercise 1
 
 Plot two graphs, one for each marker, for the distribution of the exam 
 marks given by the two markers. 
+
 [Hint: You may find the R command <tt>barplot()</tt> useful.] 
-(b) Comment on the graphs produced in part (i)(a). 
+
+Compare this plots 
+---
+
+
+### Exercise 1
+
+**Marker 1**
+```{r eval=FALSE}
+axis = c("0-10","11-20","21-30","31-40","41-50",
+         "51-60","61-70","71-80","81-90","91-100")
+
+barplot(marks_1,xlab = "Exam mark groups", 
+        ylab = "Number of exams", 
+        main = "Exam marks for marker 1",
+        col = "Red",
+        names = axis, 
+        ylim = c(0,40)) 
+```
 
 ---
+
+### Exercise 1
+
+**Marker 1**
+```{r echo=FALSE}
+axis = c("0-10","11-20","21-30","31-40","41-50","51-60","61-70","71-80","81-90","91-100")
+barplot(marks_1,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 1",col = "Red",names = axis, ylim = c(0,40)) 
+```
+
+---
+
+### Exercise 1
+
+**Marker 2**
+```{r eval=FALSE}
+barplot(marks_2,xlab = "Exam mark groups", 
+        ylab = "Number of exams", 
+        main = "Exam marks for marker 2",
+        col = "Purple",
+        names = axis, 
+        ylim = c(0,50)) 
+```
+
+
+---
+
+### Exercise 1
+
+**Marker 2**
+```{r echo=FALSE}
+barplot(marks_2,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 2",col = "Purple",names = axis, ylim = c(0,50)) 
+```
+
+
+
+---
+
+### Exercise 2
 
 One of the marked exam papers is selected at random and the scores given by each of 
 the markers are analysed further by question. 
 
 Below are the scores given by each of the exam markers for this selected exam paper for each of the 10 questions: 
-Question 1 2 3 4 5 6 7 8 9 10 
-Marker 1 4 1 5 1 4 6 4 5 3 6 
-Marker 2 3 2 4 0 3 4 2 3 3 6 
+
+| Question | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|----------|---|---|---|---|---|---|---|---|---|----|
+| Marker 1 | 4 | 1 | 5 | 1 | 4 | 6 | 4 | 5 | 3 | 6  |
+| Marker 2 | 3 | 2 | 4 | 0 | 3 | 4 | 2 | 3 | 3 | 6  |
+
+---
+
+
+### Exercise 2
+
+Perform a suitable test to determine whether the difference in the mean scores 
+of the two markers is zero or not, at the 5% confidence level, taking into 
+account that the two markers have marked the same exam paper. 
+
 
 You can enter the scores for Marker 1 and Marker 2 into R using: 
 
@@ -79,38 +152,30 @@ marker_1 = c(4,1,5,1,4,6,4,5,3,6)
 marker_2 = c(3,2,4,0,3,4,2,3,3,6) 
 ```
 
+
+#### Hypotheses
+
+* $H_{0}$ ∶ difference in means is zero 
+
+* $H_{1}$ ∶ difference in means is not zero
+
+N.B. This is a paired data design
+
 ---
-
-### Exercise 2
-
-Perform a suitable test to determine whether the difference in the mean scores 
-of the two markers is zero or not, at the 5% confidence level, taking into 
-account that the two markers have marked the same exam paper. 
-
----
-(ii)
-𝐻𝐻0 ∶ difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴 ∶ difference in means is not zero.
 
 ```{r}
 t.test(marker_1,marker_2,paired=TRUE) 
 ```
 
 ---
-Paired t-test
-data: marker_1 and marker_2
-t = 2.862, df = 9, p-value = 0.01872
-alternative hypothesis: true difference in means is not equal to 0
-95 percent confidence interval:
-0.1886284 1.6113716
-sample estimates:
-mean of the differences 
-0.9
 
----
+### Exercise 3
 
-* P-value is equal to 0.01872
-which is less than the significance level (5%)
+
+* P-value is equal to 0.01872 which is less than the significance level (5%)
+
 * Therefore we shall reject the null hypothesis
+
 * There appears to be difference in the mean scores between the two markers
 
 ---
@@ -120,11 +185,21 @@ which is less than the significance level (5%)
 Perform the test specified in Exercise 2, ignoring that the two markers have 
 marked the same exam paper. 
 
+
+
+#### Hypotheses
+
+* $H_{0}$ ∶ difference in means is zero 
+
+* $H_{1}$ ∶ difference in means is not zero
+
+
+N.B. This is an independent sample design
+
+
 ---
 
-
-(iii)
-$H_{0)$ ∶ difference in means is zero 𝑣𝑣𝑣𝑣 𝐻𝐻𝐴𝐴 ∶ difference in means is not zero
+### Exercise 3
 
 ```{r}
 t.test(marker_1,marker_2) 
@@ -133,17 +208,7 @@ t.test(marker_1,marker_2)
 
 ---
 
-Welch Two Sample t-test
-data: marker_1 and marker_2
-t = 1.1968, df = 17.675, p-value = 0.2472
-alternative hypothesis: true difference in means is not equal to 0
-95 percent confidence interval:
--0.6820491 2.4820491
-sample estimates:
-mean of x mean of y 
- 3.9 3.0
-
----
+### Exercise 3
 
 * P-value is equal to 0.247 which is more than the significance level (5%)
 * Therefore do not reject the null hypothesis
@@ -153,39 +218,35 @@ mean of x mean of y
 
 ### Exercise 4
 
-Comment on your conclusions from Exercises 2 and 3. 
+**Comment on your conclusions from Exercises 2 and 3.**
 
----
-(iv)
-Parts (ii) and (iii) lead to different conclusions
-We would expect the data to not be independent of one another since both markers have 
+
+* Parts 2 and 3 lead to different conclusions
+
+* We would expect the data to not be independent of one another since both markers have 
 marked the same exam papers
-Therefore the paired test in (ii) gives smaller variation for the test statistic and leads to 
+
+* Therefore the paired test in part 2 gives smaller variation for the test statistic and leads to 
 rejecting the hypothesis of equal means, at the 5% level 
 ---
 
 ### Exercise 5
-(v) Comment on the issues arising when analysing paired data as independent 
-samples, and independent samples as though they were paired. 
+
+**Comment on the issues arising when analysing paired data as independent 
+samples, and independent samples as though they were paired.** 
+
+
+
+
+* If a paired problem is analysed as though it involved independent samples, then the results would be invalid because the assumption of independence is violated 
+
+* Alternatively, if independent samples are analysed as though they were paired, then the results would be valid although they would be making inefficient use of the data due to the discarding of possible information about the means and variances of the two separate populations 
 
 ---
 
+---
 
 Q2
-(i)(a)
-
-```{r}
-axis = c("0-10","11-20","21-30","31-40","41-50","51-60","61-70","71-80","81-90","91-100")
-barplot(marks_1,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 1",col = "Red",names = axis, ylim = c(0,40)) 
-barplot(marks_2,xlab = "Exam mark groups", ylab = "Number of exams", main = "Exam marks for marker 2",col = "Purple",names = axis, ylim = c(0,50)) 
-```
-
-
---- 
-
-2468102.02.53.03.54.0Plot for time and log(caffeinetimelogcaffeine
-
----
 
 BLANK
 
@@ -256,13 +317,7 @@ Parts (ii) and (iii) lead to different conclusions
 We would expect the data to not be independent of one another since both markers have marked the same exam papers 
 Therefore the paired test in (ii) gives smaller variation for the test statistic and leads to rejecting the hypothesis of equal means, at the 5% level 
 
----
 
-#### Exercise 5
-(v)
-
-* If a paired problem is analysed as though it involved independent samples, then the results would be invalid because the assumption of independence is violated 
-* Alternatively, if independent samples are analysed as though they were paired, then the results would be valid although they would be making inefficient use of the data due to the discarding of possible information about the means and variances of the two separate populations 
 
 
 ---

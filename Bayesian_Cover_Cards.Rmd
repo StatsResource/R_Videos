@@ -54,11 +54,11 @@ style_mono_accent_inverse(
   remark-slide-number { display: none; } 
 </style>
 
-## Bayesian Statistics
-### Bayesian Analysis of Gamma-Distributed Parameter
+## Bayesian Statistics with R
+### Bayesian Analysis of Cloud Kitchen Sales
 <br><br><br><br>
 ## <tt>Statistical Computing with R</tt>
-###<tt>CS1B (FIA - April 2019) 
+###<tt>CS1B (ASI - May 2023) 
 
 ---
 

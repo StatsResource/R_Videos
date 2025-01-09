@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -11,30 +11,29 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Statistics with R
+]
+.subtitle[
 ## R for Actuarial Students
+]
 
 ---
 
 
+---
 
-\subsection*{Exercise 1}
-\noindent The following data represent the average total number of marks obtained for a
-particular exam, observed over seven exam sessions that had been administered by a
-professional examination body:
+## Exercise 1
 
+The following data represent the average total number of marks obtained for a particular exam, observed over seven exam sessions that had been administered by a professional examination body:
 
 \[87, 53, 72, 90, 78, 85, 83 \]
 
-\noindent Enter these data into R and compute their sample mean and variance.
+Enter these data into R and compute their sample mean and variance.
 
 
----
-
-
-```r
+``` r
 y &lt;- c(87, 53, 72, 90, 78, 85, 83)
-
 mean(y)
 ```
 
@@ -42,8 +41,8 @@ mean(y)
 ## [1] 78.28571
 ```
 
-```r
-c(mean=mean(y), variance=var(y)) 
+``` r
+c(mean = mean(y), variance = var(y))
 ```
 
 ```
@@ -52,27 +51,20 @@ c(mean=mean(y), variance=var(y))
 ```
 
 
-\includegraphics[scale=0.45]{00-A1/images/A1-Q1.png}
-
-
---- 
-\subsection*{Exercise 2}
-
-\noindent Investigate whether the Poisson model is appropriate for these data, by calculating the sample mean and sample variance of 10 Poisson samples
-having the same size and mean as the sample given above.\\
-\medskip
-
-\noindent \textbf{Recall:}\\
-
-\noindent For the Poisson distribution $$ E(X)  = Var(X)$$
 
 ---
 
+## Exercise 2
+
+Investigate whether the Poisson model is appropriate for these data by calculating the sample mean and sample variance of 10 Poisson samples having the same size and mean as the sample given above.
+
+### Recall:
+For the Poisson distribution: `$$E(X) = \text{Var}(X)$$`
 
 
-```r
-xbar = s2 = numeric(10)
-
+``` r
+xbar &lt;- numeric(10)
+s2 &lt;- numeric(10)
 xbar
 ```
 
@@ -80,7 +72,7 @@ xbar
 ##  [1] 0 0 0 0 0 0 0 0 0 0
 ```
 
-```r
+``` r
 s2
 ```
 
@@ -88,116 +80,81 @@ s2
 ##  [1] 0 0 0 0 0 0 0 0 0 0
 ```
 
-
-\includegraphics[scale=0.45]{00-A1/images/A1-Q1-ForLoop-1.png}
-
 ---
-
-\noindent use \texttt{rpois()} to generate 7 random numbers.
-
+Use `rpois()` to generate 7 random numbers.
 
 
-```r
-x &lt;- rpois(7, lambda= 78.29)
+``` r
+x &lt;- rpois(7, lambda = 78.29)
 x
 ```
 
 ```
-## [1] 78 79 64 79 74 67 74
+## [1] 63 78 79 87 83 70 93
 ```
-
-
-\includegraphics[scale=0.45]{00-A1/images/A1-Q1-rpois.png}
 
 ---
 
 
-
-```r
+``` r
 set.seed(1234)
-
-for (j in 1:10){
-
+for (j in 1:10) {
     x &lt;- rpois(7, 78.29)
- 
     xbar[j] &lt;- mean(x)
- 
     s2[j] &lt;- var(x)
+}
+```
+#
+It is unusual to get as large a difference between the mean and the variance as that observed for these data, making it doubtful that these data are from a Poisson distribution.
 
+---
+
+## Exercise 3
+
+Investigate whether the Poisson model is appropriate for these data by calculating the sample mean and sample variance of 10,000 Poisson samples having the same size and mean as the sample given above.
+
+
+``` r
+set.seed(1234)
+for (j in 1:10000) {
+    x &lt;- rpois(7, 78.29)
+    xbar[j] &lt;- mean(x)
+    s2[j] &lt;- var(x)
 }
 ```
 
-\includegraphics[scale=0.45]{00-A1/images/A1-Q1-ForLoop.png}
-
----
-
-\includegraphics[scale=0.45]{00-A1/images/A1-Q1-Estimates.png}
-
-
-
-\noindent It is unusual to get as large a difference between the mean and the variance as that observed for these data, 
-making it doubtful that these data are from a Poisson distribution. 
-
----
-
-\subsection*{Exercise 3}
-
-\noindent Investigate whether the Poisson model is appropriate for these data, by calculating the sample mean and sample variance of 10,000 Poisson samples
-having the same size and mean as the sample given above.
-
 
 ---
 
 
-
-```r
-set.seed(1234)
-
-for (j in 1:10000){
-
-    x &lt;- rpois(7, 78.29)
- 
-    xbar[j] &lt;- mean(x)
- 
-    s2[j] &lt;- var(x)
-
-}
-
-
-hist(xbar, breaks = 200,col="lightblue" )
+``` r
+hist(xbar, breaks = 200, col = "lightblue")
 ```
 
-![](01-Part1-Poisson_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
-
-```r
-hist(s2, breaks = 200,col="pink" )
-```
-
-![](01-Part1-Poisson_files/figure-html/unnamed-chunk-5-2.png)&lt;!-- --&gt;
-
-
---- 
-
-\includegraphics[scale=0.48]{00-A1/images/AA-Q1-Hist-Xbar.png}
-
-\includegraphics[scale=0.48]{00-A1/images/A1-Q1-Hist-S2.png}
+![](01-Part1-Poisson_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 
 ---
 
 
+``` r
+hist(s2, breaks = 200, col = "pink")
+```
 
-```r
-mean(s2&gt;159)
+![](01-Part1-Poisson_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+
+``` r
+mean(s2 &gt; 159)
 ```
 
 ```
 ## [1] 0.0562
 ```
 
-
-
-
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -244,6 +201,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

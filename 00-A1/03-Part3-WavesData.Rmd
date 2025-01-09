@@ -10,150 +10,126 @@ output:
 ---
 
 
-In a small empirical study, data are recorded on the number of waves per hour and the
-average wave height per hour at a location just off the coast of Scotland. 
+---
 
-The data are
-given in the file named CS1waves.Rdata. 
+In a small empirical study, data are recorded on the number of waves per hour and the average wave height per hour at a location just off the coast of Scotland. The data are given in the file named `CS1waves.Rdata`. Loading the data into R will create two vectors in your R workspace, called **Wn** (number of waves per hour) and **Wheight** (average wave height in cm during the hour).
 
-Loading the data into R will create two
-vectors in your R workspace, called \textbf{\textit{Wn}} (number of waves per hour) and \textbf{\textit{Wheight}}
-(average wave height in cm during the hour).
+---
+### Exercise 1
+Generate an appropriate plot to visually inspect the relationship between wave height and the number of waves per hour.
 
-Generate an appropriate plot to visually inspect the relationship between wave
-height and number of waves per hour.
+```{r echo=FALSE}
+# load data
 
+Waves <- readr::read_csv("WavesData.csv", show_col_types = FALSE)
+attach(Waves)
+#load("CS1waves.Rdata")
+```
 
 ---
 
-### Exercise  1
-
-
-Generate an appropriate plot to visually inspect the relationship between wave
-height and number of waves per hour.
-
-
-
 ```{r}
-# load data
-load("CS1waves.Rdata")
-
-#plot data
-plot(Wn, Wheight)
+head(Waves)
 ```
 
 
+```{r eval=FALSE}
+# plot data
+plot(Wn, Wheight,
+     pch=18,col="red")
+```
+
 ---
 
-### Exercise  2
+```{r echo=FALSE}
+# plot data
+plot(Wn, Wheight,
+     pch=18,col="red")
+```
 
-Comment on the plot in Exercise 1
 
 
-#### Comments 
+---
 
-There seems to be a linear relationship between wave height and number of waves.
-The more waves per hour, the smaller the waves (negative association).
+### Exercise 2
+**Comment on the plot in Exercise 1.**
+
+
+#### Comments
+There seems to be a linear relationship between wave height and the number of waves. The more waves per hour, the smaller the waves (negative association).
 
 ---
 
 ### Exercise 3
-
-Calculate Pearson’s correlation coefficient between the number of waves per
-hour and the average wave height.
-
+Calculate Pearson’s correlation coefficient between the number of waves per hour and the average wave height.
 
 ```{r}
-cor(Wn, Wheight,method = "pearson")
-
+cor(Wn, Wheight, method = "pearson")
 ```
-
 
 ---
 
 ### Exercise 4
 
-Calculate Spearman’s rank correlation coefficient between the number of
-waves per hour and the average wave height.
-
-Comment on your findings in parts (iii) and (iv).
+Calculate Spearman’s rank correlation coefficient between the number of waves per hour and the average wave height. Comment on your findings in parts (iii) and (iv).
 
 ```{r}
 cor(Wn, Wheight, method = "spearman")
-
 ```
-
----
-
-
-### Exercise  5
-We now model the number of waves per hour, X, as a random variable with a Poisson
-distribution with unknown parameter l. The log likelihood function for estimating l
-is given by l(l) = log(l)
-n
-x i ) – ln where n is the number of observations.
-( Â i=1
-
 
 ---
 
 ### Exercise 5
 
+We now model the number of waves per hour, X, as a random variable with a Poisson distribution with unknown parameter λ. The log likelihood function for estimating λ is given by:
 
-* Both correlation coefficients confirm the negative relationship that is
-already obvious in the plot.
+$$l(\lambda) = \log(\lambda) \cdot \sum_{i=1}^{n} x_i - n \cdot \lambda$$
+
+where $n$ is the number of observations.
+
+---
+
+
+### Exercise 5
+
+#### Comments
+
+* Both correlation coefficients confirm the negative relationship that is already obvious in the plot.
+
 * The rank correlation is lower than the Pearson correlation, indicating that the relationship is stronger when we take the magnitude of observations into account rather than just their relative rank.
+
 * In other words, for observations with similar magnitude, the ranks are not always ordered.
 
-
-
 ---
-
-### Exercise  6
-
-Plot the log likelihood function for values of $l = 220, 221, ..., 280$.
+### Exercise 6
+Plot the log likelihood function for values of $\lambda = 220, 221, ..., 280$.
 
 ```{r}
-l = 220:280
-ll = log(l)*sum(Wn)-168*l
-plot(l,ll) [1]
+λ = 220:280
+ll = log(λ) * sum(Wn) - 168 * λ
+plot(λ, ll)
 ```
 
-
 ---
+### Exercise 7
+Determine an approximate maximum likelihood estimate for λ using the plot in Exercise 6.
 
-### Exercise  7
-
-Determine an approximate maximum likelihood estimate for l using the plot in Exercise 6
 
 #### Solution
-
-
 * By inspection, the maximum of $ll(\hat{\lambda})$ is at about 250.
 * The maximum likelihood estimate is $\hat{\lambda} \approx 250$ waves per hour.
 
-
 ---
-
-### Exercise  8
-
-Calculate the exact maximum likelihood estimate of $l$.
+### Exercise 8
+Calculate the exact maximum likelihood estimate of $\lambda$.
 
 
 #### Solution
+The exact MLE is the mean, that is,
 
-The exact MLE is the mean, that is, \hat{\lambda}̂ = 168 ∑ 168
-ii=1 XX ii
-mean(Wn)
+$$\hat{\lambda} = \frac{\sum_{i=1}^{168} X_i}{168}$$
+$$\hat{\lambda} = 248.8579$$
 
-$\hat{\lambda}̂ =248.8579$
-
-A common error in part (vii) was to provide the value of the log likelihood
-instead of lambda.
-
-
-
----
-
+A common error in part (vii) was to provide the value of the log likelihood instead of λ.
 
 ---

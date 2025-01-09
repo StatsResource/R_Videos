@@ -58,32 +58,34 @@ options(scipen=5)
 
 ---
 
-Use the in-build functions in R to:
+
 
 ### Exercises
 
-1. Simulate 1,000 values from a Weibull distribution with parameters given above, assign 
+Use the in-build functions in R to:
+
+**1**. Simulate 1,000 values from a Weibull distribution with parameters given above, assign 
 this to a vector variable called ‘***WeibullSim***’. 
 <p>
-2.  Calculate the mean and standard deviation of the simulated values. 
+**2**.  Calculate the mean and standard deviation of the simulated values. 
 <p>
-3.   Using the mean and standard deviation estimated from exercise 2, estimate the $\mu$ and $\sigma$ parameters 
+**3**.   Using the mean and standard deviation estimated from exercise 2, estimate the $\mu$ and $\sigma$ parameters 
 of a LogNormal distribution following the method of moments approach. 
 <p>
-4.   Simulate 1,000 values from the LogNormal distribution using the parameter estimates above and assign this to a vector variable called ‘***LognormalSim***’ and calculate the 
+**4**.   Simulate 1,000 values from the LogNormal distribution using the parameter estimates above and assign this to a vector variable called ‘***LognormalSim***’ and calculate the 
 mean and standard deviation of the simulated values. 
+
+**5.** Plot a histogram of ‘<tt>WeibullSim</tt>’ and ‘<tt>LognormalSim</tt>’ showing the frequencies and paste 
+the plot into your answer.</li>
+
 
 ---
 
+
+
 ### Exercises
 
-<ol start="5">
-  <li> Plot a histogram of ‘<tt>WeibullSim</tt>’ and ‘<tt>LognormalSim</tt>’ showing the frequencies and paste 
-the plot into your answer.</li>
-<p>
-  <li>Plot the probability density function for ‘<tt>WeibullSim</tt>’ and ‘<tt>LognormalSim</tt>’ as a line plot.</li>
-</ol>
-
+**6.** Plot the probability density function for ‘<tt>WeibullSim</tt>’ and ‘<tt>LognormalSim</tt>’ as a line plot.
 
  
 
@@ -91,16 +93,18 @@ the plot into your answer.</li>
   * Set the <tt>WeibullSim</tt> line to color ‘red’ and the <tt>LognormalSim</tt> line to color ‘green’.
   * Set the y-axis limits from 0 to 0.00001.
 
-Hint: Use the density function in R to estimate densities of your simulated values. 
+Hint: Use the <tt>density</tt> function in R to estimate densities of your simulated values. 
 
 
 ---
 
-#### Exercise 1
+### Exercise 1
 
 ```{r}
 shape <- 1.5
+
 scale <- 100000
+
 WeibullSim <- rweibull(1000,shape,scale) 
 
 ```
@@ -112,7 +116,7 @@ head(WeibullSim)
 
 ---
 
-```{r}
+```{r fig.width=10}
 hist(WeibullSim,breaks=30)
 ```
 
@@ -120,7 +124,7 @@ hist(WeibullSim,breaks=30)
 
 
 
-#### Exercise 2
+### Exercise 2
 
 Calculate the mean and standard deviation of the simulated values. 
 
@@ -138,7 +142,7 @@ SimSD
 ---
 
 
-#### Exercise 3
+### Exercise 3
 
 Using the mean and standard deviation estimated from exercise 2, estimate the $\mu$ and $\sigma$ parameters 
 of a LogNormal distribution following the method of moments approach.
@@ -148,7 +152,7 @@ of a LogNormal distribution following the method of moments approach.
 
 
 
-#### Exercise 3
+### Exercise 3
 
 #### Method of Moments	- Mean
 
@@ -213,22 +217,17 @@ sd(LogNormalSim)
 
 Plot a histogram of ‘***WeibullSim***’ and ‘***LognormalSim***’ showing the frequencies
 
-```{r}
-SimResults<-as.data.frame(cbind(WeibullSim,LogNormalSim))
-```
 
----
 
-```{r}
+```{r eval=FALSE,fig.width=10}
 
 hist(WeibullSim, breaks = 30)
 
 ```
 
----
 
-```{r}
 
+```{r eval=FALSE,fig.width=10}
 hist(LogNormalSim, breaks = 30) 
 ```
 
@@ -236,18 +235,48 @@ hist(LogNormalSim, breaks = 30)
 
 ---
 
+```{r echo=FALSE,fig.width=10}
 
-#### Exercise 6 
-Plot the probability density function for ‘***WeibullSim***’ and ‘***LognormalSim***’ as a line plot.
+hist(WeibullSim, breaks = 30)
 
-<pre><code>
-plot(density(WeibullSim),type = "l",col="red",ylim = c(0,0.00001))
-lines(density(LogNormalSim),col="green") 
-</code></pre>
+```
 
 ---
 
-```{r}
+```{r echo=FALSE,fig.width=10}
+
+hist(LogNormalSim, breaks = 30) 
+```
+
+
+
+
+
+---
+
+
+### Exercise 6 
+
+Plot the probability density function for ‘***WeibullSim***’ and ‘***LognormalSim***’ as a line plot.
+
+```{r echo=FALSE,fig.width=10}
+
+plot(density(WeibullSim),
+     type = "l",col="red",
+     ylim = c(0,0.00001))
+
+lines(density(LogNormalSim),
+      col="green") 
+```
+
+
+---
+
+
+### Exercise 6 
+
+
+```{r echo=FALSE,fig.width=10}
 plot(density(WeibullSim),type = "l",col="red",ylim = c(0,0.00001))
 lines(density(LogNormalSim),col="green") 
 

@@ -54,12 +54,12 @@ style_mono_accent_inverse(
   remark-slide-number { display: none; } 
 </style>
 
-## Probability Distributions
-### Exponential Distribution
-### Simulation and Analysis Using The Inverse Transform Method
+# Probability Distributions
+## Compound Poisson Distribution 
+### Modelling Claim Amounts
 <br><br><br><br>
 ## <tt>Probability with R</tt>
-### <tt>CS1B (FIA, September 2023)</tt>
+### <tt>CS2B (FIA, April 2022)</tt>
 
 ---
 

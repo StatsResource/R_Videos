@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -31,48 +31,26 @@ pre {
 }
 &lt;/style&gt;
 
-***CS2B – Risk Modelling and Survival Analysis ***
+## Time Series Analysis of the Sunspot Dataset
 
+### Description:
 
-* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+This exercise involves the analysis of the 'sunspot' dataset, which contains the monthly mean relative sunspot numbers from 1749 to 1983. The data was collected at the Swiss Federal Observatory in Zurich until 1960, and then by the Tokyo Astronomical Observatory.
 
-* Time Series. Probability Distributions, Survival Analysis
-
----
-
-### Question 4
-
-The ‘sunspot’ dataset contains the monthly mean relative sunspot numbers from 1749 to 1983. 
-Collected at Swiss Federal Observatory, Zurich until 1960, then Tokyo Astronomical 
-Observatory. Please import this dataset from the ‘datasets’ package in R.
-Libraries required:
-‘tseries’
-‘forecast’
+The primary tasks involve importing the dataset from the datasets package in R, and utilizing the tseries and forecast libraries for various time series analysis tasks.
 
 ---
 
-#### Exercises 
-1. Plot the timeseries with frequency = 12, giving appropriate labels for each axis and paste 
-the chart into your answer sheet. 
+### R packages
 
-2.  Plot the sample Auto-correlation Function (ACF) and the sample Partial Auto-Correlation 
-Function (PACF) of the data, giving appropriate labels for the x and y axes. 
+* Please import this dataset from the ‘datasets’ package in R. Required libraries: `tseries` and `forecast`.
 
-3.   Estimate the ACF and PACF values at each lag. 
 
-4.   Comment on the ACF based on the charts and values computed in Parts 2.  and 3. 
 
-5.  Calculate the simple seasonal difference with period 12. Print the top 12 values of the 
-seasonal difference. 
 
-6.  Decompose the trend, seasonality and randomness of the data. Plot the decomposed values.
-
-7. Comment on the general features of your chart. 
-
----
-
-Solution 4:
-
+``` r
+library(tseries)
+```
 
 ```
 ## Registered S3 method overwritten by 'quantmod':
@@ -80,46 +58,86 @@ Solution 4:
 ##   as.zoo.data.frame zoo
 ```
 
+``` r
+library(forecast)
+```
+
 ---
 
-### (i)
+#### Exercises
+
+**A**. Plot the time series with `frequency = 12`, giving appropriate labels for each axis and paste the chart into your answer sheet.
+
+**B**. Plot the sample Auto-correlation Function (ACF) and the sample Partial Auto-Correlation Function (PACF) of the data, giving appropriate labels for the x and y axes.
+
+**C**. Estimate the ACF and PACF values at each lag.
+
+**D**. Comment on the ACF based on the charts and values computed in Parts B and C.
+
+**E**. Calculate the simple seasonal difference with `period = 12`. Print the top 12 values of the seasonal difference.
+
+**F**. Decompose the trend, seasonality, and randomness of the data. Plot the decomposed values.
+
+G. Comment on the general features of your chart.
 
 
-```r
+
+---
+
+### Exercise A.
+
+**Import the sunspot data and convert it into a time series object with a frequency of 12.**
+
+
+``` r
 data(sunspots)
-a&lt;-ts(sunspots,frequency = 12)
-plot(a, main = "Time series of plots")
+a &lt;- ts(sunspots, frequency = 12)
+head(a)
 ```
 
-![](Question_4_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+```
+##    Jan  Feb  Mar  Apr  May  Jun
+## 1 58.0 62.6 70.0 55.7 85.0 83.5
+```
+
+
+``` r
+plot(a, main = "Time Series of Sunspots")
+```
 
 ---
 
-### Part (B)
 
-
-```r
-par(mfrow=c(1,2))
-acf(a,main="Sample ACF")
-pacf(a,main="Sample PACF")
-```
-
-![](Question_4_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
-
----
-
-#### Part (B)
+### Exercise A.
 
 ![](Question_4_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 ---
 
+### Exercise B
 
-#### Part  (C)
+**Plot the sample Auto-correlation Function (ACF) and the sample Partial Auto-Correlation Function (PACF) of the time series data.**
 
 
-```r
-acf(a,plot = FALSE)
+``` r
+par(mfrow = c(1, 2))
+acf(a, main = "Sample ACF")
+pacf(a, main = "Sample PACF")
+```
+
+---
+
+![](Question_4_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+### Exercise C
+
+**Calculate the Auto-correlation Function (ACF) and Partial Auto-Correlation Function (PACF) values at each lag.**
+
+
+``` r
+acf(a, plot = FALSE)
 ```
 
 ```
@@ -136,14 +154,24 @@ acf(a,plot = FALSE)
 ##  0.115  0.083
 ```
 
+---
+
+### Exercise C
 
 
+``` r
+acf(a)
+```
+
+![](Question_4_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ---
 
+### Exercise C
 
-```r
-pacf(a,plot = FALSE)
+
+``` r
+pacf(a, plot = FALSE)
 ```
 
 ```
@@ -162,25 +190,53 @@ pacf(a,plot = FALSE)
 
 ---
 
-### PArt 4
+### Exercise C
 
-* 'The ACF indicates that there is correlation between an observation and the past observations. 
 
-* There is a correlation beyond 2.5 years but it keeps getting weaker'
+``` r
+pacf(a)
+```
 
-* "The ACF indicates that there is correlation between an observation and the past observations. 
- 
-* There is a correlation beyond 2.5 years but it keeps getting weaker" 
-
+![](Question_4_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
 
-### Part E
+### Exercise D
+
+**Analyze the ACF and PACF plots to understand the correlation between observations and past observations.**
+
+* The ACF indicates that there is a correlation between an observation and the past observations.
+* There is a correlation beyond 2.5 years, but it keeps getting weaker.
 
 
-```r
-s&lt;-diff(a, lag=12,differences=1)
-head(s,12) 
+### Interpretation
+
+When the Auto-Correlation Function (ACF) shows correlation between observations, but the Partial Auto-Correlation Function (PACF) does not, this can indicate the presence of indirect dependencies or autocorrelation in the time series.
+
+The ACF measures the correlation between observations at different lags, including both direct and indirect effects. If the ACF indicates significant correlation, it means that current values are related to past values, possibly over multiple lags.
+
+---
+
+### Exercise D
+
+
+
+
+
+However, the PACF isolates the direct correlation of the current value with its past values, removing any intermediate influence. If the PACF shows no significant correlation, it suggests that once you account for the immediate previous value(s), there's no additional direct relationship with earlier values. This situation can occur in an autoregressive process where the immediate past values fully explain the current value, making longer lags unnecessary
+
+To sum up, if the ACF shows correlation but the PACF does not, it suggests that the observed correlations in the ACF are due to indirect effects rather than direct influences from past values.
+
+---
+
+### Exercise E
+
+**Calculate the seasonal difference with a period of 12 and print the top 12 values of the seasonal difference.**
+
+
+``` r
+s &lt;- diff(a, lag = 12, differences = 1)
+head(s, 12)
 ```
 
 ```
@@ -190,31 +246,33 @@ head(s,12)
 
 ---
 
+### Exercise F
 
-### Part F
+**Decompose the time series data into trend, seasonality, and randomness components and plot them.**
 
 
-```r
-f&lt;-decompose(a)
+``` r
+f &lt;- decompose(a)
 plot(f)
 ```
 
-![](Question_4_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+---
+
+
+### Exercise F
+
+![](Question_4_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ---
 
-### Part G
+### Exercise G
 
-'The cyclical trend with more variations at the longer time lags, 
-there is seasonality in the dataset'
- "The cyclical trend with more variations at the longer time lags, there is seasonality in the dataset" 
+**Comment on the general features of the decomposed plot.**
+
+* The cyclical trend with more variations at the longer time lags indicates seasonality in the dataset.
 ```
 
 ---
-
-
----
-
 ---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

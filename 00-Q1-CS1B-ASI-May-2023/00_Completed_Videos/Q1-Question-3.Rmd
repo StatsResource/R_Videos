@@ -1,0 +1,338 @@
+---
+title: "Statistics with R"
+subtitle: "Introduction to R for Actuarial Students"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(magrittr)
+library(knitr)
+library(dplyr)
+library(janitor)
+
+
+```
+
+```{css, echo=FALSE}
+pre {
+  background: #ADD8E6;
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+* Introduction to R for Actuarial Students
+
+* CS1B Curriculum
+
+* Introduction to R programming
+* Fundamentals of Statistical Analysis
+
+* Question 1
+
+---
+
+### Bayesian Analysis of Cloud Kitchen Sales Using R
+
+ 
+This exercise introduces actuarial students to Bayesian statistical methods using R. 
+
+The task involves analyzing sales data from a cloud kitchen, where total monthly sales are assumed to follow a normal distribution with unknown mean and variance. 
+
+Students will compute the moment-generating function (MGF) for the prior distribution, derive the posterior distribution of the mean sales, and visualize both prior and posterior distributions using provided R code. 
+
+---
+
+### Scenario
+
+Total sales per month on a particular cloud kitchen follow a normal distribution with unknown mean θ and variance $20^2$. 
+
+* Sales $x_1, x_2, \ldots,x_n$ are observed over $n$ months. 
+
+* Prior beliefs that θ follows normal distribution with mean 60 and variance $5^2$.
+
+* Sales for last 5 months are extracted for analysis. Total sales for last 5 months were 340.
+
+---
+
+### Exercise A
+
+Mθ(t) denotes MGF of θ. 
+
+- State and compute M'θ(0) and M''θ(0). 
+
+- Use `m1t0` for M'θ(0) and `m2t0` for M''θ(0). 
+
+
+---
+
+
+### Exercise A
+
+```{r}
+# m1x0 = E[X] 
+# m2x0 = E[x^2] 
+# var = E[x^2] - E[x]^2
+# Equivalently m2x0 = var + E[x]^2
+
+prior_mean <- 60
+prior_sd <- 5
+
+m1x0 <- prior_mean
+m2x0 <- prior_sd^2 + prior_mean^2
+```
+
+---
+
+
+### Exercise A
+
+```{r}
+m1x0
+```
+
+```{r}
+m2x0
+```
+
+
+---
+
+### Exercise B
+
+1. State the posterior distribution of θ and compute parameters of the distribution using the sales of last 5 months.
+
+2. After 50 months, the same analysis is performed using the 50 months sales data. Total sales for the last 50 months were 3400.
+
+Compute the parameters of the posterior distribution of θ using 50 months sales data.
+
+
+### Remark: 
+
+This is the application of Bayesian inference to update the probability distribution for the mean sales of a cloud kitchen based on new data.
+
+The exercise demonstrates how to combine the prior distribution (representing initial beliefs) with the likelihood function (based on observed data) to form the posterior distribution.
+
+---
+
+### Exercise B
+
+* θ follows N(prior mean, prior variance)
+
+* Random Variable X follows N(θ, variance)
+
+* Posterior distribution of θ follows Normal Distribution with following parameters
+* Post Mean: $$\text{post mean} = \frac{n \cdot \text{sample mean} / \text{variance} + \text{prior mean} / \text{prior variance}}{n / \text{variance} + 1 / \text{prior variance}}$$
+
+* Post Variance: $$\text{post_var} = \left( \frac{n}{\text{variance}} + \frac{1}{\text{prior_variance}} \right)^{-1}$$
+---
+
+
+### Exercise B 
+
+**Last 5 Months**
+
+```{r}
+n <- 5
+sample_mean <- 340 / 5
+sdev <- 20
+ 
+post_mean <- (n * sample_mean / sdev^2 + prior_mean / prior_sd^2) / (n / sdev^2 + 1 / prior_sd^2)
+
+#post variance = 1/(n/variance + 1/prior variance) 
+post_var <- 1 / (n / sdev^2 + 1 / prior_sd^2)
+```
+
+---
+
+### Exercise B 
+
+
+**Last 5 Months**
+
+```{r}
+post_mean
+post_var
+sqrt(post_var)
+```
+
+
+---
+
+### Exercise B 
+
+
+**Last 50 Months**
+
+```{r}
+sample2_mean <- 3400 / 50
+n2 <- 50
+post2_mean <- (n2 * sample2_mean / sdev^2 + prior_mean / prior_sd^2) / (n2 / sdev^2 + 1 / prior_sd^2)
+
+#post variance = 1/(n/variance + 1/prior variance) 
+post2_var <- 1 / (n2 / sdev^2 + 1 / prior_sd^2)
+```
+
+---
+
+
+### Exercise B 
+
+**Last 50 Months**
+```{r}
+post2_mean
+post2_var
+sqrt(post2_var)
+```
+
+---
+
+
+
+### Exercise C
+
+Use the code below to plot the prior distribution of θ:
+```{r fig.width=10,eval = FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5 
+y <- dnorm(x, mean=60, sd=5) 
+plot(x, y, ylim=c(0, .02))
+```
+
+* Add a line to overlay the posterior distribution of θ.
+* Add another line to overlay the posterior distribution of θ after 50 months.
+* Place the final graph and comment on it.
+
+---
+
+## Exercise C
+
+**Solution**
+
+
+What we are given to start with
+```{r fig.width=10,eval=FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5
+
+y <- dnorm(x, mean=60, sd=5)
+
+plot(x, y, ylim=c(0, 0.2), 
+     pch=18,col="red")
+```
+
+
+---
+
+What we are given to start with
+
+```{r fig.width=10,echo=FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5
+y <- dnorm(x, mean=60, sd=5)
+plot(x, y, ylim=c(0, 0.2), 
+     pch=18,col="red")
+```
+
+
+---
+
+
+## Exercise C
+
+*** Add a line to overlay the posterior distribution of θ**
+
+```{r fig.width=10,eval=FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5
+y <- dnorm(x, mean=60, sd=5)
+plot(x, y, ylim=c(0, 0.2), 
+     pch=18,col="red")
+
+px1 <- post_mean + seq(-3, 3, by=0.2) * sqrt(post_var)
+
+py1 <- dnorm(px1, mean=post_mean, sd=sqrt(post_var))
+
+lines(px1, py1, col="green")
+```
+
+---
+
+## Exercise C
+
+**Add a line to overlay the posterior distribution of θ**
+
+
+
+```{r fig.width=10,echo=FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5
+y <- dnorm(x, mean=60, sd=5)
+plot(x, y, ylim=c(0, 0.2), 
+     pch=18,col="red")
+
+px1 <- post_mean + seq(-3, 3, by=0.2) * sqrt(post_var)
+py1 <- dnorm(px1, mean=post_mean, sd=sqrt(post_var))
+lines(px1, py1, col="green")
+```
+
+---
+
+## Exercise C
+
+**Add another line to overlay the posterior distribution of θ after 50 months.**
+
+```{r fig.width=10,eval=FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5
+y <- dnorm(x, mean=60, sd=5)
+plot(x, y, ylim=c(0, 0.2),  pch=18,col="red")
+
+px1 <- post_mean + seq(-3, 3, by=0.2) * sqrt(post_var)
+py1 <- dnorm(px1, mean=post_mean, sd=sqrt(post_var))
+lines(px1, py1, col="green")
+
+px2 <- post2_mean + seq(-3, 3, by=0.2) * sqrt(post2_var)
+py2 <- dnorm(px2, mean=post2_mean, sd=sqrt(post2_var))
+lines(px2, py2, col="blue")
+```
+
+
+---
+
+## Exercise C
+
+**Add another line to overlay the posterior distribution of θ after 50 months.**
+
+
+```{r fig.width=10,echo=FALSE}
+x <- 60 + seq(-3, 3, by=0.2) * 5
+y <- dnorm(x, mean=60, sd=5)
+plot(x, y, ylim=c(0, 0.2),  pch=18,col="red")
+
+px1 <- post_mean + seq(-3, 3, by=0.2) * sqrt(post_var)
+py1 <- dnorm(px1, mean=post_mean, sd=sqrt(post_var))
+lines(px1, py1, col="green")
+
+
+px2 <- post2_mean + seq(-3, 3, by=0.2) * sqrt(post2_var)
+py2 <- dnorm(px2, mean=post2_mean, sd=sqrt(post2_var))
+lines(px2, py2, col="blue")
+```
+
+---
+
+### Comments
+
+#### First Scenario
+- The posterior distribution with sample size = 5 is close to the prior distribution. 
+- There is a slight shift of the mean towards the sample mean and a similar dispersion.
+
+#### Second Scenario
+- When the sample size increased, the posterior distribution moves towards the sample mean and dispersion. 
+- More weight is given to the sample where the sample size is big. 
+- Additionally, the variation is reduced with a larger sample size.
+
+---
+
+---
