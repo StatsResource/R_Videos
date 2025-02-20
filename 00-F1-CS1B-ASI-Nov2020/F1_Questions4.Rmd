@@ -244,8 +244,8 @@ Based on the linear regression model, the formula is:
 $$ \ln(\text{ILI}) = -0.49934 + 2.96129 \times \text{Queries} $$
 
 Where:
-- \( \ln(\text{ILI}) \) is the natural logarithm of the percentage of ILI-related physician visits.
-- \( \text{Queries} \) is the fraction of ILI-related search queries.
+- $\ln(\text{ILI})$ is the natural logarithm of the percentage of ILI-related physician visits.
+- $\text{Queries}$ is the fraction of ILI-related search queries.
 
 ---
 
