@@ -147,7 +147,132 @@ confusion_matrix_tree$byClass['Recall']
    Recall  
 0.8478261  
 (4) 
-  
+###########################################################################################
+
+Here’s a tidied-up version of your code and analysis. I've structured it for improved readability:
+
+---
+
+### CS2B-1124: Question 1
+
+#### Setup
+```r
+# Install required packages
+install.packages(c("dplyr", "randomForest", "caret", "rpart", "rpart.plot"), type = "binary")
+
+# Load libraries
+library(dplyr)
+library(randomForest)
+library(caret)
+library(rpart)
+library(rpart.plot)
+```
+
+#### i) Load and Prepare Data
+```r
+# Load dataset
+heart_disease <- read.csv("<path>/heart_disease.csv")
+
+# Convert relevant columns to factors
+heart_disease <- heart_disease %>% 
+  mutate(across(c(sex, cp, fbs, restecg, exang, slope, ca, thal, target), factor))
+```
+
+#### ii) Split Data into Training and Testing Sets
+```r
+set.seed(123)  # Ensure reproducibility
+
+# Split data (70% training, 30% testing)
+train_index <- 1:(nrow(heart_disease) * 0.7)
+train_data <- heart_disease[train_index, ]
+test_data <- heart_disease[-train_index, ]
+```
+
+#### iii) Build and Plot Decision Tree Model
+```r
+# Train decision tree model
+tree_model <- rpart(target ~ ., data = train_data, method = "class")
+
+# Visualize decision tree
+rpart.plot(tree_model)
+```
+
+##### Inferences from Decision Tree
+- **Left Node Split**: Patients with thalassemia < 3 move left; represents 45% of data.
+- **Age Split**: If age < 59, branches leftward (35% of data). 
+  - Probability of heart disease diagnosis: 
+    - Thalassemia = 3, age < 59 → 0.08
+    - Thalassemia = 3, age > 59, chest pain = 4 → 0.73
+- **Right Node Split**: Splits further on chest pain and number of major vessels.
+  - Probability of diagnosis increases with number of vessels:
+    - Chest pain ≤ 3, vessels = 0 → 0.24
+    - Chest pain ≤ 3, vessels > 0 → 0.75
+    - Chest pain = 4 → 0.89 (31% of total population).
+
+#### iv) Evaluate Decision Tree
+```r
+# Predict with decision tree
+pred_tree <- predict(tree_model, test_data, type = "class")
+
+# Confusion matrix for decision tree
+confusion_matrix_tree <- confusionMatrix(pred_tree, test_data$target)
+
+# Metrics
+confusion_matrix_tree$overall['Accuracy']
+confusion_matrix_tree$byClass[c('Precision', 'Recall')]
+```
+
+**Results**:
+- **Accuracy**: 76.67%
+- **Precision**: 73.58%
+- **Recall**: 84.78%
+
+---
+
+#### v) Train Random Forest Model (mtry = 13)
+```r
+set.seed(123)
+
+# Train random forest model
+rf_model_1 <- randomForest(target ~ ., data = train_data, ntree = 100, mtry = 13)
+
+# Predict with random forest
+pred_rf_1 <- predict(rf_model_1, test_data)
+
+# Confusion matrix for random forest (mtry = 13)
+confusionMatrix(pred_rf_1, test_data$target)
+```
+
+**Results**:
+- **Accuracy**: 80%
+- **Sensitivity**: 91.30%
+- **Specificity**: 68.18%
+
+---
+
+#### vi) Train Random Forest Model (Default mtry)
+```r
+set.seed(123)
+
+# Train random forest with default mtry
+rf_model_2 <- randomForest(target ~ ., data = train_data, ntree = 100)
+
+# Predict with random forest
+pred_rf_2 <- predict(rf_model_2, test_data)
+
+# Confusion matrix for random forest (default mtry)
+confusionMatrix(pred_rf_2, test_data$target)
+```
+
+**Results**:
+- **Accuracy**: 81.11%
+- **Sensitivity**: 89.13%
+- **Specificity**: 72.73%
+
+---
+
+####################################################################################
+
  v) 
 set.seed(123) 
 rf_model_1 <- randomForest(target ~ age + sex + cp + trestbps + chol + fbs + restecg + thalach + exang 
@@ -186,7 +311,8 @@ Page 5 of 19
                                            
        'Positive' Class : 0  
 (4) 
- 
+
+############################################################################################
  vi)  
 The default value of mtry is d/3 or √𝑑   ~ 4 (rounded off) 
  
@@ -223,13 +349,13 @@ Prediction  0  1
       Balanced Accuracy : 0.8093           
                                            
        'Positive' Class : 0  
- 
+
+##################################################################
 Alternate answer 
  
 Confusion Matrix and Statistics 
  
-IAI                                                                                                                                                  
-CS2B-1124 
+
 Reference 
 Prediction  0  1 
 0 42 13 
@@ -249,47 +375,61 @@ Detection Rate : 0.4667
 Detection Prevalence : 0.6111           
 Balanced Accuracy : 0.8088           
 'Positive' Class : 0                                   
-vii) 
-tree_accuracy <- confusion_matrix_tree$overall['Accuracy'] 
-cat("Decision Tree Accuracy:", tree_accuracy, "\n") 
-rf_accuracy_1 <- confusionMatrix(pred_rf_1, test_data$target)$overall['Accuracy'] 
-rf_accuracy_2 <- confusionMatrix(pred_rf_2, test_data$target)$overall['Accuracy'] 
-cat("Random Forest Accuracy mtry 13:", rf_accuracy_1, "\n") 
-cat("Random Forest Accuracy default mtry:", rf_accuracy_2, "\n") 
-Decision Tree Accuracy: 0.7666667 
-Random Forest Accuracy mtry 13: 0.8 
-Random Forest Accuracy default mtry: 0.8111111  
-(4) 
-The accuracy for the decision tree model is the least, however Random Forest models have 
-better accuracy in this particular scenario. 
-Among the 2 random forest models, the model with default value of mtry has better accuracy 
-than the model which uses all the parameters. 
-Using all predictor variables while fitting Random Forest is bagging. While using 1 predictor 
-variable will overfit the model. Here, Default value (13/3 ~ rounded off to 4) chooses the 4 
-predictor variables at random and fits the model to give the output. Thus, this increases the 
-accuracy and at the same time does not over fits. 
-(3) 
-Page 6 of 19 
-IAI                                                                                                                                                  
-CS2B-1124 
-viii) 
-Decision Trees:  
-a) Prone to high variance,  
-b) Sensitive to data,  
-c) Can easily overfit due to their flexibility and  
-d) Ability to capture detailed patterns (including noise) in the training data. 
-Random Forest:  
-a) Combines multiple randomized trees and combines their predictions,  
-b) This reduces variance and thus overfitting by diluting the impact of noise and over
-specific patterns learned by individual trees.  
-c) The randomness in feature selection and bootstrapped data sampling ensures diversity 
-in the trees 
-(3) 
-ix) 
-ROC Curve 3 has the highest AUC of 0.99. This is a measure of model performance.  
-Also, ROC Curve 3 has strictly higher True Positives rates for false positives rates at 5% 
-indicating high predictive power. 
-Thus, ROC Curve 3 indicates best model performance among the given three, due to the above 
-stated reasons.  
-AUC for random classifier is 0.5 
-AUC for perfect classifier is 1. 
+Here’s a neatly organized version of your analysis for sections vii, viii, and ix:
+
+---
+
+### vii) Accuracy Comparison
+
+```r
+# Decision Tree Accuracy
+tree_accuracy <- confusion_matrix_tree$overall['Accuracy']
+cat("Decision Tree Accuracy:", tree_accuracy, "\n")
+
+# Random Forest Accuracy (mtry = 13)
+rf_accuracy_1 <- confusionMatrix(pred_rf_1, test_data$target)$overall['Accuracy']
+cat("Random Forest Accuracy mtry 13:", rf_accuracy_1, "\n")
+
+# Random Forest Accuracy (default mtry)
+rf_accuracy_2 <- confusionMatrix(pred_rf_2, test_data$target)$overall['Accuracy']
+cat("Random Forest Accuracy default mtry:", rf_accuracy_2, "\n")
+```
+
+**Results**:
+- Decision Tree Accuracy: **0.7667**
+- Random Forest Accuracy (mtry = 13): **0.8**
+- Random Forest Accuracy (default mtry): **0.8111**
+
+**Observation**:
+- Random Forest models outperform the Decision Tree model in this scenario.
+- The default mtry value (selecting 4 predictors at random) yields slightly higher accuracy than using all predictors (mtry = 13).
+- Using all predictors corresponds to **bagging**, whereas selecting fewer predictors avoids overfitting while increasing accuracy.
+
+---
+
+### viii) Characteristics of Decision Trees and Random Forests
+
+**Decision Trees**:
+- Prone to high variance.
+- Sensitive to data and can easily overfit.
+- Capture detailed patterns, including noise, in the training data.
+
+**Random Forest**:
+- Combines predictions from multiple randomized trees.
+- Reduces variance and mitigates overfitting by diluting the impact of noise and overly specific patterns.
+- Incorporates randomness in feature selection and bootstrapped data sampling, ensuring diversity among trees.
+
+---
+
+### ix) ROC Curve Analysis
+
+- **ROC Curve 3**:
+  - Has the highest AUC (**0.99**), indicating superior model performance.
+  - Strictly higher true positive rates for false positive rates at 5%, showcasing strong predictive power.
+  - Represents the best model among the three based on its ability to balance sensitivity and specificity.
+
+**Key Notes**:
+- AUC of a random classifier: **0.5**.
+- AUC of a perfect classifier: **1**.
+
+---
