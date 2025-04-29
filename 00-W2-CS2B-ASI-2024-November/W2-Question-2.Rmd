@@ -43,6 +43,102 @@ style_mono_accent_inverse(
 * Question 1
 ---
 
+Here’s a cleaned-up and organized version of your text for better clarity:
+
+---
+
+### Q. 2
+
+#### i) Install and Load Required Packages
+```r
+# Install required packages
+install.packages(c("survival", "survminer", "ggplot2"), type = "binary")
+
+# Load libraries
+library(survival)
+library(survminer)
+library(ggplot2)
+
+# Load dataset
+Cruise <- read.csv("<path>/Cruise.csv")
+
+# Summary of time column
+summary(Cruise$time)
+# Output:
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max.  
+# 2.0   114.2   300.0   203.0   300.0   300.0  
+
+# Status distribution
+table(Cruise$status)
+# Output:
+# 0   1  
+# 105  95
+```
+
+---
+
+#### ii) Kaplan-Meier Survival Curve
+```r
+# Kaplan-Meier survival estimation
+km_fit <- survfit(Surv(time, status) ~ 1, data = Cruise)
+
+# Summary of Kaplan-Meier fit
+summary(km_fit)
+# Output includes survival probability, standard error, and confidence intervals at each time.
+```
+
+##### Kaplan-Meier Survival Plot
+```r
+# Generate Kaplan-Meier plot
+ggsurvplot(
+  km_fit,
+  data = Cruise,
+  title = "Kaplan-Meier Survival Curve",
+  conf.int = TRUE,
+  risk.table = TRUE
+)
+```
+
+---
+
+#### iii) Kaplan-Meier Curve by Passenger Class (Pclass)
+```r
+# Kaplan-Meier fit by passenger class
+km_fit_treatment <- survfit(Surv(time, status) ~ Pclass, data = Cruise)
+
+# Summary of Kaplan-Meier fit by Pclass
+summary(km_fit_treatment)
+# Outputs stratified survival probabilities for each class.
+```
+
+##### Kaplan-Meier Survival Plot by Pclass
+```r
+# Generate Kaplan-Meier plot by Pclass
+ggsurvplot(
+  km_fit_treatment,
+  data = Cruise,
+  conf.int = TRUE,
+  xlab = "Time (minutes)",
+  ylab = "Survival Probability",
+  title = "Kaplan-Meier Survival Curve by Pclass",
+  pval = TRUE,
+  risk.table = TRUE
+)
+```
+
+---
+
+#### Observations
+1. **Overall Survival**:
+   - Kaplan-Meier estimates provide survival probabilities over time for all passengers.
+   - Survival drops progressively as time increases.
+
+2. **Survival by Passenger Class**:
+   - Passengers in **Class 1** have the highest survival probability.
+   - Passengers in **Class 2** follow, while **Class 3** passengers have the lowest survival probability.
+
+---
+
 
 Q. 2)  
 i. 
@@ -409,3 +505,99 @@ characteristics.
 • The dataset contains complex factors that need to be considered simultaneously. 
 (2) 
 [28 Marks] 
+
+
+Here’s a cleaned-up and structured version of your content for better readability:
+
+---
+
+### Q. 2 - Survival Analysis (iv–viii)
+
+#### iv) Cox Proportional Hazards Model
+```r
+# Fit Cox proportional hazards model
+cox_fit <- coxph(Surv(time, status) ~ Age + Sex + Pclass + Mstatus + Parch + SibSp + Embarked, data = Cruise)
+
+# Summary of the Cox model
+summary(cox_fit)
+```
+
+##### Key Results:
+- **Concordance**: 0.646 (se = 0.028), indicating fair predictive ability.
+- **Significance Tests**:
+  - Likelihood ratio test: p = 2e-04
+  - Wald test: p = 3e-04
+  - Score (logrank) test: p = 2e-04
+
+---
+
+#### v) Interpretation of Cox Model
+(a) **Coefficient (coef)**: Represents the log of the hazard ratio (log(HR)).
+- Positive coef: Predictor increases hazard (higher risk).
+- Negative coef: Predictor decreases hazard (lower risk).
+
+**Predictor Insights**:
+- **Age (coef = 0.0022)**: Slight increase in hazard with age.
+- **Sex (coef = 0.4776)**: Males have higher hazard compared to females.
+- **Pclass (coef = 0.5650)**: Higher passenger class (e.g., 2, 3) increases hazard compared to Class 1.
+- **Mstatus (coef = -0.0110)**: Slight decrease in hazard for being married.
+- **Parch (coef = -0.2125)**: Fewer parents/children aboard reduces hazard.
+- **SibSp (coef = 0.1815)**: More siblings/spouse aboard increases hazard.
+- **Embarked (coef = -0.2006)**: Boarding later reduces hazard.
+
+(b) **Statistical Significance**:
+- Predictors with *p* < 0.05:
+  - **Sex**: p = 0.0278
+  - **Pclass**: p < 0.001
+  - **Parch**: p = 0.0460
+
+(c) **Confidence Interval (95%)**:
+- Predictors with CI excluding 1 are significant:
+  - **Sex, Pclass, Parch** all support the statistical significance conclusion.
+
+---
+
+#### vi) Hazard Ratios (HR)
+```r
+# Extract hazard ratios
+exp(coef(cox_fit))
+```
+
+##### Hazard Ratio Interpretations:
+- **Age (HR = 1.0022)**: Each additional year increases hazard by 0.22%.
+- **Sex (HR = 1.6121)**: Males have a 61.2% higher risk compared to females.
+- **Pclass (HR = 1.7594)**: Higher classes increase hazard by 75.94%.
+- **Mstatus (HR = 0.9891)**: Being married slightly decreases hazard by 1.09%.
+- **Parch (HR = 0.8086)**: More parents/children aboard decrease hazard by 19.14%.
+- **SibSp (HR = 1.1990)**: More siblings/spouse aboard increase hazard by 19.90%.
+- **Embarked (HR = 0.8183)**: Later embarkation decreases hazard by 18.17%.
+
+---
+
+#### vii) Kaplan-Meier vs Cox Model
+```r
+# Compare Kaplan-Meier and Cox models
+ggsurvplot(
+  list(KM = km_fit, Cox = survfit(cox_fit)),
+  data = Cruise,
+  title = "Kaplan-Meier vs Cox Model",
+  combine = TRUE,
+  conf.int = TRUE,
+  pval = TRUE,
+  risk.table = TRUE
+)
+```
+
+---
+
+#### viii) When to Use Kaplan-Meier vs CoxPH
+| **Kaplan-Meier**                         | **Cox Proportional Hazards**             |
+|------------------------------------------|------------------------------------------|
+| Simple survival analysis for groups.     | Adjusts for multiple covariates.         |
+| Works with categorical variables.        | Estimates hazard ratios for predictors.  |
+| Visualizes survival probabilities.       | Builds predictive survival models.       |
+| Suitable for smaller datasets.           | Handles complex interactions.            |
+
+---
+
+This refined structure ensures clarity and highlights key insights. Let me know if you’d like further assistance!
