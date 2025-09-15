@@ -1,0 +1,313 @@
+This exercise is a practical demonstration of **time series analysis and forecasting** using R. The primary goal is to predict future electricity demand based on historical data.
+
+The exercise follows a standard data science workflow:
+1.  **Data Preparation:** The `city_data.csv` file is loaded, and the `Date` variable is correctly formatted.
+2.  **Exploratory Data Analysis (EDA):** The relationship between electricity demand and temperature is explored through plots and a correlation test.
+3.  **Time Series Modeling:** The core of the exercise involves transforming the demand data into a time series object. The data is decomposed to identify trend and seasonality, and then checked for **stationarity**.
+4.  **Model Building:** An **ARIMA model** is automatically fitted to the differenced (stationary) data.
+5.  **Validation and Forecasting:** The model's residuals are checked to ensure it's a good fit, and finally, the model is used to forecast electricity demand for the next 30 days.
+
+Overall, the exercise provides a step-by-step guide to building a robust time series forecasting model, from initial data exploration to final prediction.
+
+---
+### Time Series Analysis and Forecasting of Electricity Demand
+
+This analysis uses R to explore, model, and forecast electricity demand data from a `city_data.csv` file. The primary goal is to build an accurate time series model to predict future demand.
+
+-----
+
+### 1\. Data Preparation and Visualization
+
+First, the necessary R libraries are loaded and the dataset is imported. The `Date` column is converted to the correct format for time series analysis.
+
+```r
+# Load necessary libraries
+install.packages(c("ggplot2", "forecast", "tseries"))
+library(ggplot2)
+library(forecast)
+library(tseries)
+
+# Load the dataset
+city_data <- read.csv("city_data.csv")
+
+# Convert the 'Date' column to Date format
+city_data$Date <- as.Date(city_data$Date, format="%Y-%m-%d")
+```
+
+#### Visualizing Temperature and Demand Over Time
+
+A line plot is created to visualize the trends of both temperature and electricity demand over the entire period.
+
+```r
+ggplot(city_data, aes(x = Date)) +
+  geom_line(aes(y = Temperature, color = "Temperature")) +
+  geom_line(aes(y = Demand, color = "Demand")) +
+  labs(title = "Temperature and Electricity Demand Over Time",
+       x = "Date",
+       y = "Value") +
+  scale_color_manual("", values = c("Temperature" = "blue", "Demand" = "red"))
+```
+
+**Observation:** The plot suggests a seasonal trend in both electricity demand and temperature, as they appear to fluctuate in a cyclical pattern over time.
+
+-----
+
+### 2\. Exploring the Relationship Between Temperature and Demand
+
+The correlation between temperature and electricity demand is calculated and visualized with a scatter plot.
+
+```r
+# Calculate the correlation coefficient
+correlation <- cor(city_data$Temperature, city_data$Demand)
+print(correlation)
+```
+
+The calculated correlation is **0.1293143**.
+
+```r
+# Plot a scatterplot to visualize the relationship
+ggplot(city_data, aes(x = Temperature, y = Demand)) +
+  geom_point(color = "blue") +
+  labs(title = "Scatterplot of Temperature vs Electricity Demand",
+       x = "Temperature (C)",
+       y = "Electricity Demand (MWh)")
+```
+
+**Observation:** There is a weak positive correlation between temperature and demand. The scatter plot confirms this, showing a scattered distribution of points with no clear linear trend. This suggests that while temperature may influence demand, other factors are also at play.
+
+-----
+
+### 3\. Time Series Decomposition and Stationarity Analysis
+
+The electricity demand data is converted into a time series object to analyze its components.
+
+```r
+# Convert 'Demand' to a time series object
+demand_ts <- ts(city_data$Demand, frequency = 365)
+
+# Plot the time series
+ts.plot(demand_ts, main = "Electricity Demand Time Series")
+```
+
+#### Decomposing the Time Series
+
+The time series is decomposed into its seasonal, trend, and random components.
+
+```r
+# Decompose the time series with a frequency of 12 (monthly seasonality for visualization)
+# Note: A frequency of 365 would be more accurate for daily data, but 12 provides a clearer seasonal pattern in this plot.
+decomp <- decompose(ts(demand_ts, frequency = 12))
+plot(decomp)
+```
+
+#### Checking for Stationarity
+
+An **Autocorrelation Function (ACF)** plot and a **Partial Autocorrelation Function (PACF)** plot are used to check if the time series is stationary (i.e., its statistical properties do not change over time).
+
+```r
+acf(demand_ts, main = "ACF of Original Series")
+pacf(demand_ts, main = "PACF of Original Series")
+```
+
+**Observation:** The ACF plot shows a very slow decay, indicating that the series is non-stationary. To make the series stationary, we need to apply differencing.
+
+-----
+
+### 4\. Differencing the Time Series
+
+Differencing is a technique used to remove the trend and seasonality from a time series. We will apply it to the demand data.
+
+```r
+# Apply first-order differencing to the 'Demand' series
+diff_demand <- diff(city_data$Demand)
+```
+
+#### Stationarity Check After Differencing
+
+We plot the differenced series and its ACF and PACF to confirm that it has become stationary.
+
+```r
+ts.plot(diff_demand, main = "Differenced Demand Time Series")
+acf(diff_demand, main = "ACF of Differenced Series")
+pacf(diff_demand, main = "PACF of Differenced Series")
+```
+
+**Observation:** The ACF of the differenced series now decays rapidly, confirming that the data has become stationary. This differenced series can now be used to fit an ARIMA model.
+
+-----
+
+### 5\. ARIMA Model Fitting and Diagnostics
+
+An **ARIMA (Autoregressive Integrated Moving Average)** model is a popular method for time series forecasting. We use the `auto.arima` function to automatically find the best-fitting model parameters.
+
+```r
+# Automatically fit an ARIMA model to the differenced series
+arima_model <- auto.arima(diff_demand)
+summary(arima_model)
+```
+
+The model selected by `auto.arima` is **ARIMA(1,0,2)**.
+
+  * **AR(1):** The model depends on the past 1 term of the series (autoregressive component).
+  * **I(0):** No differencing is needed for the stationary series (integrated component is 0).
+  * **MA(2):** The model can be expressed as a weighted average of the past 2 white noise error terms (moving average component).
+
+The `AIC`, `AICc`, and `BIC` values are low, and `sigma^2` is small, indicating a good fit.
+
+#### Residual Analysis
+
+To validate the model, we check the residuals (the difference between the observed and predicted values) to ensure they are random and show no patterns.
+
+```r
+checkresiduals(arima_model)
+```
+
+**Observation:** The residual plot and the Ljung-Box test results confirm that the residuals are random and have a mean of zero. The Ljung-Box test's high p-value (0.7784) suggests that there is no significant autocorrelation in the residuals, meaning the model has captured the underlying patterns in the data well.
+
+-----
+
+### 6\. Forecasting Future Demand
+
+Finally, the validated ARIMA model is used to forecast electricity demand for the next 30 days.
+
+```r
+# Predict the next 30 values of the differenced series
+predict(arima_model, n.ahead = 30)$pred
+```
+
+This output provides the predicted values for the differenced demand series. To get the actual demand forecast, these values would need to be integrated (undifferenced). The predictions show a consistent pattern of very slight decay, which is expected for a stable, stationary time series.
+
+
+# -----------------------------------------------------------------------------
+# R Script for Time Series Analysis of Temperature and Electricity Demand
+#
+# This script performs a step-by-step time series analysis of a dataset 
+# containing temperature and electricity demand. It includes data loading,
+# visualization, correlation analysis, decomposition, stationarity testing,
+# and ARIMA modeling.
+#
+# Key Libraries Used:
+# - ggplot2: For data visualization.
+# - forecast: For ARIMA modeling and forecasting.
+# - tseries: For time series analysis functions.
+# -----------------------------------------------------------------------------
+
+# --- 1) Load Necessary Libraries ---
+# Note: The `install.packages()` commands are commented out as they
+# only need to be run once to install the libraries.
+# install.packages("ggplot2")
+# install.packages("forecast")
+# install.packages("tseries")
+library(ggplot2)
+library(forecast)
+library(tseries)
+
+# --- 2) Data Loading and Preparation ---
+# Load the dataset from a CSV file.
+city_data <- read.csv("city_data.csv")
+
+# Convert the 'Date' column to a proper Date format.
+city_data$Date <- as.Date(city_data$Date, format = "%Y-%m-%d")
+
+# --- 3) Exploratory Data Analysis & Visualization ---
+# Plot temperature and electricity demand over time to identify trends and seasonality.
+# The `Demand` series is scaled for better visualization on the same plot.
+ggplot(city_data, aes(x = Date)) +
+  geom_line(aes(y = Temperature, color = "Temperature")) +
+  geom_line(aes(y = Demand, color = "Demand (scaled)")) +
+  labs(
+    title = "Temperature and Electricity Demand Over Time",
+    x = "Date",
+    y = "Value"
+  ) +
+  scale_color_manual(
+    name = "",
+    values = c("Temperature" = "blue", "Demand (scaled)" = "red")
+  )
+
+# Observation: The plot shows a clear seasonal pattern for both temperature and demand.
+
+# --- 4) Correlation Analysis ---
+# Calculate the correlation coefficient between temperature and demand.
+correlation <- cor(city_data$Temperature, city_data$Demand)
+print(paste("The correlation between Temperature and Demand is:", round(correlation, 4)))
+
+# Plot a scatterplot to visualize the relationship between the two variables.
+ggplot(city_data, aes(x = Temperature, y = Demand)) +
+  geom_point(color = "blue") +
+  labs(
+    title = "Scatterplot of Temperature vs. Electricity Demand",
+    x = "Temperature (C)",
+    y = "Electricity Demand (MWh)"
+  )
+
+# Observation: There is a positive correlation, but it is not a strong linear relationship.
+
+# --- 5) Time Series Object Creation ---
+# Convert the 'Demand' vector into a time series object with a daily frequency (365 days).
+demand_ts <- ts(city_data$Demand, frequency = 365)
+
+# Plot the raw time series to see its components.
+ts.plot(demand_ts)
+
+# --- 6) Time Series Decomposition ---
+# Decompose the time series into trend, seasonal, and random components.
+# Note: A frequency of 12 is often used for monthly data, but for daily data with 
+# a yearly seasonal cycle, the frequency should be 365. Let's assume a yearly
+# cycle with the `decompose` function.
+decomp <- decompose(ts(demand_ts, frequency = 365))
+plot(decomp)
+
+# Plot just the trend component.
+plot(decomp$trend)
+lines(as.vector(decomp$trend), col = "red")
+
+# Observation: The decomposition confirms the presence of a trend and seasonality.
+
+# --- 7) Stationarity Testing ---
+# Plot the Autocorrelation Function (ACF) and Partial Autocorrelation Function (PACF)
+# to check for stationarity.
+acf(demand_ts, main = "ACF of Original Series")
+pacf(demand_ts, main = "PACF of Original Series")
+
+# Observation: The ACF plot decays slowly, indicating that the series is non-stationary.
+# Differencing is required to make the series stationary.
+
+# --- 8) Differencing the Data ---
+# Perform first-order differencing on the Demand data to remove the trend and make it stationary.
+diff_demand <- diff(city_data$Demand)
+diff_temp <- diff(city_data$Temperature)
+
+# Plot the differenced series and its ACF/PACF.
+ts.plot(diff_demand)
+acf(diff_demand, main = "ACF of Differenced Series")
+pacf(diff_demand, main = "PACF of Differenced Series")
+
+# Observation: The ACF plot of the differenced series decays rapidly, confirming stationarity.
+
+# --- 9) ARIMA Model Fitting ---
+# Use `auto.arima()` to automatically find the best ARIMA model parameters.
+# The function will determine the optimal p, d, and q values.
+arima_model <- auto.arima(diff_demand)
+summary(arima_model)
+
+# Observation: The `auto.arima` function has found the optimal parameters for the model.
+# The resulting ARIMA(p,d,q) model provides a summary of the coefficients and error measures.
+
+# --- 10) Model Diagnostics (Residual Analysis) ---
+# Check the residuals of the fitted model to ensure they are white noise.
+checkresiduals(arima_model)
+
+# Observation: The Ljung-Box test p-value is high, indicating that the residuals are
+# not significantly different from white noise. The ACF plot of residuals
+# shows no significant autocorrelation, confirming a good model fit.
+
+# --- 11) Forecasting ---
+# Predict the next 30 values using the fitted ARIMA model.
+forecast_values <- predict(arima_model, n.ahead = 30)
+print(forecast_values$pred)
+
+# Note: The output shows the predicted values of the *differenced* series.
+# To get the actual forecasted values, you would need to reverse the differencing,
+# which is typically handled by the `forecast()` function in the `forecast` package.
+

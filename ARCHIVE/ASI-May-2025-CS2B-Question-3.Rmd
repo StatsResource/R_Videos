@@ -1,0 +1,58 @@
+Question 3 - Solution
+
+---
+
+## 1. Simulating Returns with a Gaussian Copula
+
+This section of the code sets up and simulates correlated asset returns using a Gaussian copula. The correlation parameter $\rho$ is set to 0.6.
+
+* `set.seed(456)`: This ensures that the random numbers generated are the same each time the code is run, making the results reproducible.
+* `gaussian_cop <- normalCopula(param = rho)`: Defines the Gaussian copula with a correlation parameter $\rho = 0.6$.
+* `u <- rCopula(20000, gaussian_cop)`: Simulates 20,000 pairs of uniform random variables that are correlated according to the Gaussian copula.
+* `qnorm(u[, 1], ...)` and `qt(u[, 2], ...)`: The inverse cumulative distribution functions (`qnorm` for the normal distribution and `qt` for the t-distribution) are used to transform the uniform variables into the desired marginal distributions for **Asset A** (Normal distribution with mean 0.05 and standard deviation 0.1) and **Asset B** (t-distribution with 4 degrees of freedom, scaled and shifted).
+* `returns <- data.frame(Asset_A = asset_a, Asset_B = asset_b)`: Combines the simulated returns into a data frame.
+
+---
+
+## 2. Visualizing the Gaussian Copula Simulation
+
+This code creates a scatter plot of the simulated returns from the Gaussian copula to visualize their correlation.
+
+* `plot(returns$Asset_A, returns$Asset_B, ...)`: Creates a scatter plot with "Returns of Asset A" on the x-axis and "Returns of Asset B" on the y-axis.
+
+
+---
+
+## 3. Simulating Returns with a Student's t-Copula
+
+This section repeats the simulation process, but this time using a Student's t-copula with 4 degrees of freedom.
+
+* `t_cop <- tCopula(param = rho, df = 4)`: Defines the Student's t-copula with a correlation parameter $\rho = 0.6$ and 4 degrees of freedom.
+* `v <- rCopula(20000, t_cop)`: Simulates 20,000 pairs of uniform random variables correlated according to the t-copula.
+* `qnorm(v[, 1], ...)` and `qt(v[, 2], ...)`: Transforms the uniform variables to the same marginal distributions as before. The new data frame is labeled `returns` with columns `Asset_A1` and `Asset_B1`.
+
+---
+
+## 4. Visualizing the Student's t-Copula Simulation
+
+This creates a scatter plot for the simulated returns from the Student's t-copula.
+
+* `plot(returns$Asset_A1, returns$Asset_B1, ...)`: Creates a scatter plot using the new data, labeled appropriately.
+
+## 5. Comparing Conditional Means
+
+This section compares the **conditional mean** of Asset B given that Asset A's return is greater than or equal to a certain value ($x$), for both the Gaussian and Student's t-copulas.
+
+* `x = seq(from = -0.3, to = 0.3, by = 0.1)`: Defines a range of values for $x$.
+* `for (i in 1:7) { ... }`: A loop calculates the conditional mean for each value of $x$. For example, `mean(asset_b[asset_a >= x[i]])` calculates the average return of Asset B when Asset A's return is greater than or equal to $x[i]$.
+* `plot(...)` and `lines(...)`: Creates a plot to visualize these conditional means for both copulas. The red line represents the t-copula, and the black line represents the Gaussian copula.
+* `legend(...)`: Adds a legend to the plot for clarity.
+
+## 6. Interpreting the Results
+
+This final section provides a clear interpretation of the comparison plot.
+
+* For lower values of $x$, the conditional means are similar for both copulas and are close to the unconditional mean of 0.03.
+* As $x$ increases, the conditional means for both copulas also increase. This is expected because of the positive correlation ($\rho = 0.6$).
+* The **Student's t-copula** line slopes upward more steeply than the Gaussian copula line. This is the key difference and demonstrates the **positive tail dependence** of the t-copula. Tail dependence means that extreme events (e.g., very high returns) in one asset are more likely to be associated with extreme events in the other.
+* The note about the lines not being "consistent" suggests that while the overall trend for the t-copula is steeper, the specific points might not always be in the same order due to the nature of the simulations.

@@ -1,0 +1,166 @@
+May 2025 - Question 4
+
+This exercise is divided into two distinct parts that demonstrate different types of statistical modeling.
+
+**Part 1: Logistic Regression and Model Selection**
+This section focuses on using **logistic regression**, a type of generalized linear model, to predict a binary outcome: whether or not someone will purchase an EV.
+* The exercise starts by building a basic model (`model_a`) with three independent variables.
+* It then demonstrates how to use this model for **prediction**, calculating the probability of an individual purchasing an EV based on their characteristics.
+* Next, a more complex model (`model_b`) is built, which includes **interaction terms**.
+* Finally, the two models are compared using the **Akaike Information Criterion (AIC)**, a standard metric for model selection. The conclusion is that the simpler model (`model_a`) is superior because the interaction terms in the more complex model (`model_b`) are not statistically significant and do not improve the model's fit.
+
+---
+
+**Part 2: Hierarchical Bayesian Modeling**
+This section shifts to a different statistical method often used in situations where there are multiple groups with related data (e.g., cost data for different companies over time). The core of this part is a practical application of **hierarchical Bayesian modeling** to calculate "shrunken" estimates.
+* The exercise first organizes cost data for several entities over multiple years.
+* It then calculates key parameters from this data (grand mean, mean within-group variance, etc.).
+* These parameters are used to compute a **shrinkage factor (Z)**. This factor determines how much each entity's individual average should be "shrunk" or pulled towards the overall average. The goal is to produce more stable and reliable estimates, especially for entities with more volatile data.
+
+---
+
+In summary, the exercise provides hands-on examples of two powerful statistical techniques: **logistic regression** for predicting a binary outcome and **hierarchical Bayesian modeling** for creating more robust estimates by leveraging information from an entire dataset.
+
+---
+
+**i) Data Import**
+The data is imported from a CSV file named "ev\_purchase.csv".
+
+```{r}
+ev_data <- read.csv("C: \\ev_purchase.csv")
+```
+
+**ii) Model A: Logistic Regression**
+A logistic regression model (`glm` with `family = binomial`) is built to predict the probability of purchasing an EV (`PurchaseEV`) based on several independent variables.
+
+```{r}
+model_a <- glm(PurchaseEV ~ AvgDailyCommute + ChargingAccess + HouseholdAdults,
+               data = ev_data, family = binomial)
+summary(model_a)
+```
+
+The summary output is:
+
+```
+Call:
+glm(formula = PurchaseEV ~ AvgDailyCommute + ChargingAccess + HouseholdAdults, 
+    family = binomial, data = ev_data)
+Coefficients:
+                Estimate Std. Error z value Pr(>|z|)
+(Intercept)        0.6783     1.9802   0.343    0.732
+AvgDailyCommute   -0.3497     0.3812  -0.917    0.359
+ChargingAccess     0.1026     0.1644   0.624    0.533
+HouseholdAdults    -0.1354     0.6004  -0.225    0.822
+(Dispersion parameter for binomial family taken to be 1)
+    Null deviance: 68.593 on 49 degrees of freedom
+Residual deviance: 67.137 on 46 degrees of freedom
+AIC: 75.137
+Number of Fisher Scoring iterations: 4
+```
+
+**iii) Prediction with Model A**
+The model is used to predict the probability of purchasing an EV for a new individual with specific characteristics.
+
+```{r}
+new_data <- data.frame(AvgDailyCommute = 3, ChargingAccess = 4, HouseholdAdults = 2)
+predict(model_a, newdata = new_data, type = "response")
+```
+
+The predicted probability is 0.4424472. Based on the model, there is a 44% chance that this individual will purchase an EV.
+
+**iv) Model B: Including Interaction Terms**
+A second logistic regression model (`model_b`) is built that includes all two-way interaction terms between the independent variables.
+
+```{r}
+model_b <- glm(PurchaseEV ~ (AvgDailyCommute + ChargingAccess + HouseholdAdults)^2, 
+               data = ev_data, family = binomial)
+summary(model_b)
+```
+
+The summary output is:
+
+```
+Call:
+glm(formula = PurchaseEV ~ (AvgDailyCommute + ChargingAccess + HouseholdAdults)^2, 
+    family = binomial, data = ev_data)
+Coefficients:
+                                 Estimate Std. Error z value Pr(>|z|)
+(Intercept)                     -11.6367    11.6712  -0.997    0.319
+AvgDailyCommute                   2.0798     3.7019   0.562    0.574
+ChargingAccess                    2.4558     2.1868   1.123    0.261
+HouseholdAdults                   4.4745     3.9269   1.139    0.255
+AvgDailyCommute:ChargingAccess    0.1851     0.2051   0.903    0.367
+AvgDailyCommute:HouseholdAdults  -1.0317     1.2044  -0.857    0.392
+ChargingAccess:HouseholdAdults   -0.9278     0.7178  -1.293    0.196
+(Dispersion parameter for binomial family taken to be 1)
+    Null deviance: 68.593 on 49 degrees of freedom
+Residual deviance: 63.173 on 43 degrees of freedom
+AIC: 77.173
+Number of Fisher Scoring iterations: 5
+```
+
+**v) Statistical Significance of Interaction Terms**
+The p-values for the interaction terms are:
+
+  * `AvgDailyCommute:ChargingAccess`: 0.367
+  * `AvgDailyCommute:HouseholdAdults`: 0.392
+  * `ChargingAccess:HouseholdAdults`: 0.196
+    All these p-values are greater than the conventional significance level of 0.05. Therefore, none of the interaction terms are statistically significant.
+
+**vi) Model Comparison using AIC**
+Model A has an AIC of 75.137.
+Model B has an AIC of 77.173.
+Since a lower AIC indicates a better-fitting model, `model_a` is a better model than `model_b`. The addition of the interaction terms in `model_b` did not improve the model's fit.
+
+**vii) Data Import for Hierarchical Bayesian Modeling**
+Cost data is imported from a CSV file into a matrix. The rows are named A-E.
+
+```{r}
+cost <- as.matrix(read.csv("C:\\ev_cost.csv"))
+rownames(cost) <- c("A", "B", "C", "D", "E")
+print(cost)
+```
+
+The resulting matrix is:
+
+```
+  Year_1 Year_2 Year_3 Year_4 Year_5 Year_6
+A    9.8   10.5   11.0   12.3   15.2   18.5
+B   21.5   22.0   23.3   25.0   22.5   20.1
+C    6.0    6.5    7.2    8.7    9.8   10.5
+D   12.2   13.0   14.3   16.5   19.0   22.0
+E    7.9    8.5    9.5   11.0   12.8   14.5
+```
+
+**viii) Calculating Parameters for Hierarchical Bayesian Model**
+Several parameters are calculated from the cost data to be used in a hierarchical Bayesian model.
+
+```{r}
+n <- ncol(cost)
+m <- mean(rowMeans(cost))
+s <- mean(apply(cost, 1, var))
+v <- var(rowMeans(cost)) - s / n
+Z <- n / (n + s/v)
+```
+
+  * $n$: Number of years (columns) = 6
+  * $m$: Grand mean of all data = 14.05333
+  * $s$: Mean of within-group variances = 7.6436
+  * $v$: Variance of group means = 29.22376
+  * $Z$: Shrinkage factor = 0.9582285
+
+**ix) Calculating Shrunken Estimates**
+The shrunken estimates ($P$) for each row (A-E) are calculated using the formula $P = Z \\times \\text{rowMeans(cost)} + (1-Z) \\times m$. This formula "shrinks" the individual row means towards the grand mean ($m$).
+
+```{r}
+P <- Z * rowMeans(cost) + (1 - Z) * m
+print(P)
+```
+
+The resulting shrunken estimates are:
+
+  * A: 12.93221
+  * B: 22.05135
+  * C: 8.36465
+  * D: 16.07839
+  * E: 10.84007
