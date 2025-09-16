@@ -42,7 +42,21 @@ style_mono_accent_inverse(
 
 * Question 1
 ---
+This exercise is a comprehensive demonstration of Markov chain analysis using the R programming language. It walks through the key steps of defining, analyzing, simulating, and validating a discrete-time Markov chain.
 
+The exercise can be broken down into the following parts:
+
+* **Part i & ii: Model Definition and Properties:** The first section focuses on defining a 3-state Markov chain using a transition matrix. It then asks for a summary of the chain's properties, such as its closed classes, recurrence, and irreducibility, confirming that all states communicate with each other.
+
+* **Part iii & iv: Time-Dependent and Steady-State Behavior:** This section explores the chain's behavior over time. It calculates mean first passage and recurrence times, and then computes the state probabilities after a specified number of steps (2, 4, and 6 steps). This leads to the calculation of the steady-state probabilities, which represent the long-term, stable distribution of the states.
+
+* **Part v & vi: Simulation and Data Generation:** Here, a Monte Carlo simulation is performed to generate a long sequence of states (10,000 steps) based on the defined Markov chain's transition probabilities. This simulated data is then used for the validation step.
+
+* **Part vii-ix: Validation using Chi-squared Test:** The final and most complex part of the exercise involves a statistical validation of the Markov chain model. It calculates the observed frequencies of state triplets (e.g., 1-1-1, 1-1-2) from the simulated data. These observed frequencies are then compared against the expected frequencies, which are calculated based on the model's steady-state probabilities and transition matrix. A chi-squared goodness-of-fit test is performed to determine if the observed data significantly deviates from what the model predicts. The results of the test show a significant difference, leading to the rejection of the null hypothesis.
+
+This exercise effectively demonstrates the process of moving from a theoretical Markov chain model to its practical application, simulation, and statistical validation in a real-world context.
+
+---
 Q. 3)  
 i. 
 install.packages("markovchain", type = "binary") 
@@ -104,6 +118,12 @@ lines(q, stat_dist[3, ], col = "blue")
 legend("top", legend = c("State 1", "State 2", "State 3"), 
        col = c("red", "black", "blue"), pch = 7)
 
+
+```
+
+---
+
+```{r}
 # Monte Carlo simulation
 set.seed(42)
 n_steps <- 10000
@@ -113,7 +133,11 @@ for (i in 2:n_steps) {
   states[i] <- sample(1:3, 1, prob = MC[states[i - 1], ])
 }
 head(states)
+```
 
+---
+
+```{r}
 # Calculate triplet counts
 triplet_counts <- c(
   sum(states[-c(1, 2)] == 1 & states[-length(states)] == 1 & states[-1] == 1),
@@ -123,7 +147,11 @@ ijk <- c(111, 112, 113, 121, 122, 123, 131, 132, 133,
          211, 212, 213, 221, 222, 223, 231, 232, 233, 
          311, 312, 313, 321, 322, 323, 331, 332, 333)
 triplets_test <- data.frame(ijk, triplet_counts)
+```
 
+---
+
+```{r}
 # Chi-squared test for goodness-of-fit
 chi_square_test <- chisq.test(triplets_test$triplet_counts, 
                               p = merged_df1$ef / sum(merged_df1$ef))
@@ -135,6 +163,10 @@ if (chi_square_test$p.value < 0.05) {
 }
 ```
 
+
+---
+
+```{r}
 #################################################################
 MC <- new("markovchain", states = c("1","2","3"), 
 transitionMatrix = matrix(data = c(0.1,0.6,0.3,0.4,0.1,0.5,0.2,0.3,0.5),  
@@ -161,7 +193,14 @@ The absorbing states are: NONE
 Alternate Answer 
 markovchain::is.irreducible(MC) 
 TRUE 
+
+
+
+---
+
 iii. 
+```{r}
+
 markovchain::meanFirstPassageTime(MC) 
 1        2        3 
 1 0.000000 2.051282 2.631579 
@@ -170,7 +209,13 @@ markovchain::meanFirstPassageTime(MC)
 markovchain::meanRecurrenceTime(MC) 
 1        2        3  
 4.200000 3.230769 2.210526  
+
+---
+
+
+
 iv. 
+```{r}
 InitialState <- c(1,0,0) 
 After2steps <- InitialState * (MC^2) 
 After4steps <- InitialState * (MC^4) 
@@ -178,9 +223,10 @@ After6steps <- InitialState * (MC^6)
 (2) 
 (1) 
 (4) 
-Page 15 of 19 
-IAI                                                                                                                                                  
-CS2B-1124 
+
+```
+---
+
 >After2steps 
 1    2    3 
 [1,] 0.31 0.21 0.48 
