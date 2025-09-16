@@ -43,11 +43,17 @@ style_mono_accent_inverse(
 * Question 1
 
 ---
+This exercise is a data analysis assignment focused on building and evaluating linear regression models. The core task involves using a dataset of dance competition scores to determine the relationship between judges' scores, audience scores, and the final score. The analysis progresses from initial data exploration (plotting scatterplots and commenting on relationships) to fitting a multiple linear regression model. A key part of the exercise is a critical evaluation of the initial model, which leads to a re-evaluation of the audience score variable. By creating a new, normalized audience score, a second model is built and compared to the first, demonstrating how a more appropriate variable can significantly improve the model's performance and provide new insights.
+---
 
 Q. 2)
 You are a Research Analyst and working on a short term assignment. Your professor provided dance data (dance.csv) containing scores of 20 contestants of a famous dance show and asked you to perform the following tasks.
+
+#### Exercises
 i) Using read.csv load the data and use head command to view the first few rows of the data.
 No need to paste the output of head command.
+
+---
 
 #### Data 
 dance.csv contains following fields:
@@ -57,7 +63,9 @@ dance.csv contains following fields:
 - Final: It indicates the final score of the contestant
 ii) Plot a scatterplot for each pair of data.
 Make sure to paste the scatterplot in your answer scripts.
-(4)
+
+
+---
 iii) Using scatterplot of part (ii), comment on the relationship between the pairs of data.
 (3)
 
@@ -77,7 +85,9 @@ b) Show summary of the output and also write the equation of the fitted model.
 c) Compute confidence interval of all parameters.
 (3)
 d) Comment on the significance of the each explanatory variable either referring to above confidence interval or other statistics.
-(3)
+
+----
+
 You published the report showing the above results and reference data on your research website. After few months, a journalist accused the dance show of ignoring audience scores and cited your report.
 The sponsors of dance show stated that incomplete data is used for analysis as audience score depends upon the number of audiences provided scores. They shared supplement data providing the number of audiences for each participant.
 
@@ -154,8 +164,14 @@ Audience 0.001449 0.001294 1.120 0.278
 
 ---
 
-c)
 d)
+The **Judges** score is statistically significant because its p-value ($3.26e-05$) is less than the common significance level of 0.05. Additionally, the 95% confidence interval for its coefficient (0.448 to 0.992) does not contain zero, which also indicates significance.
+
+The **Audience** score is not statistically significant because its p-value (0.278) is greater than 0.05. Its 95% confidence interval (-0.00128 to 0.004179) contains zero, which further confirms its lack of significance in the model.
+---
+
+c)
+
 ---
 Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 Residual standard error: 2.604 on 17 degrees of freedom
@@ -164,6 +180,7 @@ F-statistic: 16.51 on 2 and 17 DF, p-value: 0.0001038
 Final = 10.617827 + 0.720273 * Judges + 0.001449 *Audience
 
 ---
+### Confidence Intervals
 
 ```{r}
 confint(m1)
@@ -197,7 +214,7 @@ sum(audience.count)
 ### Exercise 6
 
 ```{r}
-dance$Audience2<-dance$Audience/audience.count
+dance$Audience2 <- dance$Audience/audience.count
 ```
 
 ---
@@ -225,6 +242,23 @@ cor
 
 ---
 
+vii) A correlation test is performed between `Final` and `Audience2`.
+
+```
+Pearson's product-moment correlation
+data: dance$Final and dance$Audience2
+t = 4.9045, df = 18, p-value = 0.0001142
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+0.4716109 0.8982071
+sample estimates:
+cor
+0.7562948
+```
+
+The correlation test indicates a statistically significant positive correlation between the new audience score (`Audience2`) and the final score, with a high correlation coefficient of 0.756.
+
+---
 
 H. Fit a new multiple linear regression model with
 - Final score as response variable and
@@ -268,9 +302,12 @@ Please write the figures of the statistic while answering.
 
 
 ---
-ix)
-#Adjusted R-square =0.9114 for model2 vs 0.6201 for model1.
-#This indicates model 2 is better
-Alternate:
-# R square can be used
+ix) To compare the models, we can use the Adjusted R-squared value.
 
+  * For model `m1`, the Adjusted R-squared is **0.6201**.
+  * For model `m2`, the Adjusted R-squared is **0.9114**.
+
+Since the Adjusted R-squared for model `m2` is significantly higher than that of model `m1`, it indicates that `m2` provides a much better fit to the data and explains a larger proportion of the variance in the `Final` score. Therefore, model `m2` is the better model.
+
+
+---
