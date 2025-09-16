@@ -50,6 +50,9 @@ Due to unavailability of your colleague, your head of department has asked you t
 
 ---
 
+
+#### Exercises
+
 i) Calculate individual standardise deviation Zx for each of the graduations. Display first 10 values of the data.
 
 ii) Calculate the third differences of graduated quantities for both the graduations and comment on the smoothness of each graduation. Paste first 10 values of the third differences column in your data.
@@ -61,6 +64,9 @@ Graduation 2
 47
 
 
+----
+
+#### Exercises
 
 iv) Determine number of positive and negative derivatives for each graduation.
 
@@ -84,6 +90,9 @@ Solution 3:
 i)
 <code for reading the input data filee.g. 
 Std_Table <- read.csv(‘path’/Std_Table.csv") Std_Table$Exmux_1 = Std_Table$Exposure * Std_Table$Graduation_1 Std_Table$Exmux_2 = Std_Table$Exposure * Std_Table$Graduation_2 Std_Table$zx_1 = (Std_Table$Deaths - Std_Table$Exmux_1)/(sqrt(Std_Table$Exmux_1)) Std_Table$zx_2 = (Std_Table$Deaths - Std_Table$Exmux_2)/(sqrt(Std_Table$Exmux_2))
+
+---
+
 IAI CS2B-1123
 Page 11 of 15
 head(Std_Table, 10) # A tibble: 10 × 9 Age Exposure Deaths Graduation_1 Graduation_2 Exmux_1 Exmux_2 zx_1 zx_2 <dbl<dbl<dbl<dbl<dbl<dbl<dbl<dbl<dbl1 30 70000 39 0.000388 0.000555 27.2 38.8 2.27 0.0241 2 31 69747 43 0.000429 0.000623 29.9 43.5 2.39 -0.0686 3 32 68140 34 0.000474 0.000488 32.3 33.3 0.299 0.130 4 33 68744 31 0.000524 0.000432 36.0 29.7 -0.837 0.239 5 34 66852 23 0.000579 0.000486 38.7 32.5 -2.52 -1.66 6 35 69230 50 0.00064 0.000596 44.3 41.3 0.855 1.36 7 36 61580 48 0.000708 0.000685 43.6 42.2 0.667 0.896 8 37 67582 43 0.000782 0.000713 52.8 48.2 -1.35 -0.747 9 38 68363 48 0.000865 0.000709 59.1 48.5 -1.45 -0.0674 10 39 65914 47 0.000956 0.000733 63.0 48.3 -2.02 -0.189
@@ -114,7 +123,9 @@ iii) chisq = vector(length = 2) chisq[1] = sum(Std_Table$zx_1^2) chisq[2] = sum(
 The p-value for graduation 1 is 1.332268e-15
 The p-value for graduation 2 is 0.000000e+00
 Graduation-2 is overfitted as observed the respective p-value.
-[3]
+
+---
+
 iv) positive = vector(length = 2) negative = vector(length = 2) 
 positive[1] = length(Std_Table$zx_1[Std_Table$zx_1 0]) 
 positive[2] = length(Std_Table$zx_2[Std_Table$zx_2 0]) 
@@ -164,14 +175,20 @@ For Graduation 2, the p – value is negative and close to 0, indicating nearby 
 
 ix) 
 
+
+```{r]
 cdt = vector(length = 2)
 for (j in 1:2) {
 	cdt[j] = (sum(Std_Table$Deaths) - sum(Std_Table[,j+5]))/sqrt(sum(Std_Table[,j+5]))} 
 cdt 
+
+```
+
 [1] 3.767196 -30.221501
 
-Graduation 1 p value is higher than 2.5% points of N(0,1) i.e. 1.96, there is sufficient evidence to reject null hypothesis. Therefore, there is bias in the Graduated rates 1.
-Graduation 2 has high magnitude of negative test statistic that means, the bias in graduated rates is too high.
+* Graduation 1 p value is higher than 2.5% points of N(0,1) i.e. 1.96, there is sufficient evidence to reject null hypothesis. 
+* Therefore, there is bias in the Graduated rates 1.
+* Graduation 2 has high magnitude of negative test statistic that means, the bias in graduated rates is too high.
 
 ---
 
@@ -184,3 +201,7 @@ Based on above tests,
 • Grouping of signs test & Serial correlation test shows no evidence of grouping of deviations of the same sign.
 • Both the graduation has biasedness as having large positive or negative deviation. However, the biasedness seems to be too high for Graduation 2.
 • Thus, both the graduation are good fit, however, Graduation 2 is slightly overfitted and less smooth and thus I would suggest Graduation 1 to be published.
+
+---
+
+---
