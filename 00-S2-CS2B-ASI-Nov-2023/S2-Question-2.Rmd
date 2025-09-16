@@ -37,16 +37,22 @@ pre {
 ---
 
 
+* This exercise provides a practical application of statistical modeling in the field of actuarial science, specifically focusing on extreme value analysis. 
+
+* Using R, students learn to process raw claims data, transform it using the block maxima method to isolate extreme events, and then fit appropriate distributions like the **Weibull** and **Generalized Extreme Value (GEV)** distributions. 
+
+* The purpose is to equip students with the skills to analyze tail risk, understand the characteristics of large claims through functions like the hazard and mean residual life, and apply computational tools for actuarial problem-solving.
 
 
-
-* Question 1
 ---
 
 ### Exercises
 
 Q. 2)
 Consider the data file “Claims.csv” of claim amounts in 000’s in respect of a commercial property portfolio over a period of 10 years.
+
+#### Exercises 
+
 i) Calculate the block maxima for these claims using block sizes of 5 claims and paste the output.
 
 ii) Plot a histogram of the block maxima and label the diagram.
@@ -104,7 +110,12 @@ hist(blockmax$Claims,
 
 ### Part C
 
-iii) hist(blockmax$Claims, xlab = "Claims", main = "Histogram of block maxima", freq = FALSE) lines(density(blockmax$Claims), col = "blue")
+```{r}
+hist(blockmax$Claims, xlab = "Claims", 
+main = "Histogram of block maxima", freq = FALSE) 
+lines(density(blockmax$Claims), col = "blue")
+
+```
 [2]
 
 ---
@@ -146,6 +157,59 @@ beta
 
 
 ---
+
+### Part F
+
+**vi)**
+
+```r
+MLE = function(x){
+  f <- 1/x[2]*(1+x[3]*(blockmax$Claims - x[1])/x[2])^(-1-1/x[3])*exp(-(1+x[3]*(blockmax$Claims- x[1])/x[2])^(-1/x[3]))
+  lnf <- log(f)
+  sum(-lnf)
+}
+```
+
+**vii)**
+
+```r
+p = c(alpha,beta,gamma)
+MLE(p) 
+# [1] 110.3667
+
+f_MLE <- nlm(MLE,p)
+```
+
+**Results of nlm() for MLE:**
+`$minimum` [1] 108.4947
+`$estimate` [1] 173.0482986 59.5496685 -0.4257482
+`$gradient` [1] -2.207406e-07 -7.863145e-07 -5.439915e-05
+`$code` [1] 1
+`$iterations` [1] 33
+
+**viii)**
+
+```r
+GEV <- function(x,a,b,c){
+  f = 1/b * (1+c*(x-a)/b)^-(1+1/c)*exp(-((1+c*(x-a)/b)^(-1/c)))
+}
+
+fit = GEV(blockmax$Claims,f_MLE$estimate[1],f_MLE$estimate[2],f_MLE$estimate[3])
+fit
+```
+
+**Output of fit:**
+[1] 0.002216593 0.001752716 0.006657504 0.005922606 0.004311508 0.001356100 0.006776331
+[8] 0.006529717 0.003563970 0.005131517 0.005053503 0.006876667 0.006798624 0.006874941
+[15] 0.006456144 0.001361035 0.005416809 0.005683342 0.003474704 0.006876611
+
+-----
+
+
+The R code is implementing the negative log-likelihood function for the Generalized Extreme Value (GEV) distribution. The function takes a vector of parameters `x` where `x[1]` is the location parameter, `x[2]` is the scale parameter, and `x[3]` is the shape parameter. The code first calculates the probability density function (PDF) `f` for each claim in the `blockmax$Claims` dataset, then takes the negative sum of the log of these values. Minimizing this negative log-likelihood function is equivalent to maximizing the log-likelihood function, which is the standard approach for finding the Maximum Likelihood Estimates (MLE) of the GEV parameters.
+
+---
+
 ### Part F
 vi) 
 
@@ -167,7 +231,8 @@ f_MLE <- nlm(MLE,p)
 
 ```
 
-f_MLE $minimum [1] 108.4947 $estimate [1] 173.0482986 59.5496685 -0.4257482 $gradient [1] -2.207406e-07 -7.863145e-07 -5.439915e-05 $code [1] 1 $iterations [1] 33
+f_MLE $minimum [1] 108.4947 $estimate [1] 173.0482986 59.5496685 -0.4257482 $gradient 
+[1] -2.207406e-07 -7.863145e-07 -5.439915e-05 $code [1] 1 $iterations [1] 33
 
 ---
 
@@ -192,8 +257,36 @@ fit
 
 ### Part G
 
-ix) h = dweibull(blockmax$Claims,g,est$estimate["scale"])/(1-pweibull(blockmax$Claims,g,est$estimate["scale"])) h [1] 0.002452262 0.001829610 0.020933123 0.026020746 0.005802246 0.001320774 0.019572126 [8] 0.022065445 0.004475462 0.030059810 0.007363354 0.016784861 0.014708485 0.016545242 [15] 0.012017747 0.048335279 0.028670960 0.009015548 0.037666671 0.017026742
+ix) h = dweibull(blockmax$Claims,g,est$estimate["scale"])/(1-pweibull(blockmax$Claims,g,est$estimate["scale"])) h 
+
+[1] 0.002452262 0.001829610 0.020933123 0.026020746 0.005802246 0.001320774 0.019572126 
+[8] 0.022065445 0.004475462 0.030059810 0.007363354 0.016784861 0.014708485 0.016545242 
+[15] 0.012017747 0.048335279 0.028670960 0.009015548 0.037666671 0.017026742
+
 plot(m,blockmax$Claims)
+
+### Part G
+
+**ix)**
+
+```r
+h = dweibull(blockmax$Claims,g,est$estimate["scale"])/(1-pweibull(blockmax$Claims,g,est$estimate["scale"]))
+h
+```
+
+**Output of h:**
+[1] 0.002452262 0.001829610 0.020933123 0.026020746 0.005802246 0.001320774 0.019572126
+[8] 0.022065445 0.004475462 0.030059810 0.007363354 0.016784861 0.014708485 0.016545242
+[15] 0.012017747 0.048335279 0.028670960 0.009015548 0.037666671 0.017026742
+
+```r
+plot(m,blockmax$Claims)
+```
+
+**Conclusion:**
+The hazard function is an increasing function of x. An increasing hazard function indicates lighter tail.
+
+-----
 
 ---
 The hazard function is an increasing function of x. An increasing hazard function indicates lighter tail.
