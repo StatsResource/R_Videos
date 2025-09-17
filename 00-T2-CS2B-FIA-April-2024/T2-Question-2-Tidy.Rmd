@@ -1,0 +1,129 @@
+This exercise explores the application of **regularized linear regression** techniques—specifically **Ridge**, **Lasso**, and **Elastic Net**—to predict Body Fat Index (BFI) using age, weight, and height. It guides the analyst through:
+
+- Identifying the type of regression based on the regularization parameter α  
+- Loading and preparing data in R  
+- Interpreting matrix operations for model inputs  
+- Constructing a custom penalty function that blends L1 and L2 norms  
+- Evaluating the penalty for specific parameter values  
+- Reasoning about optimal regularization settings and their implications  
+
+The task blends statistical theory with practical R coding, encouraging critical thinking about model selection, overfitting, and the trade-offs between bias and variance.
+---
+The dataset **CS2B_A24_Q2.csv** contains biometric and demographic information for a group of individuals, specifically:
+
+- **Body Fat Index (BFI)** – the target variable representing estimated body fat percentage  
+- **Age** – measured in years  
+- **Weight** – recorded in pounds  
+- **Height** – recorded in inches  
+
+This dataset is designed for regression analysis, allowing researchers to model and predict BFI based on age, weight, and height. 
+It's particularly suited for exploring relationships between physical attributes and body composition, and for applying regularized regression techniques like Ridge, Lasso, or Elastic Net to improve model performance and interpretability.
+
+---
+
+####
+
+The dataset `CS2B_A24_Q2.csv` contains four variables:
+- **BFI**: Body Fat Index  
+- **Age**  
+- **Weight** (in pounds)  
+- **Height** (in inches)
+
+An analyst is considering fitting the following linear regression model to predict BFI:
+
+\[
+\text{BFI}_i = \beta_0 + \beta_1 \cdot \text{Age}_i + \beta_2 \cdot \text{Weight}_i + \beta_3 \cdot \text{Height}_i + \varepsilon_i
+\]
+
+The parameters are estimated by minimizing the following penalty function:
+
+\[
+L(\mathbf{B}, \alpha, \lambda) = \sum_{i=1}^{n} \left( \text{BFI}_i - \beta_0 - \beta_1 \cdot \text{Age}_i - \beta_2 \cdot \text{Weight}_i - \beta_3 \cdot \text{Height}_i \right)^2 + \lambda \left[ \frac{1 - \alpha}{2} (\beta_1^2 + \beta_2^2 + \beta_3^2) + \alpha (|\beta_1| + |\beta_2| + |\beta_3|) \right]
+\]
+
+Where:
+- **𝛽₀, 𝛽₁, 𝛽₂, 𝛽₃** are regression coefficients  
+- **α** controls the mix between L1 and L2 regularization  
+- **λ** is the regularization strength
+
+---
+
+### (i) Identify the regression type based on α:
+- **(a) α = 1** → Lasso Regression (pure L1 penalty)
+- **(b) α = 0** → Ridge Regression (pure L2 penalty)
+
+---
+
+### (ii) R code to load the dataset and prepare variables:
+
+```r
+BFI <- read.csv("CS2B_A24_Q2.csv")
+X <- as.matrix(BFI[,-1])
+Y <- BFI[,1]
+```
+
+---
+
+### (iii) Explanation of the two lines:
+- `X = as.matrix(BFI[,-1])`: Converts all columns except BFI into a matrix (Age, Weight, Height).
+- `Y = BFI[,1]`: Extracts the BFI column as the response variable.
+
+---
+
+### (iv) R function to compute the penalty:
+
+```r
+Penalty <- function(B, alpha, lambda, X, Y) {
+  beta0 <- B[1]
+  beta <- B[-1]
+  residuals <- Y - (beta0 + X %*% beta)
+  loss <- sum(residuals^2)
+  l2_penalty <- sum(beta^2)
+  l1_penalty <- sum(abs(beta))
+  penalty <- loss + lambda * ((1 - alpha)/2 * l2_penalty + alpha * l1_penalty)
+  return(penalty)
+}
+```
+
+---
+
+### (v) Compute penalty for:
+- **B = c(1, 0.5, 1/3, 1)**  
+- **alpha = 0.5**, **lambda = 0.8**
+
+```r
+B <- c(1, 0.5, 1/3, 1)
+Penalty(B, 0.5, 0.8, X, Y)
+```
+
+---
+
+### (vi) Values of α and λ that minimize the penalty (no calculation needed):
+- **α = 0**, **λ = 0**  
+  → No regularization applied, so penalty is minimized purely by least squares.
+
+---
+
+##  CS2B A2024–4
+
+### (vii) Minimum penalty value for B = c(1, 0.5, 1/3, 1):
+- Use α = 0 and λ = 0 in the `Penalty` function:
+```r
+Penalty(c(1, 0.5, 1/3, 1), 0, 0, X, Y)
+```
+
+---
+
+### (viii) Parameters for minimum penalty:
+- **α = 0**, **λ = 0**, **B = c(1, 0.5, 1/3, 1)**  
+  → Minimizes the penalty function by removing regularization.
+
+---
+
+### (ix) Validity of using these parameters:
+- Using **α = 0** and **λ = 0** ignores regularization, which may lead to overfitting.
+- Regularization is crucial when multicollinearity or high variance exists.
+- While it minimizes the penalty, it may not generalize well to unseen data.
+- A cross-validation approach is recommended to select optimal α and λ.
+
+---
