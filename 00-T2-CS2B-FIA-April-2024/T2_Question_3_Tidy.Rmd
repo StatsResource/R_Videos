@@ -1,0 +1,82 @@
+This exercise introduces the fundamentals of **survival analysis** in the context of sports injury recovery. Using data on long-distance athletes with ankle injuries, it explores how treatment type (pain relief vs. physiotherapy) and prior injury history affect recovery time. Students are guided through:
+
+- Loading and inspecting survival data in R  
+- Understanding censoring and its implications  
+- Estimating and visualizing Kaplan–Meier survival curves  
+- Fitting a Cox proportional hazards model with covariates  
+- Interpreting model outputs to assess treatment effectiveness and injury history  
+
+The exercise blends statistical reasoning with hands-on coding, emphasizing how survival models can inform medical and rehabilitation decisions.
+
+---
+
+The dataset **CS2B_A24_Q3.csv** captures recovery outcomes for long-distance athletes who have experienced ankle injuries. It’s structured for survival analysis and includes the following variables:
+
+- **time**: The number of weeks until recovery or censoring (i.e., when the athlete leaves the study before recovering).  
+- **leave**: A binary indicator—`1` if full recovery time is observed, `0` if the athlete exited the study early (censored).  
+- **route**: Treatment type—`0` for pain relief drugs and rest, `1` for physiotherapy.  
+- **prior**: Injury history—`1` if the athlete had a previous ankle injury within the last 36 months, `0` otherwise.
+
+This dataset is ideal for modeling time-to-event data, comparing treatment effectiveness, and assessing how prior injuries influence recovery duration. It supports both Kaplan–Meier estimation and Cox proportional hazards modeling.
+
+---
+
+## 🏃‍♂️ CS2B A2024–5: Survival Analysis of Athlete Recovery
+
+A study investigates the number of weeks it takes for long-distance athletes with ankle injuries to recover and resume running. The dataset `CS2B_A24_Q3.csv` contains information on each athlete, including:
+
+### 📁 Dataset Variables
+- **time**: Number of weeks until recovery or censoring  
+- **leave**:  
+  - `1` if full recovery time is recorded  
+  - `0` if the athlete left the study before recovery (censored)  
+- **route**:  
+  - `0` for treatment with pain relief drugs and rest  
+  - `1` for physiotherapy instead of drugs  
+- **prior**:  
+  - `1` if the athlete had a previous ankle injury in the last 36 months  
+  - `0` otherwise
+
+### 📦 Required R Package
+Before starting, install and load the `survival` package:
+
+```r
+install.packages("survival")
+library(survival)
+```
+
+---
+
+### 🔍 Questions
+
+**(i)** Write R code to:
+- Load the dataset into a dataframe named `study`
+- Display the first 12 rows
+
+**(ii)** Provide an example of how censoring might be:
+- **Informative** for each treatment route  
+- **Non-informative** for each treatment route
+
+**(iii)** Write R code to:
+- Compute Kaplan–Meier survival estimates for recovery time  
+- Separate estimates by treatment route (pain relief vs. physiotherapy)  
+- Plot both survival curves on the same graph using different colors  
+**[8 marks]**
+
+**(iv)** Briefly explain the conclusions that can be drawn from the survival curves in part (iii)  
+**[3 marks]**
+
+**(v)** Write R code to:
+- Fit a Cox proportional hazards model using `route` and `prior` as covariates  
+- Use the **Breslow method** for handling ties  
+- Display the regression coefficients  
+**[6 marks]**
+
+**(vi)** Comment on which factor—treatment route or prior injury—appears more influential in predicting recovery time, based on the Cox model results  
+**[4 marks]**
+
+**(vii)** Describe how you could formally test which of the two covariates is more important in the model
+
+---
+
+Let me know if you'd like help writing the R code or interpreting the survival curves.
