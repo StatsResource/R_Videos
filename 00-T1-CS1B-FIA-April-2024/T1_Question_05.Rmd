@@ -39,53 +39,82 @@ pre {
   max-width: 100%;
   overflow-x: scroll;
 }
-```5 An insurance company, which currently only sells home insurance, is interested in
+An insurance company, which currently only sells home insurance, is interested in
 entering the car insurance market. An underwriting manager at the company believes
 that the age and gender of the policyholder will be the most important factors in
 estimating the number of claims made under a car insurance policy.
 The underwriting manager has commissioned a survey of its current home insurance
 customers who also have car insurance, choosing a male customer and a female
 customer for every age from 18 to 65, asking them how many car insurance
-claims they have made in the past 3 years. This dataset is saved in the file
-ClaimsData.Rdata. After loading this data into R, using the command
-load("ClaimsData.Rdata"), the data frame ClaimsData will be available,
-which contains the following three variables:
-age – this is the age (in years) of the policyholder.
-gender – this is either ‘M’ for male or ‘F’ for female.
-claim_count – this is the number of car insurance claims reported by the
-policyholder over the past 3 years.
-(i) Fit a normal linear regression model to the data using claim_count as the
-response variable and age as the explanatory variable. Your answer should
-include the estimated intercept and slope of the regression line. 
-A colleague suggests that the response variable would be better modelled as having a
-Poisson distribution.
-(ii) Fit a Generalised Linear Model (GLM) to the data using claim_count as
-the response variable and age as the explanatory variable, assuming a Poisson
-distribution for the response variable. Your answer should include the
-estimated coefficients and the Akaike’s Information Criterion (AIC) of the
-fitted model. [4]
-The underwriting manager wishes to compare the fit of the GLM in part (ii) against
-that of the normal linear regression model in part (i).
-(iii) Explain why scaled deviances cannot be used to compare the fit of the models
-in parts (i) and (ii). 
-(iv) Fit, by choosing a suitable argument for family in the glm command, a
-GLM to the data that is equivalent to the model fitted in part (i). Your answer
-should include the estimated coefficients and the AIC of this fitted model. [4]
-(v) Compare the fit of the models fitted in parts (ii) and (iv). 
----–7
-The underwriting manager believes the Poisson GLM would be improved by adding
-the explanatory variable gender as well as its interaction with age.
-(vi) (a) Fit a Poisson GLM to the data of the form age*gender. Your
-answer should include the estimated coefficients and the AIC of this
-fitted model.
-(b) Compare, using scaled deviances, the fit of this model to that in
-part (ii).
-[7]
----
+claims they have made in the past 3 years. 
 
-Sure, let's break down the steps required to solve each part of this problem:
 
 ---
+Here’s a cleaner and more readable version of your markdown formatting, with consistent structure, spacing, and bulleting for clarity:
+
+---
+
+## 📁 Data
+
+The dataset is saved in the file `ClaimsData.Rdata`. After loading it into R using:
+
+```r
+load("ClaimsData.Rdata")
+```
+
+The data frame `ClaimsData` will be available, containing the following variables:
+
+- **age**: Age of the policyholder (in years)  
+- **gender**: `'M'` for male or `'F'` for female  
+- **claim_count**: Number of car insurance claims reported by the policyholder over the past 3 years
+
+---
+
+##  Exercises
+
+### (i) Linear Regression  
+Fit a **normal linear regression model** using `claim_count` as the response variable and `age` as the explanatory variable.  
+- Include the estimated **intercept** and **slope** of the regression line.
+
+> A colleague suggests that the response variable may be better modeled using a **Poisson distribution**.
+
+---
+
+### (ii) Poisson GLM  
+Fit a **Generalised Linear Model (GLM)** assuming a **Poisson distribution** for `claim_count`, with `age` as the explanatory variable.  
+- Report the **estimated coefficients** and the **Akaike Information Criterion (AIC)** of the fitted model.
+
+---
+
+### (iii) Model Comparison  
+Explain why **scaled deviances** cannot be used to compare the fit of the models in parts (i) and (ii).
+
+---
+
+### (iv) GLM Equivalent to Linear Regression  
+Fit a GLM equivalent to the model in part (i) by choosing a suitable `family` argument in the `glm()` function.  
+- Report the **estimated coefficients** and the **AIC** of this fitted model.  
+**[4 marks]**
+
+---
+
+### (v) Compare Model Fits  
+Compare the fit of the models from parts (ii) and (iv) using appropriate criteria.
+
+---
+
+### (vi) Extended Poisson GLM  
+The underwriting manager believes the Poisson GLM can be improved by including `gender` and its interaction with `age`.
+
+**(a)** Fit a Poisson GLM using the formula `age * gender`.  
+- Report the **estimated coefficients** and the **AIC** of the fitted model.
+
+**(b)** Compare the fit of this model to that in part (ii) using **scaled deviances**.  
+**[7 marks]**
+
+---
+
+
 
 ### (i) Fit a normal linear regression model to the data using claim_count as the response variable and age as the explanatory variable:
 
@@ -172,6 +201,8 @@ Null Deviance: 149.5
 Residual Deviance: 113.5 AIC: 339
 ```
 The estimated coefficients for the full model are: Intercept = 1.84642, age = -0.03459, genderM = -0.18217, age:genderM = 0.01805, and the AIC is 339.
+
+---
 
 ### (vi) (b) Compare using scaled deviances:
 
@@ -261,17 +292,3 @@ The p-value is clearly significant (less than 0.1%).
 Therefore, the GLM with age*gender is a significant improvement over that with gender alone. 
 <p>
 ---
-
-[Total 23]
-Commentary:
-(i) Well answered. A fair number of candidates failed to pull out the intercept and slope estimates explicitly.
-(ii) Well answered. As in part (i), a fair number of candidates failed to pull out the coefficient estimates and AIC explicitly.
-(iii) Not well answered. Only a relatively small number of candidates referenced nesting.
-(iv) Well answered in general. A number of candidates failed to present the coefficient estimates and the value of the AIC explicitly.
-(v) Very well answered.
-(vi)(a) Well answered in general. A number of candidates failed to pull out the coefficient estimates and AIC value explicitly.
-(vi)(b) Not well answered. Only a small number of candidates performed a proper comparison (e.g. anova) with reference to statistical significance in the difference of the deviances.
-[Paper Total 100]
-END OF EXAMINERS’ REPORT
-www.actuaries.org.uk
-© 2021 Institute and Faculty of Actuaries
