@@ -17,14 +17,11 @@ library(magrittr)
 library(knitr)
 library(dplyr)
 library(janitor)
-
-
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(xaringanthemer)
 style_mono_accent_inverse(
-  #base_color = "#3C989E")(
   base_color = "#1c5253",
   header_font_google = google_font("Josefin Sans"),
   text_font_google   = google_font("Montserrat", "300", "300i"),
@@ -32,210 +29,139 @@ style_mono_accent_inverse(
 )
 ```
 
-* Introduction to R for Actuarial Students
+---
 
-* CS1B Curriculum
+## 📘 Overview
 
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
+- Introduction to R for Actuarial Students  
+- CS1B Curriculum  
+- R Programming Basics  
+- Fundamentals of Statistical Analysis  
+- Question 1  
 
 ---
 
-Q. 4)
-The table below shows the total claim number (cancellations) per year, Xij, for 4 travel companies over last 4 years.
-Years,j
-1
-2
-3
-4
-Travel Companies, i
-Make
-455
-458
-587
-531
-Ease
-251
-322
-292
-340
-Go
-309
-246
-217
-120
-Clear
-400
-426
-470
-547
-i) Using Empirical Bayes Credibility Theory (EBCT) Model 1, compute the following
-a) Copy the below code to load the data:
-q4<-matrix(c(455,251,309,400,
-458,322,246,426,
-587,292,217,470,
-531,340,120,547),
-ncol=4,nrow=4)
-(1)
-b) E[m(θ)]
-(2)
-c) E[s2(θ)]
-(2)
-d) Var[m(θ)]
-(3)
-e) Z
-(2)
+## ❓ Question 4
 
-ii) Using part (i), calculate the expected claim number for Go and Clear.
+The table below shows the total number of claims (cancellations) per year \( X_{ij} \) for four travel companies over the last four years.
 
-iii) What additional information is required to use EBCT Model 2.
+| Company | Year 1 | Year 2 | Year 3 | Year 4 |
+|--------|--------|--------|--------|--------|
+| Make   | 455    | 458    | 587    | 531    |
+| Ease   | 251    | 322    | 292    | 340    |
+| Go     | 309    | 246    | 217    | 120    |
+| Clear  | 400    | 426    | 470    | 547    |
 
 ---
 
-iv) Travel company “Ease” launched a membership program last year providing full refund on cancellations. Number of cancellations believed to follow binomial distribution with parameters n=3 and 0.20.
-Number of cancellations in last year on 150 memberships are as follows:
-Cancellations
-0
-1
-2
-3
-Members
-61
-71
-15
-3
-Carry out goodness of fit test for the binomial model specified for number of cancellations on each membership.
-(5)
+### (i) EBCT Model 1 Calculations
 
----
-
-
-Empirical Bayes Credibility Theory (EBCT) Model 1
-
-The Empirical Bayes Credibility Theory (EBCT) Model 1, formulated by Hans Bühlmann in 1967, is a foundational model in actuarial science. It is used to estimate the credibility premium, which is a weighted average of the individual risk's past experience and the overall average experience of a group of similar risks³.
-
-### Key Features of EBCT Model 1:
-1. **Assumptions**:
-   - The model assumes that the observed data for each risk follows a certain distribution.
-   - The parameters of this distribution are considered random variables with their own prior distribution.
-
-2. **Credibility Factor (Z)**:
-   - The credibility factor \( Z \) determines the weight given to the individual risk's past experience versus the overall average.
-   - It ranges between 0 and 1, where a higher \( Z \) indicates more reliance on the individual risk's data.
-
-3. **Calculation**:
-   - The credibility premium is calculated as:
-     $$
-     \text{Credibility Premium} = Z \cdot \text{Individual Risk's Mean} + (1 - Z) \cdot \text{Overall Mean}
-     $$
-   - This formula balances the specific risk's historical data with the collective experience of the group.
-
-4. **Applications**:
-   - EBCT Model 1 is widely used in insurance to set premiums based on past claims data.
-   - It helps in making more accurate predictions by incorporating both individual and collective risk information.
-
-Would you like to know more about how this model is applied in practice or any specific examples?
-
-
-
-[20 Marks]
-Solution 4:
-i)
+**a)** Load the data:
 
 ```{r}
-q4<-matrix(c(455,251,309,400,
-458,322,246,426,
-587,292,217,470,
-531,340,120,547),
-ncol=4,nrow=4)
+q4 <- matrix(c(
+  455, 251, 309, 400,
+  458, 322, 246, 426,
+  587, 292, 217, 470,
+  531, 340, 120, 547
+), ncol = 4, nrow = 4)
 ```
 
+**b)** \( E[m(\theta)] \)
 
 ```{r}
-q4
-```
-
-```{r}
-n<-ncol(q4)
-n
-```
-
-
-```{r}
-m<-mean(rowMeans(q4))
+m <- mean(rowMeans(q4))
 m
 ```
 
+**c)** \( E[s^2(\theta)] \)
 
 ```{r}
-s<-mean(apply(q4,1,var))
+s <- mean(apply(q4, 1, var))
 s
 ```
 
+**d)** \( \text{Var}[m(\theta)] \)
 
 ```{r}
-v<-var(rowMeans(q4)) - mean(apply(q4,1,var))/n
-Z<- n/(n+s/v)
-n
+v <- var(rowMeans(q4)) - mean(apply(q4, 1, var)) / ncol(q4)
+v
 ```
 
+**e)** Credibility factor \( Z \)
 
+```{r}
+n <- ncol(q4)
+Z <- n / (n + s / v)
 Z
-[1] 0.9443816
-[1+2+2+3+2]
-ii)
-Z*rowMeans(q4[3:4,])+(1-Z)*m
-[1] 231.3532 455.8799
-
+```
 
 ---
 
-iii)
-Risk Volumes are required to apply EBCT2
+### (ii) Expected Claims for Go and Clear
 
+```{r}
+Z * rowMeans(q4[3:4,]) + (1 - Z) * m
+```
 
 ---
 
-iv)
+### (iii) Additional Info for EBCT Model 2
 
-```{r}
-obs<-c(61,71,15,3)
-```
-
-
-* Combine 2 and 3 since value of 3 is less than 5
-
-```{r}
-obs.comb<-c(61,71,15 + 3)
-```
-
-
-```{r}
-p<-0.2
-exp<-dbinom(c(0:1),3,p)
-exp[3]<-1-pbinom(1,3,p)
-sum(exp)
-```
-
-
+> Risk volumes are required to apply EBCT Model 2.
 
 ---
 
+### (iv) Goodness-of-Fit Test for Binomial Model
+
+Travel company **Ease** launched a membership program last year offering full refunds on cancellations. Cancellations are believed to follow a binomial distribution with parameters \( n = 3 \), \( p = 0.20 \).
+
+| Cancellations | Members |
+|---------------|---------|
+| 0             | 61      |
+| 1             | 71      |
+| 2             | 15      |
+| 3             | 3       |
+
+**Combine 2 and 3 (due to low frequency):**
+
 ```{r}
-chisq.test(x=obs.comb,p=exp)
+obs <- c(61, 71, 15 + 3)
+p <- 0.2
+exp <- dbinom(0:1, 3, p)
+exp[3] <- 1 - pbinom(1, 3, p)
+chisq.test(x = obs, p = exp)
 ```
 
-
-* Since p-value <0.5, we have sufficient evidence to reject the null hypothesis that cancellation follows bin(3,0.2)
+> Since p-value < 0.05, we reject the null hypothesis that cancellations follow Bin(3, 0.2).
 
 ---
 
-Source: Conversation with Copilot, 5/10/2024
-(1) MTH5131 Actuarial Statistics - Queen Mary University of London. https://qmplus.qmul.ac.uk/mod/resource/view.php?id=2522684.
-(2) Risk Modelling in General Insurance - Cambridge University Press .... https://assets.cambridge.org/97805218/63940/index/9780521863940_index.pdf.
-(3) 5 Credibility Theory - Lecture notes 1 - 5 Theory (Unit 6) 5 ... - Studocu. https://www.studocu.com/in/document/universal-business-school/statistics/5-credibility-theory-lecture-notes-1/16670923.
-(4) Credibility Premium Estimation of Insurance Claims in Nigeria - IDEAS/RePEc. https://ideas.repec.org/p/hal/wpaper/hal-01855972.html.
+## 📚 EBCT Model 1 Summary
 
+Empirical Bayes Credibility Theory (EBCT) Model 1, developed by Hans Bühlmann (1967), estimates a credibility premium by blending individual and group-level risk data.
 
+### Key Concepts
+
+- **Assumptions**: Observed data follows a distribution with random parameters  
+- **Credibility Factor \( Z \)**: Balances individual vs. group experience  
+- **Formula**:
+  $$
+  \text{Credibility Premium} = Z \cdot \text{Individual Mean} + (1 - Z) \cdot \text{Overall Mean}
+  $$
+- **Applications**: Used in insurance pricing and risk assessment
+
+---
+
+---
+
+## 📎 References
+
+1. [MTH5131 Actuarial Statistics – Queen Mary University of London](https://qmplus.qmul.ac.uk/mod/resource/view.php?id=2522684)  
+2. [Risk Modelling in General Insurance – Cambridge University Press](https://assets.cambridge.org/97805218/63940/index/9780521863940_index.pdf)  
+3. [Credibility Theory Lecture Notes – Studocu](https://www.studocu.com/in/document/universal-business-school/statistics/5-credibility-theory-lecture-notes-1/16670923)  
+4. [Credibility Premium Estimation – IDEAS/RePEc](https://ideas.repec.org/p/hal/wpaper/hal-01855972.html)
+
+---
+
+Let me know if you'd like this converted into a presentation or exported to another format.

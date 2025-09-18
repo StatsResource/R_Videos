@@ -50,159 +50,128 @@ pre {
 
 * Question 1
 ---
+### **Q. 4 (Empirical Bayes Credibility & MLE)**
 
-Q.4)
 The following data represents the average claim size (motor third party - accident injury) under motor insurance policies settled in six different states across a country.
-State i Year j 2018-2019 2019-2020 2020-2021 2021-2022 2022-2023 Assam
-219458
-240371
-289307
-264439
-279704 Bihar
-216594
-231311
-261915
-286211
-291934 Chattisgarh
-213871
-231461
-264519
-261279
-270058 Delhi
-389197
-400926
-393130
-391921
-373129 Odisha
-224879
-243361
-276718
-292564
-300135 Kerala
-194814
-230113
-258101
-276876
-287973
+
+| State | 2018-2019 | 2019-2020 | 2020-2021 | 2021-2022 | 2022-2023 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Assam | 219458 | 240371 | 289307 | 264439 | 279704 |
+| Bihar | 216594 | 231311 | 261915 | 286211 | 291934 |
+| Chattisgarh | 213871 | 231461 | 264519 | 261279 | 270058 |
+| Delhi | 389197 | 400926 | 393130 | 391921 | 373129 |
+| Odisha | 224879 | 243361 | 276718 | 292564 | 300135 |
+| Kerala | 194814 | 230113 | 258101 | 276876 | 287973 |
+
 Enter the data in R in the form of a matrix using the following code:
-Claims<-matrix(c(219458, 216594, 213871, 389197,224879,194814,240371,231311,231461,400926,243361,230113, 289307, 261915, 264519, 393130, 276718, 258101, 264439,286211, 261279, 391921, 292564, 276876, 279704,291934, 270058, 373129, 300135, 287973), nrow=6, ncol=5)
 
-Page 6 of 6
-Or
-(You can copy the R code from provided file ‘Q4 Reference_RCode.docx)
-i)
-Calculate, using Empirical Bayes Credibility Theory (EBCT) Model 1, the following:
-a)
-E[m(ɵ)]
-b)
-E[𝑠2(ɵ)]
-c)
-Var [m(ɵ)]
-(2)
-(2)
-(4)
-ii)
-Calculate the credibility factors Zi and the credibility premiums for Delhi and Kerala.
-(5)
-iii)
-Comment on the relationship between n and Zi in case of EBCT Model 1.
-(2)
-The number of motor third party claims per policy is modelled as a random variable X with a Poisson distribution with unknown parameter ʎ. The log likelihood function for estimating ʎ is given by:
-L(ʎ) = log(ʎ) × Σx− ʎn
-where n is the number of observations in the sample data.
-There is data for a total of 150 observations and the total number of motor third party claims is 280.
-The log likelihood function for the values of ʎ = 0, 0.1, 0.2, ………….., 1.8, 1.9, 3.3 has been plotted below:
-iv)
-Determine an approximate maximum likelihood estimate for ʎ using this plot.
-(2)
-v)
-Determine the exact maximum likelihood estimate for ʎ and compare your answer with the approximate estimate obtained in part (iv).
-(3)
-[20]
-*************
-0.00.51.01.52.02.53.0-600-400-200Log-likelihood of lambdalambdaLog_likelihood
-4 Consider a random variable, 𝑋, following a modified exponential distribution with
-Cumulative Distribution Function (CDF):
-𝐹􁈺𝑥􁈻 􀵌 􀵜
-0, 𝑥 􀵏 0
-1 􀵆 exp􁈺􀵆𝜆𝑥􀬶􁈻, 𝑥􀵒0
-(i) Plot the CDF 𝐹􁈺𝑥􁈻 as a function of 𝑥 for 𝑥 􀵌 0, 0.1, 0.2, … ,9.9, 10 when
-λ 􀵌 0.2. [4]
-(ii) Plot the density function 𝑓􁈺𝑥􁈻 of 𝑋 as a function of 𝑥 for
-𝑥 􀵌 0, 0.1, 0.2, … ,9.9, 10 when λ 􀵌 0.2. [5]
-A random sample of 100 values of X is provided in randomSample.Rdata.
-Loading the sample data into R will generate a vector x with 100 values representing
-the sample.
-(iii) Calculate the value of the log likelihood function for the parameter λ at the
-point λ 􀵌 0.2 based on this random sample. [3]
-(iv) Plot the values of the log likelihood function for the parameter λ based on the
-sample in randomSample.Rdata. Your plot of the log likelihood function
-must be for values of λ 􀵌 0.01, 0.02, … , 0.99, 1. [7]
-The maximum likelihood estimator for the parameter λ based on a random sample
-𝑋􀬵, … , 𝑋􀯇 is given by:
-λ􀷠
-􀵌
-𝑁
-Σ 𝑋􀯜
-􀯇 􀬶
-􀯜􀭀􀬵
-(v) Estimate the value of λ using the maximum likelihood estimator given above
-and the sample in randomSample.Rdata. [3]
-(vi) Comment on the plot in part (iv) and the estimate in part (v). [2]
-[Total 24]
-CS1B A2024–6
+```r
+Claims <- matrix(c(219458, 216594, 213871, 389197, 224879, 194814, 240371, 231311, 231461, 400926, 243361, 230113, 289307, 261915, 264519, 393130, 276718, 258101, 264439, 286211, 261279, 391921, 292564, 276876, 279704, 291934, 270058, 373129, 300135, 287973), nrow=6, ncol=5)
+```
 
+-----
 
-Solution 4:
-(i) 
-a) > m <- mean(rowMeans(Claims)) (1)
- > m
- [1] 278542.3 (1)
-(2) 
-b) > s<-mean(apply(Claims,1,var)) (1)
- > s
- [1] 846425572 (1)
-(2) 
-c) > n <-ncol(Claims)
- > n
- [1] 5 
- (1)
- > v<-var(rowMeans(Claims))-mean(apply(Claims,1,var))/n (2)
- > v
- [1] 2842778626 (1)
-(4) 
-(ii) 
-> Z <- n/(n+s/v) (1)
+### (i)
+
+Calculate, using **Empirical Bayes Credibility Theory (EBCT) Model 1**, the following:
+a) $E[m(\\theta)]$ (2)
+b) $E[s^2(\\theta)]$ (2)
+c) $Var[m(\\theta)]$ (4)
+
+### (ii)
+
+Calculate the credibility factors $Z\_i$ and the credibility premiums for Delhi and Kerala. (5)
+
+### (iii)
+
+Comment on the relationship between $n$ and $Z\_i$ in the case of **EBCT Model 1**. (2)
+
+-----
+
+The number of motor third-party claims per policy is modeled as a random variable $X$ with a **Poisson distribution** with an unknown parameter $\\lambda$. The log-likelihood function for estimating $\\lambda$ is given by:
+$$L(\lambda) = log(\lambda) \times \sum x - \lambda n$$
+where $n$ is the number of observations in the sample data.
+
+There is data for a total of 150 observations, and the total number of motor third-party claims is 280. The log-likelihood function for the values of $\\lambda = 0, 0.1, 0.2, \\dots, 1.8, 1.9, 3.3$ has been plotted below.
+
+### (iv)
+
+Determine an approximate maximum likelihood estimate for $\\lambda$ using this plot. (2)
+
+### (v)
+
+Determine the exact maximum likelihood estimate for $\\lambda$ and compare your answer with the approximate estimate obtained in part (iv). (3)
+
+[Total 20]
+
+-----
+
+### **Solution to Q. 4 (EBCT & MLE)**
+
+### (i)
+
+a) **$E[m(\\theta)]$**
+The R code `mean(rowMeans(Claims))` calculates the mean of the row means.
+
+```r
+> m <- mean(rowMeans(Claims))
+> m
+[1] 278542.3
+```
+
+b) **$E[s^2(\\theta)]$**
+The R code `mean(apply(Claims, 1, var))` calculates the mean of the variance for each state.
+
+```r
+> s <- mean(apply(Claims, 1, var))
+> s
+[1] 846425572
+```
+
+c) **$Var[m(\\theta)]$**
+The R code `var(rowMeans(Claims)) - mean(apply(Claims, 1, var))/n` calculates the variance of the mean.
+
+```r
+> n <- ncol(Claims)
+> n
+[1] 5
+> v <- var(rowMeans(Claims)) - mean(apply(Claims, 1, var))/n
+> v
+[1] 2842778626
+```
+
+### (ii)
+
+The credibility factor $Z$ is calculated as $Z = n / (n + s/v)$.
+
+```r
+> Z <- n/(n+s/v)
 > Z
-[1] 0.9437976 (1)
-> PurePremium <-Z*rowMeans(Claims)+(1-Z)*m (1)
-> PurePremium
-[1] 259773.5 258770.4 249940.8 383415.5 268150.2 251203.4 (1)
-Credibility premium for Delhi is 383415.5 and for Kerala is 251203.40 (1)
-(5) 
-(iii) 
-Z is an increasing function of n. In the formula for credibility factor Z = n
-/ (n + s/v), with an increasing value of n, Z will tend to increase. Intuitive
-ly also, it is true because as the number of observations for the particular r
-isk under consideration are more, more reliable is the specific data from that
-particular risk and hence credibility factor Z would be higher indicative of m
+[1] 0.9437976
+```
 
-Page 11 of 11
-ore weightage to the specific data(mean for the specific risk) rather than the
-collateral data (overall mean for all risks)
- (2)
-(iv)
-Based on the graph, the approximate maximum likelihood estimate i.e. the value
-at which the log likelihood is maximum is around 1.8 to 1.9.
- (2)
-(v) 
-Exact Maximum Likelihood Estimate λ is
-λ = Σ𝑥𝑖/𝑛
- = 280/150
- = 1.87 (2)
-So, the actual maximum likelihood estimate calculated using first principles
-is close to the approximate maximum likelihood determined based on the graph.
- (1)
- (3) 
- [20] 
-**************
+The credibility premium is calculated as $Z \\times \\text{State\_Mean} + (1-Z) \\times m$.
+
+```r
+> PurePremium <- Z * rowMeans(Claims) + (1-Z) * m
+> PurePremium
+[1] 259773.5 258770.4 249940.8 383415.5 268150.2 251203.4
+```
+
+The credibility premium for **Delhi** is **383415.5** and for **Kerala** is **251203.4**.
+
+### (iii)
+
+$Z$ is an increasing function of $n$. In the formula for the credibility factor, $Z = n / (n + s/v)$, as $n$ increases, the value of $Z$ will also increase. This is intuitively correct because as the number of observations for a particular risk increases, the data for that specific risk becomes more reliable. Therefore, the credibility factor $Z$ should be higher, giving more weight to the specific data (the mean for that risk) rather than the overall data (the grand mean for all risks).
+
+### (iv)
+
+Based on the graph, the approximate maximum likelihood estimate is the value of $\\lambda$ at which the log-likelihood is at its maximum. This occurs at a value of $\\lambda$ of approximately **1.8 to 1.9**.
+
+### (v)
+
+The exact maximum likelihood estimate for a Poisson distribution is given by the sample mean:
+$$\hat{\lambda} = \frac{\sum x_i}{n}$$
+Using the given data:
+$$\hat{\lambda} = \frac{280}{150} = 1.87$$
+The exact maximum likelihood estimate of **1.87** is very close to the approximate estimate of 1.8 to 1.9 determined from the graph.

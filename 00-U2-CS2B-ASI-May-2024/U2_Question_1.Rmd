@@ -1,0 +1,53 @@
+## Q. 1
+
+A research organisation has been asked to study the possible adverse effects of a new drug administered to individuals, with particular reference to the possibility of blood clots in the brain within the first 30 days of receipt of the drug.
+
+For this question, the `survival` package should be loaded into R using the following code:
+
+```r
+install.packages("survival")
+library(survival)
+```
+
+Load the `.csv` file named **“Q1data.csv”** into R and assign it to a data frame called **‘datamain’**. This `.csv` file contains the results of the investigation for 2500 individuals under the following six variables:
+
+  * **Life**: patient identifier (integers 1, 2, ..., 2500)
+  * **Drug**: indicative variable (0 = received no drug, 1 = received drug)
+  * **Age**: indicative variable (0 = age less than or equal to 50, 1 = age more than 50)
+  * **Co-morbidity**: indicative variable (1 = individual having another chronic disease at the time of receipt of the drug, 0 = no chronic disease)
+  * **Status**: indicative variable (0 = censoring due to the end of period, 1 = censoring due to death (for unknown reason), 2 = admission to hospital due to blood clots within 30 days of administering the drug, 3 = admission to hospital due to reasons other than blood clots within 30 days of administering the drug)
+  * **Time**: duration in days at which admission to hospital/censoring occurred (integers with range 0 to 30, 0 = day of administering the drug)
+
+-----
+
+### (i)
+
+Comment on whether “censoring” in this investigation is likely to be informative. (3)
+
+### (ii)
+
+Construct a new table **‘datanew’** from **‘datamain’** adding a new column **ST** with the following properties:
+
+  * **ST** = 0 if **‘Status’** in the **‘data’** is 0 or 1 or 3
+  * **ST** = 1 if **‘Status’** in the **‘data’** is 2
+    Display the last 20 rows of **‘datanew’** in your answer script. (6)
+
+### (iii)
+
+Assume that the censoring is non-informative, plot Kaplan-Meier survival functions for analysing the effect of the drug on blood clots. Plot both survival functions on the same axes. Use different colours to identify each survival function and a range from 0.98 to 1 on the y-axis. Use appropriate labelling in the plot. (6)
+
+### (iv)
+
+Comment on the plot of part (iii). (4)
+
+-----
+
+It has been decided to analyse the data further using Cox’s proportional hazards model and by adding covariates into the investigations.
+
+The following decisions were taken:
+
+  * Significance of covariates would be tested with interactions.
+  * At least two covariates would be used.
+  * The two covariates to be compulsorily used are ‘drug indicator’ and ‘age’.
+
+The decision has been taken to add ‘co-morbidity’ as one more covariate. Test the hypothesis, using the likelihood ratio statistics, that ‘co-morbidity’ has no effect on blood clots, allowing for ‘drug indicator’ and ‘age’. State the null and alternative hypotheses clearly and use the Breslow method for tie handling.

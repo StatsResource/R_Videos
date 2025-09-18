@@ -1,0 +1,66 @@
+This exercise is about using time series analysis to forecast daily product sales for an insurance company. The core task involves:
+
+* **Data Preparation**: Loading and plotting historical sales data in R to visualize trends.
+* **Model Selection**: Assessing the stationarity of the data and fitting various ARIMA models. The goal is to identify the best model using the **Akaike Information Criterion (AIC)**.
+* **Forecasting**: Utilizing the chosen model to predict sales for the next 60 days.
+* **Interpretation**: Analyzing and commenting on both the historical sales plot and the forecasted sales plot.
+
+
+---
+
+The `usconsumption` dataset is a time series object available in the R `fpp` library. It contains quarterly data from 1970 to 2010 for two key economic indicators in the United States:
+
+* **Personal Consumption Expenditure**: The percentage change in quarterly personal consumption.
+* **Personal Disposable Income**: The percentage change in quarterly personal disposable income.
+
+The dataset is structured as a time series object, making it suitable for direct use with time series analysis functions in R. It allows for the exploration of the relationship between changes in income and changes in consumption over time.
+
+
+---
+
+### **Q. 3**
+
+This question involves analyzing the percentage change in quarterly personal consumption expenditure and personal disposable income from 1970 to 2010. The data is available in the **usconsumption** time series from R's **‘fpp’** library.
+
+-----
+
+
+
+Install the `fpp` package and rename `usconsumption[,1]` as `consumption`.
+
+### (i)
+
+Plot this time series, giving appropriate labels for each axis. Paste the R code and the chart into your answer script. (3)
+
+### (ii)
+
+Plot the ACF and PACF of this time series, giving appropriate labels to each axis. Paste the R code and charts into your answer script. (4)
+
+### (iii)
+
+Fit an **ARIMA(3,0,0)** model based on your answer in part (ii). State the equation of the model and justify your approach. (4)
+
+-----
+
+The dataset **usconsumption** also includes quarterly personal disposable income from 1970 to 2010. Use the following R code to load the income data:
+
+```r
+income <- usconsumption[,2]
+```
+
+### (iv)
+
+Compare the performance of the ARIMA model you have chosen in part (iii) with a linear regression model of **consumption** on **income** by comparing the **root mean square error (RMSE)** for the fitted values of each model. Paste your R code and output into your answer script. (8)
+
+-----
+
+An analyst has suggested that neither model in part (iv) is a good fit for the data and has asked you to propose an alternate model.
+
+### (v)
+
+a) Suggest a suitable alternative model to fit the data.
+b) Fit the model you suggested in part (v) (a) to the data, stating the equation used.
+c) Compare the results of this model to the models fitted in part (iv). (12)
+
+[Total 31]
+

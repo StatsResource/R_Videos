@@ -1,0 +1,110 @@
+
+This is an investment analysis exercise using multiple linear regression in R. 
+The analyst is trying to understand which factors influence the returns of 50 emerging market funds. The exercise covers building regression models, standardizing variables, and applying the concept of ridge regression to compare different models.
+
+***
+
+---
+
+### Background
+Alpha Advisors, a small investment consulting firm, is researching the investment returns of 50 emerging market funds. An analyst is investigating the factors that influenced these returns over the last year. The data for this research is located in the file **'S24_Q3_Data.csv'**, which contains the following nine columns:
+
+* **fund**: An ID number for each fund from 1 to 50.
+* **return**: The percentage return after fees over the last year.
+* **rating**: Alpha Advisors’ rating of the fund on a scale of 1 to 5 at the start of the year. This is a metric used for making fund selection recommendations.
+* **risk**: A measure of the amount of risk taken in the fund, on a scale of 1 to 10.
+* **size**: The total value of assets in the fund, in millions of US dollars.
+* **experience**: The number of years of industry experience of the lead fund manager.
+* **inflow**: The net monetary flows (in minus out) from investors over the last year.
+* **holdings**: The number of stocks owned by the fund.
+* **turnover**: The percentage turnover (stock purchases and sales divided by size) in the fund.
+
+The primary objective is to identify the main factors that affected investment returns over the past year.
+
+---
+### (i)
+Construct R code to load the dataset from 'S24_Q3_Data.csv' into R, saving it as a dataframe called **'fund_data'**, and display the first nine rows. [2]
+
+### (ii)
+Construct R code to build a multiple linear regression model for **return** as the response variable and **rating, risk, size, experience, inflow, holdings** and **turnover** as explanatory variables, and display the results. [3]
+
+***
+
+Alpha Advisors claim in their own marketing materials to have skill in selecting better-performing funds using their rating.
+
+### (iii)
+Comment briefly on this claim based on your output in part (ii). [3]
+
+### (iv)
+Explain why it can be useful to work with rescaled explanatory variables with zero mean and standard deviation of one. [1]
+
+### (v)
+Calculate standardised versions of each of the seven explanatory variables above and then build a multiple linear regression model for **return** with these standardised explanatory variables. [4]
+
+### (vi)
+Construct R code to calculate the sum of squares of the regression coefficients for the model in part (v) and store this value as **'penalty'**. [2]
+---
+
+CS2B S2024–5 
+One way of applying ridge regression techniques to this scenario is to seek a linear 
+regression model that minimises a penalised sum of squares given by: 
+�
+�𝑆𝑆 𝜆 𝛽 
+where RSS is the residual sum of squares of the regression model, the 𝛽 are the 
+regression coefficients for that model and 𝜆 
+0 is some constant. 
+(vii) 
+Determine the values of 𝜆 for which a simple linear regression model with 
+only the rescaled Alpha Advisors ratings as the explanatory variable has  
+lower penalised sum of squares than the full multiple linear regression model 
+in part (v) by calculating the penalised sum of squares for these two models 
+for 𝜆 = 0, 1, 2, … 10.  
+[12] 
+The head of marketing at Alpha Advisors wants to run advertising with the headline 
+‘All you need are our Alpha ratings’ claiming that the rating alone can be used to 
+determine better performing funds. 
+(viii) Comment on this marketing claim with reference to your results in part (vii).
+ [2] 
+[Total 29] 
+END OF PAPER 
+CS2B S2024–6 
+
+
+
+### (i)
+Construct R code to load the dataset from **'S24_Q3_Data.csv'** into R, saving it as a dataframe called **'fund_data'**, and display the first nine rows. [2]
+
+### (ii)
+Construct R code to build a multiple linear regression model for **return** as the response variable and **rating, risk, size, experience, inflow, holdings** and **turnover** as explanatory variables, and display the results. [3]
+
+### (iii)
+Comment briefly on this claim based on your output in part (ii). [3]
+
+### (iv)
+Explain why it can be useful to work with rescaled explanatory variables with zero mean and standard deviation of one. [1]
+
+### (v)
+Calculate standardized versions of each of the seven explanatory variables above and then build a multiple linear regression model for **return** with these standardized explanatory variables. [4]
+
+### (vi)
+Construct R code to calculate the sum of squares of the regression coefficients for the model in part (v) and store this value as **'penalty'**. [2]
+
+***
+
+One way of applying ridge regression techniques to this scenario is to seek a linear regression model that minimizes a penalised sum of squares given by:
+$$RSS + \lambda \sum \beta^2$$
+where RSS is the residual sum of squares of the regression model, the $\beta$ are the regression coefficients for that model, and $\lambda \ge 0$ is some constant.
+
+### (vii)
+Determine the values of $\lambda$ for which a simple linear regression model with only the rescaled Alpha Advisors ratings as the explanatory variable has a lower penalised sum of squares than the full multiple linear regression model in part (v) by calculating the penalised sum of squares for these two models for $\lambda = 0, 1, 2, \dots 10$. [12]
+
+***
+
+The head of marketing at Alpha Advisors wants to run advertising with the headline 'All you need are our Alpha ratings' claiming that the rating alone can be used to determine better performing funds.
+
+### (viii)
+Comment on this marketing claim with reference to your results in part (vii). [2]
+
+***
+
+[Total 29]

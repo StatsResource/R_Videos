@@ -38,6 +38,214 @@ pre {
 
 ---
 
+Thanks, Kevin — here’s a cleaned-up and well-structured version of your solution for **Solution 2**, formatted for clarity and consistency in R Markdown style:
+
+---
+
+## 🧮 Solution 2
+
+### (i) Load Data and Compute Mean
+
+```r
+Sales <- read.csv("SalesData.csv") 
+mean(Sales$Value)
+```
+
+**Output**:  
+`[1] 1307.167`
+
+---
+
+### (ii) Correlation and Covariance
+
+**(a) Kendall correlation between Value and City**
+
+```r
+cor(Sales$Value, Sales$City, method = "kendall")
+```
+
+**(b) Covariance between Value and Age**
+
+```r
+r <- cor(Sales$Value, Sales$Age)
+r * sd(Sales$Value) * sd(Sales$Age)
+```
+
+**Alternate:**
+
+```r
+cov(Sales$Value, Sales$Age)
+```
+
+---
+
+### (iii) Scatterplot and Correlation Test
+
+**(a) Scatterplot of Value vs Age**
+
+```r
+plot(Sales$Value, Sales$Age)
+```
+
+- No clear linear trend observed  
+- Suggests correlation is close to zero
+
+**(b) Pearson correlation test**
+
+```r
+cor.test(Sales$Value, Sales$Age)
+```
+
+- Correlation: `-0.1241`  
+- 95% CI: `(-0.367, 0.134)`  
+- p-value: `0.3447`  
+- Conclusion: Cannot reject the null hypothesis that correlation = 0
+
+---
+
+### (iv) Linear Regression Models
+
+**(a) Age can be excluded due to weak correlation**
+
+**(b) Fit full model with Device, City, Age**
+
+```r
+model1 <- lm(Value ~ Device + City + Age, data = Sales)
+summary(model1)
+```
+
+- DeviceMobile is significant (p < 0.001)  
+- City and Age are not significant (p > 0.05)
+
+**(c) Compare with reduced model**
+
+```r
+model2 <- lm(Value ~ Device, data = Sales)
+anova(model1, model2)
+```
+
+- p-value = `0.07838`  
+- Conclusion: Cannot reject H₀ that City and Age coefficients are zero
+
+**(d) Summary of reduced model**
+
+```r
+summary(model2)
+```
+
+- Equation: `Value = 2056.47 - 1045.54 × Device`  
+- Adjusted R²: `0.5976`  
+- DeviceMobile is significant
+
+---
+
+### (v) Confidence Intervals
+
+**(a) Coefficients**
+
+```r
+confint(model2, level = 0.95)
+```
+
+- DeviceMobile CI: `(-1267.86, -823.23)`
+
+**(b) Residual variance CI**
+
+```r
+residual <- model2$residuals
+n <- length(residual)
+varhat <- var(residual)
+(n - 2) * varhat / qchisq(c(0.975, 0.025), 58)
+```
+
+- CI: `(105867, 220588)`
+
+---
+
+### (vi) Poisson Fit for Order Variable
+
+**(a) Mean of Order**
+
+```r
+m <- mean(Sales$Order)
+```
+
+- μ̂ = `2.383`
+
+**(b) Frequency table**
+
+```r
+table(Sales$Order)
+```
+
+**(c) Goodness-of-fit test**
+
+```r
+a <- as.numeric(table(Sales$Order))
+a[6] <- sum(a[6:7])
+a <- a[-7]
+e <- dpois(0:4, m)
+e[6] <- 1 - sum(e)
+chisq.test(x = a, p = e)
+```
+
+- p-value = `0.306`  
+- Conclusion: Cannot reject null hypothesis that Order follows Poisson distribution
+
+---
+
+### (vii) Poisson GLM for Order ~ Device
+
+**(a) Fit model**
+
+```r
+glm2 <- glm(Order ~ Device, family = poisson(link = "log"), data = Sales)
+summary(glm2)
+```
+
+- DeviceMobile is significant (p < 0.001)  
+- AIC: `199.88`
+
+**(b) Log link explanation**
+
+- Log link ensures μ = exp(linear predictor), keeping μ > 0  
+- Essential for Poisson models
+
+---
+
+### (viii) Predictions
+
+**(a) Predict for new customers**
+
+```r
+Customers <- data.frame(Device = c("Mobile", "Mobile"), Age = c(18, 28), City = c(1, 2))
+predict(glm2, newdata = Customers, type = "response")
+```
+
+- Predicted Order: `3`, `3` (same due to identical Device)
+
+**(b) Explanation**
+
+- Only Device used in model → same prediction for both
+
+---
+
+### (ix) Total Value Prediction
+
+```r
+Channel <- data.frame(Device = c("Mobile", "Laptop"))
+pred_order <- predict(glm2, newdata = Channel, type = "response")
+pred_value <- predict(model2, newdata = Channel)
+totalvalue <- pred_order * pred_value
+totalvalue
+```
+
+- Mobile: `3032.79`  
+- Laptop: `1693.56`
+
+---
+
+
 Solution 2:
 i) i
 .

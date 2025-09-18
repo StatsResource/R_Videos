@@ -43,6 +43,224 @@ style_mono_accent_inverse(
 * ### Question  1
 ---
 
+This exercise explores how Generalized Linear Models (GLMs) can be used to analyze online consumer behavior, specifically focusing on how age and time spent on a website influence annual purchase frequency. By fitting Poisson models with both log and square root link functions, it encourages comparison of model performance using deviance and AIC. The task deepens understanding of link functions, model interpretation, and statistical criteria for evaluating fit and complexity—key skills for applying GLMs in real-world data analysis.
+
+---
+
+
+1 For an investigation into the buying behaviour of consumers shopping at an online
+store, data about the age, the time per month spent on the online shop’s website and
+the number of purchases from the shop per year are recorded.
+#### Data
+
+This dataset is saved in the file ‘onlineShop.Rdata’. After loading the data into R,
+using the command load(<tt>"onlineShop.RData"</tt>), the data frame
+onlineShop will be available. The data frame onlineShop contains the
+following three variables:
+* age – the age (in years) of the customer
+* <tt>time_spent_on_website</tt> – the time per month spent on the shop’s website
+(in hours)
+* purchases_per_year – the number of purchases from the shop per year.
+
+---
+
+(i) Fit a Generalised Linear Model (GLM) to the data assuming a Poisson
+distribution with a log link function, using purchases_per_year as the
+response variable and age and <tt>time_spent_on_website</tt> as explanatory
+variables without an interaction term. Your answer should include the
+estimated coefficients, the deviance and the Akaike’s Information Criterion
+(AIC) of the fitted model. 
+(ii) State an expression for the expected number of purchases per year in terms of
+the variables age and <tt>time_spent_on_website</tt> using the fitted model
+from part (i). 
+
+
+---
+
+It is suggested that a log link function may not be appropriate, and a square root link
+function should be used instead, that is 𝑔􁈺𝜇􁈻 􀵌 √𝜇. 
+
+In R, a square root link function
+can be specified using <tt>family = poisson(link = "sqrt")</tt>.
+
+#### More Exercises
+
+(iii) Fit a GLM to the data assuming a Poisson distribution with a square root link
+function using purchases_per_year as the response variable and age
+and <tt>time_spent_on_website</tt> as explanatory variables without an
+interaction term. Your answer should include the estimated coefficients, the
+deviance and the AIC of the fitted model.
+(iv) State an expression for the expected number of purchases per year in terms of
+the variables age and <tt>time_spent_on_website</tt> using the fitted model
+from part (iii). 
+(v) Compare the models in parts (i) and (iii) and decide which model should be
+preferred using the deviance. 
+It is suggested that the deviance is not an appropriate measure to compare the two
+models in parts (i) and (iii), and that the AIC should be used instead.
+(vi) Comment on this suggestion in the context of comparing the two models in
+parts (i) and (iii). In particular, identify any advantages that the AIC may
+have compared to the deviance in this context. 
+
+---
+
+**1. GLM for Online Shopping Behavior**
+
+**1(i) Poisson GLM with Log Link**
+
+```{r}
+load("onlineShop.Rdata")
+
+# Fit the Poisson GLM with log link
+model_log <- glm(purchases_per_year ~ age + <tt>time_spent_on_website</tt>, 
+                 data = onlineShop, family = poisson)
+
+# Summary of the model
+summary(model_log)
+```
+
+**1(ii) Expected Number of Purchases with Log Link**
+
+The expected number of purchases per year, E(Y), can be expressed as:
+
+```
+E(Y) = exp(β₀ + β₁*age + β₂*<tt>time_spent_on_website</tt>)
+```
+
+where β₀, β₁, and β₂ are the estimated coefficients from the model.
+
+**1(iii) Poisson GLM with Square Root Link**
+
+```{r}
+# Fit the Poisson GLM with square root link
+model_sqrt <- glm(purchases_per_year ~ age + <tt>time_spent_on_website</tt>, 
+                  data = onlineShop, family = poisson(link = "sqrt"))
+
+# Summary of the model
+summary(model_sqrt)
+```
+
+**1(iv) Expected Number of Purchases with Square Root Link**
+
+The expected number of purchases per year, E(Y), can be expressed as:
+
+```
+E(Y) = (β₀ + β₁*age + β₂*<tt>time_spent_on_website</tt>)²
+```
+
+**1(v) Model Comparison using Deviance**
+
+We can compare the two models using the deviance. A lower deviance indicates a better fit. 
+However, it's important to note that deviance can be misleading when comparing models with different link functions.
+
+**1(vi) Comparing Models using AIC**
+
+The AIC is a more reliable measure for comparing models with different link functions. 
+It penalizes for model complexity, making it suitable for comparing models with different numbers of parameters. 
+In this case, both models have the same number of parameters, but the AIC can still be used to compare their overall fit.
+
+The AIC takes into account both the goodness of fit and the complexity of the model. A lower AIC indicates a better model. 
+
+By comparing the AIC values of the two models, we can determine which model provides a better balance of fit and parsimony.
+
+
+
+# 📊 GLM for Online Shopping Behavior
+
+## 🗂️ Dataset Overview
+
+An investigation into consumer buying behavior at an online store records the following variables:
+
+- **age**: Age of the customer (in years)  
+- **time_spent_on_website**: Time spent per month on the shop’s website (in hours)  
+- **purchases_per_year**: Number of purchases from the shop per year  
+
+The dataset is saved in the file `onlineShop.Rdata`. Load it into R using:
+
+```r
+load("onlineShop.Rdata")
+```
+
+This will make the data frame `onlineShop` available.
+
+---
+
+## 🔢 Part (i) – Poisson GLM with Log Link
+
+Fit a Generalised Linear Model (GLM) assuming a Poisson distribution with a log link function:
+
+```r
+model_log <- glm(purchases_per_year ~ age + time_spent_on_website, 
+                 data = onlineShop, family = poisson(link = "log"))
+
+summary(model_log)
+```
+
+Include:
+- Estimated coefficients  
+- Deviance  
+- Akaike’s Information Criterion (AIC)
+
+---
+
+## 📈 Part (ii) – Expected Purchases (Log Link)
+
+The expected number of purchases per year is:
+
+\[
+E(Y) = \exp(\beta_0 + \beta_1 \cdot \text{age} + \beta_2 \cdot \text{time_spent_on_website})
+\]
+
+---
+
+## 🔢 Part (iii) – Poisson GLM with Square Root Link
+
+Fit a GLM using a square root link function:
+
+```r
+model_sqrt <- glm(purchases_per_year ~ age + time_spent_on_website, 
+                  data = onlineShop, family = poisson(link = "sqrt"))
+
+summary(model_sqrt)
+```
+
+Include:
+- Estimated coefficients  
+- Deviance  
+- AIC
+
+---
+
+## 📈 Part (iv) – Expected Purchases (Square Root Link)
+
+The expected number of purchases per year is:
+
+\[
+E(Y) = \left(\beta_0 + \beta_1 \cdot \text{age} + \beta_2 \cdot \text{time_spent_on_website}\right)^2
+\]
+
+---
+
+## ⚖️ Part (v) – Model Comparison Using Deviance
+
+Compare the two models using deviance. A lower deviance suggests a better fit.  
+However, deviance may not be appropriate when comparing models with different link functions.
+
+---
+
+## 📊 Part (vi) – Model Comparison Using AIC
+
+AIC is preferred for comparing models with different link functions because:
+
+- It accounts for both model fit and complexity  
+- It penalizes overfitting  
+- It is valid even when models use different link functions  
+
+In this case, both models have the same number of parameters, so AIC provides a fair comparison.  
+A lower AIC indicates a better balance between fit and parsimony.
+
+---
+
+
 1 For an investigation into the buying behaviour of consumers shopping at an online
 store, data about the age, the time per month spent on the online shop’s website and
 the number of purchases from the shop per year are recorded.
@@ -54,6 +272,9 @@ following three variables:
  <tt>time_spent_on_website</tt> – the time per month spent on the shop’s website
 (in hours)
  purchases_per_year – the number of purchases from the shop per year.
+
+---
+
 (i) Fit a Generalised Linear Model (GLM) to the data assuming a Poisson
 distribution with a log link function, using purchases_per_year as the
 response variable and age and <tt>time_spent_on_website</tt> as explanatory

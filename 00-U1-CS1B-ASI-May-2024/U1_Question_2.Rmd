@@ -44,45 +44,40 @@ style_mono_accent_inverse(
 ---
 
 Q. 2) 
+The following exercises relate to a regression analysis of maximum systolic blood pressure against age. A recent study suggests the relationship is given by the equation:
 
-As per a recent research, the maximum systolic blood pressure for a person is related to age and
-can be expressed in terms of the following equation:
-maximum systolic blood pressure = 100 + age (in years)
-
-#### Exercises
-
-1. If we decide to fit a regression line with maximum systolic blood pressure as the response
-variable (Y) and age as the explanatory variable (X), what should be the values of the
-regression coefficients α and β in light of the above equation? 
+**Maximum Systolic Blood Pressure** = 100 + **Age** (in years)
 
 ---
 
-Suppose this is to be empirically proven and 20 people of varying ages are tested for their
-maximum systolic blood pressure. 
+### **Exercises**
+
+1.  If we decide to fit a regression line with maximum systolic blood pressure as the response variable (Y) and age as the explanatory variable (X), what should be the values of the regression coefficients $\alpha$ and $\beta$ in light of the above equation?
+
+---
+
+Suppose this is to be empirically proven, and 20 people of varying ages are tested for their maximum systolic blood pressure.
 
 ---
 
 The following data has been collected:
-Age (X) Maximum Systolic
-Blood Pressure (Y)
-Age (X) Maximum Systolic
-Blood Pressure (Y)
-28 132 60 149
-37 140 55 154
-41 155 29 117
-52 160 43 146
-57 167 36 142
-49 148 50 168
-38 128 34 144
-25 131 40 156
-23 118 26 114
-48 139 33 133
+
+| Age (X) | Maximum Systolic Blood Pressure (Y) | Age (X) | Maximum Systolic Blood Pressure (Y) |
+| :---: | :---: | :---: | :---: |
+| 28 | 132 | 60 | 149 |
+| 37 | 140 | 55 | 154 |
+| 41 | 155 | 29 | 117 |
+| 52 | 160 | 43 | 146 |
+| 57 | 167 | 36 | 142 |
+| 49 | 148 | 50 | 168 |
+| 38 | 128 | 34 | 144 |
+| 25 | 131 | 40 | 156 |
+| 23 | 118 | 26 | 114 |
+| 48 | 139 | 33 | 133 |
 
 ---
 
-The data of age in years (X) and corresponding maximum systolic blood pressure (Y) can be
-entered in R using the below code:
-
+The data of age in years (X) and corresponding maximum systolic blood pressure (Y) can be entered in R using the below code:
 ```{r}
 x=c(28, 37, 41, 52, 57, 49, 38, 25, 23, 48, 60, 55, 29, 43, 36, 50, 34, 40, 26, 33)
 

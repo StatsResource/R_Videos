@@ -3,9 +3,8 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.25/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,134 +22,53 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;style type="text/css"&gt;
-pre {
-  background: #ADD8E6;
-  max-width: 100%;
-  overflow-x: scroll;
-}
-&lt;/style&gt;
 
-* Introduction to R for Actuarial Students
 
-* CS1B Curriculum
-
-* Introduction to R programming
-* Fundamentals of Statistical Analysis
-
-* Question 1
 
 ---
 
-Q. 4)
-The table below shows the total claim number (cancellations) per year, Xij, for 4 travel companies over last 4 years.
-Years,j
-1
-2
-3
-4
-Travel Companies, i
-Make
-455
-458
-587
-531
-Ease
-251
-322
-292
-340
-Go
-309
-246
-217
-120
-Clear
-400
-426
-470
-547
-i) Using Empirical Bayes Credibility Theory (EBCT) Model 1, compute the following
-a) Copy the below code to load the data:
-q4&lt;-matrix(c(455,251,309,400,
-458,322,246,426,
-587,292,217,470,
-531,340,120,547),
-ncol=4,nrow=4)
-(1)
-b) E[m(θ)]
-(2)
-c) E[s2(θ)]
-(2)
-d) Var[m(θ)]
-(3)
-e) Z
-(2)
+## 📘 Overview
 
-ii) Using part (i), calculate the expected claim number for Go and Clear.
-
-iii) What additional information is required to use EBCT Model 2.
+- Introduction to R for Actuarial Students  
+- CS1B Curriculum  
+- R Programming Basics  
+- Fundamentals of Statistical Analysis  
+- Question 1  
 
 ---
 
-iv) Travel company “Ease” launched a membership program last year providing full refund on cancellations. Number of cancellations believed to follow binomial distribution with parameters n=3 and 0.20.
-Number of cancellations in last year on 150 memberships are as follows:
-Cancellations
-0
-1
-2
-3
-Members
-61
-71
-15
-3
-Carry out goodness of fit test for the binomial model specified for number of cancellations on each membership.
-(5)
+## ❓ Question 4
+
+The table below shows the total number of claims (cancellations) per year \( X_{ij} \) for four travel companies over the last four years.
+
+| Company | Year 1 | Year 2 | Year 3 | Year 4 |
+|--------|--------|--------|--------|--------|
+| Make   | 455    | 458    | 587    | 531    |
+| Ease   | 251    | 322    | 292    | 340    |
+| Go     | 309    | 246    | 217    | 120    |
+| Clear  | 400    | 426    | 470    | 547    |
 
 ---
 
-[20 Marks]
-Solution 4:
-i)
+### (i) EBCT Model 1 Calculations
+
+**a)** Load the data:
 
 
-```r
-q4&lt;-matrix(c(455,251,309,400,
-458,322,246,426,
-587,292,217,470,
-531,340,120,547),
-ncol=4,nrow=4)
+``` r
+q4 &lt;- matrix(c(
+  455, 251, 309, 400,
+  458, 322, 246, 426,
+  587, 292, 217, 470,
+  531, 340, 120, 547
+), ncol = 4, nrow = 4)
 ```
 
+**b)** \( E[m(\theta)] \)
 
 
-```r
-q4
-```
-
-```
-##      [,1] [,2] [,3] [,4]
-## [1,]  455  458  587  531
-## [2,]  251  322  292  340
-## [3,]  309  246  217  120
-## [4,]  400  426  470  547
-```
-
-
-```r
-n&lt;-ncol(q4)
-n
-```
-
-```
-## [1] 4
-```
-
-
-
-```r
-m&lt;-mean(rowMeans(q4))
+``` r
+m &lt;- mean(rowMeans(q4))
 m
 ```
 
@@ -158,10 +76,11 @@ m
 ## [1] 373.1875
 ```
 
+**c)** \( E[s^2(\theta)] \)
 
 
-```r
-s&lt;-mean(apply(q4,1,var))
+``` r
+s &lt;- mean(apply(q4, 1, var))
 s
 ```
 
@@ -169,84 +88,112 @@ s
 ## [1] 3967.854
 ```
 
+**d)** \( \text{Var}[m(\theta)] \)
 
 
-```r
-v&lt;-var(rowMeans(q4)) - mean(apply(q4,1,var))/n
-Z&lt;- n/(n+s/v)
-n
+``` r
+v &lt;- var(rowMeans(q4)) - mean(apply(q4, 1, var)) / ncol(q4)
+v
 ```
 
 ```
-## [1] 4
+## [1] 16843.22
 ```
 
+**e)** Credibility factor \( Z \)
 
+
+``` r
+n &lt;- ncol(q4)
+Z &lt;- n / (n + s / v)
 Z
-[1] 0.9443816
-[1+2+2+3+2]
-ii)
-Z*rowMeans(q4[3:4,])+(1-Z)*m
-[1] 231.3532 455.8799
+```
 
+```
+## [1] 0.9443816
+```
 
 ---
 
-iii)
-Risk Volumes are required to apply EBCT2
+### (ii) Expected Claims for Go and Clear
 
+
+``` r
+Z * rowMeans(q4[3:4,]) + (1 - Z) * m
+```
+
+```
+## [1] 231.3532 455.8799
+```
 
 ---
 
-iv)
+### (iii) Additional Info for EBCT Model 2
 
-
-```r
-obs&lt;-c(61,71,15,3)
-```
-
-
-* Combine 2 and 3 since value of 3 is less than 5
-
-
-```r
-obs.comb&lt;-c(61,71,15 + 3)
-```
-
-
-
-```r
-p&lt;-0.2
-exp&lt;-dbinom(c(0:1),3,p)
-exp[3]&lt;-1-pbinom(1,3,p)
-sum(exp)
-```
-
-```
-## [1] 1
-```
-
-
+&gt; Risk volumes are required to apply EBCT Model 2.
 
 ---
 
+### (iv) Goodness-of-Fit Test for Binomial Model
 
-```r
-chisq.test(x=obs.comb,p=exp)
+Travel company **Ease** launched a membership program last year offering full refunds on cancellations. Cancellations are believed to follow a binomial distribution with parameters \( n = 3 \), \( p = 0.20 \).
+
+| Cancellations | Members |
+|---------------|---------|
+| 0             | 61      |
+| 1             | 71      |
+| 2             | 15      |
+| 3             | 3       |
+
+**Combine 2 and 3 (due to low frequency):**
+
+
+``` r
+obs &lt;- c(61, 71, 15 + 3)
+p &lt;- 0.2
+exp &lt;- dbinom(0:1, 3, p)
+exp[3] &lt;- 1 - pbinom(1, 3, p)
+chisq.test(x = obs, p = exp)
 ```
 
 ```
 ## 
 ## 	Chi-squared test for given probabilities
 ## 
-## data:  obs.comb
+## data:  obs
 ## X-squared = 6.7371, df = 2, p-value = 0.03444
 ```
 
-
-* Since p-value &lt;0.5, we have sufficient evidence to reject the null hypothesis that cancellation follows bin(3,0.2)
+&gt; Since p-value &lt; 0.05, we reject the null hypothesis that cancellations follow Bin(3, 0.2).
 
 ---
+
+## 📚 EBCT Model 1 Summary
+
+Empirical Bayes Credibility Theory (EBCT) Model 1, developed by Hans Bühlmann (1967), estimates a credibility premium by blending individual and group-level risk data.
+
+### Key Concepts
+
+- **Assumptions**: Observed data follows a distribution with random parameters  
+- **Credibility Factor \( Z \)**: Balances individual vs. group experience  
+- **Formula**:
+  $$
+  \text{Credibility Premium} = Z \cdot \text{Individual Mean} + (1 - Z) \cdot \text{Overall Mean}
+  $$
+- **Applications**: Used in insurance pricing and risk assessment
+
+---
+
+## 📎 References
+
+1. [MTH5131 Actuarial Statistics – Queen Mary University of London](https://qmplus.qmul.ac.uk/mod/resource/view.php?id=2522684)  
+2. [Risk Modelling in General Insurance – Cambridge University Press](https://assets.cambridge.org/97805218/63940/index/9780521863940_index.pdf)  
+3. [Credibility Theory Lecture Notes – Studocu](https://www.studocu.com/in/document/universal-business-school/statistics/5-credibility-theory-lecture-notes-1/16670923)  
+4. [Credibility Premium Estimation – IDEAS/RePEc](https://ideas.repec.org/p/hal/wpaper/hal-01855972.html)
+
+---
+
+Let me know if you'd like this converted into a presentation or exported to another format.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

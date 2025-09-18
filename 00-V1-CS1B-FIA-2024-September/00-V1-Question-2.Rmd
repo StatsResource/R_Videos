@@ -43,6 +43,9 @@ style_mono_accent_inverse(
 * Question 1
 ---
 
+This exercise focuses on applying linear regression techniques to explore the relationship between a company's share price and its earnings-per-share (EPS). Using a small dataset of eight companies, the task guides you through fitting a simple linear model, evaluating its performance using R-squared and ANOVA, and interpreting the statistical significance of the results. A key component involves identifying and assessing the impact of a potential outlier—an unusually high share price—by comparing model fits before and after its removal. The exercise emphasizes critical thinking around model diagnostics, data integrity, and the consequences of excluding influential observations.
+
+---
 
 2 An investment analyst is interested in the relationship between the share price of a
 company and its Earnings-Per-Share (EPS).
@@ -61,9 +64,9 @@ EPS as the independent variable, and state the estimated coefficients of the
 model. 
 (ii) State the value of the coefficient of determination, R2, for the model fitted
 in part (i). 
-(iii) Perform an analysis of variance, using the anova(…) command to test if
+(iii) Perform an analysis of variance, using the <tt>anova(…)</tt> command to test if
 there is a linear relationship between price and EPS. Your answer should
-include the F-statistic and p-value of the test. [4]
+include the F-statistic and p-value of the test. 
 (iv) Comment on how well the linear model in part (i) fits the data, using your
 answers to parts (ii) and (iii). 
 
@@ -75,7 +78,7 @@ The analyst believes that the observation where price = 99 is an anomaly because
 the large size of the value of price and should be removed from the sample.
 (v) Fit a linear model to the sample without the observation price = 99 and state
 the value of R2. 
-[Hint: The code CompanySample[-n,] returns the data frame with the
+[Hint: The code <tt>CompanySample[-n,]</tt> returns the data frame with the
 nth observation removed.]
 (vi) Compare the fit of the models from parts (i) and (v). 
 (vii) Discuss if removing the observation where price = 99 is appropriate. 

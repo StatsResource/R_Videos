@@ -311,3 +311,157 @@ Since the Adjusted R-squared for model `m2` is significantly higher than that of
 
 
 ---
+
+## 📘 Introduction
+
+- Introduction to R for Actuarial Students  
+- CS1B Curriculum  
+- R Programming Basics  
+- Fundamentals of Statistical Analysis  
+- Question 1  
+
+---
+
+## 📝 Exercise Overview
+
+This exercise focuses on building and evaluating linear regression models using a dataset of dance competition scores. The goal is to understand how judges' scores and audience scores relate to the final score. The analysis includes:
+
+- Data exploration with scatterplots  
+- Fitting and interpreting multiple linear regression models  
+- Normalizing audience scores based on audience count  
+- Comparing model performance using statistical metrics  
+
+---
+
+## ❓ Question 2
+
+You are a Research Analyst working on a short-term assignment. Your professor has provided a dataset (`dance.csv`) with scores from 20 contestants of a dance show.
+
+### 🔍 Data Fields
+
+- **Judges**: Score given by judges  
+- **Audience**: Sum of scores from the audience  
+- **Final**: Final score of the contestant  
+
+---
+
+### (i) Load and Preview Data
+
+```{r}
+dance <- read.csv("DanceData.csv")
+head(dance)
+```
+
+---
+
+### (ii) Scatterplot of All Pairs
+
+```{r}
+plot(dance)
+```
+
+---
+
+### (iii) Comment on Relationships
+
+- **Judges vs Final**: Appears to have a strong linear relationship  
+- **Audience vs Final**: More scattered, weaker linear relationship  
+- **Judges vs Audience**: No clear pattern  
+
+---
+
+### (iv) Multiple Linear Regression Model (Model m1)
+
+#### (a) Fit the Model
+
+```{r}
+m1 <- lm(Final ~ Judges + Audience, data = dance)
+```
+
+#### (b) Model Summary
+
+```{r}
+summary(m1)
+```
+
+**Fitted Equation**:  
+\[
+\text{Final} = 10.6178 + 0.7203 \cdot \text{Judges} + 0.0014 \cdot \text{Audience}
+\]
+
+- Adjusted R²: **0.6201**  
+- Residual Std. Error: **2.604**
+
+#### (c) Confidence Intervals
+
+```{r}
+confint(m1)
+```
+
+- Judges: (0.448, 0.992) → Significant  
+- Audience: (-0.00128, 0.00418) → Not significant  
+
+#### (d) Significance Commentary
+
+- **Judges** score is statistically significant (p < 0.001)  
+- **Audience** score is not significant (p = 0.278)
+
+---
+
+### (v) Load Audience Count
+
+```{r}
+audience.count <- c(110,100,90,120,100,
+                    100,100,100,110,110,
+                    100,100,110,90,100,
+                    110,120,120,100,100)
+sum(audience.count)  # Should equal 2090
+```
+
+---
+
+### (vi) Normalize Audience Score
+
+```{r}
+dance$Audience2 <- dance$Audience / audience.count
+```
+
+---
+
+### (vii) Correlation Test
+
+```{r}
+cor.test(dance$Final, dance$Audience2)
+```
+
+- Correlation coefficient: **0.756**  
+- p-value: **0.0001**  
+- Conclusion: Strong, significant positive correlation
+
+---
+
+### (viii) New Regression Model (Model m2)
+
+```{r}
+m2 <- lm(Final ~ Judges + Audience2, data = dance)
+summary(m2)
+```
+
+**Fitted Equation**:  
+\[
+\text{Final} = 1.2032 + 0.5660 \cdot \text{Judges} + 0.4200 \cdot \text{Audience2}
+\]
+
+- Adjusted R²: **0.9114**  
+- Residual Std. Error: **1.258**
+
+---
+
+### (ix) Model Comparison
+
+- **Model m1** Adjusted R²: **0.6201**  
+- **Model m2** Adjusted R²: **0.9114**
+
+**Conclusion**: Model `m2` is significantly better, explaining more variance in the final score and improving predictive accuracy.
+
+---

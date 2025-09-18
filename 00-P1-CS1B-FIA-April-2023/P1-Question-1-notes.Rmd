@@ -37,26 +37,31 @@ pre {
 * Question 1
 ---
 
+###  Exercises
 
-1 (i) Simulate 10,000 values from a N(0,1) distribution using an appropriate R 
-command. You should save the generated values in R for later use.  
-(ii) Simulate 10,000 values from a χ4
-2 distribution using an appropriate R 
-command. You should save the generated values in R for later use. 
+A. Simulate 10,000 values from a N(0,1) distribution using an appropriate R 
+command. 
+<br>
+<i>You should save the generated values in R for later use.</i> 
+
+B Simulate 10,000 values from a χ2(df=4) distribution using an appropriate R 
+command. <br>
+<i>You should save the generated values in R for later use.</i> 
 
 C. Discuss the main disadvantage of using the inverse transform method for 
 simulating values from a chi-square distribution. 
 
-D. Simulate 10,000 values from a t4 distribution using your answers to parts (i) 
-and (ii), explaining your answer. 
-You should save the generated values in R for later use.  
+D. Simulate 10,000 values from a $t_{4}$ distribution using your answers to exercise A 
+and B, explaining your answer. <br>
+<i>You should save the generated values in R for later use.</i>   
 
-E. Simulate 10,000 values from a t20 distribution by modifying your R code from 
-parts (i), (ii) and (iv) where necessary. 
-You should save the generated values in R for later use. 
+E. Simulate 10,000 values from a $t_{20}$ distribution by modifying your R code from 
+exercises A, B and D where necessary. 
+<br>
+<i>You should save the generated values in R for later use.</i>  
 
-F. Demonstrate an important property of the t distribution by presenting and 
-comparing two appropriate plots of the values simulated in parts (iv) and (v). 
+F. Demonstrate an important property of the $t$ distribution by presenting and 
+comparing two appropriate plots of the values simulated in exercise E and F. 
 
 ---
 
@@ -85,13 +90,16 @@ The inverse transform method requires finding the inverse cumulative distributio
 
 ---
 
-**1(iv) Simulating t₄ values:**
+### Exercise D.
+
+**Simulating t₄ values:**
+
+
+To simulate values from a $t_{4}$ distribution, we can use the fact that the $t_{4}$ distribution can be represented as the ratio of a standard normal variable to the square root of a chi-square variable divided by its degrees of freedom.
 
 We can simulate t-distributed values using the formula:
 
-```
-t = z / sqrt(chi_squared/df)
-```
+$$t = \frac{z}{ \sqrt{(\chi^{2}/df)} }$$
 
 where `z` is a standard normal random variable and `chi_squared` is a chi-square random variable with `df` degrees of freedom.
 

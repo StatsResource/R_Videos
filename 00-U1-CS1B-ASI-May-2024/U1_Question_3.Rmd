@@ -50,252 +50,226 @@ pre {
 
 * Question 1
 ---
+## Q. 3
 
-Q. 3)
-Consider a portfolio of fire insurance policies. The data relating to 192 policies which have claimed at least once till now, is given in the file Firepolicies.csv. Confirm through output that the file contains data regarding four variables:
-•
-Occupancy:
-The claim has arisen in five different Occupancies:
-TM – for Textile Mills
-DW – for Dwellings
-TG – for Transporters’ Godowns
-CS – for Cold Storage Premises
-HG – for Hazardous Goods Storage
-•
-Location:
-It relates to the loss state:
-M – for Maharashtra
-G – for Gujarat
-T – for Telangana
-K – for Karnataka
-A – for Andhra Pradesh
-•
-Claim.size:
-It refers to the amount of the claim in INR lakhs.
-•
-Claimed:
-This is an indicator variable which captures whether there is an incidence of claim in the past one year.
-0 – refers to NO claim in the past one year
-1 – refers to ONE claim in the past one year
-i)
-View the data Firepolicies.csv for 192 entries using read.csv function. Columns Claim.Size, and Claimed have numeric data type, all other columns i.e. Location and Occupancy have character data type.
-(1)
-ii)
-Using the Firepolicies.csv, calculate the proportion of:
+Consider a portfolio of fire insurance policies. The data for 192 policies that have claimed at least once is given in the file **Firepolicies.csv**. This file contains data on four variables:
 
----
-a)
-Policyholders with no claims in the past one year from the state of Maharahstra
-b)
-Policyholders with no claims in the past one year from the state of Gujarat
-(3)
-(1)
-iii)
-Test the hypothesis that the proportion of policyholders with no claims in the past one year is equal in both states (Maharashtra and Gujarat) at 5% level of significance. You should state the null and alternate hypotheses, report the p-value of the test and arrive at a clear conclusion.
-(5)
-iv)
-Test the hypothesis that there is no significant difference in the average claim size for Textile Mills and Transporters’ Godowns at 5% level of significance. You should state the null and alternate hypotheses, report the p-value of the test and arrive at a clear conclusion. Assume that population variances are equal.
+  * **Occupancy**: The claim has arisen in five different Occupancies:
+      * **TM** – for Textile Mills
+      * **DW** – for Dwellings
+      * **TG** – for Transporters’ Godowns
+      * **CS** – for Cold Storage Premises
+      * **HG** – for Hazardous Goods Storage
+  * **Location**: It relates to the loss state:
+      * **M** – for Maharashtra
+      * **G** – for Gujarat
+      * **T** – for Telangana
+      * **K** – for Karnataka
+      * **A** – for Andhra Pradesh
+  * **Claim.size**: Refers to the amount of the claim in INR lakhs.
+  * **Claimed**: An indicator variable that captures whether there was a claim in the past one year:
+      * **0** – refers to NO claim in the past one year
+      * **1** – refers to ONE claim in the past one year
 
----
-v)
-The number of policies with at least one claim (X) for the fire insurance portfolio is modelled as a random variable with a Binomial distribution X ~ Binomial (n, p).
-An Actuary wishes to fit different Generalized Linear Models (GLMs) to the data, assuming that the number of policies with one submitted claim has a Binomial distribution and the link function of the GLM is the logit function.
-a)
-Fit a GLM to the data such that p depends on the Location and Claim Size i.e., Loss State and the Claim size and report the summary.
-b)
-Fit a GLM to the data such that p depends on the Occupancy and Claim Size and report the summary.
-(4)
-(2)
-vi)
-Compare the fit of the models in parts (v)(a) and (v)(b) using Akaike’s Information Criterion (AIC) and comment on which model is preferable.
-(3)
-vii)
-Among the four variables as given in the Firepolicies.csv data, which of them are numerical variables and which of them are factor variables? What is the difference between the two in the context of generalised linear models?
-(5)
-[30]
+-----
 
----
-Solution 3: 
-(i) > Firepolicies<-read_csv("Firepolicies.csv")
- (1)
-(ii) 
-a) 
-> Maha<-Firepolicies[Firepolicies$Location=="M",]
-> Maha_0_Claims<-Maha[Maha$Claimed == 0,]
-> ProporMaha_0_Claims<-nrow(Maha_0_Claims)/nrow(Maha)
+### (i)
+
+View the data **Firepolicies.csv** for 192 entries using the `read.csv` function. The columns `Claim.Size` and `Claimed` have a numeric data type, while the other columns, `Location` and `Occupancy`, have a character data type. (1)
+
+### (ii)
+
+Using the **Firepolicies.csv**, calculate the proportion of:
+a) Policyholders with no claims in the past one year from the state of Maharashtra. (3)
+b) Policyholders with no claims in the past one year from the state of Gujarat. (1)
+
+### (iii)
+
+Test the hypothesis that the proportion of policyholders with no claims in the past one year is equal in both states (Maharashtra and Gujarat) at a 5% level of significance. You should state the null and alternate hypotheses, report the p-value of the test, and arrive at a clear conclusion. (5)
+
+### (iv)
+
+Test the hypothesis that there is no significant difference in the average claim size for Textile Mills and Transporters’ Godowns at a 5% level of significance. You should state the null and alternate hypotheses, report the p-value of the test, and arrive at a clear conclusion. Assume that population variances are equal. (6)
+
+### (v)
+
+The number of policies with at least one claim ($X$) for the fire insurance portfolio is modeled as a random variable with a **Binomial distribution**, $X \\sim \\text{Binomial}(n, p)$.
+
+An Actuary wishes to fit different **Generalized Linear Models (GLMs)** to the data, assuming that the number of policies with one submitted claim has a Binomial distribution and the link function of the GLM is the logit function.
+a) Fit a GLM to the data such that $p$ depends on the **Location** and **Claim.Size**, and report the summary. (4)
+b) Fit a GLM to the data such that $p$ depends on the **Occupancy** and **Claim.Size**, and report the summary. (2)
+
+### (vi)
+
+Compare the fit of the models in parts (v)(a) and (v)(b) using **Akaike’s Information Criterion (AIC)** and comment on which model is preferable. (3)
+
+### (vii)
+
+Among the four variables in the **Firepolicies.csv** data, which are numerical and which are factor variables? What is the difference between the two in the context of generalized linear models? (5)
+
+[Total 30]
+
+-----
+
+## **Solution to Q. 3**
+
+### (i)
+
+```r
+> Firepolicies <- read.csv("Firepolicies.csv")
+```
+
+### (ii)
+
+a) The proportion of policyholders with no claims from Maharashtra is 0.7346939.
+
+```r
+> Maha <- Firepolicies[Firepolicies$Location=="M",]
+> Maha_0_Claims <- Maha[Maha$Claimed == 0,]
+> ProporMaha_0_Claims <- nrow(Maha_0_Claims)/nrow(Maha)
 > ProporMaha_0_Claims
 [1] 0.7346939
-(3)
-b) 
-> Gujarat<-Firepolicies[Firepolicies$Location=="G",]
-> Gujarat_0_Claims<-Gujarat[Gujarat$Claimed == 0,]
-> ProporGuj_0_claims <-nrow(Gujarat_0_Claims)/nrow(Gujarat)
+```
+
+b) The proportion of policyholders with no claims from Gujarat is 0.5909091.
+
+```r
+> Gujarat <- Firepolicies[Firepolicies$Location=="G",]
+> Gujarat_0_Claims <- Gujarat[Gujarat$Claimed == 0,]
+> ProporGuj_0_claims <- nrow(Gujarat_0_Claims)/nrow(Gujarat)
 > ProporGuj_0_claims
 [1] 0.5909091
-(1)
-(iii) 
-𝐻0(Null Hypothesis):
+```
 
+### (iii)
 
----
-Proportion of No claims in the past one year in Maharashtra is equal to Propo
-rtion of NO Claims in the past one year in Gujarat
-𝐻1(Alternative Hypothesis):
-Proportion of No claims in the past one year in Maharashtra is NOT equal to Pr
-oportion of NO Claims in the past one year in Gujarat
-(1)
-> prop.test (c(nrow( Maha_0_Claims),nrow(Gujarat_0_Claims)),c(nrow(Maha),nrow
-(Gujarat)),correct = FALSE)
-(1)
+**Null Hypothesis ($H\_0$)**: The proportion of no claims in Maharashtra is equal to the proportion of no claims in Gujarat.
+**Alternative Hypothesis ($H\_1$)**: The proportion of no claims in Maharashtra is not equal to the proportion of no claims in Gujarat.
+
+```r
+> prop.test(c(nrow(Maha_0_Claims), nrow(Gujarat_0_Claims)), c(nrow(Maha), nrow(Gujarat)), correct = FALSE)
+```
+
+**R Output**:
+
+```
 2-sample test for equality of proportions without continuity correction
-data: c(nrow(Maha_0_Claims), nrow(Gujarat_0_Claims)) out of c(nrow(Maha), nr
-ow(Gujarat))
+data: c(nrow(Maha_0_Claims), nrow(Gujarat_0_Claims)) out of c(nrow(Maha), nrow(Gujarat))
 X-squared = 2.1568, df = 1, p-value = 0.1419
-alternative hypothesis: two. sided
+alternative hypothesis: two.sided
 95 percent confidence interval:
--0.04696637 0.33453595
+ -0.04696637 0.33453595
 sample estimates:
- prop 1 prop 2
-0.7346939 0.5909091 
- (1)
-p-value is 0.1419 (1)
-At 95% confidence interval (-0.04696637, 0.33453595), which contains “0”, we h
-ave insufficient evidence to reject null hypothesis and can conclude that ther
-e is no significant difference between Maharashtra and Gujarat in respect of t
-he proportion of No claims in the previous year. (1) 
- (5) 
-(iv) 
-𝐻0(Null Hypothesis):
-Population mean of Textile Mills Claims is equal to Population mean of Transp
-orters’ Godowns Claims
-𝐻1(Alternative Hypothesis):
-Population mean of Textile Mills Claims is NOT equal to Population mean of Tra
-nsporters’ Godowns Claims
-(1)
-> Textile<-Firepolicies[Firepolicies$Occupancy=="TM",]
-> Transporter<-Firepolicies[Firepolicies$Occupancy=="TG",]
-(1)
-> t.test(Textile$Claim.Size,Transporter$Claim.Size,var.equal=TRUE)
-(1)
+   prop 1    prop 2 
+0.7346939 0.5909091
+```
+
+The p-value is 0.1419. Since the p-value (0.1419) is greater than the significance level (0.05), we have insufficient evidence to reject the null hypothesis. We conclude that there is no significant difference between the proportions of no claims in the past year for Maharashtra and Gujarat.
+
+### (iv)
+
+**Null Hypothesis ($H\_0$)**: The population mean of Textile Mills claims is equal to the population mean of Transporters' Godowns claims.
+**Alternative Hypothesis ($H\_1$)**: The population mean of Textile Mills claims is not equal to the population mean of Transporters' Godowns claims.
+
+```r
+> Textile <- Firepolicies[Firepolicies$Occupancy=="TM",]
+> Transporter <- Firepolicies[Firepolicies$Occupancy=="TG",]
+> t.test(Textile$Claim.Size, Transporter$Claim.Size, var.equal = TRUE)
+```
+
+**R Output**:
+
+```
 Two Sample t-test
 data: Textile$Claim.Size and Transporter$Claim.Size
 t = 7.877, df = 103, p-value = 3.586e-12
 alternative hypothesis: true difference in means is not equal to 0
 95 percent confidence interval:
-
----
-Page 8 of 11
-24.27889 40.61871
+ 24.27889 40.61871
 sample estimates:
-mean of x mean of y
-98.07843 65.62963 
-(1)
-p-value is 3.586e-12 (1)
-At 95% Confidence interval as the confidence interval (24.27889 40.618
-71) does not contain the value 0, we have sufficient evidence to reject Null H
-ypothesis and conclude that there is significant difference between the averag
-e claim size of Textile Mills and Transporters’ Godowns.
-(1)
-(6) 
-(V) 
-(a) 
-> model1=glm(Firepolicies$Claimed~Firepolicies$Claim.Size+Firepolicies$Locati
-on,family = binomial()) (2)
-> summary(model1) (1)
- 
+ mean of x  mean of y 
+  98.07843   65.62963
+```
+
+The p-value is 3.586e-12. Since the p-value is much smaller than the significance level (0.05), we have sufficient evidence to reject the null hypothesis. We conclude that there is a significant difference between the average claim sizes of Textile Mills and Transporters' Godowns.
+
+### (v)
+
+a) The summary of the GLM model with **Location** and **Claim.Size** as predictors:
+
+```r
+> model1 <- glm(Firepolicies$Claimed ~ Firepolicies$Claim.Size + Firepolicies$Location, family = binomial())
+> summary(model1)
+```
+
+**R Output**:
+
+```
 Call:
 glm(formula = Firepolicies$Claimed ~ Firepolicies$Claim.Size +
  Firepolicies$Location, family = binomial())
+
 Coefficients:
- Estimate Std. Error z value Pr(>|z|) 
-(Intercept) -0.840330 0.453954 -1.851 0.0642 .
-Firepolicies$Claim.Size 0.003711 0.004935 0.752 0.4521 
-Firepolicies$LocationG 0.198437 0.494674 0.401 0.6883 
-Firepolicies$LocationK 0.205169 0.506205 0.405 0.6853 
-Firepolicies$LocationM -0.418141 0.498094 -0.839 0.4012 
-Firepolicies$LocationT 0.448865 0.519037 0.865 0.3871 
+                         Estimate Std. Error z value Pr(>|z|)    
+(Intercept)            -0.840330   0.453954  -1.851 0.0642 .  
+Firepolicies$Claim.Size  0.003711   0.004935   0.752 0.4521    
+Firepolicies$LocationG   0.198437   0.494674   0.401 0.6883    
+Firepolicies$LocationK   0.205169   0.506205   0.405 0.6853    
+Firepolicies$LocationM  -0.418141   0.498094  -0.839 0.4012    
+Firepolicies$LocationT   0.448865   0.519037   0.865 0.3871    
 ---
-Signif. codes: 0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 (Dispersion parameter for binomial family taken to be 1)
- Null deviance: 251.91 on 191 degrees of freedom
-Residual deviance: 247.65 on 186 degrees of freedom
+
+    Null deviance: 251.91  on 191  degrees of freedom
+Residual deviance: 247.65  on 186  degrees of freedom
 AIC: 259.65
-Number of Fisher Scoring iterations: 4 (1)
-Or Alternatively 
-> model1=glm(Firepolicies$Claimed~Firepolicies$Claim.Size+Firepolicies$Locati
-on,family = binomial(link=logit))
-> model1
-Call: glm(formula = Firepolicies$Claimed ~ Firepolicies$Claim.Size +
- Firepolicies$Location, family = binomial (link = logit))
-Coefficients:
- (Intercept) Firepolicies$Claim.Size Firepolicies$LocationG 
- -0.840330 0.003711 0.198437 
-Firepolicies$LocationK Firepolicies$LocationM Firepolicies$LocationT 
- 0.205169 -0.418141 0.448865 
-Degrees of Freedom: 191 Total (i.e. Null); 186 Residual
 
-Page 9 of 11
-Null Deviance: 251.9
-Residual Deviance: 247.6 AIC: 259.6
-(4)
-b)
-> model2=glm(Firepolicies$Claimed~Firepolicies$Claim.Size+Firepolicies$Occupa
-ncy,family = binomial())
-> model2
- (1)
-Call: glm(formula = Firepolicies$Claimed ~ Firepolicies$Claim.Size +
- Firepolicies$Occupancy, family = binomial())
-Coefficients:
- (Intercept) Firepolicies$Claim.Size Firepolicies$OccupancyDW 
- -0.492623 -0.009519 -0.266777 
-Firepolicies$OccupancyHG Firepolicies$OccupancyTG FirepoliciesOccupancyTG F
-irepolicies$OccupancyTM 
- 0.100853 0.817776 1.063207 
-Degrees of Freedom: 191 Total (i.e. Null); 186 Residual
-Null Deviance: 251.9
-Residual Deviance: 247.3 AIC: 259.28 (1)
- 
-Or Alternatively 
-> model2=glm(Firepolicies$Claimed~Firepolicies$Claim.Size+Firepolicies$Occup
-ancy,family = binomial(logit))
-> model2
-Call: glm(formula = Firepolicies$Claimed ~ Firepolicies$Claim.Size +
- Firepolicies$Occupancy, family = binomial(logit))
-Coefficients:
- (Intercept) Firepolicies$Claim.Size Firepolicies$OccupancyDW 
- -0.492623 -0.009519 -0.266777 
-Firepolicies$OccupancyHG Firepolicies$OccupancyTG Firepolicies$OccupancyTM 
- 0.100853 0.817776 1.063207 
-Degrees of Freedom: 191 Total (i.e. Null); 186 Residual
-Null Deviance: 251.9
-Residual Deviance: 247.3 AIC: 259.3
-(2)
- 
-(vi) 
-AIC for Model 1 = 259.65 and AIC for Model 2 = 259.28 (1)
-The AIC is smaller for the model2 as compared to model1 (1)
-So Claim Size and Occupancy model2 seems to be a better predictor than
- Claim Size and Location, and we would choose the model2. (1)
-Alternatively,
-Since both the models have a very minor difference in AICs, one can conclude
-that both models 1 and 2 are equally good.
-(3) 
-(vii) 
-Claimed is a numerical variable
-Claim.Size is a numerical variable
-Location is a factor variable
-Occupancy is a factor variable
-(1)
+Number of Fisher Scoring iterations: 4
+```
 
-Page 10 of 11
-Numerical variables are continuous variables which can take numerical values.
-Claim size and Claimed (0 for no claims in the last year or 1 for claim in t
-he last year) are examples in the context of this GLM.
-(2)
-Factor / categorical variables are variables which only take categories.
-Location is a factor variable which takes values of 5 states – M, G, T, K and
-A. Occupancy is also a factor variable which takes 5 values viz.TM, TG, DW,
-CS and HG.
-(2)
-(5) 
-[30] 
+b) The summary of the GLM model with **Occupancy** and **Claim.Size** as predictors:
+
+```r
+> model2 <- glm(Firepolicies$Claimed ~ Firepolicies$Claim.Size + Firepolicies$Occupancy, family = binomial())
+> summary(model2)
+```
+
+**R Output**:
+
+```
+Call:
+glm(formula = Firepolicies$Claimed ~ Firepolicies$Claim.Size +
+    Firepolicies$Occupancy, family = binomial())
+
+Coefficients:
+                             Estimate Std. Error z value Pr(>|z|)  
+(Intercept)                 -0.492623   0.283188  -1.740   0.0818 .
+Firepolicies$Claim.Size     -0.009519   0.004902  -1.942   0.0521 .
+Firepolicies$OccupancyDW    -0.266777   0.417066  -0.640   0.5222  
+Firepolicies$OccupancyHG     0.100853   0.422899   0.238   0.8115  
+Firepolicies$OccupancyTG     0.817776   0.403565   2.027   0.0427 *
+Firepolicies$OccupancyTM     1.063207   0.395123   2.691   0.0071 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 251.91  on 191  degrees of freedom
+Residual deviance: 247.30  on 186  degrees of freedom
+AIC: 259.3
+
+Number of Fisher Scoring iterations: 4
+```
+
+### (vi)
+
+The AIC for **Model 1** (Location + Claim.Size) is **259.65**, and the AIC for **Model 2** (Occupancy + Claim.Size) is **259.3**.
+Since a smaller AIC value indicates a better-fitting model, **Model 2** is preferable. The model with Occupancy as a predictor provides a slightly better fit to the data.
+
+### (vii)
+
+  * **Numerical Variables**: `Claim.Size`, `Claimed`
+  * **Factor Variables**: `Location`, `Occupancy`
+
+In the context of GLMs, **numerical variables** are quantitative and represent a continuous range of values (e.g., Claim.Size). **Factor variables**, on the other hand, represent categories or groups (e.g., Location, Occupancy). GLMs handle factor variables by creating dummy variables for each category, which allows the model to estimate the effect of each specific category on the response variable relative to a baseline category.

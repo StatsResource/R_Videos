@@ -43,6 +43,13 @@ style_mono_accent_inverse(
 * Question 1
 ---
 
+This exercise investigates how substantial discount offers influence daily sales amounts at a retail store using statistical modeling in R. 
+It begins with visual data exploration through boxplots to compare sales on discount versus non-discount days. 
+Then, it introduces two Generalized Linear Models (GLMs)—one assuming a normal distribution and the other a gamma distribution—to quantify the relationship between discounts and sales. 
+The exercise guides students through interpreting model coefficients and p-values, comparing model fit using criteria like AIC or BIC, and calculating expected sales on discount days. 
+Finally, it encourages critical evaluation of model choice and prediction accuracy, reinforcing key concepts in statistical analysis and model diagnostics.
+
+---
 
 5 A sample of 100 daily sales amounts at a store is collected, with the aim to investigate
 if daily sales amounts are affected by whether or not the store has substantial

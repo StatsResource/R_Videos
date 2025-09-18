@@ -1,0 +1,52 @@
+This exercise is about using time series analysis to forecast daily product sales for an insurance company. The core task involves:
+
+* **Data Preparation**: Loading and plotting historical sales data in R to visualize trends.
+* **Model Selection**: Assessing the stationarity of the data and fitting various ARIMA models. The goal is to identify the best model using the **Akaike Information Criterion (AIC)**.
+* **Forecasting**: Utilizing the chosen model to predict sales for the next 60 days.
+* **Interpretation**: Analyzing and commenting on the resulting forecast plot to provide business insights.
+
+An insurance company launched a new product over a year ago and the dataset 'S24_Q1_sales_data.csv' shows the number of products sold each day. The company is looking to use this data to forecast sales volumes for future months.
+
+### (i)
+Construct R code to load the dataset into R, assign it to a dataframe called 'sales_data', and display the last five rows of this dataset. [2]
+
+### (ii)
+Construct R code to check if the values in the column labelled 'day' are in ascending order and state your conclusion. [3]
+
+### (iii)
+Construct R code to plot a suitably labelled line graph of the number of products sold over time. [3]
+
+### (iv)
+Comment on the plot in part (iii) above. [1]
+
+***
+
+Let 'products_sold_k' denote the vector obtained by differencing the sales volume k times.
+
+### (v)
+Assess the stationarity of 'products_sold_k' for k = 0, 1, 2. [7]
+
+***
+
+The company would like to investigate models in the form ARIMA(p, 2, q) for the 'products_sold' data where p and q can take the values 0, 1, 2 or 3.
+
+### (vi)
+Construct R code to fit ARIMA(p, 2, q) models to the data for all possible combinations of p and q and store the values of the Akaike Information Criterion (AIC) in a 4×4 matrix named 'aic_matrix' with appropriate row and column names. [8]
+
+### (vii)
+Identify the most appropriate model for fitting to the data according to AIC. [1]
+
+### (viii)
+Construct R code that uses the model identified in part (vii) to forecast sales volume over the next 60 days, store the forecast values into a vector called 'forecast_volume', and display the first ten values of this forecast. [4]
+
+### (ix)
+Plot a graph showing the forecast sales from part (viii). [4]
+
+### (x)
+Comment on the plot in part (ix). [2]
+
+***
+
+[Total 35]
+
+CS2B S2024–2

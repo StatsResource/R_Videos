@@ -1,0 +1,100 @@
+## Q. 2
+
+A new non-banking financial company is considering which products it should first launch in the market. One of the products being considered is a personal loan, and the company employs an analyst for this purpose. The analyst wants to construct a decision tree machine learning model to determine which loan applications to approve.
+
+For answering this question, use the following R package for calculating Recursive Partitioning and Regression Trees:
+
+```r
+install.packages("rpart")
+library(rpart)
+```
+
+The analyst has decided to construct the decision tree model to classify each potential customer as either expected to default (**default** = 1) or not expected to default (**default** = 0). For this, the analyst used two features, namely, a categorical feature **w1** that takes values 0, 1, and -1 with equal probability and a continuous feature **w2** that takes values between -1 and 1 with a uniform distribution on [-1,1].
+
+As there was no previous customer data to draw on, the analyst decides to construct a specimen data set to train the decision tree model with each of 20,000 hypothetical customers. For this, the analyst used a field containing the value 1 if the customer defaults on the loan or 0 otherwise.
+
+The analyst decides to model the default of a hypothetical customer as:
+$$\frac{exp(w)}{1+exp(w)} \quad \text{(Eqn. 1)}$$
+where,
+$$w = a + b*w1 + c*w2 \quad \text{(Eqn. 2)}$$
+and a, b, and c are parameters.
+
+Before constructing the specimen dataset, the analyst first needs to generate three sets of 20,000 observations from the uniform distribution on [0,1].
+
+### (i)
+
+Generate a 20,000×3 matrix named **V** of observations from the uniform distribution on [0,1]. Each column of **V** should contain 20,000 observations that have been generated together but separately from the observations in other columns. Set a random number generator seed of 1234. Display the first six rows of **V** in your answer script. (7)
+
+Let $V\_{ij}$ represent the (i,j) entry of matrix **V**.
+$n = 20000$
+
+The analyst proceeds with creating the specimen data set as follows:
+
+  * An n-component vector **w1** whose i'th component is equal to:
+      * \-1 if $V\_{i1} \\le 1/3$
+      * 0 if $1/3 \< V\_{i1} \\le 2/3$
+      * \+1 if $V\_{i1} \> 2/3$
+  * An n-component vector **w2** whose i'th component is equal to:
+      * $2\*V\_{i2} - 1$
+  * An n-component vector **w** whose i'th component is the value of **w** given by the formula [Eqn. (2)] for customer i.
+  * An n-component vector **defaultprob** whose i'th component is the probability of default given by the formula [Eqn. (1)] for customer i.
+  * An n-component vector **default** whose i'th component is equal to 1 if $V\_{i3}$ is less than or equal to the probability from the vector **defaultprob** for the customer i and 0 otherwise.
+  * A dataframe in the format required to construct decision trees using the R package `rpart`, incorporating the vectors **w1**, **w2** and **default**.
+
+The R code to create the data frame in the required format, given the vectors **w1**, **w2** and **default**, with the names of columns being “w1”, “w2” and “default” respectively, is as follows:
+
+```r
+data.frame("w1" = w1, "w2" = w2, "default" = default)
+```
+
+### (ii)
+
+Generate a data frame named **sample**, in line with the analyst’s construction rules, corresponding to the parameter values $n=20,000$, $a=0$, $b=c=0.5$, and display in your answer script the first six rows. (10)
+
+### (iii)
+
+Calculate the expected probability of customer default based on the sample data generated. Comment on how realistic the result is. Also suggest, giving reasons, a value of the parameter **a** that can give a realistic probability of default. (4)
+
+### (iv)
+
+Use parameter $a = -0.6$ and keep other parameter values unaltered. Calculate the expected probability of customer default based on the sample data thus generated. Comment on the result. (4)
+
+### (v)
+
+Now use a new default probability function $0.5 \\times exp(w) \\times (1+0.5 \\times exp(w))^{-1}$, where $w = a + b*w1 + c*w2$ and a, b and c are parameters as given in (i). Calculate the expected probability of customer default based on the sample data thus generated. (4)
+
+-----
+
+The R code for fitting and plotting a decision tree object called **tree**, that predicts whether a customer will default or not, is as follows:
+
+```r
+tree = rpart(default ~ ., data = sample, method = "class")
+```
+
+The analyst collects actual customer data from another financial institution to assess the predictive power of the decision tree model. **“Q2data.csv”** contains the actual data for 125 customers in the required format for the decision tree model. Load this file into R and assign it to a data frame called **actual**.
+
+### (vi)
+
+Use R code to generate the first 10 rows of the **actual** data frame and paste it in your answer script. (2)
+
+### (vii)
+
+Generate the predicted default classifications of the 125 customers in the **actual** data frame using the R code above, assigning the prediction to a vector called **predict\_defaults**; display its first 20 values. When using Eqn. 3, use the **'sample'** from (ii), i.e., using $n=20,000$, $a=0$, $b=c=0.5$. (4)
+
+### (viii)
+
+Generate and display in your answer script a confusion matrix of actual defaults versus predicted defaults for the 125 actual customers. (2)
+
+### (ix)
+
+Using R code, determine the values of the precision and recall percentages for the decision tree model’s predictions for the 125 actual customers, where the true is defined as the case where the model predicts a default for a customer that has actually defaulted. (4)
+
+-----
+
+Based on the value of the recall percentage for the 125 actual customers, the Finance Director of the company concludes that the decision tree model needs no further refinement and can be used to determine which loan applications to approve when the product is launched.
+
+### (x)
+
+Comment on the Finance Director’s conclusion. (6)
+
+[Total 43]

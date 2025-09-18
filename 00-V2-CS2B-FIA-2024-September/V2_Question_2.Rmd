@@ -1,0 +1,80 @@
+This is an actuarial exercise focused on **mortality analysis** for a specific breed of cat, likely for an insurance company offering pet policies. The exercise involves using R to analyze a dataset of cat mortality and compare the observed rates with established mortality tables.
+
+***
+
+### Data Preparation and Analysis
+
+The first part of the exercise, (i) to (iv), involves loading raw data, calculating **Exposed To Risk (ETR)** and the number of deaths for different age groups, and then using these to calculate **crude mortality rates**. ETR is a fundamental concept in actuarial science, representing the total time animals were under observation. The formula for ETR is $ETR = \sum(T_{end} - T_{start})$ for all individuals. It's often used as the denominator when calculating mortality rates. The crude mortality rate for an age group is calculated by dividing the total number of deaths in that group by the ETR for that group.
+
+***
+
+### Comparative Analysis and Hypothesis Testing
+
+The second part, (v) to (vii), involves comparing the calculated crude rates with two pre-established mortality tables, 'Table1' and 'Table2'. The exercise asks for a visual comparison by plotting all three sets of rates on a single graph.
+
+It then requires a more rigorous statistical comparison using three specific tests to determine if the rates from either 'Table1' or 'Table2' are a good fit for the observed data. The tests are:
+
+* **Chi-squared test**: A statistical test that compares observed deaths to expected deaths. The expected deaths are calculated using the ETR and the mortality rates from the chosen table (e.g., 'Table1'). The formula is $\sum\frac{(O_i - E_i)^2}{E_i}$, where $O_i$ are observed deaths and $E_i$ are expected deaths. A small p-value indicates a significant difference.
+* **Serial correlations test**: This test checks if the deviations between observed and expected deaths for consecutive age groups are correlated. A significant correlation would suggest a systematic pattern of under- or overestimation by the mortality table.
+* **Signs test**: This is a non-parametric test that examines the number of positive and negative differences between observed and expected deaths. It's a simpler test that looks at the direction of the deviations rather than their magnitude. For example, if a table consistently underestimates mortality, the majority of the signs would be positive (Observed - Expected > 0).
+
+---
+
+An insurer is analysing the price of their pet insurance policies. In this instance, the analyst is assessing mortality rates of a particular breed of cat.
+
+Mortality data has been collected from a recent 2-year investigation. The raw data for each cat is found in the file **'S24_Q2_MortData1.csv'**. This dataset includes the exact age of the cat at the start and end of observation, and an indicator variable on whether the cat died during the observation period:
+* where the cat died: Died = 1
+* where the cat survived: Died = 0
+
+The aggregate Exposed To Risk (ETR) (in years) and number of deaths, split by age last (in years), calculated from **'S24_Q2_MortData1.csv'** are shown in the table below:
+
+| Age last | ETR | Deaths |
+| :--- | :--- | :--- |
+| 0.000 | 5,737.507 | 1,256.000 |
+| 1.000 | 15,630.348 | 3,996.000 |
+| 2.000 | 19,255.943 | 5,770.000 |
+| 3.000 | 18,669.125 | 6,455.000 |
+| 4.000 | 17,763.585 | 7,406.000 |
+| 5.000 | 16,698.656 | 8,052.000 |
+| 6.000 | 15,586.883 | 8,878.000 |
+| 7.000 | 14,364.160 | 9,653.000 |
+| 8.000 | 8,334.790 | 6,464.000 |
+| 9.000 | 1,713.752 | 1,531.000 |
+
+***
+
+### (i)
+Construct R code to load the dataset from 'S24_Q2_MortData1.csv', saving it as a dataframe. [1]
+
+### (ii)
+Construct R code to verify the ETR values above for each integer age last from 0 years up to 9 years. Save the ETR values in a vector called **'etr1'**. [7]
+
+### (iii)
+Construct R code to verify the above total number of deaths for each integer age last from 0 years up to 9 years. Save the death values in a vector called **'deaths_summr'**. [4]
+
+### (iv)
+Calculate the crude rates for each age. [2]
+
+***
+
+The files **'S24_Q2_Table1.csv'** and **'S24_Q2_Table2.csv'** are two established mortality tables calculated using data from similar breeds of cat. Before completing the remainder of this question, you must load these files into R and save them as datasets **'Table1'** and **'Table2'**.
+
+### (v)
+Plot the crude rates from part (iii) above and the rates from **'Table1'** and **'Table2'** together in one suitably labelled plot. You should show the crude rates as points and the two sets of table rates as different coloured lines. [4]
+
+***
+
+The insurance company first wishes to test the null hypothesis that the rates in **'Table1'** represent the true mortality of the cats in this analysis.
+
+### (vi)
+Construct R code to complete the following three statistical tests of this null hypothesis and in each case state the conclusion of the test:
+(a) Chi-squared test
+(b) serial correlations test
+(c) signs test. [12]
+
+### (vii)
+Construct R code to repeat the three tests in part (v) for the null hypothesis that the rates in **'Table2'** represent the true mortality of the cats in this analysis, again stating the conclusion of each test. [6]
+
+***
+
+[Total 36]

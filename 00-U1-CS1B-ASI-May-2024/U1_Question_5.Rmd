@@ -1,0 +1,56 @@
+An insurance company, which currently only sells home insurance, is interested in 
+entering the car insurance market. An underwriting manager at the company believes 
+that the age and gender of the policyholder will be the most important factors in 
+estimating the number of claims made under a car insurance policy. 
+The underwriting manager has commissioned a survey of its current home insurance 
+customers who also have car insurance, choosing a male customer and a female 
+customer for every age from 18 to 65, asking them how many car insurance  
+claims they have made in the past 3 years. This dataset is saved in the file 
+ClaimsData.Rdata. After loading this data into R, using the command 
+load("ClaimsData.Rdata"), the data frame ClaimsData will be available, 
+which contains the following three variables: 
+age – this is the age (in years) of the policyholder. 
+gender – this is either ‘M’ for male or ‘F’ for female. 
+claim_count – this is the number of car insurance claims reported by the 
+policyholder over the past 3 years. 
+(i) 
+Fit a normal linear regression model to the data using claim_count as the 
+response variable and age as the explanatory variable. Your answer should 
+include the estimated intercept and slope of the regression line. 
+[3] 
+A colleague suggests that the response variable would be better modelled as having a 
+Poisson distribution. 
+(ii) 
+Fit a Generalised Linear Model (GLM) to the data using claim_count as 
+the response variable and age as the explanatory variable, assuming a Poisson 
+distribution for the response variable. Your answer should include the 
+estimated coefficients and the Akaike’s Information Criterion (AIC) of the 
+fitted model. 
+[4] 
+The underwriting manager wishes to compare the fit of the GLM in part (ii) against 
+that of the normal linear regression model in part (i). 
+(iii) 
+(iv) 
+Explain why scaled deviances cannot be used to compare the fit of the models 
+in parts (i) and (ii). 
+[3] 
+Fit, by choosing a suitable argument for family in the glm command, a 
+GLM to the data that is equivalent to the model fitted in part (i). Your answer 
+should include the estimated coefficients and the AIC of this fitted model. [4] 
+(v) 
+Compare the fit of the models fitted in parts (ii) and (iv). 
+[2] 
+CS1B A2024–6 
+The underwriting manager believes the Poisson GLM would be improved by adding 
+the explanatory variable gender as well as its interaction with age. 
+(vi) 
+(a) 
+(b) 
+Fit a Poisson GLM to the data of the form age*gender. Your 
+answer should include the estimated coefficients and the AIC of this 
+fitted model. 
+Compare, using scaled deviances, the fit of this model to that in  
+part (ii). 
+[7] 
+[Total 23] 
+END OF PAPER 

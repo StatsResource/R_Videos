@@ -3,7 +3,7 @@
   <head>
     <title>Statistics with R</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.21/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -25,12 +25,38 @@ class: center, middle, inverse, title-slide
 
 
 
-***CS2B – Risk Modelling and Survival Analysis ***
+---
 
+This exercise is focused on applying the **Nelson–Aalen estimator** to survival data using R. It introduces actuarial students to **non-parametric estimation of the cumulative hazard function**, a key concept in survival analysis and risk modelling.
 
-* The emphasis is placed on being able to apply statistical methods to actuarial problems using real data sets and the open-source software environment R. 
+### 🧠 What the Exercise Covers
 
-* Time Series. Probability Distributions, Survival Analysis
+- **Understanding the Nelson–Aalen model**:  
+  Students begin by writing down the formulae for estimating the integrated hazard and its variance.
+
+- **Working with real survival data**:  
+  The dataset `data_1.csv` contains time-to-event data, including:
+  - \( t_j \): observed time points  
+  - \( n_j \): number at risk at time \( t_j \)  
+  - \( d_j \): number of events (e.g., deaths or failures) at time \( t_j \)
+
+- **Computing estimates in R**:  
+  Students calculate:
+  - The **cumulative hazard** \( \Lambda(t_j) = \sum \frac{d_j}{n_j} \)  
+  - The **variance** of the estimator \( \text{Var}[\Lambda(t_j)] = \sum \frac{d_j(n_j - d_j)}{n_j^3} \)
+
+- **Visualizing results**:  
+  A step plot of the estimated cumulative hazard over time is created, along with **90% confidence intervals**, helping students interpret uncertainty in the estimates.
+
+### 🎯 Learning Objectives
+
+- Apply survival analysis techniques to real-world actuarial data  
+- Use R to compute and visualize hazard functions  
+- Interpret cumulative hazard and confidence intervals  
+- Understand the impact of censoring and risk set size on hazard estimation
+
+This exercise builds foundational skills for analyzing life insurance, health outcomes, and reliability data—core areas in actuarial science. 
+
 
 ---
 
@@ -47,18 +73,18 @@ You need to do a proper labelling of the axes.
 ---
 
 Solution 4
-# (Part A
-# Estimated Integrated Hazard:
-# Estimated variance of the estimator of the integrated hazard is calculated 
+Part A
+Estimated Integrated Hazard:
+ Estimated variance of the estimator of the integrated hazard is calculated 
 as:
- [3]
+
  
 ---
 
 ### Part A
 
 
-```r
+``` r
 file &lt;- read.csv("data_1.csv")
 
 head(file)
@@ -77,14 +103,14 @@ head(file)
 ---
 
 
-```r
+``` r
 dj &lt;- file$dj
 nj &lt;- file$nj
 tj &lt;- file$tj
 ```
 
 
-```r
+``` r
 names(file)[5]&lt;-"Censored"
 Lambda=cumsum(dj/nj)
 Var = cumsum(dj*(nj-dj)/nj^3)
@@ -149,7 +175,7 @@ file
 ### Part C
 
 
-```r
+``` r
 sdLambda=sqrt(Var)
 
 plot(c(0,tj),c(0,Lambda),xlim=c(0,55),ylim=c(0,0.5),type="s",
